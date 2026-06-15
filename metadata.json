@@ -1,0 +1,6 @@
+{
+  "name": "Curio",
+  "description": "Minimalist short-form learning platform implementing a tri-pathway exploration system.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

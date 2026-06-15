@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+/* Hide scrollbar and style for pristine immersive view */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+body {
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+body::-webkit-scrollbar {
+  display: none;
+}
+@media (min-width: 768px) {
+  body {
+    overflow: hidden;
+  }
+}
