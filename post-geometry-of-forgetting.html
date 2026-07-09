@@ -55,11 +55,11 @@
       <div class="prose">
         <p>When a network learns tasks in sequence it tends to suffer <strong>catastrophic forgetting</strong>: weights
           move to satisfy the new objective and, in doing so, dismantle the features that served the old one. The usual
-          responses are remedial. Experience replay retrains on stored samples; elastic regularisation penalises motion
+          responses are engineering fixes. Experience replay retrains on stored samples; elastic regularisation penalises motion
           in directions the Fisher information marks as important. Both work. Neither says what forgetting <em>is</em>.
         </p>
 
-        <p>The claim in this note is that forgetting is best read as <strong>geometric interference</strong> between task
+        <p>Forgetting is intuitively read as <strong>geometric interference</strong> between task
           directions. Fix the features (the frozen-feature or linearised regime — a strong assumption, discussed below)
           and let &Delta; be the weight update produced by learning Task B. The loss increase on Task A is then exactly
           a quadratic form:</p>
@@ -68,10 +68,10 @@
           F(&Delta;) = ½ &Delta;<sup>T</sup> &Sigma;<sub>A</sub> &Delta;
         </div>
 
-        <p>Here &Sigma;<sub>A</sub> is the feature covariance of Task A. The reading is direct. Where &Sigma;<sub>A</sub>
+        <p>Here &Sigma;<sub>A</sub> is the feature covariance of Task A. Where &Sigma;<sub>A</sub>
           has large eigenvalues, Task A's predictions depend sharply on those coordinates, and any component of &Delta;
           lying along them is expensive. Where &Sigma;<sub>A</sub> has an exact null space, motion is free: forgetting is
-          zero, not merely small. Everything in between is a matter of eigenvalue, not of intuition.</p>
+          zero, not merely small. Between those extremes, the cost of an update is set by the spectrum of &Sigma;<sub>A</sub>.</p>
 
         <div class="callout">
           <strong>Where this breaks.</strong> The identity above holds when features are frozen and the loss is locally
@@ -87,7 +87,7 @@
           passes untouched, and capacity is shared. Above it, IGFA projects the update onto the orthogonal complement of
           the protected subspace, keeping the descent direction it can afford and discarding the rest.</p>
 
-        <p>Two consequences are worth stating plainly, because they are the cost of the method:</p>
+        <p>There is no such thing as a free lunch:</p>
         <ul>
           <li>The projection <em>discards</em> part of the gradient. Task B learns more slowly, and in the limit of many
             protected tasks the free subspace shrinks toward nothing — a capacity ceiling, not a free lunch.</li>
@@ -180,7 +180,7 @@
           </div>
         </div>
 
-        <p>The picture the widget makes concrete: at θ = 0 the update lies straight along Task A's high-variance
+        <p>At θ = 0 the update lies straight along Task A's high-variance
           direction and interference is maximal. Rotating away, the raw interference falls as cos²θ, but the gate does
           not release until alignment drops below τ. In the gated region the projected update survives with length
           |Δ|·sinθ — so at θ = 20° the controller keeps roughly a third of the step, and near the threshold it keeps
