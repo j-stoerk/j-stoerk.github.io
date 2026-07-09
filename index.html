@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,13 +10,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
-    :root, [data-theme="light"] {
+    :root,
+    [data-theme="light"] {
       --text-xs: clamp(0.75rem, 0.7rem + 0.2vw, 0.875rem);
       --text-sm: clamp(0.875rem, 0.84rem + 0.18vw, 1rem);
       --text-base: clamp(1rem, 0.97rem + 0.16vw, 1.0625rem);
       --text-lg: clamp(1.125rem, 1.06rem + 0.3vw, 1.375rem);
       --text-xl: clamp(1.5rem, 1.3rem + 0.8vw, 2rem);
-      --space-1: .25rem; --space-2: .5rem; --space-3: .75rem; --space-4: 1rem; --space-6: 1.5rem; --space-8: 2rem; --space-12: 3rem; --space-16: 4rem;
+      --space-1: .25rem;
+      --space-2: .5rem;
+      --space-3: .75rem;
+      --space-4: 1rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
       --color-bg: #ffffff;
       --color-surface: #ffffff;
       --color-surface-2: #f7f8f9;
@@ -27,10 +36,14 @@
       --color-primary: #1a73e8;
       --color-primary-highlight: #e8f0fe;
       --color-text-inverse: #ffffff;
-      --radius-sm: 0.375rem; --radius-md: 0.5rem; --radius-lg: 0.875rem; --radius-full: 999px;
+      --radius-sm: 0.375rem;
+      --radius-md: 0.5rem;
+      --radius-lg: 0.875rem;
+      --radius-full: 999px;
       --font-body: 'Noto Sans', Arial, sans-serif;
       --content: 980px;
     }
+
     [data-theme="dark"] {
       --color-bg: #111315;
       --color-surface: #171a1c;
@@ -44,48 +57,590 @@
       --color-primary-highlight: #1c2636;
       --color-text-inverse: #111315;
     }
-    * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { min-height: 100vh; font-family: var(--font-body); font-size: var(--text-base); line-height: 1.7; color: var(--color-text); background: var(--color-bg); }
-    a { color: var(--color-primary); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    img, svg { display: block; max-width: 100%; }
-    button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
-    :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; border-radius: var(--radius-sm); }
-    .skip-link { position: absolute; left: 1rem; top: -3rem; background: var(--color-primary); color: var(--color-text-inverse); padding: .5rem .8rem; border-radius: var(--radius-full); z-index: 20; }
-    .skip-link:focus { top: 1rem; }
-    .topbar { border-bottom: 1px solid var(--color-divider); background: var(--color-surface); }
-    .topbar-inner, .content { width: min(calc(100% - 32px), var(--content)); margin: 0 auto; }
-    .topbar-inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); min-height: 64px; }
-    .site-title { font-size: var(--text-sm); color: var(--color-text-muted); }
-    .nav { display: flex; align-items: center; gap: var(--space-6); flex-wrap: wrap; }
-    .nav a { font-size: var(--text-sm); color: var(--color-text-muted); }
-    .nav a.current { color: var(--color-text); font-weight: 500; }
-    .theme-toggle { width: 40px; height: 40px; border: 1px solid var(--color-border); border-radius: 50%; color: var(--color-text-muted); }
-    main { padding: var(--space-12) 0 var(--space-16); }
-    .hero { padding: var(--space-8) 0 var(--space-12); border-bottom: 1px solid var(--color-divider); }
-    h1 { font-size: var(--text-xl); font-weight: 500; letter-spacing: -0.01em; margin-bottom: var(--space-3); }
-    .subtitle { color: var(--color-text-muted); max-width: 68ch; }
-    .section { padding: var(--space-12) 0; border-bottom: 1px solid var(--color-divider); }
-    .section:last-of-type { border-bottom: none; }
-    h2 { font-size: var(--text-lg); font-weight: 500; margin-bottom: var(--space-6); }
-    p { max-width: 72ch; }
-    .muted { color: var(--color-text-muted); }
-    .cv-link { display: inline-flex; align-items: center; gap: .5rem; margin-top: var(--space-6); padding: .55rem .9rem; border-radius: var(--radius-full); background: var(--color-primary-highlight); color: var(--color-primary); font-size: var(--text-sm); font-weight: 500; }
-    .news-list, .pub-list, .simple-list { display: grid; gap: var(--space-4); }
-    .item { padding-left: var(--space-4); border-left: 2px solid var(--color-divider); }
-    .item strong { font-weight: 500; color: var(--color-text); }
-    .grid-two { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8); }
-    footer { padding: var(--space-8) 0; color: var(--color-text-faint); font-size: var(--text-sm); }
-    @media (max-width: 760px) {
-      .topbar-inner { align-items: flex-start; flex-direction: column; padding: .75rem 0; }
-      .nav { width: 100%; gap: 1rem; }
-      .grid-two { grid-template-columns: 1fr; }
-      .theme-toggle { position: absolute; top: 12px; right: 16px; }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: 1.7;
+      color: var(--color-text);
+      background: var(--color-bg);
+    }
+
+    a {
+      color: var(--color-primary);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    img,
+    svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+      border-radius: var(--radius-sm);
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: -3rem;
+      background: var(--color-primary);
+      color: var(--color-text-inverse);
+      padding: .5rem .8rem;
+      border-radius: var(--radius-full);
+      z-index: 20;
+    }
+
+    .skip-link:focus {
+      top: 1rem;
+    }
+
+    .topbar {
+      border-bottom: 1px solid var(--color-divider);
+      background: var(--color-surface);
+    }
+
+    .topbar-inner,
+    .content {
+      width: min(calc(100% - 32px), var(--content));
+      margin: 0 auto;
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      min-height: 64px;
+    }
+
+    .site-title {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+      flex-wrap: wrap;
+    }
+
+    .nav a {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+
+    .nav a.current {
+      color: var(--color-text);
+      font-weight: 500;
+    }
+
+    .theme-toggle {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--color-border);
+      border-radius: 50%;
+      color: var(--color-text-muted);
+    }
+
+    main {
+      padding: var(--space-12) 0 var(--space-16);
+    }
+
+    .hero {
+      padding: var(--space-8) 0 var(--space-12);
+      border-bottom: 1px solid var(--color-divider);
+    }
+
+    h1 {
+      font-size: var(--text-xl);
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      margin-bottom: var(--space-3);
+    }
+
+    .subtitle {
+      color: var(--color-text-muted);
+      max-width: 68ch;
+    }
+
+    .section {
+      padding: var(--space-12) 0;
+      border-bottom: 1px solid var(--color-divider);
+    }
+
+    .section:last-of-type {
+      border-bottom: none;
+    }
+
+    h2 {
+      font-size: var(--text-lg);
+      font-weight: 500;
+      margin-bottom: var(--space-6);
+    }
+
+    p {
+      max-width: 72ch;
+    }
+
+    .muted {
+      color: var(--color-text-muted);
+    }
+
+    .cv-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      margin-top: var(--space-6);
+      padding: .55rem .9rem;
+      border-radius: var(--radius-full);
+      background: var(--color-primary-highlight);
+      color: var(--color-primary);
+      font-size: var(--text-sm);
+      font-weight: 500;
+    }
+
+    .news-list,
+    .pub-list,
+    .simple-list {
+      display: grid;
+      gap: var(--space-4);
+    }
+
+    .item {
+      padding-left: var(--space-4);
+      border-left: 2px solid var(--color-divider);
+      padding-bottom: var(--space-2);
+    }
+
+    .item strong {
+      font-weight: 500;
+      color: var(--color-text);
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-8);
+    }
+
+    footer {
+      padding: var(--space-8) 0;
+      color: var(--color-text-faint);
+      font-size: var(--text-sm);
+    }
+
+    @media (max-width: 760px) {
+      .topbar-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: .75rem 0;
+      }
+
+      .nav {
+        width: 100%;
+        gap: 1rem;
+      }
+
+      .grid-two {
+        grid-template-columns: 1fr;
+      }
+
+      .theme-toggle {
+        position: absolute;
+        top: 12px;
+        right: 16px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
+
+    /* New premium classes */
+    .badge {
+      background: var(--color-primary-highlight);
+      color: var(--color-primary);
+      font-size: var(--text-xs);
+      padding: 0.15rem 0.45rem;
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      margin-left: var(--space-2);
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .authors {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-1);
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: var(--text-xs);
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border);
+      color: var(--color-text);
+      margin-top: var(--space-2);
+      text-decoration: none;
+      width: fit-content;
+      font-weight: 500;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .download-btn:hover {
+      background: var(--color-surface-2);
+      border-color: var(--color-text-muted);
+      text-decoration: none;
+    }
+
+    .download-btn svg {
+      transition: transform 0.2s;
+    }
+
+    .download-btn:hover svg {
+      transform: translateY(1px);
+    }
+
+    /* Blog Cards & Expandable Articles */
+    .blog-card {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      background: var(--color-surface);
+      padding: var(--space-6);
+      margin-bottom: var(--space-6);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+
+    .blog-card:hover {
+      border-color: var(--color-text-faint);
+    }
+
+    .blog-date {
+      font-size: var(--text-xs);
+      color: var(--color-text-faint);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: block;
+      margin-bottom: var(--space-1);
+    }
+
+    .blog-card h3 {
+      font-size: var(--text-lg);
+      font-weight: 500;
+      margin-bottom: var(--space-2);
+      color: var(--color-text);
+    }
+
+    .blog-summary {
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+      line-height: 1.6;
+    }
+
+    .read-more-btn {
+      margin-top: var(--space-4);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      border: 1px solid var(--color-border);
+      padding: 0.4rem 0.8rem;
+      border-radius: var(--radius-full);
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .read-more-btn:hover {
+      background: var(--color-primary-highlight);
+      border-color: var(--color-primary);
+    }
+
+    .read-more-btn::after {
+      content: '↓';
+      transition: transform 0.2s;
+      display: inline-block;
+    }
+
+    .blog-card.open .read-more-btn::after {
+      transform: rotate(180deg);
+    }
+
+    .blog-content-wrapper {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .blog-card.open .blog-content-wrapper {
+      max-height: 2500px;
+    }
+
+    .blog-content-inner {
+      border-top: 1px solid var(--color-divider);
+      margin-top: var(--space-4);
+      padding-top: var(--space-6);
+    }
+
+    .blog-prose {
+      font-size: var(--text-base);
+      color: var(--color-text);
+      line-height: 1.7;
+    }
+
+    .blog-prose p {
+      margin-bottom: var(--space-4);
+      max-width: 100%;
+    }
+
+    .blog-prose h4 {
+      font-size: var(--text-base);
+      font-weight: 700;
+      margin: var(--space-6) 0 var(--space-2);
+      color: var(--color-text);
+    }
+
+    .equation {
+      display: block;
+      text-align: center;
+      margin: var(--space-6) auto;
+      font-family: 'Cambria Math', 'Times New Roman', serif;
+      font-size: var(--text-lg);
+      font-style: italic;
+      background: var(--color-surface-2);
+      padding: var(--space-4);
+      border-radius: var(--radius-md);
+      max-width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--color-border);
+    }
+
+    /* Interactive Visualizers */
+    .interactive-container {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: var(--space-6);
+      background: var(--color-surface-2);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      margin: var(--space-8) 0;
+      border: 1px solid var(--color-border);
+    }
+
+    @media (max-width: 768px) {
+      .interactive-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .widget-controls {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      justify-content: center;
+    }
+
+    .widget-title {
+      font-size: var(--text-sm);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-text-faint);
+      margin-bottom: var(--space-1);
+    }
+
+    .widget-description {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-3);
+      line-height: 1.5;
+    }
+
+    .control-group {
+      background: var(--color-surface);
+      padding: var(--space-4);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
+    }
+
+    .slider-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      margin-bottom: var(--space-2);
+      color: var(--color-text);
+    }
+
+    .slider-input {
+      width: 100%;
+      height: 6px;
+      background: var(--color-border);
+      border-radius: var(--radius-full);
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .slider-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--color-primary);
+      cursor: pointer;
+      border: 2px solid var(--color-surface);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+      transition: transform 0.1s;
+    }
+
+    .slider-input::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    .metric-display {
+      margin-top: var(--space-3);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-2);
+      border-top: 1px solid var(--color-divider);
+      padding-top: var(--space-2);
+    }
+
+    .metric-item {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+    }
+
+    .metric-value {
+      font-weight: 700;
+      color: var(--color-text);
+    }
+
+    .widget-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-surface);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
+      padding: var(--space-4);
+      min-height: 320px;
+      position: relative;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.02);
+    }
+
+    .text-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      fill: var(--color-text);
+      font-weight: 500;
+    }
+
+    .text-label-faint {
+      font-family: var(--font-body);
+      font-size: 10px;
+      fill: var(--color-text-faint);
+    }
+
+    .vector-arrow {
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Toggle visualization for dark mode */
+    [data-theme="dark"] .widget-visual {
+      background: #15181a;
+    }
+
+    [data-theme="dark"] .control-group {
+      background: #1b1e20;
+    }
+
+    /* Hero section portrait and grid layout */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: var(--space-8);
+      align-items: center;
+    }
+
+    .portrait-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .portrait-img {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid var(--color-surface);
+      outline: 1px solid var(--color-border);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.04);
+      background: var(--color-surface-2);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .portrait-img:hover {
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 760px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: var(--space-6);
+      }
+
+      .portrait-img {
+        width: 150px;
+        height: 150px;
+      }
+    }
   </style>
 </head>
+
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
   <header class="topbar">
@@ -103,66 +658,612 @@
 
   <main id="main" class="content">
     <section class="hero" id="home">
-      <h1>Julius Störk</h1>
-      <p class="subtitle">PhD researcher working on AI for battery manufacturing, electrode production, and electrochemical data analysis.</p>
-      <a class="cv-link" href="https://www.linkedin.com/in/juliusst/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <div class="hero-content">
+        <h1>Julius Störk</h1>
+        <p class="subtitle">PhD researcher working on AI for battery manufacturing, electrode production, and
+          electrochemical data analysis.</p>
+        <a class="cv-link" href="https://www.linkedin.com/in/juliusst/" target="_blank"
+          rel="noopener noreferrer">LinkedIn</a>
+      </div>
+      <div class="portrait-wrapper">
+        <img class="portrait-img" src="portrait.jpg" alt="Julius Störk Portrait" width="180" height="180">
+      </div>
     </section>
 
     <section class="section" id="about">
       <h2>About</h2>
-      <p>I work at the intersection of machine learning, battery manufacturing, and materials science. My research focuses on continual learning, process understanding, and robust analysis of experimental and electrochemical data for electrode production.</p>
+      <p>I work at the intersection of machine learning, battery manufacturing, and materials science. My research
+        focuses on continual learning, process understanding, and robust analysis of experimental and electrochemical
+        data for electrode production.</p>
     </section>
 
     <section class="section" id="research">
       <h2>Research Interests</h2>
       <div class="simple-list">
-        <div class="item"><strong>Continual learning</strong><p class="muted">EWC, A-GEM, DER++, replay-based methods, and robust learning under changing process conditions.</p></div>
-        <div class="item"><strong>Battery electrode manufacturing</strong><p class="muted">Dry electrode production, slurry extrusion, coating, compression, and process parameter optimization.</p></div>
-        <div class="item"><strong>Electrochemical analytics</strong><p class="muted">EIS analysis, cycling data interpretation, and linking process variables to downstream cell performance.</p></div>
+        <div class="item"><strong>Continual learning</strong>
+          <p class="muted">EWC, A-GEM, DER++, replay-based methods, and robust learning under changing process
+            conditions.</p>
+        </div>
+        <div class="item"><strong>Battery electrode manufacturing</strong>
+          <p class="muted">Dry electrode production, slurry extrusion, coating, compression, and process parameter
+            optimization.</p>
+        </div>
+        <div class="item"><strong>Electrochemical analytics</strong>
+          <p class="muted">EIS analysis, cycling data interpretation, and linking process variables to downstream cell
+            performance.</p>
+        </div>
       </div>
     </section>
 
     <section class="section" id="publications">
       <h2>Selected Work</h2>
       <div class="pub-list">
-        <div class="item"><strong>Project placeholder</strong><p class="muted">Continual learning for dynamic battery manufacturing data streams.</p></div>
-        <div class="item"><strong>Project placeholder</strong><p class="muted">Electrochemical impedance and cycle data analysis for process-aware diagnostics.</p></div>
-        <div class="item"><strong>Project placeholder</strong><p class="muted">Machine learning methods for manufacturing optimization and experimental support.</p></div>
+        <div class="item">
+          <strong>Interference and Retention in Continual Learning</strong>
+          <span class="badge">Draft</span>
+          <div class="authors">Julius Störk (VARTA Microbattery GmbH, TU Braunschweig)</div>
+          <p class="muted" style="margin-bottom: var(--space-2);">Modeling forgetting as weight interference energy in
+            neural networks. Introduces a replay-free structural controller (IGFA) to protect historical tasks while
+            maximizing capacity sharing.</p>
+          <a class="download-btn" href="forgetting-geometry.pdf" download>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+            </svg>
+            Download Draft PDF
+          </a>
+        </div>
+        <div class="item">
+          <strong>Capturing the calendering u-shape in lithium-ion electrode thermal conductivity</strong>
+          <span class="badge">Draft</span>
+          <div class="authors">Julius Störk (VARTA Microbattery GmbH, TU Braunschweig)</div>
+          <p class="muted" style="margin-bottom: var(--space-2);">A differentiable, calendering-aware
+            Zehner–Bauer–Schlünder (ZBS) closure with a bounded contact-versus-reorientation test for the graphite
+            anode.</p>
+          <a class="download-btn" href="zehner-closure.pdf" download>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
+            </svg>
+            Download Draft PDF
+          </a>
+        </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="blog">
       <h2>News & Blog</h2>
       <div class="news-list">
-        <div class="item"><strong>Coming soon</strong><p class="muted">This section can be used for short notes on battery manufacturing, continual learning, electrochemistry, conference takeaways, or research workflows.</p></div>
-        <div class="item"><strong>Suggested format</strong><p class="muted">Add posts as dated entries with a short abstract and an external or internal link to the full article.</p></div>
-        <div class="item"><p class="muted">This section combines conference updates, accepted papers, invited talks, project milestones, and short blog-style research notes.</p></div>
+
+        <!-- Post 1: Continual Learning -->
+        <div class="blog-card" id="post-continual-learning">
+          <div class="blog-date">July 5, 2026</div>
+          <h3>The Geometry of Forgetting in Continual Learning</h3>
+          <p class="blog-summary">How does learning a new task damage old ones? By analyzing weight updates through the
+            lens of feature covariance, we model forgetting as interference energy and introduce a replay-free
+            structural controller: Interference-Gated Functional Allocation (IGFA).</p>
+          <button class="read-more-btn" onclick="toggleArticle('continual-learning')">Read Article & Interact</button>
+
+          <div class="blog-content-wrapper" id="article-continual-learning">
+            <div class="blog-content-inner blog-prose">
+              <p>When a neural network learns new tasks sequentially, it often suffers from <strong>catastrophic
+                  forgetting</strong>: the weights shift to optimize the new objective, erasing the features learned for
+                prior tasks. Most standard mitigations rely on post-hoc remedies like experience replay (re-training on
+                stored past samples) or elastic regularization (penalizing changes to important weights via Fisher
+                information).</p>
+
+              <p>In this work, we argue that forgetting should instead be modeled directly as <strong>geometric
+                  interference</strong> between task directions. In the frozen-feature regime, the forgetting of Task A
+                when learning Task B is exactly the <strong>interference energy</strong>:</p>
+
+              <div class="equation">
+                F = &frac12; &Delta;<sup>T</sup> &Sigma;<sub>A</sub> &Delta;
+              </div>
+
+              <p>where &Sigma;<sub>A</sub> is the feature covariance matrix of Task A, and &Delta; is the weight update
+                vector from learning Task B. If the update vector &Delta; overlaps with directions where Task A has high
+                variance, it will degrade Task A's performance. Conversely, if &Delta; lies in the null space of
+                &Sigma;<sub>A</sub>, forgetting is exactly zero.</p>
+
+              <h4>Interference-Gated Functional Allocation (IGFA)</h4>
+              <p>From this geometric insight, we derive <strong>IGFA</strong>, a replay-free structural controller. IGFA
+                monitors the alignment between new task updates and past task workspaces. When task directions align
+                cooperatively, IGFA permits parameter sharing. When they conflict, IGFA projects the proposed update
+                onto the orthogonal complement of the old task's workspace, protecting the critical directions from
+                distortion.</p>
+
+              <!-- Interactive Widget 1 -->
+              <div class="interactive-container">
+                <div class="widget-controls">
+                  <div class="widget-title">Interactive Vector Alignment</div>
+                  <div class="widget-description">Rotate the proposed Task B update vector &Delta;<sub>B</sub>. Watch
+                    how the Interference Energy increases as the vectors align, and how the IGFA controller projects the
+                    update to protect Task A's subspace when they conflict.</div>
+
+                  <div class="control-group">
+                    <div class="slider-label">
+                      <span>Task Alignment Angle</span>
+                      <span id="cl-angle-val">45°</span>
+                    </div>
+                    <input type="range" class="slider-input" id="cl-angle-slider" min="0" max="180" value="45">
+
+                    <div class="metric-display">
+                      <div class="metric-item">
+                        <div>Cosine Alignment:</div>
+                        <div class="metric-value" id="cl-cos-val">0.71</div>
+                      </div>
+                      <div class="metric-item">
+                        <div>Interference Energy:</div>
+                        <div class="metric-value" id="cl-energy-val" style="color: var(--color-primary);">50%</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="control-group" style="margin-top: var(--space-2);">
+                    <div class="slider-label">
+                      <span>IGFA Controller Status</span>
+                    </div>
+                    <div style="font-size: var(--text-sm); font-weight: 700; color: #34a853;" id="cl-status-val">Active:
+                      Protecting Task A</div>
+                  </div>
+                </div>
+
+                <div class="widget-visual">
+                  <svg width="280" height="280" viewBox="0 0 280 280" id="svg-vector-sim">
+                    <!-- Grid Lines -->
+                    <line x1="20" y1="140" x2="260" y2="140" stroke="var(--color-divider)" stroke-width="1.5"
+                      stroke-dasharray="4" />
+                    <line x1="140" y1="20" x2="140" y2="260" stroke="var(--color-divider)" stroke-width="1.5"
+                      stroke-dasharray="4" />
+
+                    <!-- Task A Subspace (High variance band) -->
+                    <ellipse cx="140" cy="140" rx="100" ry="25" fill="var(--color-primary-highlight)" opacity="0.6"
+                      stroke="var(--color-primary)" stroke-width="1" stroke-dasharray="3" />
+                    <text x="210" y="130" class="text-label-faint" style="fill: var(--color-primary);">Task A
+                      Subspace</text>
+
+                    <!-- Task A Core Vector -->
+                    <line x1="140" y1="140" x2="220" y2="140" stroke="var(--color-primary)" stroke-width="3"
+                      class="vector-arrow" />
+                    <polygon points="220,136 228,140 220,144" fill="var(--color-primary)" />
+                    <text x="175" y="155" class="text-label" style="fill: var(--color-primary); font-weight:700;">Task
+                      A</text>
+
+                    <!-- Original Task B Update Vector (Green) -->
+                    <line x1="140" y1="140" x2="196" y2="84" stroke="#34a853" stroke-width="2.5" id="vector-b"
+                      class="vector-arrow" />
+                    <polygon points="192,80 202,82 198,92" fill="#34a853" id="arrowhead-b" />
+                    <text x="200" y="75" class="text-label" style="fill: #34a853; font-weight:700;"
+                      id="label-b">Proposed Δ<sub>B</sub></text>
+
+                    <!-- IGFA Adjusted Vector (Dashed Green) -->
+                    <line x1="140" y1="140" x2="140" y2="80" stroke="#f9ab00" stroke-width="2.5" stroke-dasharray="3"
+                      id="vector-b-proj" class="vector-arrow" />
+                    <polygon points="136,84 140,74 144,84" fill="#f9ab00" id="arrowhead-b-proj" />
+                    <text x="110" y="65" class="text-label" style="fill: #f9ab00; font-weight:700;"
+                      id="label-b-proj">IGFA Vector</text>
+
+                    <!-- Interference Energy Arc/Marker -->
+                    <path d="M 170 140 A 30 30 0 0 0 161 119" fill="none" stroke="#ea4335" stroke-width="3"
+                      id="interference-arc" />
+
+                    <!-- Center Dot -->
+                    <circle cx="140" cy="140" r="4" fill="var(--color-text)" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Post 2: Calendering -->
+        <div class="blog-card" id="post-calendering-zbs">
+          <div class="blog-date">June 28, 2026</div>
+          <h3>Solving the Electrode Calendering U-Shape Puzzle</h3>
+          <p class="blog-summary">Porosity-only thermal models predict a monotonic rise in conductivity, failing to
+            explain real-world U-shaped behavior. We show how a calendering-aware Zehner–Bauer–Schlünder closure
+            explains this anomaly.</p>
+          <button class="read-more-btn" onclick="toggleArticle('calendering-zbs')">Read Article & Interact</button>
+
+          <div class="blog-content-wrapper" id="article-calendering-zbs">
+            <div class="blog-content-inner blog-prose">
+              <p>Lithium-ion batteries rely on calendered (compressed) electrodes to achieve high volumetric energy
+                density. However, predicting how compression affects through-plane thermal conductivity
+                (&lambda;<sub>eff</sub>) is notoriously difficult. Historically, models assumed a monotonic increase in
+                conductivity with density: as particles are pressed closer, porosity decreases, which should always
+                improve thermal pathways.</p>
+
+              <p>Yet, experimental measurements reveal a baffling <strong>U-shape curve</strong>: during initial
+                calendering, through-plane conductivity actually <em>drops</em> before rising again at high compaction.
+                Porosity-only and static-contact closures fail to explain this drop.</p>
+
+              <h4>The Physics of Particle Reorientation</h4>
+              <p>The secret lies in the <strong>anisotropy of graphite particles</strong>. Graphite has extremely high
+                thermal conductivity in-plane, but poor conductivity through-plane (perpendicular to the graphene
+                layers). As the anode is compressed, the active material particles do not just get closer; they undergo
+                <strong>reorientation</strong>, laying flat parallel to the current collector.
+              </p>
+
+              <p>This horizontal alignment acts as a thermal barrier, decreasing through-plane conductivity. Only under
+                extreme compression does the growth of contact area between particles finally dominate, restoring
+                vertical heat flow and generating the U-shape. We capture this with a calendering-aware
+                Zehner–Bauer–Schlünder (ZBS) closure by introducing a compression-indexed contact term &phi;(&Pi;) on a
+                Knudsen-corrected ZBS base, reducing the Mean Absolute Percentage Error across 27 calendering states
+                from <strong>31.1%</strong> to <strong>4.5%</strong>.</p>
+
+              <!-- Interactive Widget 2 -->
+              <div class="interactive-container">
+                <div class="widget-controls">
+                  <div class="widget-title">Interactive Calendering Simulator</div>
+                  <div class="widget-description">Drag the slider to compress the electrode structure. Watch how the
+                    graphite particles align horizontally, and see how the through-plane thermal conductivity follows a
+                    U-shaped curve in contrast to traditional monotonic models.</div>
+
+                  <div class="control-group">
+                    <div class="slider-label">
+                      <span>Electrode Compaction</span>
+                      <span id="cal-comp-val">0%</span>
+                    </div>
+                    <input type="range" class="slider-input" id="cal-comp-slider" min="0" max="60" value="0">
+
+                    <div class="metric-display">
+                      <div class="metric-item">
+                        <div>Porosity (&epsilon;):</div>
+                        <div class="metric-value" id="cal-por-val">45.0%</div>
+                      </div>
+                      <div class="metric-item">
+                        <div>Cond. (&lambda;<sub>eff</sub>):</div>
+                        <div class="metric-value" id="cal-cond-val" style="color: var(--color-primary);">0.60 W/mK</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="widget-visual"
+                  style="flex-direction: column; gap: var(--space-4); min-height: 380px; padding: var(--space-3);">
+                  <!-- Particle Cross-section -->
+                  <div
+                    style="width: 100%; height: 130px; display: flex; align-items: center; justify-content: center; position: relative;"
+                    id="particle-container">
+                    <svg width="260" height="120" viewBox="0 0 260 120" id="svg-particles"
+                      style="border: 1px solid var(--color-border); border-radius: var(--radius-sm); overflow: hidden; background: var(--color-bg);">
+                      <!-- Current Collector (Bottom) -->
+                      <rect x="0" y="112" width="260" height="8" fill="#d08050" opacity="0.9" />
+                      <line x1="0" y1="112" x2="260" y2="112" stroke="#b06030" stroke-width="1" />
+
+                      <!-- Dynamic Electrode Height Boundary (Top) -->
+                      <rect x="0" y="0" width="260" height="112" fill="var(--color-surface-2)" opacity="0.4"
+                        id="electrode-bulk" />
+                      <line x1="0" y1="10" x2="260" y2="10" stroke="var(--color-text)" stroke-width="1.5"
+                        stroke-dasharray="2" id="press-plate" />
+
+                      <!-- Particles (Group of Ellipses) -->
+                      <g id="particles-group"></g>
+                    </svg>
+                  </div>
+
+                  <!-- U-shape Plot -->
+                  <div style="width: 100%; height: 200px;">
+                    <svg width="260" height="200" viewBox="0 0 260 200" id="svg-plot">
+                      <!-- Plot Axes -->
+                      <line x1="40" y1="20" x2="40" y2="170" stroke="var(--color-text)" stroke-width="1" />
+                      <line x1="40" y1="170" x2="240" y2="170" stroke="var(--color-text)" stroke-width="1" />
+
+                      <text x="140" y="190" class="text-label-faint" text-anchor="middle">Compaction (Calendering)
+                        &rarr;</text>
+                      <text x="12" y="95" class="text-label-faint" transform="rotate(-90 12 95)"
+                        text-anchor="middle">&lambda;<sub>eff</sub> (Through-plane)</text>
+
+                      <!-- Traditional Porosity-only Curve (Dashed) -->
+                      <path d="" fill="none" stroke="var(--color-text-faint)" stroke-width="1.5" stroke-dasharray="4"
+                        id="path-porosity" />
+                      <text x="150" y="55" class="text-label-faint" style="font-size: 8px;">Porosity-only</text>
+
+                      <!-- Static Contact Curve (Dotted) -->
+                      <path d="" fill="none" stroke="var(--color-text-muted)" stroke-width="1.5" stroke-dasharray="2"
+                        id="path-static" />
+                      <text x="180" y="110" class="text-label-faint" style="font-size: 8px;">Static Contact</text>
+
+                      <!-- Our Calendering-Aware Model (Bold Blue) -->
+                      <path d="" fill="none" stroke="var(--color-primary)" stroke-width="2.5" id="path-calaware" />
+                      <text x="90" y="150" class="text-label-faint"
+                        style="fill: var(--color-primary); font-size: 8px; font-weight: 700;">Calendering-aware
+                        ZBS</text>
+
+                      <!-- Current State Dot -->
+                      <circle cx="40" cy="170" r="5" fill="#ea4335" stroke="var(--color-bg)" stroke-width="1.5"
+                        id="plot-dot" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
     <section class="section" id="contact">
       <h2>Contact</h2>
-      <p>Email: <a href="mailto:your.email@example.com">your.email@example.com</a></p>
-      <p>LinkedIn: <a href="https://www.linkedin.com/in/juliusst/" target="_blank" rel="noopener noreferrer">linkedin.com/in/juliusst</a></p>
+      <p>Email: <a href="mailto:julius.stoerk@varta-ag.com">julius.stoerk@varta-ag.com</a></p>
+      <p>LinkedIn: <a href="https://www.linkedin.com/in/juliusst/" target="_blank"
+          rel="noopener noreferrer">linkedin.com/in/juliusst</a></p>
     </section>
   </main>
 
   <footer class="content">Last updated: July 2026</footer>
 
   <script>
-    (function(){
+    (function () {
+      // Theme Toggle Logic
       const root = document.documentElement;
-      const toggle = document.querySelector('[data-theme-toggle]');
+      const themeToggle = document.querySelector('[data-theme-toggle]');
       let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       root.setAttribute('data-theme', theme);
-      const paint = () => toggle.textContent = theme === 'dark' ? '☼' : '◐';
+      const paint = () => themeToggle.textContent = theme === 'dark' ? '☼' : '◐';
       paint();
-      toggle.addEventListener('click', function(){
+      themeToggle.addEventListener('click', function () {
         theme = theme === 'dark' ? 'light' : 'dark';
         root.setAttribute('data-theme', theme);
         paint();
       });
+
+      // Expandable Articles
+      window.toggleArticle = function (id) {
+        const card = document.getElementById('post-' + id);
+        if (!card) return;
+        card.classList.toggle('open');
+
+        // Dynamic max-height for smooth transition
+        const wrapper = document.getElementById('article-' + id);
+        if (card.classList.contains('open')) {
+          wrapper.style.maxHeight = wrapper.scrollHeight + 'px';
+        } else {
+          wrapper.style.maxHeight = '0px';
+        }
+      };
+
+      // --- WIDGET 1: CONTINUAL LEARNING VECTOR INTERFERENCE ---
+      const clSlider = document.getElementById('cl-angle-slider');
+      const clAngleVal = document.getElementById('cl-angle-val');
+      const clCosVal = document.getElementById('cl-cos-val');
+      const clEnergyVal = document.getElementById('cl-energy-val');
+      const clStatusVal = document.getElementById('cl-status-val');
+
+      const vecB = document.getElementById('vector-b');
+      const arrowheadB = document.getElementById('arrowhead-b');
+      const labelB = document.getElementById('label-b');
+
+      const vecBProj = document.getElementById('vector-b-proj');
+      const arrowheadBProj = document.getElementById('arrowhead-b-proj');
+      const labelBProj = document.getElementById('label-b-proj');
+      const interferenceArc = document.getElementById('interference-arc');
+
+      function updateVectorSim() {
+        const angle = parseInt(clSlider.value);
+        clAngleVal.textContent = angle + '°';
+
+        const rad = angle * Math.PI / 180;
+        const cos = Math.cos(rad);
+        clCosVal.textContent = cos.toFixed(2);
+
+        // Interference Energy: F = (cos(theta)^2 + 0.05 * sin(theta)^2) * 100
+        const sin = Math.sin(rad);
+        const energy = (cos * cos + 0.05 * sin * sin) * 100;
+        clEnergyVal.textContent = Math.round(energy) + '%';
+        clEnergyVal.style.color = energy > 50 ? '#ea4335' : 'var(--color-primary)';
+
+        // Proposed vector endpoint (Length = 80, Center = 140, 140)
+        const xB = 140 + 80 * Math.cos(rad);
+        const yB = 140 - 80 * Math.sin(rad);
+
+        vecB.setAttribute('x2', xB);
+        vecB.setAttribute('y2', yB);
+
+        // Calculate proposed arrowhead
+        const dx = Math.cos(rad);
+        const dy = -Math.sin(rad);
+        const px = -dy;
+        const py = dx;
+        const tipX = xB;
+        const tipY = yB;
+        const baseX = xB - 10 * dx;
+        const baseY = yB - 10 * dy;
+        arrowheadB.setAttribute('points', `${tipX},${tipY} ${baseX + 4 * px},${baseY + 4 * py} ${baseX - 4 * px},${baseY - 4 * py}`);
+
+        // Label position
+        labelB.setAttribute('x', xB + 10 * dx);
+        labelB.setAttribute('y', yB + 10 * dy + 4);
+
+        // IGFA Controller logic: If alignment |cos(theta)| > 0.4, there is a conflict. 
+        // IGFA projects vector B onto the orthogonal subspace of A (vertical axis)
+        const hasConflict = Math.abs(cos) > 0.4;
+        let projX, projY, projRad;
+
+        if (hasConflict) {
+          clStatusVal.textContent = 'Active: Protecting Task A';
+          clStatusVal.style.color = '#f9ab00';
+
+          // Project to vertical (orthogonal to horizontal Task A)
+          projRad = Math.PI / 2; // Always point up in this quadrants slider
+          projX = 140;
+          projY = 140 - 80;
+        } else {
+          clStatusVal.textContent = 'Active: Safe Sharing Allowed';
+          clStatusVal.style.color = '#34a853';
+
+          // Keep original vector
+          projRad = rad;
+          projX = xB;
+          projY = yB;
+        }
+
+        vecBProj.setAttribute('x2', projX);
+        vecBProj.setAttribute('y2', projY);
+
+        // Calculate projected arrowhead
+        const pdx = Math.cos(projRad);
+        const pdy = -Math.sin(projRad);
+        const ppx = -pdy;
+        const ppy = pdx;
+        const pTipX = projX;
+        const pTipY = projY;
+        const pBaseX = projX - 10 * pdx;
+        const pBaseY = projY - 10 * pdy;
+        arrowheadBProj.setAttribute('points', `${pTipX},${pTipY} ${pBaseX + 4 * ppx},${pBaseY + 4 * ppy} ${pBaseX - 4 * ppx},${pBaseY - 4 * ppy}`);
+
+        // Label position
+        labelBProj.setAttribute('x', projX - 12 * ppx);
+        labelBProj.setAttribute('y', projY - 12 * ppy + 4);
+
+        // Draw interference arc: from Task A (170, 140) to proposed vector direction
+        if (angle > 0) {
+          const arcRad = 30;
+          const arcEndX = 140 + arcRad * Math.cos(rad);
+          const arcEndY = 140 - arcRad * Math.sin(rad);
+          interferenceArc.setAttribute('d', `M 170 140 A ${arcRad} ${arcRad} 0 0 0 ${arcEndX} ${arcEndY}`);
+          interferenceArc.setAttribute('stroke', energy > 50 ? '#ea4335' : '#f9ab00');
+          interferenceArc.style.display = 'block';
+        } else {
+          interferenceArc.style.display = 'none';
+        }
+      }
+
+      clSlider.addEventListener('input', updateVectorSim);
+      updateVectorSim();
+
+      // --- WIDGET 2: CALENDERING U-SHAPE AND PARTICLE REORIENTATION ---
+      const calSlider = document.getElementById('cal-comp-slider');
+      const calCompVal = document.getElementById('cal-comp-val');
+      const calPorVal = document.getElementById('cal-por-val');
+      const calCondVal = document.getElementById('cal-cond-val');
+
+      const particlesGroup = document.getElementById('particles-group');
+      const pressPlate = document.getElementById('press-plate');
+      const electrodeBulk = document.getElementById('electrode-bulk');
+      const plotDot = document.getElementById('plot-dot');
+
+      const pathPorosity = document.getElementById('path-porosity');
+      const pathStatic = document.getElementById('path-static');
+      const pathCalAware = document.getElementById('path-calaware');
+
+      const particlesData = [
+        { x: 45, y: 35, rx: 22, ry: 7, rot: 35 },
+        { x: 100, y: 40, rx: 24, ry: 8, rot: -20 },
+        { x: 160, y: 30, rx: 20, ry: 6, rot: 55 },
+        { x: 215, y: 35, rx: 23, ry: 7, rot: -45 },
+        { x: 70, y: 70, rx: 25, ry: 9, rot: -10 },
+        { x: 130, y: 65, rx: 21, ry: 7, rot: 40 },
+        { x: 185, y: 75, rx: 24, ry: 8, rot: -30 },
+        { x: 230, y: 70, rx: 19, ry: 6, rot: 15 },
+        { x: 105, y: 95, rx: 26, ry: 9, rot: 5 },
+        { x: 165, y: 95, rx: 22, ry: 7, rot: -15 }
+      ];
+
+      // Build static curve paths on load
+      function mapCoords(compFactor, lambda) {
+        // x goes from 0 to 1. Map to plot X coords [40, 240]
+        const X = 40 + compFactor * 200;
+        // y goes from 0.2 to 2.0. Map to plot Y coords [170, 20]
+        const Y = 170 - ((lambda - 0.2) / 1.8) * 150;
+        return `${X.toFixed(1)},${Y.toFixed(1)}`;
+      }
+
+      function buildPlotPaths() {
+        let pPor = "M ";
+        let pStat = "M ";
+        let pAware = "M ";
+
+        for (let i = 0; i <= 20; i++) {
+          const x = i / 20; // 0 to 1
+
+          // Porosity-only: linear rise
+          const lPor = 0.6 + 1.1 * x;
+          // Static contact: quadratic rise
+          const lStat = 0.6 + 1.3 * x * x;
+          // Calendering-aware: U-shape
+          const lAware = 0.6 - 0.5 * x + 1.8 * x * x * x;
+
+          const prefix = i === 0 ? "" : " L ";
+          pPor += prefix + mapCoords(x, lPor);
+          pStat += prefix + mapCoords(x, lStat);
+          pAware += prefix + mapCoords(x, lAware);
+        }
+
+        pathPorosity.setAttribute('d', pPor);
+        pathStatic.setAttribute('d', pStat);
+        pathCalAware.setAttribute('d', pAware);
+      }
+
+      function updateCalenderingSim() {
+        const comp = parseInt(calSlider.value);
+        calCompVal.textContent = comp + '%';
+
+        const x = comp / 60; // 0 to 1
+
+        // 1. Porosity drops linearly from 45% to 15%
+        const porosity = 45 - 30 * x;
+        calPorVal.textContent = porosity.toFixed(1) + '%';
+
+        // 2. Conductivity: U-shape model
+        const lambda = 0.6 - 0.5 * x + 1.8 * x * x * x;
+        calCondVal.textContent = lambda.toFixed(2) + ' W/mK';
+
+        // 3. Move press plate and bulk outline
+        // Press plate starts at y=10, goes down to y=52 (squeezed by 42px)
+        const pressY = 10 + 42 * x;
+        pressPlate.setAttribute('y1', pressY);
+        pressPlate.setAttribute('y2', pressY);
+        electrodeBulk.setAttribute('y', pressY);
+        electrodeBulk.setAttribute('height', 112 - pressY);
+
+        // 4. Squeeze and reorient particles
+        particlesGroup.innerHTML = '';
+        particlesData.forEach(p => {
+          // Squeeze y-center towards current collector (y=112)
+          const newY = 112 - (112 - p.y) * (1 - 0.38 * x);
+
+          // Flatten dimensions
+          const newRx = p.rx * (1 + 0.15 * x);
+          const newRy = p.ry * (1 - 0.32 * x);
+
+          // Flatten rotation angle towards 0 degrees (horizontal)
+          const newRot = p.rot * (1 - x);
+
+          const ellipse = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+          ellipse.setAttribute('cx', p.x);
+          ellipse.setAttribute('cy', newY);
+          ellipse.setAttribute('rx', newRx);
+          ellipse.setAttribute('ry', newRy);
+
+          // Styling particles - graphite-like grey
+          ellipse.setAttribute('fill', '#6d757d');
+          ellipse.setAttribute('stroke', '#343a40');
+          ellipse.setAttribute('stroke-width', '1');
+
+          // Squeezed particles overlap and connect, show connection highlighted under high compression
+          if (x > 0.45) {
+            ellipse.setAttribute('fill', '#5a6268');
+            ellipse.setAttribute('stroke', 'var(--color-primary)');
+            ellipse.setAttribute('stroke-width', '1.5');
+          }
+
+          // Transform for rotation
+          ellipse.setAttribute('transform', `rotate(${newRot} ${p.x} ${newY})`);
+
+          particlesGroup.appendChild(ellipse);
+        });
+
+        // 5. Update red dot on plot
+        const dotCoords = mapCoords(x, lambda).split(',');
+        plotDot.setAttribute('cx', dotCoords[0]);
+        plotDot.setAttribute('cy', dotCoords[1]);
+      }
+
+      buildPlotPaths();
+      calSlider.addEventListener('input', updateCalenderingSim);
+      updateCalenderingSim();
     })();
   </script>
 </body>
+
 </html>
