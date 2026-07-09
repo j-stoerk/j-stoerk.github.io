@@ -70,8 +70,8 @@
 
         <p>Here &Sigma;<sub>A</sub> is the feature covariance of Task A. Where &Sigma;<sub>A</sub>
           has large eigenvalues, Task A's predictions depend sharply on those coordinates, and any component of &Delta;
-          lying along them is expensive. Where &Sigma;<sub>A</sub> has an exact null space, motion is free: forgetting is
-          zero, not merely small. Between those extremes, the cost of an update is set by the spectrum of &Sigma;<sub>A</sub>.</p>
+          lying along them is expensive. Where &Sigma;<sub>A</sub> has an exact null space, motion is free and forgetting = zero.
+          Between those extremes, the cost of an update is set by the spectrum of &Sigma;<sub>A</sub>.</p>
 
         <div class="callout">
           <strong>Where this breaks.</strong> The identity above holds when features are frozen and the loss is locally
@@ -81,8 +81,8 @@
         </div>
 
         <h3>Interference-gated functional allocation (IGFA)</h3>
-        <p>If forgetting is interference, the remedy is not a penalty but a projection. <strong>IGFA</strong> is a
-          replay-free structural controller: it measures the alignment between a proposed update and the dominant
+        <p>If forgetting is interference, task projection in space helps visually the problem. <strong>IGFA</strong> measures
+          the alignment between a proposed update and the dominant
           directions of earlier tasks. Below a threshold &tau; the directions are effectively independent, the update
           passes untouched, and capacity is shared. Above it, IGFA projects the update onto the orthogonal complement of
           the protected subspace, keeping the descent direction it can afford and discarding the rest.</p>
@@ -90,7 +90,7 @@
         <p>There is no such thing as a free lunch:</p>
         <ul>
           <li>The projection <em>discards</em> part of the gradient. Task B learns more slowly, and in the limit of many
-            protected tasks the free subspace shrinks toward nothing — a capacity ceiling, not a free lunch.</li>
+            protected tasks the free subspace shrinks toward nothing, giving us a capacity ceiling.</li>
           <li>The gate is a hard threshold, so behaviour is discontinuous at &tau;. Whether that matters depends on how
             alignment is distributed in practice; on the sequences tested it does not, but that is an empirical claim
             about those sequences.</li>
@@ -102,7 +102,7 @@
             <p class="widget-title">Interactive · Vector alignment</p>
             <p class="widget-description">Rotate the proposed Task B update &Delta;<sub>B</sub>. Interference energy
               rises as it aligns with Task A's dominant direction. Above the gate threshold, IGFA projects the update
-              onto the orthogonal complement — shorter arrow, less progress, far less damage.</p>
+              onto the orthogonal complement. Shorter arrow > less progress > far less damage.</p>
 
             <div class="control-group">
               <label class="slider-label" for="cl-angle-slider">
@@ -137,8 +137,8 @@
             </div>
 
             <p class="widget-note">Model: Σ<sub>A</sub> = diag(1.00, 0.05), F(θ) = λ₁cos²θ + λ₂sin²θ, normalised to
-              λ₁. The subspace has finite width, so interference does not reach exactly zero at θ = 90° — only an exact
-              null space gives that. Illustrative, not fitted to data.</p>
+              λ₁. The subspace has finite width, so interference does not reach exactly zero at θ = 90° (null space).
+              Illustrative, not fitted to data.</p>
           </div>
 
           <div class="widget-visual">
@@ -183,7 +183,7 @@
         <p>At θ = 0 the update lies straight along Task A's high-variance
           direction and interference is maximal. Rotating away, the raw interference falls as cos²θ, but the gate does
           not release until alignment drops below τ. In the gated region the projected update survives with length
-          |Δ|·sinθ — so at θ = 20° the controller keeps roughly a third of the step, and near the threshold it keeps
+          |Δ|·sinθ. So at θ = 20° the controller keeps roughly a third of the step, and near the threshold it keeps
           most of it.</p>
       </div>
     </article>
