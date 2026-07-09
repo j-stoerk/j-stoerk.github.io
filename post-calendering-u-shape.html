@@ -54,23 +54,22 @@
 
       <div class="prose">
         <p>Lithium-ion cells depend on calendered electrodes for volumetric energy density. Predicting what compression
-          does to through-plane thermal conductivity (λ<sub>eff</sub>) turns out to be harder than it looks. The
-          intuition is monotone and wrong: press the particles together, porosity falls, gas-filled gaps disappear, heat
-          should flow more easily.</p>
+          does to through-plane thermal conductivity (λ<sub>eff</sub>) turns out to be harder than it looks.
+          On first thought, a monotone relationship is expected: press harder, conductivity should rise.</p>
 
         <p>Measurements disagree. Through-plane conductivity <em>drops</em> through the early stages of calendering and
           only recovers at high compaction — a U-shape. Porosity-only closures cannot produce a minimum at all; static
-          contact models rise too slowly but still rise. Something is being removed as the electrode densifies.</p>
+          contact models rise too slowly but still rise. So one useful transport pathway is being lost during early compaction.</p>
 
         <h3>The physics of particle reorientation</h3>
-        <p>The mechanism is the <strong>anisotropy of graphite</strong>. Conductivity within the graphene planes is high;
-          perpendicular to them it is poor, by more than an order of magnitude. Compression does not merely bring
-          particles closer. It <strong>reorients</strong> them, laying the flakes flat against the current collector.</p>
+        <p>The missing mechanism is <strong>graphite anisotropy</strong>. Conductivity within the graphene planes is high;
+          perpendicular to them it is poor, by more than an order of magnitude. Compression brings particles closer, but it also <strong>rotates</strong> them,
+          laying the flakes flat against the current collector.</p>
 
         <p>Flat flakes present their poor through-plane axis to the direction heat must travel. Early calendering
-          therefore trades a shrinking pore volume for a worsening particle orientation, and orientation wins. Only once
-          the flakes are largely aligned — when reorientation has little left to give — does the growth of
-          particle-to-particle contact area take over, and the curve turns upward.</p>
+          therefore trades a shrinking pore volume for a worsening particle orientation, and orientation wins.
+          Once most flakes are already aligned, further reorientation contributes less.
+          At that point, growing particle-particle contact starts to dominate and the curve turns upward.</p>
 
         <p>The draft captures this with a calendering-aware Zehner–Bauer–Schlünder closure: a compression-indexed contact
           term φ(Π) on a Knudsen-corrected ZBS base, with the orientation effect entering as a bounded correction rather
@@ -164,8 +163,8 @@
           </div>
         </div>
 
-        <p>What the slider makes visible is that the minimum is not a fitting artefact. It is where two monotone
-          processes — falling porosity and worsening orientation — cross in their influence on the same transport path.
+        <p>The minimum appears when two monotone effects act against each other. Two monotone processes (falling porosity and worsening orientation)
+          cross in their influence on the same transport path.
           Any closure that carries only one of them is forced to be monotone, and will be wrong on one side of the
           minimum or the other.</p>
       </div>
