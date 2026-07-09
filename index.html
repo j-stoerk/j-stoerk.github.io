@@ -8,13 +8,14 @@
   <meta name="description"
     content="Julius Störk — PhD researcher on machine learning for battery electrode manufacturing and electrochemical data analysis." />
   <meta name="author" content="Julius Störk" />
-  <link rel="canonical" href="https://juliusstoerk.github.io/" />
+  <link rel="canonical" href="https://j-stoerk.github.io/" />
+  <meta property="og:url" content="https://j-stoerk.github.io/" />
 
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Julius Störk — AI for battery manufacturing" />
   <meta property="og:description"
     content="PhD researcher on machine learning for battery electrode manufacturing and electrochemical data analysis." />
-  <meta property="og:image" content="portrait.jpg" />
+  <meta property="og:image" content="https://j-stoerk.github.io/portrait.jpg" />
   <meta name="twitter:card" content="summary" />
 
   <!-- Applied before first paint so the theme never flashes. -->
@@ -54,19 +55,20 @@
 
     <section class="hero" id="home">
       <div>
-        <p class="eyebrow">PhD researcher</p>
+        <p class="eyebrow">Doctoral researcher</p>
         <h1>Julius Störk</h1>
         <p class="lead">Machine learning for battery electrode manufacturing — continual learning, process–property
           modelling, and electrochemical data analysis.</p>
         <p class="affiliation">
-          <span>VARTA Microbattery GmbH</span><span>TU Braunschweig</span>
+          <span>Industrial PhD</span><span>VARTA Microbattery GmbH</span><span>TU Braunschweig</span>
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="mailto:julius.stoerk@varta-ag.com">Email</a>
+          <a class="btn btn-ghost" href="cv.pdf">CV (PDF)</a>
+          <a class="btn btn-ghost" href="https://github.com/j-stoerk" target="_blank"
+            rel="noopener noreferrer">GitHub</a>
           <a class="btn btn-ghost" href="https://www.linkedin.com/in/juliusst/" target="_blank"
             rel="noopener noreferrer">LinkedIn</a>
-          <a class="btn btn-ghost" href="cv.pdf">CV (PDF)</a>
-          <!-- TODO: add Google Scholar / ORCID / GitHub when available. -->
         </div>
       </div>
       <div class="hero-portrait">
@@ -84,6 +86,9 @@
       <p>In practice this means two threads that keep meeting: <strong>continual learning</strong> — understanding
         forgetting well enough to control it — and <strong>process–property modelling</strong> of electrodes, where the
         physics is known in outline but the closures are not.</p>
+      <p class="muted" style="font-size:var(--text-sm)">Industrial doctorate (Dr.-Ing.) at the Institute for Particle
+        Technology, TU Braunschweig, in the Particle Simulation &amp; Functional Structures group of Prof. Dr.-Ing.
+        Carsten Schilde, in cooperation with VARTA Microbattery GmbH.</p>
     </section>
 
     <section class="section" id="research">
@@ -114,9 +119,8 @@
         <div class="item">
           <strong>Interference and retention in continual learning</strong>
           <span class="badge">Draft</span>
-          <div class="authors">Julius Störk · VARTA Microbattery GmbH, TU Braunschweig · 2026</div>
-          <p class="muted">Models forgetting as weight-interference energy under a task's feature covariance, and
-            derives
+          <div class="authors">Julius Störk · VARTA Microbattery GmbH; Institute for Particle Technology (iPAT), TU Braunschweig · 2026</div>
+          <p class="muted">Models forgetting as weight-interference energy under a task's feature covariance, and derives
             a replay-free structural controller (IGFA) that protects earlier tasks while allowing capacity to be shared
             where directions do not conflict.</p>
           <a class="download-btn" href="forgetting-geometry.pdf" download>
@@ -131,7 +135,7 @@
         <div class="item">
           <strong>Capturing the calendering U-shape in lithium-ion electrode thermal conductivity</strong>
           <span class="badge">Draft</span>
-          <div class="authors">Julius Störk · VARTA Microbattery GmbH, TU Braunschweig · 2026</div>
+          <div class="authors">Julius Störk · VARTA Microbattery GmbH; Institute for Particle Technology (iPAT), TU Braunschweig · 2026</div>
           <p class="muted">A differentiable, calendering-aware Zehner–Bauer–Schlünder closure with a bounded
             contact-versus-reorientation test for the graphite anode. Reduces mean absolute percentage error across 27
             calendering states from 31.1% to 4.5%.</p>
@@ -153,11 +157,11 @@
         <a class="link-more" href="blog.html">All posts →</a>
       </div>
 
-      <div class="card-list">
+      <div class="card-grid">
 
         <article class="blog-card">
           <span class="blog-date">5 July 2026</span>
-          <h3><a class="card-link" href="blog.html#geometry-of-forgetting">The geometry of forgetting in continual
+          <h3><a class="card-link" href="post-geometry-of-forgetting.html">The geometry of forgetting in continual
               learning</a></h3>
           <p class="blog-summary">How does learning a new task damage an old one? Viewed through the feature covariance
             of the earlier task, forgetting becomes an interference energy — which suggests a replay-free structural
@@ -167,7 +171,7 @@
 
         <article class="blog-card">
           <span class="blog-date">28 June 2026</span>
-          <h3><a class="card-link" href="blog.html#calendering-u-shape">Solving the electrode calendering U-shape
+          <h3><a class="card-link" href="post-calendering-u-shape.html">Solving the electrode calendering U-shape
               puzzle</a></h3>
           <p class="blog-summary">Porosity-only thermal models predict conductivity rising monotonically with
             compaction. Measurements show it dropping first. Particle reorientation explains the gap — and a
@@ -184,7 +188,8 @@
       <p style="margin-top:var(--space-4)">
         <a href="mailto:julius.stoerk@varta-ag.com">julius.stoerk@varta-ag.com</a><br>
         <a href="https://www.linkedin.com/in/juliusst/" target="_blank"
-          rel="noopener noreferrer">linkedin.com/in/juliusst</a>
+          rel="noopener noreferrer">linkedin.com/in/juliusst</a><br>
+        <a href="https://github.com/j-stoerk" target="_blank" rel="noopener noreferrer">github.com/j-stoerk</a>
       </p>
     </section>
 

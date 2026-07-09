@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solving the electrode calendering U-shape puzzle — Julius Störk</title>
+  <meta name="description" content="Why through-plane conductivity dips before it rises, and the closure that captures it." />
+  <link rel="canonical" href="https://j-stoerk.github.io/post-calendering-u-shape.html" />
+
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('theme'); } catch (e) { }
+      if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="site-title" href="index.html">Julius Störk</a>
+      <nav class="nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="index.html#research">Research</a>
+        <a href="index.html#publications">Publications</a>
+        <a class="current" href="blog.html" aria-current="page">Blog</a>
+        <a href="index.html#contact">Contact</a>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="content">
+    <a class="back-link" href="blog.html">All posts</a>
+<article class="post" id="calendering-u-shape">
+      <header class="article-header">
+        <span class="eyebrow">28 June 2026 · Electrode manufacturing</span>
+        <h1 class="post-title">Solving the electrode calendering U-shape puzzle</h1>
+        <p class="muted" style="font-size:var(--text-sm)">Companion note to the draft
+          <em>Capturing the calendering U-shape in lithium-ion electrode thermal conductivity</em>.
+          <a href="zehner-closure.pdf" download>Draft PDF</a>
+        </p>
+      </header>
+
+      <div class="prose">
+        <p>Lithium-ion cells depend on calendered electrodes for volumetric energy density. Predicting what compression
+          does to through-plane thermal conductivity (λ<sub>eff</sub>) turns out to be harder than it looks. The
+          intuition is monotone and wrong: press the particles together, porosity falls, gas-filled gaps disappear, heat
+          should flow more easily.</p>
+
+        <p>Measurements disagree. Through-plane conductivity <em>drops</em> through the early stages of calendering and
+          only recovers at high compaction — a U-shape. Porosity-only closures cannot produce a minimum at all; static
+          contact models rise too slowly but still rise. Something is being removed as the electrode densifies.</p>
+
+        <h3>The physics of particle reorientation</h3>
+        <p>The mechanism is the <strong>anisotropy of graphite</strong>. Conductivity within the graphene planes is high;
+          perpendicular to them it is poor, by more than an order of magnitude. Compression does not merely bring
+          particles closer. It <strong>reorients</strong> them, laying the flakes flat against the current collector.</p>
+
+        <p>Flat flakes present their poor through-plane axis to the direction heat must travel. Early calendering
+          therefore trades a shrinking pore volume for a worsening particle orientation, and orientation wins. Only once
+          the flakes are largely aligned — when reorientation has little left to give — does the growth of
+          particle-to-particle contact area take over, and the curve turns upward.</p>
+
+        <p>The draft captures this with a calendering-aware Zehner–Bauer–Schlünder closure: a compression-indexed contact
+          term φ(Π) on a Knudsen-corrected ZBS base, with the orientation effect entering as a bounded correction rather
+          than a free-floating fit parameter. Across 27 calendering states the mean absolute percentage error falls from
+          31.1% to 4.5%.</p>
+
+        <div class="callout">
+          <strong>What that number is and is not.</strong> 4.5% MAPE is in-sample across 27 states of one anode
+          chemistry. It shows the closure can represent the U-shape; it does not establish that it transfers to other
+          formulations, cathodes, or coating thicknesses. Held-out validation across chemistries is the obvious next
+          test, and the honest reason to call this a draft.
+        </div>
+
+        <!-- Widget 2 -->
+        <div class="interactive">
+          <div class="widget-controls">
+            <p class="widget-title">Interactive · Calendering</p>
+            <p class="widget-description">Compress the electrode. Particles flatten and rotate toward the horizontal;
+              porosity falls monotonically. The dot tracks the calendering-aware prediction, which dips before it
+              recovers — unlike the two monotone baselines.</p>
+
+            <div class="control-group">
+              <label class="slider-label" for="cal-comp-slider">
+                <span>Compaction Π</span>
+                <output id="cal-comp-val" for="cal-comp-slider">0%</output>
+              </label>
+              <input type="range" class="slider-input" id="cal-comp-slider" min="0" max="60" step="1" value="0">
+
+              <div class="metric-display">
+                <div class="metric-item">
+                  <div>Porosity ε</div>
+                  <div class="metric-value" id="cal-por-val">45.0%</div>
+                </div>
+                <div class="metric-item">
+                  <div>λ<sub>eff</sub> (through-plane)</div>
+                  <div class="metric-value" id="cal-cond-val">0.60 W/mK</div>
+                </div>
+              </div>
+            </div>
+
+            <p class="widget-note">Curves are schematic functional forms chosen to reproduce the qualitative behaviour of
+              each closure, not the fitted model or the measured data. Read the shapes, not the values.</p>
+          </div>
+
+          <div class="widget-visual" style="flex-direction:column; gap:var(--space-4); min-height:400px">
+
+            <svg viewBox="0 0 260 120" id="svg-particles" role="img" aria-labelledby="part-title"
+              style="border:1px solid var(--color-border); border-radius:var(--radius-sm); background:var(--color-bg); max-width:280px">
+              <title id="part-title">Cross-section of an electrode: graphite particles flatten and align as the press
+                plate descends.</title>
+              <rect x="0" y="112" width="260" height="8" fill="#c07a4a" />
+              <line x1="0" y1="112" x2="260" y2="112" stroke="#a35c2e" stroke-width="1" />
+              <rect x="0" y="0" width="260" height="112" fill="var(--color-surface-2)" opacity="0.4"
+                id="electrode-bulk" />
+              <line x1="0" y1="10" x2="260" y2="10" stroke="var(--color-text)" stroke-width="1.5" stroke-dasharray="2"
+                id="press-plate" />
+              <g id="particles-group"></g>
+            </svg>
+
+            <svg viewBox="0 0 260 200" id="svg-plot" role="img" aria-labelledby="plot-title" style="max-width:280px">
+              <title id="plot-title">Through-plane conductivity versus compaction for three closures. Only the
+                calendering-aware model produces a minimum.</title>
+
+              <line x1="40" y1="20" x2="40" y2="170" stroke="var(--color-text)" stroke-width="1" />
+              <line x1="40" y1="170" x2="240" y2="170" stroke="var(--color-text)" stroke-width="1" />
+
+              <text x="40" y="183" class="text-tick" text-anchor="middle">0%</text>
+              <text x="240" y="183" class="text-tick" text-anchor="middle">60%</text>
+              <text x="140" y="196" class="text-label-faint" text-anchor="middle">Compaction Π</text>
+
+              <text x="35" y="173" class="text-tick" text-anchor="end">0.2</text>
+              <text x="35" y="24" class="text-tick" text-anchor="end">2.0</text>
+              <text x="14" y="95" class="text-label-faint" transform="rotate(-90 14 95)" text-anchor="middle">λ_eff
+                (W/mK)</text>
+
+              <path d="" fill="none" stroke="var(--color-text-faint)" stroke-width="1.5" stroke-dasharray="4"
+                id="path-porosity" />
+              <text x="146" y="52" class="text-label-faint" style="font-size:8px">Porosity-only</text>
+
+              <path d="" fill="none" stroke="var(--color-text-muted)" stroke-width="1.5" stroke-dasharray="2"
+                id="path-static" />
+              <text x="178" y="112" class="text-label-faint" style="font-size:8px">Static contact</text>
+
+              <path d="" fill="none" stroke="var(--color-primary)" stroke-width="2.5" id="path-calaware" />
+              <text x="74" y="152" style="fill:var(--color-primary); font-size:8px; font-weight:700"
+                class="text-label-faint">Calendering-aware ZBS</text>
+
+              <circle cx="40" cy="170" r="5" fill="var(--color-danger)" stroke="var(--color-bg)" stroke-width="1.5"
+                id="plot-dot" />
+            </svg>
+          </div>
+        </div>
+
+        <p>What the slider makes visible is that the minimum is not a fitting artefact. It is where two monotone
+          processes — falling porosity and worsening orientation — cross in their influence on the same transport path.
+          Any closure that carries only one of them is forced to be monotone, and will be wrong on one side of the
+          minimum or the other.</p>
+      </div>
+    </article>
+
+      <nav class="post-pager" aria-label="More posts">
+        <a href="post-geometry-of-forgetting.html">
+          <span class="eyebrow">Next post</span>
+          <span class="post-pager-title">The geometry of forgetting in continual learning</span>
+        </a>
+      </nav>
+  </main>
+
+  <footer class="content">
+    <span>© 2026 Julius Störk</span>
+    <span><a href="blog.html">All posts</a></span>
+  </footer>
+
+  <script src="theme.js"></script>
+  <script src="blog.js"></script>
+</body>
+
+</html>

@@ -5,9 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Blog — Julius Störk</title>
-  <meta name="description"
-    content="Notes on continual learning, electrode manufacturing, and electrochemical modelling by Julius Störk." />
-  <link rel="canonical" href="https://juliusstoerk.github.io/blog.html" />
+  <meta name="description" content="Working notes on continual learning and electrode manufacturing." />
+  <link rel="canonical" href="https://j-stoerk.github.io/blog.html" />
 
   <script>
     (function () {
@@ -42,299 +41,48 @@
   </header>
 
   <main id="main" class="content">
-
     <a class="back-link" href="index.html">Back to home</a>
 
-    <h1 style="font-size:var(--text-xl)">Blog</h1>
-    <p class="lead" style="margin-top:var(--space-2)">Working notes on continual learning and electrode manufacturing.
-      Each post carries a small interactive model — illustrative, not fitted.</p>
+    <header class="page-head">
+      <h1>Blog</h1>
+      <p class="lead">Working notes on continual learning and electrode manufacturing. Each post carries a small
+        interactive model — illustrative, not fitted.</p>
+    </header>
 
-    <!-- ============================================================ -->
-    <article class="article" id="geometry-of-forgetting">
-      <header class="article-header">
-        <span class="eyebrow">5 July 2026 · Continual learning</span>
-        <h2>The geometry of forgetting in continual learning</h2>
-        <p class="muted" style="font-size:var(--text-sm)">Companion note to the draft
-          <em>Interference and retention in continual learning</em>.
-          <a href="forgetting-geometry.pdf" download>Draft PDF</a>
-        </p>
-      </header>
-
-      <div class="prose">
-        <p>When a network learns tasks in sequence it tends to suffer <strong>catastrophic forgetting</strong>: weights
-          move to satisfy the new objective and, in doing so, dismantle the features that served the old one. The usual
-          responses are remedial. Experience replay retrains on stored samples; elastic regularisation penalises motion
-          in directions the Fisher information marks as important. Both work. Neither says what forgetting <em>is</em>.
-        </p>
-
-        <p>The claim in this note is that forgetting is best read as <strong>geometric interference</strong> between task
-          directions. Fix the features (the frozen-feature or linearised regime — a strong assumption, discussed below)
-          and let &Delta; be the weight update produced by learning Task B. The loss increase on Task A is then exactly
-          a quadratic form:</p>
-
-        <div class="equation">
-          F(&Delta;) = ½ &Delta;<sup>T</sup> &Sigma;<sub>A</sub> &Delta;
-        </div>
-
-        <p>Here &Sigma;<sub>A</sub> is the feature covariance of Task A. The reading is direct. Where &Sigma;<sub>A</sub>
-          has large eigenvalues, Task A's predictions depend sharply on those coordinates, and any component of &Delta;
-          lying along them is expensive. Where &Sigma;<sub>A</sub> has an exact null space, motion is free: forgetting is
-          zero, not merely small. Everything in between is a matter of eigenvalue, not of intuition.</p>
-
-        <div class="callout">
-          <strong>Where this breaks.</strong> The identity above holds when features are frozen and the loss is locally
-          quadratic. Under end-to-end training the features themselves move, &Sigma;<sub>A</sub> is no longer a constant,
-          and F becomes a first-order approximation whose error grows with the size of the update. It is a lens, not a
-          theorem about deep networks.
-        </div>
-
-        <h3>Interference-gated functional allocation (IGFA)</h3>
-        <p>If forgetting is interference, the remedy is not a penalty but a projection. <strong>IGFA</strong> is a
-          replay-free structural controller: it measures the alignment between a proposed update and the dominant
-          directions of earlier tasks. Below a threshold &tau; the directions are effectively independent, the update
-          passes untouched, and capacity is shared. Above it, IGFA projects the update onto the orthogonal complement of
-          the protected subspace, keeping the descent direction it can afford and discarding the rest.</p>
-
-        <p>Two consequences are worth stating plainly, because they are the cost of the method:</p>
-        <ul>
-          <li>The projection <em>discards</em> part of the gradient. Task B learns more slowly, and in the limit of many
-            protected tasks the free subspace shrinks toward nothing — a capacity ceiling, not a free lunch.</li>
-          <li>The gate is a hard threshold, so behaviour is discontinuous at &tau;. Whether that matters depends on how
-            alignment is distributed in practice; on the sequences tested it does not, but that is an empirical claim
-            about those sequences.</li>
-        </ul>
-
-        <!-- Widget 1 -->
-        <div class="interactive">
-          <div class="widget-controls">
-            <p class="widget-title">Interactive · Vector alignment</p>
-            <p class="widget-description">Rotate the proposed Task B update &Delta;<sub>B</sub>. Interference energy
-              rises as it aligns with Task A's dominant direction. Above the gate threshold, IGFA projects the update
-              onto the orthogonal complement — shorter arrow, less progress, far less damage.</p>
-
-            <div class="control-group">
-              <label class="slider-label" for="cl-angle-slider">
-                <span>Alignment angle θ</span>
-                <output id="cl-angle-val" for="cl-angle-slider">45°</output>
-              </label>
-              <input type="range" class="slider-input" id="cl-angle-slider" min="0" max="180" step="1" value="45">
-
-              <div class="metric-display">
-                <div class="metric-item">
-                  <div>Cosine alignment</div>
-                  <div class="metric-value" id="cl-cos-val">0.71</div>
-                </div>
-                <div class="metric-item">
-                  <div>Interference, raw</div>
-                  <div class="metric-value" id="cl-energy-val">52%</div>
-                </div>
-                <div class="metric-item">
-                  <div>Interference, after IGFA</div>
-                  <div class="metric-value" id="cl-energy-post-val">2%</div>
-                </div>
-                <div class="metric-item">
-                  <div>Retained step length</div>
-                  <div class="metric-value" id="cl-step-val">71%</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="control-group">
-              <p class="slider-label" style="margin-bottom:var(--space-2)"><span>IGFA gate (τ = 0.40)</span></p>
-              <p class="status-pill" id="cl-status-val">Projecting — Task A protected</p>
-            </div>
-
-            <p class="widget-note">Model: Σ<sub>A</sub> = diag(1.00, 0.05), F(θ) = λ₁cos²θ + λ₂sin²θ, normalised to
-              λ₁. The subspace has finite width, so interference does not reach exactly zero at θ = 90° — only an exact
-              null space gives that. Illustrative, not fitted to data.</p>
+    <div class="card-grid">
+        <article class="blog-card">
+          <div class="card-meta">
+            <time datetime="2026-07-05">5 July 2026</time>
+            <span class="card-topic">Continual learning</span>
           </div>
-
-          <div class="widget-visual">
-            <svg viewBox="0 0 280 280" id="svg-vector-sim" role="img"
-              aria-labelledby="vec-title" style="max-width:300px">
-              <title id="vec-title">Task A's dominant subspace shown as an ellipse, with the proposed Task B update and
-                its IGFA-projected version.</title>
-
-              <line x1="20" y1="140" x2="260" y2="140" stroke="var(--color-divider)" stroke-width="1.5"
-                stroke-dasharray="4" />
-              <line x1="140" y1="20" x2="140" y2="260" stroke="var(--color-divider)" stroke-width="1.5"
-                stroke-dasharray="4" />
-
-              <ellipse cx="140" cy="140" rx="100" ry="25" fill="var(--color-primary-highlight)" opacity="0.7"
-                stroke="var(--color-primary)" stroke-width="1" stroke-dasharray="3" />
-              <text x="206" y="126" class="text-label-faint" style="fill:var(--color-primary)">Task A subspace</text>
-
-              <line x1="140" y1="140" x2="220" y2="140" stroke="var(--color-primary)" stroke-width="3"
-                class="vector-arrow" />
-              <polygon points="220,136 228,140 220,144" fill="var(--color-primary)" />
-              <text x="176" y="156" class="text-label" style="fill:var(--color-primary)">Task A</text>
-
-              <path d="M 170 140 A 30 30 0 0 0 161 119" fill="none" stroke="var(--color-danger)" stroke-width="3"
-                id="interference-arc" />
-
-              <line x1="140" y1="140" x2="196" y2="84" stroke="var(--color-ok)" stroke-width="2.5" id="vector-b"
-                class="vector-arrow" />
-              <polygon points="192,80 202,82 198,92" fill="var(--color-ok)" id="arrowhead-b" />
-              <text x="200" y="75" class="text-label" style="fill:var(--color-ok)" id="label-b">Δ<tspan dy="3"
-                  font-size="8">B</tspan></text>
-
-              <line x1="140" y1="140" x2="140" y2="83" stroke="var(--color-warn)" stroke-width="2.5" stroke-dasharray="3"
-                id="vector-b-proj" class="vector-arrow" />
-              <polygon points="136,87 140,77 144,87" fill="var(--color-warn)" id="arrowhead-b-proj" />
-              <text x="108" y="66" class="text-label" style="fill:var(--color-warn)" id="label-b-proj">IGFA</text>
-
-              <circle cx="140" cy="140" r="4" fill="var(--color-text)" />
-            </svg>
+          <h3><a class="card-link" href="post-geometry-of-forgetting.html">The geometry of forgetting in continual learning</a></h3>
+          <p class="blog-summary">How does learning a new task damage an old one? Viewed through the feature covariance of the earlier task, forgetting becomes an interference energy — which suggests a replay-free structural controller rather than another penalty term.</p>
+          <div class="card-foot">
+            <span class="card-cta">Read and interact</span>
+            <span class="card-read">9 min read</span>
           </div>
-        </div>
-
-        <p>The picture the widget makes concrete: at θ = 0 the update lies straight along Task A's high-variance
-          direction and interference is maximal. Rotating away, the raw interference falls as cos²θ, but the gate does
-          not release until alignment drops below τ. In the gated region the projected update survives with length
-          |Δ|·sinθ — so at θ = 20° the controller keeps roughly a third of the step, and near the threshold it keeps
-          most of it.</p>
-      </div>
-    </article>
-
-    <!-- ============================================================ -->
-    <article class="article" id="calendering-u-shape">
-      <header class="article-header">
-        <span class="eyebrow">28 June 2026 · Electrode manufacturing</span>
-        <h2>Solving the electrode calendering U-shape puzzle</h2>
-        <p class="muted" style="font-size:var(--text-sm)">Companion note to the draft
-          <em>Capturing the calendering U-shape in lithium-ion electrode thermal conductivity</em>.
-          <a href="zehner-closure.pdf" download>Draft PDF</a>
-        </p>
-      </header>
-
-      <div class="prose">
-        <p>Lithium-ion cells depend on calendered electrodes for volumetric energy density. Predicting what compression
-          does to through-plane thermal conductivity (λ<sub>eff</sub>) turns out to be harder than it looks. The
-          intuition is monotone and wrong: press the particles together, porosity falls, gas-filled gaps disappear, heat
-          should flow more easily.</p>
-
-        <p>Measurements disagree. Through-plane conductivity <em>drops</em> through the early stages of calendering and
-          only recovers at high compaction — a U-shape. Porosity-only closures cannot produce a minimum at all; static
-          contact models rise too slowly but still rise. Something is being removed as the electrode densifies.</p>
-
-        <h3>The physics of particle reorientation</h3>
-        <p>The mechanism is the <strong>anisotropy of graphite</strong>. Conductivity within the graphene planes is high;
-          perpendicular to them it is poor, by more than an order of magnitude. Compression does not merely bring
-          particles closer. It <strong>reorients</strong> them, laying the flakes flat against the current collector.</p>
-
-        <p>Flat flakes present their poor through-plane axis to the direction heat must travel. Early calendering
-          therefore trades a shrinking pore volume for a worsening particle orientation, and orientation wins. Only once
-          the flakes are largely aligned — when reorientation has little left to give — does the growth of
-          particle-to-particle contact area take over, and the curve turns upward.</p>
-
-        <p>The draft captures this with a calendering-aware Zehner–Bauer–Schlünder closure: a compression-indexed contact
-          term φ(Π) on a Knudsen-corrected ZBS base, with the orientation effect entering as a bounded correction rather
-          than a free-floating fit parameter. Across 27 calendering states the mean absolute percentage error falls from
-          31.1% to 4.5%.</p>
-
-        <div class="callout">
-          <strong>What that number is and is not.</strong> 4.5% MAPE is in-sample across 27 states of one anode
-          chemistry. It shows the closure can represent the U-shape; it does not establish that it transfers to other
-          formulations, cathodes, or coating thicknesses. Held-out validation across chemistries is the obvious next
-          test, and the honest reason to call this a draft.
-        </div>
-
-        <!-- Widget 2 -->
-        <div class="interactive">
-          <div class="widget-controls">
-            <p class="widget-title">Interactive · Calendering</p>
-            <p class="widget-description">Compress the electrode. Particles flatten and rotate toward the horizontal;
-              porosity falls monotonically. The dot tracks the calendering-aware prediction, which dips before it
-              recovers — unlike the two monotone baselines.</p>
-
-            <div class="control-group">
-              <label class="slider-label" for="cal-comp-slider">
-                <span>Compaction Π</span>
-                <output id="cal-comp-val" for="cal-comp-slider">0%</output>
-              </label>
-              <input type="range" class="slider-input" id="cal-comp-slider" min="0" max="60" step="1" value="0">
-
-              <div class="metric-display">
-                <div class="metric-item">
-                  <div>Porosity ε</div>
-                  <div class="metric-value" id="cal-por-val">45.0%</div>
-                </div>
-                <div class="metric-item">
-                  <div>λ<sub>eff</sub> (through-plane)</div>
-                  <div class="metric-value" id="cal-cond-val">0.60 W/mK</div>
-                </div>
-              </div>
-            </div>
-
-            <p class="widget-note">Curves are schematic functional forms chosen to reproduce the qualitative behaviour of
-              each closure, not the fitted model or the measured data. Read the shapes, not the values.</p>
+        </article>
+        <article class="blog-card">
+          <div class="card-meta">
+            <time datetime="2026-06-28">28 June 2026</time>
+            <span class="card-topic">Electrode manufacturing</span>
           </div>
-
-          <div class="widget-visual" style="flex-direction:column; gap:var(--space-4); min-height:400px">
-
-            <svg viewBox="0 0 260 120" id="svg-particles" role="img" aria-labelledby="part-title"
-              style="border:1px solid var(--color-border); border-radius:var(--radius-sm); background:var(--color-bg); max-width:280px">
-              <title id="part-title">Cross-section of an electrode: graphite particles flatten and align as the press
-                plate descends.</title>
-              <rect x="0" y="112" width="260" height="8" fill="#c07a4a" />
-              <line x1="0" y1="112" x2="260" y2="112" stroke="#a35c2e" stroke-width="1" />
-              <rect x="0" y="0" width="260" height="112" fill="var(--color-surface-2)" opacity="0.4"
-                id="electrode-bulk" />
-              <line x1="0" y1="10" x2="260" y2="10" stroke="var(--color-text)" stroke-width="1.5" stroke-dasharray="2"
-                id="press-plate" />
-              <g id="particles-group"></g>
-            </svg>
-
-            <svg viewBox="0 0 260 200" id="svg-plot" role="img" aria-labelledby="plot-title" style="max-width:280px">
-              <title id="plot-title">Through-plane conductivity versus compaction for three closures. Only the
-                calendering-aware model produces a minimum.</title>
-
-              <line x1="40" y1="20" x2="40" y2="170" stroke="var(--color-text)" stroke-width="1" />
-              <line x1="40" y1="170" x2="240" y2="170" stroke="var(--color-text)" stroke-width="1" />
-
-              <text x="40" y="183" class="text-tick" text-anchor="middle">0%</text>
-              <text x="240" y="183" class="text-tick" text-anchor="middle">60%</text>
-              <text x="140" y="196" class="text-label-faint" text-anchor="middle">Compaction Π</text>
-
-              <text x="35" y="173" class="text-tick" text-anchor="end">0.2</text>
-              <text x="35" y="24" class="text-tick" text-anchor="end">2.0</text>
-              <text x="14" y="95" class="text-label-faint" transform="rotate(-90 14 95)" text-anchor="middle">λ_eff
-                (W/mK)</text>
-
-              <path d="" fill="none" stroke="var(--color-text-faint)" stroke-width="1.5" stroke-dasharray="4"
-                id="path-porosity" />
-              <text x="146" y="52" class="text-label-faint" style="font-size:8px">Porosity-only</text>
-
-              <path d="" fill="none" stroke="var(--color-text-muted)" stroke-width="1.5" stroke-dasharray="2"
-                id="path-static" />
-              <text x="178" y="112" class="text-label-faint" style="font-size:8px">Static contact</text>
-
-              <path d="" fill="none" stroke="var(--color-primary)" stroke-width="2.5" id="path-calaware" />
-              <text x="74" y="152" style="fill:var(--color-primary); font-size:8px; font-weight:700"
-                class="text-label-faint">Calendering-aware ZBS</text>
-
-              <circle cx="40" cy="170" r="5" fill="var(--color-danger)" stroke="var(--color-bg)" stroke-width="1.5"
-                id="plot-dot" />
-            </svg>
+          <h3><a class="card-link" href="post-calendering-u-shape.html">Solving the electrode calendering U-shape puzzle</a></h3>
+          <p class="blog-summary">Porosity-only thermal models predict conductivity rising monotonically with compaction. Measurements show it dropping first. Particle reorientation explains the gap — and a calendering-aware ZBS closure captures it.</p>
+          <div class="card-foot">
+            <span class="card-cta">Read and interact</span>
+            <span class="card-read">7 min read</span>
           </div>
-        </div>
-
-        <p>What the slider makes visible is that the minimum is not a fitting artefact. It is where two monotone
-          processes — falling porosity and worsening orientation — cross in their influence on the same transport path.
-          Any closure that carries only one of them is forced to be monotone, and will be wrong on one side of the
-          minimum or the other.</p>
-      </div>
-    </article>
-
+        </article>
+    </div>
   </main>
 
   <footer class="content">
     <span>© 2026 Julius Störk</span>
-    <span><a href="index.html">Home</a></span>
+    <span><a href="blog.html">All posts</a></span>
   </footer>
 
   <script src="theme.js"></script>
-  <script src="blog.js"></script>
 </body>
 
 </html>

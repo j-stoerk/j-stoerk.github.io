@@ -482,9 +482,115 @@ p {
 }
 
 /* ---------- Blog cards (index preview) ---------- */
-.card-list {
+.card-list,
+.card-grid {
   display: grid;
   gap: var(--space-5);
+}
+
+/* Tiles: two across when there is room, one when there isn't. */
+.card-grid {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  align-items: stretch;
+}
+
+.card-grid .blog-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-grid .blog-summary {
+  flex: 1;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.card-meta time {
+  font-size: var(--text-2xs);
+  color: var(--color-text-faint);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.card-topic {
+  font-size: var(--text-2xs);
+  color: var(--color-text-muted);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  padding: .1rem .55rem;
+  white-space: nowrap;
+}
+
+.card-foot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.card-foot .card-cta {
+  margin-top: 0;
+}
+
+.card-read {
+  font-size: var(--text-2xs);
+  color: var(--color-text-faint);
+  white-space: nowrap;
+}
+
+.page-head {
+  padding: var(--space-2) 0 var(--space-10);
+  border-bottom: 1px solid var(--color-divider);
+  margin-bottom: var(--space-10);
+}
+
+.page-head h1 {
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-2);
+}
+
+/* A post on its own page: no top rule, no scroll offset needed. */
+.post {
+  padding: var(--space-2) 0 var(--space-12);
+}
+
+.post-title {
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: var(--space-2) 0 var(--space-3);
+}
+
+.post-pager {
+  border-top: 1px solid var(--color-divider);
+  padding-top: var(--space-6);
+}
+
+.post-pager a {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  text-decoration: none;
+}
+
+.post-pager-title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+
+.post-pager a:hover .post-pager-title {
+  color: var(--color-primary);
 }
 
 .blog-card {

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The geometry of forgetting in continual learning — Julius Störk</title>
+  <meta name="description" content="Forgetting as interference energy under a task’s feature covariance, and the IGFA controller." />
+  <link rel="canonical" href="https://j-stoerk.github.io/post-geometry-of-forgetting.html" />
+
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('theme'); } catch (e) { }
+      if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="site-title" href="index.html">Julius Störk</a>
+      <nav class="nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="index.html#research">Research</a>
+        <a href="index.html#publications">Publications</a>
+        <a class="current" href="blog.html" aria-current="page">Blog</a>
+        <a href="index.html#contact">Contact</a>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="content">
+    <a class="back-link" href="blog.html">All posts</a>
+<article class="post" id="geometry-of-forgetting">
+      <header class="article-header">
+        <span class="eyebrow">5 July 2026 · Continual learning</span>
+        <h1 class="post-title">The geometry of forgetting in continual learning</h1>
+        <p class="muted" style="font-size:var(--text-sm)">Companion note to the draft
+          <em>Interference and retention in continual learning</em>.
+          <a href="forgetting-geometry.pdf" download>Draft PDF</a>
+        </p>
+      </header>
+
+      <div class="prose">
+        <p>When a network learns tasks in sequence it tends to suffer <strong>catastrophic forgetting</strong>: weights
+          move to satisfy the new objective and, in doing so, dismantle the features that served the old one. The usual
+          responses are remedial. Experience replay retrains on stored samples; elastic regularisation penalises motion
+          in directions the Fisher information marks as important. Both work. Neither says what forgetting <em>is</em>.
+        </p>
+
+        <p>The claim in this note is that forgetting is best read as <strong>geometric interference</strong> between task
+          directions. Fix the features (the frozen-feature or linearised regime — a strong assumption, discussed below)
+          and let &Delta; be the weight update produced by learning Task B. The loss increase on Task A is then exactly
+          a quadratic form:</p>
+
+        <div class="equation">
+          F(&Delta;) = ½ &Delta;<sup>T</sup> &Sigma;<sub>A</sub> &Delta;
+        </div>
+
+        <p>Here &Sigma;<sub>A</sub> is the feature covariance of Task A. The reading is direct. Where &Sigma;<sub>A</sub>
+          has large eigenvalues, Task A's predictions depend sharply on those coordinates, and any component of &Delta;
+          lying along them is expensive. Where &Sigma;<sub>A</sub> has an exact null space, motion is free: forgetting is
+          zero, not merely small. Everything in between is a matter of eigenvalue, not of intuition.</p>
+
+        <div class="callout">
+          <strong>Where this breaks.</strong> The identity above holds when features are frozen and the loss is locally
+          quadratic. Under end-to-end training the features themselves move, &Sigma;<sub>A</sub> is no longer a constant,
+          and F becomes a first-order approximation whose error grows with the size of the update. It is a lens, not a
+          theorem about deep networks.
+        </div>
+
+        <h3>Interference-gated functional allocation (IGFA)</h3>
+        <p>If forgetting is interference, the remedy is not a penalty but a projection. <strong>IGFA</strong> is a
+          replay-free structural controller: it measures the alignment between a proposed update and the dominant
+          directions of earlier tasks. Below a threshold &tau; the directions are effectively independent, the update
+          passes untouched, and capacity is shared. Above it, IGFA projects the update onto the orthogonal complement of
+          the protected subspace, keeping the descent direction it can afford and discarding the rest.</p>
+
+        <p>Two consequences are worth stating plainly, because they are the cost of the method:</p>
+        <ul>
+          <li>The projection <em>discards</em> part of the gradient. Task B learns more slowly, and in the limit of many
+            protected tasks the free subspace shrinks toward nothing — a capacity ceiling, not a free lunch.</li>
+          <li>The gate is a hard threshold, so behaviour is discontinuous at &tau;. Whether that matters depends on how
+            alignment is distributed in practice; on the sequences tested it does not, but that is an empirical claim
+            about those sequences.</li>
+        </ul>
+
+        <!-- Widget 1 -->
+        <div class="interactive">
+          <div class="widget-controls">
+            <p class="widget-title">Interactive · Vector alignment</p>
+            <p class="widget-description">Rotate the proposed Task B update &Delta;<sub>B</sub>. Interference energy
+              rises as it aligns with Task A's dominant direction. Above the gate threshold, IGFA projects the update
+              onto the orthogonal complement — shorter arrow, less progress, far less damage.</p>
+
+            <div class="control-group">
+              <label class="slider-label" for="cl-angle-slider">
+                <span>Alignment angle θ</span>
+                <output id="cl-angle-val" for="cl-angle-slider">45°</output>
+              </label>
+              <input type="range" class="slider-input" id="cl-angle-slider" min="0" max="180" step="1" value="45">
+
+              <div class="metric-display">
+                <div class="metric-item">
+                  <div>Cosine alignment</div>
+                  <div class="metric-value" id="cl-cos-val">0.71</div>
+                </div>
+                <div class="metric-item">
+                  <div>Interference, raw</div>
+                  <div class="metric-value" id="cl-energy-val">52%</div>
+                </div>
+                <div class="metric-item">
+                  <div>Interference, after IGFA</div>
+                  <div class="metric-value" id="cl-energy-post-val">2%</div>
+                </div>
+                <div class="metric-item">
+                  <div>Retained step length</div>
+                  <div class="metric-value" id="cl-step-val">71%</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <p class="slider-label" style="margin-bottom:var(--space-2)"><span>IGFA gate (τ = 0.40)</span></p>
+              <p class="status-pill" id="cl-status-val">Projecting — Task A protected</p>
+            </div>
+
+            <p class="widget-note">Model: Σ<sub>A</sub> = diag(1.00, 0.05), F(θ) = λ₁cos²θ + λ₂sin²θ, normalised to
+              λ₁. The subspace has finite width, so interference does not reach exactly zero at θ = 90° — only an exact
+              null space gives that. Illustrative, not fitted to data.</p>
+          </div>
+
+          <div class="widget-visual">
+            <svg viewBox="0 0 280 280" id="svg-vector-sim" role="img"
+              aria-labelledby="vec-title" style="max-width:300px">
+              <title id="vec-title">Task A's dominant subspace shown as an ellipse, with the proposed Task B update and
+                its IGFA-projected version.</title>
+
+              <line x1="20" y1="140" x2="260" y2="140" stroke="var(--color-divider)" stroke-width="1.5"
+                stroke-dasharray="4" />
+              <line x1="140" y1="20" x2="140" y2="260" stroke="var(--color-divider)" stroke-width="1.5"
+                stroke-dasharray="4" />
+
+              <ellipse cx="140" cy="140" rx="100" ry="25" fill="var(--color-primary-highlight)" opacity="0.7"
+                stroke="var(--color-primary)" stroke-width="1" stroke-dasharray="3" />
+              <text x="206" y="126" class="text-label-faint" style="fill:var(--color-primary)">Task A subspace</text>
+
+              <line x1="140" y1="140" x2="220" y2="140" stroke="var(--color-primary)" stroke-width="3"
+                class="vector-arrow" />
+              <polygon points="220,136 228,140 220,144" fill="var(--color-primary)" />
+              <text x="176" y="156" class="text-label" style="fill:var(--color-primary)">Task A</text>
+
+              <path d="M 170 140 A 30 30 0 0 0 161 119" fill="none" stroke="var(--color-danger)" stroke-width="3"
+                id="interference-arc" />
+
+              <line x1="140" y1="140" x2="196" y2="84" stroke="var(--color-ok)" stroke-width="2.5" id="vector-b"
+                class="vector-arrow" />
+              <polygon points="192,80 202,82 198,92" fill="var(--color-ok)" id="arrowhead-b" />
+              <text x="200" y="75" class="text-label" style="fill:var(--color-ok)" id="label-b">Δ<tspan dy="3"
+                  font-size="8">B</tspan></text>
+
+              <line x1="140" y1="140" x2="140" y2="83" stroke="var(--color-warn)" stroke-width="2.5" stroke-dasharray="3"
+                id="vector-b-proj" class="vector-arrow" />
+              <polygon points="136,87 140,77 144,87" fill="var(--color-warn)" id="arrowhead-b-proj" />
+              <text x="108" y="66" class="text-label" style="fill:var(--color-warn)" id="label-b-proj">IGFA</text>
+
+              <circle cx="140" cy="140" r="4" fill="var(--color-text)" />
+            </svg>
+          </div>
+        </div>
+
+        <p>The picture the widget makes concrete: at θ = 0 the update lies straight along Task A's high-variance
+          direction and interference is maximal. Rotating away, the raw interference falls as cos²θ, but the gate does
+          not release until alignment drops below τ. In the gated region the projected update survives with length
+          |Δ|·sinθ — so at θ = 20° the controller keeps roughly a third of the step, and near the threshold it keeps
+          most of it.</p>
+      </div>
+    </article>
+
+      <nav class="post-pager" aria-label="More posts">
+        <a href="post-calendering-u-shape.html">
+          <span class="eyebrow">Next post</span>
+          <span class="post-pager-title">Solving the electrode calendering U-shape puzzle</span>
+        </a>
+      </nav>
+  </main>
+
+  <footer class="content">
+    <span>© 2026 Julius Störk</span>
+    <span><a href="blog.html">All posts</a></span>
+  </footer>
+
+  <script src="theme.js"></script>
+  <script src="blog.js"></script>
+</body>
+
+</html>
