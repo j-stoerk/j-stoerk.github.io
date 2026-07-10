@@ -143,34 +143,33 @@
 
     <section class="section" id="about">
       <h2>About</h2>
-      <div class="section-intro">
-        <div>
-          <p>I work where machine learning meets electrode manufacturing. Production lines drift, formulations change,
-            and coating and calendering setpoints move. My research asks how a model can absorb those new process regimes
-            without discarding what it already knows—and how physical structure can be built into the model in the first place.</p>
-          <p>In practice this means two threads that keep meeting: <strong>continual learning</strong>, understanding
-            forgetting well enough to control it, and <strong>process–property modelling</strong> of electrodes, where
-            the physics is known only in principle.</p>
-        </div>
-        <aside class="context-note">
-          Industrial doctorate (Dr.-Ing.) at the Institute for Particle Technology, TU Braunschweig, in the Particle
-          Simulation &amp; Functional Structures group of Prof. Dr.-Ing. Carsten Schilde, in cooperation with VARTA
-          Microbattery GmbH.
-        </aside>
+      <div class="about-copy">
+        <p class="about-lead">I am an electrochemist by training and an engineer by practice. I am drawn to problems
+          where a model has to survive contact with manufacturing: limited measurements, changing materials, and process
+          settings that do not stay fixed.</p>
+        <p>That perspective shapes my work. I combine hands-on electrode development with machine learning,
+          using physical structure where it is trustworthy and data-driven methods where it is not.</p>
       </div>
 
+      <p class="eyebrow impact-heading">Selected outcomes</p>
       <div class="impact-grid" role="list" aria-label="Selected research and engineering impact">
         <article class="impact-card" role="listitem">
-          <span class="impact-value">3 kg/h</span>
-          <p>Scaled a semi-dry electrode production route across several active-material chemistries.</p>
+          <span class="impact-label">Process scale-up</span>
+          <span class="impact-value">3 kg h<sup>−1</sup></span>
+          <strong class="impact-title">Across multiple chemistries</strong>
+          <p>The same semi-dry electrode production route was demonstrated across several active-material chemistries.</p>
         </article>
         <article class="impact-card" role="listitem">
-          <span class="impact-value">31.1% → 4.5%</span>
-          <p>Reduced thermal-conductivity model MAPE across 27 calendering states.</p>
+          <span class="impact-label">Physics-aware modelling</span>
+          <span class="impact-value">6.9× lower error</span>
+          <strong class="impact-title">Across 27 calendering states</strong>
+          <p>A contact-and-orientation closure captured the graphite conductivity U-shape instead of forcing a monotone fit.</p>
         </article>
         <article class="impact-card" role="listitem">
-          <span class="impact-value">−36%</span>
-          <p>Reduced forgetting versus continual fine-tuning of a 410M-parameter model while improving adaptation.</p>
+          <span class="impact-label">Continual learning</span>
+          <span class="impact-value">36% less forgetting</span>
+          <strong class="impact-title">410M-parameter model</strong>
+          <p>Replay-free, Fisher-free IGFA improved retention and adaptation over naive fine-tuning (p ≤ 0.024; three seeds).</p>
         </article>
       </div>
     </section>
@@ -230,9 +229,8 @@
             <span class="badge">Draft</span>
           </div>
           <div class="authors">Julius Störk · VARTA Microbattery GmbH; Institute for Particle Technology (iPAT), TU Braunschweig · 2026</div>
-          <p class="muted">A differentiable, calendering-aware Zehner–Bauer–Schlünder closure with a bounded
-            contact-versus-reorientation test for the graphite anode. Reduces mean absolute percentage error across 27
-            calendering states from 31.1% to 4.5%.</p>
+          <p class="muted">A differentiable, calendering-aware Zehner–Bauer–Schlünder closure that tests whether
+            contact-network growth or particle reorientation dominates through-plane thermal transport.</p>
           <div class="pub-tags">
             <span class="tag">cond-mat.mtrl-sci</span>
             <span class="tag">physics.chem-ph</span>

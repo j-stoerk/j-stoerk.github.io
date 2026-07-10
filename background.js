@@ -51,7 +51,6 @@
       separator: styles.getPropertyValue('--cell-separator').trim(),
       ion: styles.getPropertyValue('--cell-ion').trim(),
       flux: styles.getPropertyValue('--cell-flux').trim(),
-      label: styles.getPropertyValue('--cell-label').trim(),
       surface: styles.getPropertyValue('--color-bg').trim()
     };
   }
@@ -133,27 +132,6 @@
       ctx.stroke();
     }
 
-    if (width >= 760) {
-      ctx.save();
-      ctx.fillStyle = palette.label;
-      ctx.font = '600 9px system-ui, sans-serif';
-      ctx.letterSpacing = '1.5px';
-      ctx.textAlign = 'center';
-      ctx.translate(Math.max(14, electrodeWidth * 0.38), height / 2);
-      ctx.rotate(-Math.PI / 2);
-      ctx.fillText('ANODE', 0, 0);
-      ctx.restore();
-
-      ctx.save();
-      ctx.fillStyle = palette.label;
-      ctx.font = '600 9px system-ui, sans-serif';
-      ctx.letterSpacing = '1.5px';
-      ctx.textAlign = 'center';
-      ctx.translate(width - Math.max(14, electrodeWidth * 0.38), height / 2);
-      ctx.rotate(Math.PI / 2);
-      ctx.fillText('CATHODE', 0, 0);
-      ctx.restore();
-    }
   }
 
   function drawSeparator() {
