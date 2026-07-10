@@ -1,6 +1,7 @@
-/* Pointer-reactive electrode microstructure.
-   Graphite-like platelets locally align and compact around the pointer,
-   revealing a few conductive bridges. No spotlight or cursor glow. */
+/* Interactive electrochemical-cell background.
+   Left/right pointer position controls migration direction and magnitude.
+   Vertical position selects the most active flux channel. Near the centre,
+   diffusion dominates. This is illustrative, not a transport simulation. */
 (function () {
   'use strict';
 
@@ -14,71 +15,62 @@
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   var finePointer = window.matchMedia('(pointer: fine)').matches;
-  var pointer = { x: -1000, y: -1000, active: false };
-  var flakes = [];
-  var rows = [];
+  var pointer = { x: 0, y: 0, active: false };
+  var ions = [];
   var width = 0;
   var height = 0;
   var dpr = 1;
+  var leftEdge = 0;
+  var rightEdge = 0;
+  var electrodeWidth = 0;
   var raf = 0;
   var lastFrame = 0;
+  var lastTime = 0;
   var palette = null;
-  var seed = 41027;
+  var seed = 73291;
 
   function random() {
     seed = (seed * 16807) % 2147483647;
     return (seed - 1) / 2147483646;
   }
 
-  function readPalette() {
-    var styles = getComputedStyle(document.documentElement);
-    return {
-      flake: styles.getPropertyValue('--field-particle').trim(),
-      accent: styles.getPropertyValue('--field-accent').trim(),
-      bridge: styles.getPropertyValue('--field-path').trim(),
-      detail: styles.getPropertyValue('--field-detail').trim()
-    };
+  function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
   }
 
   function smoothstep(value) {
-    value = Math.max(0, Math.min(1, value));
+    value = clamp(value, 0, 1);
     return value * value * (3 - 2 * value);
   }
 
-  function buildField() {
-    flakes = [];
-    rows = [];
-    seed = 41027;
+  function readPalette() {
+    var styles = getComputedStyle(document.documentElement);
+    return {
+      anode: styles.getPropertyValue('--cell-anode').trim(),
+      cathode: styles.getPropertyValue('--cell-cathode').trim(),
+      separator: styles.getPropertyValue('--cell-separator').trim(),
+      ion: styles.getPropertyValue('--cell-ion').trim(),
+      flux: styles.getPropertyValue('--cell-flux').trim(),
+      label: styles.getPropertyValue('--cell-label').trim(),
+      surface: styles.getPropertyValue('--color-bg').trim()
+    };
+  }
 
-    var spacingX = width < 620 ? 112 : 132;
-    var spacingY = width < 620 ? 98 : 112;
-    var columns = Math.ceil(width / spacingX) + 2;
-    var rowCount = Math.ceil(height / spacingY) + 2;
-
-    for (var row = -1; row < rowCount; row += 1) {
-      var rowFlakes = [];
-      for (var column = -1; column < columns; column += 1) {
-        var offset = row % 2 === 0 ? spacingX * 0.48 : 0;
-        var x = column * spacingX + offset + (random() - 0.5) * 20;
-        var y = row * spacingY + (random() - 0.5) * 12;
-        var angle = (random() - 0.5) * 0.24;
-        var flake = {
-          x: x,
-          y: y,
-          baseX: x,
-          baseY: y,
-          angle: angle,
-          baseAngle: angle,
-          length: 48 + random() * 37,
-          thickness: 5.2 + random() * 2.6,
-          phase: random() * Math.PI * 2,
-          accent: random() > 0.94,
-          influence: 0
-        };
-        flakes.push(flake);
-        rowFlakes.push(flake);
-      }
-      rows.push(rowFlakes);
+  function buildIons() {
+    ions = [];
+    seed = 73291;
+    var count = width < 620 ? 7 : clamp(Math.round(width * height / 76000), 14, 24);
+    for (var i = 0; i < count; i += 1) {
+      ions.push({
+        u: (i + random() * 0.8) / count,
+        y: 52 + random() * Math.max(1, height - 104),
+        baseY: 52 + random() * Math.max(1, height - 104),
+        radius: 5.5 + random() * 2,
+        speed: 0.72 + random() * 0.62,
+        phase: random() * Math.PI * 2,
+        phase2: random() * Math.PI * 2,
+        lane: random()
+      });
     }
   }
 
@@ -91,113 +83,221 @@
     canvas.style.width = width + 'px';
     canvas.style.height = height + 'px';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    /* Keep both electrodes outside the 940px reading column where possible. */
+    var sideSpace = Math.max(0, (width - 940) / 2);
+    electrodeWidth = width < 620 ? 15 : clamp(sideSpace * 0.5, 34, 118);
+    leftEdge = electrodeWidth + (width < 620 ? 12 : 34);
+    rightEdge = width - leftEdge;
+    pointer.x = pointer.active ? pointer.x : width / 2;
+    pointer.y = pointer.active ? pointer.y : height / 2;
     palette = readPalette();
-    buildField();
+    buildIons();
     draw(0, true);
   }
 
-  function updateFlakes(time, still) {
-    var ambient = time * 0.00018;
-    var radius = 230;
-
-    for (var i = 0; i < flakes.length; i += 1) {
-      var flake = flakes[i];
-      var dx = pointer.x - flake.baseX;
-      var dy = pointer.y - flake.baseY;
-      var distance = Math.sqrt(dx * dx + dy * dy);
-      var influence = pointer.active ? smoothstep(1 - distance / radius) : 0;
-      flake.influence += (influence - flake.influence) * (still ? 1 : 0.11);
-
-      var idleAngle = flake.baseAngle + Math.sin(ambient + flake.phase) * 0.018;
-      var targetAngle = idleAngle * (1 - flake.influence);
-      flake.angle += (targetAngle - flake.angle) * (still ? 1 : 0.1);
-
-      var layerPull = pointer.active ? (pointer.y - flake.baseY) * flake.influence * 0.055 : 0;
-      var targetX = flake.baseX;
-      var targetY = flake.baseY + layerPull;
-      flake.x += (targetX - flake.x) * (still ? 1 : 0.09);
-      flake.y += (targetY - flake.y) * (still ? 1 : 0.09);
-    }
+  function state() {
+    if (!pointer.active) return { bias: 0, strength: 0, channelY: height / 2 };
+    var bias = clamp((pointer.x / width - 0.5) * 2, -1, 1);
+    return {
+      bias: bias,
+      strength: smoothstep(Math.abs(bias)),
+      channelY: pointer.y
+    };
   }
 
-  function drawBridges() {
+  function drawElectrodes() {
+    var layerGap = width < 620 ? 18 : 22;
+    var y;
+
+    /* Graphitic anode: stacked, slightly offset layers. */
+    ctx.strokeStyle = palette.anode;
+    ctx.lineWidth = width < 620 ? 2.2 : 3;
     ctx.lineCap = 'round';
-    for (var r = 0; r < rows.length; r += 1) {
-      var row = rows[r];
-      for (var i = 0; i < row.length - 1; i += 1) {
-        var a = row[i];
-        var b = row[i + 1];
-        var strength = Math.min(a.influence, b.influence);
-        if (strength < 0.2) continue;
-
-        var gap = b.x - a.x;
-        if (gap > 150 || gap < 35) continue;
-
-        ctx.beginPath();
-        ctx.moveTo(a.x + Math.cos(a.angle) * a.length * 0.5, a.y + Math.sin(a.angle) * a.length * 0.5);
-        ctx.bezierCurveTo(
-          a.x + gap * 0.42, a.y,
-          b.x - gap * 0.42, b.y,
-          b.x - Math.cos(b.angle) * b.length * 0.5, b.y - Math.sin(b.angle) * b.length * 0.5
-        );
-        ctx.strokeStyle = palette.bridge;
-        ctx.globalAlpha = Math.min(0.72, strength);
-        ctx.lineWidth = 1 + strength;
-        ctx.stroke();
-      }
+    for (y = -8; y < height + layerGap; y += layerGap) {
+      var inset = (Math.floor(y / layerGap) % 2) * 8;
+      ctx.beginPath();
+      ctx.moveTo(0, y + 5);
+      ctx.lineTo(Math.max(8, electrodeWidth - inset), y - 4);
+      ctx.stroke();
     }
-    ctx.globalAlpha = 1;
+
+    /* Layered-oxide cathode: interlocking chevrons rather than particles. */
+    ctx.strokeStyle = palette.cathode;
+    for (y = -10; y < height + layerGap; y += layerGap) {
+      var outer = width - electrodeWidth;
+      ctx.beginPath();
+      ctx.moveTo(width, y - 3);
+      ctx.lineTo(outer + 12, y + 5);
+      ctx.lineTo(width, y + 11);
+      ctx.stroke();
+    }
+
+    if (width >= 760) {
+      ctx.save();
+      ctx.fillStyle = palette.label;
+      ctx.font = '600 9px system-ui, sans-serif';
+      ctx.letterSpacing = '1.5px';
+      ctx.textAlign = 'center';
+      ctx.translate(Math.max(14, electrodeWidth * 0.38), height / 2);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillText('ANODE', 0, 0);
+      ctx.restore();
+
+      ctx.save();
+      ctx.fillStyle = palette.label;
+      ctx.font = '600 9px system-ui, sans-serif';
+      ctx.letterSpacing = '1.5px';
+      ctx.textAlign = 'center';
+      ctx.translate(width - Math.max(14, electrodeWidth * 0.38), height / 2);
+      ctx.rotate(Math.PI / 2);
+      ctx.fillText('CATHODE', 0, 0);
+      ctx.restore();
+    }
   }
 
-  function drawFlake(flake) {
-    var length = flake.length * (1 + flake.influence * 0.18);
-    var thickness = flake.thickness * (1 - flake.influence * 0.22);
-    var half = length / 2;
-    var cos = Math.cos(flake.angle);
-    var sin = Math.sin(flake.angle);
+  function drawSeparator() {
+    var centre = width / 2;
+    ctx.save();
+    ctx.strokeStyle = palette.separator;
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 9]);
+    ctx.beginPath();
+    ctx.moveTo(centre - 7, 0);
+    ctx.lineTo(centre - 7, height);
+    ctx.moveTo(centre + 7, 0);
+    ctx.lineTo(centre + 7, height);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawFieldLines(cellState, time) {
+    if (cellState.strength < 0.035) return;
+    var direction = cellState.bias > 0 ? 1 : -1;
+    var lineCount = width < 620 ? 2 : 4;
+    var span = rightEdge - leftEdge;
 
     ctx.save();
-    ctx.translate(flake.x, flake.y);
-    ctx.rotate(flake.angle);
+    ctx.strokeStyle = palette.flux;
+    ctx.fillStyle = palette.flux;
+    ctx.lineWidth = 1 + cellState.strength * 0.55;
+    ctx.globalAlpha = 0.22 + cellState.strength * 0.3;
 
-    ctx.beginPath();
-    ctx.roundRect(-half, -thickness / 2, length, thickness, thickness / 2);
-    ctx.fillStyle = flake.accent || flake.influence > 0.55 ? palette.accent : palette.flake;
-    ctx.fill();
+    for (var i = 0; i < lineCount; i += 1) {
+      var baseY = height * ((i + 1) / (lineCount + 1));
+      var channelPull = (cellState.channelY - baseY) * 0.2 * cellState.strength;
+      var wave = Math.sin(time * 0.00045 + i * 1.7) * 5;
+      var y = baseY + channelPull + wave;
+      var startX = direction > 0 ? leftEdge : rightEdge;
+      var endX = direction > 0 ? rightEdge : leftEdge;
 
-    if (length > 40) {
       ctx.beginPath();
-      ctx.moveTo(-half * 0.64, 0);
-      ctx.lineTo(half * 0.64, 0);
-      ctx.strokeStyle = palette.detail;
-      ctx.globalAlpha = 0.42 + flake.influence * 0.18;
-      ctx.lineWidth = 0.8;
+      ctx.moveTo(startX, baseY);
+      ctx.bezierCurveTo(
+        startX + span * 0.34 * direction, y,
+        startX + span * 0.66 * direction, y,
+        endX, baseY + channelPull * 0.24
+      );
+      ctx.stroke();
+
+      var arrowX = startX + span * 0.62 * direction;
+      var arrowY = y;
+      ctx.beginPath();
+      ctx.moveTo(arrowX + 5 * direction, arrowY);
+      ctx.lineTo(arrowX - 3 * direction, arrowY - 3.5);
+      ctx.lineTo(arrowX - 3 * direction, arrowY + 3.5);
+      ctx.closePath();
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  function updateIons(cellState, time, delta, still) {
+    var span = rightEdge - leftEdge;
+    var directed = cellState.bias * (0.00055 + cellState.strength * 0.002);
+    var diffusion = 1 - cellState.strength * 0.72;
+
+    for (var i = 0; i < ions.length; i += 1) {
+      var ion = ions[i];
+      var channelDistance = Math.abs(ion.y - cellState.channelY);
+      var channel = pointer.active ? smoothstep(1 - channelDistance / Math.max(160, height * 0.32)) : 0.35;
+      var drift = directed * ion.speed * (0.3 + channel * 0.9);
+
+      if (!still) ion.u += drift * delta;
+      if (ion.u > 1.03) {
+        ion.u = -0.03;
+        ion.baseY = 45 + random() * Math.max(1, height - 90);
+      } else if (ion.u < -0.03) {
+        ion.u = 1.03;
+        ion.baseY = 45 + random() * Math.max(1, height - 90);
+      }
+
+      var brownianY = Math.sin(time * 0.00065 * ion.speed + ion.phase) * (8 + diffusion * 13);
+      brownianY += Math.sin(time * 0.0011 + ion.phase2) * 4 * diffusion;
+      var channelPull = pointer.active ? (cellState.channelY - ion.baseY) * channel * cellState.strength * 0.035 : 0;
+      ion.y += (ion.baseY + brownianY + channelPull - ion.y) * (still ? 1 : 0.075);
+      ion.x = leftEdge + ion.u * span + Math.sin(time * 0.0005 + ion.phase2) * 5 * diffusion;
+      ion.channel = channel;
+    }
+  }
+
+  function drawIon(ion, cellState) {
+    var radius = ion.radius;
+    var direction = cellState.bias >= 0 ? 1 : -1;
+    var trail = cellState.strength * ion.channel * 14;
+
+    if (trail > 1) {
+      ctx.beginPath();
+      ctx.moveTo(ion.x - trail * direction, ion.y);
+      ctx.lineTo(ion.x - radius * 1.25 * direction, ion.y);
+      ctx.strokeStyle = palette.flux;
+      ctx.globalAlpha = 0.18 + cellState.strength * 0.22;
+      ctx.lineWidth = 1;
       ctx.stroke();
       ctx.globalAlpha = 1;
     }
 
-    ctx.restore();
-
-    /* A faint offset lamella makes larger flakes read as layered graphite. */
-    if (flake.accent && length > 43) {
-      var normalX = -sin * (thickness + 3.5);
-      var normalY = cos * (thickness + 3.5);
-      ctx.beginPath();
-      ctx.moveTo(flake.x - cos * half * 0.72 + normalX, flake.y - sin * half * 0.72 + normalY);
-      ctx.lineTo(flake.x + cos * half * 0.72 + normalX, flake.y + sin * half * 0.72 + normalY);
-      ctx.strokeStyle = palette.detail;
-      ctx.lineWidth = 1;
-      ctx.lineCap = 'round';
-      ctx.stroke();
+    ctx.save();
+    ctx.translate(ion.x, ion.y);
+    ctx.beginPath();
+    for (var side = 0; side < 6; side += 1) {
+      var angle = Math.PI / 3 * side - Math.PI / 6;
+      var x = Math.cos(angle) * radius;
+      var y = Math.sin(angle) * radius;
+      if (side === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
     }
+    ctx.closePath();
+    ctx.fillStyle = palette.surface;
+    ctx.fill();
+    ctx.strokeStyle = palette.ion;
+    ctx.lineWidth = 1.25;
+    ctx.stroke();
+
+    ctx.strokeStyle = palette.ion;
+    ctx.lineWidth = 1;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(-2.3, 0);
+    ctx.lineTo(2.3, 0);
+    ctx.moveTo(0, -2.3);
+    ctx.lineTo(0, 2.3);
+    ctx.stroke();
+    ctx.restore();
   }
 
   function draw(time, still) {
     if (!palette) palette = readPalette();
+    var cellState = state();
+    var delta = lastTime ? Math.min(2, (time - lastTime) / 16.67) : 1;
+    lastTime = time;
+
     ctx.clearRect(0, 0, width, height);
-    updateFlakes(time, still);
-    drawBridges();
-    for (var i = 0; i < flakes.length; i += 1) drawFlake(flakes[i]);
+    drawElectrodes();
+    drawSeparator();
+    drawFieldLines(cellState, time);
+    updateIons(cellState, time, delta, still);
+    for (var i = 0; i < ions.length; i += 1) drawIon(ions[i], cellState);
   }
 
   function frame(time) {
