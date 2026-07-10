@@ -74,41 +74,17 @@
       <p class="lead">Working notes on continual learning and electrode manufacturing.</p>
     </header>
 
-    <div class="carousel" data-carousel data-autoplay="10500">
-      <div class="carousel-viewport" data-carousel-viewport tabindex="0" aria-label="All research notes">
-        <div class="carousel-track card-grid">
-        <article class="blog-card carousel-slide">
-          <div class="card-meta">
-            <time datetime="2026-07-05">5 July 2026</time>
-            <span class="card-topic">Continual learning</span>
-          </div>
-          <h3><a class="card-link" href="post-geometry-of-forgetting.html">The geometry of forgetting in continual learning</a></h3>
-          <p class="blog-summary">How does learning a new task damage an old one? Viewed through the feature covariance of the earlier task, forgetting becomes an interference energy — which suggests a replay-free structural controller rather than another penalty term.</p>
-          <div class="card-foot">
-            <span class="card-cta">Read and interact</span>
-            <span class="card-read">9 min read</span>
-          </div>
-        </article>
-        <article class="blog-card carousel-slide">
-          <div class="card-meta">
-            <time datetime="2026-06-28">28 June 2026</time>
-            <span class="card-topic">Electrode manufacturing</span>
-          </div>
-          <h3><a class="card-link" href="post-calendering-u-shape.html">Solving the electrode calendering U-shape puzzle</a></h3>
-          <p class="blog-summary">Porosity-only thermal models predict conductivity rising monotonically with compaction. Measurements show it dropping first. Particle reorientation explains the gap — and a calendering-aware ZBS closure captures it.</p>
-          <div class="card-foot">
-            <span class="card-cta">Read and interact</span>
-            <span class="card-read">7 min read</span>
-          </div>
-        </article>
-        </div>
-      </div>
-      <div class="carousel-controls" role="group" aria-label="Blog carousel controls">
-        <button type="button" class="carousel-button" data-carousel-prev aria-label="Previous post">←</button>
-        <output class="carousel-status" data-carousel-status>1 / 2</output>
-        <button type="button" class="carousel-button" data-carousel-next aria-label="Next post">→</button>
-        <button type="button" class="carousel-toggle" data-carousel-toggle aria-label="Pause automatic rotation">Pause</button>
-      </div>
+    <div class="journal-index journal-index-page">
+      <article class="journal-entry">
+        <div class="journal-meta"><time datetime="2026-07-05">5 July 2026</time><span>Continual learning · 9 min</span></div>
+        <div class="journal-copy"><h3><a class="card-link" href="post-geometry-of-forgetting.html">The geometry of forgetting in continual learning</a></h3><p>How learning a new task damages an old one—and how interference geometry suggests a structural controller.</p></div>
+        <span class="journal-arrow" aria-hidden="true">↗</span>
+      </article>
+      <article class="journal-entry">
+        <div class="journal-meta"><time datetime="2026-06-28">28 June 2026</time><span>Electrode manufacturing · 7 min</span></div>
+        <div class="journal-copy"><h3><a class="card-link" href="post-calendering-u-shape.html">Solving the electrode calendering U-shape puzzle</a></h3><p>Why particle reorientation reverses the monotone prediction made by porosity-only thermal models.</p></div>
+        <span class="journal-arrow" aria-hidden="true">↗</span>
+      </article>
     </div>
   </main>
 
@@ -119,7 +95,6 @@
 
   <script src="theme.js"></script>
   <script src="navigation.js"></script>
-  <script src="carousel.js"></script>
   <script src="background.js"></script>
 </body>
 
