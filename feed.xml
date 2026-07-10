@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Research notes — Julius Störk</title>
+    <link>https://j-stoerk.github.io/blog.html</link>
+    <description>Interactive notes on continual learning and electrode manufacturing.</description>
+    <language>en</language>
+    <atom:link href="https://j-stoerk.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The geometry of forgetting in continual learning</title>
+      <link>https://j-stoerk.github.io/post-geometry-of-forgetting.html</link>
+      <guid isPermaLink="true">https://j-stoerk.github.io/post-geometry-of-forgetting.html</guid>
+      <pubDate>Sun, 05 Jul 2026 08:00:00 +0200</pubDate>
+      <description>Forgetting as interference energy under a task's feature covariance, and the IGFA controller.</description>
+    </item>
+    <item>
+      <title>Solving the electrode calendering U-shape puzzle</title>
+      <link>https://j-stoerk.github.io/post-calendering-u-shape.html</link>
+      <guid isPermaLink="true">https://j-stoerk.github.io/post-calendering-u-shape.html</guid>
+      <pubDate>Sun, 28 Jun 2026 08:00:00 +0200</pubDate>
+      <description>Why through-plane conductivity dips before it rises, and the closure that captures it.</description>
+    </item>
+  </channel>
+</rss>

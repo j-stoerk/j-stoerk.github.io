@@ -7,6 +7,34 @@
   <title>The geometry of forgetting in continual learning — Julius Störk</title>
   <meta name="description" content="Forgetting as interference energy under a task’s feature covariance, and the IGFA controller." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-geometry-of-forgetting.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk — Research notes" href="feed.xml" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-geometry-of-forgetting.html" />
+  <meta property="og:title" content="The geometry of forgetting in continual learning" />
+  <meta property="og:description" content="Forgetting as interference energy under a task’s feature covariance, and the IGFA controller." />
+  <meta property="og:image" content="https://j-stoerk.github.io/social-forgetting.png" />
+  <meta property="og:image:alt" content="A weight update crossing a protected task subspace" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="article:published_time" content="2026-07-05" />
+  <meta property="article:author" content="Julius Störk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/social-forgetting.png" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "The geometry of forgetting in continual learning",
+      "description": "Forgetting as interference energy under a task's feature covariance, and the IGFA controller.",
+      "datePublished": "2026-07-05",
+      "dateModified": "2026-07-05",
+      "url": "https://j-stoerk.github.io/post-geometry-of-forgetting.html",
+      "image": "https://j-stoerk.github.io/social-forgetting.png",
+      "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
+    }
+  </script>
 
   <script>
     (function () {
@@ -19,7 +47,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400..700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -29,10 +57,15 @@
   <header class="topbar">
     <div class="topbar-inner">
       <a class="site-title" href="index.html">Julius Störk</a>
-      <nav class="nav" aria-label="Primary">
+      <button class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+        <span class="nav-toggle-lines" aria-hidden="true"></span>
+        <span class="sr-only">Open navigation</span>
+      </button>
+      <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
         <a href="index.html">Home</a>
         <a href="index.html#research">Research</a>
         <a href="index.html#publications">Publications</a>
+        <a href="index.html#experience">Experience</a>
         <a class="current" href="blog.html" aria-current="page">Blog</a>
         <a href="index.html#contact">Contact</a>
         <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
@@ -44,9 +77,9 @@
     <a class="back-link" href="blog.html">All posts</a>
 <article class="post" id="geometry-of-forgetting">
       <header class="article-header">
-        <span class="eyebrow">5 July 2026 · Continual learning</span>
+        <p class="eyebrow"><time datetime="2026-07-05">5 July 2026</time> · Continual learning</p>
         <h1 class="post-title">The geometry of forgetting in continual learning</h1>
-        <p class="muted" style="font-size:var(--text-sm)">Companion note to the draft
+        <p class="article-meta muted">Companion note to the draft
           <em>Interference and retention in continual learning</em>.
           <a href="forgetting-geometry.pdf" download>Draft PDF</a>
         </p>
@@ -105,10 +138,10 @@
               onto the orthogonal complement. Shorter arrow > less progress > far less damage.</p>
 
             <div class="control-group">
-              <label class="slider-label" for="cl-angle-slider">
-                <span>Alignment angle θ</span>
+              <div class="slider-label">
+                <label for="cl-angle-slider">Alignment angle θ</label>
                 <output id="cl-angle-val" for="cl-angle-slider">45°</output>
-              </label>
+              </div>
               <input type="range" class="slider-input" id="cl-angle-slider" min="0" max="180" step="1" value="45">
 
               <div class="metric-display">
@@ -198,10 +231,12 @@
 
   <footer class="content">
     <span>© 2026 Julius Störk</span>
-    <span><a href="blog.html">All posts</a></span>
+    <span><a href="blog.html">All posts</a> · <a href="feed.xml">RSS</a></span>
   </footer>
 
   <script src="theme.js"></script>
+  <script src="navigation.js"></script>
+  <script src="background.js"></script>
   <script src="blog.js"></script>
 </body>
 

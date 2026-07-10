@@ -7,6 +7,28 @@
   <title>Blog — Julius Störk</title>
   <meta name="description" content="Working notes on continual learning and electrode manufacturing." />
   <link rel="canonical" href="https://j-stoerk.github.io/blog.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk — Research notes" href="feed.xml" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://j-stoerk.github.io/blog.html" />
+  <meta property="og:title" content="Research notes — Julius Störk" />
+  <meta property="og:description" content="Interactive notes on continual learning and electrode manufacturing." />
+  <meta property="og:image" content="https://j-stoerk.github.io/social-card.png" />
+  <meta property="og:image:alt" content="Julius Störk — machine learning and electrode manufacturing" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "name": "Research notes — Julius Störk",
+      "url": "https://j-stoerk.github.io/blog.html",
+      "description": "Interactive notes on continual learning and electrode manufacturing.",
+      "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
+    }
+  </script>
 
   <script>
     (function () {
@@ -19,7 +41,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400..700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -29,10 +51,15 @@
   <header class="topbar">
     <div class="topbar-inner">
       <a class="site-title" href="index.html">Julius Störk</a>
-      <nav class="nav" aria-label="Primary">
+      <button class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+        <span class="nav-toggle-lines" aria-hidden="true"></span>
+        <span class="sr-only">Open navigation</span>
+      </button>
+      <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
         <a href="index.html">Home</a>
         <a href="index.html#research">Research</a>
         <a href="index.html#publications">Publications</a>
+        <a href="index.html#experience">Experience</a>
         <a class="current" href="blog.html" aria-current="page">Blog</a>
         <a href="index.html#contact">Contact</a>
         <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
@@ -78,10 +105,12 @@
 
   <footer class="content">
     <span>© 2026 Julius Störk</span>
-    <span><a href="blog.html">All posts</a></span>
+    <span><a href="feed.xml">RSS</a> · <a href="index.html#contact">Contact</a></span>
   </footer>
 
   <script src="theme.js"></script>
+  <script src="navigation.js"></script>
+  <script src="background.js"></script>
 </body>
 
 </html>

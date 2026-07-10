@@ -7,6 +7,34 @@
   <title>Solving the electrode calendering U-shape puzzle — Julius Störk</title>
   <meta name="description" content="Why through-plane conductivity dips before it rises, and the closure that captures it." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-calendering-u-shape.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk — Research notes" href="feed.xml" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-calendering-u-shape.html" />
+  <meta property="og:title" content="Solving the electrode calendering U-shape puzzle" />
+  <meta property="og:description" content="Why through-plane conductivity dips before it rises, and the closure that captures it." />
+  <meta property="og:image" content="https://j-stoerk.github.io/social-calendering.png" />
+  <meta property="og:image:alt" content="Aligned graphite platelets beside a U-shaped conductivity curve" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="article:published_time" content="2026-06-28" />
+  <meta property="article:author" content="Julius Störk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/social-calendering.png" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Solving the electrode calendering U-shape puzzle",
+      "description": "Why through-plane conductivity dips before it rises, and the closure that captures it.",
+      "datePublished": "2026-06-28",
+      "dateModified": "2026-06-28",
+      "url": "https://j-stoerk.github.io/post-calendering-u-shape.html",
+      "image": "https://j-stoerk.github.io/social-calendering.png",
+      "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
+    }
+  </script>
 
   <script>
     (function () {
@@ -19,7 +47,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400..700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -29,10 +57,15 @@
   <header class="topbar">
     <div class="topbar-inner">
       <a class="site-title" href="index.html">Julius Störk</a>
-      <nav class="nav" aria-label="Primary">
+      <button class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+        <span class="nav-toggle-lines" aria-hidden="true"></span>
+        <span class="sr-only">Open navigation</span>
+      </button>
+      <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
         <a href="index.html">Home</a>
         <a href="index.html#research">Research</a>
         <a href="index.html#publications">Publications</a>
+        <a href="index.html#experience">Experience</a>
         <a class="current" href="blog.html" aria-current="page">Blog</a>
         <a href="index.html#contact">Contact</a>
         <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
@@ -44,9 +77,9 @@
     <a class="back-link" href="blog.html">All posts</a>
 <article class="post" id="calendering-u-shape">
       <header class="article-header">
-        <span class="eyebrow">28 June 2026 · Electrode manufacturing</span>
+        <p class="eyebrow"><time datetime="2026-06-28">28 June 2026</time> · Electrode manufacturing</p>
         <h1 class="post-title">Solving the electrode calendering U-shape puzzle</h1>
-        <p class="muted" style="font-size:var(--text-sm)">Companion note to the draft
+        <p class="article-meta muted">Companion note to the draft
           <em>Capturing the calendering U-shape in lithium-ion electrode thermal conductivity</em>.
           <a href="zehner-closure.pdf" download>Draft PDF</a>
         </p>
@@ -95,10 +128,10 @@
               recovers (unlike the two monotone baselines).</p>
 
             <div class="control-group">
-              <label class="slider-label" for="cal-comp-slider">
-                <span>Compaction Π</span>
+              <div class="slider-label">
+                <label for="cal-comp-slider">Compaction Π</label>
                 <output id="cal-comp-val" for="cal-comp-slider">0%</output>
-              </label>
+              </div>
               <input type="range" class="slider-input" id="cal-comp-slider" min="0" max="60" step="1" value="0">
 
               <div class="metric-display">
@@ -183,10 +216,12 @@
 
   <footer class="content">
     <span>© 2026 Julius Störk</span>
-    <span><a href="blog.html">All posts</a></span>
+    <span><a href="blog.html">All posts</a> · <a href="feed.xml">RSS</a></span>
   </footer>
 
   <script src="theme.js"></script>
+  <script src="navigation.js"></script>
+  <script src="background.js"></script>
   <script src="blog.js"></script>
 </body>
 

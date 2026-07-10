@@ -9,14 +9,74 @@
     content="Julius Störk — PhD researcher on machine learning for battery electrode manufacturing and electrochemical data analysis." />
   <meta name="author" content="Julius Störk" />
   <link rel="canonical" href="https://j-stoerk.github.io/" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk — Research notes" href="feed.xml" />
   <meta property="og:url" content="https://j-stoerk.github.io/" />
 
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Julius Störk — AI for battery manufacturing" />
   <meta property="og:description"
     content="PhD researcher on machine learning for battery electrode manufacturing and electrochemical data analysis." />
-  <meta property="og:image" content="https://j-stoerk.github.io/portrait.jpg" />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:image" content="https://j-stoerk.github.io/social-card.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Julius Störk — machine learning and electrode manufacturing" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Julius Störk — AI for battery manufacturing" />
+  <meta name="twitter:description" content="Machine learning for battery electrode manufacturing, continual learning, and electrochemical data analysis." />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/social-card.png" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "@id": "https://j-stoerk.github.io/#person",
+      "name": "Julius Störk",
+      "url": "https://j-stoerk.github.io/",
+      "image": "https://j-stoerk.github.io/portrait.jpg",
+      "jobTitle": "Doctoral Researcher",
+      "description": "Industrial doctoral researcher working on machine learning for battery electrode manufacturing.",
+      "affiliation": [
+        { "@type": "Organization", "name": "VARTA Microbattery GmbH" },
+        { "@type": "CollegeOrUniversity", "name": "Technische Universität Braunschweig" }
+      ],
+      "sameAs": [
+        "https://github.com/j-stoerk",
+        "https://www.linkedin.com/in/juliusst/",
+        "https://orcid.org/0009-0006-3519-0950"
+      ],
+      "knowsAbout": [
+        "Continual learning",
+        "Battery electrode manufacturing",
+        "Process–property modelling",
+        "Electrochemical data analysis"
+      ]
+    }
+  </script>
+  <script type="application/ld+json">
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "ScholarlyArticle",
+        "headline": "Interference and retention in continual learning",
+        "author": { "@id": "https://j-stoerk.github.io/#person" },
+        "dateCreated": "2026",
+        "creativeWorkStatus": "Draft manuscript",
+        "url": "https://j-stoerk.github.io/forgetting-geometry.pdf",
+        "about": ["Continual learning", "Catastrophic forgetting", "Geometric interference"]
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "ScholarlyArticle",
+        "headline": "Capturing the calendering U-shape in lithium-ion electrode thermal conductivity",
+        "author": { "@id": "https://j-stoerk.github.io/#person" },
+        "dateCreated": "2026",
+        "creativeWorkStatus": "Draft manuscript",
+        "url": "https://j-stoerk.github.io/zehner-closure.pdf",
+        "about": ["Battery electrodes", "Calendering", "Thermal conductivity"]
+      }
+    ]
+  </script>
 
   <!-- Applied before first paint so the theme never flashes. -->
   <script>
@@ -30,7 +90,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400..700&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -40,10 +100,15 @@
   <header class="topbar">
     <div class="topbar-inner">
       <a class="site-title" href="#home">Julius Störk</a>
-      <nav class="nav" aria-label="Primary">
-        <a class="current" href="#home">Home</a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+        <span class="nav-toggle-lines" aria-hidden="true"></span>
+        <span class="sr-only">Open navigation</span>
+      </button>
+      <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
+        <a class="current" href="#home" aria-current="page">Home</a>
         <a href="#research">Research</a>
         <a href="#publications">Publications</a>
+        <a href="#experience">Experience</a>
         <a href="blog.html">Blog</a>
         <a href="#contact">Contact</a>
         <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
@@ -55,7 +120,7 @@
 
     <section class="hero" id="home">
       <div>
-        <p class="eyebrow">Doctoral researcher</p>
+        <p class="eyebrow hero-kicker">Doctoral researcher</p>
         <h1>Julius Störk</h1>
         <p class="lead">Machine learning for battery electrode manufacturing — continual learning, process–property
           modelling, and electrochemical data analysis.</p>
@@ -63,14 +128,9 @@
           <span>Industrial PhD</span><span>VARTA Microbattery GmbH</span><span>TU Braunschweig</span>
         </p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="mailto:julius.stoerk@varta-ag.com">Email</a>
+          <a class="btn btn-primary" href="#publications">Explore research</a>
           <a class="btn btn-ghost" href="cv.pdf">CV (PDF)</a>
-          <a class="btn btn-ghost" href="https://github.com/j-stoerk" target="_blank"
-            rel="noopener noreferrer">GitHub</a>
-          <a class="btn btn-ghost" href="https://www.linkedin.com/in/juliusst/" target="_blank"
-            rel="noopener noreferrer">LinkedIn</a>
-          <a class="btn btn-ghost" href="https://orcid.org/0009-0006-3519-0950" target="_blank"
-            rel="noopener noreferrer">ORCID</a>
+          <a class="btn btn-ghost" href="mailto:julius.stoerk@web.de">Email</a>
         </div>
       </div>
       <div class="hero-portrait">
@@ -81,35 +141,59 @@
 
     <section class="section" id="about">
       <h2>About</h2>
-      <p>I work where machine learning meets electrode manufacturing. Production lines drift, formulations change
-        and coating and calendering setpoints move. My research asks how a model can absorb those new process regimes
-        without discarding what it already knows, and how to code physical structure into a model in the first place.</p>
-      <p>In practice this means two threads that keep meeting: <strong>continual learning</strong>, understanding
-        forgetting well enough to control it, and <strong>process–property modelling</strong> of electrodes, where the
-        physics is known only in principle.</p>
-      <p class="muted" style="font-size:var(--text-sm)">Industrial doctorate (Dr.-Ing.) at the Institute for Particle
-        Technology, TU Braunschweig, in the Particle Simulation &amp; Functional Structures group of Prof. Dr.-Ing.
-        Carsten Schilde, in cooperation with VARTA Microbattery GmbH.</p>
+      <div class="section-intro">
+        <div>
+          <p>I work where machine learning meets electrode manufacturing. Production lines drift, formulations change,
+            and coating and calendering setpoints move. My research asks how a model can absorb those new process regimes
+            without discarding what it already knows—and how physical structure can be built into the model in the first place.</p>
+          <p>In practice this means two threads that keep meeting: <strong>continual learning</strong>, understanding
+            forgetting well enough to control it, and <strong>process–property modelling</strong> of electrodes, where
+            the physics is known only in principle.</p>
+        </div>
+        <aside class="context-note">
+          Industrial doctorate (Dr.-Ing.) at the Institute for Particle Technology, TU Braunschweig, in the Particle
+          Simulation &amp; Functional Structures group of Prof. Dr.-Ing. Carsten Schilde, in cooperation with VARTA
+          Microbattery GmbH.
+        </aside>
+      </div>
+
+      <div class="impact-grid" role="list" aria-label="Selected research and engineering impact">
+        <article class="impact-card" role="listitem">
+          <span class="impact-value">3 kg/h</span>
+          <p>Scaled a semi-dry electrode production route across several active-material chemistries.</p>
+        </article>
+        <article class="impact-card" role="listitem">
+          <span class="impact-value">31.1% → 4.5%</span>
+          <p>Reduced thermal-conductivity model MAPE across 27 calendering states.</p>
+        </article>
+        <article class="impact-card" role="listitem">
+          <span class="impact-value">−36%</span>
+          <p>Reduced forgetting versus continual fine-tuning of a 410M-parameter model while improving adaptation.</p>
+        </article>
+      </div>
     </section>
 
     <section class="section" id="research">
-      <h2>Research interests</h2>
-      <div class="simple-list">
-        <div class="item">
-          <strong>Continual learning</strong>
-          <p class="muted">EWC, A-GEM, DER++ and replay-based methods; geometric accounts of interference; robust
-            learning under shifting process conditions.</p>
-        </div>
-        <div class="item">
-          <strong>Battery electrode manufacturing</strong>
-          <p class="muted">Dry electrode processing, slurry extrusion, coating, calendering, and the parameter–structure
-            relationships that follow from them.</p>
-        </div>
-        <div class="item">
-          <strong>Electrochemical analytics</strong>
-          <p class="muted">Impedance spectroscopy, cycling-data interpretation, and linking process variables to
-            downstream cell performance.</p>
-        </div>
+      <div class="section-head">
+        <h2>Research</h2>
+        <span class="eyebrow">Current questions</span>
+      </div>
+      <div class="research-grid">
+        <article class="research-card">
+          <span class="research-number">01 / RETENTION</span>
+          <h3>How can models learn a changing process without forgetting?</h3>
+          <p>Continual learning, geometric interference, low-rank task structure, and robust adaptation under process drift.</p>
+        </article>
+        <article class="research-card">
+          <span class="research-number">02 / STRUCTURE</span>
+          <h3>Which manufacturing variables actually determine electrode properties?</h3>
+          <p>Dry processing, extrusion, coating, calendering, and physics-aware process–structure–property models.</p>
+        </article>
+        <article class="research-card">
+          <span class="research-number">03 / PERFORMANCE</span>
+          <h3>How does process history surface in electrochemical behaviour?</h3>
+          <p>Impedance spectroscopy, cycling-data interpretation, and linking process conditions to cell performance.</p>
+        </article>
       </div>
     </section>
 
@@ -117,9 +201,11 @@
       <h2>Publications</h2>
       <div class="pub-list">
 
-        <div class="item">
-          <strong>Interference and retention in continual learning</strong>
-          <span class="badge">Draft</span>
+        <article class="publication">
+          <div class="publication-title-row">
+            <strong>Interference and retention in continual learning</strong>
+            <span class="badge">Draft</span>
+          </div>
           <div class="authors">Julius Störk · VARTA Microbattery GmbH; Institute for Particle Technology (iPAT), TU Braunschweig · 2026</div>
           <p class="muted">Models forgetting as weight-interference energy under a task's feature covariance, and derives
             a replay-free structural controller (IGFA) that protects earlier tasks while allowing capacity to be shared
@@ -128,18 +214,19 @@
             <span class="tag">cs.LG</span>
             <span class="tag">cs.AI</span>
           </div>
-          <a class="download-btn" href="forgetting-geometry.pdf" download>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-              aria-hidden="true">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
-            </svg>
-            Draft PDF
-          </a>
-        </div>
+          <div class="publication-actions">
+            <a class="download-btn" href="forgetting-geometry.pdf">View PDF <span aria-hidden="true">↗</span></a>
+            <a class="download-btn" href="forgetting-geometry.pdf" download>Download · 3.4 MB</a>
+            <a class="download-btn" href="post-geometry-of-forgetting.html">Interactive article</a>
+          </div>
+          <p class="publication-note">arXiv, citation, and reproducibility links will be added after release.</p>
+        </article>
 
-        <div class="item">
-          <strong>Capturing the calendering U-shape in lithium-ion electrode thermal conductivity</strong>
-          <span class="badge">Draft</span>
+        <article class="publication">
+          <div class="publication-title-row">
+            <strong>Capturing the calendering U-shape in lithium-ion electrode thermal conductivity</strong>
+            <span class="badge">Draft</span>
+          </div>
           <div class="authors">Julius Störk · VARTA Microbattery GmbH; Institute for Particle Technology (iPAT), TU Braunschweig · 2026</div>
           <p class="muted">A differentiable, calendering-aware Zehner–Bauer–Schlünder closure with a bounded
             contact-versus-reorientation test for the graphite anode. Reduces mean absolute percentage error across 27
@@ -148,15 +235,47 @@
             <span class="tag">cond-mat.mtrl-sci</span>
             <span class="tag">physics.chem-ph</span>
           </div>
-          <a class="download-btn" href="zehner-closure.pdf" download>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-              aria-hidden="true">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" />
-            </svg>
-            Draft PDF
-          </a>
-        </div>
+          <div class="publication-actions">
+            <a class="download-btn" href="zehner-closure.pdf">View PDF <span aria-hidden="true">↗</span></a>
+            <a class="download-btn" href="zehner-closure.pdf" download>Download · 1.4 MB</a>
+            <a class="download-btn" href="post-calendering-u-shape.html">Interactive article</a>
+          </div>
+          <p class="publication-note">arXiv, citation, and reproducibility links will be added after release.</p>
+        </article>
 
+      </div>
+    </section>
+
+    <section class="section" id="experience">
+      <div class="section-head">
+        <h2>Selected experience</h2>
+        <a class="link-more" href="cv.pdf">Full CV →</a>
+      </div>
+      <div class="experience-list">
+        <article class="experience-item">
+          <span class="experience-meta">2025—present · Industrial doctorate</span>
+          <h3>Electrode Engineer</h3>
+          <p class="experience-place">VARTA Microbattery · TU Braunschweig</p>
+          <p>Developing and qualifying coating, calendering, and semi-dry processing routes for lithium-ion button cells.</p>
+        </article>
+        <article class="experience-item">
+          <span class="experience-meta">2024 · Research internship</span>
+          <h3>MOF catalysis</h3>
+          <p class="experience-place">Technical University of Munich</p>
+          <p>Synthesised and screened catalyst pairs for sequential epoxidation and CO₂ fixation within one framework.</p>
+        </article>
+        <article class="experience-item">
+          <span class="experience-meta">2022 · Process development</span>
+          <h3>Solid oxide fuel cells</h3>
+          <p class="experience-place">Robert Bosch GmbH</p>
+          <p>Scaled ceramic paste processing from laboratory batches toward mass-production volumes.</p>
+        </article>
+        <article class="experience-item">
+          <span class="experience-meta">2020—2021 · Research assistant</span>
+          <h3>Cathode active materials</h3>
+          <p class="experience-place">Max Planck Institute · BASF</p>
+          <p>Established precursor routes for NCA and NMC and investigated lower-temperature lithiation strategies.</p>
+        </article>
       </div>
     </section>
 
@@ -169,7 +288,7 @@
       <div class="card-grid">
 
         <article class="blog-card">
-          <span class="blog-date">5 July 2026</span>
+          <time class="blog-date" datetime="2026-07-05">5 July 2026</time>
           <h3><a class="card-link" href="post-geometry-of-forgetting.html">The geometry of forgetting in continual
               learning</a></h3>
           <p class="blog-summary">How does learning a new task damage an old one? Viewed through the feature covariance
@@ -179,7 +298,7 @@
         </article>
 
         <article class="blog-card">
-          <span class="blog-date">28 June 2026</span>
+          <time class="blog-date" datetime="2026-06-28">28 June 2026</time>
           <h3><a class="card-link" href="post-calendering-u-shape.html">Solving the electrode calendering U-shape
               puzzle</a></h3>
           <p class="blog-summary">Porosity-only thermal models predict conductivity rising monotonically with
@@ -194,8 +313,8 @@
     <section class="section" id="contact">
       <h2>Contact</h2>
       <p class="muted">Happy to hear about collaborations, data, or awkward results that do not fit the model.</p>
-      <p style="margin-top:var(--space-4)">
-        <a href="mailto:julius.stoerk@varta-ag.com">julius.stoerk@varta-ag.com</a><br>
+      <p class="contact-links">
+        <a href="mailto:julius.stoerk@web.de">julius.stoerk@web.de</a><br>
         <a href="https://www.linkedin.com/in/juliusst/" target="_blank"
           rel="noopener noreferrer">linkedin.com/in/juliusst</a><br>
         <a href="https://github.com/j-stoerk" target="_blank" rel="noopener noreferrer">github.com/j-stoerk</a><br>
@@ -207,10 +326,12 @@
 
   <footer class="content">
     <span>© 2026 Julius Störk</span>
-    <span>Last updated: July 2026</span>
+    <span><a href="feed.xml">RSS</a> · Built as a small, static site</span>
   </footer>
 
   <script src="theme.js"></script>
+  <script src="navigation.js"></script>
+  <script src="background.js"></script>
 </body>
 
 </html>

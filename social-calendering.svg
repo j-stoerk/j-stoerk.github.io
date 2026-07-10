@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f7faff"/>
+  <g stroke="#1256b8" stroke-width="13" stroke-linecap="round" opacity=".72">
+    <path d="M745 145h104M898 128h122M1050 167h85M778 223h125M950 214h142M730 296h138M914 288h113M1059 316h83"/>
+  </g>
+  <path d="M737 483h405M737 483V344" stroke="#6e7b88" stroke-width="3"/>
+  <path d="M755 375C824 477 887 489 946 444C1002 401 1052 359 1124 352" fill="none" stroke="#c5372c" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="911" cy="461" r="12" fill="#c5372c"/>
+  <rect x="72" y="70" width="8" height="490" rx="4" fill="#1256b8"/>
+  <text x="126" y="188" font-family="Arial, sans-serif" font-size="27" font-weight="700" letter-spacing="3" fill="#1256b8">ELECTRODE MANUFACTURING</text>
+  <text x="126" y="270" font-family="Arial, sans-serif" font-size="61" font-weight="700" fill="#17202a">The calendering</text>
+  <text x="126" y="342" font-family="Arial, sans-serif" font-size="61" font-weight="700" fill="#17202a">U-shape puzzle</text>
+  <text x="128" y="415" font-family="Arial, sans-serif" font-size="28" fill="#4d5a67">Particle orientation meets thermal transport</text>
+  <text x="128" y="518" font-family="Arial, sans-serif" font-size="24" fill="#6e7b88">Julius Störk · Research note</text>
+</svg>

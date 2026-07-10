@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#f8fbff"/>
+      <stop offset="1" stop-color="#e7f0fb"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#1256b8" stop-opacity=".16"/>
+      <stop offset=".5" stop-color="#1256b8" stop-opacity=".7"/>
+      <stop offset="1" stop-color="#1256b8" stop-opacity=".16"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g stroke="url(#line)" stroke-linecap="round" fill="none">
+    <path d="M650 110l88 22m-52 50l96-35m-5 92l105-12m-66 83l100 31m-31 57l93 40m-233-14l91 65m-157-9l68 75" stroke-width="16"/>
+    <path d="M845 95l85 34m-18 65l105-30m-70 104l108-5m-83 99l101 35m-44 52l78 58" stroke-width="11"/>
+    <path d="M736 76l-32 72m84 35l-50 63m100 8l-28 75m91 16l-49 66m94 15l-38 72" stroke-width="3" opacity=".55"/>
+  </g>
+  <rect x="72" y="70" width="8" height="490" rx="4" fill="#1256b8"/>
+  <text x="126" y="235" font-family="Arial, sans-serif" font-size="74" font-weight="700" fill="#17202a">Julius Störk</text>
+  <text x="128" y="306" font-family="Arial, sans-serif" font-size="31" font-weight="600" fill="#1256b8">MACHINE LEARNING × ELECTRODE MANUFACTURING</text>
+  <text x="128" y="376" font-family="Arial, sans-serif" font-size="30" fill="#4d5a67">Continual learning · Process–property modelling</text>
+  <text x="128" y="422" font-family="Arial, sans-serif" font-size="30" fill="#4d5a67">Electrochemical data analysis</text>
+  <text x="128" y="516" font-family="Arial, sans-serif" font-size="24" fill="#6e7b88">VARTA Microbattery · TU Braunschweig</text>
+</svg>
