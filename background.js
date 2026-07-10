@@ -26,6 +26,7 @@
   var raf = 0;
   var lastFrame = 0;
   var lastTime = 0;
+  var activeUntil = 0;
   var palette = null;
   var seed = 73291;
 
@@ -51,6 +52,7 @@
       separator: styles.getPropertyValue('--cell-separator').trim(),
       ion: styles.getPropertyValue('--cell-ion').trim(),
       flux: styles.getPropertyValue('--cell-flux').trim(),
+      potential: styles.getPropertyValue('--cell-potential').trim(),
       surface: styles.getPropertyValue('--color-bg').trim()
     };
   }
@@ -146,6 +148,34 @@
     ctx.moveTo(centre + 7, 0);
     ctx.lineTo(centre + 7, height);
     ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawDoubleLayers(cellState, time) {
+    var strength = 0.28 + cellState.strength * 0.72;
+    var offsets = [5, 13, 27, 47];
+    var interfaces = [leftEdge, rightEdge];
+
+    ctx.save();
+    ctx.strokeStyle = palette.potential;
+    ctx.lineWidth = 1;
+
+    for (var side = 0; side < interfaces.length; side += 1) {
+      var direction = side === 0 ? 1 : -1;
+      for (var layer = 0; layer < offsets.length; layer += 1) {
+        var x = interfaces[side] + offsets[layer] * direction;
+        var decay = Math.exp(-layer * 0.58);
+        var bend = (3 + layer * 1.6) * cellState.strength;
+        ctx.globalAlpha = strength * decay;
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        for (var y = 0; y <= height + 40; y += 40) {
+          var wave = Math.sin(y * 0.018 + time * 0.00035 + side * Math.PI) * bend;
+          ctx.lineTo(x + wave * direction, y);
+        }
+        ctx.stroke();
+      }
+    }
     ctx.restore();
   }
 
@@ -272,6 +302,7 @@
 
     ctx.clearRect(0, 0, width, height);
     drawElectrodes();
+    drawDoubleLayers(cellState, time);
     drawSeparator();
     drawFieldLines(cellState, time);
     updateIons(cellState, time, delta, still);
@@ -281,6 +312,12 @@
   function frame(time) {
     if (document.hidden || reduceMotion.matches) {
       raf = 0;
+      return;
+    }
+    if (time > activeUntil) {
+      draw(time, true);
+      raf = 0;
+      lastTime = 0;
       return;
     }
     if (!lastFrame || time - lastFrame >= 22) {
@@ -299,31 +336,34 @@
       pointer.x = event.clientX;
       pointer.y = event.clientY;
       pointer.active = true;
+      activeUntil = performance.now() + 1100;
       start();
     }, { passive: true });
 
     document.documentElement.addEventListener('mouseleave', function () {
       pointer.active = false;
+      activeUntil = performance.now() + 240;
+      start();
     });
   }
 
   window.addEventListener('resize', resize, { passive: true });
-  document.addEventListener('visibilitychange', start);
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) draw(performance.now(), true);
+  });
 
   new MutationObserver(function () {
     palette = readPalette();
-    draw(0, reduceMotion.matches);
+    draw(performance.now(), true);
   }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
   if (reduceMotion.addEventListener) {
     reduceMotion.addEventListener('change', function () {
       if (reduceMotion.matches && raf) cancelAnimationFrame(raf);
       raf = 0;
-      draw(0, true);
-      start();
+      draw(performance.now(), true);
     });
   }
 
   resize();
-  start();
 })();

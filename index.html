@@ -101,13 +101,12 @@
 
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="site-title" href="#home">Julius Störk</a>
+      <a class="site-title" href="#home" aria-current="page">Home</a>
       <button class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
         <span class="nav-toggle-lines" aria-hidden="true"></span>
         <span class="sr-only">Open navigation</span>
       </button>
       <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
-        <a class="current" href="#home" aria-current="page">Home</a>
         <a href="#research">Research</a>
         <a href="#publications">Publications</a>
         <a href="#experience">Experience</a>
@@ -124,8 +123,10 @@
       <div>
         <p class="eyebrow hero-kicker">Doctoral researcher</p>
         <h1>Julius Störk</h1>
-        <p class="lead">Machine learning for battery electrode manufacturing — continual learning, process–property
-          modelling, and electrochemical data analysis.</p>
+        <p class="lead">Artificial intelligence for battery manufacturing. I develop machine-learning methods that
+          connect process data, physical models, and electrochemical performance. At VARTA and TU Braunschweig, my work
+          spans hands-on electrode development, continual learning, and process–property modelling for changing
+          materials and operating conditions.</p>
         <p class="affiliation">
           <span>Industrial PhD</span><span>VARTA Microbattery GmbH</span><span>TU Braunschweig</span>
         </p>
@@ -141,36 +142,60 @@
       </div>
     </section>
 
-    <section class="section" id="about">
-      <h2>About</h2>
-      <div class="about-copy">
-        <p class="about-lead">I am an electrochemist by training and an engineer by practice. I am drawn to problems
-          where a model has to survive contact with manufacturing: limited measurements, changing materials, and process
-          settings that do not stay fixed.</p>
-        <p>That perspective shapes my work. I combine hands-on electrode development with machine learning,
-          using physical structure where it is trustworthy and data-driven methods where it is not.</p>
+    <section class="section" id="experience">
+      <div class="section-head">
+        <h2>Selected experience</h2>
+        <a class="link-more" href="cv.pdf">Full CV →</a>
       </div>
-
-      <p class="eyebrow impact-heading">Selected outcomes</p>
-      <div class="impact-grid" role="list" aria-label="Selected research and engineering impact">
-        <article class="impact-card" role="listitem">
-          <span class="impact-label">Process scale-up</span>
-          <span class="impact-value">3 kg h<sup>−1</sup></span>
-          <strong class="impact-title">Across multiple chemistries</strong>
-          <p>The same semi-dry electrode production route was demonstrated across several active-material chemistries.</p>
-        </article>
-        <article class="impact-card" role="listitem">
-          <span class="impact-label">Physics-aware modelling</span>
-          <span class="impact-value">6.9× lower error</span>
-          <strong class="impact-title">Across 27 calendering states</strong>
-          <p>A contact-and-orientation closure captured the graphite conductivity U-shape instead of forcing a monotone fit.</p>
-        </article>
-        <article class="impact-card" role="listitem">
-          <span class="impact-label">Continual learning</span>
-          <span class="impact-value">36% less forgetting</span>
-          <strong class="impact-title">410M-parameter model</strong>
-          <p>Replay-free, Fisher-free IGFA improved retention and adaptation over naive fine-tuning (p ≤ 0.024; three seeds).</p>
-        </article>
+      <div class="carousel" data-carousel data-autoplay="9500">
+        <div class="carousel-viewport" data-carousel-viewport tabindex="0" aria-label="Selected experience">
+          <div class="carousel-track experience-list">
+            <article class="experience-item experience-featured carousel-slide">
+              <span class="experience-meta">2025—present · Industrial doctorate</span>
+              <h3>Electrode Engineer</h3>
+              <p class="experience-place">VARTA Microbattery · TU Braunschweig</p>
+              <p>Developing and qualifying coating, calendering, and semi-dry processing routes for lithium-ion button cells.</p>
+              <div class="role-outcomes" role="list" aria-label="Outcomes from this position">
+                <div class="role-outcome" role="listitem">
+                  <strong>3 kg h<sup>−1</sup></strong>
+                  <span>Semi-dry processing across multiple chemistries</span>
+                </div>
+                <div class="role-outcome" role="listitem">
+                  <strong>6.9× lower error</strong>
+                  <span>Physics-aware model across 27 calendering states</span>
+                </div>
+                <div class="role-outcome" role="listitem">
+                  <strong>36% less forgetting</strong>
+                  <span>Replay-free learning on a 410M-parameter model</span>
+                </div>
+              </div>
+            </article>
+            <article class="experience-item carousel-slide">
+              <span class="experience-meta">2024 · Research internship</span>
+              <h3>MOF catalysis</h3>
+              <p class="experience-place">Technical University of Munich</p>
+              <p>Synthesised and screened catalyst pairs for sequential epoxidation and CO₂ fixation within one framework.</p>
+            </article>
+            <article class="experience-item carousel-slide">
+              <span class="experience-meta">2022 · Process development</span>
+              <h3>Solid oxide fuel cells</h3>
+              <p class="experience-place">Robert Bosch GmbH</p>
+              <p>Scaled ceramic paste processing from laboratory batches toward mass-production volumes.</p>
+            </article>
+            <article class="experience-item carousel-slide">
+              <span class="experience-meta">2020—2021 · Research assistant</span>
+              <h3>Cathode active materials</h3>
+              <p class="experience-place">Max Planck Institute · BASF</p>
+              <p>Established precursor routes for NCA and NMC and investigated lower-temperature lithiation strategies.</p>
+            </article>
+          </div>
+        </div>
+        <div class="carousel-controls" role="group" aria-label="Experience carousel controls">
+          <button type="button" class="carousel-button" data-carousel-prev aria-label="Previous experience">←</button>
+          <output class="carousel-status" data-carousel-status>1 / 4</output>
+          <button type="button" class="carousel-button" data-carousel-next aria-label="Next experience">→</button>
+          <button type="button" class="carousel-toggle" data-carousel-toggle aria-label="Pause automatic rotation">Pause</button>
+        </div>
       </div>
     </section>
 
@@ -179,30 +204,42 @@
         <h2>Research</h2>
         <span class="eyebrow">Current questions</span>
       </div>
-      <div class="research-grid">
-        <article class="research-card">
+      <div class="carousel" data-carousel data-autoplay="8000">
+        <div class="carousel-viewport" data-carousel-viewport tabindex="0" aria-label="Current research questions">
+          <div class="carousel-track research-grid">
+        <article class="research-card carousel-slide">
           <span class="research-number">01 / RETENTION</span>
           <h3>How can models learn a changing process without forgetting?</h3>
           <p>Continual learning, geometric interference, low-rank task structure, and robust adaptation under process drift.</p>
         </article>
-        <article class="research-card">
+        <article class="research-card carousel-slide">
           <span class="research-number">02 / STRUCTURE</span>
           <h3>Which manufacturing variables actually determine electrode properties?</h3>
           <p>Dry processing, extrusion, coating, calendering, and physics-aware process–structure–property models.</p>
         </article>
-        <article class="research-card">
+        <article class="research-card carousel-slide">
           <span class="research-number">03 / PERFORMANCE</span>
           <h3>How does process history surface in electrochemical behaviour?</h3>
           <p>Impedance spectroscopy, cycling-data interpretation, and linking process conditions to cell performance.</p>
         </article>
+          </div>
+        </div>
+        <div class="carousel-controls" role="group" aria-label="Research carousel controls">
+          <button type="button" class="carousel-button" data-carousel-prev aria-label="Previous research question">←</button>
+          <output class="carousel-status" data-carousel-status>1 / 3</output>
+          <button type="button" class="carousel-button" data-carousel-next aria-label="Next research question">→</button>
+          <button type="button" class="carousel-toggle" data-carousel-toggle aria-label="Pause automatic rotation">Pause</button>
+        </div>
       </div>
     </section>
 
     <section class="section" id="publications">
       <h2>Publications</h2>
-      <div class="pub-list">
+      <div class="carousel" data-carousel data-autoplay="11000">
+        <div class="carousel-viewport" data-carousel-viewport tabindex="0" aria-label="Publications">
+          <div class="carousel-track pub-list">
 
-        <article class="publication">
+        <article class="publication carousel-slide">
           <div class="publication-title-row">
             <strong>Interference and retention in continual learning</strong>
             <span class="badge">Draft</span>
@@ -223,7 +260,7 @@
           <p class="publication-note">arXiv, citation, and reproducibility links will be added after release.</p>
         </article>
 
-        <article class="publication">
+        <article class="publication carousel-slide">
           <div class="publication-title-row">
             <strong>Capturing the calendering U-shape in lithium-ion electrode thermal conductivity</strong>
             <span class="badge">Draft</span>
@@ -243,39 +280,14 @@
           <p class="publication-note">arXiv, citation, and reproducibility links will be added after release.</p>
         </article>
 
-      </div>
-    </section>
-
-    <section class="section" id="experience">
-      <div class="section-head">
-        <h2>Selected experience</h2>
-        <a class="link-more" href="cv.pdf">Full CV →</a>
-      </div>
-      <div class="experience-list">
-        <article class="experience-item">
-          <span class="experience-meta">2025—present · Industrial doctorate</span>
-          <h3>Electrode Engineer</h3>
-          <p class="experience-place">VARTA Microbattery · TU Braunschweig</p>
-          <p>Developing and qualifying coating, calendering, and semi-dry processing routes for lithium-ion button cells.</p>
-        </article>
-        <article class="experience-item">
-          <span class="experience-meta">2024 · Research internship</span>
-          <h3>MOF catalysis</h3>
-          <p class="experience-place">Technical University of Munich</p>
-          <p>Synthesised and screened catalyst pairs for sequential epoxidation and CO₂ fixation within one framework.</p>
-        </article>
-        <article class="experience-item">
-          <span class="experience-meta">2022 · Process development</span>
-          <h3>Solid oxide fuel cells</h3>
-          <p class="experience-place">Robert Bosch GmbH</p>
-          <p>Scaled ceramic paste processing from laboratory batches toward mass-production volumes.</p>
-        </article>
-        <article class="experience-item">
-          <span class="experience-meta">2020—2021 · Research assistant</span>
-          <h3>Cathode active materials</h3>
-          <p class="experience-place">Max Planck Institute · BASF</p>
-          <p>Established precursor routes for NCA and NMC and investigated lower-temperature lithiation strategies.</p>
-        </article>
+          </div>
+        </div>
+        <div class="carousel-controls" role="group" aria-label="Publication carousel controls">
+          <button type="button" class="carousel-button" data-carousel-prev aria-label="Previous publication">←</button>
+          <output class="carousel-status" data-carousel-status>1 / 2</output>
+          <button type="button" class="carousel-button" data-carousel-next aria-label="Next publication">→</button>
+          <button type="button" class="carousel-toggle" data-carousel-toggle aria-label="Pause automatic rotation">Pause</button>
+        </div>
       </div>
     </section>
 
@@ -285,9 +297,11 @@
         <a class="link-more" href="blog.html">All posts →</a>
       </div>
 
-      <div class="card-grid">
+      <div class="carousel" data-carousel data-autoplay="12500">
+        <div class="carousel-viewport" data-carousel-viewport tabindex="0" aria-label="Research notes">
+          <div class="carousel-track card-grid">
 
-        <article class="blog-card">
+        <article class="blog-card carousel-slide">
           <time class="blog-date" datetime="2026-07-05">5 July 2026</time>
           <h3><a class="card-link" href="post-geometry-of-forgetting.html">The geometry of forgetting in continual
               learning</a></h3>
@@ -297,7 +311,7 @@
           <span class="card-cta">Read and interact</span>
         </article>
 
-        <article class="blog-card">
+        <article class="blog-card carousel-slide">
           <time class="blog-date" datetime="2026-06-28">28 June 2026</time>
           <h3><a class="card-link" href="post-calendering-u-shape.html">Solving the electrode calendering U-shape
               puzzle</a></h3>
@@ -307,6 +321,14 @@
           <span class="card-cta">Read and interact</span>
         </article>
 
+          </div>
+        </div>
+        <div class="carousel-controls" role="group" aria-label="Blog carousel controls">
+          <button type="button" class="carousel-button" data-carousel-prev aria-label="Previous post">←</button>
+          <output class="carousel-status" data-carousel-status>1 / 2</output>
+          <button type="button" class="carousel-button" data-carousel-next aria-label="Next post">→</button>
+          <button type="button" class="carousel-toggle" data-carousel-toggle aria-label="Pause automatic rotation">Pause</button>
+        </div>
       </div>
     </section>
 
@@ -330,6 +352,7 @@
 
   <script src="theme.js"></script>
   <script src="navigation.js"></script>
+  <script src="carousel.js"></script>
   <script src="background.js"></script>
 </body>
 
