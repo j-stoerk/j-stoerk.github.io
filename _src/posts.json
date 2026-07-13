@@ -1,0 +1,38 @@
+[
+  {
+    "file": "post-causalpfn.html",
+    "title": "Reading CausalPFN: causal effects as in-context prediction",
+    "iso": "2026-07-12",
+    "display": "12 July 2026",
+    "category": "Reading notes",
+    "minutes": 8,
+    "summary": "A NeurIPS 2025 paper trains one transformer on simulated, identifiable causal worlds; new observational data goes in as context, treatment-effect posteriors come out. What holds it up, and where it breaks.",
+    "feedDescription": "Notes on Balazadeh et al., CausalPFN: one transformer, trained on simulated identifiable DGPs, that estimates treatment effects in-context.",
+    "rfc822": "Sun, 12 Jul 2026 08:00:00 +0200",
+    "lastmod": "2026-07-13"
+  },
+  {
+    "file": "post-geometry-of-forgetting.html",
+    "title": "The geometry of forgetting in continual learning",
+    "iso": "2026-07-05",
+    "display": "5 July 2026",
+    "category": "Continual learning",
+    "minutes": 9,
+    "summary": "How learning a new task damages an old one—and how interference geometry suggests a structural controller.",
+    "feedDescription": "Forgetting as interference energy under a task's feature covariance, and the IGFA controller.",
+    "rfc822": "Sun, 05 Jul 2026 08:00:00 +0200",
+    "lastmod": "2026-07-13"
+  },
+  {
+    "file": "post-calendering-u-shape.html",
+    "title": "Solving the electrode calendering U-shape puzzle",
+    "iso": "2026-06-28",
+    "display": "28 June 2026",
+    "category": "Electrode manufacturing",
+    "minutes": 7,
+    "summary": "Why particle reorientation reverses the monotone prediction made by porosity-only thermal models.",
+    "feedDescription": "Why through-plane conductivity dips before it rises, and the closure that captures it.",
+    "rfc822": "Sun, 28 Jun 2026 08:00:00 +0200",
+    "lastmod": "2026-07-13"
+  }
+]

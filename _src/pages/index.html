@@ -82,41 +82,13 @@
     ]
   </script>
 
-  <!-- Applied before first paint so the theme never flashes. -->
-  <script>
-    (function () {
-      var t;
-      try { t = localStorage.getItem('theme'); } catch (e) { }
-      if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', t);
-    })();
-  </script>
-
-  <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css">
+  <!--#HEAD_ASSETS-->
 </head>
 
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
 
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="site-title" href="#home" aria-current="page">Home</a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
-        <span class="nav-toggle-lines" aria-hidden="true"></span>
-        <span class="sr-only">Open navigation</span>
-      </button>
-      <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
-        <a href="#research">Research</a>
-        <a href="#publications">Publications</a>
-        <a href="#experience">Experience</a>
-        <a href="cv.html">CV</a>
-        <a href="blog.html">Blog</a>
-        <a href="#contact">Contact</a>
-        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
-      </nav>
-    </div>
-  </header>
+  <!--#TOPBAR-->
 
   <main id="main" class="content">
 
@@ -344,18 +316,7 @@
         <a class="link-more" href="blog.html">All posts →</a>
       </div>
 
-      <div class="journal-index">
-        <article class="journal-entry">
-          <div class="journal-meta"><time datetime="2026-07-12">12 July 2026</time><span>Reading notes</span></div>
-          <div class="journal-copy"><h3><a class="card-link" href="post-causalpfn.html">Reading CausalPFN: causal effects as in-context prediction</a></h3><p>A NeurIPS 2025 paper trains one transformer on simulated, identifiable causal worlds; new observational data goes in as context, treatment-effect posteriors come out. What holds it up, and where it breaks.</p></div>
-          <span class="journal-arrow" aria-hidden="true">↗</span>
-        </article>
-        <article class="journal-entry">
-          <div class="journal-meta"><time datetime="2026-07-05">5 July 2026</time><span>Continual learning</span></div>
-          <div class="journal-copy"><h3><a class="card-link" href="post-geometry-of-forgetting.html">The geometry of forgetting in continual learning</a></h3><p>How learning a new task damages an old one—and how interference geometry suggests a structural controller.</p></div>
-          <span class="journal-arrow" aria-hidden="true">↗</span>
-        </article>
-      </div>
+      <!--#POST_CARDS-->
     </section>
 
     <section class="section" id="software">
@@ -411,15 +372,9 @@
 
   </main>
 
-  <footer class="content">
-    <span>© 2026 Julius Störk</span>
-  </footer>
+  <!--#FOOTER-->
 
-  <script src="theme.js"></script>
-  <script src="navigation.js"></script>
-  <script src="background.js"></script>
-  <script src="cite.js"></script>
-  <script data-goatcounter="https://jstoerk.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+  <!--#SCRIPTS-->
 </body>
 
 </html>

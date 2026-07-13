@@ -29,41 +29,13 @@
     }
   </script>
 
-  <!-- Applied before first paint so the theme never flashes. -->
-  <script>
-    (function () {
-      var t;
-      try { t = localStorage.getItem('theme'); } catch (e) { }
-      if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', t);
-    })();
-  </script>
-
-  <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css">
+  <!--#HEAD_ASSETS-->
 </head>
 
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
 
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="site-title" href="index.html">Home</a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
-        <span class="nav-toggle-lines" aria-hidden="true"></span>
-        <span class="sr-only">Open navigation</span>
-      </button>
-      <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
-        <a href="index.html#research">Research</a>
-        <a href="index.html#publications">Publications</a>
-        <a href="index.html#experience">Experience</a>
-        <a class="current" href="cv.html" aria-current="page">CV</a>
-        <a href="blog.html">Blog</a>
-        <a href="index.html#contact">Contact</a>
-        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
-      </nav>
-    </div>
-  </header>
+  <!--#TOPBAR-->
 
   <main id="main" class="content">
     <a class="back-link" href="index.html">Back to home</a>
@@ -294,15 +266,9 @@
 
   </main>
 
-  <footer class="content">
-    <span>© 2026 Julius Störk</span>
-    <span><a href="index.html">Home</a> · <a href="cv.pdf" download>CV (PDF)</a></span>
-  </footer>
+  <!--#FOOTER-->
 
-  <script src="theme.js"></script>
-  <script src="navigation.js"></script>
-  <script src="background.js"></script>
-  <script data-goatcounter="https://jstoerk.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+  <!--#SCRIPTS-->
 </body>
 
 </html>

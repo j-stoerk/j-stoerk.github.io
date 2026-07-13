@@ -30,6 +30,7 @@
     }
   </script>
 
+  <!-- Applied before first paint so the theme never flashes. -->
   <script>
     (function () {
       var t;
@@ -74,6 +75,11 @@
     </header>
 
     <div class="journal-index journal-index-page">
+      <article class="journal-entry">
+        <div class="journal-meta"><time datetime="2026-07-12">12 July 2026</time><span>Reading notes · 8 min</span></div>
+        <div class="journal-copy"><h3><a class="card-link" href="post-causalpfn.html">Reading CausalPFN: causal effects as in-context prediction</a></h3><p>A NeurIPS 2025 paper trains one transformer on simulated, identifiable causal worlds; new observational data goes in as context, treatment-effect posteriors come out. What holds it up, and where it breaks.</p></div>
+        <span class="journal-arrow" aria-hidden="true">↗</span>
+      </article>
       <article class="journal-entry">
         <div class="journal-meta"><time datetime="2026-07-05">5 July 2026</time><span>Continual learning · 9 min</span></div>
         <div class="journal-copy"><h3><a class="card-link" href="post-geometry-of-forgetting.html">The geometry of forgetting in continual learning</a></h3><p>How learning a new task damages an old one—and how interference geometry suggests a structural controller.</p></div>

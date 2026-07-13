@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reading CausalPFN: causal effects as in-context prediction — Julius Störk</title>
+  <meta name="description" content="Notes on CausalPFN (NeurIPS 2025): one transformer, trained on simulated identifiable causal worlds, that estimates treatment effects in-context." />
+  <link rel="canonical" href="https://j-stoerk.github.io/post-causalpfn.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk — Research notes" href="feed.xml" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-causalpfn.html" />
+  <meta property="og:title" content="Reading CausalPFN: causal effects as in-context prediction" />
+  <meta property="og:description" content="Notes on a NeurIPS 2025 paper that treats causal effect estimation as in-context prediction, and what that would mean for manufacturing data." />
+  <meta property="og:image" content="https://j-stoerk.github.io/social-card.png" />
+  <meta property="og:image:alt" content="Julius Störk — machine learning and electrode manufacturing" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="article:published_time" content="2026-07-12" />
+  <meta property="article:author" content="Julius Störk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/social-card.png" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Reading CausalPFN: causal effects as in-context prediction",
+      "description": "Notes on CausalPFN (NeurIPS 2025): one transformer, trained on simulated identifiable causal worlds, that estimates treatment effects in-context.",
+      "datePublished": "2026-07-12",
+      "dateModified": "2026-07-13",
+      "url": "https://j-stoerk.github.io/post-causalpfn.html",
+      "image": "https://j-stoerk.github.io/social-card.png",
+      "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
+    }
+  </script>
+
+  <!--#HEAD_ASSETS-->
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!--#TOPBAR-->
+
+  <main id="main" class="content">
+    <a class="back-link" href="blog.html">All posts</a>
+    <article class="post" id="causalpfn">
+      <header class="article-header">
+        <p class="eyebrow"><time datetime="2026-07-12">12 July 2026</time> · Reading notes</p>
+        <h1 class="post-title">Reading CausalPFN: causal effects as in-context prediction</h1>
+        <p class="article-meta muted">Notes on Balazadeh, Kamkari, et al.,
+          <em>CausalPFN: Amortized Causal Effect Estimation via In-Context Learning</em> (NeurIPS 2025).
+          <a href="https://arxiv.org/abs/2506.07918" target="_blank" rel="noopener noreferrer">Paper</a> ·
+          <a href="https://github.com/vdblm/CausalPFN" target="_blank" rel="noopener noreferrer">Code</a>
+        </p>
+      </header>
+
+      <div class="prose">
+        <p>Estimating a treatment effect from observational data usually starts with a choice: T-Learner or X-Learner,
+          double machine learning or BART, a propensity model or an outcome model. The choice matters, and it takes
+          expertise that most practitioners applying causal inference do not have. CausalPFN asks whether that
+          selection step can be trained away. The answer the paper gives: one transformer, trained once on a large
+          library of simulated causal worlds, that reads a new observational dataset as context and returns effect
+          estimates directly. No per-dataset fitting, no tuning.</p>
+
+        <p>The idea transfers the prior-fitted network (PFN) recipe from tabular prediction to causal estimation. A
+          PFN is trained on samples from a prior over data-generating processes (DGPs). At inference it approximates
+          the posterior predictive distribution for a query, conditioned on the context set, in one forward pass.
+          CausalPFN changes the target: instead of predicting the observable outcome, the network predicts the
+          conditional expected potential outcome, the quantity that treatment effects are built from. The output is a
+          quantized histogram over 1,024 bins, so each query returns a full distribution, not a point.</p>
+
+        <h3>The part I find most interesting: the prior does the causal work</h3>
+        <p>Nothing in the architecture is causal. The causal content sits entirely in the training distribution. Every
+          simulated DGP draws covariates from real or synthetic base tables, relabels two columns as the potential
+          outcomes, and assigns treatment by a random function of the covariates alone. Because treatment depends only
+          on observed covariates, ignorability holds in every training world by construction.</p>
+
+        <p>The paper's Proposition 1 makes the requirement precise. The posterior predictive converges to the true
+          effect exactly when the prior is identifiable, meaning the effect is a functional of the observational
+          distribution for almost every DGP the prior can generate. Identifiability is necessary and sufficient; the
+          proof runs through Doob's classical consistency theorem. I read this as the paper's real thesis: amortized
+          causal inference is possible to the extent that you can simulate worlds where the causal question has a
+          unique answer.</p>
+
+        <!-- Widget 3 -->
+        <div class="interactive">
+          <div class="widget-controls">
+            <p class="widget-title">Interactive · Posterior concentration</p>
+            <p class="widget-description">Grow the context: with an identifiable prior that covers the true DGP, the
+              posterior for the effect narrows around the truth. Move the DGP outside the prior and the interval stays
+              narrow but lands in the wrong place: confidently wrong. Calibration widens it until it covers again.</p>
+
+            <div class="control-group">
+              <div class="slider-label">
+                <label for="cp-n-slider">Context size N</label>
+                <output id="cp-n-val" for="cp-n-slider">500</output>
+              </div>
+              <input type="range" class="slider-input" id="cp-n-slider" min="0" max="100" step="1" value="50">
+
+              <div class="slider-label" style="margin-top:var(--space-3)">
+                <label for="cp-ood">DGP outside the prior (OOD)</label>
+                <input type="checkbox" id="cp-ood">
+              </div>
+              <div class="slider-label">
+                <label for="cp-cal">Temperature calibration</label>
+                <input type="checkbox" id="cp-cal">
+              </div>
+
+              <div class="metric-display">
+                <div class="metric-item">
+                  <div>90% interval width</div>
+                  <div class="metric-value" id="cp-width-val">0.31</div>
+                </div>
+                <div class="metric-item">
+                  <div>True effect covered?</div>
+                  <div class="metric-value" id="cp-cover-val">Yes</div>
+                </div>
+              </div>
+            </div>
+
+            <p class="widget-note">Schematic: the curves illustrate the behaviour described by Proposition 1 and
+              Figure 7 of the paper (concentration under an identifiable prior; overconfidence out of distribution;
+              coverage restored by temperature scaling). They are not the trained model.</p>
+          </div>
+
+          <div class="widget-visual">
+            <svg viewBox="0 0 300 190" id="svg-cp" role="img" aria-labelledby="cp-title" style="max-width:320px">
+              <title id="cp-title">Posterior predictive density for a treatment effect. A vertical line marks the true
+                effect; a shaded band marks the 90 percent credible interval.</title>
+              <line x1="30" y1="160" x2="290" y2="160" stroke="var(--color-text)" stroke-width="1" />
+              <text x="160" y="184" class="text-label-faint" text-anchor="middle">treatment effect τ</text>
+              <rect id="cp-band" x="120" y="20" width="60" height="140" fill="var(--color-primary-highlight)"
+                opacity="0.8" />
+              <line id="cp-true-line" x1="150" y1="15" x2="150" y2="160" stroke="var(--color-danger)"
+                stroke-width="1.5" stroke-dasharray="4" />
+              <text id="cp-true-label" x="150" y="12" class="text-label-faint" text-anchor="middle"
+                style="fill:var(--color-danger)">true τ</text>
+              <path id="cp-curve" d="" fill="none" stroke="var(--color-primary)" stroke-width="2.5"
+                stroke-linecap="round" />
+            </svg>
+          </div>
+        </div>
+
+        <h3>What the evidence supports</h3>
+        <p>On the standard benchmarks (100 IHDP realizations, 10 ACIC 2016 realizations, 200 Lalonde CPS/PSID
+          realizations, 310 tasks in total), CausalPFN attains the best average rank for heterogeneous effects, 2.30 ±
+          0.10 against 3.57 for the next method, and the best mean PEHE on IHDP at 0.58 ± 0.07 (Table 1). It is also
+          fast: inference is forward passes only, while the baselines pay for cross-validation and tuning on every new
+          dataset (Figure 1). The comparison is honest about ATE, where CausalPFN's average rank of 4.45 sits slightly
+          behind the plain T-Learner at 4.31.</p>
+
+        <p>Two results temper the headline. On five large uplift-modeling RCTs, the model scores the best mean
+          normalized Qini (0.952) on 50k-row subsamples, but performance drops when run on the full million-row
+          tables; the authors attribute this to the context-length limits of PFN-style transformers. And calibration
+          holds only in distribution: on DGPs outside the training prior the credible intervals become overconfident
+          (Figure 7). The proposed fix is temperature scaling tuned on observational coverage, which restores
+          calibration or makes it conservative. The widget above mimics both failure and fix.</p>
+
+        <div class="callout">
+          <strong>The assumption you cannot check in-context.</strong> Every training world satisfies ignorability, so
+          the model answers every query as if treatment assignment were explainable by the observed covariates. Real
+          observational data offers no such promise, and no amount of context tells the model that a confounder is
+          missing. The same limitation applies to any estimator under ignorability; what changes here is that the
+          assumption is baked into weights rather than stated per analysis.
+        </div>
+
+        <h3>Why this matters for manufacturing data</h3>
+        <p>Process data from electrode manufacturing is observational in exactly the sense this paper targets. Nobody
+          randomizes calendering pressure on a production line; settings correlate with material lots, operators, and
+          everything else in the plant. Questions like "what did the pressure change do to capacity" are CATE
+          questions asked of confounded data. An estimator that works out of the box, returns calibrated uncertainty,
+          and needs no per-dataset tuning would lower the barrier considerably. The catch is the same as above: on a
+          production line, the assumption that all confounders are recorded is rarely credible, and the model cannot
+          flag its violation.</p>
+
+        <p>The connection to my own work is the amortization itself. A per-dataset estimator retrained after every
+          process drift is exactly the setting where continual-learning questions appear. An in-context estimator
+          sidesteps retraining: new data becomes new context. Whether that holds up under the drift patterns real
+          plants produce is, to my reading, an open and testable question, and a cheaper one to test now that the
+          model is public.</p>
+      </div>
+    </article>
+
+    <nav class="post-pager" aria-label="More posts">
+      <a href="post-geometry-of-forgetting.html">
+        <span class="eyebrow">Next post</span>
+        <span class="post-pager-title">The geometry of forgetting in continual learning</span>
+      </a>
+    </nav>
+  </main>
+
+  <!--#FOOTER-->
+
+  <!--#SCRIPTS-->
+</body>
+
+</html>

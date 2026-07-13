@@ -199,4 +199,65 @@
     calSlider.addEventListener('input', updateCalenderingSim);
     updateCalenderingSim();
   }
+
+  /* =========================================================
+     Widget 3 — CausalPFN posterior concentration (schematic)
+     Illustrates Proposition 1 / Figure 7 behaviour: an
+     identifiable prior concentrates on the truth as context
+     grows; an OOD DGP yields a narrow interval in the wrong
+     place; temperature calibration widens it until it covers.
+     ========================================================= */
+  var cpSlider = document.getElementById('cp-n-slider');
+
+  var CP_TRUE = 1.0;          // true effect, plot units
+  var CP_X0 = 30, CP_X1 = 290, CP_BASE = 160, CP_TOP = 30;
+  var CP_TMIN = 0.0, CP_TMAX = 2.0;
+
+  function cpX(tau) { return CP_X0 + (tau - CP_TMIN) / (CP_TMAX - CP_TMIN) * (CP_X1 - CP_X0); }
+
+  function updateCausalPFN() {
+    var v = parseInt(cpSlider.value, 10);
+    var N = Math.round(50 * Math.pow(10, v / 50));       // 50 .. 5000, log scale
+    var ood = document.getElementById('cp-ood').checked;
+    var cal = document.getElementById('cp-cal').checked;
+
+    // Posterior sd shrinks ~1/sqrt(N); OOD is biased and overconfident.
+    var sigma = 0.45 / Math.sqrt(N / 50);
+    var mean = CP_TRUE;
+    if (ood) { mean = CP_TRUE + 0.38; sigma *= 0.6; }
+    if (cal) sigma *= (ood ? 2.6 : 1.1);
+    sigma = Math.max(sigma, 0.015);
+
+    // 90% interval: mean +/- 1.645 sigma.
+    var lo = mean - 1.645 * sigma, hi = mean + 1.645 * sigma;
+    var covered = CP_TRUE >= lo && CP_TRUE <= hi;
+
+    document.getElementById('cp-n-val').textContent = N.toLocaleString('en-US');
+    document.getElementById('cp-width-val').textContent = (hi - lo).toFixed(2);
+    var cover = document.getElementById('cp-cover-val');
+    cover.textContent = covered ? 'Yes' : 'No';
+    cover.style.color = covered ? 'var(--color-ok)' : 'var(--color-danger)';
+
+    var band = document.getElementById('cp-band');
+    var bx0 = Math.max(CP_X0, cpX(lo)), bx1 = Math.min(CP_X1, cpX(hi));
+    band.setAttribute('x', bx0.toFixed(1));
+    band.setAttribute('width', Math.max(0, bx1 - bx0).toFixed(1));
+
+    // Density curve, peak-normalised to the plot height.
+    var d = 'M';
+    for (var i = 0; i <= 80; i++) {
+      var tau = CP_TMIN + (CP_TMAX - CP_TMIN) * i / 80;
+      var z = (tau - mean) / sigma;
+      var y = CP_BASE - (CP_BASE - CP_TOP) * Math.exp(-0.5 * z * z);
+      d += (i ? ' L' : ' ') + cpX(tau).toFixed(1) + ' ' + y.toFixed(1);
+    }
+    document.getElementById('cp-curve').setAttribute('d', d);
+  }
+
+  if (cpSlider) {
+    cpSlider.addEventListener('input', updateCausalPFN);
+    document.getElementById('cp-ood').addEventListener('change', updateCausalPFN);
+    document.getElementById('cp-cal').addEventListener('change', updateCausalPFN);
+    updateCausalPFN();
+  }
 })();
