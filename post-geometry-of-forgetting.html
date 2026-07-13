@@ -152,7 +152,7 @@
               </div>
               <input type="range" class="slider-input" id="cl-angle-slider" min="0" max="180" step="1" value="45">
 
-              <div class="metric-display">
+              <div class="metric-display" aria-live="polite">
                 <div class="metric-item">
                   <div>Cosine alignment</div>
                   <div class="metric-value" id="cl-cos-val">0.71</div>
@@ -174,7 +174,7 @@
 
             <div class="control-group">
               <p class="slider-label" style="margin-bottom:var(--space-2)"><span>IGFA gate (τ = 0.40)</span></p>
-              <p class="status-pill" id="cl-status-val">Projecting — Task A protected</p>
+              <p class="status-pill" id="cl-status-val" aria-live="polite">Projecting — Task A protected</p>
             </div>
 
             <p class="widget-note">Model: Σ<sub>A</sub> = diag(1.00, 0.05), F(θ) = λ₁cos²θ + λ₂sin²θ, normalised to
