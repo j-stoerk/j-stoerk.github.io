@@ -87,11 +87,11 @@
 
       <div class="prose">
         <p>Estimating a treatment effect from observational data usually starts with a choice: T-Learner or X-Learner,
-          double machine learning or BART, a propensity model or an outcome model. The choice matters, and it takes
-          expertise that most practitioners applying causal inference do not have. CausalPFN asks whether that
-          selection step can be trained away. The answer the paper gives: one transformer, trained once on a large
-          library of simulated causal worlds, that reads a new observational dataset as context and returns effect
-          estimates directly. No per-dataset fitting, no tuning.</p>
+          double machine learning or BART, a propensity model or an outcome model. Each fits some data-generating
+          processes and fails on others, and telling which is which is expert work. CausalPFN asks whether that
+          selection step can be trained away. Its answer is one transformer, trained once on a large library of
+          simulated causal worlds, that reads a new observational dataset as context and returns effect estimates
+          directly. No per-dataset fitting, no tuning.</p>
 
         <p>The idea transfers the prior-fitted network (PFN) recipe from tabular prediction to causal estimation. A
           PFN is trained on samples from a prior over data-generating processes (DGPs). At inference it approximates
@@ -106,7 +106,7 @@
           outcomes, and assigns treatment by a random function of the covariates alone. Because treatment depends only
           on observed covariates, ignorability holds in every training world by construction.</p>
 
-        <p>The paper's Proposition 1 makes the requirement precise. The posterior predictive converges to the true
+        <p>Proposition 1 states when this is enough. The posterior predictive converges to the true
           effect exactly when the prior is identifiable, meaning the effect is a functional of the observational
           distribution for almost every DGP the prior can generate. Identifiability is necessary and sufficient; the
           proof runs through Doob's classical consistency theorem. I read this as the paper's real thesis: amortized
@@ -188,7 +188,7 @@
           calibration or makes it conservative. The widget above mimics both failure and fix.</p>
 
         <div class="callout">
-          <strong>The assumption you cannot check in-context.</strong> Every training world satisfies ignorability, so
+          <strong>Ignorability is assumed, never tested.</strong> Every training world satisfies ignorability, so
           the model answers every query as if treatment assignment were explainable by the observed covariates. Real
           observational data offers no such promise, and no amount of context tells the model that a confounder is
           missing. The same limitation applies to any estimator under ignorability; what changes here is that the
@@ -204,7 +204,7 @@
           production line, the assumption that all confounders are recorded is rarely credible, and the model cannot
           flag its violation.</p>
 
-        <p>The connection to my own work is the amortization itself. A per-dataset estimator retrained after every
+        <p>Amortization is also where this touches my own work. A per-dataset estimator retrained after every
           process drift is exactly the setting where continual-learning questions appear. An in-context estimator
           sidesteps retraining: new data becomes new context. Whether that holds up under the drift patterns real
           plants produce is, to my reading, an open and testable question, and a cheaper one to test now that the
