@@ -11,6 +11,7 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title="Julius Störk — Research notes" href="feed.xml" />
   <meta property="og:type" content="profile" />
+  <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/cv.html" />
   <meta property="og:title" content="CV — Julius Störk" />
   <meta property="og:description" content="Doctoral researcher in machine learning for lithium-ion electrode manufacturing. Full curriculum vitae." />
@@ -29,6 +30,9 @@
     }
   </script>
 
+  <meta name="theme-color" content="#fdfdfc">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
   <!-- Applied before first paint so the theme never flashes. -->
   <script>
     (function () {
@@ -36,6 +40,8 @@
       try { t = localStorage.getItem('theme'); } catch (e) { }
       if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'dark' ? '#101214' : '#fdfdfc');
     })();
   </script>
 

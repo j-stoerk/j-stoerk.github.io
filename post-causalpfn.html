@@ -10,6 +10,7 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title="Julius Störk — Research notes" href="feed.xml" />
   <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-causalpfn.html" />
   <meta property="og:title" content="Reading CausalPFN: causal effects as in-context prediction" />
   <meta property="og:description" content="Notes on a NeurIPS 2025 paper that treats causal effect estimation as in-context prediction, and what that would mean for manufacturing data." />
@@ -36,6 +37,9 @@
     }
   </script>
 
+  <meta name="theme-color" content="#fdfdfc">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
   <!-- Applied before first paint so the theme never flashes. -->
   <script>
     (function () {
@@ -43,6 +47,8 @@
       try { t = localStorage.getItem('theme'); } catch (e) { }
       if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'dark' ? '#101214' : '#fdfdfc');
     })();
   </script>
 

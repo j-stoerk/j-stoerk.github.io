@@ -10,6 +10,8 @@
     btn.textContent = dark ? '☼' : '◐';
     btn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
     btn.setAttribute('aria-pressed', String(dark));
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute('content', dark ? '#101214' : '#fdfdfc');
   }
 
   paint();

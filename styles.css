@@ -305,6 +305,17 @@ button {
   color: var(--color-text);
 }
 
+.nav a:not(.current):hover::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--color-primary) 45%, transparent);
+}
+
 .nav a.current {
   color: var(--color-text);
   font-weight: 600;
@@ -598,6 +609,7 @@ p {
 
 .evidence-item {
   padding: var(--space-5);
+  min-width: 0;
 }
 
 .evidence-item + .evidence-item {
@@ -879,6 +891,7 @@ p {
 .bibtex-panel pre {
   margin: 0;
   padding: var(--space-4);
+  padding-right: 4.5rem; /* keep the Copy button clear of the first lines */
   background: var(--color-surface-2);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
@@ -987,13 +1000,17 @@ p {
   text-decoration: none;
   width: fit-content;
   font-weight: 500;
-  transition: background .18s, border-color .18s;
+  transition: background .18s, border-color .18s, color .18s, transform .12s;
 }
 
 .download-btn:hover {
-  background: var(--color-surface-2);
-  border-color: var(--color-text-faint);
-  color: var(--color-text);
+  background: var(--color-primary-highlight);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.download-btn:active {
+  transform: translateY(1px);
 }
 
 /* Reserved slot for links that are not live yet (e.g. arXiv pending). */
@@ -1589,6 +1606,44 @@ footer {
 .publication-title-row strong {
   font-size: var(--text-lg);
   line-height: 1.35;
+}
+
+/* Between the desktop and phone breakpoints the evidence strip sits in a
+   narrow career column; three columns get cramped, so stack early. */
+@media (max-width: 1000px) {
+  .evidence-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .evidence-item {
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .evidence-item + .evidence-item {
+    border-left: 0;
+    border-top: 1px solid var(--color-border);
+  }
+}
+
+@media (max-width: 560px) {
+  .publication-actions {
+    gap: var(--space-2);
+  }
+
+  .publication-actions .download-btn {
+    flex: 1 1 calc(50% - var(--space-2));
+    justify-content: center;
+    min-height: 40px;
+    width: auto;
+  }
+
+  .bibtex-panel {
+    max-width: 100%;
+  }
+
+  .pub-figure svg {
+    max-width: 100%;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

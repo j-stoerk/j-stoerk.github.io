@@ -44,13 +44,18 @@ for (const p of posts) {
 }
 
 /* ---------- shared chrome ---------- */
-const HEAD_ASSETS = `  <!-- Applied before first paint so the theme never flashes. -->
+const HEAD_ASSETS = `  <meta name="theme-color" content="#fdfdfc">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Applied before first paint so the theme never flashes. -->
   <script>
     (function () {
       var t;
       try { t = localStorage.getItem('theme'); } catch (e) { }
       if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'dark' ? '#101214' : '#fdfdfc');
     })();
   </script>
 
