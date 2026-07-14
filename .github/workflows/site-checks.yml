@@ -1,0 +1,32 @@
+name: Site checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Rebuild site from _src
+        run: node _src/build.js
+
+      - name: Fail if committed output drifted from sources
+        run: |
+          git add -A
+          if ! git diff --cached --quiet; then
+            echo "::error::Root output differs from what _src generates."
+            echo "Someone edited generated files directly, or forgot to run 'node _src/build.js' after editing _src/."
+            git diff --cached --stat
+            exit 1
+          fi
+
+      - name: Validate built site (tag balance, links, XML, JSON-LD, math)
+        run: python3 _src/check.py

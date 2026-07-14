@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page not found — Julius Störk</title>
+  <meta name="description" content="This page does not exist. Find the research, CV, and blog of Julius Störk from here." />
+  <meta name="robots" content="noindex" />
+  <!-- GitHub Pages serves this file for any missing path, including nested
+       ones, so resolve every relative URL against the site root. -->
+  <base href="https://j-stoerk.github.io/" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+
+  <meta name="theme-color" content="#fdfdfc">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Applied before first paint so the theme never flashes. -->
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('theme'); } catch (e) { }
+      if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'dark' ? '#101214' : '#fdfdfc');
+    })();
+  </script>
+
+  <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="site-title" href="index.html">Home</a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+        <span class="nav-toggle-lines" aria-hidden="true"></span>
+        <span class="sr-only">Open navigation</span>
+      </button>
+      <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
+        <a href="index.html#research">Research</a>
+        <a href="index.html#publications">Publications</a>
+        <a href="index.html#experience">Experience</a>
+        <a href="cv.html">CV</a>
+        <a href="blog.html">Blog</a>
+        <a href="index.html#contact">Contact</a>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="content">
+    <header class="page-head">
+      <p class="eyebrow">404</p>
+      <h1>Page not found</h1>
+      <p class="lead">This address does not exist — the link may be old, or the page has moved. Everything on this
+        site is one click away:</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="index.html">Home</a>
+        <a class="btn btn-ghost" href="index.html#publications">Publications</a>
+        <a class="btn btn-ghost" href="cv.html">CV</a>
+        <a class="btn btn-ghost" href="blog.html">Blog</a>
+      </div>
+    </header>
+  </main>
+
+  <footer class="content">
+    <span>© 2026 Julius Störk</span>
+    <span><a href="index.html">Home</a> · <a href="index.html#contact">Contact</a></span>
+  </footer>
+
+  <script src="theme.js"></script>
+  <script src="navigation.js"></script>
+  <script src="background.js"></script>
+  <script>
+    window.addEventListener('load', function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://gc.zgo.at/count.js';
+      s.setAttribute('data-goatcounter', 'https://jstoerk.goatcounter.com/count');
+      document.body.appendChild(s);
+    });
+  </script>
+</body>
+
+</html>

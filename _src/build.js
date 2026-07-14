@@ -34,6 +34,12 @@ const PAGES = {
     footerExtra: '<a href="index.html">Home</a> · <a href="index.html#contact">Contact</a>',
     lastmod: '2026-07-13', priority: '0.8',
   },
+  /* Served by GitHub Pages for any missing URL; noindex, not in sitemap. */
+  '404.html': {
+    nav: null, extraScripts: [],
+    footerExtra: '<a href="index.html">Home</a> · <a href="index.html#contact">Contact</a>',
+    lastmod: null, priority: null,
+  },
 };
 for (const p of posts) {
   PAGES[p.file] = {
