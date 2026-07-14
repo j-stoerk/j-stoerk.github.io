@@ -26,7 +26,6 @@
   var raf = 0;
   var lastFrame = 0;
   var lastTime = 0;
-  var activeUntil = 0;
   var palette = null;
   var seed = 73291;
 
@@ -312,15 +311,13 @@
   function frame(time) {
     if (document.hidden || reduceMotion.matches) {
       raf = 0;
-      return;
-    }
-    if (time > activeUntil) {
-      draw(time, true);
-      raf = 0;
       lastTime = 0;
       return;
     }
-    if (!lastFrame || time - lastFrame >= 22) {
+    /* Continuous ambient animation: ~45fps while the pointer steers the
+       cell, ~30fps otherwise, to keep idle main-thread cost low. */
+    var interval = pointer.active ? 22 : 33;
+    if (!lastFrame || time - lastFrame >= interval) {
       draw(time, false);
       lastFrame = time;
     }
@@ -336,20 +333,18 @@
       pointer.x = event.clientX;
       pointer.y = event.clientY;
       pointer.active = true;
-      activeUntil = performance.now() + 1100;
       start();
     }, { passive: true });
 
     document.documentElement.addEventListener('mouseleave', function () {
       pointer.active = false;
-      activeUntil = performance.now() + 240;
       start();
     });
   }
 
   window.addEventListener('resize', resize, { passive: true });
   document.addEventListener('visibilitychange', function () {
-    if (!document.hidden) draw(performance.now(), true);
+    if (!document.hidden) start();
   });
 
   new MutationObserver(function () {
@@ -366,4 +361,5 @@
   }
 
   resize();
+  start();
 })();

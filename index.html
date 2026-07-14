@@ -210,7 +210,10 @@
     </section>
 
     <section class="section" id="publications">
-      <h2>Publications</h2>
+      <div class="section-head">
+        <h2>Publications</h2>
+        <a class="link-more" href="publications.bib" download>All entries (.bib) ↓</a>
+      </div>
       <div class="publication-index">
         <article class="publication-record">
           <span class="publication-number" aria-hidden="true">01</span>
@@ -433,7 +436,15 @@
   <script src="navigation.js"></script>
   <script src="background.js"></script>
   <script src="cite.js"></script>
-  <script data-goatcounter="https://jstoerk.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+  <script>
+    window.addEventListener('load', function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://gc.zgo.at/count.js';
+      s.setAttribute('data-goatcounter', 'https://jstoerk.goatcounter.com/count');
+      document.body.appendChild(s);
+    });
+  </script>
 </body>
 
 </html>

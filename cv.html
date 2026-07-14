@@ -326,7 +326,15 @@
   <script src="theme.js"></script>
   <script src="navigation.js"></script>
   <script src="background.js"></script>
-  <script data-goatcounter="https://jstoerk.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+  <script>
+    window.addEventListener('load', function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://gc.zgo.at/count.js';
+      s.setAttribute('data-goatcounter', 'https://jstoerk.goatcounter.com/count');
+      document.body.appendChild(s);
+    });
+  </script>
 </body>
 
 </html>

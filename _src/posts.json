@@ -21,7 +21,8 @@
     "summary": "How learning a new task damages an old one—and how interference geometry suggests a structural controller.",
     "feedDescription": "Forgetting as interference energy under a task's feature covariance, and the IGFA controller.",
     "rfc822": "Sun, 05 Jul 2026 08:00:00 +0200",
-    "lastmod": "2026-07-13"
+    "lastmod": "2026-07-14",
+    "math": true
   },
   {
     "file": "post-calendering-u-shape.html",

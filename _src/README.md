@@ -13,6 +13,12 @@ node _src/build.js
 - `posts.json` — one entry per blog post. Drives the blog listing, the
   home-page cards, `feed.xml`, and `sitemap.xml`. To publish a post: add its
   source page in `pages/`, add an entry here, run the build.
+- **Math**: set `"math": true` on a post entry and write `$$...$$` (display)
+  or `\( ... \)` (inline) TeX in its source. The build renders it to static
+  HTML+MathML via `vendor/katex.min.js`; browsers load only
+  `katex/katex.min.css` + fonts, no client-side JS.
+- **publications.bib** is regenerated from the BibTeX blocks in the built
+  index page — update a citation there and the .bib follows.
 - Page-level config (nav highlight, extra scripts, footer links, sitemap
   lastmod) lives in the `PAGES` object in `build.js`. Bump `lastmod` when a
   page's content changes.
