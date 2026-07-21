@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI's bottleneck is physical: from data centres to sensors — Julius Störk</title>
+  <meta name="description" content="AI becomes useful not when a model is trained but when a physical feedback loop runs reliably: power, heat, latency, sensors, data lineage, and safe actuation." />
+  <link rel="canonical" href="https://j-stoerk.github.io/post-physical-ai.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk — Research notes" href="feed.xml" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Julius Störk" />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-physical-ai.html" />
+  <meta property="og:title" content="AI's bottleneck is physical: from data centres to sensors" />
+  <meta property="og:description" content="AI does not become useful when a model is trained. It becomes useful when a physical feedback loop can run reliably." />
+  <meta property="og:image" content="https://j-stoerk.github.io/social-physical-ai.png" />
+  <meta property="og:image:alt" content="A closed loop from electricity through computation, decision, and actuation back to sensors" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="article:published_time" content="2026-07-19" />
+  <meta property="article:author" content="Julius Störk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/social-physical-ai.png" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "AI's bottleneck is physical: from data centres to sensors",
+      "description": "AI does not become useful when a model is trained. It becomes useful when a physical feedback loop can run reliably.",
+      "datePublished": "2026-07-19",
+      "dateModified": "2026-07-19",
+      "url": "https://j-stoerk.github.io/post-physical-ai.html",
+      "image": "https://j-stoerk.github.io/social-physical-ai.png",
+      "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
+    }
+  </script>
+
+  <meta name="theme-color" content="#fdfdfc">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Applied before first paint so the theme never flashes. -->
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('theme'); } catch (e) { }
+      if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'dark' ? '#101214' : '#fdfdfc');
+    })();
+  </script>
+
+  <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="katex/katex.min.css">
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="site-title" href="index.html">Home</a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+        <span class="nav-toggle-lines" aria-hidden="true"></span>
+        <span class="sr-only">Open navigation</span>
+      </button>
+      <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
+        <a href="index.html#research">Research</a>
+        <a href="index.html#publications">Publications</a>
+        <a href="index.html#experience">Experience</a>
+        <a href="cv.html">CV</a>
+        <a class="current" href="blog.html" aria-current="page">Blog</a>
+        <a href="index.html#contact">Contact</a>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="content">
+    <a class="back-link" href="blog.html">All posts</a>
+    <article class="post" id="physical-ai">
+      <header class="article-header">
+        <p class="eyebrow"><time datetime="2026-07-19">19 July 2026</time> · AI &amp; infrastructure</p>
+        <h1 class="post-title">AI's bottleneck is physical: from data centres to sensors</h1>
+        <p class="article-meta muted">AI does not become useful when a model is trained. It becomes useful when a
+          physical feedback loop can run reliably.</p>
+      </header>
+
+      <div class="prose">
+        <p>AI is often described in weightless terms: models, parameters, tokens, prompts.</p>
+
+        <p>But a deployed model is not weightless. It lives inside a chain of physical transformations: electricity
+          becomes computation; computation becomes a decision; a decision becomes an action; an action changes a
+          physical process; sensors observe the change.</p>
+
+        <p>The next bottleneck in AI is not only better algorithms. It is whether this loop can be made reliable,
+          efficient, and observable.</p>
+
+        <h3>Trace one prediction</h3>
+        <p>A model is one component in a closed physical loop, not the loop itself. Select a stage to see the constraint
+          that actually governs it.</p>
+
+        <!-- Widget A: the physical loop -->
+        <div class="interactive">
+          <div class="widget-controls">
+            <p class="widget-title">Interactive · The physical loop</p>
+            <p class="widget-description">Each prediction travels a chain of physical transformations and returns as new
+              observation. Every stage has a constraint that can become the bottleneck.</p>
+            <div class="loop-stages" role="tablist" aria-label="Pipeline stages">
+              <button class="loop-stage" role="tab" id="loop-tab-0" data-loop="0" aria-selected="true">Electricity</button>
+              <button class="loop-stage" role="tab" id="loop-tab-1" data-loop="1" aria-selected="false">Chip</button>
+              <button class="loop-stage" role="tab" id="loop-tab-2" data-loop="2" aria-selected="false">Heat</button>
+              <button class="loop-stage" role="tab" id="loop-tab-3" data-loop="3" aria-selected="false">Inference</button>
+              <button class="loop-stage" role="tab" id="loop-tab-4" data-loop="4" aria-selected="false">Decision</button>
+              <button class="loop-stage" role="tab" id="loop-tab-5" data-loop="5" aria-selected="false">Actuation</button>
+              <button class="loop-stage" role="tab" id="loop-tab-6" data-loop="6" aria-selected="false">Sensor</button>
+            </div>
+            <div class="control-group loop-detail" aria-live="polite">
+              <p><strong id="loop-name">Electricity</strong></p>
+              <ul class="loop-constraints" id="loop-constraints"></ul>
+            </div>
+            <p class="widget-note">The loop is closed: sensor observations return as the next input, so a weakness at
+              any stage limits the whole system, not just its own step.</p>
+          </div>
+
+          <div class="widget-visual">
+            <svg viewBox="0 0 260 260" id="svg-loop" role="img" aria-labelledby="loop-title" style="max-width:300px">
+              <title id="loop-title">Seven stages arranged in a ring — electricity, chip, heat, inference, decision,
+                actuation, sensor — connected by arrows that return to the start.</title>
+              <circle cx="130" cy="130" r="92" fill="none" stroke="var(--color-divider)" stroke-width="1"
+                stroke-dasharray="3 5" />
+              <g id="loop-nodes"></g>
+            </svg>
+          </div>
+        </div>
+
+        <h3>A different scaling law</h3>
+        <p>The usual scaling law is implicit: more compute plus more data yields a more capable model. For deployment,
+          the relevant relationship is closer to a product of interfaces:</p>
+
+        <div class="equation"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>useful AI</mtext><mo>=</mo><mi>f</mi><mo stretchy="false">(</mo><mtext>model</mtext><mo separator="true">,</mo><mtext> data quality</mtext><mo separator="true">,</mo><mtext> latency</mtext><mo separator="true">,</mo><mtext> energy</mtext><mo separator="true">,</mo><mtext> hardware</mtext><mo separator="true">,</mo><mtext> integration</mtext><mo separator="true">,</mo><mtext> reliability</mtext><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\text{useful AI} = f(\text{model},\ \text{data quality},\ \text{latency},\ \text{energy},\ \text{hardware},\ \text{integration},\ \text{reliability})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">useful AI</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord text"><span class="mord">model</span></span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">data quality</span></span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">latency</span></span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">energy</span></span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">hardware</span></span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">integration</span></span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">reliability</span></span><span class="mclose">)</span></span></span></span></span></div>
+
+        <p>A frontier model can be extraordinarily capable yet operationally useless for a millisecond-sensitive control
+          loop, a disconnected production line, or a process whose sensors cannot identify the state that matters.</p>
+
+        <h3>Capability is not deployability</h3>
+        <p>Set model capability to 100% while keeping sensor quality or data context low. The deployable intelligence
+          score stays low, because the system is a chain: the weakest interface, not the strongest component, sets
+          what you can actually run. Industrial AI fails at interfaces, not just in neural networks.</p>
+
+        <!-- Widget B: capability vs deployability -->
+        <div class="interactive">
+          <div class="widget-controls">
+            <p class="widget-title">Interactive · Capability is not deployability</p>
+            <p class="widget-description">Move the sliders. The score combines model capability with the physical
+              interfaces around it, and it is dominated by whichever interface is weakest.</p>
+            <div class="control-group">
+              <div class="dep-sliders" id="dep-sliders"></div>
+            </div>
+            <p class="widget-note">Schematic. The score weights the weakest link against the average, so a single poor
+              interface caps the system even at full model capability.</p>
+          </div>
+
+          <div class="widget-visual" style="flex-direction:column; gap:var(--space-3)">
+            <svg viewBox="0 0 260 220" id="svg-radar" role="img" aria-labelledby="radar-title" style="max-width:300px">
+              <title id="radar-title">Radar chart over seven factors — model capability, sensor quality, data context,
+                edge compute, network, energy, and safe actuation — with the current deployability envelope shaded.</title>
+              <g id="radar-grid"></g>
+              <polygon id="radar-area" fill="var(--color-primary-highlight)" stroke="var(--color-primary)"
+                stroke-width="2" />
+              <g id="radar-labels"></g>
+            </svg>
+            <div class="dep-score">
+              <div class="dep-score-value" id="dep-score">—</div>
+              <div class="dep-score-label">Deployable intelligence</div>
+              <p class="dep-limit" id="dep-limit"></p>
+            </div>
+          </div>
+        </div>
+
+        <h3>The data centre becomes a factory</h3>
+        <p>Training has dominated the public imagination. Inference is what makes AI permanent infrastructure. A
+          training run is a discrete event. A production model is a standing load: it must serve users, machines, or
+          agents with predictable latency and availability. That requires power, networking, cooling, redundancy, and
+          operational discipline.</p>
+
+        <p>The International Energy Agency projects global data-centre electricity demand to increase from roughly
+          415 TWh in 2024 to about 945 TWh by 2030, driven substantially by AI-oriented accelerated computing.<a
+            class="ref" href="https://www.iea.org/reports/energy-and-ai/executive-summary" target="_blank"
+            rel="noopener noreferrer">[IEA, 2025]</a></p>
+
+        <p>The important unit is therefore not only FLOPs. It is reliably delivered power. A model does not run on
+          annual electricity statistics. It runs on megawatts, now, at a particular place on a particular grid.</p>
+
+        <h3>Germany: the industrial AI paradox</h3>
+        <p>Germany has an exceptional position in the application layer of AI: machinery, automation, precision
+          sensors, industrial software, process engineering, electrochemistry, and manufacturing expertise. But it
+          also exposes a simple tension: AI capacity cannot be deployed independently of power and grid
+          infrastructure.</p>
+
+        <p>German data centres were projected to consume 21.3 TWh of electricity in 2025. Installed capacity was
+          expected to grow from nearly 3,000 MW to more than 5,000 MW by 2030, with AI-specific capacity projected to
+          rise from 530 MW to 2,020 MW.<a class="ref"
+            href="https://www.bitkom.org/Presse/Presseinformation/Rechenzentren-Deutschland-KI-treibt-Wachstum"
+            target="_blank" rel="noopener noreferrer">[Bitkom, 2025]</a></p>
+
+        <p>The question is not whether Germany has annual electricity generation. The question is whether a
+          high-density load can connect where fibre, cloud ecosystems, industrial demand, cooling options, and skilled
+          operators already exist. A site optimised for connectivity does not necessarily coincide with one optimised
+          for grid availability or waste-heat reuse.</p>
+
+        <h3>AI begins at the sensor</h3>
+        <p>The data centre is only one end of the AI system. At the other end, AI encounters the world through
+          instruments. For an electrode-production line, the relevant observations might include material-lot identity,
+          powder moisture, torque, temperature, pressure, roll speed, gap, thickness, mass loading, density, defect
+          images, electrical resistance, and later electrochemical performance.</p>
+
+        <p>Yet none of these is inherently a learning signal. A number becomes usable data only when it carries
+          context:</p>
+
+        <div class="equation"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>measurement</mtext><mo>+</mo><mtext>identity</mtext><mo>+</mo><mtext>time</mtext><mo>+</mo><mtext>unit</mtext><mo>+</mo><mtext>process context</mtext><mo>+</mo><mtext>quality flag</mtext><mtext>  </mtext><mo>⟶</mo><mtext>  </mtext><mtext>evidence</mtext></mrow><annotation encoding="application/x-tex">\text{measurement} + \text{identity} + \text{time} + \text{unit} + \text{process context} + \text{quality flag} \;\longrightarrow\; \text{evidence}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6984em;vertical-align:-0.0833em;"></span><span class="mord text"><span class="mord">measurement</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">identity</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7512em;vertical-align:-0.0833em;"></span><span class="mord text"><span class="mord">time</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7512em;vertical-align:-0.0833em;"></span><span class="mord text"><span class="mord">unit</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8095em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">process context</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">quality flag</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">⟶</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">evidence</span></span></span></span></span></span></div>
+
+        <p>The factory does not produce "data." It produces measurements whose meaning must be preserved. A bare
+          <em>temperature = 65</em> is not evidence until it carries its unit (65 °C, not 65 K), its location (drying
+          zone 3, not ambient air), its time alignment (the correct electrode segment), its process state (recipe
+          version 12, line speed 4 m/min), its provenance (sensor calibrated 18 days ago), and its quality flag (valid
+          signal, no fault). Remove the timestamp alignment alone, and every analysis that links this reading to a
+          specific electrode becomes invalid.</p>
+
+        <h3>Data harmonisation is the missing layer</h3>
+        <p>Most industrial AI efforts are not blocked by a lack of raw measurements. They are blocked because data
+          cannot be reliably connected across the process. An electrode's eventual cell performance may depend on
+          upstream material history, mixing, coating, drying, calendering, sampling location, cell assembly, formation
+          protocol, and test conditions:</p>
+
+        <div class="equation"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>material lot</mtext><mo>→</mo><mtext>mixing</mtext><mo>→</mo><mtext>coated roll</mtext><mo>→</mo><mtext>calendered sheet</mtext><mo>→</mo><mtext>sample</mtext><mo>→</mo><mtext>cell</mtext><mo>→</mo><mtext>test</mtext></mrow><annotation encoding="application/x-tex">\text{material lot} \to \text{mixing} \to \text{coated roll} \to \text{calendered sheet} \to \text{sample} \to \text{cell} \to \text{test}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">material lot</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8623em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">mixing</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">coated roll</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">calendered sheet</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">sample</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">cell</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord text"><span class="mord">test</span></span></span></span></span></span></div>
+
+        <p>If those records do not reference the same physical lineage, a model cannot learn
+          process–property–performance relationships, no matter how sophisticated its architecture is. Break one
+          identifier, shift one timestamp, or change one unit, and the graph forms false links: spurious correlations
+          that a model will happily fit. Harmonisation is the interface between physical history and statistical
+          learning. It is also where the causal question from my <a href="post-causalpfn.html">CausalPFN reading
+            note</a> becomes concrete: without lineage, you cannot even define the intervention whose effect you want
+          to estimate.</p>
+
+        <h3>Edge AI: compute where it matters</h3>
+        <p>The industrial answer is rarely "send every signal to the cloud." High-frequency camera streams, acoustic
+          monitoring, and vibration signals can be costly to transfer and too delayed for a remote decision. Edge AI
+          moves selected computation closer to the source: on a sensor, machine controller, local gateway, or factory
+          server. Fraunhofer IPMS integrates signal processing and AI near sensors so that data can be processed where
+          it is generated.<a class="ref"
+            href="https://www.ipms.fraunhofer.de/en/press-media/press/2025/Edge-KI-Insekt.html" target="_blank"
+            rel="noopener noreferrer">[Fraunhofer IPMS, 2025]</a></p>
+
+        <p>The point is not "cloud bad, edge good." It is compute locality: send upward when global context is
+          valuable; decide locally when time, bandwidth, or resilience matters. A physically realistic AI system uses
+          models at several scales, each matched to what its layer can observe and afford.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th scope="col">Layer</th><th scope="col">Typical function</th><th scope="col">Appropriate intelligence</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Sensor</th><td>Filtering, event detection, compression</td><td>Rules, DSP, tiny neural network</td></tr>
+              <tr><th scope="row">Machine</th><td>Defect detection, anomaly scores, state estimation</td><td>Compact vision or time-series model</td></tr>
+              <tr><th scope="row">Factory</th><td>Process coordination, multimodal prediction</td><td>Site-level ML model</td></tr>
+              <tr><th scope="row">Cloud</th><td>Training, fleet learning, optimisation, simulation</td><td>Large model or distributed compute</td></tr>
+              <tr><th scope="row">Human</th><td>Accountability, intervention, goal-setting</td><td>Operator and engineer</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>The allocation is a budget problem. More cloud processing adds global context but communication cost; more
+          edge processing improves responsiveness but limits model capacity; more sensing improves observability but
+          adds calibration and integration burden. There is no single optimum, only a trade-off surface.</p>
+
+        <h3>Batteries: not merely backup</h3>
+        <p>Batteries sit in the AI loop twice. Data centres use storage for uninterrupted power and, increasingly, for
+          buffering volatile loads. Distributed sensing and edge computing depend directly on batteries: wireless
+          nodes, mobile inspection systems, robots, remote assets, and local backup. For a battery-powered sensor,
+          communication, inference, and sampling are interchangeable energy expenditures, and the design question has
+          no universal answer: is it cheaper to transmit raw data, extract features locally, infer locally, or transmit
+          only an event?</p>
+
+        <h3>The edge case: failure</h3>
+        <p>Benchmarks assume stable inputs, stable hardware, and stable connectivity. Factories do not. A mature system
+          needs to remain intelligible under sensor drift, network outages, version mismatches, power disturbances, and
+          process changes. That means local buffering, explicit fallbacks, calibrated uncertainty, model-version
+          tracking, and deterministic safety paths. Under a network loss or an edge-device failure, a fault-tolerant
+          architecture routes around it: local inference continues, a rule-based fallback activates, data is buffered,
+          or a human is alerted. A fragile architecture simply stops producing a decision. Reliability emerges from the
+          architecture surrounding the model, not from the model alone.</p>
+
+        <div class="callout">
+          <strong>The recurring pattern.</strong> Every stage in the first widget, and every axis in the second, is a
+          place where a capable model meets a physical constraint. The advantage does not go to whoever trains the
+          largest model. It goes to whoever closes the loop: trustworthy sensors, preserved data lineage, computation
+          placed where it matters, managed energy and heat, and models that fail safely.
+        </div>
+
+        <h3>Ending</h3>
+        <p>AI is not escaping the physical world. It is becoming more entangled with it. The next competitive advantage
+          will not belong only to whoever trains the largest model. It will belong to those who can close the loop:
+          build trustworthy sensors, preserve data lineage, place computation where it matters, manage energy and heat,
+          maintain storage and power quality, and deploy models that fail safely.</p>
+
+        <p>For battery manufacturing, that is not a distant analogy. Batteries can power the distributed intelligence
+          that improves battery production; manufacturing quality can determine the reliability of the storage
+          supporting that intelligence. AI and advanced manufacturing are no longer separate sectors. Each increasingly
+          defines the feasible scale, efficiency, and reliability of the other.</p>
+      </div>
+    </article>
+
+    <nav class="post-pager" aria-label="More posts">
+      <a href="post-causalpfn.html">
+        <span class="eyebrow">Next post</span>
+        <span class="post-pager-title">Reading CausalPFN: causal effects as in-context prediction</span>
+      </a>
+    </nav>
+  </main>
+
+  <footer class="content">
+    <span>© 2026 Julius Störk</span>
+    <span><a href="blog.html">All posts</a></span>
+  </footer>
+
+  <script src="theme.js"></script>
+  <script src="navigation.js"></script>
+  <script src="background.js"></script>
+  <script src="blog.js"></script>
+  <script>
+    window.addEventListener('load', function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://gc.zgo.at/count.js';
+      s.setAttribute('data-goatcounter', 'https://jstoerk.goatcounter.com/count');
+      document.body.appendChild(s);
+    });
+  </script>
+</body>
+
+</html>

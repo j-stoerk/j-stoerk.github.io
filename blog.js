@@ -260,4 +260,175 @@
     document.getElementById('cp-cal').addEventListener('change', updateCausalPFN);
     updateCausalPFN();
   }
+
+  /* =========================================================
+     Widget A — the physical loop (post-physical-ai)
+     Seven stages in a ring; selecting one shows its constraint.
+     ========================================================= */
+  var loopNodes = document.getElementById('loop-nodes');
+
+  var LOOP = [
+    ['Electricity', ['grid connection', 'price and availability', 'carbon intensity']],
+    ['Chip', ['supply', 'memory bandwidth', 'utilisation']],
+    ['Heat', ['rack density', 'cooling topology', 'water and heat reuse']],
+    ['Inference', ['latency', 'reliability', 'concurrency']],
+    ['Decision', ['uncertainty', 'safety', 'operator trust']],
+    ['Actuation', ['mechanical limits', 'safe envelope', 'wear and drift']],
+    ['Sensor', ['calibration', 'drift', 'context and sampling rate']]
+  ];
+
+  function loopSelect(idx) {
+    var tabs = document.querySelectorAll('.loop-stage');
+    for (var i = 0; i < tabs.length; i += 1) {
+      tabs[i].setAttribute('aria-selected', String(i === idx));
+    }
+    var circles = loopNodes.querySelectorAll('circle');
+    for (var j = 0; j < circles.length; j += 1) {
+      var on = j === idx;
+      circles[j].setAttribute('fill', on ? 'var(--color-primary)' : 'var(--color-surface)');
+      circles[j].setAttribute('stroke', on ? 'var(--color-primary)' : 'var(--color-border)');
+    }
+    document.getElementById('loop-name').textContent = LOOP[idx][0];
+    var ul = document.getElementById('loop-constraints');
+    ul.textContent = '';
+    LOOP[idx][1].forEach(function (c) {
+      var li = document.createElement('li');
+      li.textContent = c;
+      ul.appendChild(li);
+    });
+  }
+
+  if (loopNodes) {
+    var ns = 'http://www.w3.org/2000/svg';
+    var cx = 130, cy = 130, r = 92;
+    LOOP.forEach(function (stage, i) {
+      var a = -Math.PI / 2 + i * (2 * Math.PI / LOOP.length);
+      var x = cx + r * Math.cos(a), y = cy + r * Math.sin(a);
+      var g = document.createElementNS(ns, 'g');
+      var c = document.createElementNS(ns, 'circle');
+      c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', 15);
+      c.setAttribute('fill', 'var(--color-surface)');
+      c.setAttribute('stroke', 'var(--color-border)');
+      c.setAttribute('stroke-width', '1.5');
+      c.style.cursor = 'pointer';
+      c.addEventListener('click', function () { loopSelect(i); });
+      var t = document.createElementNS(ns, 'text');
+      t.setAttribute('x', x); t.setAttribute('y', y + 3);
+      t.setAttribute('text-anchor', 'middle');
+      t.setAttribute('class', 'text-tick');
+      t.style.pointerEvents = 'none';
+      t.textContent = String(i + 1);
+      // arrowhead toward the next node, along the ring
+      var a2 = a + (2 * Math.PI / LOOP.length) * 0.5;
+      var ax = cx + r * Math.cos(a2), ay = cy + r * Math.sin(a2);
+      var tan = a2 + Math.PI / 2;
+      var ar = document.createElementNS(ns, 'path');
+      ar.setAttribute('d', 'M ' + (ax - 4 * Math.cos(tan)) + ' ' + (ay - 4 * Math.sin(tan)) +
+        ' L ' + (ax + 5 * Math.cos(a2)) + ' ' + (ay + 5 * Math.sin(a2)) +
+        ' L ' + (ax + 4 * Math.cos(tan)) + ' ' + (ay + 4 * Math.sin(tan)));
+      ar.setAttribute('fill', 'var(--color-text-faint)');
+      g.appendChild(ar);
+      g.appendChild(c);
+      g.appendChild(t);
+      loopNodes.appendChild(g);
+    });
+    document.querySelectorAll('.loop-stage').forEach(function (tab, i) {
+      tab.addEventListener('click', function () { loopSelect(i); });
+    });
+    loopSelect(0);
+  }
+
+  /* =========================================================
+     Widget B — capability is not deployability (post-physical-ai)
+     Radar over 7 factors; score is capability gated by the
+     weakest physical interface (blend of min and mean).
+     ========================================================= */
+  var depSliders = document.getElementById('dep-sliders');
+
+  var DEP = [
+    ['Model capability', 90],
+    ['Sensor quality', 55],
+    ['Data context', 45],
+    ['Edge compute', 60],
+    ['Network', 70],
+    ['Energy', 65],
+    ['Safe actuation', 60]
+  ];
+
+  function depRadarPoint(i, frac) {
+    var a = -Math.PI / 2 + i * (2 * Math.PI / DEP.length);
+    var rr = 20 + frac * 78;
+    return [130 + rr * Math.cos(a), 100 + rr * Math.sin(a)];
+  }
+
+  function updateDep() {
+    var vals = DEP.map(function (d, i) {
+      return parseInt(document.getElementById('dep-' + i).value, 10);
+    });
+    var capability = vals[0];
+    var interfaces = vals.slice(1);
+    var minI = Math.min.apply(null, interfaces);
+    var meanI = interfaces.reduce(function (s, v) { return s + v; }, 0) / interfaces.length;
+    // weakest link dominates, average softens it
+    var gate = (0.6 * minI + 0.4 * meanI) / 100;
+    var score = Math.round(capability * gate);
+
+    document.getElementById('dep-score').textContent = score;
+    var pts = vals.map(function (v, i) { return depRadarPoint(i, v / 100).map(function (n) { return n.toFixed(1); }).join(','); });
+    document.getElementById('radar-area').setAttribute('points', pts.join(' '));
+
+    var limitEl = document.getElementById('dep-limit');
+    var weakIdx = interfaces.indexOf(minI) + 1;
+    if (capability >= 80 && minI <= 45) {
+      limitEl.textContent = 'High capability, but ' + DEP[weakIdx][0].toLowerCase() + ' caps the system.';
+    } else if (score >= 70) {
+      limitEl.textContent = 'Balanced: no single interface is starving the loop.';
+    } else {
+      limitEl.textContent = 'Weakest link: ' + DEP[weakIdx][0].toLowerCase() + '.';
+    }
+  }
+
+  if (depSliders) {
+    DEP.forEach(function (d, i) {
+      var row = document.createElement('div');
+      var lab = document.createElement('div');
+      lab.className = 'slider-label';
+      lab.innerHTML = '<label for="dep-' + i + '">' + d[0] + '</label><output id="dep-out-' + i + '">' + d[1] + '%</output>';
+      var input = document.createElement('input');
+      input.type = 'range'; input.className = 'slider-input'; input.id = 'dep-' + i;
+      input.min = '0'; input.max = '100'; input.step = '1'; input.value = String(d[1]);
+      input.addEventListener('input', function () {
+        document.getElementById('dep-out-' + i).textContent = input.value + '%';
+        updateDep();
+      });
+      row.appendChild(lab); row.appendChild(input);
+      depSliders.appendChild(row);
+    });
+
+    // radar grid rings + axis labels
+    var rg = document.getElementById('radar-grid');
+    var rl = document.getElementById('radar-labels');
+    var rns = 'http://www.w3.org/2000/svg';
+    [0.34, 0.67, 1].forEach(function (f) {
+      var poly = document.createElementNS(rns, 'polygon');
+      var pp = DEP.map(function (d, i) { return depRadarPoint(i, f).map(function (n) { return n.toFixed(1); }).join(','); });
+      poly.setAttribute('points', pp.join(' '));
+      poly.setAttribute('fill', 'none');
+      poly.setAttribute('stroke', 'var(--color-divider)');
+      poly.setAttribute('stroke-width', '1');
+      rg.appendChild(poly);
+    });
+    DEP.forEach(function (d, i) {
+      var p = depRadarPoint(i, 1.16);
+      var t = document.createElementNS(rns, 'text');
+      t.setAttribute('x', p[0]); t.setAttribute('y', p[1] + 2);
+      var a = -Math.PI / 2 + i * (2 * Math.PI / DEP.length);
+      t.setAttribute('text-anchor', Math.cos(a) > 0.3 ? 'start' : Math.cos(a) < -0.3 ? 'end' : 'middle');
+      t.setAttribute('class', 'text-label-faint');
+      t.setAttribute('style', 'font-size:7px');
+      t.textContent = d[0];
+      rl.appendChild(t);
+    });
+    updateDep();
+  }
 })();
