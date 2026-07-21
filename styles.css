@@ -1461,14 +1461,19 @@ p {
 
 /* ---------- Interactive widgets ---------- */
 .interactive {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-  gap: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
   background: var(--color-surface-2);
   border-radius: var(--radius-lg);
   padding: var(--space-6);
   margin: var(--space-8) 0;
   border: 1px solid var(--color-border);
+}
+
+/* The visualisation follows its controls in the stack, centred. */
+.widget-visual {
+  align-self: stretch;
 }
 
 .widget-controls {
