@@ -331,11 +331,11 @@
   }
 
   /* =========================================================
-     Widget B — capability is not deployability (post-physical-ai)
-     Radar over 7 factors; score is capability gated by the
-     weakest physical interface (blend of min and mean).
+     Widget B - capability is not deployability (post-physical-ai)
+     Draggable radar over 7 factors. Score is model capability
+     gated by the weakest physical interface (blend of min/mean).
      ========================================================= */
-  var depSliders = document.getElementById('dep-sliders');
+  var radarSvg = document.getElementById('svg-radar');
 
   var DEP = [
     ['Model capability', 90],
@@ -346,28 +346,35 @@
     ['Energy', 65],
     ['Safe actuation', 60]
   ];
+  var DEP_CX = 130, DEP_CY = 120, DEP_MAXR = 82;
 
-  function depRadarPoint(i, frac) {
-    var a = -Math.PI / 2 + i * (2 * Math.PI / DEP.length);
-    var rr = 20 + frac * 78;
-    return [130 + rr * Math.cos(a), 100 + rr * Math.sin(a)];
+  function depAngle(i) { return -Math.PI / 2 + i * (2 * Math.PI / DEP.length); }
+  function depPoint(i, frac) {
+    var a = depAngle(i);
+    return [DEP_CX + frac * DEP_MAXR * Math.cos(a), DEP_CY + frac * DEP_MAXR * Math.sin(a)];
   }
 
   function updateDep() {
-    var vals = DEP.map(function (d, i) {
-      return parseInt(document.getElementById('dep-' + i).value, 10);
-    });
-    var capability = vals[0];
-    var interfaces = vals.slice(1);
+    var capability = DEP[0][1];
+    var interfaces = DEP.slice(1).map(function (d) { return d[1]; });
     var minI = Math.min.apply(null, interfaces);
     var meanI = interfaces.reduce(function (s, v) { return s + v; }, 0) / interfaces.length;
-    // weakest link dominates, average softens it
     var gate = (0.6 * minI + 0.4 * meanI) / 100;
     var score = Math.round(capability * gate);
 
     document.getElementById('dep-score').textContent = score;
-    var pts = vals.map(function (v, i) { return depRadarPoint(i, v / 100).map(function (n) { return n.toFixed(1); }).join(','); });
+    var pts = DEP.map(function (d, i) {
+      return depPoint(i, d[1] / 100).map(function (n) { return n.toFixed(1); }).join(',');
+    });
     document.getElementById('radar-area').setAttribute('points', pts.join(' '));
+
+    DEP.forEach(function (d, i) {
+      var p = depPoint(i, d[1] / 100);
+      var h = document.getElementById('radar-h-' + i);
+      if (h) { h.setAttribute('cx', p[0].toFixed(1)); h.setAttribute('cy', p[1].toFixed(1)); h.setAttribute('aria-valuenow', d[1]); }
+      var pct = document.getElementById('radar-pct-' + i);
+      if (pct) pct.textContent = d[1] + '%';
+    });
 
     var limitEl = document.getElementById('dep-limit');
     var weakIdx = interfaces.indexOf(minI) + 1;
@@ -380,47 +387,101 @@
     }
   }
 
-  if (depSliders) {
-    DEP.forEach(function (d, i) {
-      var row = document.createElement('div');
-      var lab = document.createElement('div');
-      lab.className = 'slider-label';
-      lab.innerHTML = '<label for="dep-' + i + '">' + d[0] + '</label><output id="dep-out-' + i + '">' + d[1] + '%</output>';
-      var input = document.createElement('input');
-      input.type = 'range'; input.className = 'slider-input'; input.id = 'dep-' + i;
-      input.min = '0'; input.max = '100'; input.step = '1'; input.value = String(d[1]);
-      input.addEventListener('input', function () {
-        document.getElementById('dep-out-' + i).textContent = input.value + '%';
-        updateDep();
-      });
-      row.appendChild(lab); row.appendChild(input);
-      depSliders.appendChild(row);
-    });
-
-    // radar grid rings + axis labels
-    var rg = document.getElementById('radar-grid');
-    var rl = document.getElementById('radar-labels');
+  if (radarSvg) {
     var rns = 'http://www.w3.org/2000/svg';
+    var rGrid = document.getElementById('radar-grid');
+    var rAxes = document.getElementById('radar-axes');
+    var rHandles = document.getElementById('radar-handles');
+    var rLabels = document.getElementById('radar-labels');
+
     [0.34, 0.67, 1].forEach(function (f) {
       var poly = document.createElementNS(rns, 'polygon');
-      var pp = DEP.map(function (d, i) { return depRadarPoint(i, f).map(function (n) { return n.toFixed(1); }).join(','); });
-      poly.setAttribute('points', pp.join(' '));
+      poly.setAttribute('points', DEP.map(function (d, i) { return depPoint(i, f).map(function (n) { return n.toFixed(1); }).join(','); }).join(' '));
       poly.setAttribute('fill', 'none');
       poly.setAttribute('stroke', 'var(--color-divider)');
       poly.setAttribute('stroke-width', '1');
-      rg.appendChild(poly);
+      rGrid.appendChild(poly);
     });
+
     DEP.forEach(function (d, i) {
-      var p = depRadarPoint(i, 1.16);
+      var a = depAngle(i);
+      var e = depPoint(i, 1);
+      var axis = document.createElementNS(rns, 'line');
+      axis.setAttribute('x1', DEP_CX); axis.setAttribute('y1', DEP_CY);
+      axis.setAttribute('x2', e[0].toFixed(1)); axis.setAttribute('y2', e[1].toFixed(1));
+      axis.setAttribute('stroke', 'var(--color-divider)');
+      axis.setAttribute('stroke-width', '0.75');
+      rAxes.appendChild(axis);
+
+      var lp = depPoint(i, 1.24);
+      var anchor = Math.cos(a) > 0.3 ? 'start' : Math.cos(a) < -0.3 ? 'end' : 'middle';
       var t = document.createElementNS(rns, 'text');
-      t.setAttribute('x', p[0]); t.setAttribute('y', p[1] + 2);
-      var a = -Math.PI / 2 + i * (2 * Math.PI / DEP.length);
-      t.setAttribute('text-anchor', Math.cos(a) > 0.3 ? 'start' : Math.cos(a) < -0.3 ? 'end' : 'middle');
+      t.setAttribute('x', lp[0].toFixed(1)); t.setAttribute('y', lp[1].toFixed(1));
+      t.setAttribute('text-anchor', anchor);
       t.setAttribute('class', 'text-label-faint');
       t.setAttribute('style', 'font-size:7px');
       t.textContent = d[0];
-      rl.appendChild(t);
+      var pct = document.createElementNS(rns, 'tspan');
+      pct.setAttribute('id', 'radar-pct-' + i);
+      pct.setAttribute('x', lp[0].toFixed(1)); pct.setAttribute('dy', '9');
+      pct.setAttribute('style', 'font-size:8px; font-weight:700; fill:var(--color-primary)');
+      pct.textContent = d[1] + '%';
+      t.appendChild(pct);
+      rLabels.appendChild(t);
+
+      var h = document.createElementNS(rns, 'circle');
+      h.setAttribute('id', 'radar-h-' + i);
+      h.setAttribute('r', '4.5');
+      h.setAttribute('fill', 'var(--color-primary)');
+      h.setAttribute('stroke', 'var(--color-bg)');
+      h.setAttribute('stroke-width', '1.5');
+      h.setAttribute('class', 'radar-handle');
+      h.setAttribute('tabindex', '0');
+      h.setAttribute('role', 'slider');
+      h.setAttribute('aria-label', d[0]);
+      h.setAttribute('aria-valuemin', '0');
+      h.setAttribute('aria-valuemax', '100');
+      h.setAttribute('aria-valuenow', d[1]);
+      rHandles.appendChild(h);
     });
+
+    function svgPoint(evt) {
+      var pt = radarSvg.createSVGPoint();
+      pt.x = evt.clientX; pt.y = evt.clientY;
+      return pt.matrixTransform(radarSvg.getScreenCTM().inverse());
+    }
+    function setFromPointer(i, evt) {
+      var p = svgPoint(evt);
+      var a = depAngle(i);
+      var proj = (p.x - DEP_CX) * Math.cos(a) + (p.y - DEP_CY) * Math.sin(a);
+      var frac = Math.max(0.03, Math.min(1, proj / DEP_MAXR));
+      DEP[i][1] = Math.round(frac * 100);
+      updateDep();
+    }
+
+    var dragging = null;
+    DEP.forEach(function (d, i) {
+      var h = document.getElementById('radar-h-' + i);
+      h.addEventListener('pointerdown', function (evt) {
+        dragging = i; h.setPointerCapture(evt.pointerId); evt.preventDefault();
+      });
+      h.addEventListener('pointermove', function (evt) {
+        if (dragging === i) setFromPointer(i, evt);
+      });
+      h.addEventListener('pointerup', function (evt) {
+        dragging = null;
+        try { h.releasePointerCapture(evt.pointerId); } catch (err) { }
+      });
+      h.addEventListener('keydown', function (evt) {
+        var step = (evt.key === 'ArrowUp' || evt.key === 'ArrowRight') ? 5 :
+          (evt.key === 'ArrowDown' || evt.key === 'ArrowLeft') ? -5 : 0;
+        if (step) {
+          DEP[i][1] = Math.max(0, Math.min(100, DEP[i][1] + step));
+          updateDep(); evt.preventDefault();
+        }
+      });
+    });
+
     updateDep();
   }
 })();

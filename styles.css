@@ -1255,9 +1255,12 @@ p {
   white-space: nowrap;
 }
 
-/* Single-column widget (loop): title + centred figure, no side panel. */
+/* Single-column widget: title + centred figure stacked vertically. */
 .interactive-single {
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
 }
 
 .widget-head {
@@ -1343,10 +1346,34 @@ p {
   .loop-center span { font-size: 10px; }
 }
 
-/* Deployability widget: slider grid + score. */
-.dep-sliders {
-  display: grid;
-  gap: var(--space-3);
+/* Deployability widget: draggable radar + score. */
+.dep-figure {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.dep-figure svg {
+  width: 100%;
+  height: auto;
+  touch-action: none; /* let pointer drags control the vertices, not scroll */
+}
+
+.radar-handle {
+  cursor: grab;
+  transition: r .1s;
+}
+
+.radar-handle:hover { r: 6; }
+.radar-handle:active { cursor: grabbing; }
+
+.radar-handle:focus-visible {
+  outline: none;
+  stroke: var(--color-primary);
+  stroke-width: 2.5;
 }
 
 .dep-score {

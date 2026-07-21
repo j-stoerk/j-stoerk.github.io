@@ -13,7 +13,7 @@
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-physical-ai.html" />
   <meta property="og:title" content="AI's Bottleneck is Physical" />
-  <meta property="og:description" content="AI does not become useful when a model is trained. It becomes useful when a physical feedback loop can run reliably." />
+  <meta property="og:description" content="AI becomes useful not when a model is trained but when a physical feedback loop — power, heat, latency, sensors, data lineage, safe actuation — runs reliably." />
   <meta property="og:image" content="https://j-stoerk.github.io/social-physical-ai.png" />
   <meta property="og:image:alt" content="A closed loop from electricity through computation, decision, and actuation back to sensors" />
   <meta property="og:image:width" content="1200" />
@@ -28,7 +28,7 @@
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": "AI's Bottleneck is Physical",
-      "description": "AI does not become useful when a model is trained. It becomes useful when a physical feedback loop can run reliably.",
+      "description": "AI becomes useful not when a model is trained but when a physical feedback loop — power, heat, latency, sensors, data lineage, safe actuation — runs reliably.",
       "datePublished": "2026-07-19",
       "dateModified": "2026-07-19",
       "url": "https://j-stoerk.github.io/post-physical-ai.html",
@@ -85,8 +85,6 @@
       <header class="article-header">
         <p class="eyebrow"><time datetime="2026-07-19">19 July 2026</time> · AI &amp; infrastructure</p>
         <h1 class="post-title">AI's Bottleneck is Physical</h1>
-        <p class="article-meta muted">AI does not become useful when a model is trained. It becomes useful when a
-          physical feedback loop can run reliably.</p>
       </header>
 
       <div class="prose">
@@ -105,8 +103,6 @@
         <div class="interactive interactive-single">
           <div class="widget-head">
             <p class="widget-title">Interactive · The physical loop</p>
-            <p class="widget-description">Each prediction travels a chain of physical transformations and returns as a
-              new observation. Select a stage on the ring to see the constraint that can make it the bottleneck.</p>
           </div>
 
           <div class="loop-figure" id="loop-figure">
@@ -140,25 +136,22 @@
           what you can actually run. Industrial AI fails at interfaces, not just in neural networks.</p>
 
         <!-- Widget B: capability vs deployability -->
-        <div class="interactive">
-          <div class="widget-controls">
+        <div class="interactive interactive-single">
+          <div class="widget-head">
             <p class="widget-title">Interactive · Capability is not deployability</p>
-            <p class="widget-description">Move the sliders. The score combines model capability with the physical
-              interfaces around it, and it is dominated by whichever interface is weakest.</p>
-            <div class="control-group">
-              <div class="dep-sliders" id="dep-sliders"></div>
-            </div>
-            <p class="widget-note">Schematic. The score weights the weakest link against the average, so a single poor
-              interface caps the system even at full model capability.</p>
           </div>
 
-          <div class="widget-visual" style="flex-direction:column; gap:var(--space-3)">
-            <svg viewBox="0 0 260 220" id="svg-radar" role="img" aria-labelledby="radar-title" style="max-width:300px">
-              <title id="radar-title">Radar chart over seven factors — model capability, sensor quality, data context,
-                edge compute, network, energy, and safe actuation — with the current deployability envelope shaded.</title>
+          <div class="dep-figure">
+            <svg viewBox="0 0 260 250" id="svg-radar" role="img" aria-labelledby="radar-title">
+              <title id="radar-title">Draggable radar over seven factors — model capability, sensor quality, data
+                context, edge compute, network, energy, and safe actuation — with the current deployability envelope
+                shaded. Drag any vertex to change that factor.</title>
               <g id="radar-grid"></g>
+              <g id="radar-axes"></g>
               <polygon id="radar-area" fill="var(--color-primary-highlight)" stroke="var(--color-primary)"
                 stroke-width="2" />
+              <g id="radar-values"></g>
+              <g id="radar-handles"></g>
               <g id="radar-labels"></g>
             </svg>
             <div class="dep-score">
@@ -167,6 +160,9 @@
               <p class="dep-limit" id="dep-limit"></p>
             </div>
           </div>
+
+          <p class="widget-note">Schematic. Drag any vertex to set that interface. The score is gated by the weakest
+            one, so a single poor interface caps the system even at full model capability.</p>
         </div>
 
         <h3>The data centre becomes a factory</h3>
@@ -180,8 +176,15 @@
             class="ref" href="https://www.iea.org/reports/energy-and-ai/executive-summary" target="_blank"
             rel="noopener noreferrer">[IEA, 2025]</a> For scale, the projected increase alone (about 530 TWh) is close
           to Germany's entire annual electricity consumption of roughly 500 TWh, and the 945 TWh 2030 total would rank
-          among the largest national electricity demands on the planet, comparable to Japan's. (Those national
-          comparisons are my own rough scaling for intuition, not IEA figures.)</p>
+          among the largest national electricity demands on the planet, comparable to Japan's (national comparisons are
+          estimates).</p>
+
+        <p>That electricity is not spent on one thing. In a typical facility the largest share powers the servers and
+          accelerators doing the actual computation, much of the rest goes to cooling and power conversion, and within
+          the compute portion the balance is shifting from training toward inference as models move into production.
+          Cooling also has a second bill that rarely appears in FLOP counts: water. Evaporative and chilled-water
+          systems consume large volumes of it, which turns siting into a question of water availability as much as grid
+          capacity, especially in dry regions and hot summers.</p>
 
         <p>Storage sits inside this picture, not beside it. Data centres already use batteries for uninterrupted power
           and, increasingly, for buffering volatile loads, and distributed sensing and edge computing depend on them
@@ -305,7 +308,7 @@
         </div>
 
         <h3>Lessons learned</h3>
-        <p>AI is not escaping the physical world. It is becoming more entangled with it. The next competitive advantage
+        <p>AI is becoming more entangled with the physical world. The next competitive advantage
           will not belong only to whoever trains the largest model. It will belong to those who can close the loop:
           build trustworthy sensors, preserve data lineage, place computation where it matters, manage energy and heat,
           maintain storage and power quality, and deploy models that fail safely.</p>
