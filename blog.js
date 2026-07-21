@@ -383,12 +383,18 @@
     });
     document.getElementById('radar-area').setAttribute('points', pts.join(' '));
 
+    var minV = Math.min.apply(null, DEP.map(function (d) { return d[1]; }));
     DEP.forEach(function (d, i) {
       var p = depPoint(i, d[1] / 100);
+      var lowest = d[1] === minV;
+      var color = lowest ? 'var(--color-danger)' : 'var(--color-primary)';
       var h = document.getElementById('radar-h-' + i);
-      if (h) { h.setAttribute('cx', p[0].toFixed(1)); h.setAttribute('cy', p[1].toFixed(1)); h.setAttribute('aria-valuenow', d[1]); }
+      if (h) {
+        h.setAttribute('cx', p[0].toFixed(1)); h.setAttribute('cy', p[1].toFixed(1));
+        h.setAttribute('aria-valuenow', d[1]); h.setAttribute('fill', color);
+      }
       var pct = document.getElementById('radar-pct-' + i);
-      if (pct) pct.textContent = d[1] + '%';
+      if (pct) { pct.textContent = d[1] + '%'; pct.style.fill = color; }
     });
 
     var limitEl = document.getElementById('dep-limit');
