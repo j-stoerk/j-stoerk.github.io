@@ -72,15 +72,12 @@
           </div>
 
           <div class="loop-figure" id="loop-figure">
-            <svg class="loop-ring" viewBox="0 0 100 100" role="img" aria-labelledby="loop-title" preserveAspectRatio="xMidYMid meet">
-              <title id="loop-title">Seven stages arranged in a ring — electricity, chip, heat, inference, decision,
-                actuation, sensor — connected by arrows that return to the start.</title>
-              <circle cx="50" cy="50" r="40" fill="none" stroke="var(--color-divider)" stroke-width="0.6"
-                stroke-dasharray="1.5 2.5" />
-              <g id="loop-arrows"></g>
+            <svg class="loop-ring" viewBox="0 0 200 200" role="img" aria-labelledby="loop-title" preserveAspectRatio="xMidYMid meet">
+              <title id="loop-title">Seven stages of the loop as segments of a ring — electricity, chip, heat,
+                inference, decision, actuation, sensor. Select a segment to see its constraint.</title>
+              <g id="loop-segments" role="group" aria-label="Pipeline stages"></g>
             </svg>
             <div class="loop-center" id="loop-center" aria-live="polite"></div>
-            <div class="loop-buttons" id="loop-buttons" role="tablist" aria-label="Pipeline stages"></div>
           </div>
 
           <p class="widget-note">The loop is closed: sensor observations return as the next input, so a weakness at any

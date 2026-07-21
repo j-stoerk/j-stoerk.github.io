@@ -263,10 +263,11 @@
 
   /* =========================================================
      Widget A — the physical loop (post-physical-ai)
-     Stage buttons sit directly on the ring; the selected
-     stage's constraint shows in the centre.
+     A ring split into one clickable segment per stage, with
+     the stage name written along the segment. The selected
+     stage's constraint shows in the centre of the ring.
      ========================================================= */
-  var loopButtons = document.getElementById('loop-buttons');
+  var loopSegs = document.getElementById('loop-segments');
 
   var LOOP = [
     ['Electricity', ['grid connection', 'price and availability', 'carbon intensity']],
@@ -278,10 +279,25 @@
     ['Sensor', ['calibration', 'drift', 'context and sampling rate']]
   ];
 
+  var LC = 100, L_RO = 90, L_RI = 56, L_RT = 73, L_SEG = 360 / LOOP.length, L_PAD = 1.6;
+
+  function loopPt(r, deg) {
+    var a = deg * Math.PI / 180;
+    return [LC + r * Math.cos(a), LC + r * Math.sin(a)];
+  }
+  function loopFmt(p) { return p[0].toFixed(2) + ' ' + p[1].toFixed(2); }
+  function loopSector(a0, a1, ro, ri) {
+    var p0 = loopPt(ro, a0), p1 = loopPt(ro, a1), p2 = loopPt(ri, a1), p3 = loopPt(ri, a0);
+    return 'M' + loopFmt(p0) + 'A' + ro + ' ' + ro + ' 0 0 1 ' + loopFmt(p1) +
+      'L' + loopFmt(p2) + 'A' + ri + ' ' + ri + ' 0 0 0 ' + loopFmt(p3) + 'Z';
+  }
+
   function loopSelect(idx) {
-    var btns = loopButtons.querySelectorAll('.loop-stage');
-    for (var i = 0; i < btns.length; i += 1) {
-      btns[i].setAttribute('aria-selected', String(i === idx));
+    var paths = loopSegs.querySelectorAll('.loop-segment');
+    var labels = loopSegs.querySelectorAll('.loop-seg-label');
+    for (var i = 0; i < paths.length; i += 1) {
+      paths[i].setAttribute('aria-selected', String(i === idx));
+      labels[i].classList.toggle('on', i === idx);
     }
     var center = document.getElementById('loop-center');
     center.textContent = '';
@@ -293,39 +309,38 @@
     center.appendChild(span);
   }
 
-  if (loopButtons) {
-    var ns = 'http://www.w3.org/2000/svg';
-    var arrows = document.getElementById('loop-arrows');
-    var R = 42;                 // button radius, % of the square figure
-    var AR = 40;                // ring radius in the 0..100 SVG viewBox
-
+  if (loopSegs) {
+    var lns = 'http://www.w3.org/2000/svg';
     LOOP.forEach(function (stage, i) {
-      var a = -Math.PI / 2 + i * (2 * Math.PI / LOOP.length);
+      var base = -90 + i * L_SEG;
+      var a0 = base + L_PAD, a1 = base + L_SEG - L_PAD, mid = base + L_SEG / 2;
 
-      var btn = document.createElement('button');
-      btn.className = 'loop-stage';
-      btn.type = 'button';
-      btn.setAttribute('role', 'tab');
-      btn.setAttribute('aria-selected', String(i === 0));
-      btn.textContent = stage[0];
-      btn.style.left = (50 + R * Math.cos(a)) + '%';
-      btn.style.top = (50 + R * Math.sin(a)) + '%';
-      btn.addEventListener('click', function () { loopSelect(i); });
-      loopButtons.appendChild(btn);
+      var seg = document.createElementNS(lns, 'path');
+      seg.setAttribute('d', loopSector(a0, a1, L_RO, L_RI));
+      seg.setAttribute('class', 'loop-segment');
+      seg.setAttribute('tabindex', '0');
+      seg.setAttribute('role', 'button');
+      seg.setAttribute('aria-label', stage[0]);
+      seg.setAttribute('aria-selected', String(i === 0));
+      seg.addEventListener('click', function () { loopSelect(i); });
+      seg.addEventListener('keydown', function (evt) {
+        if (evt.key === 'Enter' || evt.key === ' ') { loopSelect(i); evt.preventDefault(); }
+      });
+      loopSegs.appendChild(seg);
 
-      // arrowhead on the ring, midway to the next node, pointing clockwise
-      var a2 = a + (2 * Math.PI / LOOP.length) * 0.5;
-      var ax = 50 + AR * Math.cos(a2), ay = 50 + AR * Math.sin(a2);
-      var tanx = -Math.sin(a2), tany = Math.cos(a2);   // clockwise tangent
-      var perpx = Math.cos(a2), perpy = Math.sin(a2);
-      var tip = 2.2, base = 1.6;
-      var p = document.createElementNS(ns, 'path');
-      p.setAttribute('d',
-        'M ' + (ax + tip * tanx) + ' ' + (ay + tip * tany) +
-        ' L ' + (ax - base * tanx + base * perpx) + ' ' + (ay - base * tany + base * perpy) +
-        ' L ' + (ax - base * tanx - base * perpx) + ' ' + (ay - base * tany - base * perpy) + ' Z');
-      p.setAttribute('fill', 'var(--color-text-faint)');
-      arrows.appendChild(p);
+      // straight label, rotated tangent to the ring, kept upright
+      var lp = loopPt(L_RT, mid);
+      var rot = mid + 90;
+      if (Math.sin(mid * Math.PI / 180) > 0.01) rot += 180;   // flip lower half
+      var t = document.createElementNS(lns, 'text');
+      t.setAttribute('x', lp[0].toFixed(2));
+      t.setAttribute('y', lp[1].toFixed(2));
+      t.setAttribute('text-anchor', 'middle');
+      t.setAttribute('dominant-baseline', 'central');
+      t.setAttribute('transform', 'rotate(' + rot.toFixed(2) + ' ' + lp[0].toFixed(2) + ' ' + lp[1].toFixed(2) + ')');
+      t.setAttribute('class', 'loop-seg-label' + (i === 0 ? ' on' : ''));
+      t.textContent = stage[0];
+      loopSegs.appendChild(t);
     });
     loopSelect(0);
   }
