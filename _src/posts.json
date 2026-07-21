@@ -5,7 +5,7 @@
     "iso": "2026-07-19",
     "display": "19 July 2026",
     "category": "AI & infrastructure",
-    "minutes": 11,
+    "minutes": 15,
     "summary": "AI does not become useful when a model is trained. It becomes useful when a physical feedback loop — power, heat, latency, sensors, data lineage, safe actuation — can run reliably. Two interactive figures trace the loop and show why capability is not deployability.",
     "feedDescription": "The next bottleneck in AI is physical: whether the loop from electricity through inference to actuation and back to sensors can run reliably, efficiently, and observably.",
     "rfc822": "Sun, 19 Jul 2026 08:00:00 +0200",

@@ -287,6 +287,54 @@
           edge processing improves responsiveness but limits model capacity; more sensing improves observability but
           adds calibration and integration burden. There is no single optimum, only a trade-off surface.</p>
 
+        <h3>Detecting a problem is not the same as being able to fix it</h3>
+        <p>Whether an AI intervention is useful depends on more than the prediction. It depends on the actuators: their
+          authority and precision, the process dead time before an action takes effect, the saturation limits that cap
+          how far a setpoint can move, whether the transformation is reversible at all, and which variables can
+          genuinely be manipulated rather than merely observed.</p>
+
+        <p>In battery manufacturing this is decisive. Detecting a defect after coating or drying may already be too late
+          to save that electrode: the material has passed through an irreversible step, and no downstream actuator can
+          undo it. The useful question is therefore not "can the model detect the problem?" but "does the system detect
+          it early enough, at a stage where an available actuator can still change the outcome?"</p>
+
+        <h3>A good predictor is not a good controller</h3>
+        <p>A highly accurate predictor can still produce poor control. It happens when measurements arrive late, when
+          several controllers react to the same signal, when the model repeatedly overcorrects, when actuators respond
+          more slowly than assumed, or when predictions are fed back as future inputs. The result is oscillation,
+          overshoot, drifting setpoints, or competing optimisation loops that work against each other.</p>
+
+        <p>Deployment therefore needs more than predictive validation. It needs shadow-mode testing, where the model
+          runs alongside the process without acting; explicit stability margins; rate limits on how fast a setpoint may
+          change; actuator constraints encoded into the policy; and a conservative fallback controller to hand back to
+          when confidence drops.</p>
+
+        <h3>Causation needs intervention, and intervention must be safe</h3>
+        <p>A model cannot reliably learn the effect of changing temperature, pressure, composition, or line speed from
+          passive correlations alone. At some point it needs interventions: deliberate changes whose consequences it can
+          observe. In manufacturing, though, exploration is expensive. It can produce scrap, damage equipment, reach
+          unsafe operating states, yield unqualified product, or wait weeks for delayed electrochemical results before
+          the outcome is even known.</p>
+
+        <p>This is a safe-exploration problem: how does the system choose experiments that are informative without
+          violating process constraints? The tools are known — constrained Bayesian optimisation, value-of-information
+          scheduling, digital-twin screening followed by limited physical validation, and experiment designs that
+          account for delayed downstream measurements — but each trades information against risk, and none removes the
+          hard constraint that some regions of the process simply must not be entered.</p>
+
+        <h3>The model changes the world it learns from</h3>
+        <p>Once predictions influence operators or machine settings, the data stops being passive. The deployment policy
+          changes which states are observed. Successful prevention makes certain failures disappear from the dataset
+          entirely. Operator trust decides whether recommendations are followed at all. Optimisation can push the
+          process into regions absent from the training data, and measured performance can become misleading precisely
+          because the model altered the conditions under which it is judged.</p>
+
+        <p>The model is no longer learning from a passive world; it is learning from a world partly created by its own
+          previous decisions. That introduces feedback-selection bias and Goodhart-type effects, and it is why
+          deployment needs policy-aware evaluation, counterfactual logging (recording what the model would have done
+          alongside what was actually done), and carefully maintained control groups. It is the causal discipline from
+          the harmonisation section again, now turned on the system's own actions.</p>
+
         <h3>The edge case: failure</h3>
         <p>Benchmarks assume stable inputs, stable hardware, and stable connectivity. Factories do not. A mature system
           needs to remain intelligible under sensor drift, network outages, version mismatches, power disturbances, and
