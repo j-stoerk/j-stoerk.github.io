@@ -263,9 +263,10 @@
 
   /* =========================================================
      Widget A — the physical loop (post-physical-ai)
-     Seven stages in a ring; selecting one shows its constraint.
+     Stage buttons sit directly on the ring; the selected
+     stage's constraint shows in the centre.
      ========================================================= */
-  var loopNodes = document.getElementById('loop-nodes');
+  var loopButtons = document.getElementById('loop-buttons');
 
   var LOOP = [
     ['Electricity', ['grid connection', 'price and availability', 'carbon intensity']],
@@ -278,62 +279,53 @@
   ];
 
   function loopSelect(idx) {
-    var tabs = document.querySelectorAll('.loop-stage');
-    for (var i = 0; i < tabs.length; i += 1) {
-      tabs[i].setAttribute('aria-selected', String(i === idx));
+    var btns = loopButtons.querySelectorAll('.loop-stage');
+    for (var i = 0; i < btns.length; i += 1) {
+      btns[i].setAttribute('aria-selected', String(i === idx));
     }
-    var circles = loopNodes.querySelectorAll('circle');
-    for (var j = 0; j < circles.length; j += 1) {
-      var on = j === idx;
-      circles[j].setAttribute('fill', on ? 'var(--color-primary)' : 'var(--color-surface)');
-      circles[j].setAttribute('stroke', on ? 'var(--color-primary)' : 'var(--color-border)');
-    }
-    document.getElementById('loop-name').textContent = LOOP[idx][0];
-    var ul = document.getElementById('loop-constraints');
-    ul.textContent = '';
-    LOOP[idx][1].forEach(function (c) {
-      var li = document.createElement('li');
-      li.textContent = c;
-      ul.appendChild(li);
-    });
+    var center = document.getElementById('loop-center');
+    center.textContent = '';
+    var strong = document.createElement('strong');
+    strong.textContent = LOOP[idx][0];
+    var span = document.createElement('span');
+    span.textContent = LOOP[idx][1].join(' · ');
+    center.appendChild(strong);
+    center.appendChild(span);
   }
 
-  if (loopNodes) {
+  if (loopButtons) {
     var ns = 'http://www.w3.org/2000/svg';
-    var cx = 130, cy = 130, r = 92;
+    var arrows = document.getElementById('loop-arrows');
+    var R = 42;                 // button radius, % of the square figure
+    var AR = 40;                // ring radius in the 0..100 SVG viewBox
+
     LOOP.forEach(function (stage, i) {
       var a = -Math.PI / 2 + i * (2 * Math.PI / LOOP.length);
-      var x = cx + r * Math.cos(a), y = cy + r * Math.sin(a);
-      var g = document.createElementNS(ns, 'g');
-      var c = document.createElementNS(ns, 'circle');
-      c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', 15);
-      c.setAttribute('fill', 'var(--color-surface)');
-      c.setAttribute('stroke', 'var(--color-border)');
-      c.setAttribute('stroke-width', '1.5');
-      c.style.cursor = 'pointer';
-      c.addEventListener('click', function () { loopSelect(i); });
-      var t = document.createElementNS(ns, 'text');
-      t.setAttribute('x', x); t.setAttribute('y', y + 3);
-      t.setAttribute('text-anchor', 'middle');
-      t.setAttribute('class', 'text-tick');
-      t.style.pointerEvents = 'none';
-      t.textContent = String(i + 1);
-      // arrowhead toward the next node, along the ring
+
+      var btn = document.createElement('button');
+      btn.className = 'loop-stage';
+      btn.type = 'button';
+      btn.setAttribute('role', 'tab');
+      btn.setAttribute('aria-selected', String(i === 0));
+      btn.textContent = stage[0];
+      btn.style.left = (50 + R * Math.cos(a)) + '%';
+      btn.style.top = (50 + R * Math.sin(a)) + '%';
+      btn.addEventListener('click', function () { loopSelect(i); });
+      loopButtons.appendChild(btn);
+
+      // arrowhead on the ring, midway to the next node, pointing clockwise
       var a2 = a + (2 * Math.PI / LOOP.length) * 0.5;
-      var ax = cx + r * Math.cos(a2), ay = cy + r * Math.sin(a2);
-      var tan = a2 + Math.PI / 2;
-      var ar = document.createElementNS(ns, 'path');
-      ar.setAttribute('d', 'M ' + (ax - 4 * Math.cos(tan)) + ' ' + (ay - 4 * Math.sin(tan)) +
-        ' L ' + (ax + 5 * Math.cos(a2)) + ' ' + (ay + 5 * Math.sin(a2)) +
-        ' L ' + (ax + 4 * Math.cos(tan)) + ' ' + (ay + 4 * Math.sin(tan)));
-      ar.setAttribute('fill', 'var(--color-text-faint)');
-      g.appendChild(ar);
-      g.appendChild(c);
-      g.appendChild(t);
-      loopNodes.appendChild(g);
-    });
-    document.querySelectorAll('.loop-stage').forEach(function (tab, i) {
-      tab.addEventListener('click', function () { loopSelect(i); });
+      var ax = 50 + AR * Math.cos(a2), ay = 50 + AR * Math.sin(a2);
+      var tanx = -Math.sin(a2), tany = Math.cos(a2);   // clockwise tangent
+      var perpx = Math.cos(a2), perpy = Math.sin(a2);
+      var tip = 2.2, base = 1.6;
+      var p = document.createElementNS(ns, 'path');
+      p.setAttribute('d',
+        'M ' + (ax + tip * tanx) + ' ' + (ay + tip * tany) +
+        ' L ' + (ax - base * tanx + base * perpx) + ' ' + (ay - base * tany + base * perpy) +
+        ' L ' + (ax - base * tanx - base * perpx) + ' ' + (ay - base * tany - base * perpy) + ' Z');
+      p.setAttribute('fill', 'var(--color-text-faint)');
+      arrows.appendChild(p);
     });
     loopSelect(0);
   }

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI's bottleneck is physical: from data centres to sensors — Julius Störk</title>
+  <title>AI's Bottleneck is Physical — Julius Störk</title>
   <meta name="description" content="AI becomes useful not when a model is trained but when a physical feedback loop runs reliably: power, heat, latency, sensors, data lineage, and safe actuation." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-physical-ai.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
@@ -12,7 +12,7 @@
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-physical-ai.html" />
-  <meta property="og:title" content="AI's bottleneck is physical: from data centres to sensors" />
+  <meta property="og:title" content="AI's Bottleneck is Physical" />
   <meta property="og:description" content="AI does not become useful when a model is trained. It becomes useful when a physical feedback loop can run reliably." />
   <meta property="og:image" content="https://j-stoerk.github.io/social-physical-ai.png" />
   <meta property="og:image:alt" content="A closed loop from electricity through computation, decision, and actuation back to sensors" />
@@ -27,7 +27,7 @@
     {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
-      "headline": "AI's bottleneck is physical: from data centres to sensors",
+      "headline": "AI's Bottleneck is Physical",
       "description": "AI does not become useful when a model is trained. It becomes useful when a physical feedback loop can run reliably.",
       "datePublished": "2026-07-19",
       "dateModified": "2026-07-19",
@@ -50,64 +50,52 @@
     <article class="post" id="physical-ai">
       <header class="article-header">
         <p class="eyebrow"><time datetime="2026-07-19">19 July 2026</time> · AI &amp; infrastructure</p>
-        <h1 class="post-title">AI's bottleneck is physical: from data centres to sensors</h1>
+        <h1 class="post-title">AI's Bottleneck is Physical</h1>
         <p class="article-meta muted">AI does not become useful when a model is trained. It becomes useful when a
           physical feedback loop can run reliably.</p>
       </header>
 
       <div class="prose">
-        <p>AI is often described in weightless terms: models, parameters, tokens, prompts.</p>
-
-        <p>But a deployed model is not weightless. It lives inside a chain of physical transformations: electricity
-          becomes computation; computation becomes a decision; a decision becomes an action; an action changes a
-          physical process; sensors observe the change.</p>
+        <p>AI is often described in terms of models, parameters, tokens and prompts, but a deployed model lives inside a
+          chain of physical transformations. Electricity becomes computation; computation becomes a decision; a decision
+          becomes an action; an action changes a physical process; sensors observe the change.</p>
 
         <p>The next bottleneck in AI is not only better algorithms. It is whether this loop can be made reliable,
-          efficient, and observable.</p>
+          efficient, and observable (and, if one can dream, even closed and self-improving).</p>
 
         <h3>Trace one prediction</h3>
         <p>A model is one component in a closed physical loop, not the loop itself. Select a stage to see the constraint
           that actually governs it.</p>
 
         <!-- Widget A: the physical loop -->
-        <div class="interactive">
-          <div class="widget-controls">
+        <div class="interactive interactive-single">
+          <div class="widget-head">
             <p class="widget-title">Interactive · The physical loop</p>
-            <p class="widget-description">Each prediction travels a chain of physical transformations and returns as new
-              observation. Every stage has a constraint that can become the bottleneck.</p>
-            <div class="loop-stages" role="tablist" aria-label="Pipeline stages">
-              <button class="loop-stage" role="tab" id="loop-tab-0" data-loop="0" aria-selected="true">Electricity</button>
-              <button class="loop-stage" role="tab" id="loop-tab-1" data-loop="1" aria-selected="false">Chip</button>
-              <button class="loop-stage" role="tab" id="loop-tab-2" data-loop="2" aria-selected="false">Heat</button>
-              <button class="loop-stage" role="tab" id="loop-tab-3" data-loop="3" aria-selected="false">Inference</button>
-              <button class="loop-stage" role="tab" id="loop-tab-4" data-loop="4" aria-selected="false">Decision</button>
-              <button class="loop-stage" role="tab" id="loop-tab-5" data-loop="5" aria-selected="false">Actuation</button>
-              <button class="loop-stage" role="tab" id="loop-tab-6" data-loop="6" aria-selected="false">Sensor</button>
-            </div>
-            <div class="control-group loop-detail" aria-live="polite">
-              <p><strong id="loop-name">Electricity</strong></p>
-              <ul class="loop-constraints" id="loop-constraints"></ul>
-            </div>
-            <p class="widget-note">The loop is closed: sensor observations return as the next input, so a weakness at
-              any stage limits the whole system, not just its own step.</p>
+            <p class="widget-description">Each prediction travels a chain of physical transformations and returns as a
+              new observation. Select a stage on the ring to see the constraint that can make it the bottleneck.</p>
           </div>
 
-          <div class="widget-visual">
-            <svg viewBox="0 0 260 260" id="svg-loop" role="img" aria-labelledby="loop-title" style="max-width:300px">
+          <div class="loop-figure" id="loop-figure">
+            <svg class="loop-ring" viewBox="0 0 100 100" role="img" aria-labelledby="loop-title" preserveAspectRatio="xMidYMid meet">
               <title id="loop-title">Seven stages arranged in a ring — electricity, chip, heat, inference, decision,
                 actuation, sensor — connected by arrows that return to the start.</title>
-              <circle cx="130" cy="130" r="92" fill="none" stroke="var(--color-divider)" stroke-width="1"
-                stroke-dasharray="3 5" />
-              <g id="loop-nodes"></g>
+              <circle cx="50" cy="50" r="40" fill="none" stroke="var(--color-divider)" stroke-width="0.6"
+                stroke-dasharray="1.5 2.5" />
+              <g id="loop-arrows"></g>
             </svg>
+            <div class="loop-center" id="loop-center" aria-live="polite"></div>
+            <div class="loop-buttons" id="loop-buttons" role="tablist" aria-label="Pipeline stages"></div>
           </div>
+
+          <p class="widget-note">The loop is closed: sensor observations return as the next input, so a weakness at any
+            stage limits the whole system, not just its own step.</p>
         </div>
 
         <h3>A different scaling law</h3>
         <p>The usual scaling law is implicit: more compute plus more data yields a more capable model. For deployment,
           the relevant relationship is closer to a product of interfaces:</p>
 
-        <div class="equation">$$\text{useful AI} = f(\text{model},\ \text{data quality},\ \text{latency},\ \text{energy},\ \text{hardware},\ \text{integration},\ \text{reliability})$$</div>
+        <div class="equation equation-terms">$$\text{useful AI} = f(\text{model},\ \text{data quality},\ \text{latency},\ \text{energy},\ \text{hardware},\ \text{integration},\ \text{reliability})$$</div>
 
         <p>A frontier model can be extraordinarily capable yet operationally useless for a millisecond-sensitive control
           loop, a disconnected production line, or a process whose sensors cannot identify the state that matters.</p>
@@ -148,15 +136,25 @@
         </div>
 
         <h3>The data centre becomes a factory</h3>
-        <p>Training has dominated the public imagination. Inference is what makes AI permanent infrastructure. A
-          training run is a discrete event. A production model is a standing load: it must serve users, machines, or
-          agents with predictable latency and availability. That requires power, networking, cooling, redundancy, and
-          operational discipline.</p>
+        <p>Training has dominated the public imagination. While a training run is a discrete event, inference makes AI
+          permanent infrastructure. A production model is a standing load that serves users, machines, or agents with
+          predictable latency and availability. That requires power, networking, cooling, redundancy, and operational
+          discipline.</p>
 
         <p>The International Energy Agency projects global data-centre electricity demand to increase from roughly
           415 TWh in 2024 to about 945 TWh by 2030, driven substantially by AI-oriented accelerated computing.<a
             class="ref" href="https://www.iea.org/reports/energy-and-ai/executive-summary" target="_blank"
-            rel="noopener noreferrer">[IEA, 2025]</a></p>
+            rel="noopener noreferrer">[IEA, 2025]</a> For scale, the projected increase alone (about 530 TWh) is close
+          to Germany's entire annual electricity consumption of roughly 500 TWh, and the 945 TWh 2030 total would rank
+          among the largest national electricity demands on the planet, comparable to Japan's. (Those national
+          comparisons are my own rough scaling for intuition, not IEA figures.)</p>
+
+        <p>Storage sits inside this picture, not beside it. Data centres already use batteries for uninterrupted power
+          and, increasingly, for buffering volatile loads, and distributed sensing and edge computing depend on them
+          directly: wireless nodes, mobile inspection systems, robots, remote assets, and local backup. For a
+          battery-powered sensor, communication, inference, and sampling become interchangeable energy expenditures,
+          and the design question has no universal answer: is it cheaper to transmit raw data, extract features
+          locally, infer locally, or transmit only an event?</p>
 
         <p>The important unit is therefore not only FLOPs. It is reliably delivered power. A model does not run on
           annual electricity statistics. It runs on megawatts, now, at a particular place on a particular grid.</p>
@@ -167,29 +165,37 @@
           also exposes a simple tension: AI capacity cannot be deployed independently of power and grid
           infrastructure.</p>
 
-        <p>German data centres were projected to consume 21.3 TWh of electricity in 2025. Installed capacity was
-          expected to grow from nearly 3,000 MW to more than 5,000 MW by 2030, with AI-specific capacity projected to
-          rise from 530 MW to 2,020 MW.<a class="ref"
+        <p>Where does that stand today? German data centres were projected to consume 21.3 TWh of electricity in 2025,
+          roughly 4% of the country's ~500 TWh annual demand. Installed capacity was expected to grow from nearly
+          3,000 MW to more than 5,000 MW by 2030, with AI-specific capacity projected to rise almost fourfold, from
+          530 MW to 2,020 MW.<a class="ref"
             href="https://www.bitkom.org/Presse/Presseinformation/Rechenzentren-Deutschland-KI-treibt-Wachstum"
-            target="_blank" rel="noopener noreferrer">[Bitkom, 2025]</a></p>
+            target="_blank" rel="noopener noreferrer">[Bitkom, 2025]</a> The status quo is modest; the trajectory is
+          steep, and it is concentrated in exactly the AI-specific, high-density load that is hardest to site.</p>
 
         <p>The question is not whether Germany has annual electricity generation. The question is whether a
           high-density load can connect where fibre, cloud ecosystems, industrial demand, cooling options, and skilled
           operators already exist. A site optimised for connectivity does not necessarily coincide with one optimised
           for grid availability or waste-heat reuse.</p>
 
-        <h3>AI begins at the sensor</h3>
+        <h3>Sensors will close the AI loop</h3>
         <p>The data centre is only one end of the AI system. At the other end, AI encounters the world through
           instruments. For an electrode-production line, the relevant observations might include material-lot identity,
           powder moisture, torque, temperature, pressure, roll speed, gap, thickness, mass loading, density, defect
           images, electrical resistance, and later electrochemical performance.</p>
 
-        <p>Yet none of these is inherently a learning signal. A number becomes usable data only when it carries
-          context:</p>
+        <p>There are crutches. Physics simulations, digital twins, and generative surrogates can, in theory, supply
+          data where instrumentation is missing and even stand in for integration by producing labelled examples on
+          demand. They are genuinely useful for pre-training and for exploring regimes that are expensive to measure.
+          But a simulation is only ever as trustworthy as the physical assumptions inside it; at some point the loop
+          still has to close against a real sensor, or the model is optimising a world that does not exist.</p>
 
-        <div class="equation">$$\text{measurement} + \text{identity} + \text{time} + \text{unit} + \text{process context} + \text{quality flag} \;\longrightarrow\; \text{evidence}$$</div>
+        <p>Yet none of these observations is inherently a learning signal. A number becomes usable data only when it
+          carries context:</p>
 
-        <p>The factory does not produce "data." It produces measurements whose meaning must be preserved. A bare
+        <div class="equation equation-terms">$$\text{measurement} + \text{identity} + \text{time} + \text{unit} + \text{process context} + \text{quality flag} \;\longrightarrow\; \text{evidence}$$</div>
+
+        <p>The factory, in the optimal case, produces measurements with intent and meaning. A bare
           <em>temperature = 65</em> is not evidence until it carries its unit (65 °C, not 65 K), its location (drying
           zone 3, not ambient air), its time alignment (the correct electrode segment), its process state (recipe
           version 12, line speed 4 m/min), its provenance (sensor calibrated 18 days ago), and its quality flag (valid
@@ -202,7 +208,7 @@
           upstream material history, mixing, coating, drying, calendering, sampling location, cell assembly, formation
           protocol, and test conditions:</p>
 
-        <div class="equation">$$\text{material lot} \to \text{mixing} \to \text{coated roll} \to \text{calendered sheet} \to \text{sample} \to \text{cell} \to \text{test}$$</div>
+        <div class="equation equation-terms">$$\text{material lot} \to \text{mixing} \to \text{coated roll} \to \text{calendered sheet} \to \text{sample} \to \text{cell} \to \text{test}$$</div>
 
         <p>If those records do not reference the same physical lineage, a model cannot learn
           process–property–performance relationships, no matter how sophisticated its architecture is. Break one
@@ -210,7 +216,11 @@
           that a model will happily fit. Harmonisation is the interface between physical history and statistical
           learning. It is also where the causal question from my <a href="post-causalpfn.html">CausalPFN reading
             note</a> becomes concrete: without lineage, you cannot even define the intervention whose effect you want
-          to estimate.</p>
+          to estimate. A sufficiently capable model could recover part of that structure on its own — probabilistic
+          entity resolution to stitch fragmented lot and batch identifiers, learned alignment of asynchronous
+          timestamps across logs, and causal-discovery constraints to reconstruct the process graph from weak
+          signals — but each of these substitutes an <em>inferred</em> lineage for a <em>recorded</em> one, and
+          inherits its uncertainty rather than removing it.</p>
 
         <h3>Edge AI: compute where it matters</h3>
         <p>The industrial answer is rarely "send every signal to the cloud." High-frequency camera streams, acoustic
@@ -244,14 +254,6 @@
           edge processing improves responsiveness but limits model capacity; more sensing improves observability but
           adds calibration and integration burden. There is no single optimum, only a trade-off surface.</p>
 
-        <h3>Batteries: not merely backup</h3>
-        <p>Batteries sit in the AI loop twice. Data centres use storage for uninterrupted power and, increasingly, for
-          buffering volatile loads. Distributed sensing and edge computing depend directly on batteries: wireless
-          nodes, mobile inspection systems, robots, remote assets, and local backup. For a battery-powered sensor,
-          communication, inference, and sampling are interchangeable energy expenditures, and the design question has
-          no universal answer: is it cheaper to transmit raw data, extract features locally, infer locally, or transmit
-          only an event?</p>
-
         <h3>The edge case: failure</h3>
         <p>Benchmarks assume stable inputs, stable hardware, and stable connectivity. Factories do not. A mature system
           needs to remain intelligible under sensor drift, network outages, version mismatches, power disturbances, and
@@ -268,7 +270,7 @@
           placed where it matters, managed energy and heat, and models that fail safely.
         </div>
 
-        <h3>Ending</h3>
+        <h3>Lessons learned</h3>
         <p>AI is not escaping the physical world. It is becoming more entangled with it. The next competitive advantage
           will not belong only to whoever trains the largest model. It will belong to those who can close the loop:
           build trustworthy sensors, preserve data lineage, place computation where it matters, manage energy and heat,
