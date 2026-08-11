@@ -114,6 +114,7 @@
             <p class="widget-description">The routing-absorption test compares a trained gate against a
               <em>frozen, never-trained random</em> gate at matched sparsity. If the trained one barely wins, the
               network routed around the gate rather than through it.</p>
+            <p class="widget-description" style="margin-bottom:var(--space-2)">Switch the gate regime:</p>
             <div class="loop-stages" role="tablist" aria-label="Gate regimes">
               <button class="loop-stage" role="tab" id="ra-tab-0" data-ra="0" aria-selected="true">Soft gate, joint</button>
               <button class="loop-stage" role="tab" id="ra-tab-1" data-ra="1" aria-selected="false">Hard top-k, joint</button>
@@ -154,7 +155,6 @@
         <h3>The throughline</h3>
         <p>The routing absorption shows a router can look trained and contribute nothing, because the much larger surrounding network absorbs the signal instead of the router learning anything real. NSA's indexer shows a router can be correctly decoupled and honest, yet still reintroduce the exact cost it was built to eliminate, just moved rather than removed. CLVR shows where to route, in the aligned hidden stream and forwarding the write value. Is a mechanism meant to carry a signal across some boundary (token position, depth, selection budget) actually carrying it, or is the rest of the network absorbing, ignoring, or fighting it? In every one of these cases, ablate against the null (random routing, zero-strength injection, a frozen gate) and check if the result actually depends on what the mechanism learned. Conspicuously, the ablation is missing from SubQ's report claiming to have reached O(n).</p>
         <p>The shape of this problem looked familiar to me. The race to O(n) and continual learning asks a structurally identical question (across tasks instead of depth or token position) whether an update from a new process regime genuinely generalizes or gets absorbed and overwritten by what an earlier regime already encoded, depending on whether it's expressed in a shared geometry the receiver can actually use <sup class="cite">[<a href="#ref-51">51</a>,<a href="#ref-52">52</a>]</sup>.</p>
-        <p>---</p>
       </div>
 
       <section class="post-sources">

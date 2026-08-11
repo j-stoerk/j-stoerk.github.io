@@ -516,6 +516,14 @@
     parent.appendChild(e);
     return e;
   }
+  // t in [0,1] blends red -> orange -> green (0 = bad, 1 = good).
+  function mixColor(t) {
+    t = Math.max(0, Math.min(1, t));
+    var R = [197, 55, 44], O = [216, 138, 31], G = [31, 140, 74], a, b, f;
+    if (t < 0.5) { a = R; b = O; f = t / 0.5; } else { a = O; b = G; f = (t - 0.5) / 0.5; }
+    return 'rgb(' + Math.round(a[0] + (b[0] - a[0]) * f) + ',' +
+      Math.round(a[1] + (b[1] - a[1]) * f) + ',' + Math.round(a[2] + (b[2] - a[2]) * f) + ')';
+  }
 
   /* D1 — weakest defect sets J_crit (J ~ c^-3/2) */
   var ddC = document.getElementById('dd-c');
@@ -540,14 +548,19 @@
     var ddExp = document.getElementById('dd1-exp');
     ddExp.setAttribute('y1', ddY(1)); ddExp.setAttribute('y2', ddY(1));
     svel(document.getElementById('svg-dd1'), 'text', { x: 48, y: ddY(1) - 3, 'class': 'text-label-faint', style: 'font-size:8px' }).textContent = 'measured band';
+    var DD_LO = Math.log(DD_K / Math.pow(60, 1.5)), DD_HI = Math.log(DD_K / Math.pow(5, 1.5));
     function ddUpdate() {
       var c = parseInt(ddC.value, 10);
       var j = DD_K / Math.pow(c, 1.5);
+      // high J_crit = tolerant of dendrites = good (green); low = bad (red)
+      var color = mixColor((Math.log(j) - DD_LO) / (DD_HI - DD_LO));
       document.getElementById('dd-c-val').textContent = c + ' µm';
-      document.getElementById('dd-j').textContent = (j >= 100 ? Math.round(j / 10) * 10 : j.toFixed(0)) + ' mA/cm²';
+      var jv = document.getElementById('dd-j');
+      jv.textContent = (j >= 100 ? Math.round(j / 10) * 10 : j.toFixed(0)) + ' mA/cm²';
+      jv.style.color = color;
       document.getElementById('dd-ratio').textContent = '≈ ' + Math.round(j) + '×';
       var dot = document.getElementById('dd1-dot');
-      dot.setAttribute('cx', ddX(c)); dot.setAttribute('cy', ddY(j));
+      dot.setAttribute('cx', ddX(c)); dot.setAttribute('cy', ddY(j)); dot.setAttribute('fill', color);
     }
     ddC.addEventListener('input', ddUpdate);
     ddUpdate();
@@ -616,6 +629,9 @@
       document.getElementById(id).setAttribute('d', d);
     }
     o1path('on1-dense', denseOps); o1path('on1-sel', selOps); o1path('on1-lin', linOps);
+    var o1svg = document.getElementById('svg-on1');
+    function o1dot(color) { return svel(o1svg, 'circle', { r: 4, fill: color, stroke: 'var(--color-bg)', 'stroke-width': 1.5 }); }
+    var o1dD = o1dot('var(--color-danger)'), o1dS = o1dot('var(--color-warn)'), o1dL = o1dot('var(--color-ok)');
     function fmtOps(x) {
       if (x >= 1e12) return (x / 1e12).toFixed(1) + ' T';
       if (x >= 1e9) return (x / 1e9).toFixed(0) + ' G';
@@ -630,6 +646,9 @@
       document.getElementById('on-lin').textContent = fmtOps(linOps(T));
       document.getElementById('on-sel').textContent = fmtOps(selOps(T));
       var vt = document.getElementById('on1-vt'); vt.setAttribute('x1', o1x(v)); vt.setAttribute('x2', o1x(v));
+      o1dD.setAttribute('cx', o1x(v)); o1dD.setAttribute('cy', o1y(denseOps(T)));
+      o1dS.setAttribute('cx', o1x(v)); o1dS.setAttribute('cy', o1y(selOps(T)));
+      o1dL.setAttribute('cx', o1x(v)); o1dL.setAttribute('cy', o1y(linOps(T)));
     }
     onT.addEventListener('input', o1Update);
     o1Update();
@@ -716,6 +735,9 @@
     });
     document.getElementById('rr2-ceil').setAttribute('y1', r2y(0.2));
     document.getElementById('rr2-ceil').setAttribute('y2', r2y(0.2));
+    var rr2svg = document.getElementById('svg-rr2');
+    function rr2dot(c) { return svel(rr2svg, 'circle', { r: 4, fill: c, stroke: 'var(--color-bg)', 'stroke-width': 1.5 }); }
+    var rr2da = rr2dot('var(--color-primary)'), rr2df = rr2dot('var(--color-danger)');
     function acc2(e) { return 0.5 + 0.4 * (1 - Math.exp(-e / 28)); }
     function faith2(e, r) { return r ? 0.4 + 0.42 * (1 - Math.exp(-e / 30)) : 0.12 + 0.08 * (1 - Math.exp(-e / 22)); }
     function r2Update() {
@@ -724,6 +746,8 @@
       document.getElementById('rr2-acc').setAttribute('d', pathOf(acc2));
       document.getElementById('rr2-faith').setAttribute('d', pathOf(function (x) { return faith2(x, r); }));
       var mk = document.getElementById('rr2-mark'); mk.setAttribute('x1', r2x(e)); mk.setAttribute('x2', r2x(e));
+      rr2da.setAttribute('cx', r2x(e)); rr2da.setAttribute('cy', r2y(acc2(e)));
+      rr2df.setAttribute('cx', r2x(e)); rr2df.setAttribute('cy', r2y(faith2(e, r)));
       var LV = ['Light', 'Low', 'Medium', 'High', 'Heavy', 'Ultra'];
       document.getElementById('rr-eff-val').textContent = LV[Math.min(5, Math.floor(e / 17))];
       document.getElementById('rr-acc2').textContent = Math.round(acc2(e) * 100) + '%';

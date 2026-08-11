@@ -1387,6 +1387,38 @@ p {
 .radar-pct { fill: var(--color-primary); font-weight: 700; }
 .radar-pct.low { fill: var(--color-danger); }
 
+/* Toggle pills used inside widget controls (e.g. routing-absorption). */
+.loop-stages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.loop-stage {
+  font: inherit;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  padding: .4rem .8rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+}
+
+.loop-stage:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.loop-stage[aria-selected="true"] {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
 .radar-handle:focus-visible {
   outline: none;
   stroke: var(--color-primary);
