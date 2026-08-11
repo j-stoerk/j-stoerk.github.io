@@ -10,10 +10,18 @@
 
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const SRC = __dirname;
 const ROOT = path.join(__dirname, '..');
 const SITE = 'https://j-stoerk.github.io';
+
+/* Content-hash cache-buster: append ?v=<hash> to a runtime asset so a
+   changed file is refetched instead of served stale from browser cache. */
+function ver(file) {
+  const buf = fs.readFileSync(path.join(ROOT, file));
+  return file + '?v=' + crypto.createHash('md5').update(buf).digest('hex').slice(0, 8);
+}
 
 const posts = JSON.parse(fs.readFileSync(path.join(SRC, 'posts.json'), 'utf8'))
   .sort((a, b) => (a.iso < b.iso ? 1 : -1));
@@ -81,7 +89,7 @@ const HEAD_ASSETS = `  <meta name="theme-color" content="#fdfdfc">
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css">`;
+  <link rel="stylesheet" href="${ver('styles.css')}">`;
 
 const NAV_ITEMS = [
   ['research', 'Research', '#research'],
@@ -125,13 +133,13 @@ function footer(cfg) {
 }
 
 function scripts(cfg) {
-  const extras = cfg.extraScripts.map((s) => `  <script src="${s}"></script>`).join('\n');
+  const extras = cfg.extraScripts.map((s) => `  <script src="${ver(s)}"></script>`).join('\n');
   /* GoatCounter is injected after window load so a slow or filtered
      analytics host can never hold the page in its loading state
      (busy cursor / tab spinner). */
-  return `  <script src="theme.js"></script>
-  <script src="navigation.js"></script>
-  <script src="background.js"></script>
+  return `  <script src="${ver('theme.js')}"></script>
+  <script src="${ver('navigation.js')}"></script>
+  <script src="${ver('background.js')}"></script>
 ${extras ? extras + '\n' : ''}  <script>
     window.addEventListener('load', function () {
       var s = document.createElement('script');

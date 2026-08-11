@@ -387,14 +387,14 @@
     DEP.forEach(function (d, i) {
       var p = depPoint(i, d[1] / 100);
       var lowest = d[1] === minV;
-      var color = lowest ? 'var(--color-danger)' : 'var(--color-primary)';
       var h = document.getElementById('radar-h-' + i);
       if (h) {
         h.setAttribute('cx', p[0].toFixed(1)); h.setAttribute('cy', p[1].toFixed(1));
-        h.setAttribute('aria-valuenow', d[1]); h.setAttribute('fill', color);
+        h.setAttribute('aria-valuenow', d[1]);
+        h.classList.toggle('low', lowest);
       }
       var pct = document.getElementById('radar-pct-' + i);
-      if (pct) { pct.textContent = d[1] + '%'; pct.style.fill = color; }
+      if (pct) { pct.textContent = d[1] + '%'; pct.classList.toggle('low', lowest); }
     });
 
     var limitEl = document.getElementById('dep-limit');
@@ -444,8 +444,9 @@
       t.textContent = d[0];
       var pct = document.createElementNS(rns, 'tspan');
       pct.setAttribute('id', 'radar-pct-' + i);
+      pct.setAttribute('class', 'radar-pct');
       pct.setAttribute('x', lp[0].toFixed(1)); pct.setAttribute('dy', '9');
-      pct.setAttribute('style', 'font-size:8px; font-weight:700; fill:var(--color-primary)');
+      pct.setAttribute('style', 'font-size:8px');
       pct.textContent = d[1] + '%';
       t.appendChild(pct);
       rLabels.appendChild(t);
@@ -453,7 +454,6 @@
       var h = document.createElementNS(rns, 'circle');
       h.setAttribute('id', 'radar-h-' + i);
       h.setAttribute('r', '4.5');
-      h.setAttribute('fill', 'var(--color-primary)');
       h.setAttribute('stroke', 'var(--color-bg)');
       h.setAttribute('stroke-width', '1.5');
       h.setAttribute('class', 'radar-handle');

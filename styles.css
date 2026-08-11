@@ -1309,8 +1309,8 @@ p {
   fill: var(--color-primary);
 }
 
-.loop-segment:focus {
-  outline: none; /* no UA focus box on mouse click */
+.loop-segment {
+  outline: none; /* no UA focus box on click */
 }
 
 .loop-segment:focus-visible {
@@ -1373,12 +1373,19 @@ p {
 }
 
 .radar-handle {
+  fill: var(--color-primary);
   cursor: grab;
   transition: r .1s;
 }
 
+.radar-handle.low { fill: var(--color-danger); }
+
 .radar-handle:hover { r: 6; }
 .radar-handle:active { cursor: grabbing; }
+
+/* Per-axis percentage labels; the lowest factor is flagged red. */
+.radar-pct { fill: var(--color-primary); font-weight: 700; }
+.radar-pct.low { fill: var(--color-danger); }
 
 .radar-handle:focus-visible {
   outline: none;
