@@ -7,6 +7,27 @@
     <language>en</language>
     <atom:link href="https://j-stoerk.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>From Simulating Speech to Optimizing Reasoning</title>
+      <link>https://j-stoerk.github.io/post-optimizing-reasoning.html</link>
+      <guid isPermaLink="true">https://j-stoerk.github.io/post-optimizing-reasoning.html</guid>
+      <pubDate>Sun, 09 Aug 2026 08:00:00 +0200</pubDate>
+      <description>Reading notes: 2026 evidence that LLM reasoning is a latent computational mode only loosely coupled to the chain-of-thought text printed alongside it.</description>
+    </item>
+    <item>
+      <title>The Race to O(n)</title>
+      <link>https://j-stoerk.github.io/post-race-to-on.html</link>
+      <guid isPermaLink="true">https://j-stoerk.github.io/post-race-to-on.html</guid>
+      <pubDate>Sun, 02 Aug 2026 08:00:00 +0200</pubDate>
+      <description>Reading notes across the subquadratic-attention literature: pruning, learned selection, linear memory, delta-rule correction, and the impossibility proofs.</description>
+    </item>
+    <item>
+      <title>Lithium Dendrites Are Batteries' Dandelions</title>
+      <link>https://j-stoerk.github.io/post-dendrites-dandelions.html</link>
+      <guid isPermaLink="true">https://j-stoerk.github.io/post-dendrites-dandelions.html</guid>
+      <pubDate>Sun, 26 Jul 2026 08:00:00 +0200</pubDate>
+      <description>A first-principles model of critical current density for alkali-metal dendrites in ceramic solid electrolytes, read through the physics of a dandelion cracking pavement.</description>
+    </item>
+    <item>
       <title>AI's Bottleneck is Physical</title>
       <link>https://j-stoerk.github.io/post-physical-ai.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-physical-ai.html</guid>

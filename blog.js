@@ -505,4 +505,235 @@
 
     updateDep();
   }
+
+  /* ============================================================
+     post-dendrites-dandelions widgets
+     ============================================================ */
+  var NS = 'http://www.w3.org/2000/svg';
+  function svel(parent, tag, attrs) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    parent.appendChild(e);
+    return e;
+  }
+
+  /* D1 — weakest defect sets J_crit (J ~ c^-3/2) */
+  var ddC = document.getElementById('dd-c');
+  if (ddC) {
+    var DD_K = 8216;                          // J = K / c^1.5  [mA/cm2], anchored J(30)=50
+    var LMIN = -0.3, LMAX = 3.3;              // log10 J axis
+    function ddX(c) { return 45 + (c - 5) / 55 * 240; }
+    function ddY(j) { return 170 - (Math.log(j) / Math.LN10 - LMIN) / (LMAX - LMIN) * 150; }
+    var ddGrid = document.getElementById('dd1-grid');
+    [1, 10, 100, 1000].forEach(function (j) {
+      var y = ddY(j);
+      svel(ddGrid, 'line', { x1: 45, y1: y, x2: 285, y2: y, stroke: 'var(--color-divider)', 'stroke-width': 1 });
+      svel(ddGrid, 'text', { x: 42, y: y + 3, 'text-anchor': 'end', 'class': 'text-tick' }).textContent = j;
+    });
+    [5, 20, 40, 60].forEach(function (c) {
+      svel(ddGrid, 'text', { x: ddX(c), y: 182, 'text-anchor': 'middle', 'class': 'text-tick' }).textContent = c;
+    });
+    var ddCurve = document.getElementById('dd1-curve');
+    var dd = 'M';
+    for (var c = 5; c <= 60; c += 1) dd += (c === 5 ? '' : ' L') + ddX(c).toFixed(1) + ' ' + ddY(DD_K / Math.pow(c, 1.5)).toFixed(1);
+    ddCurve.setAttribute('d', dd);
+    var ddExp = document.getElementById('dd1-exp');
+    ddExp.setAttribute('y1', ddY(1)); ddExp.setAttribute('y2', ddY(1));
+    svel(document.getElementById('svg-dd1'), 'text', { x: 48, y: ddY(1) - 3, 'class': 'text-label-faint', style: 'font-size:8px' }).textContent = 'measured band';
+    function ddUpdate() {
+      var c = parseInt(ddC.value, 10);
+      var j = DD_K / Math.pow(c, 1.5);
+      document.getElementById('dd-c-val').textContent = c + ' µm';
+      document.getElementById('dd-j').textContent = (j >= 100 ? Math.round(j / 10) * 10 : j.toFixed(0)) + ' mA/cm²';
+      document.getElementById('dd-ratio').textContent = '≈ ' + Math.round(j) + '×';
+      var dot = document.getElementById('dd1-dot');
+      dot.setAttribute('cx', ddX(c)); dot.setAttribute('cy', ddY(j));
+    }
+    ddC.addEventListener('input', ddUpdate);
+    ddUpdate();
+  }
+
+  /* D2 — three regimes: stable / subcritical / catastrophic */
+  var ddJ = document.getElementById('dd-J');
+  if (ddJ) {
+    var ddTe = document.getElementById('dd-te');
+    function d2x(pct) { return 45 + pct / 110 * 240; }
+    function d2Update() {
+      var J = parseInt(ddJ.value, 10), teN = parseInt(ddTe.value, 10) / 100;
+      var Jsub = 30 + 40 * (1 - teN);
+      document.getElementById('dd-J-val').textContent = J + '%';
+      document.getElementById('dd-te-val').textContent = teN.toFixed(2);
+      var xs = d2x(Jsub), xc = d2x(100);
+      var st = document.getElementById('dd2-stable'); st.setAttribute('width', Math.max(0, xs - 45));
+      var su = document.getElementById('dd2-sub'); su.setAttribute('x', xs); su.setAttribute('width', Math.max(0, xc - xs));
+      var cr = document.getElementById('dd2-crit'); cr.setAttribute('x', xc); cr.setAttribute('width', 285 - xc);
+      var mk = document.getElementById('dd2-mark'); mk.setAttribute('x1', d2x(J)); mk.setAttribute('x2', d2x(J));
+      var sx = document.getElementById('dd2-subx'); sx.setAttribute('x', xs);
+      var regime = document.getElementById('dd-regime'), tau = document.getElementById('dd-tau');
+      if (J >= 100) {
+        regime.textContent = 'Catastrophic'; regime.style.color = 'var(--color-danger)';
+        tau.textContent = '≈ seconds';
+      } else if (J >= Jsub) {
+        var th = 300 / (teN * J);
+        if (th > 48) { regime.textContent = 'Suppressed'; regime.style.color = 'var(--color-ok)'; tau.textContent = '> 2 days'; }
+        else {
+          regime.textContent = 'Subcritical growth'; regime.style.color = 'var(--color-warn)';
+          tau.textContent = th < 1 ? Math.round(th * 60) + ' min' : th.toFixed(1) + ' h';
+        }
+      } else {
+        regime.textContent = 'Stable'; regime.style.color = 'var(--color-ok)';
+        tau.textContent = '—';
+      }
+    }
+    ddJ.addEventListener('input', d2Update);
+    ddTe.addEventListener('input', d2Update);
+    d2Update();
+  }
+
+  /* ============================================================
+     post-race-to-on widgets
+     ============================================================ */
+  /* O1 — attention cost scaling (log-log) */
+  var onT = document.getElementById('on-t');
+  if (onT) {
+    function denseOps(T) { return 0.5 * T * T; }
+    function linOps(T) { return 128 * T; }
+    function selOps(T) { return 128 * T + (128 / 52000) * T * T; }
+    function o1x(v) { return 46 + (v - 17) / 7 * 242; }
+    function o1y(ops) { return 172 - (Math.log(ops) / Math.LN10 - 7) / 8 * 156; }
+    var o1grid = document.getElementById('on1-grid');
+    [[8, '10⁸'], [10, '10¹⁰'], [12, '10¹²'], [14, '10¹⁴']].forEach(function (g) {
+      var y = o1y(Math.pow(10, g[0]));
+      svel(o1grid, 'line', { x1: 46, y1: y, x2: 288, y2: y, stroke: 'var(--color-divider)', 'stroke-width': 1 });
+      svel(o1grid, 'text', { x: 43, y: y + 3, 'text-anchor': 'end', 'class': 'text-tick' }).textContent = g[1];
+    });
+    [[17, '128K'], [20, '1M'], [24, '16M']].forEach(function (g) {
+      svel(o1grid, 'text', { x: o1x(g[0]), y: 184, 'text-anchor': 'middle', 'class': 'text-tick' }).textContent = g[1];
+    });
+    function o1path(id, fn) {
+      var d = 'M';
+      for (var v = 17; v <= 24; v += 0.1) d += (v === 17 ? '' : ' L') + o1x(v).toFixed(1) + ' ' + o1y(fn(Math.pow(2, v))).toFixed(1);
+      document.getElementById(id).setAttribute('d', d);
+    }
+    o1path('on1-dense', denseOps); o1path('on1-sel', selOps); o1path('on1-lin', linOps);
+    function fmtOps(x) {
+      if (x >= 1e12) return (x / 1e12).toFixed(1) + ' T';
+      if (x >= 1e9) return (x / 1e9).toFixed(0) + ' G';
+      if (x >= 1e6) return (x / 1e6).toFixed(0) + ' M';
+      return Math.round(x).toString();
+    }
+    function fmtT(T) { return T >= 1e6 ? (T / 1e6).toFixed(1) + 'M' : Math.round(T / 1e3) + 'K'; }
+    function o1Update() {
+      var v = parseFloat(onT.value), T = Math.pow(2, v);
+      document.getElementById('on-t-val').textContent = fmtT(T);
+      document.getElementById('on-dense').textContent = fmtOps(denseOps(T));
+      document.getElementById('on-lin').textContent = fmtOps(linOps(T));
+      document.getElementById('on-sel').textContent = fmtOps(selOps(T));
+      var vt = document.getElementById('on1-vt'); vt.setAttribute('x1', o1x(v)); vt.setAttribute('x2', o1x(v));
+    }
+    onT.addEventListener('input', o1Update);
+    o1Update();
+  }
+
+  /* O2 — routing absorption bars */
+  var raBars = document.getElementById('ra-bars');
+  if (raBars) {
+    var RA = [
+      { learned: 48.73, random: 49.83, gap: '1.10 ppl', verdict: 'Barely wins (≈9% of oracle)' },
+      { learned: 71.22, random: 71.24, gap: '0.02 ppl', verdict: 'Indistinguishable' }
+    ];
+    function raDraw(idx) {
+      raBars.textContent = '';
+      var d = RA[idx];
+      var lo = Math.min(d.learned, d.random) - 2, hi = Math.max(d.learned, d.random) + 1;
+      function by(v) { return 150 - (v - lo) / (hi - lo) * 128; }
+      [['Learned', d.learned, 'var(--color-primary)', 96], ['Frozen random', d.random, 'var(--color-text-faint)', 168]].forEach(function (b) {
+        var y = by(b[1]);
+        svel(raBars, 'rect', { x: b[3], y: y, width: 60, height: 150 - y, rx: 3, fill: b[2] });
+        svel(raBars, 'text', { x: b[3] + 30, y: y - 5, 'text-anchor': 'middle', 'class': 'fig-label-primary' }).textContent = b[1].toFixed(2);
+        svel(raBars, 'text', { x: b[3] + 30, y: 165, 'text-anchor': 'middle', 'class': 'text-tick' }).textContent = b[0];
+      });
+      svel(raBars, 'text', { x: 168, y: 182, 'text-anchor': 'middle', 'class': 'text-label-faint' }).textContent = 'perplexity (lower is better)';
+      document.getElementById('ra-gap').textContent = d.gap;
+      document.getElementById('ra-verdict').textContent = d.verdict;
+    }
+    var raTabs = document.querySelectorAll('[data-ra]');
+    raTabs.forEach(function (t, i) {
+      t.addEventListener('click', function () {
+        raTabs.forEach(function (o, j) { o.setAttribute('aria-selected', String(i === j)); });
+        raDraw(i);
+      });
+    });
+    raDraw(0);
+  }
+
+  /* ============================================================
+     post-optimizing-reasoning widgets
+     ============================================================ */
+  /* R1 — inverted-U: CoT length vs accuracy */
+  var rrLen = document.getElementById('rr-len');
+  if (rrLen) {
+    var rrCap = document.getElementById('rr-cap');
+    function rrTokens(l) { return Math.round(20 * Math.pow(150, l / 100)); }
+    function r1x(l) { return 44 + l / 100 * 244; }
+    function r1y(a) { return 170 - (a - 0.1) / 0.9 * 154; }
+    var r1grid = document.getElementById('rr1-grid');
+    [0.25, 0.5, 0.75, 1.0].forEach(function (a) {
+      var y = r1y(a);
+      svel(r1grid, 'line', { x1: 44, y1: y, x2: 288, y2: y, stroke: 'var(--color-divider)', 'stroke-width': 1 });
+      svel(r1grid, 'text', { x: 41, y: y + 3, 'text-anchor': 'end', 'class': 'text-tick' }).textContent = Math.round(a * 100) + '%';
+    });
+    function r1Update() {
+      var l = parseInt(rrLen.value, 10), cap = parseInt(rrCap.value, 10);
+      var lenOpt = 70 - 0.45 * cap, accMax = 0.55 + 0.004 * cap, floor = 0.2, w = 24;
+      function acc(x) { return floor + (accMax - floor) * Math.exp(-Math.pow((x - lenOpt) / w, 2)); }
+      var d = 'M';
+      for (var x = 0; x <= 100; x += 2) d += (x === 0 ? '' : ' L') + r1x(x).toFixed(1) + ' ' + r1y(acc(x)).toFixed(1);
+      document.getElementById('rr1-curve').setAttribute('d', d);
+      var opt = document.getElementById('rr1-opt'); opt.setAttribute('x1', r1x(lenOpt)); opt.setAttribute('x2', r1x(lenOpt));
+      var dot = document.getElementById('rr1-dot'); dot.setAttribute('cx', r1x(l)); dot.setAttribute('cy', r1y(acc(l)));
+      document.getElementById('rr-len-val').textContent = rrTokens(l) + ' tok';
+      document.getElementById('rr-cap-val').textContent = cap < 34 ? 'Base' : cap < 67 ? 'Strong' : 'Frontier';
+      document.getElementById('rr-acc').textContent = Math.round(acc(l) * 100) + '%';
+      document.getElementById('rr-opt').textContent = '≈ ' + rrTokens(lenOpt) + ' tok';
+    }
+    rrLen.addEventListener('input', r1Update);
+    rrCap.addEventListener('input', r1Update);
+    r1Update();
+  }
+
+  /* R2 — effort vs faithfulness */
+  var rrEff = document.getElementById('rr-eff');
+  if (rrEff) {
+    var rrFr = document.getElementById('rr-fr');
+    function r2x(e) { return 44 + e / 100 * 244; }
+    function r2y(v) { return 170 - v * 154; }
+    var r2grid = document.getElementById('rr2-grid');
+    [0.25, 0.5, 0.75, 1.0].forEach(function (v) {
+      var y = r2y(v);
+      svel(r2grid, 'line', { x1: 44, y1: y, x2: 288, y2: y, stroke: 'var(--color-divider)', 'stroke-width': 1 });
+      svel(r2grid, 'text', { x: 41, y: y + 3, 'text-anchor': 'end', 'class': 'text-tick' }).textContent = Math.round(v * 100) + '%';
+    });
+    document.getElementById('rr2-ceil').setAttribute('y1', r2y(0.2));
+    document.getElementById('rr2-ceil').setAttribute('y2', r2y(0.2));
+    function acc2(e) { return 0.5 + 0.4 * (1 - Math.exp(-e / 28)); }
+    function faith2(e, r) { return r ? 0.4 + 0.42 * (1 - Math.exp(-e / 30)) : 0.12 + 0.08 * (1 - Math.exp(-e / 22)); }
+    function r2Update() {
+      var e = parseInt(rrEff.value, 10), r = rrFr.checked;
+      function pathOf(fn) { var d = 'M'; for (var x = 0; x <= 100; x += 2) d += (x === 0 ? '' : ' L') + r2x(x).toFixed(1) + ' ' + r2y(fn(x)).toFixed(1); return d; }
+      document.getElementById('rr2-acc').setAttribute('d', pathOf(acc2));
+      document.getElementById('rr2-faith').setAttribute('d', pathOf(function (x) { return faith2(x, r); }));
+      var mk = document.getElementById('rr2-mark'); mk.setAttribute('x1', r2x(e)); mk.setAttribute('x2', r2x(e));
+      var LV = ['Light', 'Low', 'Medium', 'High', 'Heavy', 'Ultra'];
+      document.getElementById('rr-eff-val').textContent = LV[Math.min(5, Math.floor(e / 17))];
+      document.getElementById('rr-acc2').textContent = Math.round(acc2(e) * 100) + '%';
+      var f = document.getElementById('rr-faith');
+      f.textContent = Math.round(faith2(e, r) * 100) + '%';
+      f.style.color = faith2(e, r) < 0.25 ? 'var(--color-danger)' : 'var(--color-ok)';
+    }
+    rrEff.addEventListener('input', r2Update);
+    rrFr.addEventListener('change', r2Update);
+    r2Update();
+  }
+
 })();

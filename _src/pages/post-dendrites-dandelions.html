@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lithium Dendrites Are Batteries' Dandelions — Julius Störk</title>
+  <meta name="description" content="Ceramic solid electrolytes still fail by dendrite. A March 2026 model derives a closed-form critical current density from first principles, and writes down the same physics that lets a dandelion crack a driveway." />
+  <link rel="canonical" href="https://j-stoerk.github.io/post-dendrites-dandelions.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk — Research notes" href="feed.xml" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Julius Störk" />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-dendrites-dandelions.html" />
+  <meta property="og:title" content="Lithium Dendrites Are Batteries' Dandelions" />
+  <meta property="og:description" content="Ceramic solid electrolytes still fail by dendrite. A March 2026 model derives a closed-form critical current density from first principles, and writes down the same physics that lets a dandelion crack a driveway." />
+  <meta property="og:image" content="https://j-stoerk.github.io/social-dendrites.png" />
+  <meta property="og:image:alt" content="A metal dendrite wedging into a ceramic crack, like a root in pavement" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="article:published_time" content="2026-07-26" />
+  <meta property="article:author" content="Julius Störk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/social-dendrites.png" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Lithium Dendrites Are Batteries' Dandelions",
+      "description": "Ceramic solid electrolytes still fail by dendrite. A March 2026 model derives a closed-form critical current density from first principles, and writes down the same physics that lets a dandelion crack a driveway.",
+      "datePublished": "2026-07-26",
+      "dateModified": "2026-07-26",
+      "url": "https://j-stoerk.github.io/post-dendrites-dandelions.html",
+      "image": "https://j-stoerk.github.io/social-dendrites.png",
+      "author": {
+            "@type": "Person",
+            "name": "Julius Störk",
+            "url": "https://j-stoerk.github.io/"
+      }
+    }
+  </script>
+
+  <!--#HEAD_ASSETS-->
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!--#TOPBAR-->
+
+  <main id="main" class="content">
+    <a class="back-link" href="blog.html">All posts</a>
+    <article class="post" id="dendrites-dandelions">
+      <header class="article-header">
+        <p class="eyebrow"><time datetime="2026-07-26">26 July 2026</time> · Materials</p>
+        <h1 class="post-title">Lithium Dendrites Are Batteries' Dandelions</h1>
+        <p class="article-meta muted">On Ansgar Lowack, <em>An Analytical Model of Critical and Subcritical Alkali Metal Dendrite Growth in Ceramic Solid Electrolytes</em> (<a href="https://arxiv.org/abs/2603.20113" target="_blank" rel="noopener noreferrer">arXiv:2603.20113</a>).</p>
+      </header>
+
+      <div class="prose">
+        <p>Ceramic solid electrolytes are supposed to be the boring, safe part of a next-generation battery. Swap a flammable liquid for a dense, rigid, ion-conducting ceramic and a lithium or sodium metal electrode should no longer be able to grow the metallic filaments (dendrites) that puncture liquid-electrolyte separators and short a cell <sup class="cite">[<a href="#ref-1">1</a>,<a href="#ref-2">2</a>,<a href="#ref-3">3</a>]</sup>. It is intuitive to believe a slab of solid ceramic is a mechanical wall. Experiments across a wide range of solid electrolyte chemistries have shown this intuition is simply wrong: dendrites penetrate ceramics too, just at a measurable critical current density \(J_\text{crit}\) above which the cell reliably fails <sup class="cite">[<a href="#ref-1">1</a>]</sup>. A March 2026 preprint by Ansgar Lowack derives, for the first time, a closed-form analytical expression for \(J_\text{crit}\) from first principles, and in doing so accidentally wrote down the same physics that lets a dandelion break a driveway <sup class="cite">[<a href="#ref-1">1</a>]</sup>.</p>
+        <h3>A pressure with two ways out</h3>
+        <p>The starting picture is a ceramic separator riddled with microscopic interfacial defects, thin grain-boundary cracks between the alkali metal electrode and the ceramic, already filled with metal that crept in during cell assembly <sup class="cite">[<a href="#ref-1">1</a>]</sup>. When current flows and metal ions plate out at the tip of one of these defects, that new volume of metal has to go somewhere. The paper works out that there are two ways to accommodate it.</p>
+        <p>The first way is <strong>creep</strong>: the soft alkali metal (lithium or sodium is ductile even at room temperature) simply deforms viscoplastically to make room, and the pressure inside the defect stays low <sup class="cite">[<a href="#ref-1">1</a>]</sup>. The second way is <strong>crack propagation</strong>: if the defect is too thin and confined for creep to keep up, pressure builds until it reaches the Griffith threshold \(p_\text{Griffith} = K_{Ic}/\sqrt{c}\), at which point it becomes thermodynamically cheaper for the crack to simply extend into the ceramic and make its own room <sup class="cite">[<a href="#ref-1">1</a>]</sup>. \(K_{Ic}\) is the fracture toughness of the ceramic (weakened, notably, by the metal already wetting the crack surface, equation 13 in the paper works out the reduction from the surface energies and the work of adhesion between metal and ceramic) <sup class="cite">[<a href="#ref-1">1</a>]</sup>.</p>
+        <p>I kept thinking about dandelions and asphalt while reading this section. A root tip pushing into a hairline crack in pavement does the exact same two things in the exact same order: it first swells by turgor pressure (measured at up to roughly 0.6 MPa, several times a car tire) deforming into whatever space the crack already offers, and only once that hydrostatic pressure exceeds what the asphalt can resist does the crack actually widen and propagate <sup class="cite">[<a href="#ref-4">4</a>,<a href="#ref-5">5</a>]</sup>. Nobody would call turgor pressure "Joule heating," but structurally it is the same fork: a confined volume increase either gets absorbed elastically/plastically, or it pays the fracture energy of the surrounding solid and the defect grows. Root biologists and fracture mechanics engineers arrived at the same two-branch decision independently, from opposite ends of materials science.</p>
+        <h3>Minimizing dissipation</h3>
+        <p>The reason the paper can turn this picture into an equation is Onsager's variational principle: of all the current distributions mathematically compatible with the boundary conditions, the one nature actually realizes is the one that minimizes total irreversible power dissipation <sup class="cite">[<a href="#ref-1">1</a>]</sup>. This is the textbook statement "current takes the path of least resistance" but there are now two dissipation channels competing for the minimum.</p>
+        <p>Routing current uniformly straight through the ceramic, ignoring the metal-filled defect entirely, costs ordinary bulk Joule dissipation \(\dot Q_\text{bulk}=\int_\Omega \rho\,|j|^2\,dV\) <sup class="cite">[<a href="#ref-1">1</a>]</sup>. But the metal-filled defect is a good conductor sitting inside a much more resistive ceramic, so the current would electrically "prefer" to funnel toward the defect tip and use it as a shortcut. That funneling reduces Joule dissipation but it forces metal deposition (and hence crack propagation, if creep can't keep up) exactly at the tip, which costs mechanical dissipation \(\dot W \propto p_\text{Griffith}\cdot I_c\) <sup class="cite">[<a href="#ref-1">1</a>]</sup>. A dendrite only grows once the Joule-dissipation savings from current localization outweigh the mechanical cost of cracking the ceramic to get there. \(\Delta\dot Q_\text{max}+\Delta\dot W=0\) is that break-even point <sup class="cite">[<a href="#ref-1">1</a>]</sup>.</p>
+        <p>To actually solve this, Lowack approximates each interfacial defect as one half of a flat ellipsoid, which turns an otherwise unsolvable Laplace-equation problem into a classic electrostatics exercise (image charges, worked out in Stratton and in Landau &amp; Lifshitz) with a known analytical potential field <sup class="cite">[<a href="#ref-1">1</a>,<a href="#ref-6">6</a>,<a href="#ref-7">7</a>]</sup>. Plugging that potential back into the dissipation functional and solving the break-even condition yields the paper's central result:</p>
+        <div class="equation">$$J_\text{crit} \approx Y\,\frac{\sigma\, V_M\, K_{Ic}}{F\, c_\text{max}^{3/2}}$$</div>
+        <p>where \(\sigma\) is ionic conductivity, \(V_M\) the molar volume of the alkali metal, \(F\) the Faraday constant, \(Y\sim 3/2\) a geometry constant, and \(c_\text{max}\) the length of the single longest, sufficiently thin interfacial defect <sup class="cite">[<a href="#ref-1">1</a>]</sup>.</p>
+        <h3>The weakest link</h3>
+        <p>That \(c_\text{max}^{-3/2}\) dependence means \(J_\text{crit}\) is set entirely by the single worst defect. Assuming defect lengths follow a Pareto distribution across the interface (a small shape parameter \(k\) meaning some defects are much longer than average), the largest defect in any given sample follows extreme-value statistics, and propagating that through \(J_\text{crit}\propto c_\text{max}^{-3/2}\) produces a Weibull distribution for the critical current density across nominally identical cells <sup class="cite">[<a href="#ref-1">1</a>]</sup>. This is precisely the weakest-link argument Weibull used in 1939 to describe the scattering of tensile strength between ceramic samples, and the paper shows the electrochemical Weibull modulus should come out to roughly a third of the mechanical one for the same material <sup class="cite">[<a href="#ref-1">1</a>]</sup>.</p>
+        <p>This is the second place the asphalt analogy held up better than I expected. Forestry and pavement-engineering literature on tree roots reports the same weakest-link behavior and the same feedback loop of significantly more root growth found under pre-existing cracks than under intact pavement, because a crack is where moisture and aeration concentrate, so a crack promotes more root growth, which enlarges the crack, which attracts still more root growth <sup class="cite">[<a href="#ref-8">8</a>,<a href="#ref-9">9</a>]</sup>. A ceramic dendrite doesn't get attracted by moisture, but the logic is the same.</p>
+        <div class="interactive">
+          <div class="widget-controls">
+            <p class="widget-title">Interactive · The weakest defect sets the limit</p>
+            <p class="widget-description">Critical current density scales as c<sub>max</sub><sup>−3/2</sup>, so a
+              single long, thin defect dominates. Drag it and watch J<sub>crit</sub> collapse.</p>
+            <div class="control-group">
+              <div class="slider-label"><label for="dd-c">Longest defect c<sub>max</sub></label><output
+                  id="dd-c-val">30 µm</output></div>
+              <input type="range" class="slider-input" id="dd-c" min="5" max="60" step="1" value="30">
+              <div class="metric-display" aria-live="polite">
+                <div class="metric-item"><div>J<sub>crit</sub> (model)</div><div class="metric-value" id="dd-j">—</div></div>
+                <div class="metric-item"><div>vs. measured ≈ 1 mA/cm²</div><div class="metric-value" id="dd-ratio">—</div></div>
+              </div>
+            </div>
+            <p class="widget-note">Schematic J<sub>crit</sub> ∝ c<sub>max</sub><sup>−3/2</sup>, scaled so the
+              FESEM defect size (~30 µm) sits near the model's ~50 mA/cm². The model runs one to two orders above the
+              measured ~1 mA/cm² band, exactly the gap the paper flags.</p>
+          </div>
+          <div class="widget-visual">
+            <svg viewBox="0 0 300 200" id="svg-dd1" role="img" aria-labelledby="dd1-title" style="max-width:320px">
+              <title id="dd1-title">Critical current density falling steeply as the longest defect grows, on a
+                logarithmic axis, staying above the measured band.</title>
+              <g id="dd1-grid"></g>
+              <line class="fig-axis" x1="45" y1="20" x2="45" y2="170" />
+              <line class="fig-axis" x1="45" y1="170" x2="285" y2="170" />
+              <path id="dd1-curve" fill="none" stroke="var(--color-primary)" stroke-width="2.5" stroke-linecap="round" />
+              <line id="dd1-exp" x1="45" x2="285" stroke="var(--color-danger)" stroke-width="1.5" stroke-dasharray="4" />
+              <circle id="dd1-dot" r="4" fill="var(--color-primary)" stroke="var(--color-bg)" stroke-width="1.5" />
+              <text class="text-label-faint" x="165" y="192" text-anchor="middle">longest defect c_max (µm)</text>
+            </svg>
+          </div>
+        </div>
+
+        <h3>Slow failure</h3>
+        <p>The paper doesn't stop at \(J_\text{crit}\). Below the critical current, ceramic solid electrolytes still conduct a small residual electron current (quantified by the electron transference number \(t_e\)), and that residual conduction lets alkali ions and electrons recombine directly at a defect tip without needing the full Griffith pressure (quantified by electrochemical stress-corrosion cracking) <sup class="cite">[<a href="#ref-1">1</a>]</sup>. This gives a second threshold, \(J_\text{subcrit}\approx Y\,\sigma\, K_{Isc}\, /(F\, c_\text{max}^{3/2})\), below \(J_\text{crit}\), above which a dendrite grows slowly rather than catastrophically, at a failure time \(\tau_\text{fail}\propto 1/(t_e\, J\, c_0)\) that the paper estimates at anywhere from tens of minutes to roughly ten hours for realistic garnet parameters <sup class="cite">[<a href="#ref-1">1</a>]</sup>. Suppressing \(t_e\) (making the ceramic a worse electron conductor) is therefore a lever completely independent of increasing fracture toughness or ionic conductivity, and the paper is explicit that it can shut down subcritical growth even when the classic critical-current picture would predict failure <sup class="cite">[<a href="#ref-1">1</a>]</sup>.</p>
+        <p>Root growth into pavement has an analogous slow regime: pavement studies describe damage accumulating over years of gradual root thickening long before any sudden failure, governed by the same tension-on-the-surface mechanic (concrete and asphalt are strong in compression but weak in tension) that governs Griffith crack growth in the ceramic case <sup class="cite">[<a href="#ref-9">9</a>,<a href="#ref-10">10</a>]</sup>. Slow, sub-threshold damage accumulation followed by sudden failure once a critical length is reached is apparently just what happens whenever something tries to wedge open a brittle, weakly conductive/porous barrier — batteries and driveways included.</p>
+        <div class="interactive">
+          <div class="widget-controls">
+            <p class="widget-title">Interactive · Three ways to fail (or not)</p>
+            <p class="widget-description">Below J<sub>subcrit</sub> nothing grows. Between the thresholds a dendrite
+              grows slowly; above J<sub>crit</sub> it cracks through at once. Suppressing the electron transference
+              number t<sub>e</sub> shrinks the slow-growth window.</p>
+            <div class="control-group">
+              <div class="slider-label"><label for="dd-J">Plating current J (% of J_crit)</label><output
+                  id="dd-J-val">50%</output></div>
+              <input type="range" class="slider-input" id="dd-J" min="0" max="110" step="1" value="50">
+              <div class="slider-label" style="margin-top:var(--space-3)"><label for="dd-te">Electron transference
+                  t<sub>e</sub></label><output id="dd-te-val">—</output></div>
+              <input type="range" class="slider-input" id="dd-te" min="1" max="100" step="1" value="60">
+              <div class="metric-display" aria-live="polite">
+                <div class="metric-item"><div>Regime</div><div class="metric-value" id="dd-regime">—</div></div>
+                <div class="metric-item"><div>Failure time</div><div class="metric-value" id="dd-tau">—</div></div>
+              </div>
+            </div>
+            <p class="widget-note">Illustrative. The thresholds and failure time follow the paper's structure
+              (J<sub>subcrit</sub> below J<sub>crit</sub>; τ ∝ 1/(t<sub>e</sub> J)); the numbers are schematic.</p>
+          </div>
+          <div class="widget-visual">
+            <svg viewBox="0 0 300 96" id="svg-dd2" role="img" aria-labelledby="dd2-title" style="max-width:320px">
+              <title id="dd2-title">A current-density gauge split into stable, slow-growth, and catastrophic zones with
+                a marker at the current value.</title>
+              <rect id="dd2-stable" x="45" y="34" height="26" rx="2" fill="var(--color-ok)" opacity="0.30" />
+              <rect id="dd2-sub" y="34" height="26" fill="var(--color-warn)" opacity="0.38" />
+              <rect id="dd2-crit" y="34" height="26" rx="2" fill="var(--color-danger)" opacity="0.38" />
+              <line id="dd2-mark" y1="28" y2="66" stroke="var(--color-text)" stroke-width="2" />
+              <text class="text-tick" x="45" y="78" text-anchor="middle">0</text>
+              <text id="dd2-subx" class="text-label-faint" y="28" text-anchor="middle" style="font-size:7px">J_subcrit</text>
+              <text class="text-tick" x="263" y="78" text-anchor="middle">J_crit</text>
+            </svg>
+          </div>
+        </div>
+
+        <h3>Battery engineering</h3>
+        <p>Numerically, the model is honest about where it still falls short: plugging in FESEM-measured defect sizes (\(c_\text{max}\sim30\) µm, width \(w\sim50\) nm) and typical Na<sub>5</sub>SmSi<sub>4</sub>O<sub>12</sub> material constants predicts \(J_\text{crit}\sim50\) mA/cm², one to two orders of magnitude above the experimentally observed range of roughly 1 mA/cm² <sup class="cite">[<a href="#ref-1">1</a>,<a href="#ref-11">11</a>]</sup>. The paper attributes the gap to treating \(K_{Ic}\) as a fixed bulk material constant, when atomistic and molecular-dynamics work suggests fracture toughness likely drops sharply right at a growing dendrite tip, for reasons still under active debate <sup class="cite">[<a href="#ref-1">1</a>]</sup>. Even with that caveat, the design guidance is to suppress long, thin grain-boundary defects (since \(J_\text{crit}\) only cares about the single worst one, not the average), push ionic conductivity and fracture toughness up, and push electron transference number down to kill the subcritical pathway. There's also a genuinely counterintuitive corollary. Since the model treats the growing dendrite as always metal-filled, a <em>stronger</em> interfacial adhesion between electrode and ceramic actually <em>lowers</em> the effective fracture toughness \(K_{Ic}\) (via the surface-energy/work-of-adhesion relation), creating a real design tension with other interface engineering goals like suppressing void formation on discharge <sup class="cite">[<a href="#ref-1">1</a>,<a href="#ref-12">12</a>]</sup>.</p>
+        <p>The next time your battery short-circuits, I hope you are thinking about dandelions.</p>
+        <p>---</p>
+      </div>
+
+      <section class="post-sources">
+        <h3>Sources</h3>
+        <ol class="sources">
+          <li id="ref-1">Lowack, A. "An Analytical Model of Critical and Subcritical Alkali Metal Dendrite Growth in Ceramic Solid Electrolytes." arXiv:2603.20113v4 [cond-mat.mtrl-sci], 2026.</li>
+          <li id="ref-2">Krauskopf, T., et al. Interfacial resistance measurements between lithium and LLZO, cited in [1].</li>
+          <li id="ref-3">Han, F., et al. Electron transference number measurements in Li6.5La3Zr1.5Ta0.5O12, cited in [1].</li>
+          <li id="ref-4">"How Dandelions Break Through Concrete With Nothing but Willpower (and Physics)." ZME Science, 2025. <a href="https://www.zmescience.com/feature-post/natural-sciences/biology-reference/plants-fungi/how-dandelions-break-through-concrete-with-nothing-but-willpower-and-physics/" target="_blank" rel="noopener noreferrer">https://www.zmescience.com/feature-post/natural-sciences/biology-reference/plants-fungi/how-dandelions-break-through-concrete-with-nothing-but-willpower-and-physics/</a></li>
+          <li id="ref-5">"How to Stop Grass From Growing Through Asphalt." Engineer Fix, 2025. <a href="https://engineerfix.com/how-to-stop-grass-from-growing-through-asphalt/" target="_blank" rel="noopener noreferrer">https://engineerfix.com/how-to-stop-grass-from-growing-through-asphalt/</a></li>
+          <li id="ref-6">Stratton, J. A. "Electromagnetic Theory," §3.26, cited in [1].</li>
+          <li id="ref-7">Landau, L. D., Lifshitz, E. M. "Electrodynamics of Continuous Media," §4, cited in [1].</li>
+          <li id="ref-8">Randrup, T. B., McPherson, E. G., Costello, L. R. "A review of tree root conflicts with sidewalks, curbs, and roads." USDA Forest Service. <a href="https://www.fs.usda.gov/psw/publications/mcpherson/psw_2001_mcpherson004_randrup.pdf" target="_blank" rel="noopener noreferrer">https://www.fs.usda.gov/psw/publications/mcpherson/psw_2001_mcpherson004_randrup.pdf</a></li>
+          <li id="ref-9">"Tree roots and trenching." Forest Research (UK). <a href="https://www.forestresearch.gov.uk/tools-and-resources/fthr/urban-regeneration-and-greenspace-partnership/practical-considerations-and-challenges-to-greenspace/tree-roots-and-trenching/" target="_blank" rel="noopener noreferrer">https://www.forestresearch.gov.uk/tools-and-resources/fthr/urban-regeneration-and-greenspace-partnership/practical-considerations-and-challenges-to-greenspace/tree-roots-and-trenching/</a></li>
+          <li id="ref-10">Vol. 15, No. 10, ARPN Journal of Engineering and Applied Sciences, May 2020. <a href="http://www.arpnjournals.org/jeas/research_papers/rp_2020/jeas_0520_8207.pdf" target="_blank" rel="noopener noreferrer">http://www.arpnjournals.org/jeas/research_papers/rp_2020/jeas_0520_8207.pdf</a></li>
+          <li id="ref-11">Weibull statistics of ceramic strength and the weakest-link hypothesis, cited in [1].</li>
+          <li id="ref-12">Void formation at solid-electrolyte/electrode interfaces during discharge, cited in [1].</li>
+        </ol>
+      </section>
+    </article>
+
+    <nav class="post-pager" aria-label="More posts">
+      <a href="post-physical-ai.html">
+        <span class="eyebrow">Next post</span>
+        <span class="post-pager-title">AI's Bottleneck is Physical</span>
+      </a>
+    </nav>
+  </main>
+
+  <!--#FOOTER-->
+
+  <!--#SCRIPTS-->
+</body>
+
+</html>

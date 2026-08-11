@@ -1429,6 +1429,49 @@ p {
   font-size: 0.82em;
 }
 
+/* Inline citation superscripts and the sources list. */
+sup.cite {
+  font-size: 0.68em;
+  line-height: 0;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+sup.cite a {
+  text-decoration: none;
+  color: var(--color-primary);
+}
+
+sup.cite a:hover {
+  text-decoration: underline;
+}
+
+.post-sources {
+  margin-top: var(--space-10);
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-6);
+}
+
+.sources {
+  margin: var(--space-3) 0 0;
+  padding-left: 1.5rem;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  max-width: 72ch;
+}
+
+.sources li {
+  margin-bottom: var(--space-2);
+  overflow-wrap: anywhere;
+}
+
+.sources li:target {
+  background: var(--color-primary-highlight);
+  border-radius: var(--radius-sm);
+  padding: 0 .3rem;
+  margin-left: -.3rem;
+}
+
 .equation {
   display: block;
   text-align: center;

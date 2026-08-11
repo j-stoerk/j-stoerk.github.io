@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Race to O(n) — Julius Störk</title>
+  <meta name="description" content="Every subquadratic-attention family relaxes one constraint while quietly keeping another. Five families, the routing-absorption trap, and why the frontier keeps flinching back to dense attention." />
+  <link rel="canonical" href="https://j-stoerk.github.io/post-race-to-on.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk — Research notes" href="feed.xml" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Julius Störk" />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-race-to-on.html" />
+  <meta property="og:title" content="The Race to O(n)" />
+  <meta property="og:description" content="Every subquadratic-attention family relaxes one constraint while quietly keeping another. Five families, the routing-absorption trap, and why the frontier keeps flinching back to dense attention." />
+  <meta property="og:image" content="https://j-stoerk.github.io/social-race-to-on.png" />
+  <meta property="og:image:alt" content="Attention cost curves: quadratic dense versus linear and log-linear alternatives" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="article:published_time" content="2026-08-02" />
+  <meta property="article:author" content="Julius Störk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/social-race-to-on.png" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "The Race to O(n)",
+      "description": "Every subquadratic-attention family relaxes one constraint while quietly keeping another. Five families, the routing-absorption trap, and why the frontier keeps flinching back to dense attention.",
+      "datePublished": "2026-08-02",
+      "dateModified": "2026-08-02",
+      "url": "https://j-stoerk.github.io/post-race-to-on.html",
+      "image": "https://j-stoerk.github.io/social-race-to-on.png",
+      "author": {
+            "@type": "Person",
+            "name": "Julius Störk",
+            "url": "https://j-stoerk.github.io/"
+      }
+    }
+  </script>
+
+  <!--#HEAD_ASSETS-->
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!--#TOPBAR-->
+
+  <main id="main" class="content">
+    <a class="back-link" href="blog.html">All posts</a>
+    <article class="post" id="race-to-on">
+      <header class="article-header">
+        <p class="eyebrow"><time datetime="2026-08-02">2 August 2026</time> · ML systems</p>
+        <h1 class="post-title">The Race to O(n)</h1>
+        <p class="article-meta muted">Reading notes across the subquadratic-attention literature.</p>
+      </header>
+
+      <div class="prose">
+        <p>Every softmax attention layer compares each token against every other token with O(T²) complexity in sequence length, and O(T²) memory costs <sup class="cite">[<a href="#ref-1">1</a>,<a href="#ref-2">2</a>]</sup>. With ever-growing context windows (at least since context windows crossed the hundred-thousand-token mark) the contested race to get attention's cost down to O(n) started. So much so, that Miami startup SubQ raised $29M while the AI community shouted "Theranos allegations" in response to the breakthroughs <sup class="cite">[<a href="#ref-30">30</a>]</sup>. The literature surfaces the pattern that every family of solution relaxes one constraint while quietly keeping another, and the places where people claim to have relaxed all of them at once are exactly where you should look the hardest.</p>
+        <h3>Family 1: keep the comparisons, prune them</h3>
+        <p>The first response doesn't touch the O(T²) structure at all and refuses to compute most of the matrix, using a pattern fixed in advance. Longformer restricts each token to a local sliding window plus a few global tokens; BigBird adds random tokens on top of a local window and proves the combination is still Turing-complete and a universal function approximator, so fixed sparsity doesn't provably cost expressivity in principle <sup class="cite">[<a href="#ref-3">3</a>,<a href="#ref-4">4</a>,<a href="#ref-5">5</a>]</sup>. In practice, fixed-pattern sparse attention has consistently failed on long-context retrieval benchmarks like RULER, because a token can only attend where the pattern allows, regardless of whether the relevant information is actually there — the sparsity is positional, not content-dependent <sup class="cite">[<a href="#ref-6">6</a>]</sup>.</p>
+        <p>FlashAttention takes an orthogonal angle on the exact same computation: it never materializes the full N×N score matrix in GPU memory, tiling the softmax into blocks that fit in on-chip SRAM via an online-softmax recurrence, so peak memory drops from O(N²) to O(N) and throughput rises substantially with output numerically identical to naive attention <sup class="cite">[<a href="#ref-7">7</a>,<a href="#ref-8">8</a>]</sup>. It does not (nor does it aspire to) change the FLOP count, as doubling the sequence length still quadruples the compute. At 128K tokens attention costs roughly 8.6 billion operations per layer; at 1M, 549 billion; at 2M, 2.2 trillion <sup class="cite">[<a href="#ref-6">6</a>]</sup>. FlashAttention solved the memory problem that made long-context experimentation impractical for the first time <sup class="cite">[<a href="#ref-6">6</a>]</sup>.</p>
+        <div class="interactive">
+          <div class="widget-controls">
+            <p class="widget-title">Interactive · Where the quadratic hides</p>
+            <p class="widget-description">Dense attention is O(T²); a linear-memory model is O(T). A learned selector
+              adds a full-attention indexer on top of a sparse read, so on a log–log plot it runs parallel to dense
+              (same slope 2), not to linear.</p>
+            <div class="control-group">
+              <div class="slider-label"><label for="on-t">Sequence length T</label><output id="on-t-val">1.0M</output></div>
+              <input type="range" class="slider-input" id="on-t" min="17" max="24" step="0.04" value="20">
+              <div class="metric-display" aria-live="polite">
+                <div class="metric-item"><div>Dense O(T²)</div><div class="metric-value" id="on-dense">—</div></div>
+                <div class="metric-item"><div>Linear O(T)</div><div class="metric-value" id="on-lin">—</div></div>
+                <div class="metric-item"><div>Learned selector</div><div class="metric-value" id="on-sel">—</div></div>
+              </div>
+            </div>
+            <p class="widget-note">Operations per layer, order of magnitude. Dense is anchored to the reported 8.6 G
+              ops at 128K, 549 G at 1M, 2.2 T at 2M. The selector's indexer is itself full attention, so past its
+              ~52K-token crossover it grows quadratically again.</p>
+          </div>
+          <div class="widget-visual">
+            <svg viewBox="0 0 300 210" id="svg-on1" role="img" aria-labelledby="on1-title" style="max-width:320px">
+              <title id="on1-title">Log–log operations-versus-sequence-length plot. Dense and the learned selector
+                share slope two; linear attention has slope one.</title>
+              <g id="on1-grid"></g>
+              <line class="fig-axis" x1="46" y1="16" x2="46" y2="172" />
+              <line class="fig-axis" x1="46" y1="172" x2="288" y2="172" />
+              <line id="on1-vt" y1="16" y2="172" stroke="var(--color-divider)" stroke-width="1" stroke-dasharray="4" />
+              <path id="on1-dense" fill="none" stroke="var(--color-danger)" stroke-width="2.5" />
+              <path id="on1-sel" fill="none" stroke="var(--color-warn)" stroke-width="2.5" stroke-dasharray="5 3" />
+              <path id="on1-lin" fill="none" stroke="var(--color-ok)" stroke-width="2.5" />
+              <text class="fig-label" x="150" y="196" text-anchor="middle">sequence length T (log)</text>
+              <g style="font-size:8px">
+                <rect x="52" y="20" width="8" height="3" fill="var(--color-danger)" /><text class="text-label-faint" x="63" y="24">dense</text>
+                <rect x="52" y="30" width="8" height="3" fill="var(--color-warn)" /><text class="text-label-faint" x="63" y="34">selector</text>
+                <rect x="52" y="40" width="8" height="3" fill="var(--color-ok)" /><text class="text-label-faint" x="63" y="44">linear</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <h3>Family 2: learn what to prune, and pay for the learning</h3>
+        <p>DeepSeek's 2025 Native Sparse Attention (NSA) tries to get sparsity's efficiency without fixed-pattern's blindness, by learning the routing decision from content. Coarse token compression is combined with fine-grained learned token selection, and a sliding window, hardware-aligned from the start <sup class="cite">[<a href="#ref-31">31</a>,<a href="#ref-32">32</a>]</sup>. NSA's selector is a "Lightning Indexer": a distilled attention model that scores every query-key pair to decide what the sparse attention downstream should read <sup class="cite">[<a href="#ref-6">6</a>]</sup>.</p>
+        <p>That indexer is itself full attention, and in the released DeepSeek V3.2-style configuration it is cheaper than the sparse attention it feeds only below roughly 52,000 tokens; past that crossover its O(T²) scoring overtakes the O(T) sparse attention, reaching roughly 16x the cost of the attention it serves at 1M tokens and 190x at 12M <sup class="cite">[<a href="#ref-6">6</a>]</sup>. DeepSeek V4's Compressed Sparse Attention inherits the identical problem in its indexer; its Heavily Compressed Attention alternative avoids learned selection but is still dense attention over a shorter sequence, a scalar win rather than a change in asymptotic shape <sup class="cite">[<a href="#ref-6">6</a>]</sup>. The general lesson: moving selection from "fixed pattern" to "learned" tends to reintroduce, inside the selector, exactly the quadratic cost the selector was meant to eliminate from the main computation. Efficiency at the attention-read step and efficiency at the routing-decision step are two separate problems, and most learned-sparse systems solve only the first.</p>
+        <p>Does the learned selector actually learn to route on content, or does the rest of the network just adapt to whatever the gate currently does and route around it? <strong>Routing absorption</strong> from February 2026 measures this failure mode <sup class="cite">[<a href="#ref-26">26</a>]</sup>. On a controlled 31M-parameter transformer, a soft gate trained end-to-end for 50,000 steps converges to 48.73 perplexity; a frozen random gate, never trained at all, converges to 49.83 (a 2.2% gap), capturing only 9% of the possible improvement between random and oracle routing <sup class="cite">[<a href="#ref-26">26</a>]</sup>. Hard top-k gating, the kind most production sparse-attention systems (plausibly including NSA's downstream sparse read, and any per-query top-k selector generally) actually deploy, is worse. The mask is piecewise-constant, so the gradient through it is exactly zero, and learned versus frozen-random gates come out numerically indistinguishable (71.22 vs. 71.24 perplexity) <sup class="cite">[<a href="#ref-26">26</a>]</sup>. Training a checkpoint trained <em>without</em> any mask (1,000 steps), freezing it, and distilling a small gate against it, gets within 6% of oracle routing. The same gate architecture, trained jointly for fifty times longer, barely beats a coin flip <sup class="cite">[<a href="#ref-26">26</a>]</sup>. The difference isn't the gate but co-adaption (of whatever is routed) to the router. It specializes to the <em>shape</em> of the mask rather than its content, and a gate that reaches 0.804 F1 against an oracle mask still produces a twelve-fold perplexity blowup the moment you swap in a differently-shaped mask at the same predicted positions <sup class="cite">[<a href="#ref-26">26</a>]</sup>. Worse, this gets more severe at larger scale (tested directly on Qwen3-1.7B, the random-vs-learned gap shrinks steadily as more layers are allowed to co-adapt) <sup class="cite">[<a href="#ref-26">26</a>]</sup>.</p>
+        <p>It's worth noting this trap is avoidable, and well-known. Reformer's LSH attention hashes queries and keys into buckets via a fixed random projection, so there is no gate to absorb because the routing function is fixed before training starts, giving O(L log L) <sup class="cite">[<a href="#ref-33">33</a>,<a href="#ref-34">34</a>]</sup>. Routing Transformer's online k-means clusters are learned and update via a slow exponential moving average <sup class="cite">[<a href="#ref-35">35</a>]</sup>. H-Transformer-1D avoids a hard discrete choice altogether, computing a continuous, differentiable-everywhere approximation inspired by numerical-analysis H-matrices <sup class="cite">[<a href="#ref-36">36</a>]</sup>. Every subquadratic selector that has actually worked in the published literature avoided joint, hard, per-query gating specifically. The routing-absorption paper alternatively decouples the router's training from the backbone's, training (or freezing) the backbone first and fitting the selector post-hoc by distillation (close to NSA's indexer) <sup class="cite">[<a href="#ref-26">26</a>,<a href="#ref-6">6</a>]</sup>.</p>
+        <div class="interactive">
+          <div class="widget-controls">
+            <p class="widget-title">Interactive · Does the gate learn anything?</p>
+            <p class="widget-description">The routing-absorption test compares a trained gate against a
+              <em>frozen, never-trained random</em> gate at matched sparsity. If the trained one barely wins, the
+              network routed around the gate rather than through it.</p>
+            <div class="loop-stages" role="tablist" aria-label="Gate regimes">
+              <button class="loop-stage" role="tab" id="ra-tab-0" data-ra="0" aria-selected="true">Soft gate, joint</button>
+              <button class="loop-stage" role="tab" id="ra-tab-1" data-ra="1" aria-selected="false">Hard top-k, joint</button>
+            </div>
+            <div class="metric-display" aria-live="polite" style="margin-top:var(--space-3)">
+              <div class="metric-item"><div>Learned − random gap</div><div class="metric-value" id="ra-gap">—</div></div>
+              <div class="metric-item"><div>Verdict</div><div class="metric-value" id="ra-verdict">—</div></div>
+            </div>
+            <p class="widget-note">Perplexity, lower is better (from the routing-absorption paper). Joint hard-gating
+              makes learned and random gates numerically indistinguishable; only decoupling the gate's training from
+              the backbone recovers most of the oracle's improvement.</p>
+          </div>
+          <div class="widget-visual">
+            <svg viewBox="0 0 300 200" id="svg-ra" role="img" aria-labelledby="ra-title" style="max-width:320px">
+              <title id="ra-title">Two bars per regime comparing a learned gate against a frozen random gate at
+                matched sparsity.</title>
+              <g id="ra-bars"></g>
+            </svg>
+          </div>
+        </div>
+
+        <h3>Family 3: replace comparison with a running memory</h3>
+        <p>A third family doesn't prune the O(T²) computation. The pairwise comparison structure is eliminated entirely. The kernel trick is to factor the similarity between a query and key as an inner product of feature maps, φ(q)ᵀφ(k), then reorder the double sum in attention so a query only ever touches one fixed-size matrix, never the T individual keys that produced it <sup class="cite">[<a href="#ref-9">9</a>]</sup>. That matrix, W, is a running memory where each token adds an outer product of its value and feature-mapped key, and each output is one read against the current W. Training cost drops to linear in T, and inference per token becomes constant time <sup class="cite">[<a href="#ref-9">9</a>]</sup>. This is also a description of a linear RNN. Some popular architectures are RetNet's retention mechanism with an explicit recurrent/parallel/chunkwise duality <sup class="cite">[<a href="#ref-10">10</a>,<a href="#ref-11">11</a>]</sup>; RWKV's receptance-weighted recurrence, built to combine transformer-style parallel training with RNN-style constant-memory inference <sup class="cite">[<a href="#ref-12">12</a>,<a href="#ref-13">13</a>]</sup>; Griffin's RG-LRU gated linear recurrence, no attention at all in the "Hawk" variant <sup class="cite">[<a href="#ref-14">14</a>]</sup>; S4's structured state-space parameterization, made input-selective by Mamba <sup class="cite">[<a href="#ref-15">15</a>,<a href="#ref-16">16</a>,<a href="#ref-37">37</a>]</sup>.</p>
+        <p>Mamba-2's State Space Duality result is the cleanest unification: a structured class of SSMs is <em>exactly</em> a form of linear attention with a semiseparable causal mask, so the same computation can be read either as a cheap recurrence or as a quadratic matrix multiply, and systems tricks transfer between the two readings <sup class="cite">[<a href="#ref-17">17</a>,<a href="#ref-18">18</a>,<a href="#ref-19">19</a>]</sup>. That unification matters because it means this family's fixed-size state absorbing an unbounded sequence is a compression, and compression is lossy <sup class="cite">[<a href="#ref-6">6</a>]</sup>.</p>
+        <h3>Family 4: don't just accumulate, correct</h3>
+        <p>Naive linear attention just writes forever: W ← W + v⊗κ, with nothing to un-write, so old associations linger and interfere with new writes to overlapping key directions <sup class="cite">[<a href="#ref-20">20</a>]</sup>. DeltaNet asks (before writing) what the memory already predicts for the current key, and writes only the residual (one step of online gradient descent on a reconstruction loss) <sup class="cite">[<a href="#ref-20">20</a>,<a href="#ref-21">21</a>]</sup>. The error-correction needs its own hardware-efficient parallelization: a chunked, WY-representation form of the delta rule (before it scales past toy sizes) <sup class="cite">[<a href="#ref-21">21</a>,<a href="#ref-22">22</a>]</sup>.</p>
+        <p>DeltaNet still can't clear memory in bulk; every correction is local to one key. The lineage adds bulk forgetting one control dimension at a time. Gated DeltaNet applies a scalar decay to the whole memory before the delta-rule correction <sup class="cite">[<a href="#ref-23">23</a>]</sup>; Kimi Delta Attention makes that decay channel-wise, so some feature subspaces are retained while others are aggressively cleared <sup class="cite">[<a href="#ref-24">24</a>]</sup>; Gated DeltaNet-2 decouples the erase gate (which key-feature channels get removed) from the write gate (which value channels get committed), previously controlled by the same scalar <sup class="cite">[<a href="#ref-25">25</a>]</sup>; CARVE argues Gated DeltaNet-2's gating is still over-parameterized relative to what a single hardware-friendly triangular solve supports, and restricts gating to the key axis to preserve that solve while conditioning erasure on the previous chunk's own content <sup class="cite">[<a href="#ref-38">38</a>]</sup>. Each step is legible as one more knob on the same fast-weight object, motivated by a specific failure the previous step couldn't fix.</p>
+        <h3>Family 5: prove the ceiling instead of chasing it</h3>
+        <p>A fifth line of work stops optimizing architecture and asks how bad the fixed-size-state constraint fundamentally is. Jelassi et al. show theoretically that a two-layer transformer can copy strings of exponential length while any fixed-state generalized state-space model is bounded regardless of depth or training, and confirm empirically that pretrained transformers dramatically outperform pretrained SSMs at copying and retrieving context <sup class="cite">[<a href="#ref-39">39</a>]</sup>. Zoology frames the same gap as a recall–throughput trade-off: a bounded state cannot do content-addressed recall beyond roughly its own dimension, however cleverly it's gated <sup class="cite">[<a href="#ref-27">27</a>,<a href="#ref-28">28</a>]</sup>. Mimetic initialization shows that the right initialization lets Mamba copy and recall over sequences several times longer than standard init achieves, but the gap to attention narrows rather than closes <sup class="cite">[<a href="#ref-29">29</a>]</sup>. BASED responds pragmatically, combining cheap-but-imprecise linear attention with exact softmax attention in a small sliding window, tuning the window to trace the recall–memory Pareto frontier rather than picking one point <sup class="cite">[<a href="#ref-40">40</a>]</sup>. Log-linear attention takes the more theoretical middle path: let the number of hidden states grow logarithmically with sequence length instead of staying fixed, admitting a matmul-rich parallel form at log-linear compute cost <sup class="cite">[<a href="#ref-41">41</a>]</sup>.</p>
+        <p>Josh Alman gives an impossibility proof, under the Strong Exponential Time Hypothesis, that calculating the gradients (the backward pass) in sub-quadratic time is mathematically impossible by any algorithm whatsoever <sup class="cite">[<a href="#ref-42">42</a>]</sup>. A companion result for hybrid SSM+sparse-attention stacks makes the same point that solving "multi-query joint recall" with such a hybrid requires the SSM's state dimension to grow linearly with the number of table entries, which is exactly the O(n²)-in-disguise <sup class="cite">[<a href="#ref-43">43</a>]</sup>. This is why empirically the frontier keeps flinching back toward dense attention: MiniMax shipped M1 as a hybrid combining Lightning Attention with full attention, then returned to full attention across every layer for their subsequent frontier model M2, reporting that hybrid variants matched full attention on standard benchmarks but showed clear deficits on higher-order multi-hop reasoning at scale, with less mature supporting infrastructure besides <sup class="cite">[<a href="#ref-6">6</a>]</sup>.</p>
+        <h3>The claim that all four properties can be had at once</h3>
+        <p>During this search for the holy grail, Subquadratic AI released its May 2026 technical report of Subquadratic Sparse Attention (SSA) that is simultaneously content-dependent, subquadratic <em>including the selection stage itself</em>, capable of arbitrary-position access, and practical to train at multi-million-token scale <sup class="cite">[<a href="#ref-6">6</a>,<a href="#ref-30">30</a>]</sup>. They report 99.12% on the 13-task RULER benchmark at 128K tokens, 100% single-needle retrieval through 2M tokens, and 98% retrieval accuracy (@ 12M context tokens and 1M training tokens) while attending to only 0.13% of token pairs <sup class="cite">[<a href="#ref-6">6</a>]</sup>. SubQ's selector is roughly 17x cheaper at 1M tokens and 191x cheaper at 12M (compared to DeepSeek's Lightning Indexer @matched selected-position budget) because it doesn't reintroduce quadratic scoring inside the selection stage the way NSA's indexer does <sup class="cite">[<a href="#ref-6">6</a>]</sup>.</p>
+        <p>Scepticism is warranted since it's a single company's technical report on their own model, not independently replicated or peer-reviewed, and the content-dependent selection mechanism of SSA is explicitly excluded <sup class="cite">[<a href="#ref-6">6</a>]</sup>. Reverse-engineering from public benchmark numbers shows that the data is consistent with content-dependent routing under a bounded budget but doesn't rule out a routing scheme closer to fixed than genuinely adaptive, and proposed forcing known-relevant tokens into the selected set as a diagnostic test <sup class="cite">[<a href="#ref-44">44</a>,<a href="#ref-45">45</a>]</sup>. The report's own findings include a real trade-off between retrieval-optimized checkpoints (measured on MRCR benchmark) and checkpoints that performed best on realistic multi-document synthesis and contract analysis. The authors then switched their primary development signal to RULER specifically <sup class="cite">[<a href="#ref-6">6</a>]</sup>.</p>
+        <p>Routing-absorption from Family 2 showed some similarity. If SSA's selector is a per-query, hard, jointly-trained top-k gate, then the mechanism could be described as choosing, per query, "which portions of the sequence should receive attention". This was the design most exposed to learning nothing beyond what a frozen random gate would already give <sup class="cite">[<a href="#ref-26">26</a>,<a href="#ref-6">6</a>]</sup>. The report is explicit that SSA's mechanism could differ structurally from the per-query gating the routing-absorption paper studies, in ways that might avoid the failure mode entirely <sup class="cite">[<a href="#ref-26">26</a>]</sup>. Unfortunately, the public materials miss a comparison against a frozen or randomly-initialized selector at matched sparsity.</p>
+        <h3>An orthogonal axis: sharing across depth, not just across sequence</h3>
+        <p>Every mechanism above is about sequence mixing <em>within</em> a layer. A separate failure mode is dilution <em>across</em> layers: information written at layer 3 can be hard to recover by layer 20, because each layer only sees what survived the residual stream above it. For softmax stacks, value-residual learning feeds an early layer's attention values forward into later layers to counteract this over-smoothing <sup class="cite">[<a href="#ref-46">46</a>,<a href="#ref-47">47</a>]</sup>; Mixture-of-Depths lets tokens skip layers entirely via a learned router instead <sup class="cite">[<a href="#ref-48">48</a>,<a href="#ref-49">49</a>]</sup>. Applying a full depth-attention operator to a linear-memory stack partially defeats the point, though (reintroduces quadratic-ish cost across depth).</p>
+        <p>Tommaso Cerruti from ETH Zürich, along with Tim Rieder, George Rowlands and Lingfeng Jin, test the DeltaNet-flavored answer. They forward a lower layer's write <em>error</em> into the next layer's value target (Cross-Layer Error Residuals). This doesn't beat a matched baseline, because the routed error lands in the receiver's independently-learned value space, misaligned with that layer's own geometry, competing with rather than complementing its write target <sup class="cite">[<a href="#ref-50">50</a>]</sup>. They (i) route into the <em>shared residual stream</em> instead, through a zero-initialized projection so the routed contribution starts at exactly zero and the model learns how strongly to use it; and separately, (ii) route the write <em>value</em> rather than the write <em>error</em>. That Cross-Layer Value Routing (CLVR) lowers final validation loss for both DeltaNet and Gated DeltaNet hosts. It cleanly establishes sharing across depth helps specifically <em>where</em> the naive version of it fails and that the fix is a change of injection space. The same paper's broader sweep found that a hybrid stack (one softmax layer per two linear-memory layers) beat every pure recurrent configuration tested <sup class="cite">[<a href="#ref-50">50</a>]</sup>, echoing the MiniMax M1-to-M2 story at a much smaller scale.</p>
+        <h3>The throughline</h3>
+        <p>The routing absorption shows a router can look trained and contribute nothing, because the much larger surrounding network absorbs the signal instead of the router learning anything real. NSA's indexer shows a router can be correctly decoupled and honest, yet still reintroduce the exact cost it was built to eliminate, just moved rather than removed. CLVR shows where to route, in the aligned hidden stream and forwarding the write value. Is a mechanism meant to carry a signal across some boundary (token position, depth, selection budget) actually carrying it, or is the rest of the network absorbing, ignoring, or fighting it? In every one of these cases, ablate against the null (random routing, zero-strength injection, a frozen gate) and check if the result actually depends on what the mechanism learned. Conspicuously, the ablation is missing from SubQ's report claiming to have reached O(n).</p>
+        <p>The shape of this problem looked familiar to me. The race to O(n) and continual learning asks a structurally identical question (across tasks instead of depth or token position) whether an update from a new process regime genuinely generalizes or gets absorbed and overwritten by what an earlier regime already encoded, depending on whether it's expressed in a shared geometry the receiver can actually use <sup class="cite">[<a href="#ref-51">51</a>,<a href="#ref-52">52</a>]</sup>.</p>
+        <p>---</p>
+      </div>
+
+      <section class="post-sources">
+        <h3>Sources</h3>
+        <ol class="sources">
+          <li id="ref-1">Vaswani, A., et al. "Attention Is All You Need." NeurIPS 2017.</li>
+          <li id="ref-2">NVIDIA. "Attention Is All You Need! — Transformer Engine Documentation." <a href="https://docs.nvidia.com/deeplearning/transformer-engine/user-guide/examples/attention/attention.html" target="_blank" rel="noopener noreferrer">https://docs.nvidia.com/deeplearning/transformer-engine/user-guide/examples/attention/attention.html</a></li>
+          <li id="ref-3">Zaheer, M., et al. "Big Bird: Transformers for Longer Sequences." NeurIPS 2020. <a href="https://papers.neurips.cc/paper_files/paper/2020/file/c8512d142a2d849725f31a9a7a361ab9-Paper.pdf" target="_blank" rel="noopener noreferrer">https://papers.neurips.cc/paper_files/paper/2020/file/c8512d142a2d849725f31a9a7a361ab9-Paper.pdf</a></li>
+          <li id="ref-4">Beltagy, I., Peters, M., Cohan, A. "Longformer: The Long-Document Transformer." arXiv:2004.05150. <a href="https://www.deeplearning.ai/the-batch/more-efficient-transformers/" target="_blank" rel="noopener noreferrer">https://www.deeplearning.ai/the-batch/more-efficient-transformers/</a></li>
+          <li id="ref-5">"Exploring Sparse Attention in Transformers: BigBird and LongFormer." <a href="https://medium.com/@ashutoshadhikari141/exploring-sparse-attention-in-transformers-bigbird-longformer-and-their-applications-3e69920c2085" target="_blank" rel="noopener noreferrer">https://medium.com/@ashutoshadhikari141/exploring-sparse-attention-in-transformers-bigbird-longformer-and-their-applications-3e69920c2085</a></li>
+          <li id="ref-6">Ramirez, S., Whedon, A., Vayani, A., Vo, P. "SubQ-1.1-Small Technical Report." Subquadratic AI, 2026.</li>
+          <li id="ref-7">Dao, T., Fu, D. Y., Ermon, S., Rudra, A., Ré, C. "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness." arXiv:2205.14135. <a href="https://arxiv.org/abs/2205.14135" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2205.14135</a></li>
+          <li id="ref-8">"FlashAttention: Making Attention I/O-Aware." Hugging Face blog. <a href="https://huggingface.co/blog/garg-aayush/flash-attention" target="_blank" rel="noopener noreferrer">https://huggingface.co/blog/garg-aayush/flash-attention</a></li>
+          <li id="ref-9">Katharopoulos, A., Vyas, A., Pappas, N., Fleuret, F. "Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention." ICML 2020. arXiv:2006.16236. <a href="https://arxiv.org/abs/2006.16236" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2006.16236</a></li>
+          <li id="ref-10">Sun, Y., Dong, L., Huang, S., et al. "Retentive Network: A Successor to Transformer for Large Language Models." arXiv:2307.08621. <a href="https://arxiv.org/abs/2307.08621" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2307.08621</a></li>
+          <li id="ref-11">"A Survey of Retentive Network." arXiv:2506.06708. <a href="https://arxiv.org/abs/2506.06708" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2506.06708</a></li>
+          <li id="ref-12">Peng, B., et al. "RWKV: Reinventing RNNs for the Transformer Era." arXiv:2305.13048. <a href="https://arxiv.org/abs/2305.13048" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2305.13048</a></li>
+          <li id="ref-13">"The Evolution of RWKV: Advancements in Efficient Language Modeling." arXiv:2411.02795. <a href="https://arxiv.org/html/2411.02795v1" target="_blank" rel="noopener noreferrer">https://arxiv.org/html/2411.02795v1</a></li>
+          <li id="ref-14">De, S., et al. (Google DeepMind). "Griffin: Mixing Gated Linear Recurrences with Local Attention for Efficient Language Models." arXiv:2402.19427. <a href="https://arxiv.org/pdf/2402.19427.pdf" target="_blank" rel="noopener noreferrer">https://arxiv.org/pdf/2402.19427.pdf</a></li>
+          <li id="ref-15">Gu, A., Goel, K., Ré, C. "Efficiently Modeling Long Sequences with Structured State Spaces" (S4). arXiv:2111.00396. <a href="https://arxiv.org/abs/2111.00396" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2111.00396</a></li>
+          <li id="ref-16">Gu, A., Dao, T. "Mamba: Linear-Time Sequence Modeling with Selective State Spaces." arXiv:2312.00752. <a href="https://arxiv.org/abs/2312.00752" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2312.00752</a></li>
+          <li id="ref-17">Dao, T., Gu, A. "Transformers are SSMs: Generalized Models and Efficient Algorithms Through Structured State Space Duality" (Mamba-2). arXiv:2405.21060. <a href="https://arxiv.org/abs/2405.21060" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2405.21060</a></li>
+          <li id="ref-18">"A Survey of Mamba." arXiv:2408.01129. <a href="https://arxiv.org/html/2408.01129v8" target="_blank" rel="noopener noreferrer">https://arxiv.org/html/2408.01129v8</a></li>
+          <li id="ref-19">"Mamba-3: Improved Sequence Modeling using State Space Principles." arXiv:2603.15569. <a href="https://arxiv.org/html/2603.15569v1" target="_blank" rel="noopener noreferrer">https://arxiv.org/html/2603.15569v1</a></li>
+          <li id="ref-20">Yang, S., Wang, B., Zhang, Y., Shen, Y., Kim, Y. "Parallelizing Linear Transformers with the Delta Rule over Sequence Length." NeurIPS 2024. arXiv:2406.06484. <a href="https://arxiv.org/abs/2406.06484" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2406.06484</a></li>
+          <li id="ref-21">Songlin Yang's DeltaNet talk/poster materials, NeurIPS 2024. <a href="https://sustcsonglin.github.io/assets/pdf/neurips24_poster_deltanet.pdf" target="_blank" rel="noopener noreferrer">https://sustcsonglin.github.io/assets/pdf/neurips24_poster_deltanet.pdf</a></li>
+          <li id="ref-22">"Linear Transformers for Efficient Sequence Modeling." Talk slides, Songlin Yang. <a href="https://sustcsonglin.github.io/assets/pdf/talk_linear_transformer.pdf" target="_blank" rel="noopener noreferrer">https://sustcsonglin.github.io/assets/pdf/talk_linear_transformer.pdf</a></li>
+          <li id="ref-23">Yang, S., Kautz, J., Hatamizadeh, A. "Gated Delta Networks: Improving Mamba2 with Delta Rule." ICLR 2025. arXiv:2412.06464. <a href="https://arxiv.org/abs/2412.06464" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2412.06464</a></li>
+          <li id="ref-24">"Kimi Linear: An Expressive, Efficient Attention Architecture." arXiv:2510.26692. <a href="https://arxiv.org/pdf/2510.26692.pdf" target="_blank" rel="noopener noreferrer">https://arxiv.org/pdf/2510.26692.pdf</a></li>
+          <li id="ref-25">"Gated DeltaNet-2: Decoupling Erase and Write in Linear Attention." arXiv:2605.22791. <a href="https://arxiv.org/pdf/2605.22791.pdf" target="_blank" rel="noopener noreferrer">https://arxiv.org/pdf/2605.22791.pdf</a></li>
+          <li id="ref-26">Aquino-Michaels, K. "Routing Absorption in Sparse Attention: Why Random Gates Are Hard to Beat." arXiv:2603.02227. <a href="https://arxiv.org/html/2603.02227" target="_blank" rel="noopener noreferrer">https://arxiv.org/html/2603.02227</a></li>
+          <li id="ref-27">Arora, S., et al. "Zoology: Measuring and Improving Recall in Efficient Language Models." ICLR 2024.</li>
+          <li id="ref-28">"Revisiting associative recall in modern recurrent models." arXiv:2508.19029. <a href="https://arxiv.org/html/2508.19029v2" target="_blank" rel="noopener noreferrer">https://arxiv.org/html/2508.19029v2</a></li>
+          <li id="ref-29">"Mimetic Initialization Helps State Space Models Learn to Recall." arXiv:2410.11135. <a href="http://arxiv.org/pdf/2410.11135.pdf" target="_blank" rel="noopener noreferrer">http://arxiv.org/pdf/2410.11135.pdf</a></li>
+          <li id="ref-30">"SubQ: a sub-quadratic LLM with 12M-token context." Hacker News discussion. <a href="https://news.ycombinator.com/item?id=48023079" target="_blank" rel="noopener noreferrer">https://news.ycombinator.com/item?id=48023079</a></li>
+          <li id="ref-31">DeepSeek-AI. "Native Sparse Attention: Hardware-Aligned and Natively Trainable Sparse Attention." arXiv:2502.11089. <a href="https://arxiv.org/pdf/2502.11089v1.pdf" target="_blank" rel="noopener noreferrer">https://arxiv.org/pdf/2502.11089v1.pdf</a></li>
+          <li id="ref-32">"Native Sparse Attention (DeepSeek NSA) Paper Note." ACL 2025 Best Paper. <a href="https://en.papernotes.org/ACL2025/llm_efficiency/native_sparse_attention/" target="_blank" rel="noopener noreferrer">https://en.papernotes.org/ACL2025/llm_efficiency/native_sparse_attention/</a></li>
+          <li id="ref-33">Kitaev, N., Kaiser, Ł., Levskaya, A. "Reformer: The Efficient Transformer." arXiv:2001.04451. <a href="https://arxiv.org/pdf/2001.04451.pdf" target="_blank" rel="noopener noreferrer">https://arxiv.org/pdf/2001.04451.pdf</a></li>
+          <li id="ref-34">"Do We Need Reformer for Vision? An Experimental Comparison." arXiv:2512.11260. <a href="https://arxiv.org/html/2512.11260v1" target="_blank" rel="noopener noreferrer">https://arxiv.org/html/2512.11260v1</a></li>
+          <li id="ref-35">Roy, A., Saffar, M., Vaswani, A., Grangier, D. "Efficient Content-Based Sparse Attention with Routing Transformers." TACL 2021. arXiv:2003.05997. <a href="https://arxiv.org/abs/2003.05997" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2003.05997</a></li>
+          <li id="ref-36">Zhu, Z., Soricut, R. "H-Transformer-1D: Fast One-Dimensional Hierarchical Attention for Sequences." arXiv:2107.11906. <a href="https://arxiv.org/abs/2107.11906" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2107.11906</a></li>
+          <li id="ref-37">Yang, S., Wang, B., Shen, Y., Panda, R., Kim, Y. "Gated Linear Attention Transformers with Hardware-Efficient Training." arXiv:2312.06635. <a href="https://arxiv.org/pdf/2312.06635.pdf" target="_blank" rel="noopener noreferrer">https://arxiv.org/pdf/2312.06635.pdf</a></li>
+          <li id="ref-38">"CARVE: Content-Aware Recurrent with Value Efficiency for Chunk-Parallel Linear Attention." arXiv:2606.27229. <a href="https://ar5iv.labs.arxiv.org/html/2606.27229" target="_blank" rel="noopener noreferrer">https://ar5iv.labs.arxiv.org/html/2606.27229</a></li>
+          <li id="ref-39">Jelassi, S., Brandfonbrener, D., Kakade, S. M., Malach, E. "Repeat After Me: Transformers are Better than State Space Models at Copying." ICML 2024. arXiv:2402.01032. <a href="https://arxiv.org/abs/2402.01032" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2402.01032</a></li>
+          <li id="ref-40">Arora, S., Eyuboglu, S., et al. "Simple linear attention language models balance the recall-throughput tradeoff" (BASED). arXiv:2402.18668. <a href="https://arxiv.org/abs/2402.18668" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2402.18668</a></li>
+          <li id="ref-41">Guo, H., Yang, S., Goel, T., Xing, E. P., Dao, T., Kim, Y. "Log-Linear Attention." arXiv:2506.04761. <a href="https://arxiv.org/abs/2506.04761" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2506.04761</a></li>
+          <li id="ref-42">Alman, J., Yu, H. "Fundamental Limitations on Subquadratic Alternatives to Transformers." arXiv:2410.04271. <a href="https://arxiv.org/html/2410.04271v2" target="_blank" rel="noopener noreferrer">https://arxiv.org/html/2410.04271v2</a></li>
+          <li id="ref-43">"Overcoming Long-Context Limitations of State-Space Models" (joint recall hardness for SSM+sparse-attention hybrids). arXiv:2507.00449. <a href="https://arxiv.org/html/2507.00449v3" target="_blank" rel="noopener noreferrer">https://arxiv.org/html/2507.00449v3</a></li>
+          <li id="ref-44">"SubQ and the Attention Scaling Problem: What the Numbers Actually Say." Primere Substack. <a href="https://primere.substack.com/p/subq-and-the-attention-scaling-problem" target="_blank" rel="noopener noreferrer">https://primere.substack.com/p/subq-and-the-attention-scaling-problem</a></li>
+          <li id="ref-45">Morey, A. "Subquadratic attention is an old dream. SubQ is finally worth auditing." <a href="https://www.adityamorey.com/writing/subquadratic-attention-worth-auditing" target="_blank" rel="noopener noreferrer">https://www.adityamorey.com/writing/subquadratic-attention-worth-auditing</a></li>
+          <li id="ref-46">"Value Residual Learning For Alleviating Attention Concentration In Transformers" (ResFormer). arXiv:2410.17897. <a href="https://arxiv.org/html/2410.17897v1" target="_blank" rel="noopener noreferrer">https://arxiv.org/html/2410.17897v1</a></li>
+          <li id="ref-47">Hugging Face Papers. "Value Residual Learning." <a href="https://huggingface.co/papers/2410.17897" target="_blank" rel="noopener noreferrer">https://huggingface.co/papers/2410.17897</a></li>
+          <li id="ref-48">Raposo, D., Ritter, S., Richards, B., Lillicrap, T., Humphreys, P. C., Santoro, A. "Mixture-of-Depths: Dynamically Allocating Compute in Transformer-Based Language Models." arXiv:2404.02258. <a href="https://arxiv.org/abs/2404.02258" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2404.02258</a></li>
+          <li id="ref-49">"Attention Is All You Need For Mixture-of-Depths Routing." arXiv:2412.20875. <a href="https://arxiv.org/abs/2412.20875" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2412.20875</a></li>
+          <li id="ref-50">Cerruti, T., Rieder, T., Rowlands, G., Jin, L., Schlag, I. "Mechanisms, Trade-offs, and Cross-Layer Routing." ETH Zürich, arXiv:2607.07953, July 2026. <a href="https://arxiv.org/pdf/2607.07953" target="_blank" rel="noopener noreferrer">https://arxiv.org/pdf/2607.07953</a></li>
+          <li id="ref-51">Störk, J. "Interference and Retention in Continual Learning." arXiv:2607.09202. <a href="https://arxiv.org/html/2607.09202v1" target="_blank" rel="noopener noreferrer">https://arxiv.org/html/2607.09202v1</a></li>
+          <li id="ref-52">Störk, J. "The geometry of forgetting in continual learning." Personal blog, 5 July 2026. <a href="https://j-stoerk.github.io/post-geometry-of-forgetting.html" target="_blank" rel="noopener noreferrer">https://j-stoerk.github.io/post-geometry-of-forgetting.html</a></li>
+        </ol>
+      </section>
+    </article>
+
+    <nav class="post-pager" aria-label="More posts">
+      <a href="post-dendrites-dandelions.html">
+        <span class="eyebrow">Next post</span>
+        <span class="post-pager-title">Lithium Dendrites Are Batteries' Dandelions</span>
+      </a>
+    </nav>
+  </main>
+
+  <!--#FOOTER-->
+
+  <!--#SCRIPTS-->
+</body>
+
+</html>

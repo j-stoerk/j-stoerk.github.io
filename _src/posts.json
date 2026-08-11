@@ -1,5 +1,42 @@
 [
   {
+    "file": "post-optimizing-reasoning.html",
+    "title": "From Simulating Speech to Optimizing Reasoning",
+    "iso": "2026-08-09",
+    "display": "9 August 2026",
+    "category": "AI research",
+    "minutes": 12,
+    "summary": "Three 2026 papers argue chain-of-thought text was never the reasoning. Reasoning is a latent direction, activated early, held in superposition, and compressible to a few tokens.",
+    "feedDescription": "Reading notes: 2026 evidence that LLM reasoning is a latent computational mode only loosely coupled to the chain-of-thought text printed alongside it.",
+    "rfc822": "Sun, 09 Aug 2026 08:00:00 +0200",
+    "lastmod": "2026-08-11"
+  },
+  {
+    "file": "post-race-to-on.html",
+    "title": "The Race to O(n)",
+    "iso": "2026-08-02",
+    "display": "2 August 2026",
+    "category": "ML systems",
+    "minutes": 14,
+    "summary": "Every subquadratic-attention family relaxes one constraint while quietly keeping another. Five families, the routing-absorption trap, and why the frontier keeps flinching back to dense attention.",
+    "feedDescription": "Reading notes across the subquadratic-attention literature: pruning, learned selection, linear memory, delta-rule correction, and the impossibility proofs.",
+    "rfc822": "Sun, 02 Aug 2026 08:00:00 +0200",
+    "lastmod": "2026-08-11"
+  },
+  {
+    "file": "post-dendrites-dandelions.html",
+    "title": "Lithium Dendrites Are Batteries' Dandelions",
+    "iso": "2026-07-26",
+    "display": "26 July 2026",
+    "category": "Materials",
+    "minutes": 8,
+    "summary": "Ceramic solid electrolytes still fail by dendrite. A March 2026 model derives a closed-form critical current density from first principles, and writes down the same physics that lets a dandelion crack a driveway.",
+    "feedDescription": "A first-principles model of critical current density for alkali-metal dendrites in ceramic solid electrolytes, read through the physics of a dandelion cracking pavement.",
+    "rfc822": "Sun, 26 Jul 2026 08:00:00 +0200",
+    "lastmod": "2026-08-11",
+    "math": true
+  },
+  {
     "file": "post-physical-ai.html",
     "title": "AI's Bottleneck is Physical",
     "iso": "2026-07-19",

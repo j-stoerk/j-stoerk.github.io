@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>From Simulating Speech to Optimizing Reasoning — Julius Störk</title>
+  <meta name="description" content="Three 2026 papers argue chain-of-thought text was never the reasoning: reasoning is a latent direction, activated early, held in superposition, and compressible to a few tokens." />
+  <link rel="canonical" href="https://j-stoerk.github.io/post-optimizing-reasoning.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk — Research notes" href="feed.xml" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Julius Störk" />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-optimizing-reasoning.html" />
+  <meta property="og:title" content="From Simulating Speech to Optimizing Reasoning" />
+  <meta property="og:description" content="Three 2026 papers argue chain-of-thought text was never the reasoning: reasoning is a latent direction, activated early, held in superposition, and compressible to a few tokens." />
+  <meta property="og:image" content="https://j-stoerk.github.io/social-reasoning.png" />
+  <meta property="og:image:alt" content="Chain-of-thought text beside a latent reasoning direction in activation space" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="article:published_time" content="2026-08-09" />
+  <meta property="article:author" content="Julius Störk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/social-reasoning.png" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "From Simulating Speech to Optimizing Reasoning",
+      "description": "Three 2026 papers argue chain-of-thought text was never the reasoning: reasoning is a latent direction, activated early, held in superposition, and compressible to a few tokens.",
+      "datePublished": "2026-08-09",
+      "dateModified": "2026-08-09",
+      "url": "https://j-stoerk.github.io/post-optimizing-reasoning.html",
+      "image": "https://j-stoerk.github.io/social-reasoning.png",
+      "author": {
+            "@type": "Person",
+            "name": "Julius Störk",
+            "url": "https://j-stoerk.github.io/"
+      }
+    }
+  </script>
+
+  <!--#HEAD_ASSETS-->
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!--#TOPBAR-->
+
+  <main id="main" class="content">
+    <a class="back-link" href="blog.html">All posts</a>
+    <article class="post" id="optimizing-reasoning">
+      <header class="article-header">
+        <p class="eyebrow"><time datetime="2026-08-09">9 August 2026</time> · AI research</p>
+        <h1 class="post-title">From Simulating Speech to Optimizing Reasoning</h1>
+        <p class="article-meta muted">Reading notes on the 2026 latent-reasoning literature.</p>
+      </header>
+
+      <div class="prose">
+        <p>﻿# 2026 Shifts from Simulating (Speech) to Optimizing Reasoning (Algebra)</p>
+        <p>For two years, "reasoning model" meant writing a long chain of English sentences before the model commits to an answer. OpenAI's o1 pioneered this, DeepSeek-R1 popularized it, and by mid-2026 every flagship model (GPT-5.6, Qwen3, Kimi K2.5, GLM-5) ships with some version of a thinking-toggle <sup class="cite">[<a href="#ref-1">1</a>,<a href="#ref-2">2</a>]</sup>. The implicit assumption is <strong>(CoT) text is the reasoning</strong>, Quiet-STaR even trained models to "think" at every token position independent of whether a user ever asked for visible reasoning at all <sup class="cite">[<a href="#ref-8">8</a>]</sup>. I argue that this assumption is false. Three 2026 papers make a strong case against this rationale, and imply that reasoning is not based on language.</p>
+        <h3>Reasoning is a location, not a sentence</h3>
+        <p>The most direct result comes from a University of Virginia paper on sparse autoencoders (SAEs) applied to LLaMA-3 <sup class="cite">[<a href="#ref-3">3</a>]</sup>. SAEs decompose a model's internal activations into a large bank of mostly-inactive, human-interpretable directions. The Virginia group found a small set of these directions that are <strong>causally</strong> tied to reasoning behavior Steering one direction pushes the model to solve multi-step math correctly on its own. The reasoning-relevant state activates early in generation and overrides prompt instructions telling the model not to reason explicitly <sup class="cite">[<a href="#ref-3">3</a>]</sup>.</p>
+        <p>How would we find a <strong>latent</strong> configuration that triggers "CoT prompting-like reasoning"? The token-level trace is one interface to that configuration. If you've spent time with mechanistic interpretability, the capabilities that look behaviorally complex are often geometrically just a handful of directions in a high-dimensional space, weighted and summed. Turpin et al. showed CoT explanations can be systematically influenced by biasing features the model never mentions. They reorder multiple-choice options so the answer is always "(A)," and the model finds a confident-sounding rationale for (A) without ever citing the reordering <sup class="cite">[<a href="#ref-4">4</a>]</sup>. Anthropic's 2025 follow-up quantified this across six kinds of hints slipped into prompts, where models revealed their actual reliance on the hint in their visible reasoning trace less than 20% of the time, and outcome-based RL improved this rate initially, then plateaued well short of full faithfulness <sup class="cite">[<a href="#ref-5">5</a>,<a href="#ref-6">6</a>]</sup>. The cleanest version of this point is quite funny because transformers trained on hard algorithmic tasks perform just as well when the chain-of-thought tokens are replaced with meaningless repeated filler (literally "......") as when they're replaced with genuine step-by-step text, on tasks where the benefit comes from extra sequential computation steps <sup class="cite">[<a href="#ref-7">7</a>]</sup>.</p>
+        <p>In other words, the CoT is not a mind reflecting on a problem but closer to a hidden system prompt holding a gun to the model's head, forcing it to type out a scratchpad so that its own next-token prediction has a statistical rail to slide down. It reads its own freshly generated chunk and goes along with it, the same way it goes along with any other text that happens to precede the current position. DeepSeek-R1's paper described a moment where the model "realizes" a mistake and self-corrects, and that phrasing is sticky because we are pattern-matching machines for minds. We're tuned by evolution to over-detect agency and interiority, because falsely seeing a mind that isn't there is cheap and missing one that is can be costly — the same bias that makes us see faces in clouds.</p>
+        <p>But "the transcript is not a faithful narration" does not imply "there is no real computation happening." The UVA result above is not a claim about text at all; it's a claim about a causal latent direction that exists whether or not any token gets printed. Anthropic's own attribution-graph work on Claude 3.5 Haiku found the model planning several tokens ahead of what it actually writes: in poetry, it identifies a target rhyme word before composing a single word of the line, then writes backward toward that target, and suppressing the planning feature measurably changes the model's word choice. The plan is causally load-bearing, not decorative <sup class="cite">[<a href="#ref-9">9</a>,<a href="#ref-10">10</a>]</sup>. A follow-up scaling study found this backward-planning circuit is not universal and rarely runs more than one token deep even in fairly capable models <sup class="cite">[<a href="#ref-11">11</a>]</sup>, so the depth of genuine latent planning looks like a scaling variable the field is still mapping, not a switch that's simply on. A recent position paper synthesizing this evidence argues the field should treat latent-state trajectories, rather than surface CoT, as the default object of study for what "reasoning" in an LLM actually is <sup class="cite">[<a href="#ref-12">12</a>]</sup>. There surely is a real, causal, sometimes multi-step-ahead process worth calling reasoning, and it probably is only loosely coupled to whatever text gets printed alongside it.</p>
+        <h3>Superposition instead of a single path</h3>
+        <p>Standard CoT is the sequential decision process of pick a token, commit, move on. If step 4 of 20 is wrong, the rest of the chain inherits the error. UPenn and Microsoft Research's "Multiplex Thinking" paper (labelled "quantum thinking" on social media) attacks this by having the model sample several candidate next-tokens at each step and blend their embeddings into a single continuous "multiplex token," rather than collapsing immediately to one discrete choice <sup class="cite">[<a href="#ref-13">13</a>]</sup>. The trick that makes this trainable is that the mechanism is <em>self-adaptive</em>: when the model is confident, the multiplex token is nearly discrete and behaves like ordinary CoT; when it's uncertain, the same slot compactly represents several plausible continuations without lengthening the sequence <sup class="cite">[<a href="#ref-13">13</a>]</sup>. Reported gains hold from Pass@1 through Pass@1024 on math benchmarks, with shorter sequences than discrete CoT baselines <sup class="cite">[<a href="#ref-13">13</a>]</sup>. The model keeps a small, weighted set of hypotheses alive in one vector instead of a decision tree in token-space. It's a genuinely different search structure worth tracking against classic tree-search-over-CoT baselines. It's also a mechanism that is structurally incapable of being "narrated" faithfully in the old sense because there is no single discrete path to report. If the reasoning-effort and faithfulness literatures above are right that the text was already a lossy proxy for the computation, Multiplex Thinking is what happens when you stop pretending the proxy needs to look sequential at all.</p>
+        <h3>Compressing a plan, not a sentence</h3>
+        <p>NVIDIA's Fast-ThinkAct targets a more practical real-world problem. Robots can't wait for 200 tokens of English reasoning before acting, which is solved by distilling a verbose textual chain-of-thought into a short sequence of (six, in the reported configuration) continuous latent tokens while keeping those tokens "verbalizable" (decoder can still translate them back into language for a human to audit) <sup class="cite">[<a href="#ref-14">14</a>]</sup>. The measured result is up to an 89.3% reduction in inference latency versus reasoning VLA baselines, with long-horizon planning, few-shot adaptation, and failure recovery preserved <sup class="cite">[<a href="#ref-14">14</a>]</sup>. The "verbalizer" constraint is interesting from a safety-engineering standpoint, keeping an inspection port open on a representation that is otherwise optimized to be as compact, and as un-language-like as possible.</p>
+        <h3>Future directions</h3>
+        <p>Put the three results next to each other and this pipeline emerges: (i) a classifier steers the model into a reasoning-relevant latent state, (ii) the model does a short amount of processing in a multiplexed, superposed latent form, and (iii) the result projects either to a language head or directly to an action head. This would explain why reasoning-effort scaling hits saturation for pure token-count increases faster than people expected.</p>
+        <p>Easy is boring. A scaling-law analysis published this month found that reasoning capability does <em>not</em> scale as predictably with parameter count as general language modeling does. The returns diminish sharply above a threshold. At this point, the architectural changes to how attention handles sequential logical steps matter more than increased compute on the current design <sup class="cite">[<a href="#ref-15">15</a>]</sup>. A DeepMind paper on "reasoning collapse" found that models solving a problem correctly under one framing frequently fail on an equivalent problem stated differently. Exposing models to systematic reformulations during fine-tuning reduces this brittleness by roughly 40% on their benchmark, but doesn't eliminate it <sup class="cite">[<a href="#ref-15">15</a>]</sup>. If reasoning were a truly abstract, framing-independent algebra, this brittleness shouldn't exist. This suggests that "reasoning latents" are still partly surface-pattern-bound, closer to a compressed index of training-time phrasings than a clean symbolic operator. Separately, empirical work on chain-of-thought length has repeatedly found an inverted-U relationship between trace length and accuracy, and the optimal length shrinks as models get more capable <sup class="cite">[<a href="#ref-16">16</a>,<a href="#ref-17">17</a>]</sup>. That's a second, independent line of evidence that brute-force verbosity was never where the reasoning was, which is exactly what the latent-steering results predict.</p>
+        <div class="interactive">
+          <div class="widget-controls">
+            <p class="widget-title">Interactive · Longer is not smarter</p>
+            <p class="widget-description">Accuracy against chain-of-thought length traces an inverted U: too short
+              underthinks, too long overthinks. As the model gets more capable, the peak rises and its optimum moves
+              left.</p>
+            <div class="control-group">
+              <div class="slider-label"><label for="rr-len">Reasoning length</label><output id="rr-len-val">300 tok</output></div>
+              <input type="range" class="slider-input" id="rr-len" min="0" max="100" step="1" value="45">
+              <div class="slider-label" style="margin-top:var(--space-3)"><label for="rr-cap">Model capability</label><output id="rr-cap-val">Base</output></div>
+              <input type="range" class="slider-input" id="rr-cap" min="0" max="100" step="1" value="30">
+              <div class="metric-display" aria-live="polite">
+                <div class="metric-item"><div>Accuracy</div><div class="metric-value" id="rr-acc">—</div></div>
+                <div class="metric-item"><div>Optimal length</div><div class="metric-value" id="rr-opt">—</div></div>
+              </div>
+            </div>
+            <p class="widget-note">Schematic inverted-U. Independent work finds an inverted-U between trace length and
+              accuracy, with the optimal length shrinking as models improve — evidence that verbosity was never where
+              the reasoning lived.</p>
+          </div>
+          <div class="widget-visual">
+            <svg viewBox="0 0 300 200" id="svg-rr1" role="img" aria-labelledby="rr1-title" style="max-width:320px">
+              <title id="rr1-title">Accuracy versus reasoning length as an inverted U, with a marker at the current
+                length and a line at the optimum.</title>
+              <g id="rr1-grid"></g>
+              <line class="fig-axis" x1="44" y1="16" x2="44" y2="170" />
+              <line class="fig-axis" x1="44" y1="170" x2="288" y2="170" />
+              <path id="rr1-curve" fill="none" stroke="var(--color-primary)" stroke-width="2.5" stroke-linecap="round" />
+              <line id="rr1-opt" y1="16" y2="170" stroke="var(--color-ok)" stroke-width="1.5" stroke-dasharray="4" />
+              <circle id="rr1-dot" r="4" fill="var(--color-primary)" stroke="var(--color-bg)" stroke-width="1.5" />
+              <text class="fig-label" x="166" y="194" text-anchor="middle">reasoning length (tokens, log)</text>
+            </svg>
+          </div>
+        </div>
+
+        <h3>The swarm is one tired model</h3>
+        <p>If text was never a faithful record of a single model's reasoning, it's worth asking what that implies for systems built by chaining several instances of a model together — "multi-agent teams" or "collaborative swarm" patterns with "horizontal" reasoning. I don't see, how this is not the same frozen model file pinged across parallel threads, each thread reading a shared, fast-growing text log and taking turns guessing the next line based on a hidden system prompt that assigns it a role. No communication (the definition matters) happens exceeding a shared transcript. I imagine a swarm like the architectural equivalent of a lonely kid playing both sides of a chessboard.</p>
+        <p>One layer down, an agent never actually decides to keep working (there is no autonomous agency) but a background script runs a hardcoded <code>while True</code> loop that repackages the entire conversation history and shoves it back into the model's context window at every tick. A static algorithm looks at that text file and predicts the next logical step <sup class="cite">[<a href="#ref-18">18</a>]</sup>. "Tool execution" is not the model operating a system but API parameters force a string conforming to a JSON schema, which an external program parses and hands to a local interpreter to actually run <sup class="cite">[<a href="#ref-19">19</a>,<a href="#ref-20">20</a>]</sup>. A single missed trailing comma and the entire pipeline breaks because nothing about the apparent autonomy survives outside the string. When an agent hits a terminal error and "fixes itself", the orchestration script simply caught the operating system's stderr crash message, wrapped it as another observation, and reinjected it into context. The model again runs next-token prediction on a new piece of text that happens to describe a failure <sup class="cite">[<a href="#ref-18">18</a>]</sup>.</p>
+        <p>A 2026 study of agent scaling found that adding more homogeneous agents (same weights, different persona prompts) produces sharp diminishing returns, while genuinely heterogeneous configurations using different base models kept improving; two heterogeneous agents matched or beat sixteen homogeneous ones <sup class="cite">[<a href="#ref-21">21</a>]</sup>. A companion study of over 10,000 multi-agent research proposals found that persona-based discussion among instances of the same model actively <em>contracts</em> the solution space over rounds of interaction. Dense back-and-forth acts as a "semantic black hole" (a premature consensus is reached because every persona shares the same underlying priors no matter the role) <sup class="cite">[<a href="#ref-22">22</a>]</sup>. A related study on "persona collapse" found that when a model roleplays a richly specified character, it systematically discards most of the specified traits and keeps only the most stereotyped ones <sup class="cite">[<a href="#ref-23">23</a>]</sup>. If Multiplex Thinking is what happens when you let one model hold several genuine hypotheses in superposition, the honest reading of the multi-agent literature is that spinning up parallel roleplay threads on that same model requires heterogeneous configurations and is comparatively expensive and error-prone.</p>
+        <h3>The parallel axis: reasoning effort</h3>
+        <p>2026's flagship models converged on reasoning-effort settings, with six discrete levels from Light to Ultra on GPT-5.6 by prepending an instruction to the system prompt. Reinforcement learning with verifiable rewards (RLVR) applied a different per-token cost penalty for each effort level during post-training <sup class="cite">[<a href="#ref-1">1</a>,<a href="#ref-2">2</a>]</sup>. DeepSeek V4 trained three separate effort specialists (Non-think, Think High, Think Max) with distinct context windows and length penalties, then distills them into one checkpoint <sup class="cite">[<a href="#ref-1">1</a>]</sup>. Thinking Machines' Inkling model replaced discrete labels with a continuous effort value between 0.2 and 0.99, adjusting the per-token cost coefficient λ(e) directly inside the RL reward <sup class="cite">[<a href="#ref-1">1</a>]</sup>, while Nemotron 3 Ultra and Qwen3's "Thinking Mode Fusion" SFT stage exposes the model to both <code>&lt;think&gt;...&lt;/think&gt;</code> and empty-tag examples so a downstream tokenizer flag can hard-switch reasoning on or off <sup class="cite">[<a href="#ref-1">1</a>]</sup>.</p>
+        <p>The useful conceptual move here, per Raschka's breakdown, is separating <em>training-compute scaling</em> (model choice Luna/Terra/Sol/...) from <em>inference-time scaling</em> (the effort a fixed model spends per query). A smaller model at high effort can match a larger model at low effort on some benchmarks <sup class="cite">[<a href="#ref-1">1</a>]</sup>. This is the already-deployed version of "optimizing reasoning" without latent steering. Rewarding a model for <em>using</em> more tokens under a "high effort" label is not the same as rewarding it for those tokens accurately reflecting its computation. A recent proposal called VERITAS shows that rewarding faithfulness directly as part of the RL objective improves task performance <sup class="cite">[<a href="#ref-24">24</a>]</sup>. Effort-conditioning and faithfulness-conditioning could eventually be trained as complementary objectives rather than the industry only optimizing one.</p>
+        <div class="interactive">
+          <div class="widget-controls">
+            <p class="widget-title">Interactive · Effort is not faithfulness</p>
+            <p class="widget-description">Dialling up "reasoning effort" buys accuracy with diminishing returns. It
+              does not make the visible trace reflect the computation, unless faithfulness is rewarded as its own
+              objective.</p>
+            <div class="control-group">
+              <div class="slider-label"><label for="rr-eff">Reasoning effort</label><output id="rr-eff-val">Medium</output></div>
+              <input type="range" class="slider-input" id="rr-eff" min="0" max="100" step="1" value="50">
+              <div class="slider-label" style="margin-top:var(--space-3)"><label for="rr-fr">Reward faithfulness
+                  (VERITAS)</label><input type="checkbox" id="rr-fr"></div>
+              <div class="metric-display" aria-live="polite">
+                <div class="metric-item"><div>Accuracy</div><div class="metric-value" id="rr-acc2">—</div></div>
+                <div class="metric-item"><div>Faithfulness</div><div class="metric-value" id="rr-faith">—</div></div>
+              </div>
+            </div>
+            <p class="widget-note">Schematic. Effort runs Light→Ultra (six levels on GPT-5.6); accuracy saturates,
+              while faithfulness stays near the measured &lt;20% ceiling unless trained directly.</p>
+          </div>
+          <div class="widget-visual">
+            <svg viewBox="0 0 300 200" id="svg-rr2" role="img" aria-labelledby="rr2-title" style="max-width:320px">
+              <title id="rr2-title">Two curves over reasoning effort: accuracy saturating high, faithfulness staying
+                low unless faithfulness is rewarded.</title>
+              <g id="rr2-grid"></g>
+              <line class="fig-axis" x1="44" y1="16" x2="44" y2="170" />
+              <line class="fig-axis" x1="44" y1="170" x2="288" y2="170" />
+              <line id="rr2-ceil" x1="44" x2="288" stroke="var(--color-text-faint)" stroke-width="1" stroke-dasharray="3" />
+              <path id="rr2-acc" fill="none" stroke="var(--color-primary)" stroke-width="2.5" />
+              <path id="rr2-faith" fill="none" stroke="var(--color-danger)" stroke-width="2.5" />
+              <line id="rr2-mark" y1="16" y2="170" stroke="var(--color-divider)" stroke-width="1" stroke-dasharray="4" />
+              <text class="fig-label" x="166" y="194" text-anchor="middle">reasoning effort →</text>
+              <g style="font-size:8px">
+                <rect x="52" y="20" width="8" height="3" fill="var(--color-primary)" /><text class="text-label-faint" x="63" y="24">accuracy</text>
+                <rect x="52" y="30" width="8" height="3" fill="var(--color-danger)" /><text class="text-label-faint" x="63" y="34">faithfulness</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <h3>AI for Science as the consolidation test case</h3>
+        <p>AI4S stress-tests model reasoning against real-world heterogeneity. S1-Omni is a recent attempt to fold domain-specific scientific reasoning (materials CIFs, SMILES strings, protein sequences, spectra, scientific images) into one model via a shared representation space, knowledge-aligned training on scientific laws, and task-specific decoders for property prediction, spectrum-to-molecule generation, and structure prediction <sup class="cite">[<a href="#ref-25">25</a>]</sup>. It seems like the unified representation (+decode) architecture generalizes across domains that don't share a token vocabulary but this is a different story.</p>
+        <h3>Closing thoughts</h3>
+        <p>Theoretical physicist working with current models claim strong reasoning systems won't just answer questions faster, they'll compress existing theory into simpler forms, the way a modern proof of an old theorem is often shorter than the original <sup class="cite">[<a href="#ref-26">26</a>]</sup>. Chess engines didn't end human play but raised the ceiling of what human+engine can find, and grandmasters now train <em>with</em> the tool rather than merely being replaced by it <sup class="cite">[<a href="#ref-26">26</a>]</sup>. To recount one example in the line of recent human+model advances, a team of physicists with GPT-5.2 Pro collapsed a 32-variable gluon amplitude expression into a single line and propose "the obvious generalization" for arbitrary particle count <sup class="cite">[<a href="#ref-27">27</a>]</sup>.</p>
+        <p>No matter if a model independently judges a proof as <em>beautiful</em> rather than merely <em>correct</em>, the faithfulness gap, latent steering, multiplexed hypotheses, and persona collapse in swarms is best read as a research program built around the question "does it win". If reasoning really is migrating from cloud to a latent operator, "which simplifications are worth making" is precisely the kind of aesthetic judgment that operator will eventually need to encode and that will have the same "beauty" as a well-thought chess move from Stockfish.</p>
+        <p>---</p>
+      </div>
+
+      <section class="post-sources">
+        <h3>Sources</h3>
+        <ol class="sources">
+          <li id="ref-1">Raschka, S. "Controlling Reasoning Effort in LLMs." Ahead of AI, 2026. <a href="https://magazine.sebastianraschka.com/p/controlling-reasoning-effort-in-llms" target="_blank" rel="noopener noreferrer">https://magazine.sebastianraschka.com/p/controlling-reasoning-effort-in-llms</a></li>
+          <li id="ref-2">Raschka, S. "GPT 5.6 Configurations and Defaults." 2026. <a href="https://sebastianraschka.com/blog/2026/gpt-5-6-configurations.html" target="_blank" rel="noopener noreferrer">https://sebastianraschka.com/blog/2026/gpt-5-6-configurations.html</a></li>
+          <li id="ref-3">He, Z., Xiong, G., Liu, B., Sinha, S., Zhang, A. (University of Virginia). "Reasoning Beyond Chain-of-Thought: A Latent Computational Mode in Large Language Models." arXiv:2601.08058, 2026. <a href="https://arxiv.org/html/2601.08058v1" target="_blank" rel="noopener noreferrer">https://arxiv.org/html/2601.08058v1</a></li>
+          <li id="ref-4">Turpin, M., et al. "Language Models Don't Always Say What They Think: Unfaithful Explanations in Chain-of-Thought Prompting." NeurIPS 2023. <a href="https://proceedings.neurips.cc/paper_files/paper/2023/hash/ed3fea9033a80fea1376299fa7863f4a-Abstract-Conference.html" target="_blank" rel="noopener noreferrer">https://proceedings.neurips.cc/paper_files/paper/2023/hash/ed3fea9033a80fea1376299fa7863f4a-Abstract-Conference.html</a></li>
+          <li id="ref-5">Anthropic. "Reasoning Models Don't Always Say What They Think." arXiv:2505.05410, 2025. <a href="https://arxiv.org/abs/2505.05410" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2505.05410</a></li>
+          <li id="ref-6">Marktechpost. "Chain-of-Thought May Not Be a Window into AI's Reasoning: Anthropic's New Study Reveals Hidden Gaps." 2025. <a href="https://www.marktechpost.com/2025/05/19/chain-of-thought-may-not-be-a-window-into-ais-reasoning-anthropics-new-study-reveals-hidden-gaps/" target="_blank" rel="noopener noreferrer">https://www.marktechpost.com/2025/05/19/chain-of-thought-may-not-be-a-window-into-ais-reasoning-anthropics-new-study-reveals-hidden-gaps/</a></li>
+          <li id="ref-7">Pfau, J., Merrill, W., Bowman, S. R. "Let's Think Dot by Dot: Hidden Computation in Transformer Language Models." arXiv:2404.15758, 2024. <a href="https://arxiv.org/abs/2404.15758" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2404.15758</a></li>
+          <li id="ref-8">Zelikman, E., et al. "Quiet-STaR: Language Models Can Teach Themselves to Think Before Speaking." arXiv:2403.09629. <a href="https://arxiv.org/html/2403.09629v1" target="_blank" rel="noopener noreferrer">https://arxiv.org/html/2403.09629v1</a></li>
+          <li id="ref-9">Anthropic. "Tracing the Thoughts of a Large Language Model." 2025. <a href="https://www.anthropic.com/research/tracing-thoughts-language-model" target="_blank" rel="noopener noreferrer">https://www.anthropic.com/research/tracing-thoughts-language-model</a></li>
+          <li id="ref-10">Anthropic / Transformer Circuits. "On the Biology of a Large Language Model." 2025. <a href="https://transformer-circuits.pub/2025/attribution-graphs/biology.html" target="_blank" rel="noopener noreferrer">https://transformer-circuits.pub/2025/attribution-graphs/biology.html</a></li>
+          <li id="ref-11">"Latent Planning Emerges with Scale." arXiv:2604.12493. <a href="https://arxiv.org/html/2604.12493v1" target="_blank" rel="noopener noreferrer">https://arxiv.org/html/2604.12493v1</a></li>
+          <li id="ref-12">Wang, W. "LLM Reasoning Is Latent, Not the Chain of Thought." arXiv:2604.15726, 2026. <a href="https://arxiv.org/abs/2604.15726" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2604.15726</a></li>
+          <li id="ref-13">Tang, Y., Dong, L., Hao, Y., Dong, Q., Wei, F., Gu, J. (UPenn / Microsoft Research). "Multiplex Thinking: Reasoning via Token-wise Branch-and-Merge." arXiv:2601.08808, 2026. <a href="https://arxiv.org/abs/2601.08808" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2601.08808</a></li>
+          <li id="ref-14">Huang, C.-P., Man, Y., Yu, Z., Chen, M.-H., Kautz, J., Wang, Y.-C. F., Yang, F.-E. (NVIDIA). "Fast-ThinkAct: Efficient Vision-Language-Action Reasoning via Verbalizable Latent Planning." arXiv:2601.09708, 2026. <a href="https://arxiv.org/abs/2601.09708" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2601.09708</a></li>
+          <li id="ref-15">"AI Research Highlights: The Breakthroughs of August 2026" (summarizing the MIT/Stanford/Allen Institute CoT scaling-law analysis and the DeepMind reasoning-collapse paper). <a href="https://skycrumbs.com/blog/ai-research-august-2026" target="_blank" rel="noopener noreferrer">https://skycrumbs.com/blog/ai-research-august-2026</a></li>
+          <li id="ref-16">Wu, Y., Wang, Y., Ye, Z., Du, T., Jegelka, S., Wang, Y. "When More is Less: Understanding Chain-of-Thought Length in LLMs." arXiv:2502.07266. <a href="https://arxiv.org/abs/2502.07266" target="_blank" rel="noopener noreferrer">https://arxiv.org/abs/2502.07266</a></li>
+          <li id="ref-17">"When More Thinking Hurts: Overthinking in LLM Test-Time Compute Scaling." arXiv:2604.10739. <a href="https://arxiv.org/html/2604.10739v1" target="_blank" rel="noopener noreferrer">https://arxiv.org/html/2604.10739v1</a></li>
+          <li id="ref-18">Roelants, P. "Implement a Simple ReAct Agent Using OpenAI Function Calling." <a href="https://peterroelants.github.io/posts/react-openai-function-calling/" target="_blank" rel="noopener noreferrer">https://peterroelants.github.io/posts/react-openai-function-calling/</a></li>
+          <li id="ref-19">Jacar. "OpenAI Function Calling: Structured Output." <a href="https://jacar.es/en/openai-function-calling-structuring-model-output/" target="_blank" rel="noopener noreferrer">https://jacar.es/en/openai-function-calling-structuring-model-output/</a></li>
+          <li id="ref-20">DeepWiki, ombharatiya/ai-system-design-guide. "Agent Architecture and Core Patterns." <a href="https://deepwiki.com/ombharatiya/ai-system-design-guide/5.1-agent-architecture-and-core-patterns" target="_blank" rel="noopener noreferrer">https://deepwiki.com/ombharatiya/ai-system-design-guide/5.1-agent-architecture-and-core-patterns</a></li>
+          <li id="ref-21">"Understanding Agent Scaling in LLM-Based Multi-Agent Systems." arXiv:2602.03794. <a href="https://arxiv.org/html/2602.03794v1" target="_blank" rel="noopener noreferrer">https://arxiv.org/html/2602.03794v1</a></li>
+          <li id="ref-22">"Diversity Collapse in Multi-Agent LLM Systems: Structural Analysis of Ideation." ACL Findings 2026. <a href="https://aclanthology.org/2026.findings-acl.13.pdf" target="_blank" rel="noopener noreferrer">https://aclanthology.org/2026.findings-acl.13.pdf</a></li>
+          <li id="ref-23">"Investigating Persona Collapse and Homogenization in Large Language Models." arXiv:2604.24698. <a href="https://arxiv.org/html/2604.24698v1" target="_blank" rel="noopener noreferrer">https://arxiv.org/html/2604.24698v1</a></li>
+          <li id="ref-24">"Rewarding Faithful Reasoning in Retrieval-Augmented Generation" (VERITAS). arXiv:2510.13272. <a href="https://arxiv.org/html/2510.13272v1" target="_blank" rel="noopener noreferrer">https://arxiv.org/html/2510.13272v1</a></li>
+          <li id="ref-25">"S1-Omni: A Unified Multimodal Reasoning Model for Scientific Understanding, Prediction, and Generation." arXiv:2607.15686. <a href="https://arxiv.org/html/2607.15686v1" target="_blank" rel="noopener noreferrer">https://arxiv.org/html/2607.15686v1</a></li>
+          <li id="ref-26">Brown, A. "Training Sand to Think: Artificial General Intelligence &amp; Future of Physics." Perimeter Institute talk, 2026. <a href="https://www.youtube.com/watch?v=Mw60FH5iflI" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=Mw60FH5iflI</a></li>
+          <li id="ref-27">Krohn, J. "AI Making Theoretical Physics Breakthroughs." Five-Minute Friday, Super Data Science, 2026. <a href="https://www.youtube.com/watch?v=mKC3XyQj51U" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=mKC3XyQj51U</a></li>
+        </ol>
+      </section>
+    </article>
+
+    <nav class="post-pager" aria-label="More posts">
+      <a href="post-race-to-on.html">
+        <span class="eyebrow">Next post</span>
+        <span class="post-pager-title">The Race to O(n)</span>
+      </a>
+    </nav>
+  </main>
+
+  <!--#FOOTER-->
+
+  <!--#SCRIPTS-->
+</body>
+
+</html>
