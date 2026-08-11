@@ -19,8 +19,11 @@ const SITE = 'https://j-stoerk.github.io';
 /* Content-hash cache-buster: append ?v=<hash> to a runtime asset so a
    changed file is refetched instead of served stale from browser cache. */
 function ver(file) {
-  const buf = fs.readFileSync(path.join(ROOT, file));
-  return file + '?v=' + crypto.createHash('md5').update(buf).digest('hex').slice(0, 8);
+  // Normalise line endings before hashing so the cache-buster is identical
+  // on Windows (CRLF checkout) and Linux CI (LF), keeping the build
+  // deterministic across platforms.
+  const text = fs.readFileSync(path.join(ROOT, file), 'utf8').replace(/\r\n/g, '\n');
+  return file + '?v=' + crypto.createHash('md5').update(text).digest('hex').slice(0, 8);
 }
 
 const posts = JSON.parse(fs.readFileSync(path.join(SRC, 'posts.json'), 'utf8'))
