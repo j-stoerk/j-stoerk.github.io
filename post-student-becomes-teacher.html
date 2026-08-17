@@ -57,7 +57,7 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=f2a042d7">
+  <link rel="stylesheet" href="styles.css?v=aeb63a0c">
 </head>
 
 <body>
@@ -137,29 +137,36 @@
           <div class="widget-controls">
             <p class="widget-title">Interactive · The degenerate basin</p>
             <p class="widget-description">A toy distillation loss with two minima: an informative-context basin (good)
-              and a teacher-equals-student mirror (degenerate). Toggle the privileged-margin constraint and run
-              descent.</p>
+              and a teacher-equals-student mirror (degenerate). Raise the margin to fill the mirror, or drag the hollow
+              start marker to probe the basins live.</p>
             <div class="control-group">
-              <div class="slider-label"><label for="dc-m">Privileged margin m</label><output id="dc-m-val">0.05</output></div>
-              <input type="range" class="slider-input" id="dc-m" min="0" max="5" step="5" value="5">
+              <div class="slider-label"><label for="dc-m">Privileged margin m</label><output id="dc-m-val">0.030</output></div>
+              <input type="range" class="slider-input" id="dc-m" min="0" max="80" step="1" value="30">
               <div class="metric-display" aria-live="polite">
                 <div class="metric-item"><div>Basin reached</div><div class="metric-value" id="dc-basin">—</div></div>
                 <div class="metric-item"><div>Task score</div><div class="metric-value" id="dc-score">—</div></div>
               </div>
-              <button class="download-btn" type="button" id="dc-run" style="margin-top:var(--space-3)">Run descent</button>
+              <div class="metric-display" aria-live="polite" style="margin-top:var(--space-2)">
+                <div class="metric-item"><div>Reroutes to informative at</div><div class="metric-value" id="dc-flip">—</div></div>
+              </div>
+              <button class="download-btn" type="button" id="dc-run" style="margin-top:var(--space-3)">Replay descent</button>
             </div>
-            <p class="widget-note">Schematic landscape. With m = 0 the composer collapses into the student (score
-              0.551); the margin constraint (m = 0.05) fills that basin so descent reaches the informative one (score
-              0.637). Endpoint numbers are the paper's ablation.</p>
+            <p class="widget-note">Schematic landscape. The margin penalty fills the mirror basin; past a critical m the
+              descent reroutes to the informative one. Endpoint scores 0.551 (mirror) and 0.637 (informative) are the
+              paper's ablation.</p>
           </div>
           <div class="widget-visual">
-            <svg viewBox="0 0 300 220" id="svg-dc" role="img" aria-labelledby="dc-title" style="max-width:320px">
-              <title id="dc-title">A contour heatmap of a two-basin loss with an animated gradient-descent path that
-                falls into the degenerate basin when unconstrained and skirts it when constrained.</title>
+            <svg viewBox="0 0 300 220" id="svg-dc" role="img" aria-labelledby="dc-title"
+              style="max-width:320px; touch-action:none">
+              <title id="dc-title">A contour heatmap of a two-basin loss with a gradient-descent path from a draggable
+                start point; it falls into the degenerate basin when unconstrained and reroutes to the informative one
+                as the margin rises.</title>
               <g id="dc-heat"></g>
               <g id="dc-marks"></g>
               <path id="dc-path" fill="none" stroke="var(--color-primary)" stroke-width="2.5" stroke-linecap="round" />
               <circle id="dc-ball" r="4.5" fill="var(--color-primary)" stroke="var(--color-bg)" stroke-width="1.5" />
+              <circle id="dc-start" r="6" fill="none" stroke="var(--color-text)" stroke-width="2" class="dc-start"
+                tabindex="0" role="slider" aria-label="Descent start point" />
             </svg>
           </div>
         </div>
@@ -195,7 +202,7 @@
   <script src="theme.js?v=35800070"></script>
   <script src="navigation.js?v=82ad0181"></script>
   <script src="background.js?v=2984859a"></script>
-  <script src="blog.js?v=e8380306"></script>
+  <script src="blog.js?v=55b3e9c3"></script>
   <script>
     window.addEventListener('load', function () {
       var s = document.createElement('script');

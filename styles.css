@@ -1383,6 +1383,12 @@ p {
 .radar-handle:hover { r: 6; }
 .radar-handle:active { cursor: grabbing; }
 
+/* Draggable start marker for the degenerate-basin widget. */
+.dc-start { cursor: grab; }
+.dc-start:active { cursor: grabbing; }
+.dc-start:hover { r: 7; }
+.dc-start:focus-visible { outline: none; stroke: var(--color-primary); }
+
 /* Per-axis percentage labels; the lowest factor is flagged red. */
 .radar-pct { fill: var(--color-primary); font-weight: 700; }
 .radar-pct.low { fill: var(--color-danger); }

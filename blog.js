@@ -817,38 +817,43 @@
     mvStart();
   }
 
-  /* DC — the degenerate basin (gradient descent on a two-basin loss) */
+  /* DC — the degenerate basin: live two-basin descent, draggable start */
   var dcM = document.getElementById('dc-m');
   if (dcM) {
+    var dcSvg = document.getElementById('svg-dc');
     var dcHeat = document.getElementById('dc-heat');
     var dcMarks = document.getElementById('dc-marks');
     var dcPath = document.getElementById('dc-path');
     var dcBall = document.getElementById('dc-ball');
+    var dcStartH = document.getElementById('dc-start');
     var PX0 = 36, PX1 = 288, PY0 = 20, PY1 = 180;
-    var A = [0.72, 0.30], B = [0.30, 0.66], S = [0.42, 0.58];  // informative, mirror, start
-    var dcTimer = null;
+    var A = [0.72, 0.30], B = [0.30, 0.66], S = [0.42, 0.58];   // informative, mirror, start
+    var dcTimer = null, dcCells = [];
     function sx(u) { return PX0 + u * (PX1 - PX0); }
     function sy(v) { return PY0 + v * (PY1 - PY0); }
+    function ux(x) { return (x - PX0) / (PX1 - PX0); }
+    function vy(y) { return (y - PY0) / (PY1 - PY0); }
     function g2(u, v, c, w) { var du = u - c[0], dv = v - c[1]; return Math.exp(-(du * du + dv * dv) / (w * w)); }
     function loss(u, v, m) {
       return 0.95 - 0.70 * g2(u, v, A, 0.20) - 0.62 * g2(u, v, B, 0.17) + (m / 0.05) * 0.85 * g2(u, v, B, 0.15);
-    }
-    function dcHeatmap(m) {
-      dcHeat.textContent = '';
-      var NX = 26, NY = 17, lo = 1e9, hi = -1e9, vals = [], i, j, u, v, L;
-      for (j = 0; j < NY; j++) for (i = 0; i < NX; i++) { u = (i + 0.5) / NX; v = (j + 0.5) / NY; L = loss(u, v, m); vals.push(L); if (L < lo) lo = L; if (L > hi) hi = L; }
-      var cw = (PX1 - PX0) / NX, ch = (PY1 - PY0) / NY, idx = 0;
-      for (j = 0; j < NY; j++) for (i = 0; i < NX; i++) {
-        var t = (vals[idx++] - lo) / (hi - lo);
-        svel(dcHeat, 'rect', { x: PX0 + i * cw, y: PY0 + j * ch, width: cw + 0.6, height: ch + 0.6, fill: 'var(--color-primary)', opacity: ((1 - t) * 0.55).toFixed(3) });
-      }
     }
     function dcMark(c, label) {
       svel(dcMarks, 'circle', { cx: sx(c[0]), cy: sy(c[1]), r: 3, fill: 'none', stroke: 'var(--color-text)', 'stroke-width': 1 });
       svel(dcMarks, 'text', { x: sx(c[0]), y: sy(c[1]) - 6, 'text-anchor': 'middle', 'class': 'text-label-faint', style: 'font-size:8px' }).textContent = label;
     }
-    function dcDescent(m) {
-      var u = S[0], v = S[1], lr = 0.03, e = 0.004, pts = [[u, v]], s;
+    var NX = 26, NY = 17, cw = (PX1 - PX0) / NX, ch = (PY1 - PY0) / NY;
+    for (var jj = 0; jj < NY; jj++) for (var ii = 0; ii < NX; ii++) {
+      dcCells.push({ u: (ii + 0.5) / NX, v: (jj + 0.5) / NY,
+        r: svel(dcHeat, 'rect', { x: PX0 + ii * cw, y: PY0 + jj * ch, width: cw + 0.6, height: ch + 0.6, fill: 'var(--color-primary)', opacity: 0 }) });
+    }
+    dcMark(A, 'informative'); dcMark(B, 'mirror');
+    function dcHeatUpdate(m) {
+      var lo = 1e9, hi = -1e9, i, L, vals = [];
+      for (i = 0; i < dcCells.length; i++) { L = loss(dcCells[i].u, dcCells[i].v, m); vals.push(L); if (L < lo) lo = L; if (L > hi) hi = L; }
+      for (i = 0; i < dcCells.length; i++) dcCells[i].r.setAttribute('opacity', (((hi - vals[i]) / (hi - lo)) * 0.55).toFixed(3));
+    }
+    function descend(start, m) {
+      var u = start[0], v = start[1], lr = 0.03, e = 0.004, pts = [[u, v]], s;
       for (s = 0; s < 110; s++) {
         var gu = (loss(u + e, v, m) - loss(u - e, v, m)) / (2 * e);
         var gv = (loss(u, v + e, m) - loss(u, v - e, m)) / (2 * e);
@@ -857,40 +862,66 @@
       }
       return pts;
     }
-    function dcStop() { if (dcTimer) { clearInterval(dcTimer); dcTimer = null; } }
-    function dcRun() {
-      dcStop();
-      var m = parseInt(dcM.value, 10) / 100;
-      dcHeatmap(m);
-      dcMarks.textContent = '';
-      dcMark(A, 'informative'); dcMark(B, 'mirror');
-      var pts = dcDescent(m), end = pts[pts.length - 1];
-      var toA = (end[0] - A[0]) * (end[0] - A[0]) + (end[1] - A[1]) * (end[1] - A[1]);
-      var toB = (end[0] - B[0]) * (end[0] - B[0]) + (end[1] - B[1]) * (end[1] - B[1]);
-      var reachedA = toA < toB;
-      document.getElementById('dc-basin').textContent = '…';
-      document.getElementById('dc-score').textContent = '…';
-      dcPath.setAttribute('d', '');
-      var i = 0;
-      dcTimer = setInterval(function () {
-        i += 2;
-        if (i >= pts.length) {
-          i = pts.length - 1; dcStop();
-          document.getElementById('dc-basin').textContent = reachedA ? 'Informative' : 'Mirror (degenerate)';
-          var sc = document.getElementById('dc-score');
-          sc.textContent = reachedA ? '0.637' : '0.551';
-          sc.style.color = reachedA ? 'var(--color-ok)' : 'var(--color-danger)';
-        }
-        var d = 'M', k;
-        for (k = 0; k <= i; k++) d += (k ? ' L' : '') + sx(pts[k][0]).toFixed(1) + ' ' + sy(pts[k][1]).toFixed(1);
-        dcPath.setAttribute('d', d);
-        dcBall.setAttribute('cx', sx(pts[i][0])); dcBall.setAttribute('cy', sy(pts[i][1]));
-      }, 28);
+    function reachesA(pts) {
+      var e = pts[pts.length - 1];
+      return (e[0] - A[0]) * (e[0] - A[0]) + (e[1] - A[1]) * (e[1] - A[1]) <
+        (e[0] - B[0]) * (e[0] - B[0]) + (e[1] - B[1]) * (e[1] - B[1]);
     }
-    dcM.addEventListener('input', function () { document.getElementById('dc-m-val').textContent = (parseInt(dcM.value, 10) / 100).toFixed(2); dcRun(); });
-    document.getElementById('dc-run').addEventListener('click', dcRun);
-    document.getElementById('dc-m-val').textContent = (parseInt(dcM.value, 10) / 100).toFixed(2);
-    dcRun();
+    function dcOutcome(pts) {
+      var a = reachesA(pts);
+      document.getElementById('dc-basin').textContent = a ? 'Informative' : 'Mirror (degenerate)';
+      var sc = document.getElementById('dc-score');
+      sc.textContent = a ? '0.637' : '0.551';
+      sc.style.color = a ? 'var(--color-ok)' : 'var(--color-danger)';
+    }
+    function dcFlip() {
+      for (var mm = 0; mm <= 0.08; mm += 0.002) if (reachesA(descend(S, mm))) return mm;
+      return null;
+    }
+    function dcStop() { if (dcTimer) { clearInterval(dcTimer); dcTimer = null; } }
+    function dcDrawPath(pts, full) {
+      var d = 'M', k;
+      for (k = 0; k <= full; k++) d += (k ? ' L' : '') + sx(pts[k][0]).toFixed(1) + ' ' + sy(pts[k][1]).toFixed(1);
+      dcPath.setAttribute('d', d);
+      dcBall.setAttribute('cx', sx(pts[full][0])); dcBall.setAttribute('cy', sy(pts[full][1]));
+    }
+    function dcRender(animate) {
+      dcStop();
+      var m = parseInt(dcM.value, 10) / 1000;
+      dcHeatUpdate(m);
+      dcStartH.setAttribute('cx', sx(S[0])); dcStartH.setAttribute('cy', sy(S[1]));
+      var pts = descend(S, m);
+      if (animate) {
+        var i = 0;
+        dcTimer = setInterval(function () {
+          i += 2;
+          if (i >= pts.length) { i = pts.length - 1; dcStop(); dcOutcome(pts); }
+          dcDrawPath(pts, i);
+        }, 26);
+      } else { dcDrawPath(pts, pts.length - 1); dcOutcome(pts); }
+    }
+    function dcFlipLabel() {
+      var f = dcFlip();
+      document.getElementById('dc-flip').textContent = f === null ? '> 0.08' : (f <= 0.0001 ? 'already there' : 'm ≈ ' + f.toFixed(3));
+    }
+    function dcPoint(evt) { var p = dcSvg.createSVGPoint(); p.x = evt.clientX; p.y = evt.clientY; return p.matrixTransform(dcSvg.getScreenCTM().inverse()); }
+    var dcDrag = false;
+    dcStartH.addEventListener('pointerdown', function (evt) { dcDrag = true; dcStartH.setPointerCapture(evt.pointerId); evt.preventDefault(); });
+    dcStartH.addEventListener('pointermove', function (evt) {
+      if (!dcDrag) return;
+      var p = dcPoint(evt);
+      S = [Math.max(0, Math.min(1, ux(p.x))), Math.max(0, Math.min(1, vy(p.y)))];
+      dcRender(false);
+    });
+    dcStartH.addEventListener('pointerup', function (evt) { dcDrag = false; dcFlipLabel(); try { dcStartH.releasePointerCapture(evt.pointerId); } catch (e) { } });
+    dcStartH.addEventListener('keydown', function (evt) {
+      var d = { ArrowLeft: [-0.03, 0], ArrowRight: [0.03, 0], ArrowUp: [0, -0.03], ArrowDown: [0, 0.03] }[evt.key];
+      if (d) { S = [Math.max(0, Math.min(1, S[0] + d[0])), Math.max(0, Math.min(1, S[1] + d[1]))]; dcRender(false); dcFlipLabel(); evt.preventDefault(); }
+    });
+    dcM.addEventListener('input', function () { document.getElementById('dc-m-val').textContent = (parseInt(dcM.value, 10) / 1000).toFixed(3); dcRender(false); });
+    document.getElementById('dc-run').addEventListener('click', function () { dcRender(true); });
+    document.getElementById('dc-m-val').textContent = (parseInt(dcM.value, 10) / 1000).toFixed(3);
+    dcRender(true); dcFlipLabel();
   }
 
 })();
