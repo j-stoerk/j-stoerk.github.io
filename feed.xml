@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://j-stoerk.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>The student becomes the teacher</title>
+      <link>https://j-stoerk.github.io/post-student-becomes-teacher.html</link>
+      <guid isPermaLink="true">https://j-stoerk.github.io/post-student-becomes-teacher.html</guid>
+      <pubDate>Sun, 16 Aug 2026 08:00:00 +0200</pubDate>
+      <description>On-policy self-distillation without labels: OPSD, U-OPSD's label-free majority vote, and L-OPSD's learnable privileged context, with the failure modes that come with self-supervision.</description>
+    </item>
+    <item>
       <title>From Simulating Speech to Optimizing Reasoning</title>
       <link>https://j-stoerk.github.io/post-optimizing-reasoning.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-optimizing-reasoning.html</guid>

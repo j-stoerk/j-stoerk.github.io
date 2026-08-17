@@ -760,4 +760,137 @@
     r2Update();
   }
 
+
+  /* ============================================================
+     post-student-becomes-teacher widgets
+     ============================================================ */
+  /* MV — majority vote is not truth (live Monte Carlo) */
+  var mvP = document.getElementById('mv-p');
+  if (mvP) {
+    var mvRho = document.getElementById('mv-rho');
+    var mvBars = document.getElementById('mv-bars');
+    var MV_LBL = ['A', 'B', 'C', 'D'];      // A = truth (0); B = shared blind spot
+    var MV_MAX = 200, MV_MIN = 15, MV_THRESH = 0.60;
+    var mvCounts, mvTotal, mvLocked, mvTimer = null;
+
+    function mvLead() { var l = 0; for (var k = 1; k < 4; k++) if (mvCounts[k] > mvCounts[l]) l = k; return l; }
+    function mvDraw() {
+      mvBars.textContent = '';
+      var base = 162, top = 22, H = base - top, bw = 42, gap = (236 - 4 * bw) / 3;
+      var lead = mvLead(), cons = mvTotal ? mvCounts[lead] / mvTotal : 0;
+      for (var i = 0; i < 4; i++) {
+        var x = 52 + i * (bw + gap);
+        var share = mvTotal ? mvCounts[i] / mvTotal : 0, h = share * H;
+        var color = (i === 0) ? 'var(--color-primary-highlight)' : 'var(--color-surface-2)';
+        if (mvLocked && i === lead) color = (lead === 0) ? 'var(--color-ok)' : 'var(--color-danger)';
+        svel(mvBars, 'rect', { x: x, y: base - h, width: bw, height: h, rx: 2, fill: color });
+        svel(mvBars, 'text', { x: x + bw / 2, y: 174, 'text-anchor': 'middle', 'class': 'text-tick' }).textContent = MV_LBL[i] + (i === 0 ? ' ✓' : '');
+        if (share > 0.02) svel(mvBars, 'text', { x: x + bw / 2, y: base - h - 3, 'text-anchor': 'middle', 'class': 'text-label-faint' }).textContent = Math.round(share * 100) + '%';
+      }
+      var ty = base - MV_THRESH * H;
+      var th = document.getElementById('mv-thresh'); th.setAttribute('y1', ty); th.setAttribute('y2', ty);
+      document.getElementById('mv-n').textContent = 'n = ' + mvTotal;
+      document.getElementById('mv-cons').textContent = Math.round(cons * 100) + '%';
+      var lab = document.getElementById('mv-label');
+      if (mvLocked) { lab.textContent = MV_LBL[lead] + (lead === 0 ? ' (correct)' : ' (WRONG)'); lab.style.color = lead === 0 ? 'var(--color-ok)' : 'var(--color-danger)'; }
+      else { lab.textContent = '… voting'; lab.style.color = 'var(--color-text-muted)'; }
+    }
+    function mvSample() {
+      var p = parseInt(mvP.value, 10) / 100, rho = parseInt(mvRho.value, 10) / 100;
+      if (Math.random() < p) return 0;                 // truth
+      if (Math.random() < rho) return 1;               // shared blind spot B
+      return 1 + Math.floor(Math.random() * 3);        // uniform over B/C/D
+    }
+    function mvStop() { if (mvTimer) { clearInterval(mvTimer); mvTimer = null; } }
+    function mvTick() {
+      mvCounts[mvSample()]++; mvTotal++;
+      var lead = mvLead(), cons = mvCounts[lead] / mvTotal;
+      if ((mvTotal >= MV_MIN && cons >= MV_THRESH) || mvTotal >= MV_MAX) { mvLocked = true; mvStop(); }
+      mvDraw();
+    }
+    function mvStart() { mvStop(); mvCounts = [0, 0, 0, 0]; mvTotal = 0; mvLocked = false; mvDraw(); mvTimer = setInterval(mvTick, 45); }
+    mvP.addEventListener('input', function () { document.getElementById('mv-p-val').textContent = mvP.value + '%'; mvStart(); });
+    mvRho.addEventListener('input', function () { document.getElementById('mv-rho-val').textContent = (parseInt(mvRho.value, 10) / 100).toFixed(2); mvStart(); });
+    document.getElementById('mv-run').addEventListener('click', mvStart);
+    document.getElementById('mv-p-val').textContent = mvP.value + '%';
+    document.getElementById('mv-rho-val').textContent = (parseInt(mvRho.value, 10) / 100).toFixed(2);
+    mvStart();
+  }
+
+  /* DC — the degenerate basin (gradient descent on a two-basin loss) */
+  var dcM = document.getElementById('dc-m');
+  if (dcM) {
+    var dcHeat = document.getElementById('dc-heat');
+    var dcMarks = document.getElementById('dc-marks');
+    var dcPath = document.getElementById('dc-path');
+    var dcBall = document.getElementById('dc-ball');
+    var PX0 = 36, PX1 = 288, PY0 = 20, PY1 = 180;
+    var A = [0.72, 0.30], B = [0.30, 0.66], S = [0.42, 0.58];  // informative, mirror, start
+    var dcTimer = null;
+    function sx(u) { return PX0 + u * (PX1 - PX0); }
+    function sy(v) { return PY0 + v * (PY1 - PY0); }
+    function g2(u, v, c, w) { var du = u - c[0], dv = v - c[1]; return Math.exp(-(du * du + dv * dv) / (w * w)); }
+    function loss(u, v, m) {
+      return 0.95 - 0.70 * g2(u, v, A, 0.20) - 0.62 * g2(u, v, B, 0.17) + (m / 0.05) * 0.85 * g2(u, v, B, 0.15);
+    }
+    function dcHeatmap(m) {
+      dcHeat.textContent = '';
+      var NX = 26, NY = 17, lo = 1e9, hi = -1e9, vals = [], i, j, u, v, L;
+      for (j = 0; j < NY; j++) for (i = 0; i < NX; i++) { u = (i + 0.5) / NX; v = (j + 0.5) / NY; L = loss(u, v, m); vals.push(L); if (L < lo) lo = L; if (L > hi) hi = L; }
+      var cw = (PX1 - PX0) / NX, ch = (PY1 - PY0) / NY, idx = 0;
+      for (j = 0; j < NY; j++) for (i = 0; i < NX; i++) {
+        var t = (vals[idx++] - lo) / (hi - lo);
+        svel(dcHeat, 'rect', { x: PX0 + i * cw, y: PY0 + j * ch, width: cw + 0.6, height: ch + 0.6, fill: 'var(--color-primary)', opacity: ((1 - t) * 0.55).toFixed(3) });
+      }
+    }
+    function dcMark(c, label) {
+      svel(dcMarks, 'circle', { cx: sx(c[0]), cy: sy(c[1]), r: 3, fill: 'none', stroke: 'var(--color-text)', 'stroke-width': 1 });
+      svel(dcMarks, 'text', { x: sx(c[0]), y: sy(c[1]) - 6, 'text-anchor': 'middle', 'class': 'text-label-faint', style: 'font-size:8px' }).textContent = label;
+    }
+    function dcDescent(m) {
+      var u = S[0], v = S[1], lr = 0.03, e = 0.004, pts = [[u, v]], s;
+      for (s = 0; s < 110; s++) {
+        var gu = (loss(u + e, v, m) - loss(u - e, v, m)) / (2 * e);
+        var gv = (loss(u, v + e, m) - loss(u, v - e, m)) / (2 * e);
+        u = Math.max(0, Math.min(1, u - lr * gu)); v = Math.max(0, Math.min(1, v - lr * gv));
+        pts.push([u, v]);
+      }
+      return pts;
+    }
+    function dcStop() { if (dcTimer) { clearInterval(dcTimer); dcTimer = null; } }
+    function dcRun() {
+      dcStop();
+      var m = parseInt(dcM.value, 10) / 100;
+      dcHeatmap(m);
+      dcMarks.textContent = '';
+      dcMark(A, 'informative'); dcMark(B, 'mirror');
+      var pts = dcDescent(m), end = pts[pts.length - 1];
+      var toA = (end[0] - A[0]) * (end[0] - A[0]) + (end[1] - A[1]) * (end[1] - A[1]);
+      var toB = (end[0] - B[0]) * (end[0] - B[0]) + (end[1] - B[1]) * (end[1] - B[1]);
+      var reachedA = toA < toB;
+      document.getElementById('dc-basin').textContent = '…';
+      document.getElementById('dc-score').textContent = '…';
+      dcPath.setAttribute('d', '');
+      var i = 0;
+      dcTimer = setInterval(function () {
+        i += 2;
+        if (i >= pts.length) {
+          i = pts.length - 1; dcStop();
+          document.getElementById('dc-basin').textContent = reachedA ? 'Informative' : 'Mirror (degenerate)';
+          var sc = document.getElementById('dc-score');
+          sc.textContent = reachedA ? '0.637' : '0.551';
+          sc.style.color = reachedA ? 'var(--color-ok)' : 'var(--color-danger)';
+        }
+        var d = 'M', k;
+        for (k = 0; k <= i; k++) d += (k ? ' L' : '') + sx(pts[k][0]).toFixed(1) + ' ' + sy(pts[k][1]).toFixed(1);
+        dcPath.setAttribute('d', d);
+        dcBall.setAttribute('cx', sx(pts[i][0])); dcBall.setAttribute('cy', sy(pts[i][1]));
+      }, 28);
+    }
+    dcM.addEventListener('input', function () { document.getElementById('dc-m-val').textContent = (parseInt(dcM.value, 10) / 100).toFixed(2); dcRun(); });
+    document.getElementById('dc-run').addEventListener('click', dcRun);
+    document.getElementById('dc-m-val').textContent = (parseInt(dcM.value, 10) / 100).toFixed(2);
+    dcRun();
+  }
+
 })();

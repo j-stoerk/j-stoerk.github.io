@@ -1,5 +1,17 @@
 [
   {
+    "file": "post-student-becomes-teacher.html",
+    "title": "The student becomes the teacher",
+    "iso": "2026-08-16",
+    "display": "16 August 2026",
+    "category": "AI research",
+    "minutes": 9,
+    "summary": "Three 2026 papers let a language model supply its own supervision — the external teacher, the ground-truth labels, and the privileged context, all replaced by the model itself. What it buys, and where it breaks.",
+    "feedDescription": "On-policy self-distillation without labels: OPSD, U-OPSD's label-free majority vote, and L-OPSD's learnable privileged context, with the failure modes that come with self-supervision.",
+    "rfc822": "Sun, 16 Aug 2026 08:00:00 +0200",
+    "lastmod": "2026-08-16"
+  },
+  {
     "file": "post-optimizing-reasoning.html",
     "title": "From Simulating Speech to Optimizing Reasoning",
     "iso": "2026-08-09",
