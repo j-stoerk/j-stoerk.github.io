@@ -4,11 +4,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lithium Dendrites Are Batteries' Dandelions — Julius Störk</title>
+  <title>Lithium Dendrites Are Batteries' Dandelions · Julius Störk</title>
   <meta name="description" content="Ceramic solid electrolytes still fail by dendrite. A March 2026 model derives a closed-form critical current density from first principles, and writes down the same physics that lets a dandelion crack a driveway." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-dendrites-dandelions.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="alternate" type="application/rss+xml" title="Julius Störk — Research notes" href="feed.xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-dendrites-dandelions.html" />
@@ -83,8 +83,8 @@
                   id="dd-c-val">30 µm</output></div>
               <input type="range" class="slider-input" id="dd-c" min="5" max="60" step="1" value="30">
               <div class="metric-display" aria-live="polite">
-                <div class="metric-item"><div>J<sub>crit</sub> (model)</div><div class="metric-value" id="dd-j">—</div></div>
-                <div class="metric-item"><div>vs. measured ≈ 1 mA/cm²</div><div class="metric-value" id="dd-ratio">—</div></div>
+                <div class="metric-item"><div>J<sub>crit</sub> (model)</div><div class="metric-value" id="dd-j">…</div></div>
+                <div class="metric-item"><div>vs. measured ≈ 1 mA/cm²</div><div class="metric-value" id="dd-ratio">…</div></div>
               </div>
             </div>
             <p class="widget-note">Schematic J<sub>crit</sub> ∝ c<sub>max</sub><sup>−3/2</sup>, scaled so the
@@ -108,7 +108,7 @@
 
         <h3>Slow failure</h3>
         <p>The paper doesn't stop at \(J_\text{crit}\). Below the critical current, ceramic solid electrolytes still conduct a small residual electron current (quantified by the electron transference number \(t_e\)), and that residual conduction lets alkali ions and electrons recombine directly at a defect tip without needing the full Griffith pressure (quantified by electrochemical stress-corrosion cracking) <sup class="cite">[<a href="#ref-1">1</a>]</sup>. This gives a second threshold, \(J_\text{subcrit}\approx Y\,\sigma\, K_{Isc}\, /(F\, c_\text{max}^{3/2})\), below \(J_\text{crit}\), above which a dendrite grows slowly rather than catastrophically, at a failure time \(\tau_\text{fail}\propto 1/(t_e\, J\, c_0)\) that the paper estimates at anywhere from tens of minutes to roughly ten hours for realistic garnet parameters <sup class="cite">[<a href="#ref-1">1</a>]</sup>. Suppressing \(t_e\) (making the ceramic a worse electron conductor) is therefore a lever completely independent of increasing fracture toughness or ionic conductivity, and the paper is explicit that it can shut down subcritical growth even when the classic critical-current picture would predict failure <sup class="cite">[<a href="#ref-1">1</a>]</sup>.</p>
-        <p>Root growth into pavement has an analogous slow regime: pavement studies describe damage accumulating over years of gradual root thickening long before any sudden failure, governed by the same tension-on-the-surface mechanic (concrete and asphalt are strong in compression but weak in tension) that governs Griffith crack growth in the ceramic case <sup class="cite">[<a href="#ref-9">9</a>,<a href="#ref-10">10</a>]</sup>. Slow, sub-threshold damage accumulation followed by sudden failure once a critical length is reached is apparently just what happens whenever something tries to wedge open a brittle, weakly conductive/porous barrier — batteries and driveways included.</p>
+        <p>Root growth into pavement has an analogous slow regime: pavement studies describe damage accumulating over years of gradual root thickening long before any sudden failure, governed by the same tension-on-the-surface mechanic (concrete and asphalt are strong in compression but weak in tension) that governs Griffith crack growth in the ceramic case <sup class="cite">[<a href="#ref-9">9</a>,<a href="#ref-10">10</a>]</sup>. Slow, sub-threshold damage accumulation followed by sudden failure once a critical length is reached is apparently just what happens whenever something tries to wedge open a brittle, weakly conductive/porous barrier, batteries and driveways included.</p>
         <div class="interactive">
           <div class="widget-controls">
             <p class="widget-title">Interactive · Three ways to fail (or not)</p>
@@ -120,11 +120,11 @@
                   id="dd-J-val">50%</output></div>
               <input type="range" class="slider-input" id="dd-J" min="0" max="110" step="1" value="50">
               <div class="slider-label" style="margin-top:var(--space-3)"><label for="dd-te">Electron transference
-                  t<sub>e</sub></label><output id="dd-te-val">—</output></div>
+                  t<sub>e</sub></label><output id="dd-te-val">…</output></div>
               <input type="range" class="slider-input" id="dd-te" min="1" max="100" step="1" value="60">
               <div class="metric-display" aria-live="polite">
-                <div class="metric-item"><div>Regime</div><div class="metric-value" id="dd-regime">—</div></div>
-                <div class="metric-item"><div>Failure time</div><div class="metric-value" id="dd-tau">—</div></div>
+                <div class="metric-item"><div>Regime</div><div class="metric-value" id="dd-regime">…</div></div>
+                <div class="metric-item"><div>Failure time</div><div class="metric-value" id="dd-tau">…</div></div>
               </div>
             </div>
             <p class="widget-note">Illustrative. The thresholds and failure time follow the paper's structure

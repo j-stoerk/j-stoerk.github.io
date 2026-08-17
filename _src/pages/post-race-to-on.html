@@ -4,11 +4,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Race to O(n) — Julius Störk</title>
+  <title>The Race to O(n) · Julius Störk</title>
   <meta name="description" content="Every subquadratic-attention family relaxes one constraint while quietly keeping another. Five families, the routing-absorption trap, and why the frontier keeps flinching back to dense attention." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-race-to-on.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="alternate" type="application/rss+xml" title="Julius Störk — Research notes" href="feed.xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-race-to-on.html" />
@@ -61,7 +61,7 @@
       <div class="prose">
         <p>Every softmax attention layer compares each token against every other token with O(T²) complexity in sequence length, and O(T²) memory costs <sup class="cite">[<a href="#ref-1">1</a>,<a href="#ref-2">2</a>]</sup>. With ever-growing context windows (at least since context windows crossed the hundred-thousand-token mark) the contested race to get attention's cost down to O(n) started. So much so, that Miami startup SubQ raised $29M while the AI community shouted "Theranos allegations" in response to the breakthroughs <sup class="cite">[<a href="#ref-30">30</a>]</sup>. The literature surfaces the pattern that every family of solution relaxes one constraint while quietly keeping another, and the places where people claim to have relaxed all of them at once are exactly where you should look the hardest.</p>
         <h3>Family 1: keep the comparisons, prune them</h3>
-        <p>The first response doesn't touch the O(T²) structure at all and refuses to compute most of the matrix, using a pattern fixed in advance. Longformer restricts each token to a local sliding window plus a few global tokens; BigBird adds random tokens on top of a local window and proves the combination is still Turing-complete and a universal function approximator, so fixed sparsity doesn't provably cost expressivity in principle <sup class="cite">[<a href="#ref-3">3</a>,<a href="#ref-4">4</a>,<a href="#ref-5">5</a>]</sup>. In practice, fixed-pattern sparse attention has consistently failed on long-context retrieval benchmarks like RULER, because a token can only attend where the pattern allows, regardless of whether the relevant information is actually there — the sparsity is positional, not content-dependent <sup class="cite">[<a href="#ref-6">6</a>]</sup>.</p>
+        <p>The first response doesn't touch the O(T²) structure at all and refuses to compute most of the matrix, using a pattern fixed in advance. Longformer restricts each token to a local sliding window plus a few global tokens; BigBird adds random tokens on top of a local window and proves the combination is still Turing-complete and a universal function approximator, so fixed sparsity doesn't provably cost expressivity in principle <sup class="cite">[<a href="#ref-3">3</a>,<a href="#ref-4">4</a>,<a href="#ref-5">5</a>]</sup>. In practice, fixed-pattern sparse attention has consistently failed on long-context retrieval benchmarks like RULER, because a token can only attend where the pattern allows, regardless of whether the relevant information is actually there, the sparsity is positional, not content-dependent <sup class="cite">[<a href="#ref-6">6</a>]</sup>.</p>
         <p>FlashAttention takes an orthogonal angle on the exact same computation: it never materializes the full N×N score matrix in GPU memory, tiling the softmax into blocks that fit in on-chip SRAM via an online-softmax recurrence, so peak memory drops from O(N²) to O(N) and throughput rises substantially with output numerically identical to naive attention <sup class="cite">[<a href="#ref-7">7</a>,<a href="#ref-8">8</a>]</sup>. It does not (nor does it aspire to) change the FLOP count, as doubling the sequence length still quadruples the compute. At 128K tokens attention costs roughly 8.6 billion operations per layer; at 1M, 549 billion; at 2M, 2.2 trillion <sup class="cite">[<a href="#ref-6">6</a>]</sup>. FlashAttention solved the memory problem that made long-context experimentation impractical for the first time <sup class="cite">[<a href="#ref-6">6</a>]</sup>.</p>
         <div class="interactive">
           <div class="widget-controls">
@@ -73,9 +73,9 @@
               <div class="slider-label"><label for="on-t">Sequence length T</label><output id="on-t-val">1.0M</output></div>
               <input type="range" class="slider-input" id="on-t" min="17" max="24" step="0.04" value="20">
               <div class="metric-display" aria-live="polite">
-                <div class="metric-item"><div>Dense O(T²)</div><div class="metric-value" id="on-dense">—</div></div>
-                <div class="metric-item"><div>Linear O(T)</div><div class="metric-value" id="on-lin">—</div></div>
-                <div class="metric-item"><div>Learned selector</div><div class="metric-value" id="on-sel">—</div></div>
+                <div class="metric-item"><div>Dense O(T²)</div><div class="metric-value" id="on-dense">…</div></div>
+                <div class="metric-item"><div>Linear O(T)</div><div class="metric-value" id="on-lin">…</div></div>
+                <div class="metric-item"><div>Learned selector</div><div class="metric-value" id="on-sel">…</div></div>
               </div>
             </div>
             <p class="widget-note">Operations per layer, order of magnitude. Dense is anchored to the reported 8.6 G
@@ -120,8 +120,8 @@
               <button class="loop-stage" role="tab" id="ra-tab-1" data-ra="1" aria-selected="false">Hard top-k, joint</button>
             </div>
             <div class="metric-display" aria-live="polite" style="margin-top:var(--space-3)">
-              <div class="metric-item"><div>Learned − random gap</div><div class="metric-value" id="ra-gap">—</div></div>
-              <div class="metric-item"><div>Verdict</div><div class="metric-value" id="ra-verdict">—</div></div>
+              <div class="metric-item"><div>Learned − random gap</div><div class="metric-value" id="ra-gap">…</div></div>
+              <div class="metric-item"><div>Verdict</div><div class="metric-value" id="ra-verdict">…</div></div>
             </div>
             <p class="widget-note">Perplexity, lower is better (from the routing-absorption paper). Joint hard-gating
               makes learned and random gates numerically indistinguishable; only decoupling the gate's training from
@@ -161,7 +161,7 @@
         <h3>Sources</h3>
         <ol class="sources">
           <li id="ref-1">Vaswani, A., et al. "Attention Is All You Need." NeurIPS 2017.</li>
-          <li id="ref-2">NVIDIA. "Attention Is All You Need! — Transformer Engine Documentation." <a href="https://docs.nvidia.com/deeplearning/transformer-engine/user-guide/examples/attention/attention.html" target="_blank" rel="noopener noreferrer">https://docs.nvidia.com/deeplearning/transformer-engine/user-guide/examples/attention/attention.html</a></li>
+          <li id="ref-2">NVIDIA. "Attention Is All You Need!, Transformer Engine Documentation." <a href="https://docs.nvidia.com/deeplearning/transformer-engine/user-guide/examples/attention/attention.html" target="_blank" rel="noopener noreferrer">https://docs.nvidia.com/deeplearning/transformer-engine/user-guide/examples/attention/attention.html</a></li>
           <li id="ref-3">Zaheer, M., et al. "Big Bird: Transformers for Longer Sequences." NeurIPS 2020. <a href="https://papers.neurips.cc/paper_files/paper/2020/file/c8512d142a2d849725f31a9a7a361ab9-Paper.pdf" target="_blank" rel="noopener noreferrer">https://papers.neurips.cc/paper_files/paper/2020/file/c8512d142a2d849725f31a9a7a361ab9-Paper.pdf</a></li>
           <li id="ref-4">Beltagy, I., Peters, M., Cohan, A. "Longformer: The Long-Document Transformer." arXiv:2004.05150. <a href="https://www.deeplearning.ai/the-batch/more-efficient-transformers/" target="_blank" rel="noopener noreferrer">https://www.deeplearning.ai/the-batch/more-efficient-transformers/</a></li>
           <li id="ref-5">"Exploring Sparse Attention in Transformers: BigBird and LongFormer." <a href="https://medium.com/@ashutoshadhikari141/exploring-sparse-attention-in-transformers-bigbird-longformer-and-their-applications-3e69920c2085" target="_blank" rel="noopener noreferrer">https://medium.com/@ashutoshadhikari141/exploring-sparse-attention-in-transformers-bigbird-longformer-and-their-applications-3e69920c2085</a></li>

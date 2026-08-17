@@ -4,11 +4,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI's Bottleneck is Physical — Julius Störk</title>
+  <title>AI's Bottleneck is Physical · Julius Störk</title>
   <meta name="description" content="AI becomes useful when a physical feedback loop (power, heat, latency, sensors, data lineage, safe actuation) runs reliably." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-physical-ai.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="alternate" type="application/rss+xml" title="Julius Störk — Research notes" href="feed.xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-physical-ai.html" />
@@ -73,7 +73,7 @@
 
           <div class="loop-figure" id="loop-figure">
             <svg class="loop-ring" viewBox="0 0 200 200" role="img" aria-labelledby="loop-title" preserveAspectRatio="xMidYMid meet">
-              <title id="loop-title">Seven stages of the loop as segments of a ring — electricity, chip, heat,
+              <title id="loop-title">Seven stages of the loop as segments of a ring, electricity, chip, heat,
                 inference, decision, actuation, sensor. Select a segment to see its constraint.</title>
               <g id="loop-segments" role="group" aria-label="Pipeline stages"></g>
             </svg>
@@ -106,8 +106,8 @@
 
           <div class="dep-figure">
             <svg viewBox="0 0 260 250" id="svg-radar" role="img" aria-labelledby="radar-title">
-              <title id="radar-title">Draggable radar over seven factors — model capability, sensor quality, data
-                context, edge compute, network, energy, and safe actuation — with the current deployability envelope
+              <title id="radar-title">Draggable radar over seven factors, model capability, sensor quality, data
+                context, edge compute, network, energy, and safe actuation, with the current deployability envelope
                 shaded. Drag any vertex to change that factor.</title>
               <g id="radar-grid"></g>
               <g id="radar-axes"></g>
@@ -118,7 +118,7 @@
               <g id="radar-labels"></g>
             </svg>
             <div class="dep-score">
-              <div class="dep-score-value" id="dep-score">—</div>
+              <div class="dep-score-value" id="dep-score">…</div>
               <div class="dep-score-label">Deployable intelligence</div>
               <p class="dep-limit" id="dep-limit"></p>
             </div>
@@ -215,10 +215,10 @@
           that a model will happily fit. Harmonisation is the interface between physical history and statistical
           learning. It is also where the causal question from my <a href="post-causalpfn.html">CausalPFN reading
             note</a> becomes concrete: without lineage, you cannot even define the intervention whose effect you want
-          to estimate. A sufficiently capable model could recover part of that structure on its own — probabilistic
+          to estimate. A sufficiently capable model could recover part of that structure on its own, probabilistic
           entity resolution to stitch fragmented lot and batch identifiers, learned alignment of asynchronous
           timestamps across logs, and causal-discovery constraints to reconstruct the process graph from weak
-          signals — but each of these substitutes an <em>inferred</em> lineage for a <em>recorded</em> one, and
+          signals, but each of these substitutes an <em>inferred</em> lineage for a <em>recorded</em> one, and
           inherits its uncertainty rather than removing it.</p>
 
         <h3>Edge AI: compute where it matters</h3>
@@ -283,9 +283,9 @@
           the outcome is even known.</p>
 
         <p>This is a safe-exploration problem: how does the system choose experiments that are informative without
-          violating process constraints? The tools are known — constrained Bayesian optimisation, value-of-information
+          violating process constraints? The tools are known, constrained Bayesian optimisation, value-of-information
           scheduling, digital-twin screening followed by limited physical validation, and experiment designs that
-          account for delayed downstream measurements — but each trades information against risk, and none removes the
+          account for delayed downstream measurements, but each trades information against risk, and none removes the
           hard constraint that some regions of the process simply must not be entered.</p>
 
         <h3>The model changes the world it learns from</h3>

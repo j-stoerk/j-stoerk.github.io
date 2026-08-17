@@ -5,7 +5,7 @@
   'use strict';
 
   /* =========================================================
-     Widget 1 — interference and the IGFA gate
+     Widget 1, interference and the IGFA gate
      Sigma_A = diag(LAMBDA_1, LAMBDA_2), update length fixed.
      F(theta) = l1*cos^2 + l2*sin^2, normalised to l1.
      ========================================================= */
@@ -54,10 +54,10 @@
 
     var status = document.getElementById('cl-status-val');
     if (gated) {
-      status.textContent = 'Projecting — Task A protected';
+      status.textContent = 'Projecting, Task A protected';
       status.style.color = 'var(--color-warn)';
     } else {
-      status.textContent = 'Open — capacity shared';
+      status.textContent = 'Open, capacity shared';
       status.style.color = 'var(--color-ok)';
     }
 
@@ -108,7 +108,7 @@
   }
 
   /* =========================================================
-     Widget 2 — calendering and the U-shape
+     Widget 2, calendering and the U-shape
      ========================================================= */
   var calSlider = document.getElementById('cal-comp-slider');
 
@@ -201,7 +201,7 @@
   }
 
   /* =========================================================
-     Widget 3 — CausalPFN posterior concentration (schematic)
+     Widget 3, CausalPFN posterior concentration (schematic)
      Illustrates Proposition 1 / Figure 7 behaviour: an
      identifiable prior concentrates on the truth as context
      grows; an OOD DGP yields a narrow interval in the wrong
@@ -262,7 +262,7 @@
   }
 
   /* =========================================================
-     Widget A — the physical loop (post-physical-ai)
+     Widget A, the physical loop (post-physical-ai)
      A ring split into one clickable segment per stage, with
      the stage name written along the segment. The selected
      stage's constraint shows in the centre of the ring.
@@ -525,7 +525,7 @@
       Math.round(a[1] + (b[1] - a[1]) * f) + ',' + Math.round(a[2] + (b[2] - a[2]) * f) + ')';
   }
 
-  /* D1 — weakest defect sets J_crit (J ~ c^-3/2) */
+  /* D1, weakest defect sets J_crit (J ~ c^-3/2) */
   var ddC = document.getElementById('dd-c');
   if (ddC) {
     var DD_K = 8216;                          // J = K / c^1.5  [mA/cm2], anchored J(30)=50
@@ -566,7 +566,7 @@
     ddUpdate();
   }
 
-  /* D2 — three regimes: stable / subcritical / catastrophic */
+  /* D2, three regimes: stable / subcritical / catastrophic */
   var ddJ = document.getElementById('dd-J');
   if (ddJ) {
     var ddTe = document.getElementById('dd-te');
@@ -595,7 +595,7 @@
         }
       } else {
         regime.textContent = 'Stable'; regime.style.color = 'var(--color-ok)';
-        tau.textContent = '—';
+        tau.textContent = '∞';
       }
     }
     ddJ.addEventListener('input', d2Update);
@@ -606,7 +606,7 @@
   /* ============================================================
      post-race-to-on widgets
      ============================================================ */
-  /* O1 — attention cost scaling (log-log) */
+  /* O1, attention cost scaling (log-log) */
   var onT = document.getElementById('on-t');
   if (onT) {
     function denseOps(T) { return 0.5 * T * T; }
@@ -654,7 +654,7 @@
     o1Update();
   }
 
-  /* O2 — routing absorption bars */
+  /* O2, routing absorption bars */
   var raBars = document.getElementById('ra-bars');
   if (raBars) {
     var RA = [
@@ -689,7 +689,7 @@
   /* ============================================================
      post-optimizing-reasoning widgets
      ============================================================ */
-  /* R1 — inverted-U: CoT length vs accuracy */
+  /* R1, inverted-U: CoT length vs accuracy */
   var rrLen = document.getElementById('rr-len');
   if (rrLen) {
     var rrCap = document.getElementById('rr-cap');
@@ -721,7 +721,7 @@
     r1Update();
   }
 
-  /* R2 — effort vs faithfulness */
+  /* R2, effort vs faithfulness */
   var rrEff = document.getElementById('rr-eff');
   if (rrEff) {
     var rrFr = document.getElementById('rr-fr');
@@ -764,7 +764,7 @@
   /* ============================================================
      post-student-becomes-teacher widgets
      ============================================================ */
-  /* MV — majority vote is not truth (live Monte Carlo) */
+  /* MV, majority vote is not truth (live Monte Carlo) */
   var mvP = document.getElementById('mv-p');
   if (mvP) {
     var mvRho = document.getElementById('mv-rho');
@@ -817,7 +817,7 @@
     mvStart();
   }
 
-  /* DC — the degenerate basin: live two-basin descent, draggable start */
+  /* DC, the degenerate basin: live two-basin descent, draggable start */
   var dcM = document.getElementById('dc-m');
   if (dcM) {
     var dcSvg = document.getElementById('svg-dc');

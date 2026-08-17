@@ -4,11 +4,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The student becomes the teacher — Julius Störk</title>
+  <title>The student becomes the teacher · Julius Störk</title>
   <meta name="description" content="Three 2026 papers let a language model supply its own supervision: the external teacher, the ground-truth labels, and the privileged context are all replaced by the model itself. What that buys, and where it breaks." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-student-becomes-teacher.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="alternate" type="application/rss+xml" title="Julius Störk — Research notes" href="feed.xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-student-becomes-teacher.html" />
@@ -62,9 +62,9 @@
         <p>In battery research, a single ground-truth requires assembling a cell, cycling it for weeks, and extracting one electrochemical data point. This consumes both time and money and post-training large language models has the exact same problem. Verified reasoning traces, gold answers, and external reward models are the labels, and they are just as scarce relative to the volume of data a model could learn from. This week, both Guibin Zhang from NUS and Yijiang Li from UC San Diego pushed the question "what if the model supplies its own supervision". Short answer: the external teacher (OPSD), the ground-truth labels (U-OPSD), and now handcrafted privileged context have all been replaced by the model itself.</p>
         <h3>Background: one model, two contexts</h3>
         <p>The line of work starts with <strong>On-Policy Self-Distillation</strong> (OPSD, January 2026, <a href="https://arxiv.org/abs/2601.18734" target="_blank" rel="noopener noreferrer">arXiv:2601.18734</a>). A single LLM acts as both teacher and student under different contexts. The teacher conditions on privileged information (verified reasoning traces) while the student sees only the question. Training minimizes the per-token divergence between the two distributions over the student's own rollouts, on trajectories it would actually produce.</p>
-        <p><strong>Self-Distillation Fine-Tuning</strong> (SDFT) applies the same trick to demonstrations: the demonstration-conditioned model becomes its own teacher, generating on-policy training signals that, in the original experiments, preserved prior capabilities better than ordinary SFT while acquiring new skills. It was one of the papers put through the ICML 2026 open reproduction effort (<a href="https://huggingface.co/blog/icml-2026-open-reproductions" target="_blank" rel="noopener noreferrer">Hugging Face report</a>) — I come back to that below.</p>
+        <p><strong>Self-Distillation Fine-Tuning</strong> (SDFT) applies the same trick to demonstrations: the demonstration-conditioned model becomes its own teacher, generating on-policy training signals that, in the original experiments, preserved prior capabilities better than ordinary SFT while acquiring new skills. It was one of the papers put through the ICML 2026 open reproduction effort (<a href="https://huggingface.co/blog/icml-2026-open-reproductions" target="_blank" rel="noopener noreferrer">Hugging Face report</a>), I come back to that below.</p>
         <h3>Remove or learn the supervision</h3>
-        <p><strong>U-OPSD</strong> — On-Policy Self-Distillation without any Supervision <a href="https://arxiv.org/abs/2608.06296" target="_blank" rel="noopener noreferrer">arXiv:2608.06296</a> removes the last external crutch. Sample <em>k</em> rollouts, majority-vote a pseudo-solution, gate it by a self-consistency threshold, then condition the model on that pseudo-solution and distill only on the <em>disagreeing</em> completions. The model corrects itself where it is confidently wrong. An answer the model produces consistently is treated as correct, the agreement among samples is taken as evidence (in place of any external check). On Qwen3 math in non-thinking mode, U-OPSD beats supervised OPSD by up to 3.2 points and GRPO by up to 8.9 points (<a href="https://x.com/askalphaxiv/status/2085757874127397129" target="_blank" rel="noopener noreferrer">summary</a>), using no labels at all.</p>
+        <p><strong>U-OPSD</strong>, On-Policy Self-Distillation without any Supervision <a href="https://arxiv.org/abs/2608.06296" target="_blank" rel="noopener noreferrer">arXiv:2608.06296</a> removes the last external crutch. Sample <em>k</em> rollouts, majority-vote a pseudo-solution, gate it by a self-consistency threshold, then condition the model on that pseudo-solution and distill only on the <em>disagreeing</em> completions. The model corrects itself where it is confidently wrong. An answer the model produces consistently is treated as correct, the agreement among samples is taken as evidence (in place of any external check). On Qwen3 math in non-thinking mode, U-OPSD beats supervised OPSD by up to 3.2 points and GRPO by up to 8.9 points (<a href="https://x.com/askalphaxiv/status/2085757874127397129" target="_blank" rel="noopener noreferrer">summary</a>), using no labels at all.</p>
 
         <div class="interactive">
           <div class="widget-controls">
@@ -77,14 +77,13 @@
               <div class="slider-label" style="margin-top:var(--space-3)"><label for="mv-rho">Error correlation ρ</label><output id="mv-rho-val">0.60</output></div>
               <input type="range" class="slider-input" id="mv-rho" min="0" max="100" step="1" value="60">
               <div class="metric-display" aria-live="polite">
-                <div class="metric-item"><div>Consistency (top share)</div><div class="metric-value" id="mv-cons">—</div></div>
-                <div class="metric-item"><div>Pseudo-label</div><div class="metric-value" id="mv-label">—</div></div>
+                <div class="metric-item"><div>Consistency (top share)</div><div class="metric-value" id="mv-cons">…</div></div>
+                <div class="metric-item"><div>Pseudo-label</div><div class="metric-value" id="mv-label">…</div></div>
               </div>
               <button class="download-btn" type="button" id="mv-run" style="margin-top:var(--space-3)">Replay</button>
             </div>
             <p class="widget-note">Monte Carlo over four answers (A is the truth). The pseudo-label locks when the
-              leading answer crosses the 60% consistency threshold. Raise ρ and consensus can converge — confidently —
-              on a wrong answer.</p>
+              leading answer crosses the 60% consistency threshold. Raise ρ and consensus can converge, confidently, on a wrong answer.</p>
           </div>
           <div class="widget-visual">
             <svg viewBox="0 0 300 200" id="svg-mv" role="img" aria-labelledby="mv-title" style="max-width:320px">
@@ -98,7 +97,7 @@
             </svg>
           </div>
         </div>
-        <p><strong>L-OPSD</strong> — Latent On-Policy Self-Distillation <a href="https://papers.cool/arxiv/2608.13040" target="_blank" rel="noopener noreferrer">arXiv:2608.13040</a> steps in the opposite direction. Instead of removing the privileged context, it makes privilege learnable: retrieved experiences are composed into continuous latent tokens that condition the self-teacher and dense supervision is provided at every visited prefix. Because the composer is trainable, the distillation loss has a degenerate minimum (the teacher collapses into the student for uninformative context). The privileged-margin objective forbids this by requiring the teacher to maintain a verifiable log-probability advantage over the student on successful trajectories. The latent context must stay informative, not merely easy to match. Without the constraint, joint training performs worse than freezing the composer outright. With this constraint, L-OPSD outperforms GRPO, OPSD, SDPO, and Skill-SD on agentic tool use and code generation, using under 30% of GRPO's rollout budget.</p>
+        <p><strong>L-OPSD</strong>, Latent On-Policy Self-Distillation <a href="https://papers.cool/arxiv/2608.13040" target="_blank" rel="noopener noreferrer">arXiv:2608.13040</a> steps in the opposite direction. Instead of removing the privileged context, it makes privilege learnable: retrieved experiences are composed into continuous latent tokens that condition the self-teacher and dense supervision is provided at every visited prefix. Because the composer is trainable, the distillation loss has a degenerate minimum (the teacher collapses into the student for uninformative context). The privileged-margin objective forbids this by requiring the teacher to maintain a verifiable log-probability advantage over the student on successful trajectories. The latent context must stay informative, not merely easy to match. Without the constraint, joint training performs worse than freezing the composer outright. With this constraint, L-OPSD outperforms GRPO, OPSD, SDPO, and Skill-SD on agentic tool use and code generation, using under 30% of GRPO's rollout budget.</p>
 
         <div class="interactive">
           <div class="widget-controls">
@@ -110,11 +109,11 @@
               <div class="slider-label"><label for="dc-m">Privileged margin m</label><output id="dc-m-val">0.030</output></div>
               <input type="range" class="slider-input" id="dc-m" min="0" max="80" step="1" value="30">
               <div class="metric-display" aria-live="polite">
-                <div class="metric-item"><div>Basin reached</div><div class="metric-value" id="dc-basin">—</div></div>
-                <div class="metric-item"><div>Task score</div><div class="metric-value" id="dc-score">—</div></div>
+                <div class="metric-item"><div>Basin reached</div><div class="metric-value" id="dc-basin">…</div></div>
+                <div class="metric-item"><div>Task score</div><div class="metric-value" id="dc-score">…</div></div>
               </div>
               <div class="metric-display" aria-live="polite" style="margin-top:var(--space-2)">
-                <div class="metric-item"><div>Reroutes to informative at</div><div class="metric-value" id="dc-flip">—</div></div>
+                <div class="metric-item"><div>Reroutes to informative at</div><div class="metric-value" id="dc-flip">…</div></div>
               </div>
               <button class="download-btn" type="button" id="dc-run" style="margin-top:var(--space-3)">Replay descent</button>
             </div>
@@ -141,7 +140,7 @@
         <h3>Some limitations</h3>
         <p><strong>The privilege illusion.</strong> The DAPD analysis (<a href="https://aiweekly.co/node/8951" target="_blank" rel="noopener noreferrer">coverage</a>) argues that OPSD quietly teaches the student to behave as if the reference were still present at inference time. The measured consequence: gains of +5.19 points at 1.7B parameters collapse to ≤ +0.28 at 8B–32B. What works at small scale may be an artifact of scale.</p>
         <p><strong>Decoding collapse.</strong> In agentic settings, feedback-augmented self-distillation can produce trajectories that look diverse but are largely input-agnostic templates. The KL-based supervision signal becomes uninformative, and standard evaluation metrics miss it (<a href="https://arxiv.org/abs/2607.17558" target="_blank" rel="noopener noreferrer">arXiv:2607.17558</a>). An exponential-moving-average teacher is a partial fix.</p>
-        <p><strong>The awkward reproduction.</strong> In the ICML 2026 open reproduction challenge, at least one independent attempt found no SDFT advantage over matched SFT on a 507-example science evaluation — leaving toy-scale support only for the reduced-forgetting claim (<a href="https://huggingface.co/spaces/ICML-2026-agent-repro/challenge/discussions/33" target="_blank" rel="noopener noreferrer">reproduction logbooks</a>). One reproduction is not a refutation, but it is exactly the kind of result that should be cited next to the original.</p>
+        <p><strong>The awkward reproduction.</strong> In the ICML 2026 open reproduction challenge, at least one independent attempt found no SDFT advantage over matched SFT on a 507-example science evaluation, leaving toy-scale support only for the reduced-forgetting claim (<a href="https://huggingface.co/spaces/ICML-2026-agent-repro/challenge/discussions/33" target="_blank" rel="noopener noreferrer">reproduction logbooks</a>). One reproduction is not a refutation, but it is exactly the kind of result that should be cited next to the original.</p>
         <p>The meta-point: every failure above is an examination failure, not a teaching failure. Self-generated supervision inherits the model's blind spots, and internal consistency measures confidence, not correctness. Majority vote repairs the cases where the model is right often and wrong sometimes; it amplifies the cases where it is confidently, systematically wrong.</p>
         <h3>Why I care</h3>
         <p>Process–property models in electrode manufacturing have the same structure as this problem: abundant process data from coating and calendering lines, scarce and delayed electrochemical labels from cycling tests. Any method that extracts training signal from internal consistency rather than external labels is directly relevant to surrogate models that have to stay useful between cycling campaigns.</p>

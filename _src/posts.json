@@ -6,7 +6,7 @@
     "display": "16 August 2026",
     "category": "AI research",
     "minutes": 9,
-    "summary": "Three 2026 papers let a language model supply its own supervision — the external teacher, the ground-truth labels, and the privileged context, all replaced by the model itself. What it buys, and where it breaks.",
+    "summary": "Three 2026 papers let a language model supply its own supervision, the external teacher, the ground-truth labels, and the privileged context, all replaced by the model itself. What it buys, and where it breaks.",
     "feedDescription": "On-policy self-distillation without labels: OPSD, U-OPSD's label-free majority vote, and L-OPSD's learnable privileged context, with the failure modes that come with self-supervision.",
     "rfc822": "Sun, 16 Aug 2026 08:00:00 +0200",
     "lastmod": "2026-08-16"
@@ -80,7 +80,7 @@
     "display": "5 July 2026",
     "category": "Continual learning",
     "minutes": 9,
-    "summary": "How learning a new task damages an old one—and how interference geometry suggests a structural controller.",
+    "summary": "How learning a new task damages an old one, and how interference geometry suggests a structural controller.",
     "feedDescription": "Forgetting as interference energy under a task's feature covariance, and the IGFA controller.",
     "rfc822": "Sun, 05 Jul 2026 08:00:00 +0200",
     "lastmod": "2026-07-14",
