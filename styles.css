@@ -535,7 +535,7 @@ p {
 .career-entry {
   position: relative;
   display: grid;
-  grid-template-columns: 110px minmax(0, 1fr) 300px;
+  grid-template-columns: 110px minmax(0, 1fr) 420px;
   gap: var(--space-6);
   align-items: start;
   padding: var(--space-6) 0;
