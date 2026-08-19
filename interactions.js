@@ -10,9 +10,9 @@
   var slice = function (n) { return Array.prototype.slice.call(n); };
 
   /* ---- reveal on scroll ---- */
-  var revealSel = '.media-band, .section-media, .research-gallery figure, ' +
+  var revealSel = '.media-band, .section-media, .rcard, ' +
     '.career-entry, .publication-record, .journal-entry, .pub-list .item, ' +
-    '.research-row, .section-head, .interactive';
+    '.section-head, .interactive';
   var reveals = slice(document.querySelectorAll(revealSel));
   reveals.forEach(function (el) {
     el.classList.add('reveal');
@@ -20,7 +20,7 @@
       return c.classList && c.classList.contains('reveal');
     }) : [];
     var i = group.indexOf(el);
-    if (i > 0) el.style.transitionDelay = Math.min(i, 6) * 70 + 'ms';
+    if (i > 0) el.style.transitionDelay = Math.min(i, 5) * 45 + 'ms';
   });
   if (reduce || !hasIO) {
     reveals.forEach(function (el) { el.classList.add('in'); });
@@ -29,9 +29,24 @@
       entries.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    }, { threshold: 0.05, rootMargin: '0px 0px 8% 0px' });
     reveals.forEach(function (el) { ro.observe(el); });
   }
+
+  /* ---- scroll-progress indicator ---- */
+  var bar = document.createElement('div');
+  bar.className = 'scroll-progress';
+  document.body.appendChild(bar);
+  var barTick = false;
+  function barDraw() {
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (max > 0 ? (window.pageYOffset / max) * 100 : 0) + '%';
+    barTick = false;
+  }
+  window.addEventListener('scroll', function () {
+    if (!barTick) { barTick = true; requestAnimationFrame(barDraw); }
+  }, { passive: true });
+  barDraw();
 
   /* ---- scrollspy: highlight the nav link for the section in view ---- */
   var links = {};

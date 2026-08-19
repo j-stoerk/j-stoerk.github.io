@@ -852,17 +852,115 @@ main section[id] {
 @media (prefers-reduced-motion: no-preference) {
   .reveal-ready .reveal {
     opacity: 0;
-    transform: translateY(22px);
+    transform: translateY(13px);
   }
 }
 
 .reveal {
-  transition: opacity .7s ease, transform .8s cubic-bezier(.2, .65, .2, 1);
+  transition: opacity .38s ease, transform .45s cubic-bezier(.2, .7, .2, 1);
 }
 
 .reveal.in {
   opacity: 1;
   transform: none;
+}
+
+/* Slim scroll-progress indicator. */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-hover));
+  z-index: 40;
+  pointer-events: none;
+}
+
+/* Research hover-reveal cards: the question lives on the image. */
+.research-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.rcard {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-2);
+  box-shadow: var(--shadow-sm);
+}
+
+.rcard img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .6s cubic-bezier(.2, .6, .2, 1), filter .4s;
+}
+
+.rcard:hover img,
+.rcard:focus-within img {
+  transform: scale(1.06);
+  filter: brightness(.62);
+}
+
+.rcard-body {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: var(--space-6) var(--space-4) var(--space-4);
+  color: #fff;
+  background: linear-gradient(transparent, rgba(6, 8, 10, .55) 34%, rgba(6, 8, 10, .95));
+}
+
+.rcard-tag {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .78);
+}
+
+.rcard-q {
+  margin: 0;
+  color: #fff;
+  font-size: var(--text-base);
+  line-height: 1.25;
+}
+
+.rcard-d {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-sm);
+  color: rgba(255, 255, 255, .85);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .rcard-d {
+    max-height: 0;
+    margin-top: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(6px);
+    transition: max-height .45s ease, opacity .3s ease, transform .3s ease, margin .3s ease;
+  }
+
+  .rcard:hover .rcard-d,
+  .rcard:focus-within .rcard-d {
+    max-height: 9em;
+    margin-top: var(--space-2);
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .research-cards { grid-template-columns: 1fr; }
+  .rcard { aspect-ratio: 3 / 2; }
 }
 
 /* Contained parallax: the inner media drifts within its clipped frame. */
