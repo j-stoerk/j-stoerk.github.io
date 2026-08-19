@@ -818,6 +818,59 @@ figure.media-figure {
   .post-hero .media { aspect-ratio: 16 / 10; }
 }
 
+/* Research gallery: title laid over the image (media as background). */
+.media-card {
+  position: relative;
+}
+
+.media-card > figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: var(--space-6) var(--space-4) var(--space-3);
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  font-size: var(--text-xs);
+  text-align: left;
+  background: linear-gradient(transparent, rgba(8, 10, 12, .8));
+}
+
+/* ---------- Scroll interactions ---------- */
+html {
+  scroll-behavior: smooth;
+}
+
+.hero,
+main section[id] {
+  scroll-margin-top: 78px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-ready .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+}
+
+.reveal {
+  transition: opacity .7s ease, transform .8s cubic-bezier(.2, .65, .2, 1);
+}
+
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Contained parallax: the inner media drifts within its clipped frame. */
+.parallax-media {
+  height: 124% !important;
+  transition: none !important;
+}
+
 .simple-list {
   display: grid;
   gap: var(--space-6);
