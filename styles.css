@@ -871,6 +871,89 @@ main section[id] {
   transition: none !important;
 }
 
+/* ---------- Text laid over media (covers & banners) ---------- */
+.media-cover {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.media-cover > .media {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.cover-text {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: var(--space-12) var(--space-6) var(--space-6);
+  background: linear-gradient(transparent, rgba(6, 8, 10, .35) 42%, rgba(6, 8, 10, .9));
+  color: #fff;
+}
+
+.cover-text .eyebrow {
+  color: rgba(255, 255, 255, .82);
+}
+
+.cover-text .post-title {
+  color: #fff;
+  margin: var(--space-2) 0 var(--space-2);
+}
+
+.cover-text .article-meta,
+.cover-text .article-meta.muted {
+  color: rgba(255, 255, 255, .82);
+}
+
+.cover-text .article-meta a {
+  color: #fff;
+  text-decoration-color: rgba(255, 255, 255, .55);
+}
+
+.cover-lead {
+  margin: 0;
+  max-width: 34ch;
+  font-size: var(--text-xl);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -.01em;
+}
+
+/* Post cover: title on the hero image. */
+.post-cover {
+  margin-bottom: var(--space-8);
+}
+
+.post-cover > .media {
+  aspect-ratio: 16 / 9;
+}
+
+/* Hero video band carries an overlaid statement. */
+.media-band.media-cover .media {
+  aspect-ratio: 21 / 9;
+  border-radius: var(--radius-lg);
+}
+
+/* Section banners carry a one-line overlay. */
+.section-media.media-cover .media {
+  aspect-ratio: 24 / 7;
+  border-radius: var(--radius-lg);
+}
+
+.section-media .cover-lead {
+  font-size: var(--text-lg);
+}
+
+@media (max-width: 640px) {
+  .post-cover > .media { aspect-ratio: 4 / 3; }
+  .media-band.media-cover .media { aspect-ratio: 4 / 3; }
+  .section-media.media-cover .media { aspect-ratio: 3 / 2; }
+  .cover-text { padding: var(--space-10) var(--space-4) var(--space-4); }
+  .cover-lead { font-size: var(--text-base); }
+}
+
 .simple-list {
   display: grid;
   gap: var(--space-6);

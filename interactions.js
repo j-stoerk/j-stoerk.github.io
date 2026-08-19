@@ -10,7 +10,7 @@
   var slice = function (n) { return Array.prototype.slice.call(n); };
 
   /* ---- reveal on scroll ---- */
-  var revealSel = '.media-band, .section-media, .post-hero, .research-gallery figure, ' +
+  var revealSel = '.media-band, .section-media, .research-gallery figure, ' +
     '.career-entry, .publication-record, .journal-entry, .pub-list .item, ' +
     '.research-row, .section-head, .interactive';
   var reveals = slice(document.querySelectorAll(revealSel));
@@ -55,7 +55,7 @@
 
   /* ---- contained parallax on feature media ---- */
   if (!reduce) {
-    var px = slice(document.querySelectorAll('.media-band, .section-media, .post-hero')).map(function (w) {
+    var px = slice(document.querySelectorAll('.media-band, .section-media, .post-cover')).map(function (w) {
       var inner = w.querySelector('img, video');
       if (inner) inner.classList.add('parallax-media');
       return { w: w, inner: inner };
