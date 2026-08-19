@@ -143,6 +143,7 @@ function scripts(cfg) {
   return `  <script src="${ver('theme.js')}"></script>
   <script src="${ver('navigation.js')}"></script>
   <script src="${ver('background.js')}"></script>
+  <script src="${ver('media.js')}"></script>
 ${extras ? extras + '\n' : ''}  <script>
     window.addEventListener('load', function () {
       var s = document.createElement('script');

@@ -535,8 +535,9 @@ p {
 .career-entry {
   position: relative;
   display: grid;
-  grid-template-columns: 120px minmax(0, 1fr);
-  gap: var(--space-12);
+  grid-template-columns: 120px minmax(0, 1fr) 148px;
+  gap: var(--space-8);
+  align-items: start;
   padding: var(--space-6) 0;
   border-top: 1px solid var(--color-divider);
 }
@@ -714,6 +715,107 @@ p {
 
 .link-more:hover {
   text-decoration: underline;
+}
+
+/* ---------- Media (images & videos) ---------- */
+.media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-2);
+  aspect-ratio: 3 / 2;
+  box-shadow: var(--shadow-sm);
+}
+
+.media img,
+.media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .6s cubic-bezier(.2, .6, .2, 1);
+}
+
+.media:hover img,
+.media:hover video {
+  transform: scale(1.045);
+}
+
+figure.media-figure {
+  margin: 0;
+}
+
+.media-figure figcaption {
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+}
+
+/* Full-width cinematic band (homepage hero video). */
+.media-band {
+  margin: var(--space-10) 0 var(--space-4);
+}
+
+.media-band .media {
+  aspect-ratio: 21 / 9;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.media-band figcaption {
+  text-align: center;
+}
+
+/* Research image gallery (three concept images). */
+.research-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+}
+
+.research-gallery figcaption {
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-size: var(--text-2xs);
+}
+
+/* Slim section-accent banner (publications / software / contact). */
+.section-media {
+  margin-top: var(--space-6);
+}
+
+.section-media .media {
+  aspect-ratio: 24 / 7;
+  border-radius: var(--radius-lg);
+}
+
+/* Timeline thumbnail: a grid column beside a career entry's text. */
+.career-media {
+  width: 100%;
+  align-self: start;
+}
+
+/* Blog-post hero media under the article header. */
+.post-hero {
+  margin: 0 0 var(--space-8);
+}
+
+.post-hero .media {
+  aspect-ratio: 2 / 1;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+@media (max-width: 640px) {
+  .research-gallery { grid-template-columns: 1fr; }
+  .media-band .media { aspect-ratio: 16 / 10; }
+  .section-media .media { aspect-ratio: 16 / 7; }
+  .career-media { width: 104px; margin-left: var(--space-4); }
+  .post-hero .media { aspect-ratio: 16 / 10; }
 }
 
 .simple-list {
@@ -1859,6 +1961,11 @@ footer {
   .career-entry::before {
     left: 0;
     top: 2rem;
+  }
+
+  .career-media {
+    max-width: 240px;
+    order: 3;
   }
 
   .career-time {
