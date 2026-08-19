@@ -527,7 +527,7 @@ p {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 146px;
+  left: 128px;
   width: 1px;
   background: var(--color-border);
 }
@@ -535,8 +535,8 @@ p {
 .career-entry {
   position: relative;
   display: grid;
-  grid-template-columns: 120px minmax(0, 1fr) 148px;
-  gap: var(--space-8);
+  grid-template-columns: 110px minmax(0, 1fr) 176px;
+  gap: var(--space-6);
   align-items: start;
   padding: var(--space-6) 0;
   border-top: 1px solid var(--color-divider);
@@ -550,7 +550,7 @@ p {
   content: '';
   position: absolute;
   top: 2.15rem;
-  left: 141px;
+  left: 124px;
   width: 9px;
   height: 9px;
   border: 2px solid var(--color-primary);
@@ -1042,6 +1042,49 @@ main section[id] {
 
 .section-media .cover-lead {
   font-size: var(--text-lg);
+}
+
+/* Hero affiliation + actions laid over the video band. */
+.cover-text .affiliation {
+  margin: 0;
+  color: rgba(255, 255, 255, .82);
+}
+
+.cover-text .affiliation span + span::before {
+  color: rgba(255, 255, 255, .55);
+}
+
+.cover-text .hero-actions {
+  margin-top: var(--space-4);
+}
+
+.btn-ghost-on-dark {
+  border-color: rgba(255, 255, 255, .55);
+  color: #fff;
+  background: transparent;
+}
+
+.btn-ghost-on-dark:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, .14);
+  color: #fff;
+}
+
+/* Timeline: role title laid on the thumbnail. */
+.career-media {
+  margin: 0;
+}
+
+.career-media-cap {
+  position: absolute;
+  inset: auto 0 0 0;
+  margin: 0;
+  padding: var(--space-5) var(--space-3) var(--space-2);
+  color: #fff;
+  font-weight: 700;
+  font-size: var(--text-2xs);
+  line-height: 1.25;
+  background: linear-gradient(transparent, rgba(6, 8, 10, .92));
 }
 
 @media (max-width: 640px) {

@@ -73,17 +73,20 @@
     var px = slice(document.querySelectorAll('.media-band, .section-media, .post-cover')).map(function (w) {
       var inner = w.querySelector('img, video');
       if (inner) inner.classList.add('parallax-media');
-      return { w: w, inner: inner };
+      return { frame: w.querySelector('.media') || w, inner: inner };
     }).filter(function (o) { return o.inner; });
     if (px.length) {
       var ticking = false;
       var draw = function () {
         var vh = window.innerHeight;
         px.forEach(function (o) {
-          var r = o.w.getBoundingClientRect();
+          var r = o.frame.getBoundingClientRect();
           if (r.bottom < -60 || r.top > vh + 60) return;
-          var prog = (vh - r.top) / (vh + r.height);          // 0 (below) .. 1 (above)
-          o.inner.style.transform = 'translateY(' + ((prog - 0.5) * -44).toFixed(1) + 'px)';
+          var extra = r.height * 0.24;                         // media is 124% tall
+          var prog = Math.max(0, Math.min(1, (vh - r.top) / (vh + r.height)));
+          // keep the oversized media within [-extra, 0] so it always covers
+          var y = -extra / 2 + (prog - 0.5) * extra * 0.7;
+          o.inner.style.transform = 'translateY(' + y.toFixed(1) + 'px)';
         });
         ticking = false;
       };
