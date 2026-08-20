@@ -127,19 +127,12 @@
       slice(scope.querySelectorAll('.num[data-to]')).forEach(run);
     };
     var figs = slice(document.querySelectorAll('.career-media'));
-    var hoverCap = window.matchMedia && window.matchMedia('(hover: hover)').matches;
-    if (hoverCap && !reduce) {
-      figs.forEach(function (fig) {
-        var go = function () { runIn(fig); };
-        fig.addEventListener('mouseenter', go);
-        fig.addEventListener('focusin', go);
-      });
-    } else if (hasIO) {
+    if (hasIO && !reduce) {
       var no = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
           if (e.isIntersecting) { runIn(e.target); no.unobserve(e.target); }
         });
-      }, { threshold: 0.4 });
+      }, { threshold: 0.35 });
       figs.forEach(function (f) { no.observe(f); });
     } else {
       figs.forEach(runIn);
