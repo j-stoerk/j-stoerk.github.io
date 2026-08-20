@@ -1159,7 +1159,9 @@ main section[id] {
   text-shadow: 0 1px 10px rgba(0, 0, 0, .5);
 }
 
-.exp-stats span {
+/* Direct-child span only — the label. Without the child combinator this
+   also matches the .num span inside <strong> and shrinks the number. */
+.exp-stats > div > span {
   font-size: var(--text-xs);
   line-height: 1.3;
   color: rgba(255, 255, 255, .85);
