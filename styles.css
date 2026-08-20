@@ -594,6 +594,21 @@ p {
   border-bottom: none;
 }
 
+/* Subtle editorial offset: every other section nudges inward, and the middle
+   research card drops, so the column reads staggered rather than dead-aligned. */
+.section:nth-of-type(even) {
+  padding-left: var(--space-8);
+}
+
+.rcard:nth-child(2) {
+  margin-top: var(--space-8);
+}
+
+@media (max-width: 760px) {
+  .section:nth-of-type(even) { padding-left: 0; }
+  .rcard:nth-child(2) { margin-top: 0; }
+}
+
 /* ---------- Research dossier ---------- */
 .career-timeline {
   position: relative;
