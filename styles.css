@@ -1159,11 +1159,6 @@ main section[id] {
   text-shadow: 0 1px 10px rgba(0, 0, 0, .5);
 }
 
-.exp-stats .num {
-  font-weight: 800;
-  letter-spacing: -0.01em;
-}
-
 .exp-stats span {
   font-size: var(--text-xs);
   line-height: 1.3;
