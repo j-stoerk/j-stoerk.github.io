@@ -1130,8 +1130,13 @@ main section[id] {
   white-space: nowrap;
 }
 
-.exp-stats .num {
+/* Numeric metrics (those with a counting number) get the accent across the
+   whole headline — number and unit alike; word-only metrics stay in ink. */
+.exp-stats strong:has(.num) {
   color: var(--color-primary);
+}
+
+.exp-stats .num {
   font-weight: 700;
 }
 
