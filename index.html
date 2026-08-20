@@ -101,7 +101,7 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=d060c033">
+  <link rel="stylesheet" href="styles.css?v=6c97a11f">
 </head>
 
 <body>
@@ -129,7 +129,119 @@
   <main id="main" class="content">
 
     <div class="page-art" aria-hidden="true">
-      <img src="images/page-art.svg" alt="" decoding="async">
+      <svg viewBox="0 0 1000 5200" preserveAspectRatio="none" fill="none">
+        <g class="art-wash">
+          <path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#e0a94a" opacity=".15"/>
+          <path d="M560 300 C 680 260 740 380 670 460 C 600 530 470 500 470 400 C 470 340 500 320 560 300 Z" fill="#c85a46" opacity=".12"/>
+          <path d="M560 980 C 740 920 860 1060 780 1200 C 710 1310 560 1290 520 1170 C 490 1080 500 1020 560 980 Z" fill="#5a82be" opacity=".12"/>
+          <path d="M560 1980 C 730 1930 820 2090 740 2210 C 670 2310 520 2280 490 2160 C 470 2080 500 2020 560 1980 Z" fill="#c85a46" opacity=".10"/>
+          <path d="M560 2860 C 730 2810 830 2960 750 3080 C 680 3180 540 3150 510 3030 C 490 2950 500 2900 560 2860 Z" fill="#e0a94a" opacity=".12"/>
+          <path d="M560 3520 C 720 3480 810 3620 740 3730 C 680 3820 540 3800 500 3690 C 470 3610 500 3560 560 3520 Z" fill="#8bbf6e" opacity=".11"/>
+          <path d="M560 4160 C 730 4110 830 4260 750 4380 C 680 4480 540 4450 510 4330 C 490 4250 500 4200 560 4160 Z" fill="#5a82be" opacity=".11"/>
+          <path d="M580 4900 C 780 4850 920 4980 860 5120 C 810 5240 580 5240 520 5110 C 490 5020 520 4950 580 4900 Z" fill="#7a8a9a" opacity=".12"/>
+        </g>
+
+        <path class="art-ink" d="M720 5180 C 660 4900 780 4650 725 4380 C 665 4120 775 3880 720 3620 C 665 3360 785 3120 725 2860 C 675 2620 775 2380 720 2120 C 675 1880 775 1650 720 1400 C 685 1180 760 960 720 730 C 705 540 730 340 720 150"/>
+        <path class="art-ink-soft" d="M733 5180 C 673 4900 793 4650 738 4380 C 678 4120 788 3880 733 3620 C 678 3360 798 3120 738 2860 C 688 2620 788 2380 733 2120 C 688 1880 788 1650 733 1400 C 698 1180 773 960 733 730 C 718 540 743 340 733 150"/>
+
+        <g class="art-ink-soft">
+          <path d="M722 400 C 712 340 704 300 700 252"/>
+          <path d="M724 1000 C 662 1000 622 990 602 990"/>
+          <path d="M722 2020 C 692 2012 672 2006 652 2000"/>
+          <path d="M724 2900 C 692 2896 672 2896 652 2895"/>
+          <path d="M722 3560 C 702 3560 688 3556 678 3556"/>
+          <path d="M724 4200 C 702 4200 688 4200 678 4200"/>
+          <path d="M722 4700 C 702 4700 692 4700 682 4700"/>
+        </g>
+
+        <!-- Hero: canopy — orbit, radiating lines, a spectrum bar, a figure -->
+        <g transform="translate(700,250)">
+          <circle class="art-ink" cx="0" cy="0" r="62"/>
+          <circle class="art-ink-soft" cx="0" cy="0" r="92"/>
+          <path class="art-ink-soft" d="M0 0 L-92 -118 M0 0 L58 -132 M0 0 L150 -40 M0 0 L-150 -28 M0 0 L0 -150"/>
+          <g transform="translate(-70,118)">
+            <rect x="0" y="0" width="28" height="24" fill="#c85a46" opacity=".55"/>
+            <rect x="28" y="0" width="28" height="24" fill="#e0a94a" opacity=".55"/>
+            <rect x="56" y="0" width="28" height="24" fill="#8bbf6e" opacity=".5"/>
+            <rect x="84" y="0" width="28" height="24" fill="#5a82be" opacity=".55"/>
+            <rect x="112" y="0" width="28" height="24" fill="#7a8a9a" opacity=".45"/>
+            <rect class="art-ink" x="0" y="0" width="140" height="24"/>
+          </g>
+          <g transform="translate(150,44)">
+            <circle class="art-ink" cx="0" cy="0" r="26"/>
+            <circle class="art-fill-ink" cx="0" cy="-8" r="7"/>
+            <path class="art-ink" d="M-14 18 C -10 4 10 4 14 18"/>
+          </g>
+        </g>
+
+        <!-- Experience: calendering rolls pressing a sheet, layers, a coil -->
+        <g transform="translate(600,980)">
+          <circle class="art-ink" cx="0" cy="-70" r="64"/>
+          <circle class="art-ink-soft" cx="0" cy="-70" r="40"/>
+          <circle class="art-ink" cx="0" cy="80" r="64"/>
+          <circle class="art-ink-soft" cx="0" cy="80" r="40"/>
+          <path class="art-ink" d="M-150 5 H 300"/>
+          <path class="art-ink-soft" d="M120 -150 h 180 M120 -128 h 180 M120 -106 h 180"/>
+          <path class="art-ink" d="M150 176 c 40 -40 100 -10 100 40 c 0 50 -60 70 -95 35 c -25 -25 -12 -60 20 -64 c 28 -4 44 24 34 46"/>
+        </g>
+
+        <!-- Research: a small network and a signal wave -->
+        <g transform="translate(650,2000)">
+          <circle class="art-ink" cx="-120" cy="-40" r="10"/>
+          <circle class="art-ink" cx="0" cy="-90" r="10"/>
+          <circle class="art-ink" cx="0" cy="20" r="10"/>
+          <circle class="art-ink" cx="130" cy="-40" r="10"/>
+          <circle class="art-ink" cx="130" cy="70" r="10"/>
+          <path class="art-ink-soft" d="M-120 -40 L0 -90 M-120 -40 L0 20 M0 -90 L130 -40 M0 20 L130 -40 M0 20 L130 70"/>
+          <path class="art-ink" d="M-150 200 q 30 -50 60 0 t 60 0 t 60 0 t 60 0 t 60 0"/>
+        </g>
+
+        <!-- Publications: a U-curve, small bars, a document -->
+        <g transform="translate(650,2900)">
+          <path class="art-ink" d="M-140 -120 V 60 H 170"/>
+          <path class="art-ink" d="M-120 -78 C -60 62 -12 92 20 72 C 62 44 112 -58 152 -108"/>
+          <rect x="60" y="120" width="22" height="90" fill="#5a82be" fill-opacity=".28"/>
+          <rect x="92" y="90" width="22" height="120" fill="#e0a94a" fill-opacity=".28"/>
+          <rect x="124" y="140" width="22" height="70" fill="#c85a46" fill-opacity=".25"/>
+          <path class="art-ink" d="M60 120 v 90 M92 90 v 120 M124 140 v 70"/>
+          <path class="art-ink-soft" d="M-160 118 h 150 v 132 h -150 z M-140 150 h 110 M-140 182 h 110 M-140 214 h 78"/>
+        </g>
+
+        <!-- Blog: a pen and lines of text -->
+        <g transform="translate(660,3560)">
+          <path class="art-ink" d="M-60 40 L 60 -80 L 90 -50 L -30 70 Z"/>
+          <path class="art-fill-ink" d="M-60 40 L -30 70 L -48 74 Z"/>
+          <path class="art-ink" d="M60 -80 L 92 -112"/>
+          <path class="art-ink-soft" d="M120 -18 h 200 M120 22 h 200 M120 62 h 150"/>
+        </g>
+
+        <!-- Software: code brackets, a slash, a small circuit -->
+        <g transform="translate(660,4200)">
+          <path class="art-ink" d="M-70 -60 l -45 45 l 45 45"/>
+          <path class="art-ink" d="M70 -60 l 45 45 l -45 45"/>
+          <path class="art-ink" d="M22 -70 l -44 110"/>
+          <g transform="translate(-40,150)">
+            <path class="art-ink-soft" d="M0 0 h 90 v -40 M90 0 h 70 v 40 h 70 M160 0 v 40"/>
+            <circle class="art-fill-ink" cx="0" cy="0" r="5"/>
+            <circle class="art-fill-ink" cx="300" cy="40" r="5"/>
+            <circle class="art-fill-ink" cx="160" cy="-40" r="5"/>
+          </g>
+        </g>
+
+        <!-- Contributions: three merging nodes -->
+        <g transform="translate(670,4700)">
+          <circle class="art-ink" cx="-70" cy="-60" r="9"/>
+          <circle class="art-ink" cx="-70" cy="80" r="9"/>
+          <circle class="art-ink" cx="70" cy="10" r="9"/>
+          <path class="art-ink-soft" d="M-70 -51 V 71 M-61 -60 C 20 -60 20 10 61 10 M-61 80 C 20 80 20 10 61 10"/>
+        </g>
+
+        <!-- Contact: an envelope, and roots spreading from the trunk base -->
+        <g transform="translate(720,4980)">
+          <path class="art-ink" d="M-70 -60 h 140 v 90 h -140 z M-70 -60 l 70 55 l 70 -55"/>
+        </g>
+        <path class="art-ink" d="M720 5180 C 660 5080 560 5050 470 5075 M720 5180 C 790 5080 900 5055 960 5085 M720 5180 C 720 5100 720 5060 720 5030 M470 5075 C 430 5090 410 5125 420 5155 M960 5085 C 900 5100 880 5135 892 5162"/>
+      </svg>
     </div>
 
     <section class="hero" id="home">
