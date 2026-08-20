@@ -99,34 +99,39 @@
       <svg viewBox="0 0 1000 5200" preserveAspectRatio="none" fill="none">
         <defs>
           <radialGradient id="wClay" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#c16a50" stop-opacity=".30"/>
-            <stop offset="62%" stop-color="#c16a50" stop-opacity=".08"/>
+            <stop offset="0%" stop-color="#c16a50" stop-opacity=".46"/>
+            <stop offset="52%" stop-color="#c16a50" stop-opacity=".15"/>
             <stop offset="100%" stop-color="#c16a50" stop-opacity="0"/>
           </radialGradient>
           <radialGradient id="wOchre" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#d8a556" stop-opacity=".32"/>
-            <stop offset="62%" stop-color="#d8a556" stop-opacity=".09"/>
+            <stop offset="0%" stop-color="#d8a556" stop-opacity=".48"/>
+            <stop offset="52%" stop-color="#d8a556" stop-opacity=".16"/>
             <stop offset="100%" stop-color="#d8a556" stop-opacity="0"/>
           </radialGradient>
           <radialGradient id="wSage" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#93a56d" stop-opacity=".26"/>
-            <stop offset="62%" stop-color="#93a56d" stop-opacity=".07"/>
+            <stop offset="0%" stop-color="#93a56d" stop-opacity=".40"/>
+            <stop offset="52%" stop-color="#93a56d" stop-opacity=".13"/>
             <stop offset="100%" stop-color="#93a56d" stop-opacity="0"/>
           </radialGradient>
           <radialGradient id="wSlate" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#7e96b6" stop-opacity=".26"/>
-            <stop offset="62%" stop-color="#7e96b6" stop-opacity=".07"/>
+            <stop offset="0%" stop-color="#7e96b6" stop-opacity=".40"/>
+            <stop offset="52%" stop-color="#7e96b6" stop-opacity=".13"/>
             <stop offset="100%" stop-color="#7e96b6" stop-opacity="0"/>
           </radialGradient>
+          <radialGradient id="wRust" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#b8703a" stop-opacity=".34"/>
+            <stop offset="52%" stop-color="#b8703a" stop-opacity=".11"/>
+            <stop offset="100%" stop-color="#b8703a" stop-opacity="0"/>
+          </radialGradient>
           <radialGradient id="wGrey" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#a7a294" stop-opacity=".26"/>
+            <stop offset="0%" stop-color="#a7a294" stop-opacity=".34"/>
             <stop offset="100%" stop-color="#a7a294" stop-opacity="0"/>
           </radialGradient>
           <!-- Watercolour: turbulence bleeds the wash edges into paper. -->
           <filter id="wc" filterUnits="userSpaceOnUse" x="0" y="0" width="1000" height="5200" color-interpolation-filters="sRGB">
             <feTurbulence type="fractalNoise" baseFrequency="0.010 0.013" numOctaves="3" seed="11" result="n"/>
-            <feDisplacementMap in="SourceGraphic" in2="n" scale="52" xChannelSelector="R" yChannelSelector="G"/>
-            <feGaussianBlur stdDeviation="1.6"/>
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="60" xChannelSelector="R" yChannelSelector="G"/>
+            <feGaussianBlur stdDeviation="1.4"/>
           </filter>
           <!-- Ink: a small turbulence gives every line a hand-drawn wobble. -->
           <filter id="ink" filterUnits="userSpaceOnUse" x="0" y="0" width="1000" height="5200" color-interpolation-filters="sRGB">
@@ -151,6 +156,15 @@
           <ellipse cx="625" cy="4460" rx="180" ry="160" fill="url(#wSlate)"/>
           <ellipse cx="780" cy="4990" rx="285" ry="250" fill="url(#wSage)"/>
           <ellipse cx="905" cy="5090" rx="185" ry="170" fill="url(#wGrey)"/>
+          <ellipse cx="700" cy="700" rx="210" ry="185" fill="url(#wRust)"/>
+          <ellipse cx="880" cy="1520" rx="205" ry="205" fill="url(#wOchre)"/>
+          <ellipse cx="690" cy="1780" rx="185" ry="175" fill="url(#wSage)"/>
+          <ellipse cx="885" cy="2500" rx="205" ry="200" fill="url(#wClay)"/>
+          <ellipse cx="700" cy="2760" rx="175" ry="165" fill="url(#wRust)"/>
+          <ellipse cx="700" cy="3360" rx="195" ry="185" fill="url(#wSlate)"/>
+          <ellipse cx="890" cy="3900" rx="205" ry="195" fill="url(#wOchre)"/>
+          <ellipse cx="700" cy="4600" rx="195" ry="185" fill="url(#wGrey)"/>
+          <ellipse cx="905" cy="4360" rx="180" ry="170" fill="url(#wRust)"/>
         </g>
 
         <g filter="url(#ink)">
@@ -267,18 +281,49 @@
           <circle cx="862" cy="5032" r="3"/><circle cx="882" cy="5048" r="2.4"/><circle cx="850" cy="5052" r="2"/>
           <circle cx="898" cy="5026" r="2.5"/><circle cx="914" cy="5042" r="3"/>
         </g>
+
+        <!-- Added density: more rings, arcs, contours, stipple, hatching -->
+        <g transform="translate(636,720)"><circle class="art-hair" r="22"/><circle class="art-hair" r="42"/><circle class="art-hair" r="64"/></g>
+        <g transform="translate(884,1520)"><circle class="art-hair" r="26"/><circle class="art-hair" r="48"/><circle class="art-hair" r="74"/><circle class="art-ink-soft" r="104"/></g>
+        <g transform="translate(614,2500)"><circle class="art-hair" r="24"/><circle class="art-hair" r="46"/><circle class="art-hair" r="70"/></g>
+        <g transform="translate(900,3380)"><circle class="art-hair" r="22"/><circle class="art-hair" r="44"/><circle class="art-hair" r="68"/></g>
+        <g transform="translate(660,4600)"><circle class="art-hair" r="24"/><circle class="art-hair" r="46"/><circle class="art-hair" r="72"/></g>
+
+        <g class="art-hair">
+          <path d="M980 720 C 640 1320 900 1920 700 2520 C 560 3000 900 3520 720 4020"/>
+          <path d="M600 900 C 900 1500 640 2100 820 2700 C 940 3200 660 3720 820 4220"/>
+          <path d="M980 1320 C 700 1720 900 2120 720 2620"/>
+          <path d="M600 2920 C 900 3320 680 3720 860 4120"/>
+          <path d="M960 3000 C 700 3360 880 3720 720 4120"/>
+        </g>
+
+        <g class="art-hair">
+          <path d="M822 560 C 902 540 942 600 902 650 C 862 700 782 690 762 630 C 750 590 772 570 822 560 Z"/>
+          <path d="M820 580 C 886 566 918 612 886 652 C 856 690 794 682 778 634 C 768 602 784 588 820 580 Z"/>
+          <path d="M862 3760 C 942 3742 980 3800 942 3850 C 904 3898 830 3888 812 3830 C 802 3792 820 3772 862 3760 Z"/>
+          <path d="M862 3782 C 928 3768 960 3810 930 3848 C 902 3884 844 3876 828 3830 C 820 3800 832 3788 862 3782 Z"/>
+          <path d="M690 1760 C 760 1744 800 1794 766 1838 C 734 1878 668 1868 652 1818 C 642 1784 658 1770 690 1760 Z"/>
+        </g>
+
+        <g class="art-dot">
+          <circle cx="882" cy="740" r="3"/><circle cx="900" cy="756" r="2.4"/><circle cx="868" cy="760" r="2"/><circle cx="914" cy="736" r="2.4"/>
+          <circle cx="640" cy="1560" r="3"/><circle cx="658" cy="1576" r="2.4"/><circle cx="626" cy="1580" r="2"/>
+          <circle cx="906" cy="2540" r="3"/><circle cx="924" cy="2556" r="2.4"/><circle cx="892" cy="2560" r="2"/><circle cx="938" cy="2536" r="2.4"/>
+          <circle cx="650" cy="3420" r="3"/><circle cx="668" cy="3436" r="2.4"/><circle cx="636" cy="3440" r="2"/>
+          <circle cx="906" cy="4340" r="3"/><circle cx="924" cy="4356" r="2.4"/><circle cx="892" cy="4360" r="2"/>
+        </g>
+
+        <g class="art-hair">
+          <path d="M600 1000 l 30 -12 M606 1012 l 30 -12 M612 1024 l 30 -12 M618 1036 l 30 -12"/>
+          <path d="M900 2210 l 28 -12 M906 2222 l 28 -12 M912 2234 l 28 -12"/>
+          <path d="M620 3600 l 30 -12 M626 3612 l 30 -12 M632 3624 l 30 -12 M638 3636 l 30 -12"/>
+          <path d="M880 4720 l 28 -12 M886 4732 l 28 -12 M892 4744 l 28 -12"/>
+        </g>
         </g>
       </svg>
     </div>
 
     <section class="hero" id="home">
-      <div class="hero-portrait">
-        <picture>
-          <source type="image/webp" srcset="portrait-176.webp 1x, portrait-352.webp 2x">
-          <img class="portrait-img" src="portrait.jpg" alt="Portrait of Julius Störk" width="176" height="176"
-            fetchpriority="high">
-        </picture>
-      </div>
       <div>
         <p class="eyebrow hero-kicker">Doctoral researcher</p>
         <h1>Julius Störk</h1>
@@ -294,6 +339,13 @@
           <a class="btn btn-ghost" href="cv.html">CV</a>
           <a class="btn btn-ghost" href="mailto:julius.stoerk@gmail.com">Email</a>
         </div>
+      </div>
+      <div class="hero-portrait">
+        <picture>
+          <source type="image/webp" srcset="portrait-176.webp 1x, portrait-352.webp 2x">
+          <img class="portrait-img" src="portrait.jpg" alt="Portrait of Julius Störk" width="176" height="176"
+            fetchpriority="high">
+        </picture>
       </div>
     </section>
 

@@ -64,8 +64,8 @@
   --cell-potential: rgba(164, 92, 0, .24);
 
   /* Page-art line ink (the connected tree). Delicate grey-blue, airy. */
-  --art-ink: rgba(60, 74, 96, .38);
-  --art-ink-soft: rgba(66, 80, 104, .18);
+  --art-ink: rgba(60, 74, 96, .44);
+  --art-ink-soft: rgba(66, 80, 104, .2);
 
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
@@ -477,15 +477,20 @@ p {
 /* ---------- Hero ---------- */
 .hero {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr auto;
   gap: var(--space-10);
   align-items: center;
   padding: var(--space-16) 0 var(--space-12);
   border-bottom: 1px solid var(--color-divider);
 }
 
-.hero > div:last-child {
+.hero > div:first-child {
   max-width: 62ch;
+}
+
+/* Nudge the portrait slightly inward from the right edge. */
+.hero-portrait {
+  margin-right: var(--space-10);
 }
 
 .section-lead {
