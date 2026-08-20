@@ -119,13 +119,24 @@
             <stop offset="100%" stop-color="#7e96b6" stop-opacity="0"/>
           </radialGradient>
           <radialGradient id="wGrey" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#a7a294" stop-opacity=".22"/>
+            <stop offset="0%" stop-color="#a7a294" stop-opacity=".26"/>
             <stop offset="100%" stop-color="#a7a294" stop-opacity="0"/>
           </radialGradient>
+          <!-- Watercolour: turbulence bleeds the wash edges into paper. -->
+          <filter id="wc" filterUnits="userSpaceOnUse" x="0" y="0" width="1000" height="5200" color-interpolation-filters="sRGB">
+            <feTurbulence type="fractalNoise" baseFrequency="0.010 0.013" numOctaves="3" seed="11" result="n"/>
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="52" xChannelSelector="R" yChannelSelector="G"/>
+            <feGaussianBlur stdDeviation="1.6"/>
+          </filter>
+          <!-- Ink: a small turbulence gives every line a hand-drawn wobble. -->
+          <filter id="ink" filterUnits="userSpaceOnUse" x="0" y="0" width="1000" height="5200" color-interpolation-filters="sRGB">
+            <feTurbulence type="fractalNoise" baseFrequency="0.016 0.028" numOctaves="2" seed="5" result="n"/>
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="5.5" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
         </defs>
 
         <!-- Soft watercolour washes, right-biased, fading to paper -->
-        <g>
+        <g filter="url(#wc)">
           <ellipse cx="790" cy="300" rx="270" ry="240" fill="url(#wOchre)"/>
           <ellipse cx="630" cy="440" rx="200" ry="170" fill="url(#wClay)"/>
           <ellipse cx="900" cy="170" rx="180" ry="150" fill="url(#wGrey)"/>
@@ -142,6 +153,7 @@
           <ellipse cx="905" cy="5090" rx="185" ry="170" fill="url(#wGrey)"/>
         </g>
 
+        <g filter="url(#ink)">
         <!-- Long connective drift lines spanning the page -->
         <g class="art-hair">
           <path d="M985 200 C 620 900 905 1600 705 2320 C 560 2940 905 3420 720 4120 C 620 4640 905 4920 805 5160"/>
@@ -152,97 +164,121 @@
         <path class="art-ink" d="M745 5180 C 690 4880 800 4640 748 4360 C 692 4090 792 3860 742 3600 C 690 3350 800 3120 748 2860 C 700 2610 792 2380 742 2120 C 700 1875 795 1650 745 1400 C 705 1175 780 960 748 730 C 726 545 748 350 742 150"/>
         <path class="art-hair" d="M761 5180 C 706 4880 816 4640 764 4360 C 708 4090 808 3860 758 3600 C 706 3350 816 3120 764 2860 C 716 2610 808 2380 758 2120 C 716 1875 811 1650 761 1400 C 721 1175 796 960 764 730 C 742 545 764 350 758 150"/>
 
-        <!-- Short branches off the trunk to each object -->
+        <!-- Hero: a tree-ring canopy, a soft spectrum bar, sweeping arcs -->
+        <g transform="translate(808,300)">
+          <circle class="art-hair" r="30"/>
+          <circle class="art-hair" r="52"/>
+          <circle class="art-hair" r="76"/>
+          <circle class="art-ink-soft" r="104"/>
+          <circle class="art-hair" r="134"/>
+          <g class="art-hair">
+            <path d="M0 0 L0 -150"/><path d="M0 0 L88 -122"/><path d="M0 0 L142 -50"/>
+            <path d="M0 0 L150 44"/><path d="M0 0 L96 120"/><path d="M0 0 L-42 148"/>
+            <path d="M0 0 L-124 86"/><path d="M0 0 L-150 -22"/><path d="M0 0 L-96 -120"/>
+          </g>
+        </g>
+        <g transform="translate(556,452)">
+          <rect x="0" y="0" width="26" height="20" fill="#c16a50" opacity=".4"/>
+          <rect x="26" y="0" width="26" height="20" fill="#d8a556" opacity=".4"/>
+          <rect x="52" y="0" width="26" height="20" fill="#93a56d" opacity=".38"/>
+          <rect x="78" y="0" width="26" height="20" fill="#7e96b6" opacity=".4"/>
+          <rect x="104" y="0" width="26" height="20" fill="#a7a294" opacity=".34"/>
+          <rect class="art-hair" x="0" y="0" width="130" height="20"/>
+        </g>
         <g class="art-hair">
-          <path d="M744 430 C 762 384 790 336 806 300"/>
-          <path d="M746 1050 C 730 1050 715 1050 700 1050"/>
-          <path d="M744 2050 C 752 2050 754 2050 760 2050"/>
-          <path d="M746 2900 C 758 2900 764 2900 772 2900"/>
-          <path d="M744 3560 C 726 3560 714 3560 700 3560"/>
-          <path d="M746 4180 C 754 4180 756 4180 760 4180"/>
-          <path d="M744 4650 C 728 4650 714 4650 700 4650"/>
-          <path d="M746 4940 C 756 4940 758 4940 760 4940"/>
+          <path d="M330 540 C 540 380 780 440 1000 320"/>
+          <path d="M380 620 C 580 490 820 540 1000 450"/>
         </g>
 
-        <!-- Hero: a light bulb (an idea), over a faint ring, with a colour swatch -->
-        <g transform="translate(806,290)">
-          <circle class="art-hair" r="118"/>
-          <path class="art-ink" d="M-32 -18 C -32 -60 32 -60 32 -18 C 32 6 14 18 12 40 L -12 40 C -14 18 -32 6 -32 -18 Z"/>
-          <path class="art-ink" d="M-12 40 L -15 56 L 15 56 L 12 40 M-11 64 L 11 64"/>
-          <path class="art-hair" d="M-13 -6 C -5 -24 5 -24 13 -6 C 7 8 -7 8 -13 -6"/>
-          <g class="art-hair"><path d="M0 -60 V -92 M46 -30 L 74 -46 M-46 -30 L -74 -46 M34 -54 L 52 -80 M-34 -54 L -52 -80"/></g>
+        <!-- Experience: two calendering-roll ring clusters over a sheet -->
+        <g transform="translate(705,935)">
+          <circle class="art-hair" r="26"/><circle class="art-hair" r="46"/>
+          <circle class="art-ink-soft" r="66"/><circle class="art-hair" r="88"/>
         </g>
-        <g transform="translate(560,470)">
-          <rect x="0" y="0" width="26" height="18" fill="#c16a50" opacity=".4"/>
-          <rect x="26" y="0" width="26" height="18" fill="#d8a556" opacity=".4"/>
-          <rect x="52" y="0" width="26" height="18" fill="#93a56d" opacity=".38"/>
-          <rect x="78" y="0" width="26" height="18" fill="#7e96b6" opacity=".4"/>
-          <rect x="104" y="0" width="26" height="18" fill="#a7a294" opacity=".34"/>
-          <rect class="art-hair" x="0" y="0" width="130" height="18"/>
+        <g transform="translate(705,1175)">
+          <circle class="art-hair" r="26"/><circle class="art-hair" r="46"/>
+          <circle class="art-ink-soft" r="66"/><circle class="art-hair" r="88"/>
+        </g>
+        <path class="art-hair" d="M520 1055 H 985"/>
+        <g class="art-hair">
+          <path d="M560 1320 C 690 1268 830 1300 950 1248"/>
+          <path d="M580 1380 C 706 1340 846 1364 962 1318"/>
         </g>
 
-        <!-- Experience: a calendering machine — a sheet threading through two rolls -->
-        <g transform="translate(700,1050)">
-          <circle class="art-ink" cx="0" cy="-72" r="58"/>
-          <circle class="art-hair" cx="0" cy="-72" r="30"/>
-          <circle class="art-ink" cx="0" cy="72" r="58"/>
-          <circle class="art-hair" cx="0" cy="72" r="30"/>
-          <path class="art-ink" d="M-170 0 C -80 0 -60 -2 0 0 C 90 2 150 -4 250 -8"/>
-          <path class="art-hair" d="M120 -150 h 150 M120 -128 h 150"/>
+        <!-- Research: a node network and a small tree-ring -->
+        <g transform="translate(760,2055)" class="art-hair">
+          <circle cx="-130" cy="-42" r="7"/><circle cx="-8" cy="-98" r="7"/>
+          <circle cx="0" cy="22" r="7"/><circle cx="122" cy="-46" r="7"/>
+          <circle cx="134" cy="72" r="7"/><circle cx="60" cy="132" r="7"/>
+          <path d="M-130 -42 L-8 -98 M-130 -42 L0 22 M-8 -98 L122 -46 M0 22 L122 -46 M0 22 L134 72 M134 72 L60 132 M0 22 L60 132"/>
         </g>
-
-        <!-- Research: a brain (learning without forgetting) -->
-        <g transform="translate(762,2050)">
-          <path class="art-ink" d="M-6 -66 C -30 -78 -66 -60 -62 -34 C -84 -28 -84 6 -62 12 C -70 36 -44 58 -20 48 C -8 66 26 66 36 48 C 62 56 86 32 74 8 C 92 -2 84 -34 60 -36 C 60 -62 24 -76 -6 -66 Z"/>
-          <path class="art-hair" d="M-6 -66 C -8 -30 -18 0 -34 40 M-6 -66 C 8 -40 30 -30 56 -34 M-40 -18 C -18 -14 -10 2 -14 22 M20 -46 C 18 -18 30 -6 42 12 M52 -22 C 40 -6 46 20 60 26"/>
+        <g transform="translate(600,2255)">
+          <circle class="art-hair" r="24"/><circle class="art-hair" r="46"/><circle class="art-ink-soft" r="68"/>
         </g>
-
-        <!-- Publications: an open book with a U-curve on the page -->
-        <g transform="translate(772,2900)">
-          <path class="art-ink" d="M0 -46 C -34 -62 -86 -62 -128 -50 L -128 66 C -86 54 -34 54 0 70 C 34 54 86 54 128 66 L 128 -50 C 86 -62 34 -62 0 -46 Z M0 -46 L 0 70"/>
-          <path class="art-hair" d="M-110 -30 C -80 -40 -40 -40 -18 -28 M-110 -8 C -80 -18 -40 -18 -18 -6 M18 -28 C 40 -40 80 -40 110 -30"/>
-          <path class="art-ink" d="M20 34 C 46 -8 74 -6 92 30"/>
-        </g>
-
-        <!-- Blog: a fountain pen writing a line of ink -->
-        <g transform="translate(700,3560)">
-          <path class="art-ink" d="M-64 78 L 46 -68 C 54 -78 70 -76 76 -66 C 82 -56 80 -42 70 -34 L -40 92 L -64 78 Z"/>
-          <path class="art-ink" d="M-64 78 L -54 96"/>
-          <path class="art-hair" d="M44 -64 L 66 -48"/>
-          <path class="art-hair" d="M-120 106 C -80 94 -40 118 0 106 C 40 94 80 118 120 106"/>
-        </g>
-
-        <!-- Software: a terminal window with a prompt -->
-        <g transform="translate(760,4180)">
-          <path class="art-ink" d="M-116 -74 Q -116 -84 -106 -84 L 106 -84 Q 116 -84 116 -74 L 116 74 Q 116 84 106 84 L -106 84 Q -116 84 -116 74 Z"/>
-          <path class="art-hair" d="M-116 -52 L 116 -52"/>
-          <circle class="art-dot" cx="-100" cy="-68" r="4"/><circle class="art-dot" cx="-84" cy="-68" r="4"/><circle class="art-dot" cx="-68" cy="-68" r="4"/>
-          <path class="art-ink" d="M-92 -20 L -64 4 L -92 28"/>
-          <path class="art-ink" d="M-48 30 L 20 30"/>
-        </g>
-
-        <!-- Contributions: a branch-and-merge graph -->
-        <g transform="translate(700,4650)">
-          <path class="art-ink" d="M-56 -66 L -56 66 M-56 -8 C -16 -8 -16 28 24 28 L 60 28"/>
-          <circle class="art-ink" cx="-56" cy="-66" r="8"/>
-          <circle class="art-ink" cx="-56" cy="66" r="8"/>
-          <circle class="art-ink" cx="64" cy="28" r="8"/>
-        </g>
-
-        <!-- Contact: a paper plane, and roots spreading from the trunk base -->
-        <g transform="translate(760,4930)">
-          <path class="art-ink" d="M-90 -24 L 96 -66 L 24 78 L 6 26 Z"/>
-          <path class="art-hair" d="M6 26 L 96 -66 M6 26 L -18 50"/>
-        </g>
-        <path class="art-ink-soft" d="M745 5180 C 690 5080 588 5050 498 5078 M745 5180 C 816 5080 922 5052 986 5086 M745 5180 C 745 5100 745 5060 745 5035 M498 5078 C 458 5092 438 5126 448 5156 M986 5086 C 926 5101 906 5135 918 5163"/>
         <g class="art-dot">
-          <circle cx="642" cy="5060" r="3"/><circle cx="662" cy="5076" r="2.4"/><circle cx="630" cy="5080" r="2"/>
-          <circle cx="880" cy="5074" r="3"/><circle cx="900" cy="5090" r="2.4"/><circle cx="864" cy="5094" r="2"/>
+          <circle cx="905" cy="2120" r="3"/><circle cx="922" cy="2136" r="2.4"/><circle cx="892" cy="2142" r="2"/>
+          <circle cx="936" cy="2118" r="2.6"/><circle cx="912" cy="2160" r="2.2"/><circle cx="948" cy="2148" r="2"/>
+        </g>
+
+        <!-- Publications: a fine U-curve chart with a soft contour -->
+        <g transform="translate(772,2955)" class="art-hair">
+          <path d="M-150 -110 V 72 H 182"/>
+          <path d="M-130 -70 C -70 74 -14 104 22 80 C 68 48 122 -60 162 -112"/>
+          <path d="M-120 128 C 0 96 128 118 186 74"/>
+        </g>
+
+        <!-- Blog: flowing script-like lines and a small ring -->
+        <g transform="translate(560,3560)" class="art-hair">
+          <path d="M0 0 c 30 -22 42 22 72 0 t 72 0 t 72 0 t 60 0"/>
+          <path d="M0 46 c 30 -22 42 22 72 0 t 72 0 t 72 0 t 30 0"/>
+          <path d="M0 92 c 30 -22 42 22 72 0 t 72 0 t 40 0"/>
+        </g>
+        <g transform="translate(888,3650)">
+          <circle class="art-hair" r="26"/><circle class="art-hair" r="48"/><circle class="art-hair" r="72"/>
+        </g>
+
+        <!-- Software: a fine circuit lattice with nodes -->
+        <g transform="translate(624,4180)" class="art-hair">
+          <path d="M0 0 h 120 v 82 M60 0 v 122 M120 42 h 122 M182 42 v 100 M244 -20 v 120"/>
+          <path d="M0 82 h 92 v 60 h 150"/>
+        </g>
+        <g class="art-dot">
+          <circle cx="624" cy="4180" r="4"/><circle cx="744" cy="4180" r="4"/><circle cx="684" cy="4302" r="4"/>
+          <circle cx="806" cy="4222" r="4"/><circle cx="866" cy="4322" r="4"/><circle cx="868" cy="4180" r="4"/>
+        </g>
+
+        <!-- Contributions: three merging nodes -->
+        <g transform="translate(704,4650)" class="art-hair">
+          <circle cx="-70" cy="-50" r="7"/><circle cx="-70" cy="70" r="7"/><circle cx="80" cy="10" r="7"/>
+          <path d="M-70 -43 V 63 M-63 -50 C 20 -50 20 10 73 10 M-63 70 C 20 70 20 10 73 10"/>
+        </g>
+
+        <!-- Contact: roots spreading and a bed of stippled growth -->
+        <path class="art-ink-soft" d="M745 5180 C 690 5080 588 5050 498 5078 M745 5180 C 816 5080 922 5052 986 5086 M745 5180 C 745 5100 745 5060 745 5035 M498 5078 C 458 5092 438 5126 448 5156 M986 5086 C 926 5101 906 5135 918 5163"/>
+        <g class="art-hair">
+          <path d="M602 5100 c 20 -40 52 -30 42 10 c -8 30 -48 26 -42 -6"/>
+          <path d="M664 5122 c 24 -44 58 -30 46 12"/>
+          <path d="M902 5112 c 20 -40 52 -30 42 10"/>
+        </g>
+        <g class="art-dot">
+          <circle cx="642" cy="4982" r="3"/><circle cx="662" cy="4998" r="2.4"/><circle cx="630" cy="5002" r="2"/>
+          <circle cx="678" cy="4976" r="2.5"/><circle cx="702" cy="4992" r="3"/><circle cx="657" cy="5018" r="2"/>
+          <circle cx="692" cy="5012" r="2.5"/><circle cx="722" cy="5002" r="2"/>
+          <circle cx="862" cy="5032" r="3"/><circle cx="882" cy="5048" r="2.4"/><circle cx="850" cy="5052" r="2"/>
+          <circle cx="898" cy="5026" r="2.5"/><circle cx="914" cy="5042" r="3"/>
+        </g>
         </g>
       </svg>
     </div>
 
     <section class="hero" id="home">
+      <div class="hero-portrait">
+        <picture>
+          <source type="image/webp" srcset="portrait-176.webp 1x, portrait-352.webp 2x">
+          <img class="portrait-img" src="portrait.jpg" alt="Portrait of Julius Störk" width="176" height="176"
+            fetchpriority="high">
+        </picture>
+      </div>
       <div>
         <p class="eyebrow hero-kicker">Doctoral researcher</p>
         <h1>Julius Störk</h1>
@@ -258,13 +294,6 @@
           <a class="btn btn-ghost" href="cv.html">CV</a>
           <a class="btn btn-ghost" href="mailto:julius.stoerk@gmail.com">Email</a>
         </div>
-      </div>
-      <div class="hero-portrait">
-        <picture>
-          <source type="image/webp" srcset="portrait-176.webp 1x, portrait-352.webp 2x">
-          <img class="portrait-img" src="portrait.jpg" alt="Portrait of Julius Störk" width="176" height="176"
-            fetchpriority="high">
-        </picture>
       </div>
     </section>
 
