@@ -84,7 +84,7 @@ const HEAD_ASSETS = `  <meta name="theme-color" content="#fdfdfc">
     (function () {
       var t;
       try { t = localStorage.getItem('theme'); } catch (e) { }
-      if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      if (!t) t = 'light';   // light is the standard; dark only on explicit toggle
       document.documentElement.setAttribute('data-theme', t);
       var m = document.querySelector('meta[name="theme-color"]');
       if (m) m.setAttribute('content', t === 'dark' ? '#101214' : '#fdfdfc');

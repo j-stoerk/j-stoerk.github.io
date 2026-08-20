@@ -23,15 +23,6 @@
     paint();
   });
 
-  // Follow the OS only while the visitor has not made an explicit choice.
-  var mq = window.matchMedia('(prefers-color-scheme: dark)');
-  var onChange = function (e) {
-    var stored = null;
-    try { stored = localStorage.getItem('theme'); } catch (e2) { /* ignore */ }
-    if (stored) return;
-    root.setAttribute('data-theme', e.matches ? 'dark' : 'light');
-    paint();
-  };
-  if (mq.addEventListener) mq.addEventListener('change', onChange);
-  else if (mq.addListener) mq.addListener(onChange);
+  // Light is the standard: the site does not follow the OS theme. Dark applies
+  // only when the visitor explicitly toggles it (persisted in localStorage).
 })();

@@ -1,6 +1,7 @@
-/* Scroll interactions: reveal-on-scroll, live nav scrollspy, and a
-   contained parallax on feature media. All degrade to fully-visible,
-   static content, and none of it runs under prefers-reduced-motion. */
+/* Scroll interactions: live nav scrollspy, a contained parallax on feature
+   media, count-up metrics, and self-drawing publication charts. Content is
+   shown directly — there is no reveal-on-scroll and no image wipe. All of it
+   degrades to fully-visible static content under prefers-reduced-motion. */
 (function () {
   'use strict';
   var root = document.documentElement;
@@ -8,30 +9,6 @@
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var hasIO = 'IntersectionObserver' in window;
   var slice = function (n) { return Array.prototype.slice.call(n); };
-
-  /* ---- reveal on scroll ---- */
-  var revealSel = '.media-band, .section-media, .rcard, ' +
-    '.career-entry, .publication-record, .journal-entry, .pub-list .item, ' +
-    '.section-head, .interactive';
-  var reveals = slice(document.querySelectorAll(revealSel));
-  reveals.forEach(function (el) {
-    el.classList.add('reveal');
-    var group = el.parentNode ? slice(el.parentNode.children).filter(function (c) {
-      return c.classList && c.classList.contains('reveal');
-    }) : [];
-    var i = group.indexOf(el);
-    if (i > 0) el.style.transitionDelay = Math.min(i, 5) * 45 + 'ms';
-  });
-  if (reduce || !hasIO) {
-    reveals.forEach(function (el) { el.classList.add('in'); });
-  } else {
-    var ro = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); }
-      });
-    }, { threshold: 0.05, rootMargin: '0px 0px 8% 0px' });
-    reveals.forEach(function (el) { ro.observe(el); });
-  }
 
   /* ---- scroll-progress indicator ---- */
   var bar = document.createElement('div');
@@ -138,16 +115,6 @@
       figs.forEach(runIn);
     }
   })();
-
-  /* ---- images wipe in from the left ---- */
-  if (!reduce && hasIO) {
-    var wo = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('wiped'); wo.unobserve(e.target); }
-      });
-    }, { threshold: 0.2 });
-    slice(document.querySelectorAll('.career-media, .rcard')).forEach(function (el) { wo.observe(el); });
-  }
 
   /* ---- self-drawing publication charts ---- */
   if (!reduce) {

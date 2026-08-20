@@ -26,17 +26,19 @@
   --text-xl: clamp(1.375rem, 1.15rem + 0.9vw, 1.875rem);
   --text-2xl: clamp(1.75rem, 1.35rem + 1.6vw, 2.75rem);
 
-  --space-1: .25rem;
-  --space-2: .5rem;
-  --space-3: .75rem;
-  --space-4: 1rem;
-  --space-5: 1.25rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-10: 2.5rem;
-  --space-12: 3rem;
-  --space-16: 4rem;
-  --space-20: 5rem;
+  /* Fixed spacing ramp — every token resolves to one of
+     4 · 8 · 16 · 24 · 32 · 48 · 64 · 96 px. No values in between. */
+  --space-1: .25rem;   /*  4 */
+  --space-2: .5rem;    /*  8 */
+  --space-3: 1rem;     /* 16 */
+  --space-4: 1rem;     /* 16 */
+  --space-5: 1.5rem;   /* 24 */
+  --space-6: 1.5rem;   /* 24 */
+  --space-8: 2rem;     /* 32 */
+  --space-10: 3rem;    /* 48 */
+  --space-12: 3rem;    /* 48 */
+  --space-16: 4rem;    /* 64 */
+  --space-20: 6rem;    /* 96 */
 
   --color-bg: #fdfdfc;
   --color-surface: #ffffff;
@@ -66,8 +68,9 @@
   --radius-lg: 0.875rem;
   --radius-full: 999px;
 
-  --shadow-sm: 0 1px 2px rgba(16, 20, 26, .05);
-  --shadow-md: 0 4px 16px rgba(16, 20, 26, .07), 0 1px 3px rgba(16, 20, 26, .05);
+  /* Light mode is flat: no card shadows, no glow. */
+  --shadow-sm: none;
+  --shadow-md: none;
 
   --font-body: 'Noto Sans', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
   --font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
@@ -129,12 +132,17 @@ body {
   isolation: isolate;
 }
 
+/* Decorative particle field: off in light mode (no glow), subtle in dark. */
 .microstructure-field {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: .72;
+  opacity: 0;
+}
+
+[data-theme="dark"] .microstructure-field {
+  opacity: .5;
 }
 
 body::before {
@@ -356,9 +364,12 @@ main {
 }
 
 /* ---------- Typography ---------- */
+/* Hierarchy is carried by size and weight: large display headings sit at a
+   light regular weight (bold reads aggressive at scale), subheads a notch
+   heavier, body regular. */
 h1 {
   font-size: var(--text-2xl);
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: -0.025em;
   line-height: 1.15;
   margin-bottom: var(--space-3);
@@ -366,14 +377,14 @@ h1 {
 
 h2 {
   font-size: var(--text-lg);
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: -0.01em;
   margin-bottom: var(--space-6);
 }
 
 h3 {
   font-size: var(--text-lg);
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: -0.01em;
 }
 
@@ -854,50 +865,9 @@ main section[id] {
   scroll-margin-top: 78px;
 }
 
+/* Content is shown directly — no scroll-reveal fade, no image wipe. Only the
+   publication charts still animate (curves draw, bars grow) when in view. */
 @media (prefers-reduced-motion: no-preference) {
-  .reveal-ready .reveal {
-    opacity: 0;
-    transform: translateY(13px);
-  }
-}
-
-.reveal {
-  transition: opacity .38s ease, transform .45s cubic-bezier(.2, .7, .2, 1);
-}
-
-.reveal.in {
-  opacity: 1;
-  transform: none;
-}
-
-/* ---- Motion accents (TigerBeetle-inspired): images wipe in, and the
-   publication charts draw their own curves and grow their own bars. All
-   initial-hidden states are double-gated behind .reveal-ready (JS present)
-   so no-JS and reduced-motion render the finished, static version. ---- */
-@media (prefers-reduced-motion: no-preference) {
-  .reveal-ready .career-media img,
-  .reveal-ready .rcard > img {
-    clip-path: inset(0 100% 0 0);
-  }
-
-  .career-media img {
-    transition: clip-path 1s cubic-bezier(.2, .7, .2, 1),
-                transform .6s cubic-bezier(.2, .6, .2, 1);
-  }
-
-  .rcard > img {
-    transition: clip-path 1s cubic-bezier(.2, .7, .2, 1),
-                transform .6s cubic-bezier(.2, .6, .2, 1),
-                filter .4s;
-  }
-
-  .career-media.wiped img,
-  .rcard.wiped > img {
-    clip-path: inset(0 0 0 0);
-  }
-
-  /* Bars grow from their left baseline; solid curves draw themselves via
-     stroke-dashoffset set inline by JS from getTotalLength(). */
   .reveal-ready .pub-figure.animate path[fill]:not([stroke]) {
     transform: scaleX(0);
     transform-box: fill-box;
@@ -953,6 +923,29 @@ main section[id] {
 .rcard:hover img,
 .rcard:focus-within img {
   transform: scale(1.06);
+}
+
+/* Light mode (default) mutes all media hard: near-grayscale with a single
+   muted-blue tint (duotone) and no vividness. Dark mode keeps the art vivid. */
+.media img,
+.media video,
+.rcard img {
+  filter: grayscale(1) sepia(.5) hue-rotate(178deg) saturate(.45) contrast(.9) brightness(1.04);
+}
+
+.rcard:hover img,
+.rcard:focus-within img {
+  filter: grayscale(1) sepia(.5) hue-rotate(178deg) saturate(.45) contrast(.9) brightness(.58);
+}
+
+[data-theme="dark"] .media img,
+[data-theme="dark"] .media video,
+[data-theme="dark"] .rcard img {
+  filter: none;
+}
+
+[data-theme="dark"] .rcard:hover img,
+[data-theme="dark"] .rcard:focus-within img {
   filter: brightness(.62);
 }
 
@@ -1146,7 +1139,7 @@ main section[id] {
 .exp-stats > div {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--space-1);
 }
 
 .exp-stats strong {
@@ -1156,7 +1149,7 @@ main section[id] {
   line-height: 1.15;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
-  text-shadow: 0 1px 10px rgba(0, 0, 0, .5);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .55);
 }
 
 /* Direct-child span only — the label. Without the child combinator this
@@ -1411,16 +1404,11 @@ main section[id] {
 }
 
 .badge {
-  background: var(--color-surface-2);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-muted);
+  color: var(--color-text-faint);
   font-size: var(--text-2xs);
-  padding: .1rem .45rem;
-  border-radius: var(--radius-sm);
   font-weight: 600;
-  letter-spacing: .02em;
+  letter-spacing: .08em;
   margin-left: var(--space-2);
-  display: inline-block;
   vertical-align: 2px;
   text-transform: uppercase;
 }
@@ -1433,13 +1421,12 @@ main section[id] {
 }
 
 .tag {
-  background: var(--color-surface-2);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-muted);
+  border: 1px solid var(--color-divider);
+  color: var(--color-text-faint);
   font-size: var(--text-2xs);
   padding: .1rem .45rem;
   border-radius: var(--radius-sm);
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: .02em;
   font-family: var(--font-mono, monospace);
 }
@@ -1574,7 +1561,7 @@ main section[id] {
 
 .post-title {
   font-size: var(--text-2xl);
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: -0.02em;
   line-height: 1.15;
   margin: var(--space-2) 0 var(--space-3);
