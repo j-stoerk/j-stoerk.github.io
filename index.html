@@ -101,7 +101,7 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=a5a6ef47">
+  <link rel="stylesheet" href="styles.css?v=5f3b4f17">
 </head>
 
 <body>
@@ -129,7 +129,7 @@
   <main id="main" class="content">
 
     <div class="page-art" aria-hidden="true">
-      <svg viewBox="0 0 1000 5200" preserveAspectRatio="none" fill="none">
+      <svg viewBox="0 0 1420 5200" preserveAspectRatio="none" fill="none">
         <defs>
           <radialGradient id="wClay" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stop-color="#c16a50" stop-opacity=".46"/>
@@ -157,201 +157,152 @@
             <stop offset="100%" stop-color="#b8703a" stop-opacity="0"/>
           </radialGradient>
           <radialGradient id="wGrey" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#a7a294" stop-opacity=".34"/>
+            <stop offset="0%" stop-color="#a7a294" stop-opacity=".30"/>
             <stop offset="100%" stop-color="#a7a294" stop-opacity="0"/>
           </radialGradient>
-          <!-- Watercolour: turbulence bleeds the wash edges into paper. -->
-          <filter id="wc" filterUnits="userSpaceOnUse" x="0" y="0" width="1000" height="5200" color-interpolation-filters="sRGB">
+          <filter id="wc" filterUnits="userSpaceOnUse" x="0" y="0" width="1420" height="5200" color-interpolation-filters="sRGB">
             <feTurbulence type="fractalNoise" baseFrequency="0.010 0.013" numOctaves="3" seed="11" result="n"/>
             <feDisplacementMap in="SourceGraphic" in2="n" scale="60" xChannelSelector="R" yChannelSelector="G"/>
             <feGaussianBlur stdDeviation="1.4"/>
           </filter>
-          <!-- Ink: a small turbulence gives every line a hand-drawn wobble. -->
-          <filter id="ink" filterUnits="userSpaceOnUse" x="0" y="0" width="1000" height="5200" color-interpolation-filters="sRGB">
+          <filter id="ink" filterUnits="userSpaceOnUse" x="0" y="0" width="1420" height="5200" color-interpolation-filters="sRGB">
             <feTurbulence type="fractalNoise" baseFrequency="0.016 0.028" numOctaves="2" seed="5" result="n"/>
-            <feDisplacementMap in="SourceGraphic" in2="n" scale="5.5" xChannelSelector="R" yChannelSelector="G"/>
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="4.5" xChannelSelector="R" yChannelSelector="G"/>
           </filter>
         </defs>
 
-        <!-- Soft watercolour washes, right-biased, fading to paper -->
+        <!-- Watercolour washes across both gutters; faint in the centre -->
         <g filter="url(#wc)">
-          <ellipse cx="790" cy="300" rx="270" ry="240" fill="url(#wOchre)"/>
-          <ellipse cx="630" cy="440" rx="200" ry="170" fill="url(#wClay)"/>
-          <ellipse cx="900" cy="170" rx="180" ry="150" fill="url(#wGrey)"/>
-          <ellipse cx="770" cy="1060" rx="260" ry="250" fill="url(#wSage)"/>
-          <ellipse cx="610" cy="1250" rx="185" ry="165" fill="url(#wOchre)"/>
-          <ellipse cx="780" cy="2060" rx="260" ry="250" fill="url(#wSlate)"/>
-          <ellipse cx="630" cy="2260" rx="180" ry="160" fill="url(#wGrey)"/>
-          <ellipse cx="780" cy="2960" rx="260" ry="240" fill="url(#wOchre)"/>
-          <ellipse cx="610" cy="3160" rx="180" ry="160" fill="url(#wClay)"/>
-          <ellipse cx="775" cy="3660" rx="245" ry="230" fill="url(#wSage)"/>
-          <ellipse cx="790" cy="4260" rx="260" ry="250" fill="url(#wClay)"/>
-          <ellipse cx="625" cy="4460" rx="180" ry="160" fill="url(#wSlate)"/>
-          <ellipse cx="780" cy="4990" rx="285" ry="250" fill="url(#wSage)"/>
-          <ellipse cx="905" cy="5090" rx="185" ry="170" fill="url(#wGrey)"/>
-          <ellipse cx="700" cy="700" rx="210" ry="185" fill="url(#wRust)"/>
-          <ellipse cx="880" cy="1520" rx="205" ry="205" fill="url(#wOchre)"/>
-          <ellipse cx="690" cy="1780" rx="185" ry="175" fill="url(#wSage)"/>
-          <ellipse cx="885" cy="2500" rx="205" ry="200" fill="url(#wClay)"/>
-          <ellipse cx="700" cy="2760" rx="175" ry="165" fill="url(#wRust)"/>
-          <ellipse cx="700" cy="3360" rx="195" ry="185" fill="url(#wSlate)"/>
-          <ellipse cx="890" cy="3900" rx="205" ry="195" fill="url(#wOchre)"/>
-          <ellipse cx="700" cy="4600" rx="195" ry="185" fill="url(#wGrey)"/>
-          <ellipse cx="905" cy="4360" rx="180" ry="170" fill="url(#wRust)"/>
+          <ellipse cx="1250" cy="300" rx="240" ry="230" fill="url(#wOchre)"/>
+          <ellipse cx="1330" cy="480" rx="170" ry="150" fill="url(#wClay)"/>
+          <ellipse cx="150" cy="440" rx="210" ry="200" fill="url(#wSlate)"/>
+          <ellipse cx="120" cy="640" rx="150" ry="140" fill="url(#wGrey)"/>
+          <ellipse cx="150" cy="1700" rx="230" ry="260" fill="url(#wSage)"/>
+          <ellipse cx="120" cy="2100" rx="180" ry="180" fill="url(#wGrey)"/>
+          <ellipse cx="1280" cy="1650" rx="220" ry="220" fill="url(#wOchre)"/>
+          <ellipse cx="1320" cy="1980" rx="160" ry="150" fill="url(#wRust)"/>
+          <ellipse cx="1280" cy="2620" rx="230" ry="220" fill="url(#wSlate)"/>
+          <ellipse cx="1330" cy="2400" rx="150" ry="140" fill="url(#wGrey)"/>
+          <ellipse cx="150" cy="3080" rx="220" ry="210" fill="url(#wOchre)"/>
+          <ellipse cx="120" cy="3320" rx="160" ry="150" fill="url(#wClay)"/>
+          <ellipse cx="1280" cy="3620" rx="220" ry="210" fill="url(#wRust)"/>
+          <ellipse cx="1320" cy="3860" rx="160" ry="150" fill="url(#wSage)"/>
+          <ellipse cx="150" cy="4120" rx="220" ry="210" fill="url(#wSlate)"/>
+          <ellipse cx="1280" cy="4560" rx="220" ry="210" fill="url(#wOchre)"/>
+          <ellipse cx="200" cy="4980" rx="240" ry="230" fill="url(#wSage)"/>
+          <ellipse cx="1240" cy="5000" rx="240" ry="230" fill="url(#wClay)"/>
+          <ellipse cx="710" cy="1000" rx="260" ry="230" fill="url(#wGrey)"/>
+          <ellipse cx="710" cy="2400" rx="260" ry="230" fill="url(#wGrey)"/>
+          <ellipse cx="710" cy="3800" rx="260" ry="230" fill="url(#wGrey)"/>
         </g>
 
         <g filter="url(#ink)">
-        <!-- Long connective drift lines spanning the page -->
-        <g class="art-hair">
-          <path d="M985 200 C 620 900 905 1600 705 2320 C 560 2940 905 3420 720 4120 C 620 4640 905 4920 805 5160"/>
-          <path d="M560 520 C 905 1220 640 1940 825 2620 C 945 3220 640 3720 810 4340 C 900 4720 660 4960 815 5170"/>
-        </g>
-
-        <!-- Trunk: an organic vine up the right gutter, bottom to top -->
-        <path class="art-ink" d="M745 5180 C 690 4880 800 4640 748 4360 C 692 4090 792 3860 742 3600 C 690 3350 800 3120 748 2860 C 700 2610 792 2380 742 2120 C 700 1875 795 1650 745 1400 C 705 1175 780 960 748 730 C 726 545 748 350 742 150"/>
-        <path class="art-hair" d="M761 5180 C 706 4880 816 4640 764 4360 C 708 4090 808 3860 758 3600 C 706 3350 816 3120 764 2860 C 716 2610 808 2380 758 2120 C 716 1875 811 1650 761 1400 C 721 1175 796 960 764 730 C 742 545 764 350 758 150"/>
-
-        <!-- Hero: a tree-ring canopy, a soft spectrum bar, sweeping arcs -->
-        <g transform="translate(808,300)">
-          <circle class="art-hair" r="30"/>
-          <circle class="art-hair" r="52"/>
-          <circle class="art-hair" r="76"/>
-          <circle class="art-ink-soft" r="104"/>
-          <circle class="art-hair" r="134"/>
+          <!-- Connective drift lines down each gutter -->
           <g class="art-hair">
-            <path d="M0 0 L0 -150"/><path d="M0 0 L88 -122"/><path d="M0 0 L142 -50"/>
-            <path d="M0 0 L150 44"/><path d="M0 0 L96 120"/><path d="M0 0 L-42 148"/>
-            <path d="M0 0 L-124 86"/><path d="M0 0 L-150 -22"/><path d="M0 0 L-96 -120"/>
+            <path d="M120 560 C 300 1200 100 1900 260 2600 C 380 3200 120 3700 280 4300 C 380 4700 160 4980 300 5170"/>
+            <path d="M1300 560 C 1120 1200 1360 1900 1180 2600 C 1060 3200 1340 3700 1180 4300 C 1080 4700 1340 4980 1200 5170"/>
           </g>
-        </g>
-        <g transform="translate(556,452)">
-          <rect x="0" y="0" width="26" height="20" fill="#c16a50" opacity=".4"/>
-          <rect x="26" y="0" width="26" height="20" fill="#d8a556" opacity=".4"/>
-          <rect x="52" y="0" width="26" height="20" fill="#93a56d" opacity=".38"/>
-          <rect x="78" y="0" width="26" height="20" fill="#7e96b6" opacity=".4"/>
-          <rect x="104" y="0" width="26" height="20" fill="#a7a294" opacity=".34"/>
-          <rect class="art-hair" x="0" y="0" width="130" height="20"/>
-        </g>
-        <g class="art-hair">
-          <path d="M330 540 C 540 380 780 440 1000 320"/>
-          <path d="M380 620 C 580 490 820 540 1000 450"/>
-        </g>
 
-        <!-- Experience: two calendering-roll ring clusters over a sheet -->
-        <g transform="translate(705,935)">
-          <circle class="art-hair" r="26"/><circle class="art-hair" r="46"/>
-          <circle class="art-ink-soft" r="66"/><circle class="art-hair" r="88"/>
-        </g>
-        <g transform="translate(705,1175)">
-          <circle class="art-hair" r="26"/><circle class="art-hair" r="46"/>
-          <circle class="art-ink-soft" r="66"/><circle class="art-hair" r="88"/>
-        </g>
-        <path class="art-hair" d="M520 1055 H 985"/>
-        <g class="art-hair">
-          <path d="M560 1320 C 690 1268 830 1300 950 1248"/>
-          <path d="M580 1380 C 706 1340 846 1364 962 1318"/>
-        </g>
+          <!-- Hero left: sun over a mountain range -->
+          <g>
+            <circle class="art-hair" cx="80" cy="360" r="34"/>
+            <path class="art-hair" d="M80 360 V 312 M80 360 L 122 336 M80 360 L 38 336 M80 360 L 128 372 M80 360 L 32 372"/>
+            <path class="art-ink" d="M10 566 L 78 466 L 118 520 L 178 430 L 222 500 L 260 452"/>
+            <path class="art-hair" d="M78 466 L 100 500 M118 520 L 150 470 M178 430 L 206 474"/>
+            <path class="art-hair" d="M10 566 h 250 M24 588 h 226"/>
+          </g>
 
-        <!-- Research: a node network and a small tree-ring -->
-        <g transform="translate(760,2055)" class="art-hair">
-          <circle cx="-130" cy="-42" r="7"/><circle cx="-8" cy="-98" r="7"/>
-          <circle cx="0" cy="22" r="7"/><circle cx="122" cy="-46" r="7"/>
-          <circle cx="134" cy="72" r="7"/><circle cx="60" cy="132" r="7"/>
-          <path d="M-130 -42 L-8 -98 M-130 -42 L0 22 M-8 -98 L122 -46 M0 22 L122 -46 M0 22 L134 72 M134 72 L60 132 M0 22 L60 132"/>
-        </g>
-        <g transform="translate(600,2255)">
-          <circle class="art-hair" r="24"/><circle class="art-hair" r="46"/><circle class="art-ink-soft" r="68"/>
-        </g>
-        <g class="art-dot">
-          <circle cx="905" cy="2120" r="3"/><circle cx="922" cy="2136" r="2.4"/><circle cx="892" cy="2142" r="2"/>
-          <circle cx="936" cy="2118" r="2.6"/><circle cx="912" cy="2160" r="2.2"/><circle cx="948" cy="2148" r="2"/>
-        </g>
+          <!-- Hero right: a robot bust with a chest dial -->
+          <g transform="translate(1052,96) scale(0.82)">
+            <path class="art-ink" d="M300 96 V 150"/>
+            <circle class="art-ink" cx="300" cy="86" r="10"/>
+            <path class="art-hair" d="M300 86 L 318 66 M300 86 L 282 66 M300 86 V 60"/>
+            <path class="art-ink" d="M232 158 Q 232 150 240 150 L 360 150 Q 368 150 368 158 L 368 250 Q 368 262 356 262 L 244 262 Q 232 262 232 250 Z"/>
+            <path class="art-ink-soft" d="M250 178 Q 250 172 256 172 L 344 172 Q 350 172 350 178 L 350 216 Q 350 224 342 224 L 258 224 Q 250 224 250 216 Z"/>
+            <circle class="art-ink" cx="284" cy="200" r="12"/><circle class="art-fill-ink" cx="284" cy="200" r="3.6"/>
+            <circle class="art-ink" cx="326" cy="200" r="12"/><circle class="art-fill-ink" cx="326" cy="200" r="3.6"/>
+            <path class="art-hair" d="M272 244 h 56"/>
+            <circle class="art-ink" cx="226" cy="206" r="9"/><circle class="art-ink" cx="374" cy="206" r="9"/>
+            <path class="art-ink" d="M286 262 v 22 M314 262 v 22"/>
+            <path class="art-ink" d="M250 288 Q 244 286 244 296 L 232 430 Q 231 442 243 442 L 357 442 Q 369 442 368 430 L 356 296 Q 356 286 350 288 Z"/>
+            <circle class="art-ink" cx="300" cy="352" r="34"/><circle class="art-hair" cx="300" cy="352" r="24"/>
+            <path class="art-ink-soft" d="M300 352 L 316 338"/><circle class="art-fill-ink" cx="300" cy="352" r="3"/>
+            <path class="art-hair" d="M300 322 v 6 M330 352 h -6 M300 382 v -6 M270 352 h 6"/>
+            <path class="art-hair" d="M262 306 h 76 M262 400 h 76"/>
+            <circle class="art-fill-ink" cx="256" cy="312" r="2.6"/><circle class="art-fill-ink" cx="344" cy="312" r="2.6"/>
+            <circle class="art-fill-ink" cx="252" cy="420" r="2.6"/><circle class="art-fill-ink" cx="348" cy="420" r="2.6"/>
+            <path class="art-ink" d="M244 300 Q 200 320 196 380 Q 194 410 210 430"/>
+            <path class="art-ink" d="M356 300 Q 400 320 404 380 Q 406 410 390 430"/>
+            <circle class="art-ink" cx="205" cy="440" r="12"/><circle class="art-ink" cx="395" cy="440" r="12"/>
+            <g class="art-hair"><path d="M330 320 l 22 10 M326 336 l 30 14 M324 354 l 34 16 M326 374 l 30 14 M330 394 l 24 12"/></g>
+          </g>
 
-        <!-- Publications: a fine U-curve chart with a soft contour -->
-        <g transform="translate(772,2955)" class="art-hair">
-          <path d="M-150 -110 V 72 H 182"/>
-          <path d="M-130 -70 C -70 74 -14 104 22 80 C 68 48 122 -60 162 -112"/>
-          <path d="M-120 128 C 0 96 128 118 186 74"/>
-        </g>
+          <!-- Experience left: a railway viaduct with tracks receding -->
+          <g>
+            <path class="art-ink" d="M20 2350 V 2252 Q 20 2212 60 2212 Q 100 2212 100 2252 V 2350 M100 2350 V 2252 Q 100 2212 140 2212 Q 180 2212 180 2252 V 2350 M180 2350 V 2252 Q 180 2212 220 2212 Q 258 2212 258 2252 V 2350"/>
+            <path class="art-ink" d="M8 2206 H 262"/>
+            <path class="art-ink" d="M78 2206 L 122 1120"/>
+            <path class="art-ink" d="M198 2206 L 150 1120"/>
+            <path class="art-ink-soft" d="M84 2180 h 112 M90 2100 h 100 M96 2030 h 88 M101 1968 h 78 M105 1912 h 70 M109 1864 h 62 M113 1820 h 54 M116 1782 h 48 M119 1748 h 42 M122 1716 h 36 M124 1688 h 32 M126 1662 h 28 M128 1638 h 24"/>
+            <path class="art-ink" d="M128 1606 h 16 v 18 h -16 z"/>
+            <g class="art-hair"><path d="M20 2384 h 60 M44 2404 h 60 M12 2424 h 60 M64 2444 h 70 M124 2384 h 60 M146 2404 h 60 M112 2424 h 70 M184 2444 h 60"/></g>
+          </g>
 
-        <!-- Blog: flowing script-like lines and a small ring -->
-        <g transform="translate(560,3560)" class="art-hair">
-          <path d="M0 0 c 30 -22 42 22 72 0 t 72 0 t 72 0 t 60 0"/>
-          <path d="M0 46 c 30 -22 42 22 72 0 t 72 0 t 72 0 t 30 0"/>
-          <path d="M0 92 c 30 -22 42 22 72 0 t 72 0 t 40 0"/>
-        </g>
-        <g transform="translate(888,3650)">
-          <circle class="art-hair" r="26"/><circle class="art-hair" r="48"/><circle class="art-hair" r="72"/>
-        </g>
+          <!-- Experience right: an Erlenmeyer flask -->
+          <g transform="translate(1288,1700)">
+            <path class="art-ink" d="M-22 -92 h 44 M-18 -92 v 34 L -58 60 Q -66 80 -46 80 L 46 80 Q 66 80 58 60 L 18 -58 v -34"/>
+            <path class="art-ink-soft" d="M-49 42 Q 0 32 49 42"/>
+            <circle class="art-hair" cx="-8" cy="20" r="6"/><circle class="art-hair" cx="14" cy="36" r="4"/><circle class="art-hair" cx="2" cy="54" r="3"/>
+            <path class="art-hair" d="M-20 -92 l -6 -20 M20 -92 l 6 -20"/>
+          </g>
 
-        <!-- Software: a fine circuit lattice with nodes -->
-        <g transform="translate(624,4180)" class="art-hair">
-          <path d="M0 0 h 120 v 82 M60 0 v 122 M120 42 h 122 M182 42 v 100 M244 -20 v 120"/>
-          <path d="M0 82 h 92 v 60 h 150"/>
-        </g>
-        <g class="art-dot">
-          <circle cx="624" cy="4180" r="4"/><circle cx="744" cy="4180" r="4"/><circle cx="684" cy="4302" r="4"/>
-          <circle cx="806" cy="4222" r="4"/><circle cx="866" cy="4322" r="4"/><circle cx="868" cy="4180" r="4"/>
-        </g>
+          <!-- Research right: interlocking gears -->
+          <g transform="translate(1278,2600)">
+            <circle class="art-ink" r="54"/><circle class="art-hair" r="20"/>
+            <g class="art-ink"><path d="M0 -54 V -70 M0 54 V 70 M-54 0 H -70 M54 0 H 70 M-38 -38 L -50 -50 M38 -38 L 50 -50 M-38 38 L -50 50 M38 38 L 50 50"/></g>
+            <circle class="art-ink" cx="88" cy="54" r="34"/><circle class="art-hair" cx="88" cy="54" r="13"/>
+            <g class="art-ink" transform="translate(88,54)"><path d="M0 -34 V -48 M0 34 V 48 M-34 0 H -48 M34 0 H 48 M-24 -24 L -33 -33 M24 -24 L 33 -33 M-24 24 L -33 33 M24 24 L 33 33"/></g>
+          </g>
 
-        <!-- Contributions: three merging nodes -->
-        <g transform="translate(704,4650)" class="art-hair">
-          <circle cx="-70" cy="-50" r="7"/><circle cx="-70" cy="70" r="7"/><circle cx="80" cy="10" r="7"/>
-          <path d="M-70 -43 V 63 M-63 -50 C 20 -50 20 10 73 10 M-63 70 C 20 70 20 10 73 10"/>
-        </g>
+          <!-- Publications left: an open book -->
+          <g transform="translate(140,3120)">
+            <path class="art-ink" d="M0 -40 C -30 -54 -80 -54 -112 -44 L -112 62 C -80 52 -30 52 0 66 C 30 52 80 52 112 62 L 112 -44 C 80 -54 30 -54 0 -40 Z M0 -40 L 0 66"/>
+            <path class="art-hair" d="M-94 -24 C -66 -34 -34 -34 -16 -24 M-94 -4 C -66 -14 -34 -14 -16 -4 M-94 16 C -66 6 -34 6 -16 16 M16 -24 C 34 -34 66 -34 94 -24 M16 -4 C 34 -14 66 -14 94 -4 M16 16 C 34 6 66 6 94 16"/>
+          </g>
 
-        <!-- Contact: roots spreading and a bed of stippled growth -->
-        <path class="art-ink-soft" d="M745 5180 C 690 5080 588 5050 498 5078 M745 5180 C 816 5080 922 5052 986 5086 M745 5180 C 745 5100 745 5060 745 5035 M498 5078 C 458 5092 438 5126 448 5156 M986 5086 C 926 5101 906 5135 918 5163"/>
-        <g class="art-hair">
-          <path d="M602 5100 c 20 -40 52 -30 42 10 c -8 30 -48 26 -42 -6"/>
-          <path d="M664 5122 c 24 -44 58 -30 46 12"/>
-          <path d="M902 5112 c 20 -40 52 -30 42 10"/>
-        </g>
-        <g class="art-dot">
-          <circle cx="642" cy="4982" r="3"/><circle cx="662" cy="4998" r="2.4"/><circle cx="630" cy="5002" r="2"/>
-          <circle cx="678" cy="4976" r="2.5"/><circle cx="702" cy="4992" r="3"/><circle cx="657" cy="5018" r="2"/>
-          <circle cx="692" cy="5012" r="2.5"/><circle cx="722" cy="5002" r="2"/>
-          <circle cx="862" cy="5032" r="3"/><circle cx="882" cy="5048" r="2.4"/><circle cx="850" cy="5052" r="2"/>
-          <circle cx="898" cy="5026" r="2.5"/><circle cx="914" cy="5042" r="3"/>
-        </g>
+          <!-- Blog right: a fountain pen over an inkline -->
+          <g transform="translate(1288,3600)">
+            <path class="art-ink" d="M-72 72 L 42 -62 C 50 -72 66 -70 72 -60 C 78 -50 76 -36 66 -28 L -48 98 Z"/>
+            <path class="art-ink" d="M-72 72 L -60 92"/>
+            <path class="art-hair" d="M40 -58 L 62 -42"/>
+            <path class="art-ink-soft" d="M-96 100 q 32 -10 64 0 q 32 10 64 0"/>
+          </g>
 
-        <!-- Added density: more rings, arcs, contours, stipple, hatching -->
-        <g transform="translate(636,720)"><circle class="art-hair" r="22"/><circle class="art-hair" r="42"/><circle class="art-hair" r="64"/></g>
-        <g transform="translate(884,1520)"><circle class="art-hair" r="26"/><circle class="art-hair" r="48"/><circle class="art-hair" r="74"/><circle class="art-ink-soft" r="104"/></g>
-        <g transform="translate(614,2500)"><circle class="art-hair" r="24"/><circle class="art-hair" r="46"/><circle class="art-hair" r="70"/></g>
-        <g transform="translate(900,3380)"><circle class="art-hair" r="22"/><circle class="art-hair" r="44"/><circle class="art-hair" r="68"/></g>
-        <g transform="translate(660,4600)"><circle class="art-hair" r="24"/><circle class="art-hair" r="46"/><circle class="art-hair" r="72"/></g>
+          <!-- Software left: a quad-rotor agent -->
+          <g transform="translate(150,4160)">
+            <path class="art-ink" d="M-58 -34 Q -62 -44 -50 -44 L 50 -44 Q 62 -44 58 -34 L 52 -8 Q 50 0 40 0 L -40 0 Q -50 0 -52 -8 Z"/>
+            <circle class="art-fill-ink" cx="-18" cy="-24" r="3.4"/><circle class="art-fill-ink" cx="18" cy="-24" r="3.4"/>
+            <path class="art-ink" d="M-58 -30 L -104 -46 M58 -30 L 104 -46"/>
+            <circle class="art-ink" cx="-104" cy="-46" r="20"/><circle class="art-hair" cx="-104" cy="-46" r="7"/>
+            <circle class="art-ink" cx="104" cy="-46" r="20"/><circle class="art-hair" cx="104" cy="-46" r="7"/>
+            <path class="art-ink" d="M-30 0 L -44 40 M30 0 L 44 40"/>
+            <path class="art-hair" d="M-44 40 h 20 M24 40 h 20"/>
+          </g>
 
-        <g class="art-hair">
-          <path d="M980 720 C 640 1320 900 1920 700 2520 C 560 3000 900 3520 720 4020"/>
-          <path d="M600 900 C 900 1500 640 2100 820 2700 C 940 3200 660 3720 820 4220"/>
-          <path d="M980 1320 C 700 1720 900 2120 720 2620"/>
-          <path d="M600 2920 C 900 3320 680 3720 860 4120"/>
-          <path d="M960 3000 C 700 3360 880 3720 720 4120"/>
-        </g>
+          <!-- Contributions right: two linked rings -->
+          <g transform="translate(1280,4560)">
+            <circle class="art-ink" cx="-24" r="42"/><circle class="art-ink" cx="24" r="42"/>
+          </g>
 
-        <g class="art-hair">
-          <path d="M822 560 C 902 540 942 600 902 650 C 862 700 782 690 762 630 C 750 590 772 570 822 560 Z"/>
-          <path d="M820 580 C 886 566 918 612 886 652 C 856 690 794 682 778 634 C 768 602 784 588 820 580 Z"/>
-          <path d="M862 3760 C 942 3742 980 3800 942 3850 C 904 3898 830 3888 812 3830 C 802 3792 820 3772 862 3760 Z"/>
-          <path d="M862 3782 C 928 3768 960 3810 930 3848 C 902 3884 844 3876 828 3830 C 820 3800 832 3788 862 3782 Z"/>
-          <path d="M690 1760 C 760 1744 800 1794 766 1838 C 734 1878 668 1868 652 1818 C 642 1784 658 1770 690 1760 Z"/>
-        </g>
-
-        <g class="art-dot">
-          <circle cx="882" cy="740" r="3"/><circle cx="900" cy="756" r="2.4"/><circle cx="868" cy="760" r="2"/><circle cx="914" cy="736" r="2.4"/>
-          <circle cx="640" cy="1560" r="3"/><circle cx="658" cy="1576" r="2.4"/><circle cx="626" cy="1580" r="2"/>
-          <circle cx="906" cy="2540" r="3"/><circle cx="924" cy="2556" r="2.4"/><circle cx="892" cy="2560" r="2"/><circle cx="938" cy="2536" r="2.4"/>
-          <circle cx="650" cy="3420" r="3"/><circle cx="668" cy="3436" r="2.4"/><circle cx="636" cy="3440" r="2"/>
-          <circle cx="906" cy="4340" r="3"/><circle cx="924" cy="4356" r="2.4"/><circle cx="892" cy="4360" r="2"/>
-        </g>
-
-        <g class="art-hair">
-          <path d="M600 1000 l 30 -12 M606 1012 l 30 -12 M612 1024 l 30 -12 M618 1036 l 30 -12"/>
-          <path d="M900 2210 l 28 -12 M906 2222 l 28 -12 M912 2234 l 28 -12"/>
-          <path d="M620 3600 l 30 -12 M626 3612 l 30 -12 M632 3624 l 30 -12 M638 3636 l 30 -12"/>
-          <path d="M880 4720 l 28 -12 M886 4732 l 28 -12 M892 4744 l 28 -12"/>
-        </g>
+          <!-- Contact: roots spreading from both gutters, with growth -->
+          <path class="art-ink" d="M170 4820 C 120 4940 70 5030 40 5180 M170 4820 C 220 4940 270 5040 300 5180 M170 4820 V 5180 M40 5180 C 20 5120 60 5090 80 5140 M300 5180 C 320 5120 280 5090 262 5140"/>
+          <path class="art-ink" d="M1250 4820 C 1200 4940 1150 5030 1120 5180 M1250 4820 C 1300 4940 1350 5040 1380 5180 M1250 4820 V 5180"/>
+          <g class="art-dot">
+            <circle cx="120" cy="4980" r="3"/><circle cx="140" cy="4996" r="2.4"/><circle cx="108" cy="5000" r="2"/><circle cx="156" cy="4974" r="2.5"/>
+            <circle cx="230" cy="5010" r="3"/><circle cx="250" cy="5026" r="2.4"/><circle cx="218" cy="5030" r="2"/>
+            <circle cx="1300" cy="4980" r="3"/><circle cx="1320" cy="4996" r="2.4"/><circle cx="1288" cy="5000" r="2"/>
+            <circle cx="1210" cy="5020" r="3"/><circle cx="1230" cy="5036" r="2.4"/><circle cx="1198" cy="5040" r="2"/>
+          </g>
         </g>
       </svg>
     </div>

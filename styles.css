@@ -136,6 +136,7 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   isolation: isolate;
+  overflow-x: clip;
 }
 
 /* ---------- Connected page-art (SVG "tree" behind every section) ---------- */
@@ -146,7 +147,11 @@ main {
 
 .page-art {
   position: absolute;
-  inset: 0;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
