@@ -63,9 +63,9 @@
   --cell-flux: rgba(18, 86, 184, .31);
   --cell-potential: rgba(164, 92, 0, .24);
 
-  /* Page-art line ink (the connected tree). Soft in light, lighter in dark. */
-  --art-ink: rgba(38, 48, 62, .42);
-  --art-ink-soft: rgba(38, 48, 62, .22);
+  /* Page-art line ink (the connected tree). Delicate grey-blue, airy. */
+  --art-ink: rgba(60, 74, 96, .38);
+  --art-ink-soft: rgba(66, 80, 104, .18);
 
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
@@ -107,8 +107,8 @@
   --cell-potential: rgba(240, 176, 58, .22);
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, .4);
   --shadow-md: 0 4px 18px rgba(0, 0, 0, .45);
-  --art-ink: rgba(196, 210, 230, .38);
-  --art-ink-soft: rgba(196, 210, 230, .2);
+  --art-ink: rgba(198, 212, 232, .34);
+  --art-ink-soft: rgba(198, 212, 232, .16);
 }
 
 /* ---------- Reset ---------- */
@@ -164,26 +164,39 @@ main {
   z-index: 1;
 }
 
-.art-ink {
+.art-ink,
+.art-ink-soft,
+.art-hair {
   fill: none;
-  stroke: var(--art-ink);
-  stroke-width: 1.6;
   vector-effect: non-scaling-stroke;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
+.art-ink {
+  stroke: var(--art-ink);
+  stroke-width: 1.1;
+}
+
 .art-ink-soft {
-  fill: none;
   stroke: var(--art-ink-soft);
-  stroke-width: 1.2;
-  vector-effect: non-scaling-stroke;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  stroke-width: 0.85;
+}
+
+/* Hairline filigree — the finest lines (tree-rings, arcs, contours). */
+.art-hair {
+  stroke: var(--art-ink-soft);
+  stroke-width: 0.6;
 }
 
 .art-fill-ink {
   fill: var(--art-ink);
+  stroke: none;
+}
+
+/* Stipple dots for organic growth. */
+.art-dot {
+  fill: var(--art-ink-soft);
   stroke: none;
 }
 
