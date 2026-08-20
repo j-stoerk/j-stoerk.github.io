@@ -75,8 +75,7 @@
   }
 
   /* ---- count-up numbers ---- */
-  /* On pointer devices the impact metrics are hidden until hover, so the
-     count fires on hover; on touch (metrics always shown) it fires in view. */
+  /* Impact metrics count up when their stat block scrolls into view. */
   (function () {
     var nums = slice(document.querySelectorAll('.exp-stats .num[data-to]'));
     if (!nums.length) return;
@@ -103,7 +102,7 @@
     var runIn = function (scope) {
       slice(scope.querySelectorAll('.num[data-to]')).forEach(run);
     };
-    var figs = slice(document.querySelectorAll('.career-media'));
+    var figs = slice(document.querySelectorAll('.exp-stats'));
     if (hasIO && !reduce) {
       var no = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
