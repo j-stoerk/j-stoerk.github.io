@@ -1116,6 +1116,41 @@ main section[id] {
   color: rgba(255, 255, 255, .82);
 }
 
+/* On pointer devices the description shows by default and the impact
+   metrics reveal on hover; touch devices see both at once (below). */
+@media (hover: hover) {
+  .career-media-text .exp-stats {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height .4s ease, opacity .3s ease;
+  }
+
+  .career-media-text .exp-desc {
+    max-height: 8rem;
+    overflow: hidden;
+    transition: opacity .3s ease, max-height .4s ease;
+  }
+
+  .career-media:hover .exp-desc,
+  .career-media:focus-within .exp-desc {
+    max-height: 0;
+    opacity: 0;
+  }
+
+  .career-media:hover .exp-stats,
+  .career-media:focus-within .exp-stats {
+    max-height: 24rem;
+    opacity: 1;
+  }
+}
+
+@media (hover: none) {
+  .career-media-text .exp-stats {
+    margin-top: var(--space-3);
+  }
+}
+
 .career-entry-featured .career-media {
   aspect-ratio: 5 / 4;
 }
