@@ -535,7 +535,7 @@ p {
 .career-entry {
   position: relative;
   display: grid;
-  grid-template-columns: 110px minmax(0, 1fr) 420px;
+  grid-template-columns: 132px minmax(0, 1fr) 420px;
   gap: var(--space-6);
   align-items: start;
   padding: var(--space-6) 0;
@@ -1140,28 +1140,27 @@ main section[id] {
   gap: var(--space-3);
 }
 
+/* Each metric stacks its headline over a one-line label, so every item —
+   number, word, and label — starts on the same left edge, and the headline
+   size stays uniform across rows (numbers included). */
 .exp-stats > div {
   display: flex;
-  align-items: baseline;
-  gap: var(--space-3);
+  flex-direction: column;
+  gap: 2px;
 }
 
-/* The unit (kg h⁻¹, %, ×, L/h) and word-metrics sit at this base size; the
-   number itself is enlarged so it reads as the headline of each row. */
 .exp-stats strong {
-  flex: none;
   color: #fff;
-  font-size: var(--text-base);
+  font-size: var(--text-lg);
   font-weight: 700;
+  line-height: 1.15;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
   text-shadow: 0 1px 10px rgba(0, 0, 0, .5);
 }
 
 .exp-stats .num {
-  font-size: var(--text-xl);
   font-weight: 800;
-  line-height: 1;
   letter-spacing: -0.01em;
 }
 
