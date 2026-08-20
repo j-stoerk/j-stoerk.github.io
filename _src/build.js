@@ -142,7 +142,6 @@ function scripts(cfg) {
      (busy cursor / tab spinner). */
   return `  <script src="${ver('theme.js')}"></script>
   <script src="${ver('navigation.js')}"></script>
-  <script src="${ver('background.js')}"></script>
   <script src="${ver('media.js')}"></script>
   <script src="${ver('interactions.js')}"></script>
 ${extras ? extras + '\n' : ''}  <script>

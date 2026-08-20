@@ -138,19 +138,6 @@ body {
   isolation: isolate;
 }
 
-/* Decorative particle field: off in light mode (no glow), subtle in dark. */
-.microstructure-field {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0;
-}
-
-[data-theme="dark"] .microstructure-field {
-  opacity: .5;
-}
-
 /* ---------- Connected page-art (SVG "tree" behind every section) ---------- */
 main {
   position: relative;
