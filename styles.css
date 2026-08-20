@@ -476,11 +476,15 @@ p {
 
 /* ---------- Hero ---------- */
 .hero {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-10);
+  align-items: center;
   padding: var(--space-16) 0 var(--space-12);
   border-bottom: 1px solid var(--color-divider);
 }
 
-.hero > div {
+.hero > div:first-child {
   max-width: 62ch;
 }
 
@@ -2012,6 +2016,7 @@ sup.cite a:hover {
   padding: var(--space-6);
   margin: var(--space-8) 0;
   border: 1px solid var(--color-border);
+  max-width: 68ch;
 }
 
 .widget-controls {
