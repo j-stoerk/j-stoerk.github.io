@@ -96,4 +96,101 @@
       draw();
     }
   }
+
+  /* ---- count-up numbers ---- */
+  /* On pointer devices the impact metrics are hidden until hover, so the
+     count fires on hover; on touch (metrics always shown) it fires in view. */
+  (function () {
+    var nums = slice(document.querySelectorAll('.exp-stats .num[data-to]'));
+    if (!nums.length) return;
+    var dec = function (el) { return parseInt(el.getAttribute('data-dec') || '0', 10); };
+    var fmt = function (v, d) { return (v < 0 ? '−' : '') + Math.abs(v).toFixed(d); };
+    var run = function (el) {
+      if (el.getAttribute('data-ran')) return;
+      el.setAttribute('data-ran', '1');
+      var to = parseFloat(el.getAttribute('data-to'));
+      var d = dec(el);
+      if (isNaN(to)) return;
+      if (reduce) { el.textContent = fmt(to, d); return; }
+      var dur = 950, t0 = null;
+      var tick = function (ts) {
+        if (t0 === null) t0 = ts;
+        var p = Math.min(1, (ts - t0) / dur);
+        el.textContent = fmt(to * (1 - Math.pow(1 - p, 3)), d);
+        if (p < 1) requestAnimationFrame(tick);
+        else el.textContent = fmt(to, d);
+      };
+      requestAnimationFrame(tick);
+    };
+    if (!reduce) nums.forEach(function (el) { el.textContent = fmt(0, dec(el)); });
+    var runIn = function (scope) {
+      slice(scope.querySelectorAll('.num[data-to]')).forEach(run);
+    };
+    var figs = slice(document.querySelectorAll('.career-media'));
+    var hoverCap = window.matchMedia && window.matchMedia('(hover: hover)').matches;
+    if (hoverCap && !reduce) {
+      figs.forEach(function (fig) {
+        var go = function () { runIn(fig); };
+        fig.addEventListener('mouseenter', go);
+        fig.addEventListener('focusin', go);
+      });
+    } else if (hasIO) {
+      var no = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { runIn(e.target); no.unobserve(e.target); }
+        });
+      }, { threshold: 0.4 });
+      figs.forEach(function (f) { no.observe(f); });
+    } else {
+      figs.forEach(runIn);
+    }
+  })();
+
+  /* ---- images wipe in from the left ---- */
+  if (!reduce && hasIO) {
+    var wo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('wiped'); wo.unobserve(e.target); }
+      });
+    }, { threshold: 0.2 });
+    slice(document.querySelectorAll('.career-media, .rcard')).forEach(function (el) { wo.observe(el); });
+  }
+
+  /* ---- self-drawing publication charts ---- */
+  if (!reduce) {
+    var solid = 'path[stroke]:not([stroke-dasharray])';
+    var figures = slice(document.querySelectorAll('.pub-figure'));
+    var animFigs = figures.filter(function (fig) {
+      var lines = slice(fig.querySelectorAll(solid));
+      if (!lines.length && !fig.querySelector('path[fill]:not([stroke])')) return false;
+      fig.classList.add('animate');
+      lines.forEach(function (p) {
+        var len = 0;
+        try { len = p.getTotalLength(); } catch (err) { return; }
+        if (!len) return;
+        p.style.strokeDasharray = len;
+        p.style.strokeDashoffset = len;
+        p.__len = len;
+      });
+      return true;
+    });
+    var drawFig = function (fig) {
+      slice(fig.querySelectorAll(solid)).forEach(function (p, i) {
+        if (!p.__len) return;
+        p.style.transition = 'stroke-dashoffset 1.5s cubic-bezier(.65,0,.35,1) ' + (i * 220) + 'ms';
+        requestAnimationFrame(function () { p.style.strokeDashoffset = '0'; });
+      });
+      fig.classList.add('drawn');
+    };
+    if (animFigs.length && hasIO) {
+      var fo = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { fo.unobserve(e.target); drawFig(e.target); }
+        });
+      }, { threshold: 0.3 });
+      animFigs.forEach(function (f) { fo.observe(f); });
+    } else {
+      animFigs.forEach(drawFig);
+    }
+  }
 })();

@@ -864,6 +864,49 @@ main section[id] {
   transform: none;
 }
 
+/* ---- Motion accents (TigerBeetle-inspired): images wipe in, and the
+   publication charts draw their own curves and grow their own bars. All
+   initial-hidden states are double-gated behind .reveal-ready (JS present)
+   so no-JS and reduced-motion render the finished, static version. ---- */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-ready .career-media img,
+  .reveal-ready .rcard > img {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  .career-media img {
+    transition: clip-path 1s cubic-bezier(.2, .7, .2, 1),
+                transform .6s cubic-bezier(.2, .6, .2, 1);
+  }
+
+  .rcard > img {
+    transition: clip-path 1s cubic-bezier(.2, .7, .2, 1),
+                transform .6s cubic-bezier(.2, .6, .2, 1),
+                filter .4s;
+  }
+
+  .career-media.wiped img,
+  .rcard.wiped > img {
+    clip-path: inset(0 0 0 0);
+  }
+
+  /* Bars grow from their left baseline; solid curves draw themselves via
+     stroke-dashoffset set inline by JS from getTotalLength(). */
+  .reveal-ready .pub-figure.animate path[fill]:not([stroke]) {
+    transform: scaleX(0);
+    transform-box: fill-box;
+    transform-origin: left center;
+  }
+
+  .pub-figure.animate path[fill]:not([stroke]) {
+    transition: transform 1s cubic-bezier(.2, .7, .2, 1);
+  }
+
+  .pub-figure.animate.drawn path[fill]:not([stroke]) {
+    transform: scaleX(1);
+  }
+}
+
 /* Slim scroll-progress indicator. */
 .scroll-progress {
   position: fixed;
