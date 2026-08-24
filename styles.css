@@ -1057,6 +1057,13 @@ main section[id] {
   box-shadow: none;
 }
 
+/* Inline SVG cover art (e.g. a post's mountain background). */
+.cover-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .cover-text {
   position: absolute;
   inset: auto 0 0 0;

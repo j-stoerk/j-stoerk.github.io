@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finding a fair evaluation under changing representations · Julius Störk</title>
+  <meta name="description" content="Certified retention is easy for frozen features and hard once the representation moves. A bottom-up benchmark that makes adaptation necessary, and the CARG metric that measures it." />
+  <link rel="canonical" href="https://j-stoerk.github.io/post-fair-evaluation.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Julius Störk" />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-fair-evaluation.html" />
+  <meta property="og:title" content="Finding a fair evaluation under changing representations" />
+  <meta property="og:description" content="Certified retention under a changing representation: a bottom-up benchmark that makes adaptation necessary, and the CARG metric that measures it." />
+  <meta property="og:image" content="https://j-stoerk.github.io/social-forgetting.png" />
+  <meta property="og:image:alt" content="Fine class stripes collapsing to a shared representation under a blurred channel" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="article:published_time" content="2026-08-23" />
+  <meta property="article:author" content="Julius Störk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/social-forgetting.png" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Finding a fair evaluation under changing representations",
+      "description": "Certified retention under a changing representation: a bottom-up benchmark that makes adaptation necessary, and the CARG metric that measures it.",
+      "datePublished": "2026-08-23",
+      "dateModified": "2026-08-23",
+      "url": "https://j-stoerk.github.io/post-fair-evaluation.html",
+      "image": "https://j-stoerk.github.io/social-forgetting.png",
+      "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
+    }
+  </script>
+
+  <meta name="theme-color" content="#fdfdfc">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Applied before first paint so the theme never flashes. -->
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('theme'); } catch (e) { }
+      if (!t) t = 'light';   // light is the standard; dark only on explicit toggle
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'dark' ? '#101214' : '#fdfdfc');
+    })();
+  </script>
+
+  <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=14ea90c3">
+  <link rel="stylesheet" href="katex/katex.min.css">
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="site-title" href="index.html">Home</a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+        <span class="nav-toggle-lines" aria-hidden="true"></span>
+        <span class="sr-only">Open navigation</span>
+      </button>
+      <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
+        <a href="index.html#research">Research</a>
+        <a href="index.html#publications">Publications</a>
+        <a href="index.html#experience">Experience</a>
+        <a href="cv.html">CV</a>
+        <a class="current" href="blog.html" aria-current="page">Blog</a>
+        <a href="index.html#contact">Contact</a>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="content">
+
+    <div class="page-art" aria-hidden="true">
+      <svg viewBox="0 0 1000 5200" preserveAspectRatio="none" fill="none">
+        <g class="art-wash">
+          <g transform="translate(-205,20)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#8bbf6e" opacity="0.11"/></g>
+          <g transform="translate(-43,580)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#7a8a9a" opacity="0.14"/></g>
+          <g transform="translate(-186,1140)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#e0a94a" opacity="0.11"/></g>
+          <g transform="translate(-72,1700)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#c85a46" opacity="0.14"/></g>
+          <g transform="translate(-197,2260)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#5a82be" opacity="0.11"/></g>
+          <g transform="translate(-22,2820)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#8bbf6e" opacity="0.14"/></g>
+          <g transform="translate(-182,3380)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#7a8a9a" opacity="0.11"/></g>
+          <g transform="translate(-50,3940)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#e0a94a" opacity="0.14"/></g>
+          <g transform="translate(-180,4500)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#c85a46" opacity="0.11"/></g>
+        </g>
+        <path class="art-ink" d="M720 5180 C 660 4900 780 4650 725 4380 C 665 4120 775 3880 720 3620 C 665 3360 785 3120 725 2860 C 675 2620 775 2380 720 2120 C 675 1880 775 1650 720 1400 C 685 1180 760 960 720 730 C 705 540 730 340 720 150"/>
+        <path class="art-ink-soft" d="M733 5180 C 673 4900 793 4650 738 4380 C 678 4120 788 3880 733 3620 C 678 3360 798 3120 738 2860 C 688 2620 788 2380 733 2120 C 688 1880 788 1650 733 1400 C 698 1180 773 960 733 730 C 718 540 743 340 733 150"/>
+        <g transform="translate(690,1590)"><circle class="art-ink" cx="-120" cy="-40" r="10"/><circle class="art-ink" cx="0" cy="-90" r="10"/><circle class="art-ink" cx="0" cy="20" r="10"/><circle class="art-ink" cx="130" cy="-40" r="10"/><circle class="art-ink" cx="130" cy="70" r="10"/><path class="art-ink-soft" d="M-120 -40 L0 -90 M-120 -40 L0 20 M0 -90 L130 -40 M0 20 L130 -40 M0 20 L130 70"/><path class="art-ink" d="M-150 190 q 30 -50 60 0 t 60 0 t 60 0 t 60 0 t 60 0"/></g>
+        <g transform="translate(690,3530)"><path class="art-ink" d="M-140 -120 V 60 H 170"/><path class="art-ink" d="M-120 -78 C -60 62 -12 92 20 72 C 62 44 112 -58 152 -108"/><rect x="60" y="120" width="22" height="90" fill="#5a82be" fill-opacity=".28"/><rect x="92" y="90" width="22" height="120" fill="#e0a94a" fill-opacity=".28"/><rect x="124" y="140" width="22" height="70" fill="#c85a46" fill-opacity=".25"/><path class="art-ink" d="M60 120 v 90 M92 90 v 120 M124 140 v 70"/></g>
+        <g class="art-ink-soft">
+          <path d="M745 1590 C 720 1590 710 1590 730 1590"/>
+          <path d="M745 3530 C 720 3530 710 3530 730 3530"/>
+        </g>
+        <path class="art-ink" d="M720 5180 C 660 5080 560 5050 470 5075 M720 5180 C 790 5080 900 5055 960 5085 M720 5180 C 720 5100 720 5060 720 5030 M470 5075 C 430 5090 410 5125 420 5155 M960 5085 C 900 5100 880 5135 892 5162"/>
+      </svg>
+    </div>
+    <a class="back-link" href="blog.html">All posts</a>
+    <article class="post" id="fair-evaluation">
+      <div class="post-cover media-cover">
+        <div class="media">
+          <svg class="cover-art" viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice" role="img"
+            aria-label="A stylised mountain range at sunrise">
+            <defs>
+              <linearGradient id="cvSky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#e7edf2"/>
+                <stop offset="52%" stop-color="#efe7d6"/>
+                <stop offset="100%" stop-color="#f4dcb2"/>
+              </linearGradient>
+              <radialGradient id="cvSun" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#f4cd6d" stop-opacity="1"/>
+                <stop offset="45%" stop-color="#e7a94a" stop-opacity=".55"/>
+                <stop offset="100%" stop-color="#e7a94a" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="1200" height="675" fill="url(#cvSky)"/>
+            <circle cx="600" cy="452" r="250" fill="url(#cvSun)"/>
+            <circle cx="600" cy="452" r="96" fill="#eeba55"/>
+            <g stroke="#e7cf9a" stroke-width="2" opacity=".5">
+              <path d="M270 452 H 400 M800 452 H 930 M310 486 H 470 M730 486 H 890"/>
+            </g>
+            <path d="M0 430 L120 360 L240 405 L360 328 L500 402 L640 318 L780 396 L920 338 L1060 402 L1200 356 L1200 675 L0 675 Z"
+              fill="#b8c6d6" opacity=".7"/>
+            <path d="M0 484 L150 416 L300 472 L430 406 L560 472 L700 400 L840 466 L980 410 L1120 472 L1200 442 L1200 675 L0 675 Z"
+              fill="#8ba0bb" opacity=".82"/>
+            <path d="M0 566 L180 470 L340 548 L500 458 L680 548 L860 470 L1040 552 L1200 500 L1200 675 L0 675 Z"
+              fill="#5f7488"/>
+            <g fill="none" stroke="#3a4a5e" stroke-opacity=".35" stroke-width="2" stroke-linejoin="round">
+              <path d="M0 430 L120 360 L240 405 L360 328 L500 402 L640 318 L780 396 L920 338 L1060 402 L1200 356"/>
+              <path d="M0 566 L180 470 L340 548 L500 458 L680 548 L860 470 L1040 552 L1200 500"/>
+            </g>
+          </svg>
+        </div>
+        <div class="cover-text">
+          <p class="eyebrow"><time datetime="2026-08-23">23 August 2026</time> · Continual learning</p>
+          <h1 class="post-title">Finding a fair evaluation under changing representations</h1>
+        </div>
+      </div>
+
+      <div class="prose">
+        <p>LLMs handle well above 3&nbsp;billion prompts per day (traditional search engines handle 8.5&ndash;16&nbsp;billion
+          queries, for comparison). Those models, however, do not improve during those interactions: their weights do not
+          change meaningfully. Some information may be stored in databases, but the LLM itself forgets every interaction
+          outside context windows and related mechanisms.</p>
+        <p>In order to train systems that remember, we first have to be able to evaluate retention. This is trickier than
+          it seems.</p>
+        <p>Of course, we can compare raw accuracy. But when a frozen model already obtains perfect scores, there is no
+          incentive for adaptation. The math for frozen models is easy, and quite a bit harder for an adapting
+          representation. The unsolved problem is thus <strong>certified retention under a changing
+          representation</strong>.</p>
+
+        <h3>Why changing representations make retention hard</h3>
+        <p>Retention is easy to guarantee if you freeze the model&rsquo;s perception and only update a readout on top.
+          Then the features are constants, and the sufficient statistics are additive in the fixed coordinate system.
+          This is why frozen-feature continual learning works so well, and why most approaches inherit or rely on a fixed
+          backbone.</p>
+        <p>Let the representation move, and those assumptions fail. Sufficient statistics stop being sufficient because
+          they are expressed in stale coordinates, and updates become misaligned once the update distribution shifts.
+          Certified retention under a changing representation is therefore a fundamentally different problem.</p>
+        <p>This creates a simple but important benchmark-design challenge: how do we construct a task where adaptation is
+          actually necessary?</p>
+
+        <h3>First, make adaptation necessary</h3>
+        <p>Since strong frozen encoders win nearly everywhere against adapting representations, the first task is to
+          create a problem where adaptation is advantageous or, one step further, where frozen encoders <em>provably</em>
+          cannot succeed but the adapting representation can.</p>
+        <p>On existing benchmarks, a good encoder plus a moderately sized head exceeds the performance of most adaptive
+          systems. In that regime, any claimed benefit of adaptation can often be removed simply by strengthening the
+          frozen baseline. A benchmark that only reflects this regime will not reveal whether certified adaptive
+          retention is possible.</p>
+        <p>That led us through a lot of failed ideas.</p>
+        <ul>
+          <li><strong>High-frequency gratings</strong> above the encoder&rsquo;s sampling limit failed because the
+            frozen, strided encoder solved the problem through aliasing: high-frequency shapes became visible moir&eacute;
+            patterns.</li>
+          <li><strong>Dot positions within a patch</strong> blinded the encoder, but also blinded a from-scratch model,
+            making the task unusable.</li>
+          <li><strong>Relative phases of multiple gratings</strong> produced signals that survived only under specific
+            nonlinearities and did not generate a clean separation between a failing frozen encoder and a winning
+            adapter.</li>
+          <li><strong>Texture pairings, number of marks, and spatial layouts</strong> all looked plausible and turned out
+            to be linearly separable in the frozen feature space.</li>
+        </ul>
+        <p>The frozen encoder is surprisingly hard to trick in any way that still leaves a realistic path for a trainable
+          model.</p>
+
+        <h3>Designing the task bottom-up</h3>
+        <p>When all task-relevant information is eliminated, adaptation becomes necessary. Let&rsquo;s give each group and
+          class a label: <strong>coarse stripes for the group</strong> and <strong>fine stripes for the class</strong>.
+          The encoder gets only a blurred copy, with only the group label visible. The highest achievable accuracy is
+          therefore fixed by the grouping, which makes the representation itself testable.</p>
+        <p>We can design the grouping based on how much of the label the model is allowed to see, so that the ceiling is
+          related to the group size. Each group consists of fine classes that differ only in the fine stripes. The
+          anti-aliased channel feeding the frozen encoder removes those fine frequencies entirely, so all classes within
+          a group collapse to the same representation.</p>
+        <p>Any readout on top of that representation is therefore limited to random guessing within the group. Every
+          method, whether adaptive or not, receives the same backbone and the same bandwidth restriction. Any differences
+          downstream can therefore be attributed to the mechanisms being evaluated rather than to architectural
+          shortcuts.</p>
+
+        <figure class="pub-figure">
+          <svg viewBox="0 0 660 300" role="img" aria-labelledby="fig-bottleneck-title">
+            <title id="fig-bottleneck-title">Two classes in one group carry identical coarse (group) stripes but
+              different fine (class) stripes. The anti-aliased channel removes the fine frequencies, so both classes
+              collapse to the same blurred representation, capping any readout at within-group chance.</title>
+            <defs>
+              <clipPath id="pA"><rect x="40" y="36" width="150" height="96" rx="6"/></clipPath>
+              <clipPath id="pB"><rect x="40" y="168" width="150" height="96" rx="6"/></clipPath>
+              <clipPath id="pO"><rect x="470" y="102" width="150" height="96" rx="6"/></clipPath>
+              <filter id="blur"><feGaussianBlur stdDeviation="6"/></filter>
+            </defs>
+
+            <text class="fig-label" x="40" y="26">Class A (input)</text>
+            <g clip-path="url(#pA)">
+              <rect x="40" y="36" width="150" height="32" fill="#7e96b6" fill-opacity=".55"/>
+              <rect x="40" y="100" width="150" height="32" fill="#7e96b6" fill-opacity=".55"/>
+              <g stroke="#33465e" stroke-width="5" stroke-opacity=".7">
+                <path d="M62 36 V132 M102 36 V132 M142 36 V132 M182 36 V132"/>
+              </g>
+            </g>
+            <rect x="40" y="36" width="150" height="96" rx="6" fill="none" stroke="#33465e" stroke-opacity=".5"/>
+
+            <text class="fig-label" x="40" y="158">Class B (input)</text>
+            <g clip-path="url(#pB)">
+              <rect x="40" y="168" width="150" height="32" fill="#7e96b6" fill-opacity=".55"/>
+              <rect x="40" y="232" width="150" height="32" fill="#7e96b6" fill-opacity=".55"/>
+              <g stroke="#33465e" stroke-width="5" stroke-opacity=".7">
+                <path d="M54 168 V264 M74 168 V264 M94 168 V264 M114 168 V264 M134 168 V264 M154 168 V264 M174 168 V264"/>
+              </g>
+            </g>
+            <rect x="40" y="168" width="150" height="96" rx="6" fill="none" stroke="#33465e" stroke-opacity=".5"/>
+
+            <g fill="none" stroke="#33465e" stroke-opacity=".55" stroke-width="1.6">
+              <path d="M198 84 C 300 84 320 150 400 150"/>
+              <path d="M198 216 C 300 216 320 150 400 150"/>
+              <path d="M400 150 l -12 -6 M400 150 l -12 6"/>
+            </g>
+            <text class="fig-label" x="300" y="132" text-anchor="middle">anti-aliased</text>
+            <text class="fig-label" x="300" y="146" text-anchor="middle">channel (blur)</text>
+
+            <text class="fig-label" x="470" y="92">What the encoder sees</text>
+            <g clip-path="url(#pO)" filter="url(#blur)">
+              <rect x="466" y="98" width="158" height="36" fill="#7e96b6" fill-opacity=".55"/>
+              <rect x="466" y="166" width="158" height="36" fill="#7e96b6" fill-opacity=".55"/>
+            </g>
+            <rect x="470" y="102" width="150" height="96" rx="6" fill="none" stroke="#33465e" stroke-opacity=".5"/>
+            <text class="fig-label-primary" x="545" y="224" text-anchor="middle">A = B</text>
+            <text class="fig-label" x="545" y="240" text-anchor="middle">within-group: chance</text>
+          </svg>
+          <figcaption>Task construction and the representation bottleneck. Two classes in one group share the coarse
+            (group) stripes but differ only in the fine (class) stripes. The anti-aliased channel feeding the frozen
+            encoder strips the fine frequencies, so both classes collapse to one representation and any readout is capped
+            at within-group chance. Only a representation that is allowed to <em>change</em> can recover the fine
+            labels.</figcaption>
+        </figure>
+
+        <h3>Measuring the accuracy&ndash;retention tradeoff</h3>
+        <p>We evaluate the task with <strong>CARG</strong>, the certified adaptive-retention gap: the best accuracy of
+          any method minus the best accuracy of any method whose retention certificate actually holds.</p>
+        <div class="equation"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mrow><mi mathvariant="normal">C</mi><mi mathvariant="normal">A</mi><mi mathvariant="normal">R</mi><mi mathvariant="normal">G</mi></mrow><mtext>  </mtext><mo>=</mo><mtext>  </mtext><munder><mrow><mi>max</mi><mo>⁡</mo></mrow><mi>m</mi></munder><mtext> </mtext><mrow><mi mathvariant="normal">a</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">c</mi></mrow><mo stretchy="false">(</mo><mi>m</mi><mo stretchy="false">)</mo><mtext>  </mtext><mo>−</mo><mtext>  </mtext><munder><mrow><mi>max</mi><mo>⁡</mo></mrow><mrow><mi>m</mi><mtext> </mtext><mo>:</mo><mtext> </mtext><mrow><mi mathvariant="normal">c</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">t</mi></mrow><mo stretchy="false">(</mo><mi>m</mi><mo stretchy="false">)</mo></mrow></munder><mtext> </mtext><mrow><mi mathvariant="normal">a</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">c</mi></mrow><mo stretchy="false">(</mo><mi>m</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{CARG} \;=\; \max_{m}\ \mathrm{acc}(m)\;-\;\max_{m\,:\,\mathrm{cert}(m)}\ \mathrm{acc}(m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord"><span class="mord mathrm">CARG</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.45em;vertical-align:-0.7em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.4306em;"><span style="top:-2.4em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span><span class="mop">max</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7em;"><span></span></span></span></span></span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathrm">acc</span></span><span class="mopen">(</span><span class="mord mathnormal">m</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.716em;vertical-align:-0.966em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.4306em;"><span style="top:-2.309em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">m</span><span class="mspace mtight" style="margin-right:0.1952em;"></span><span class="mrel mtight">:</span><span class="mspace mtight" style="margin-right:0.1952em;"></span><span class="mord mtight"><span class="mord mathrm mtight">cert</span></span><span class="mopen mtight">(</span><span class="mord mathnormal mtight">m</span><span class="mclose mtight">)</span></span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span><span class="mop">max</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.966em;"><span></span></span></span></span></span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathrm">acc</span></span><span class="mopen">(</span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span></span></div>
+        <p>This measures the tradeoff between raw accuracy and adaptation. <em>Best accuracy of anyone</em> is the
+          unconstrained optimum: whatever method reaches the highest score on the stream, regardless of whether it can
+          justify its retention claims. <em>Best accuracy of anyone where retention holds</em> is the maximum score among
+          methods whose retention bound actually covers their behaviour on held-out checks.</p>
+        <p>A high CARG means that enforcing a correct retention certificate eliminates most of the achievable accuracy.
+          That is precisely the regime we want to expose. The point is not simply to produce a harder benchmark; it is to
+          create one where adapting the representation while retaining previous capabilities is measurable and cannot be
+          bypassed by a stronger frozen feature extractor.</p>
+
+        <h3>What happens to existing continual-learning methods?</h3>
+        <p>Parameter-space methods &mdash; Elastic Weight Consolidation (EWC), Synaptic Intelligence (SI), Learning
+          without Forgetting (LwF), Averaged Gradient Episodic Memory (A-GEM), and Gradient Projection Memory (GPM)
+          &mdash; collapse under an adapting representation, while data-replay methods perform well.</p>
+        <p>Methods that regularise or project parameter updates are built around preserving functions in a representation
+          that is assumed to remain sufficiently stable. Once the representation has to move far enough to resolve the
+          fine labels, those parameter-space constraints can no longer keep the old functions intact. Replay and
+          class-incremental schemes that retain explicit examples or proxies close to them continue to track the
+          unconstrained optimum more closely, because they can re-fit the old tasks in the new coordinates.</p>
+
+        <h3>Can replay solve the scaling problem?</h3>
+        <p>Exemplar-free settings are nevertheless necessary for scaling this approach, where storage, bandwidth, and
+          privacy costs become prohibitive at deployment scale. Common approaches store the old model parameters or old
+          raw data, and a NeurIPS&rsquo;25 paper demonstrated decent results with only 0.3% of the data size
+          <sup class="cite">[<a href="#ref-1">1</a>]</sup>. A 2026 ICLR paper argues that &ldquo;exemplar memory is no
+          longer the limiting factor&rdquo; and that simple replay baselines can outperform SOTA methods &ldquo;at a
+          fraction of the GPU cost&rdquo; <sup class="cite">[<a href="#ref-2">2</a>]</sup>.</p>
+        <p>That rules out the most straightforward way of reconciling adaptation and retention. The burden then shifts to
+          methods that summarise history into a compressed representation, embed data, or find adaptive representations of
+          the data and tasks themselves. That is exactly where certified retention under changing representations becomes
+          interesting: the challenge is remembering what mattered about those examples while the coordinate system used to
+          represent them is itself changing.</p>
+
+        <h3>Closing remarks</h3>
+        <p>This benchmark is, unfortunately, not applicable to real images or audio spectrograms, even blurred. Its
+          construction deliberately isolates a regime in which a frozen encoder is provably insufficient and an adaptive
+          one is necessary. It does this by altering what the encoder is allowed to <em>see</em> rather than relying on
+          natural variation in datasets.</p>
+        <p>That is also the point. It is not intended to be a realistic vision dataset; it is intended to establish a
+          clean experimental regime in which the usual frozen-feature advantage disappears and adaptive retention can
+          actually be tested. A certified adaptive-retention regime would greatly advance continual-learning research by
+          making adaptation mandatory and retention measurable.</p>
+        <p>The broader lesson is that fair evaluation of continual learning cannot stop at asking <em>&ldquo;how accurate
+          is the model?&rdquo;</em> We also need to ask <em>&ldquo;how much of that accuracy survives under a valid
+          retention certificate?&rdquo;</em> and <em>&ldquo;what happens when the representation itself has to
+          change?&rdquo;</em></p>
+        <p>Once there are sufficiently strong adaptive models, the models that gain the most from changing their
+          representations are also the models for which simple retention certificates become hardest to verify.</p>
+      </div>
+
+      <section class="post-sources">
+        <h3>Sources</h3>
+        <ol class="sources">
+          <li id="ref-1">NeurIPS 2025. Exemplar-free continual learning at roughly 0.3% of the data footprint.
+            <a href="https://proceedings.neurips.cc/paper_files/paper/2025/file/2cce693b68f8470d69f53b6f77fcfdcd-Paper-Conference.pdf"
+              target="_blank" rel="noopener noreferrer">proceedings.neurips.cc</a></li>
+          <li id="ref-2">ICLR 2026. &ldquo;Exemplar memory is no longer the limiting factor&rdquo;: simple replay
+            baselines that outperform SOTA at a fraction of the GPU cost.
+            <a href="https://iclr.cc/virtual/2026/poster/10008192" target="_blank" rel="noopener noreferrer">iclr.cc/virtual/2026/poster/10008192</a></li>
+        </ol>
+      </section>
+    </article>
+
+    <nav class="post-pager" aria-label="More posts">
+      <a href="post-student-becomes-teacher.html">
+        <span class="eyebrow">Next post</span>
+        <span class="post-pager-title">The student becomes the teacher</span>
+      </a>
+    </nav>
+  </main>
+
+  <footer class="content">
+    <span>© 2026 Julius Störk</span>
+    <span><a href="blog.html">All posts</a></span>
+  </footer>
+
+  <script src="theme.js?v=e512a566"></script>
+  <script src="navigation.js?v=82ad0181"></script>
+  <script src="media.js?v=94604095"></script>
+  <script src="interactions.js?v=cc839e91"></script>
+  <script src="blog.js?v=119b9d1e"></script>
+  <script>
+    window.addEventListener('load', function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://gc.zgo.at/count.js';
+      s.setAttribute('data-goatcounter', 'https://jstoerk.goatcounter.com/count');
+      document.body.appendChild(s);
+    });
+  </script>
+</body>
+
+</html>

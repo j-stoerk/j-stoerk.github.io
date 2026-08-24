@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://j-stoerk.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Finding a Fair Evaluation Under Changing Representations</title>
+      <link>https://j-stoerk.github.io/post-fair-evaluation.html</link>
+      <guid isPermaLink="true">https://j-stoerk.github.io/post-fair-evaluation.html</guid>
+      <pubDate>Sun, 23 Aug 2026 08:00:00 +0200</pubDate>
+      <description>Certified retention under a changing representation: a bottom-up stripe benchmark where a frozen encoder provably cannot win, and the CARG metric for the accuracy-retention tradeoff.</description>
+    </item>
+    <item>
       <title>The student becomes the teacher</title>
       <link>https://j-stoerk.github.io/post-student-becomes-teacher.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-student-becomes-teacher.html</guid>
