@@ -84,10 +84,38 @@
 <article class="post" id="calendering-u-shape">
       <div class="post-cover media-cover">
         <div class="media">
-          <video muted loop playsinline preload="metadata" data-autoplay poster="images/calender-roll.webp"
-            aria-label="A calendering roll pressing a lithium-ion electrode sheet">
-            <source src="images/calender-roll.mp4" type="video/mp4">
-          </video>
+          <svg class="cover-art" viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice" role="img"
+            aria-label="Calendering rolls pressing an electrode sheet into a U-shaped thermal-conductivity curve">
+            <defs>
+              <linearGradient id="calSky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#eaf0f5"/>
+                <stop offset="58%" stop-color="#efe9dc"/>
+                <stop offset="100%" stop-color="#e7dcc6"/>
+              </linearGradient>
+              <radialGradient id="calA" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#5a82be" stop-opacity=".2"/><stop offset="100%" stop-color="#5a82be" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="calB" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#e0a94a" stop-opacity=".26"/><stop offset="100%" stop-color="#e0a94a" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="1200" height="675" fill="url(#calSky)"/>
+            <ellipse cx="300" cy="250" rx="380" ry="320" fill="url(#calA)"/>
+            <ellipse cx="950" cy="300" rx="360" ry="320" fill="url(#calB)"/>
+            <path fill="none" stroke="#3a4a5e" stroke-opacity=".22" stroke-width="2" d="M520 120 V 470 H 1140"/>
+            <path fill="none" stroke="#7a8a9a" stroke-opacity=".55" stroke-width="3" stroke-dasharray="7 7"
+              d="M520 420 C 700 372 880 300 1140 190"/>
+            <path fill="none" stroke="#7a8a9a" stroke-opacity=".4" stroke-width="3" stroke-dasharray="2 7"
+              d="M520 430 C 760 420 940 356 1140 236"/>
+            <path fill="none" stroke="#2f6fb0" stroke-width="7" stroke-linecap="round"
+              d="M520 300 C 600 392 680 446 760 446 C 872 446 960 336 1140 168"/>
+            <circle cx="762" cy="446" r="9" fill="#2f6fb0"/>
+            <g stroke="#33465e" stroke-width="4" fill="none">
+              <circle cx="250" cy="222" r="86"/><circle cx="250" cy="222" r="44" stroke-width="2.5"/>
+              <circle cx="250" cy="408" r="86"/><circle cx="250" cy="408" r="44" stroke-width="2.5"/>
+              <path d="M70 315 H 520"/>
+            </g>
+          </svg>
         </div>
         <div class="cover-text">
           <p class="eyebrow"><time datetime="2026-06-28">28 June 2026</time> · Electrode manufacturing</p>
