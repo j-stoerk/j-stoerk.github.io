@@ -83,9 +83,43 @@
     <a class="back-link" href="blog.html">All posts</a>
 <article class="post" id="geometry-of-forgetting">
       <div class="post-cover media-cover">
-        <div class="media"><img src="images/research01.webp"
-            alt="A neural network dissolving into binary, evoking catastrophic forgetting" loading="lazy" width="1100"
-            height="733"></div>
+        <div class="media">
+          <svg class="cover-art" viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice" role="img"
+            aria-label="A weight-update vector crossing a task's covariance ellipses, illustrating interference geometry">
+            <defs>
+              <linearGradient id="gfSky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#eef1f5"/>
+                <stop offset="60%" stop-color="#ecebe2"/>
+                <stop offset="100%" stop-color="#e4dccb"/>
+              </linearGradient>
+              <radialGradient id="gfA" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#5a82be" stop-opacity=".22"/><stop offset="100%" stop-color="#5a82be" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="gfB" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#c85a46" stop-opacity=".2"/><stop offset="100%" stop-color="#c85a46" stop-opacity="0"/>
+              </radialGradient>
+              <marker id="gfArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0 0 L10 5 L0 10 z" fill="#2f6fb0"/>
+              </marker>
+            </defs>
+            <rect width="1200" height="675" fill="url(#gfSky)"/>
+            <ellipse cx="820" cy="300" rx="420" ry="360" fill="url(#gfA)"/>
+            <ellipse cx="360" cy="430" rx="320" ry="300" fill="url(#gfB)"/>
+            <g transform="rotate(-26 800 310)" fill="none" stroke="#33465e">
+              <ellipse cx="800" cy="310" rx="262" ry="122" stroke-opacity=".5" stroke-width="2.5"/>
+              <ellipse cx="800" cy="310" rx="196" ry="92" stroke-opacity=".38" stroke-width="2"/>
+              <ellipse cx="800" cy="310" rx="130" ry="60" stroke-opacity=".28" stroke-width="2"/>
+              <ellipse cx="800" cy="310" rx="66" ry="30" stroke-opacity=".2" stroke-width="2"/>
+              <path d="M528 310 H 1072" stroke="#7a8a9a" stroke-opacity=".4" stroke-width="1.5" stroke-dasharray="6 6"/>
+              <path d="M800 178 V 442" stroke="#7a8a9a" stroke-opacity=".4" stroke-width="1.5" stroke-dasharray="6 6"/>
+            </g>
+            <circle cx="300" cy="500" r="6" fill="#33465e"/>
+            <path d="M300 500 L 800 250" fill="none" stroke="#2f6fb0" stroke-width="6" stroke-linecap="round"
+              marker-end="url(#gfArrow)"/>
+            <path d="M300 500 L 566 560" fill="none" stroke="#33465e" stroke-opacity=".35" stroke-width="3"
+              stroke-dasharray="3 8"/>
+          </svg>
+        </div>
         <div class="cover-text">
           <p class="eyebrow"><time datetime="2026-07-05">5 July 2026</time> · Continual learning</p>
           <h1 class="post-title">The geometry of forgetting in continual learning</h1>
