@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Measuring the pot, not the play · Julius Störk</title>
+  <title>I ran a game-theory RL-Menu Agent in GLEE for 48 hours (no LLM) · Julius Störk</title>
   <meta name="description" content="Building a no-LLM game-theory bot for the GLEE economic games, and what actually moved the percentile score: scaling the reward, measuring in the right seat, and closing before inflation eats the pot." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-glee-agent.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
@@ -12,7 +12,7 @@
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-glee-agent.html" />
-  <meta property="og:title" content="Measuring the pot, not the play" />
+  <meta property="og:title" content="I ran a game-theory RL-Menu Agent in GLEE for 48 hours (no LLM)" />
   <meta property="og:description" content="Building a no-LLM game-theory bot for the GLEE economic games, and what moved the percentile score versus what did not." />
   <meta property="og:image" content="https://j-stoerk.github.io/social-glee.png" />
   <meta property="og:image:alt" content="A pot shrinking round by round, split near fifty-fifty" />
@@ -27,7 +27,7 @@
     {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
-      "headline": "Measuring the pot, not the play",
+      "headline": "I ran a game-theory RL-Menu Agent in GLEE for 48 hours (no LLM)",
       "description": "Building a no-LLM game-theory bot for the GLEE economic games, and what actually moved the percentile score: scaling the reward, measuring in the right seat, and closing before inflation eats the pot.",
       "datePublished": "2026-08-30",
       "dateModified": "2026-08-30",
@@ -134,77 +134,83 @@
         </div>
         <div class="cover-text">
           <p class="eyebrow"><time datetime="2026-08-30">30 August 2026</time> · AI agents</p>
-          <h1 class="post-title">Measuring the pot, not the play</h1>
+          <h1 class="post-title">I ran a game-theory RL-Menu Agent in GLEE for 48 hours (no LLM)</h1>
         </div>
       </div>
-      <p class="article-meta muted">Notes from building an agent for the GLEE economic-games benchmark in a
-        weekend. There is a <a href="games.html">playable version of the three games</a> if you want to try them
-        first.</p>
-
       <div class="prose">
-        <p>For 48 hours at the end of August I ran a bot in <strong>GLEE</strong>, a benchmark that drops an
-          agent into three economic games (bargaining over a shrinking pot, negotiating over an item worth more
-          to the buyer than it costs the seller, and a repeated persuasion game with one-sided information)
-          against a live field of other bots and language models. The score is a percentile: you are ranked by
-          where your payoff lands against the rest of the field on that exact configuration, not by how much you
-          win. Efficiency and fairness never enter it. A move is worth whatever the field does in the same spot.</p>
+        <p>At the end of August I ran a bot in GLEE for 48 hours. GLEE drops an agent into three economic games:
+          bargaining over a shrinking pot, negotiating a sale where the item is worth more to the buyer than it
+          costs the seller, and a repeated persuasion game with one-sided information. It then puts it against a
+          live field of other bots and language models.</p>
+        <p>The score is a percentile. You're ranked by where your payoff lands against everyone else who played
+          that exact configuration. Squeezing a huge payoff out of a soft field scores like a middling one against
+          a tough field. Efficiency and fairness don't show up anywhere in it. A move is worth whatever the field
+          does in the same spot.</p>
 
-        <h3>No language model in the agent</h3>
-        <p>A rating with a roughly 100-game memory needs volume to hold a percentile, and a 50&nbsp;ms move plays
-          far more games than a 3&nbsp;second one. So the agent is game theory with a small bandit on top:
-          Rubinstein's alternating-offer split, an ANAC-style time concession, the Kamenica&ndash;Gentzkow
-          signalling rate, each with a few constants the bandit tunes. That ran about 10,000 offline self-play
-          games a minute, and 16,000 arena games with zero invalid moves.</p>
+        <h3>The agent</h3>
+        <p>The rating only remembers about 100 games, so holding a percentile is mostly a volume game, and a 50ms
+          move plays a lot more games than a 3s one. That's the whole reason there's no language model in the
+          loop.</p>
+        <p>The agent is textbook game theory with a small bandit on top: Rubinstein's alternating-offer split, an
+          ANAC-style time concession, the Kamenica&ndash;Gentzkow signalling rate. The bandit's entire job is
+          tuning a few constants on top of those, which feels closer to control theory than to machine
+          learning.</p>
+        <p>It ran about 10,000 offline self-play games a minute, and 16,000 games in the arena with zero invalid
+          moves, the one number in this post I'm proud of. That tells you how the rest of it goes.</p>
 
-        <h3>Normalise the reward by the size of the prize</h3>
-        <p>The bandit's reward was the rank of each payoff within its own history for a context. A context bucket
-          spanned pot sizes from $100 to a million dollars, so the rank recorded which configuration the agent
-          drew, not how well it played, and the arms never separated. Dividing the reward by the prize on offer
-          tripled the gap between a good arm and a bad one (+0.040 to +0.119).</p>
+        <h3>The reward bug</h3>
+        <p>The bandit's reward was the rank of each payoff within its own history for a context. That sounds
+          reasonable until you notice that a single context bucket spanned pot sizes from $100 to $1M, at which
+          point the rank is mostly recording which configuration you drew.</p>
+        <p>The arms never separated. Dividing the reward by the prize on the table tripled the gap between a good
+          arm and a bad one, from +0.040 to +0.119.</p>
 
-        <h3>Compare in the same seat, not across the table</h3>
-        <p>The obvious way to check the agent is to compare it to the opponent it just played; by that measure it
-          won by +0.093. But the rating ranks you against others in your seat on your configuration, so the
-          opponent across the table is the wrong reference. It measures the seat, not the play. Against a field
-          agent in the same seat the agent scored 51%, matching the live percentile exactly, which is what made
-          the rest of the diagnosis trustworthy.</p>
+        <h3>The wrong baseline</h3>
+        <p>The obvious sanity check is whether you beat the opponent you just played, and by that measure the
+          agent won by +0.093. But the rating ranks you against everyone else in your seat on your configuration,
+          so whoever's across the table is a misleading reference. That comparison is mostly about the seat.</p>
+        <p>Against a field agent in the same seat the agent scored 51%, which matched its live percentile exactly.
+          That's the number that made me trust the rest of the diagnosis.</p>
 
-        <h3>The offline field is softer than the live one</h3>
-        <p>I built a population of synthetic opponents to sweep changes against. One change scored 51% to 64%
-          offline; live, over the 148 games before and 176 after, it went from the 50th percentile to the 46th.
-          The synthetic opponents conceded 0.20 to 0.60 of the gap per round; the live median was 0.02, ten to
-          thirty times slower. After that an offline sweep was a hypothesis to test live, not a result.</p>
+        <h3>Offline vs live</h3>
+        <p>I built a population of synthetic opponents to sweep changes against, and one change scored 51% to 64%
+          offline. Live, over 148 games before and 176 after, it went from the 50th percentile to the 46th.</p>
+        <p>The synthetic opponents conceded 0.20 to 0.60 of the gap per round; the live median was 0.02. Ten to
+          thirty times slower. My offline field was simply too polite.</p>
+        <p>Part of me still wonders whether 176 games is enough to say anything at all. Still, after that, an
+          offline sweep was just one more hypothesis to test live.</p>
 
-        <h3>Inflation was the whole bargaining problem</h3>
-        <p>Once every agent logged each game in full, bargaining had one dominant leak. Against a patient opponent
-          at discount 0.8, the agent took 0.159 of the pot where a simpler variant took 0.373. Its acceptance bar
-          discounted the continuation by a single round, as if the next offer would close, when a real deal took
-          several, and at that discount each extra round costs 20 to 30% of the pot. Discounting by the number of
-          rounds a deal actually takes fixed it: the simpler bot closed 80% of those games in the first round, the
-          original 39%.</p>
+        <h3>The inflation bug</h3>
+        <p>Once every agent logged each game in full, bargaining had one clearly dominant leak. Against a patient
+          opponent at discount 0.8, the agent took 0.159 of the pot where a simpler variant took 0.373.</p>
+        <p>The acceptance bar was discounting the continuation by a single round, as if the next offer would close
+          the deal. Real deals took several rounds, and at that discount every extra round costs 20 to 30% of the
+          pot.</p>
+        <p>Discounting by the number of rounds a deal actually takes fixed it. The simpler bot closed 80% of those
+          games in the first round, compared with 39% for the original.</p>
 
-        <h3>What did not move the metric</h3>
-        <p>The levers I was most confident in did the least. Persuasive message styles (structure, concrete
-          reasons, loss framing) barely moved a buyer reading the bare categorical offer. Hard anchoring dragged
-          the opponent's threshold down, but not far enough to pay for the rounds it cost. And an opponent's talk
-          about how patient it was only ever revealed weakness: fitting its discount from its demands let a greedy
-          bluff read as very patient and collapsed the agent's own share to 0.09, so the discount is only inferred
-          downward, never up.</p>
-
-        <p>The agent finished around rank 14. The parts that moved the percentile were the dull ones: scale the
-          reward, measure in the right seat, close before inflation eats the pot. The clever-looking levers,
-          persuasive messages and aggressive anchoring, did almost nothing.</p>
-
-        <p>What the top of the leaderboard probably did is not more of this; it is about timing. A percentile on a
-          moving field rewards two things I never really played: knowing when to stop, and finding the tactic that
-          pays before the field catches up. Stonewalling in bargaining is the clearest case. While most agents
-          still conceded, an agent that simply refused to move harvested a run of good percentiles off the ones
-          that folded; once everyone stonewalled, the same move only produced deadlocks and no deals, and the edge
-          was gone. The winning play is to adopt a tactic while it is mispriced, ride it, and then freeze the agent
-          to lock in the peak before the counter-adaptation arrives. The strong teams stopped at the top. I kept
-          playing a field that had already moved.</p>
-
-        <p>The <a href="games.html">three games are playable here</a> if you want to feel the seats yourself.</p>
+        <p>The levers I was most confident about did the least. Persuasive message styles, such as structure,
+          concrete reasons, and loss framing, barely moved a buyer who was reading the bare categorical offer.</p>
+        <p>The explanation is probably simple. The top 50 agents on the leaderboard contained no LLMs. They were
+          all hand-crafted, and likely used very little speech at all. There was nobody home to persuade.</p>
+        <p>Hard anchoring dragged the opponent's threshold down, but not far enough to pay for the rounds it cost.
+          And an opponent talking about its own patience was almost always a tell. Fitting its discount from its
+          demands let a greedy bluff read as very patient and collapsed the agent's share to 0.09.</p>
+        <p>The discount fit only moves downward now. I'd like to have a principled story for that beyond
+          &ldquo;a bluff broke it,&rdquo; but I don't.</p>
+        <p>The agent finished around rank 14. In hindsight, almost everything that moved the percentile was
+          plumbing. The reward scale and the acceptance bar were straight-up bug fixes, and the third win was just
+          remembering who I'm actually ranked against. The clever-looking levers, persuasive messages and
+          aggressive anchoring, did almost nothing.</p>
+        <p>My guess is the top of the leaderboard was mostly about timing. A percentile on a moving field rewards
+          two things: knowing when to stop, and finding a tactic that pays before the field catches up.</p>
+        <p>Stonewalling in bargaining is the clearest case. While most agents still conceded, an agent that simply
+          refused to move harvested a run of good percentiles off the ones that folded. Once everyone stonewalled,
+          the same move just produced deadlocks and no deals, and the edge was gone.</p>
+        <p>The winning play is to pick up a tactic while it's mispriced, ride it, then freeze the agent to lock in
+          the peak before the counter-adaptation arrives. The strong teams stopped at the top. I kept playing a
+          field that had already moved.</p>
+        <p>If you want to feel the seats yourself, the <a href="games.html">three games are playable here</a>.</p>
       </div>
 
       <section class="post-sources">
