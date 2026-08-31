@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://j-stoerk.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Measuring the Pot, Not the Play</title>
+      <link>https://j-stoerk.github.io/post-glee-agent.html</link>
+      <guid isPermaLink="true">https://j-stoerk.github.io/post-glee-agent.html</guid>
+      <pubDate>Sun, 30 Aug 2026 08:00:00 +0200</pubDate>
+      <description>Notes from building a game-theory agent for GLEE: the reward measured the pot not the play, the baseline was the wrong seat, and the offline field lied. With a playable version of the three games.</description>
+    </item>
+    <item>
       <title>Finding a Fair Evaluation Under Changing Representations</title>
       <link>https://j-stoerk.github.io/post-fair-evaluation.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-fair-evaluation.html</guid>

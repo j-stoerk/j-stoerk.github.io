@@ -1,5 +1,17 @@
 [
   {
+    "file": "post-glee-agent.html",
+    "title": "Measuring the Pot, Not the Play",
+    "iso": "2026-08-30",
+    "display": "30 August 2026",
+    "category": "AI agents",
+    "minutes": 7,
+    "summary": "A weekend building a no-LLM game-theory bot for the GLEE economic games — bargaining, negotiation, persuasion — and being blind to what it was doing, because the reward, the baseline, and the offline field model were each miscalibrated in a way that flattered it. Includes a playable version of the three games.",
+    "feedDescription": "Notes from building a game-theory agent for GLEE: the reward measured the pot not the play, the baseline was the wrong seat, and the offline field lied. With a playable version of the three games.",
+    "rfc822": "Sun, 30 Aug 2026 08:00:00 +0200",
+    "lastmod": "2026-08-30"
+  },
+  {
     "file": "post-fair-evaluation.html",
     "title": "Finding a Fair Evaluation Under Changing Representations",
     "iso": "2026-08-23",

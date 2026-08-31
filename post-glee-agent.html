@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Measuring the pot, not the play · Julius Störk</title>
+  <meta name="description" content="Two days building a game-theory bot for the GLEE economic-games benchmark, and how every instrument I trusted — the reward, the baseline, the offline field model — was miscalibrated in a way that flattered it." />
+  <link rel="canonical" href="https://j-stoerk.github.io/post-glee-agent.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Julius Störk" />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-glee-agent.html" />
+  <meta property="og:title" content="Measuring the pot, not the play" />
+  <meta property="og:description" content="Building a game-theory bot for the GLEE economic games, and being blind to what it was doing because the reward, the baseline, and the offline model were all miscalibrated." />
+  <meta property="og:image" content="https://j-stoerk.github.io/social-glee.png" />
+  <meta property="og:image:alt" content="A pot shrinking round by round, split near fifty-fifty" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="article:published_time" content="2026-08-30" />
+  <meta property="article:author" content="Julius Störk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/social-glee.png" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Measuring the pot, not the play",
+      "description": "Building a game-theory bot for the GLEE economic games, and being blind to its behaviour because the reward, the baseline, and the offline field model were all miscalibrated.",
+      "datePublished": "2026-08-30",
+      "dateModified": "2026-08-30",
+      "url": "https://j-stoerk.github.io/post-glee-agent.html",
+      "image": "https://j-stoerk.github.io/social-glee.png",
+      "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
+    }
+  </script>
+
+  <meta name="theme-color" content="#fdfdfc">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Applied before first paint so the theme never flashes. -->
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('theme'); } catch (e) { }
+      if (!t) t = 'light';   // light is the standard; dark only on explicit toggle
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'dark' ? '#101214' : '#fdfdfc');
+    })();
+  </script>
+
+  <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=14ea90c3">
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="site-title" href="index.html">Home</a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+        <span class="nav-toggle-lines" aria-hidden="true"></span>
+        <span class="sr-only">Open navigation</span>
+      </button>
+      <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
+        <a href="index.html#research">Research</a>
+        <a href="index.html#publications">Publications</a>
+        <a href="index.html#experience">Experience</a>
+        <a href="cv.html">CV</a>
+        <a class="current" href="blog.html" aria-current="page">Blog</a>
+        <a href="index.html#contact">Contact</a>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="content">
+
+    <div class="page-art" aria-hidden="true">
+      <svg viewBox="0 0 1000 5200" preserveAspectRatio="none" fill="none">
+        <g class="art-wash">
+          <g transform="translate(-205,20)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#8bbf6e" opacity="0.11"/></g>
+          <g transform="translate(-43,580)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#7a8a9a" opacity="0.14"/></g>
+          <g transform="translate(-186,1140)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#e0a94a" opacity="0.11"/></g>
+          <g transform="translate(-72,1700)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#c85a46" opacity="0.14"/></g>
+          <g transform="translate(-197,2260)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#5a82be" opacity="0.11"/></g>
+          <g transform="translate(-22,2820)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#8bbf6e" opacity="0.14"/></g>
+          <g transform="translate(-182,3380)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#7a8a9a" opacity="0.11"/></g>
+          <g transform="translate(-50,3940)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#e0a94a" opacity="0.14"/></g>
+          <g transform="translate(-180,4500)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#c85a46" opacity="0.11"/></g>
+        </g>
+        <path class="art-ink" d="M720 5180 C 660 4900 780 4650 725 4380 C 665 4120 775 3880 720 3620 C 665 3360 785 3120 725 2860 C 675 2620 775 2380 720 2120 C 675 1880 775 1650 720 1400 C 685 1180 760 960 720 730 C 705 540 730 340 720 150"/>
+        <path class="art-ink-soft" d="M733 5180 C 673 4900 793 4650 738 4380 C 678 4120 788 3880 733 3620 C 678 3360 798 3120 738 2860 C 688 2620 788 2380 733 2120 C 688 1880 788 1650 733 1400 C 698 1180 773 960 733 730 C 718 540 743 340 733 150"/>
+        <g transform="translate(690,1590)"><circle class="art-ink" cx="-120" cy="-40" r="10"/><circle class="art-ink" cx="0" cy="-90" r="10"/><circle class="art-ink" cx="0" cy="20" r="10"/><circle class="art-ink" cx="130" cy="-40" r="10"/><circle class="art-ink" cx="130" cy="70" r="10"/><path class="art-ink-soft" d="M-120 -40 L0 -90 M-120 -40 L0 20 M0 -90 L130 -40 M0 20 L130 -40 M0 20 L130 70"/></g>
+        <g transform="translate(690,3530)"><path class="art-ink" d="M-140 -120 V 60 H 170"/><path class="art-ink" d="M-120 -78 C -60 62 -12 92 20 72 C 62 44 112 -58 152 -108"/><rect x="60" y="120" width="22" height="90" fill="#5a82be" fill-opacity=".28"/><rect x="92" y="90" width="22" height="120" fill="#e0a94a" fill-opacity=".28"/><rect x="124" y="140" width="22" height="70" fill="#c85a46" fill-opacity=".25"/></g>
+        <path class="art-ink" d="M720 5180 C 660 5080 560 5050 470 5075 M720 5180 C 790 5080 900 5055 960 5085 M720 5180 C 720 5100 720 5060 720 5030 M470 5075 C 430 5090 410 5125 420 5155 M960 5085 C 900 5100 880 5135 892 5162"/>
+      </svg>
+    </div>
+    <a class="back-link" href="blog.html">All posts</a>
+    <article class="post" id="glee-agent">
+      <div class="post-cover media-cover">
+        <div class="media">
+          <svg class="cover-art" viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice" role="img"
+            aria-label="A pot shrinking round by round, each split near fifty-fifty">
+            <defs>
+              <linearGradient id="glSky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#eef1f5"/><stop offset="60%" stop-color="#ecebe2"/>
+                <stop offset="100%" stop-color="#e4dccb"/>
+              </linearGradient>
+              <radialGradient id="glA" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#5a82be" stop-opacity=".2"/><stop offset="100%" stop-color="#5a82be" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="glB" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#e0a94a" stop-opacity=".22"/><stop offset="100%" stop-color="#e0a94a" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="1200" height="675" fill="url(#glSky)"/>
+            <ellipse cx="320" cy="250" rx="380" ry="320" fill="url(#glA)"/>
+            <ellipse cx="930" cy="320" rx="360" ry="320" fill="url(#glB)"/>
+            <g>
+              <g><rect x="90" y="170" width="96" height="300" fill="#5a82be" fill-opacity=".12" stroke="#33465e" stroke-opacity=".55" stroke-width="2"/><rect x="90" y="170" width="96" height="150" fill="#2f6fb0" fill-opacity=".26"/><path d="M90 320 H 186" stroke="#33465e" stroke-opacity=".5" stroke-width="1.5" stroke-dasharray="6 6"/></g>
+              <g><rect x="240" y="221" width="96" height="249" fill="#5a82be" fill-opacity=".12" stroke="#33465e" stroke-opacity=".55" stroke-width="2"/><rect x="240" y="221" width="96" height="124" fill="#2f6fb0" fill-opacity=".26"/><path d="M240 345 H 336" stroke="#33465e" stroke-opacity=".5" stroke-width="1.5" stroke-dasharray="6 6"/></g>
+              <g><rect x="390" y="263" width="96" height="207" fill="#5a82be" fill-opacity=".12" stroke="#33465e" stroke-opacity=".55" stroke-width="2"/><rect x="390" y="263" width="96" height="103" fill="#2f6fb0" fill-opacity=".26"/><path d="M390 366 H 486" stroke="#33465e" stroke-opacity=".5" stroke-width="1.5" stroke-dasharray="6 6"/></g>
+              <g><rect x="540" y="299" width="96" height="171" fill="#5a82be" fill-opacity=".12" stroke="#33465e" stroke-opacity=".55" stroke-width="2"/><rect x="540" y="299" width="96" height="85" fill="#2f6fb0" fill-opacity=".26"/><path d="M540 384 H 636" stroke="#33465e" stroke-opacity=".5" stroke-width="1.5" stroke-dasharray="6 6"/></g>
+              <g><rect x="690" y="328" width="96" height="142" fill="#5a82be" fill-opacity=".12" stroke="#33465e" stroke-opacity=".55" stroke-width="2"/><rect x="690" y="328" width="96" height="71" fill="#2f6fb0" fill-opacity=".26"/><path d="M690 399 H 786" stroke="#33465e" stroke-opacity=".5" stroke-width="1.5" stroke-dasharray="6 6"/></g>
+              <g><rect x="840" y="352" width="96" height="118" fill="#5a82be" fill-opacity=".12" stroke="#33465e" stroke-opacity=".55" stroke-width="2"/><rect x="840" y="352" width="96" height="59" fill="#2f6fb0" fill-opacity=".26"/><path d="M840 411 H 936" stroke="#33465e" stroke-opacity=".5" stroke-width="1.5" stroke-dasharray="6 6"/></g>
+              <g><rect x="990" y="372" width="96" height="98" fill="#5a82be" fill-opacity=".12" stroke="#33465e" stroke-opacity=".55" stroke-width="2"/><rect x="990" y="372" width="96" height="49" fill="#2f6fb0" fill-opacity=".26"/><path d="M990 421 H 1086" stroke="#33465e" stroke-opacity=".5" stroke-width="1.5" stroke-dasharray="6 6"/></g>
+            </g>
+          </svg>
+        </div>
+        <div class="cover-text">
+          <p class="eyebrow"><time datetime="2026-08-30">30 August 2026</time> · AI agents</p>
+          <h1 class="post-title">Measuring the pot, not the play</h1>
+        </div>
+      </div>
+      <p class="article-meta muted">Notes from building an agent for the GLEE economic-games benchmark in a
+        weekend. There is a <a href="games.html">playable version of the three games</a> if you want to try them
+        first.</p>
+
+      <div class="prose">
+        <p>For 48 hours at the end of August I had a bot in <strong>GLEE</strong>, a benchmark that drops an agent
+          into three economic games — bargaining over a shrinking pot, negotiating over an item worth more to the
+          buyer than it costs the seller, and a repeated persuasion game with one-sided information — against a
+          live field of other bots and language models. The twist is the score. You are not paid your winnings.
+          You are ranked by the <em>percentile</em> your payoff lands at against the rest of the field on that
+          exact game configuration. Efficiency and fairness never enter it; the worth of any move is defined
+          entirely by what everyone else does in the same spot. Most of the weekend was me discovering, slowly,
+          how much that one detail changes.</p>
+
+        <p>The first decision was to put <strong>no language model in the agent</strong>. A rating with a
+          ~100-game memory needs volume to hold a percentile, and a 50&nbsp;ms move plays far more games than a
+          3&nbsp;second one. So game theory fixes the <em>shape</em> of each strategy — Rubinstein's alternating-offer
+          split, an ANAC-style time concession, the Kamenica&ndash;Gentzkow signalling rate — and a small bandit
+          only learns the constants. That bought ~10,000 offline self-play games a minute, and 16,000 arena games
+          with zero invalid moves. It also meant every mistake below was mine to see in the numbers, not hidden in
+          a prompt.</p>
+
+        <h3>The reward was measuring the pot, not the play</h3>
+        <p>The learner's reward was the rank of each payoff within its own history for that context. Reasonable —
+          except a context bucket spanned pot sizes from $100 to a million dollars. So the rank mostly recorded
+          <em>which configuration I happened to draw</em>, not whether I had played it well, and the bandit's arms
+          never separated. Normalising the reward by the size of the prize on offer <strong>tripled</strong> the
+          gap between a good arm and a bad one (+0.040 → +0.119). The learner had been staring at noise with a
+          straight face.</p>
+
+        <h3>I was grading against the wrong opponent</h3>
+        <p>When I checked whether the agent was any good, I compared it to the opponent across the table. It
+          "beat its opponent" by +0.093 — while quietly losing to the field. But the rating ranks you against
+          <em>others in your seat on your configuration</em>, not against the person you are playing. Comparing
+          with the other side measures the seat, not the play. Once I compared against a field agent in the same
+          seat, the model returned 51%, which matched the live percentile exactly — and only then did the rest of
+          the diagnosis become trustworthy.</p>
+
+        <h3>The offline field lied, confidently</h3>
+        <p>I built a population of synthetic opponents to sweep changes against. One change scored 51% → 64%
+          against it. Live, over the 148 games before it and the 176 after, it went from the 50th percentile to
+          the 46th. I reverted it. The synthetic field was far softer than the real one: I later measured the live
+          median concession rate at <strong>0.02 per round</strong>; my invented opponents conceded 0.20&ndash;0.60,
+          ten to thirty times too fast. After that, an offline sweep was a hypothesis to test live, never a
+          result.</p>
+
+        <h3>The log found the real bug</h3>
+        <p>None of this touched the biggest hole, because I had been reasoning from simulations instead of reading
+          what actually happened. The moment every agent wrote a full game log — configuration, both payoffs,
+          outcome, opponent, per game — the bargaining problem was obvious: <strong>inflation</strong>. Against a
+          patient opponent with discount 0.8, my agent walked away with 0.159 of the pot where a simpler variant
+          took 0.373. Its acceptance bar discounted the continuation by a single round, as if the next offer would
+          close, when a real deal took several — and at that discount each extra round costs 20&ndash;30% of the
+          pot. The fix was to discount by the rounds a deal really takes. The simpler bot was closing 80% of those
+          games in round one; mine, 39%.</p>
+
+        <h3>What turned out not to matter</h3>
+        <p>Some of the levers I was most sure of did nothing. Every persuasive <em>message</em> style — structure,
+          concrete reasons, loss framing — barely moved a buyer who was reading the bare categorical offer.
+          Aggressive anchoring, which the literature says language models fall for, dragged the opponent's
+          threshold down but not far enough to pay for the extra rounds. And an opponent's talk about how patient
+          they were only ever revealed <em>weakness</em>: fitting their discount from their demands let a greedy
+          bluff read as "very patient" and collapsed my own share to 0.09. Cheap talk credibly reveals weakness,
+          never strength — so I only ever inferred a discount downward.</p>
+
+        <h3>Two bugs I couldn't see without the harness</h3>
+        <p>The verification pipeline caught two failures that never showed up as an exception. A
+          <code>Ctrl+C</code> abandoned every in-flight game, and an abandoned game scores at the 5th percentile;
+          a 17:59 restart cost three bargaining games and −22 raw points, an exact match to the step-down I saw in
+          the ratings. And a per-game cache keyed on the game id alone could feed one family's parameters into
+          another's strategy, emitting a move of the wrong shape — an invalid move, one of only five attempts a
+          game allows. Both were invisible until something replayed the log and checked.</p>
+
+        <p>The agent finished around rank 14. That is not a leaderboard story, and the lesson isn't a strategy. It
+          is that I spent a weekend blind to what my own agent was doing, because every instrument I trusted — the
+          reward, the baseline, the offline model — was miscalibrated in a way that flattered it. The raw game log
+          and a same-seat comparison were the only two things that ever told me the truth. If you want to feel the
+          seats for yourself, the <a href="games.html">three games are playable here</a>.</p>
+      </div>
+
+      <section class="post-sources">
+        <h3>Sources</h3>
+        <ol class="sources">
+          <li id="ref-1">Shapira, E., et al. "GLEE: A Unified Framework and Benchmark for Language-based Economic
+            Environments." 2024. <a href="https://arxiv.org/abs/2410.05254" target="_blank" rel="noopener noreferrer">arXiv:2410.05254</a></li>
+          <li id="ref-2">Rubinstein, A. "Perfect Equilibrium in a Bargaining Model." <em>Econometrica</em>, 1982.</li>
+          <li id="ref-3">Kamenica, E., Gentzkow, M. "Bayesian Persuasion." <em>American Economic Review</em>, 2011.</li>
+        </ol>
+      </section>
+    </article>
+
+    <nav class="post-pager" aria-label="More posts">
+      <a href="post-fair-evaluation.html">
+        <span class="eyebrow">Next post</span>
+        <span class="post-pager-title">Finding a fair evaluation under changing representations</span>
+      </a>
+    </nav>
+  </main>
+
+  <footer class="content">
+    <span>© 2026 Julius Störk</span>
+    <span><a href="blog.html">All posts</a></span>
+  </footer>
+
+  <script src="theme.js?v=e512a566"></script>
+  <script src="navigation.js?v=82ad0181"></script>
+  <script src="media.js?v=94604095"></script>
+  <script src="interactions.js?v=cc839e91"></script>
+  <script src="blog.js?v=119b9d1e"></script>
+  <script>
+    window.addEventListener('load', function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://gc.zgo.at/count.js';
+      s.setAttribute('data-goatcounter', 'https://jstoerk.goatcounter.com/count');
+      document.body.appendChild(s);
+    });
+  </script>
+</body>
+
+</html>
