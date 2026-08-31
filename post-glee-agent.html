@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Measuring the pot, not the play · Julius Störk</title>
-  <meta name="description" content="Two days building a game-theory bot for the GLEE economic-games benchmark, and how every instrument I trusted — the reward, the baseline, the offline field model — was miscalibrated in a way that flattered it." />
+  <meta name="description" content="Building a no-LLM game-theory bot for the GLEE economic games, and what actually moved the percentile score: scaling the reward, measuring in the right seat, and closing before inflation eats the pot." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-glee-agent.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
@@ -13,7 +13,7 @@
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-glee-agent.html" />
   <meta property="og:title" content="Measuring the pot, not the play" />
-  <meta property="og:description" content="Building a game-theory bot for the GLEE economic games, and being blind to what it was doing because the reward, the baseline, and the offline model were all miscalibrated." />
+  <meta property="og:description" content="Building a no-LLM game-theory bot for the GLEE economic games, and what moved the percentile score versus what did not." />
   <meta property="og:image" content="https://j-stoerk.github.io/social-glee.png" />
   <meta property="og:image:alt" content="A pot shrinking round by round, split near fifty-fifty" />
   <meta property="og:image:width" content="1200" />
@@ -28,7 +28,7 @@
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": "Measuring the pot, not the play",
-      "description": "Building a game-theory bot for the GLEE economic games, and being blind to its behaviour because the reward, the baseline, and the offline field model were all miscalibrated.",
+      "description": "Building a no-LLM game-theory bot for the GLEE economic games, and what actually moved the percentile score: scaling the reward, measuring in the right seat, and closing before inflation eats the pot.",
       "datePublished": "2026-08-30",
       "dateModified": "2026-08-30",
       "url": "https://j-stoerk.github.io/post-glee-agent.html",
@@ -142,79 +142,59 @@
         first.</p>
 
       <div class="prose">
-        <p>For 48 hours at the end of August I had a bot in <strong>GLEE</strong>, a benchmark that drops an agent
-          into three economic games — bargaining over a shrinking pot, negotiating over an item worth more to the
-          buyer than it costs the seller, and a repeated persuasion game with one-sided information — against a
-          live field of other bots and language models. The twist is the score. You are not paid your winnings.
-          You are ranked by the <em>percentile</em> your payoff lands at against the rest of the field on that
-          exact game configuration. Efficiency and fairness never enter it; the worth of any move is defined
-          entirely by what everyone else does in the same spot. Most of the weekend was me discovering, slowly,
-          how much that one detail changes.</p>
+        <p>For 48 hours at the end of August I ran a bot in <strong>GLEE</strong>, a benchmark that drops an
+          agent into three economic games (bargaining over a shrinking pot, negotiating over an item worth more
+          to the buyer than it costs the seller, and a repeated persuasion game with one-sided information)
+          against a live field of other bots and language models. The score is a percentile: you are ranked by
+          where your payoff lands against the rest of the field on that exact configuration, not by how much you
+          win. Efficiency and fairness never enter it. A move is worth whatever the field does in the same spot.</p>
 
-        <p>The first decision was to put <strong>no language model in the agent</strong>. A rating with a
-          ~100-game memory needs volume to hold a percentile, and a 50&nbsp;ms move plays far more games than a
-          3&nbsp;second one. So game theory fixes the <em>shape</em> of each strategy — Rubinstein's alternating-offer
-          split, an ANAC-style time concession, the Kamenica&ndash;Gentzkow signalling rate — and a small bandit
-          only learns the constants. That bought ~10,000 offline self-play games a minute, and 16,000 arena games
-          with zero invalid moves. It also meant every mistake below was mine to see in the numbers, not hidden in
-          a prompt.</p>
+        <h3>No language model in the agent</h3>
+        <p>A rating with a roughly 100-game memory needs volume to hold a percentile, and a 50&nbsp;ms move plays
+          far more games than a 3&nbsp;second one. So the agent is game theory with a small bandit on top:
+          Rubinstein's alternating-offer split, an ANAC-style time concession, the Kamenica&ndash;Gentzkow
+          signalling rate, each with a few constants the bandit tunes. That ran about 10,000 offline self-play
+          games a minute, and 16,000 arena games with zero invalid moves.</p>
 
-        <h3>The reward was measuring the pot, not the play</h3>
-        <p>The learner's reward was the rank of each payoff within its own history for that context. Reasonable —
-          except a context bucket spanned pot sizes from $100 to a million dollars. So the rank mostly recorded
-          <em>which configuration I happened to draw</em>, not whether I had played it well, and the bandit's arms
-          never separated. Normalising the reward by the size of the prize on offer <strong>tripled</strong> the
-          gap between a good arm and a bad one (+0.040 → +0.119). The learner had been staring at noise with a
-          straight face.</p>
+        <h3>Normalise the reward by the size of the prize</h3>
+        <p>The bandit's reward was the rank of each payoff within its own history for a context. A context bucket
+          spanned pot sizes from $100 to a million dollars, so the rank recorded which configuration the agent
+          drew, not how well it played, and the arms never separated. Dividing the reward by the prize on offer
+          tripled the gap between a good arm and a bad one (+0.040 to +0.119).</p>
 
-        <h3>I was grading against the wrong opponent</h3>
-        <p>When I checked whether the agent was any good, I compared it to the opponent across the table. It
-          "beat its opponent" by +0.093 — while quietly losing to the field. But the rating ranks you against
-          <em>others in your seat on your configuration</em>, not against the person you are playing. Comparing
-          with the other side measures the seat, not the play. Once I compared against a field agent in the same
-          seat, the model returned 51%, which matched the live percentile exactly — and only then did the rest of
-          the diagnosis become trustworthy.</p>
+        <h3>Compare in the same seat, not across the table</h3>
+        <p>The obvious way to check the agent is to compare it to the opponent it just played; by that measure it
+          won by +0.093. But the rating ranks you against others in your seat on your configuration, so the
+          opponent across the table is the wrong reference. It measures the seat, not the play. Against a field
+          agent in the same seat the agent scored 51%, matching the live percentile exactly, which is what made
+          the rest of the diagnosis trustworthy.</p>
 
-        <h3>The offline field lied, confidently</h3>
-        <p>I built a population of synthetic opponents to sweep changes against. One change scored 51% → 64%
-          against it. Live, over the 148 games before it and the 176 after, it went from the 50th percentile to
-          the 46th. I reverted it. The synthetic field was far softer than the real one: I later measured the live
-          median concession rate at <strong>0.02 per round</strong>; my invented opponents conceded 0.20&ndash;0.60,
-          ten to thirty times too fast. After that, an offline sweep was a hypothesis to test live, never a
-          result.</p>
+        <h3>The offline field is softer than the live one</h3>
+        <p>I built a population of synthetic opponents to sweep changes against. One change scored 51% to 64%
+          offline; live, over the 148 games before and 176 after, it went from the 50th percentile to the 46th.
+          The synthetic opponents conceded 0.20 to 0.60 of the gap per round; the live median was 0.02, ten to
+          thirty times slower. After that an offline sweep was a hypothesis to test live, not a result.</p>
 
-        <h3>The log found the real bug</h3>
-        <p>None of this touched the biggest hole, because I had been reasoning from simulations instead of reading
-          what actually happened. The moment every agent wrote a full game log — configuration, both payoffs,
-          outcome, opponent, per game — the bargaining problem was obvious: <strong>inflation</strong>. Against a
-          patient opponent with discount 0.8, my agent walked away with 0.159 of the pot where a simpler variant
-          took 0.373. Its acceptance bar discounted the continuation by a single round, as if the next offer would
-          close, when a real deal took several — and at that discount each extra round costs 20&ndash;30% of the
-          pot. The fix was to discount by the rounds a deal really takes. The simpler bot was closing 80% of those
-          games in round one; mine, 39%.</p>
+        <h3>Inflation was the whole bargaining problem</h3>
+        <p>Once every agent logged each game in full, bargaining had one dominant leak. Against a patient opponent
+          at discount 0.8, the agent took 0.159 of the pot where a simpler variant took 0.373. Its acceptance bar
+          discounted the continuation by a single round, as if the next offer would close, when a real deal took
+          several, and at that discount each extra round costs 20 to 30% of the pot. Discounting by the number of
+          rounds a deal actually takes fixed it: the simpler bot closed 80% of those games in the first round, the
+          original 39%.</p>
 
-        <h3>What turned out not to matter</h3>
-        <p>Some of the levers I was most sure of did nothing. Every persuasive <em>message</em> style — structure,
-          concrete reasons, loss framing — barely moved a buyer who was reading the bare categorical offer.
-          Aggressive anchoring, which the literature says language models fall for, dragged the opponent's
-          threshold down but not far enough to pay for the extra rounds. And an opponent's talk about how patient
-          they were only ever revealed <em>weakness</em>: fitting their discount from their demands let a greedy
-          bluff read as "very patient" and collapsed my own share to 0.09. Cheap talk credibly reveals weakness,
-          never strength — so I only ever inferred a discount downward.</p>
+        <h3>What did not move the metric</h3>
+        <p>The levers I was most confident in did the least. Persuasive message styles (structure, concrete
+          reasons, loss framing) barely moved a buyer reading the bare categorical offer. Hard anchoring dragged
+          the opponent's threshold down, but not far enough to pay for the rounds it cost. And an opponent's talk
+          about how patient it was only ever revealed weakness: fitting its discount from its demands let a greedy
+          bluff read as very patient and collapsed the agent's own share to 0.09, so the discount is only inferred
+          downward, never up.</p>
 
-        <h3>Two bugs I couldn't see without the harness</h3>
-        <p>The verification pipeline caught two failures that never showed up as an exception. A
-          <code>Ctrl+C</code> abandoned every in-flight game, and an abandoned game scores at the 5th percentile;
-          a 17:59 restart cost three bargaining games and −22 raw points, an exact match to the step-down I saw in
-          the ratings. And a per-game cache keyed on the game id alone could feed one family's parameters into
-          another's strategy, emitting a move of the wrong shape — an invalid move, one of only five attempts a
-          game allows. Both were invisible until something replayed the log and checked.</p>
-
-        <p>The agent finished around rank 14. That is not a leaderboard story, and the lesson isn't a strategy. It
-          is that I spent a weekend blind to what my own agent was doing, because every instrument I trusted — the
-          reward, the baseline, the offline model — was miscalibrated in a way that flattered it. The raw game log
-          and a same-seat comparison were the only two things that ever told me the truth. If you want to feel the
-          seats for yourself, the <a href="games.html">three games are playable here</a>.</p>
+        <p>The agent finished around rank 14. The parts that moved the percentile were the dull ones: scale the
+          reward, measure in the right seat, close before inflation eats the pot. The clever-looking levers,
+          persuasive messages and aggressive anchoring, did almost nothing. The
+          <a href="games.html">three games are playable here</a> if you want to feel the seats yourself.</p>
       </div>
 
       <section class="post-sources">

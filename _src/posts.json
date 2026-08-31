@@ -6,8 +6,8 @@
     "display": "30 August 2026",
     "category": "AI agents",
     "minutes": 7,
-    "summary": "A weekend building a no-LLM game-theory bot for the GLEE economic games — bargaining, negotiation, persuasion — and being blind to what it was doing, because the reward, the baseline, and the offline field model were each miscalibrated in a way that flattered it. Includes a playable version of the three games.",
-    "feedDescription": "Notes from building a game-theory agent for GLEE: the reward measured the pot not the play, the baseline was the wrong seat, and the offline field lied. With a playable version of the three games.",
+    "summary": "A weekend building a no-LLM game-theory bot for the GLEE economic games (bargaining, negotiation, persuasion), and what actually moved the percentile score: scaling the reward, measuring in the right seat, and closing before inflation eats the pot. Includes a playable version of the three games.",
+    "feedDescription": "Notes from building a game-theory agent for GLEE: what moved the percentile score (reward scaling, same-seat baseline, closing before inflation) and what did not (persuasive messages, hard anchoring). With a playable version of the three games.",
     "rfc822": "Sun, 30 Aug 2026 08:00:00 +0200",
     "lastmod": "2026-08-30"
   },
