@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>I checked 2,294 arXiv equations for upside-down fractions · Julius Störk</title>
-  <meta name="description" content="Copying rendered math out of a chat window can flip a fraction. I went through the equations of 60 arXiv papers (and pattern-checked 200) to see how often equations are wrong, how many of those are inverted fractions, and whether it got worse with LLMs." />
+  <meta name="description" content="I reviewed every display equation in 60 arXiv papers and pattern-checked 200 to measure how often equations are wrong, how many of the errors are inverted fractions, and whether this changed after 2022." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-inverted-fractions.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
@@ -13,7 +13,7 @@
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-inverted-fractions.html" />
   <meta property="og:title" content="I checked 2,294 arXiv equations for upside-down fractions" />
-  <meta property="og:description" content="About one display equation in twenty has an error that changes its meaning. Inverted fractions are a tiny share of those, and the error rate has not moved since 2021." />
+  <meta property="og:description" content="4.9% of display equations have a meaning-changing error. 2 of 118 errors are inverted fractions. No change between 2021 and 2026." />
   <meta property="og:image" content="https://j-stoerk.github.io/social-inverted-fractions.png" />
   <meta property="og:image:alt" content="A fraction copied into one line of text in the wrong order and rebuilt upside down" />
   <meta property="og:image:width" content="1200" />
@@ -28,7 +28,7 @@
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": "I checked 2,294 arXiv equations for upside-down fractions",
-      "description": "Copying rendered math out of a chat window can flip a fraction. I went through the equations of 60 arXiv papers (and pattern-checked 200) to see how often equations are wrong, how many of those are inverted fractions, and whether it got worse with LLMs.",
+      "description": "I reviewed every display equation in 60 arXiv papers and pattern-checked 200 to measure how often equations are wrong, how many of the errors are inverted fractions, and whether this changed after 2022.",
       "datePublished": "2026-09-06",
       "dateModified": "2026-09-06",
       "url": "https://j-stoerk.github.io/post-inverted-fractions.html",
@@ -121,27 +121,20 @@
         </div>
       </div>
       <div class="prose">
-        <p>If you copy a rendered formula out of a chat window and paste it into another chat, the second model
-          doesn't necessarily get the TeX. It gets whatever text the browser pulled out of the page, and for a
-          fraction that text can come out upside down. The second model then rebuilds the formula from a flat
-          string, and nothing in that string says which part went on top.</p>
-        <p>Most of what we know about LLMs in papers comes from word counts in abstracts and paragraphs. By early
-          2024, up to 17.5% of computer science abstracts showed signs of LLM editing,<sup class="cite"><a class="ref" href="#ref-2">2</a></sup>
-          at least 13.5% of 2024 biomedical abstracts did,<sup class="cite"><a class="ref" href="#ref-3">3</a></sup>
-          and by the end of 2025 most biomedical papers had some.<sup class="cite"><a class="ref" href="#ref-4">4</a></sup>
-          None of that says anything about the math. So I wanted to know how often a flipped fraction ends up in
-          the equations themselves, and pulled the LaTeX source of 200 arXiv papers to go through them.</p>
-        <p>The short version: about one display equation in twenty has an error that changes what it says.
-          Inverted fractions are a very small part of that. The common errors are much more boring, and their rate
-          hasn't moved since 2021. What has moved is the typography of the source files.</p>
+        <p>When you copy a formula from a chat window, the clipboard gets text extracted from the rendered page,
+          not the TeX. In that text, a fraction's denominator can come before its numerator. Paste it into a second
+          model and the model has to guess which part goes on top.</p>
+        <p>Estimates of LLM use in papers so far are based on vocabulary in abstracts and body text. Up to 17.5% of
+          computer science abstracts showed LLM editing by early 2024,<sup class="cite"><a class="ref" href="#ref-2">2</a></sup>
+          at least 13.5% of 2024 biomedical abstracts,<sup class="cite"><a class="ref" href="#ref-3">3</a></sup>
+          and a majority of biomedical papers by the end of 2025.<sup class="cite"><a class="ref" href="#ref-4">4</a></sup>
+          I wanted numbers for the equations, so I downloaded the LaTeX source of 200 arXiv papers.</p>
 
         <h3>Where the flip comes from</h3>
-        <p>KaTeX, which ChatGPT and several other chat interfaces use to render math, writes every formula into the
-          page twice. One copy is MathML for screen readers, with the original TeX tucked into an annotation. The
-          other is the visible layer of positioned boxes, and that layer stacks a fraction from the bottom up. In
-          the text of the page, the denominator comes before the numerator.</p>
-        <p>This is what the text of each layer contains for three formulas, rendered with KaTeX 0.16.11 (the
-          version this site uses):</p>
+        <p>ChatGPT and several other chat interfaces render math with KaTeX. KaTeX writes each formula into the page
+          twice: as MathML with the TeX source in an annotation, and as a visible layer of positioned boxes. The
+          visible layer builds fractions from the bottom up, so the denominator comes first in the page text.</p>
+        <p>Text content of both layers, KaTeX 0.16.11:</p>
         <div class="table-wrap">
           <table>
             <thead>
@@ -154,48 +147,40 @@
             </tbody>
           </table>
         </div>
-        <p>Which of these lands on the clipboard depends on the browser, the app, and whether the site ships
-          KaTeX's copy-tex extension, which exists because a plain copy gives you the math twice.<sup class="cite"><a class="ref" href="#ref-1">1</a></sup>
-          If the second model only sees the visible layer, reading <code>P=TP+FPTP</code> as TP+FP over TP is a
-          perfectly reasonable guess. For precision a human would notice. For a formula nobody knows by heart, the
-          flipped version compiles, looks fine, and goes into the paper.</p>
+        <p>What ends up on the clipboard depends on the browser, the app, and whether the site uses KaTeX's copy-tex
+          extension.<sup class="cite"><a class="ref" href="#ref-1">1</a></sup> A model that only gets the visible
+          layer can read <code>P=TP+FPTP</code> as (TP+FP)/TP. For precision someone would notice. For a less
+          familiar formula, the inverted version compiles and looks normal.</p>
 
-        <h3>What I sampled</h3>
-        <p>Four arXiv categories: machine learning (cs.LG), computer vision (cs.CV), materials science
-          (cond-mat.mtrl-sci) and signal processing (eess.SP). Two months per year for 2021, 2023, 2024, 2025 and
-          2026, with 2021 as the baseline from before ChatGPT. For each category and month I jumped to a random page
-          of the monthly listing and took the first five papers with a LaTeX source under 25&nbsp;MB. That gives
-          200 papers, 40 per year. One turned out to be a 2018 paper that showed up in a listing, so it sits out
-          the year comparison.</p>
-        <p>The 200 sources contain 6,591 display equation rows (every line of an <code>align</code> counts on its
-          own), 44,903 pieces of inline math, 5,130 <code>\frac</code> and 1,694 slashes. 26 papers have no display
-          equation at all.</p>
-        <p>I did two things with them.</p>
-        <p>First, pattern checks on all 200 papers. These looked for slashes followed by a product (a/bc, where the
-          reader has to guess how far the denominator reaches), textbook formulas with a known orientation
-          (attention scaling, precision and recall, IoU, cosine similarity, Boltzmann factors, z-scores, Adam,
-          Bayes, Coulomb and a few more), and symbols the same paper defines once as a/b and once as b/a.</p>
-        <p>Second, a line-by-line review of every display equation in 60 papers, three per category and year. The
-          reviewer was Claude, working from a fixed protocol. For every row it had to decide whether a careful
-          reader using the equation exactly as printed would get something other than what the authors mean, and
-          if so name the error, the corrected form, and the evidence from the paper. Each of the 189 flagged errors
-          then went through a separate pass whose job was to reject it: 179 held up, 3 were reclassified and 7 were
-          dropped. I checked the inversions and a handful of others by hand.</p>
-        <p>To get a feel for what the reviewer misses, a second independent review of four papers (120 rows) found
-          15 rows with meaning-changing errors, 14 of them the same rows the first review had flagged. Two runs of
-          the same model tend to miss the same things, so treat that as a ceiling on recall, not a measurement.</p>
-        <p>Errors come in two grades. <em>Changes the meaning</em> is a wrong sign, a missing factor, a wrong index:
-          use the equation as printed and you compute something else. <em>Cosmetic</em> is visibly wrong but can
-          only be read one way, like an extra closing parenthesis. The numbers below are for meaning-changing errors
-          unless I say otherwise.</p>
+        <h3>Sample</h3>
+        <p>Categories: cs.LG, cs.CV, cond-mat.mtrl-sci and eess.SP. Two months per year for 2021, 2023, 2024, 2025
+          and 2026. 2021 is before ChatGPT. For each category and month I opened a random page of the monthly listing
+          and took the first five papers with LaTeX source under 25&nbsp;MB. That's 200 papers, 40 per year. One of
+          them is a 2018 paper that appeared in a later listing, and I left it out of the year comparison.</p>
+        <p>The sources contain 6,591 display equation rows (each line of an <code>align</code> counts separately),
+          44,903 inline math spans, 5,130 <code>\frac</code> and 1,694 slashes. 26 papers have no display
+          equations.</p>
+        <p>Pattern checks on all 200 papers looked for slashes followed by a product (a/bc), textbook formulas with a
+          fixed orientation (attention scaling, precision and recall, IoU, cosine similarity, Boltzmann factors,
+          z-scores, Adam, Bayes, Coulomb and a few others), and symbols defined as a/b in one place and b/a in
+          another.</p>
+        <p>For the full review I took 60 papers, three per category and year, and had Claude go through every display
+          equation with a fixed protocol. For each row it decided whether the equation, used as printed, gives
+          something other than what the authors mean, and recorded the error type, the corrected form and the
+          evidence in the paper. A separate pass then tried to reject each of the 189 flagged errors. 179 were kept,
+          3 reclassified and 7 dropped. I checked the inversions and some of the other errors by hand.</p>
+        <p>A second independent review of four papers (120 rows) found 15 rows with meaning-changing errors. 14 were
+          the same rows as in the first review. Both reviews used the same model, so errors that model
+          systematically misses wouldn't show up in this comparison.</p>
+        <p>I graded errors as meaning-changing (wrong sign, missing factor, wrong index) or cosmetic (visibly wrong
+          but with only one possible reading, such as an extra closing parenthesis). The numbers below are for
+          meaning-changing errors unless noted.</p>
 
         <h3>How many equations are wrong</h3>
-        <p>112 of 2,294 reviewed display rows have at least one meaning-changing error. That's 4.9%, with a 95%
-          interval of 3.5 to 6.4% from resampling papers. Counting cosmetic errors too, it's 7.6%.</p>
-        <p>The average hides how uneven this is. Half the papers, 30 of 60, have no meaning-changing error in any
-          display equation. The other half spreads out, and a few papers carry a lot: 11 have more than 10% of their
-          display rows wrong. In one paper the only display equation was wrong, and another got 5 of its 9
-          wrong.</p>
+        <p>112 of 2,294 reviewed display rows have a meaning-changing error. That's 4.9% (95% interval 3.5 to 6.4%,
+          bootstrapped over papers). With cosmetic errors it's 7.6%.</p>
+        <p>30 of the 60 papers have none. 11 papers have errors in more than 10% of their display rows. One paper's
+          only display equation is wrong, and another has 5 of 9 wrong.</p>
 
         <figure class="pub-figure">
           <svg viewBox="0 0 360 200" role="img" aria-labelledby="fig-dist-title">
@@ -234,11 +219,11 @@
             <text class="text-tick" x="325" y="163" text-anchor="middle">&gt;20%</text>
             <text class="text-label-faint" x="196" y="182" text-anchor="middle">share of a paper's display equations with an error</text>
           </svg>
-          <figcaption>Meaning-changing errors per paper, 60 reviewed papers. The median paper is at 0.5%; the mean is
-            6.9%, pulled up by short papers where one wrong row is a large share.</figcaption>
+          <figcaption>Share of display rows with a meaning-changing error, per paper (60 papers). Median 0.5%, mean
+            6.9%.</figcaption>
         </figure>
 
-        <h3>What kind of errors</h3>
+        <h3>Error types</h3>
         <div class="table-wrap">
           <table>
             <thead>
@@ -256,52 +241,45 @@
             </tbody>
           </table>
         </div>
-        <p>So the probability that a faulty equation is an inverted fraction is 2 in 118, about 1.7% (0.5 to 6.0%).
-          Adding ambiguous scope, it's 4 in 118, or 3.4%. Looked at per fraction, 974 of the reviewed rows contain
-          one, and 2 of those are upside down.</p>
+        <p>2 of the 118 errors are inverted fractions, which is 1.7% (0.5 to 6.0%). Including ambiguous scope it's
+          4 of 118, or 3.4%. 974 of the reviewed rows contain a fraction, and 2 of those are inverted.</p>
 
-        <h3>The inversions I did find</h3>
-        <p>The review found two, the pattern check turned up a third outside the review sample, and there was one
-          more in words.</p>
-        <p>A 2021 signal-processing paper writes a matrix as \(H^{-1}K_1H^{-1}\) where its own derivation needs
-          \(HK_1H\). That one predates ChatGPT, which is a useful reminder that people flipped things long before.</p>
-        <p>A 2025 federated learning paper has an envelope-theorem step:</p>
+        <h3>Inversions</h3>
+        <p>The review found two. The pattern checks found one more in a paper outside the review sample, and one
+          paper has an inversion in its prose.</p>
+        <p>A 2021 signal processing paper writes a matrix as \(H^{-1}K_1H^{-1}\) where its derivation requires
+          \(HK_1H\). The paper is from before ChatGPT.</p>
+        <p>A 2025 federated learning paper has this envelope-theorem step:</p>
         <div class="equation">$$-\frac{dI}{dL_{\text{task}}} = \frac{\partial_{\lambda}\, L_{\text{task}}}{\partial_{\lambda}\, I}$$</div>
-        <p>The chain rule gives the right-hand side the other way up. The same section also swaps sup and inf twice,
-          turns a min-max into a max-min, and flips two inequalities. Of all 60 reviewed papers, this source looks
-          the most like pasted chat output. It has 49 Unicode hyphens (U+2010), which nobody types in a LaTeX
-          editor, and inline math written as <code>&#92;( &#92;)</code> in 121 places next to ordinary dollar
-          signs.</p>
-        <p>A 2026 materials paper weights vacancy configurations by \(p_i \propto \exp(\epsilon_i/k_BT)\), with
-          \(\epsilon_i\) the formation energy. The next sentences explain that the configuration with the lowest
-          formation energy takes essentially all vacancies, which needs \(\exp(-\epsilon_i/k_BT)\). The Boltzmann
-          weight is printed as its reciprocal.</p>
-        <p>And in words: a 2024 unlearning paper defines its pruning score as forget importance over retain
-          importance, then describes it in the appendix as "the ratio of the retain importance to the forget
-          importance."</p>
-        <p>The two ambiguous ones are a 2026 paper on stress rates that writes \(\cosh^{-1}(2\alpha)\) for
-          \(1/\cosh(2\alpha)\), which any reader takes for arcosh, and a 2025 condensed-matter paper where
-          \(M_e\omega/2\hbar\) is only right if you read it left to right, against the paper's own habit of writing
+        <p>By the chain rule, the right-hand side should be the other way round. The same section swaps sup and inf
+          twice, writes max-min for min-max, and has two inequalities pointing the wrong way. Its LaTeX source has
+          49 U+2010 hyphen characters and 121 inline formulas delimited with <code>&#92;( &#92;)</code> next to the
+          usual dollar signs. Both counts are the highest among the reviewed papers.</p>
+        <p>A 2026 materials science paper weights vacancy configurations by \(p_i \propto \exp(\epsilon_i/k_BT)\),
+          where \(\epsilon_i\) is the formation energy. The following sentences say the configuration with the lowest
+          formation energy gets nearly all vacancies, which requires \(\exp(-\epsilon_i/k_BT)\).</p>
+        <p>A 2024 machine unlearning paper defines its pruning score as forget importance divided by retain
+          importance. The appendix calls it "the ratio of the retain importance to the forget importance."</p>
+        <p>The two ambiguous cases: a 2026 paper on stress rates writes \(\cosh^{-1}(2\alpha)\) for
+          \(1/\cosh(2\alpha)\), which is normally read as arcosh. A 2025 condensed matter paper has
+          \(M_e\omega/2\hbar\), which is only correct when read left to right, while the same paper writes
           \(\hbar^2k^2/2M\) for \(\hbar^2k^2/(2M)\).</p>
-        <p>Only the 2025 federated learning paper has anything in its source that looks like chat output. The rest
-          read like ordinary slips.</p>
+        <p>Of these papers, only the 2025 federated learning paper has chat-style characters in its source.</p>
 
-        <h3>Ambiguous slashes</h3>
-        <p>The pattern check over all 200 papers flagged 110 slashes, and I read each one in context. Most weren't a
-          precedence question at all: units like mJ/cm², derivatives written dV/dλ, sample labels like BN/WSe₂/BN.
-          14 papers use the physics habit of writing ħ²k²/2m or Ω/2π for ħ²k²/(2m) and Ω/(2π). Physicists all read
-          those the same way, so I don't count them.</p>
-        <p>Four papers, one in machine learning and three in signal processing, have a slash whose reach a careful
-          reader could get wrong. One example is \(\Theta(l^2C_n\sqrt{\log l}/\alpha\eta_e\sqrt{C_p})\), where it's
-          anyone's guess how much of the tail belongs in the denominator. Three of the four are from 2026.</p>
-        <p>The textbook-orientation check matched 33 formulas (cosine similarity, precision, attention scaling and so
-          on), and all 33 were the right way up. No paper defined a symbol as a/b in one place and b/a in
-          another.</p>
-        <p>Put together, the probability that a paper has an ambiguous or inverted fraction is 4 in 60 reviewed
-          papers, 6.7% (2.6 to 15.9%), for meaning-changing errors in display equations. The pattern check over all
-          200, which also covers inline math but only recognises specific shapes, finds 5 papers, or 2.5%.</p>
+        <h3>Slashes</h3>
+        <p>The slash check flagged 110 slashes across the 200 papers, and I read all of them. Most are units
+          (mJ/cm²), derivatives (dV/dλ) or sample labels (BN/WSe₂/BN). 14 papers use physics shorthand like
+          ħ²k²/2m or Ω/2π for ħ²k²/(2m) and Ω/(2π). I didn't count those.</p>
+        <p>Four papers have a slash with unclear scope, for example
+          \(\Theta(l^2C_n\sqrt{\log l}/\alpha\eta_e\sqrt{C_p})\). One is cs.LG and three are eess.SP. Three of them
+          are from 2026.</p>
+        <p>The orientation check matched 33 textbook formulas, and all were correct. No paper defined a symbol as both
+          a/b and b/a.</p>
+        <p>In the review, 4 of 60 papers have an ambiguous or inverted fraction in a display equation: 6.7% (2.6 to
+          15.9%). The pattern checks on all 200 papers include inline math but only catch specific forms. They find 5
+          papers (2.5%).</p>
 
-        <h3>The trend</h3>
+        <h3>By year</h3>
         <div class="table-wrap">
           <table>
             <thead>
@@ -316,42 +294,30 @@
             </tbody>
           </table>
         </div>
-        <p>The error rate doesn't trend. The year-to-year swings mostly come down to which bin two or three long
-          papers happen to land in.</p>
-        <p>What does trend is the source code. I counted three things that rarely come from typing LaTeX by hand:
-          Unicode em dashes, the Unicode and non-breaking hyphens that chat interfaces emit, and inline math written
-          as <code>&#92;( &#92;)</code> more than five times. In 2021, 6 of 39 papers had any of them. In 2025 it was
-          17 of 40, and in 2026 15 of 40. The last three columns count papers out of all 40 per year, not just the
-          reviewed ones.</p>
-        <p>The usual LLM word list (delve, intricate, showcasing, underscores and so on) peaks in 2024 at a median of
-          3.6 per 10,000 words and drops back to 1.5 in 2026. That fits people learning to strip the obvious
-          words, while the pasted hyphens and dashes stay in.</p>
-        <p>Among the reviewed papers, the 15 with a chat fingerprint have a pooled error rate of 7.7% against 4.2%
-          for the rest, but a lower average per paper (6.1% against 7.2%). With 15 papers that's no signal in
-          either direction. The rank correlation between a paper's LLM-vocabulary rate and its error rate is
+        <p>The error rate varies between 2.8% and 7.6% with no direction over time. Most of the variation comes from
+          a few long papers.</p>
+        <p>The last three columns count all 40 papers per year. A paper has a chat fingerprint if its source contains
+          Unicode em dashes, U+2010, U+2011 or U+202F characters, or more than five inline formulas in
+          <code>&#92;( &#92;)</code>. That applies to 6 of 39 papers in 2021, 17 of 40 in 2025 and 15 of 40 in
+          2026.</p>
+        <p>Typical LLM words (delve, intricate, showcasing, underscores and similar) have a median of 3.6 per 10,000
+          words in 2024 and 1.5 in 2026.</p>
+        <p>The 15 reviewed papers with a chat fingerprint have a pooled error rate of 7.7% and a per-paper mean of
+          6.1%. The other 45 have 4.2% and 7.2%. The Spearman correlation between LLM word rate and error rate is
           &minus;0.03.</p>
 
-        <h3>Caveats</h3>
-        <p>60 reviewed papers and two inversions make for wide intervals. A true rate three times higher would not
-          surprise me.</p>
-        <p>The reviewer is a language model. The rejection pass and the second review catch false alarms and give
-          some sense of what gets missed, but neither is a human referee.</p>
-        <p>Only display equations were reviewed. Inline math, where a lot of quick a/b lives, only went through the
-          pattern check.</p>
-        <p>This is the arXiv LaTeX source, not the journal version. Errors fixed in proofs still count here, and
-          errors introduced by a publisher don't.</p>
-        <p>Four categories isn't all of science. Theory-heavy fields would look different, probably with more
-          equations per paper and more places to go wrong.</p>
-        <p>Nothing here tells you why an equation is wrong. A flipped ratio in a paper full of pasted hyphens is
-          suggestive, not proof. I'm also not linking the papers, since the point is the rate and not the
-          authors.</p>
-
-        <p>The copy-paste flip is real in the sense that the page really does store fractions bottom-up. But across
-          2,294 equations, it shows up at most once in a paper that looks pasted, and the other inversions are the
-          ordinary kind. The errors worth worrying about are the dull ones: a factor that quietly drops out between
-          the definition and the proof, or an index that points at the wrong time step. They were there at about
-          the same rate in 2021. Whatever LLMs are doing to how papers get written, they haven't visibly changed
-          how often the math is wrong.</p>
+        <h3>Limitations</h3>
+        <ul>
+          <li>60 papers and two inversions, so the intervals are wide.</li>
+          <li>The reviewer is an LLM. The rejection pass and the second review don't replace a human referee.</li>
+          <li>Inline math was only covered by the pattern checks.</li>
+          <li>I used the arXiv source, not the published version.</li>
+          <li>Four categories. Theory-heavy fields probably have more equations per paper.</li>
+          <li>The data doesn't show why a given equation is wrong.</li>
+          <li>I'm not linking the individual papers.</li>
+        </ul>
+        <p>Overall, 4.9% of display equations have a meaning-changing error, 1.7% of those errors are inverted
+          fractions, and neither number changed noticeably between 2021 and 2026.</p>
       </div>
 
       <section class="post-sources">
