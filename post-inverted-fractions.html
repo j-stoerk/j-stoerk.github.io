@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>I checked 2,294 arXiv equations for upside-down fractions · Julius Störk</title>
+  <meta name="description" content="Copying rendered math out of a chat window can flip a fraction. I went through the equations of 60 arXiv papers (and pattern-checked 200) to see how often equations are wrong, how many of those are inverted fractions, and whether it got worse with LLMs." />
+  <link rel="canonical" href="https://j-stoerk.github.io/post-inverted-fractions.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Julius Störk" />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-inverted-fractions.html" />
+  <meta property="og:title" content="I checked 2,294 arXiv equations for upside-down fractions" />
+  <meta property="og:description" content="About one display equation in twenty has an error that changes its meaning. Inverted fractions are a tiny share of those, and the error rate has not moved since 2021." />
+  <meta property="og:image" content="https://j-stoerk.github.io/social-inverted-fractions.png" />
+  <meta property="og:image:alt" content="A fraction copied into one line of text in the wrong order and rebuilt upside down" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="article:published_time" content="2026-09-06" />
+  <meta property="article:author" content="Julius Störk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/social-inverted-fractions.png" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "I checked 2,294 arXiv equations for upside-down fractions",
+      "description": "Copying rendered math out of a chat window can flip a fraction. I went through the equations of 60 arXiv papers (and pattern-checked 200) to see how often equations are wrong, how many of those are inverted fractions, and whether it got worse with LLMs.",
+      "datePublished": "2026-09-06",
+      "dateModified": "2026-09-06",
+      "url": "https://j-stoerk.github.io/post-inverted-fractions.html",
+      "image": "https://j-stoerk.github.io/social-inverted-fractions.png",
+      "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
+    }
+  </script>
+
+  <meta name="theme-color" content="#fdfdfc">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Applied before first paint so the theme never flashes. -->
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('theme'); } catch (e) { }
+      if (!t) t = 'light';   // light is the standard; dark only on explicit toggle
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'dark' ? '#101214' : '#fdfdfc');
+    })();
+  </script>
+
+  <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=14ea90c3">
+  <link rel="stylesheet" href="katex/katex.min.css">
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="site-title" href="index.html">Home</a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+        <span class="nav-toggle-lines" aria-hidden="true"></span>
+        <span class="sr-only">Open navigation</span>
+      </button>
+      <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
+        <a href="index.html#research">Research</a>
+        <a href="index.html#publications">Publications</a>
+        <a href="index.html#experience">Experience</a>
+        <a href="cv.html">CV</a>
+        <a class="current" href="blog.html" aria-current="page">Blog</a>
+        <a href="index.html#contact">Contact</a>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="content">
+
+    <div class="page-art" aria-hidden="true">
+      <svg viewBox="0 0 1000 5200" preserveAspectRatio="none" fill="none">
+        <g class="art-wash">
+          <g transform="translate(-190,20)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#5a82be" opacity="0.11"/></g>
+          <g transform="translate(-60,580)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#e0a94a" opacity="0.14"/></g>
+          <g transform="translate(-200,1140)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#7a8a9a" opacity="0.11"/></g>
+          <g transform="translate(-40,1700)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#c85a46" opacity="0.12"/></g>
+          <g transform="translate(-185,2260)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#8bbf6e" opacity="0.11"/></g>
+          <g transform="translate(-30,2820)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#5a82be" opacity="0.14"/></g>
+          <g transform="translate(-175,3380)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#e0a94a" opacity="0.11"/></g>
+          <g transform="translate(-55,3940)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#7a8a9a" opacity="0.14"/></g>
+          <g transform="translate(-170,4500)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#c85a46" opacity="0.11"/></g>
+        </g>
+        <path class="art-ink" d="M720 5180 C 660 4900 780 4650 725 4380 C 665 4120 775 3880 720 3620 C 665 3360 785 3120 725 2860 C 675 2620 775 2380 720 2120 C 675 1880 775 1650 720 1400 C 685 1180 760 960 720 730 C 705 540 730 340 720 150"/>
+        <path class="art-ink-soft" d="M733 5180 C 673 4900 793 4650 738 4380 C 678 4120 788 3880 733 3620 C 678 3360 798 3120 738 2860 C 688 2620 788 2380 733 2120 C 688 1880 788 1650 733 1400 C 698 1180 773 960 733 730 C 718 540 743 340 733 150"/>
+        <g transform="translate(690,1590)"><rect class="art-ink" x="-60" y="-110" width="120" height="60" rx="8"/><path class="art-ink" d="M-90 -20 H 90"/><rect class="art-ink-soft" x="-60" y="10" width="120" height="60" rx="8"/><path class="art-ink-soft" d="M-44 44 l 9 -5 l 10 19 l 13 -42 h 60"/></g>
+        <g transform="translate(690,3530)"><path class="art-ink" d="M-140 -120 V 60 H 170"/><rect x="-120" y="-60" width="34" height="120" fill="#5a82be" fill-opacity=".26"/><rect x="-76" y="44" width="34" height="16" fill="#5a82be" fill-opacity=".26"/><rect x="-32" y="56" width="34" height="4" fill="#5a82be" fill-opacity=".26"/><rect x="12" y="4" width="34" height="56" fill="#e0a94a" fill-opacity=".28"/><rect x="56" y="36" width="34" height="24" fill="#e0a94a" fill-opacity=".28"/><rect x="100" y="40" width="34" height="20" fill="#c85a46" fill-opacity=".25"/></g>
+        <path class="art-ink" d="M720 5180 C 660 5080 560 5050 470 5075 M720 5180 C 790 5080 900 5055 960 5085 M720 5180 C 720 5100 720 5060 720 5030 M470 5075 C 430 5090 410 5125 420 5155 M960 5085 C 900 5100 880 5135 892 5162"/>
+      </svg>
+    </div>
+    <a class="back-link" href="blog.html">All posts</a>
+    <article class="post" id="inverted-fractions">
+      <div class="post-cover media-cover">
+        <div class="media">
+          <svg class="cover-art" viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice" role="img"
+            aria-label="A fraction is copied into one line of text in the wrong order and rebuilt upside down">
+            <defs>
+              <linearGradient id="ifSky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#eef1f5"/><stop offset="60%" stop-color="#ecebe2"/>
+                <stop offset="100%" stop-color="#e4dccb"/>
+              </linearGradient>
+              <radialGradient id="ifA" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#5a82be" stop-opacity=".2"/><stop offset="100%" stop-color="#5a82be" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="ifB" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#e0a94a" stop-opacity=".22"/><stop offset="100%" stop-color="#e0a94a" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="1200" height="675" fill="url(#ifSky)"/>
+            <ellipse cx="280" cy="250" rx="360" ry="310" fill="url(#ifA)"/>
+            <ellipse cx="940" cy="290" rx="360" ry="310" fill="url(#ifB)"/>
+            <g stroke="#33465e" stroke-linecap="round" stroke-linejoin="round" fill="none">
+              <rect x="170" y="128" width="170" height="78" rx="10" fill="#2f6fb0" fill-opacity=".2" stroke-opacity=".5" stroke-width="2"/>
+              <path d="M200 148 V 186 M224 148 V 186 M248 148 V 186" stroke-opacity=".55" stroke-width="5"/>
+              <path d="M276 140 h 22 M287 140 v 20" stroke-opacity=".55" stroke-width="3"/>
+              <path d="M150 234 H 360" stroke-opacity=".85" stroke-width="4"/>
+              <rect x="170" y="262" width="170" height="78" rx="10" fill="#e0a94a" fill-opacity=".3" stroke-opacity=".5" stroke-width="2"/>
+              <path d="M190 306 l 12 -7 l 14 26 l 18 -58 h 88" stroke-opacity=".6" stroke-width="3.5"/>
+              <path d="M258 290 V 322 M282 290 V 322" stroke-opacity=".55" stroke-width="5"/>
+              <path d="M372 234 C 412 180 446 290 488 234" stroke-opacity=".45" stroke-width="2" stroke-dasharray="7 7"/>
+              <rect x="500" y="200" width="230" height="68" rx="8" fill="#ffffff" fill-opacity=".5" stroke-opacity=".3" stroke-width="1.5"/>
+              <rect x="514" y="212" width="96" height="44" rx="6" fill="#e0a94a" fill-opacity=".3" stroke-opacity=".4" stroke-width="1.5"/>
+              <path d="M522 238 l 7 -4 l 8 15 l 11 -34 h 54" stroke-opacity=".55" stroke-width="2.5"/>
+              <rect x="620" y="212" width="96" height="44" rx="6" fill="#2f6fb0" fill-opacity=".2" stroke-opacity=".4" stroke-width="1.5"/>
+              <path d="M640 222 V 246 M656 222 V 246 M672 222 V 246" stroke-opacity=".5" stroke-width="3.5"/>
+              <path d="M742 214 V 254" stroke="#2f6fb0" stroke-opacity=".7" stroke-width="2"/>
+              <path d="M742 234 C 784 288 816 180 856 234" stroke-opacity=".45" stroke-width="2" stroke-dasharray="7 7"/>
+              <path d="M845 224 L 858 235 L 842 243" stroke-opacity=".5" stroke-width="2"/>
+              <rect x="880" y="128" width="170" height="78" rx="10" fill="#e0a94a" fill-opacity=".3" stroke-opacity=".5" stroke-width="2"/>
+              <path d="M900 172 l 12 -7 l 14 26 l 18 -58 h 88" stroke-opacity=".6" stroke-width="3.5"/>
+              <path d="M968 156 V 188 M992 156 V 188" stroke-opacity=".55" stroke-width="5"/>
+              <path d="M860 234 H 1070" stroke="#c85a46" stroke-opacity=".9" stroke-width="4"/>
+              <rect x="880" y="262" width="170" height="78" rx="10" fill="#2f6fb0" fill-opacity=".2" stroke-opacity=".5" stroke-width="2"/>
+              <path d="M910 282 V 320 M934 282 V 320 M958 282 V 320" stroke-opacity=".55" stroke-width="5"/>
+              <path d="M986 274 h 22 M997 274 v 20" stroke-opacity=".55" stroke-width="3"/>
+            </g>
+          </svg>
+        </div>
+        <div class="cover-text">
+          <p class="eyebrow"><time datetime="2026-09-06">6 September 2026</time> · LLMs in science</p>
+          <h1 class="post-title">I checked 2,294 arXiv equations for upside-down fractions</h1>
+        </div>
+      </div>
+      <div class="prose">
+        <p>If you copy a rendered formula out of a chat window and paste it into another chat, the second model
+          doesn't necessarily get the TeX. It gets whatever text the browser pulled out of the page, and for a
+          fraction that text can come out upside down. The second model then rebuilds the formula from a flat
+          string, and nothing in that string says which part went on top.</p>
+        <p>Most of what we know about LLMs in papers comes from word counts in abstracts and paragraphs. By early
+          2024, up to 17.5% of computer science abstracts showed signs of LLM editing,<sup class="cite"><a class="ref" href="#ref-2">2</a></sup>
+          at least 13.5% of 2024 biomedical abstracts did,<sup class="cite"><a class="ref" href="#ref-3">3</a></sup>
+          and by the end of 2025 most biomedical papers had some.<sup class="cite"><a class="ref" href="#ref-4">4</a></sup>
+          None of that says anything about the math. So I wanted to know how often a flipped fraction ends up in
+          the equations themselves, and pulled the LaTeX source of 200 arXiv papers to go through them.</p>
+        <p>The short version: about one display equation in twenty has an error that changes what it says.
+          Inverted fractions are a very small part of that. The common errors are much more boring, and their rate
+          hasn't moved since 2021. What has moved is the typography of the source files.</p>
+
+        <h3>Where the flip comes from</h3>
+        <p>KaTeX, which ChatGPT and several other chat interfaces use to render math, writes every formula into the
+          page twice. One copy is MathML for screen readers, with the original TeX tucked into an annotation. The
+          other is the visible layer of positioned boxes, and that layer stacks a fraction from the bottom up. In
+          the text of the page, the denominator comes before the numerator.</p>
+        <p>This is what the text of each layer contains for three formulas, rendered with KaTeX 0.16.11 (the
+          version this site uses):</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Formula</th><th>MathML layer</th><th>Visible layer</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo>=</mo><mfrac><mrow><mi>T</mi><mi>P</mi></mrow><mrow><mi>T</mi><mi>P</mi><mo>+</mo><mi>F</mi><mi>P</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">P = \frac{TP}{TP+FP}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.2757em;vertical-align:-0.4033em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8723em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">TP</span><span class="mbin mtight">+</span><span class="mord mathnormal mtight" style="margin-right:0.13889em;">FP</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">TP</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4033em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></td><td><code>P=TPTP+FP</code></td><td><code>P=TP+FPTP</code></td></tr>
+              <tr><td><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">f</mi><mi mathvariant="normal">t</mi><mi mathvariant="normal">m</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">x</mi></mrow><mo fence="false" stretchy="true" minsize="1.2em" maxsize="1.2em">(</mo><mfrac><mrow><mi>Q</mi><msup><mi>K</mi><mi mathvariant="normal">⊤</mi></msup></mrow><msqrt><msub><mi>d</mi><mi>k</mi></msub></msqrt></mfrac><mo fence="false" stretchy="true" minsize="1.2em" maxsize="1.2em">)</mo></mrow><annotation encoding="application/x-tex">\mathrm{softmax}\big(\frac{QK^\top}{\sqrt{d_k}}\big)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.633em;vertical-align:-0.538em;"></span><span class="mord"><span class="mord mathrm">softmax</span></span><span class="mord"><span class="delimsizing size1">(</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.095em;"><span style="top:-2.5864em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord sqrt mtight"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8622em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mtight" style="padding-left:0.833em;"><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span></span></span><span style="top:-2.8222em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail mtight" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1778em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.4461em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">Q</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.927em;"><span style="top:-2.931em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.538em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord"><span class="delimsizing size1">)</span></span></span></span></span></td><td><code>softmax(QK⊤dk)</code></td><td><code>softmax(dkQK⊤)</code></td></tr>
+              <tr><td><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mi>A</mi><mi>exp</mi><mo>⁡</mo><mo fence="false" stretchy="true" minsize="1.2em" maxsize="1.2em">(</mo><mo>−</mo><mfrac><msub><mi>E</mi><mi>a</mi></msub><mrow><mi>R</mi><mi>T</mi></mrow></mfrac><mo fence="false" stretchy="true" minsize="1.2em" maxsize="1.2em">)</mo></mrow><annotation encoding="application/x-tex">k = A\exp\big(-\frac{E_a}{RT}\big)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.2em;vertical-align:-0.35em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">exp</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="delimsizing size1">(</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.2384em;vertical-align:-0.35em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8884em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">RT</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.4101em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1645em;"><span style="top:-2.357em;margin-left:-0.0576em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">a</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord"><span class="delimsizing size1">)</span></span></span></span></span></td><td><code>k=Aexp(−EaRT)</code></td><td><code>k=Aexp(−RTEa)</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Which of these lands on the clipboard depends on the browser, the app, and whether the site ships
+          KaTeX's copy-tex extension, which exists because a plain copy gives you the math twice.<sup class="cite"><a class="ref" href="#ref-1">1</a></sup>
+          If the second model only sees the visible layer, reading <code>P=TP+FPTP</code> as TP+FP over TP is a
+          perfectly reasonable guess. For precision a human would notice. For a formula nobody knows by heart, the
+          flipped version compiles, looks fine, and goes into the paper.</p>
+
+        <h3>What I sampled</h3>
+        <p>Four arXiv categories: machine learning (cs.LG), computer vision (cs.CV), materials science
+          (cond-mat.mtrl-sci) and signal processing (eess.SP). Two months per year for 2021, 2023, 2024, 2025 and
+          2026, with 2021 as the baseline from before ChatGPT. For each category and month I jumped to a random page
+          of the monthly listing and took the first five papers with a LaTeX source under 25&nbsp;MB. That gives
+          200 papers, 40 per year. One turned out to be a 2018 paper that showed up in a listing, so it sits out
+          the year comparison.</p>
+        <p>The 200 sources contain 6,591 display equation rows (every line of an <code>align</code> counts on its
+          own), 44,903 pieces of inline math, 5,130 <code>\frac</code> and 1,694 slashes. 26 papers have no display
+          equation at all.</p>
+        <p>I did two things with them.</p>
+        <p>First, pattern checks on all 200 papers. These looked for slashes followed by a product (a/bc, where the
+          reader has to guess how far the denominator reaches), textbook formulas with a known orientation
+          (attention scaling, precision and recall, IoU, cosine similarity, Boltzmann factors, z-scores, Adam,
+          Bayes, Coulomb and a few more), and symbols the same paper defines once as a/b and once as b/a.</p>
+        <p>Second, a line-by-line review of every display equation in 60 papers, three per category and year. The
+          reviewer was Claude, working from a fixed protocol. For every row it had to decide whether a careful
+          reader using the equation exactly as printed would get something other than what the authors mean, and
+          if so name the error, the corrected form, and the evidence from the paper. Each of the 189 flagged errors
+          then went through a separate pass whose job was to reject it: 179 held up, 3 were reclassified and 7 were
+          dropped. I checked the inversions and a handful of others by hand.</p>
+        <p>To get a feel for what the reviewer misses, a second independent review of four papers (120 rows) found
+          15 rows with meaning-changing errors, 14 of them the same rows the first review had flagged. Two runs of
+          the same model tend to miss the same things, so treat that as a ceiling on recall, not a measurement.</p>
+        <p>Errors come in two grades. <em>Changes the meaning</em> is a wrong sign, a missing factor, a wrong index:
+          use the equation as printed and you compute something else. <em>Cosmetic</em> is visibly wrong but can
+          only be read one way, like an extra closing parenthesis. The numbers below are for meaning-changing errors
+          unless I say otherwise.</p>
+
+        <h3>How many equations are wrong</h3>
+        <p>112 of 2,294 reviewed display rows have at least one meaning-changing error. That's 4.9%, with a 95%
+          interval of 3.5 to 6.4% from resampling papers. Counting cosmetic errors too, it's 7.6%.</p>
+        <p>The average hides how uneven this is. Half the papers, 30 of 60, have no meaning-changing error in any
+          display equation. The other half spreads out, and a few papers carry a lot: 11 have more than 10% of their
+          display rows wrong. In one paper the only display equation was wrong, and another got 5 of its 9
+          wrong.</p>
+
+        <figure class="pub-figure">
+          <svg viewBox="0 0 360 200" role="img" aria-labelledby="fig-dist-title">
+            <title id="fig-dist-title">Histogram of the share of display equations with a meaning-changing error per
+              paper, over 60 reviewed papers: 30 papers at 0%, 4 between 0 and 2%, 1 between 2 and 5%, 14 between 5
+              and 10%, 6 between 10 and 20%, and 5 above 20%.</title>
+            <line class="fig-grid" x1="46" y1="30" x2="346" y2="30" />
+            <line class="fig-grid" x1="46" y1="70" x2="346" y2="70" />
+            <line class="fig-grid" x1="46" y1="110" x2="346" y2="110" />
+            <line class="fig-axis" x1="46" y1="20" x2="46" y2="150" />
+            <line class="fig-axis" x1="46" y1="150" x2="346" y2="150" />
+            <text class="text-tick" x="40" y="153" text-anchor="end">0</text>
+            <text class="text-tick" x="40" y="113" text-anchor="end">10</text>
+            <text class="text-tick" x="40" y="73" text-anchor="end">20</text>
+            <text class="text-tick" x="40" y="33" text-anchor="end">30</text>
+            <text class="text-label-faint" x="12" y="85" text-anchor="middle" transform="rotate(-90 12 85)">papers</text>
+            <g fill="var(--color-primary)" fill-opacity="0.75">
+              <rect x="56" y="30" width="38" height="120" />
+              <rect x="106" y="134" width="38" height="16" />
+              <rect x="156" y="146" width="38" height="4" />
+              <rect x="206" y="94" width="38" height="56" />
+              <rect x="256" y="126" width="38" height="24" />
+              <rect x="306" y="130" width="38" height="20" />
+            </g>
+            <text class="fig-label" x="75" y="25" text-anchor="middle">30</text>
+            <text class="fig-label" x="125" y="129" text-anchor="middle">4</text>
+            <text class="fig-label" x="175" y="141" text-anchor="middle">1</text>
+            <text class="fig-label" x="225" y="89" text-anchor="middle">14</text>
+            <text class="fig-label" x="275" y="121" text-anchor="middle">6</text>
+            <text class="fig-label" x="325" y="125" text-anchor="middle">5</text>
+            <text class="text-tick" x="75" y="163" text-anchor="middle">0%</text>
+            <text class="text-tick" x="125" y="163" text-anchor="middle">&#8804;2%</text>
+            <text class="text-tick" x="175" y="163" text-anchor="middle">2&#8211;5%</text>
+            <text class="text-tick" x="225" y="163" text-anchor="middle">5&#8211;10%</text>
+            <text class="text-tick" x="275" y="163" text-anchor="middle">10&#8211;20%</text>
+            <text class="text-tick" x="325" y="163" text-anchor="middle">&gt;20%</text>
+            <text class="text-label-faint" x="196" y="182" text-anchor="middle">share of a paper's display equations with an error</text>
+          </svg>
+          <figcaption>Meaning-changing errors per paper, 60 reviewed papers. The median paper is at 0.5%; the mean is
+            6.9%, pulled up by short papers where one wrong row is a large share.</figcaption>
+        </figure>
+
+        <h3>What kind of errors</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Failure mode</th><th>Errors</th><th>Share</th><th>Typical case</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Missing or extra term or factor</td><td>37</td><td>31%</td><td>a normalising 1/L that isn't there</td></tr>
+              <tr><td>Wrong index or variable</td><td>34</td><td>29%</td><td>current state where the next state belongs</td></tr>
+              <tr><td>Contradicts the paper's own definition</td><td>17</td><td>14%</td><td>a symbol whose definition changes halfway through</td></tr>
+              <tr><td>Other wrong operator</td><td>15</td><td>13%</td><td>sup for inf, min for max</td></tr>
+              <tr><td>Sign</td><td>9</td><td>8%</td><td>an entropy written without its minus sign</td></tr>
+              <tr><td>Inverted fraction or reciprocal</td><td>2</td><td>2%</td><td>see below</td></tr>
+              <tr><td>Ambiguous scope</td><td>2</td><td>2%</td><td>cosh<sup>&minus;1</sup> meant as 1/cosh</td></tr>
+              <tr><td>Brackets, dimensions</td><td>2</td><td>2%</td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>So the probability that a faulty equation is an inverted fraction is 2 in 118, about 1.7% (0.5 to 6.0%).
+          Adding ambiguous scope, it's 4 in 118, or 3.4%. Looked at per fraction, 974 of the reviewed rows contain
+          one, and 2 of those are upside down.</p>
+
+        <h3>The inversions I did find</h3>
+        <p>The review found two, the pattern check turned up a third outside the review sample, and there was one
+          more in words.</p>
+        <p>A 2021 signal-processing paper writes a matrix as <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>H</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><msub><mi>K</mi><mn>1</mn></msub><msup><mi>H</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">H^{-1}K_1H^{-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9641em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span> where its own derivation needs
+          <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><msub><mi>K</mi><mn>1</mn></msub><mi>H</mi></mrow><annotation encoding="application/x-tex">HK_1H</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span></span></span></span>. That one predates ChatGPT, which is a useful reminder that people flipped things long before.</p>
+        <p>A 2025 federated learning paper has an envelope-theorem step:</p>
+        <div class="equation"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mo>−</mo><mfrac><mrow><mi>d</mi><mi>I</mi></mrow><mrow><mi>d</mi><msub><mi>L</mi><mtext>task</mtext></msub></mrow></mfrac><mo>=</mo><mfrac><mrow><msub><mi mathvariant="normal">∂</mi><mi>λ</mi></msub><mtext> </mtext><msub><mi>L</mi><mtext>task</mtext></msub></mrow><mrow><msub><mi mathvariant="normal">∂</mi><mi>λ</mi></msub><mtext> </mtext><mi>I</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">-\frac{dI}{dL_{\text{task}}} = \frac{\partial_{\lambda}\, L_{\text{task}}}{\partial_{\lambda}\, I}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.2074em;vertical-align:-0.836em;"></span><span class="mord">−</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">task</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.836em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.2074em;vertical-align:-0.836em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord" style="margin-right:0.05556em;">∂</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0556em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">λ</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord" style="margin-right:0.05556em;">∂</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0556em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">λ</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">task</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.836em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></div>
+        <p>The chain rule gives the right-hand side the other way up. The same section also swaps sup and inf twice,
+          turns a min-max into a max-min, and flips two inequalities. Of all 60 reviewed papers, this source looks
+          the most like pasted chat output. It has 49 Unicode hyphens (U+2010), which nobody types in a LaTeX
+          editor, and inline math written as <code>&#92;( &#92;)</code> in 121 places next to ordinary dollar
+          signs.</p>
+        <p>A 2026 materials paper weights vacancy configurations by <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>p</mi><mi>i</mi></msub><mo>∝</mo><mi>exp</mi><mo>⁡</mo><mo stretchy="false">(</mo><msub><mi>ϵ</mi><mi>i</mi></msub><mi mathvariant="normal">/</mi><msub><mi>k</mi><mi>B</mi></msub><mi>T</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">p_i \propto \exp(\epsilon_i/k_BT)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∝</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">exp</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">ϵ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">/</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mclose">)</span></span></span></span>, with
+          <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ϵ</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">\epsilon_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">ϵ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> the formation energy. The next sentences explain that the configuration with the lowest
+          formation energy takes essentially all vacancies, which needs <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>exp</mi><mo>⁡</mo><mo stretchy="false">(</mo><mo>−</mo><msub><mi>ϵ</mi><mi>i</mi></msub><mi mathvariant="normal">/</mi><msub><mi>k</mi><mi>B</mi></msub><mi>T</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\exp(-\epsilon_i/k_BT)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">exp</span><span class="mopen">(</span><span class="mord">−</span><span class="mord"><span class="mord mathnormal">ϵ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">/</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0315em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mclose">)</span></span></span></span>. The Boltzmann
+          weight is printed as its reciprocal.</p>
+        <p>And in words: a 2024 unlearning paper defines its pruning score as forget importance over retain
+          importance, then describes it in the appendix as "the ratio of the retain importance to the forget
+          importance."</p>
+        <p>The two ambiguous ones are a 2026 paper on stress rates that writes <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mi>cosh</mi><mo>⁡</mo></mrow><mrow><mo>−</mo><mn>1</mn></mrow></msup><mo stretchy="false">(</mo><mn>2</mn><mi>α</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\cosh^{-1}(2\alpha)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1484em;vertical-align:-0.25em;"></span><span class="mop"><span class="mop">cosh</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8984em;"><span style="top:-3.1473em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mclose">)</span></span></span></span> for
+          <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi mathvariant="normal">/</mi><mi>cosh</mi><mo>⁡</mo><mo stretchy="false">(</mo><mn>2</mn><mi>α</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">1/\cosh(2\alpha)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1/</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">cosh</span><span class="mopen">(</span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mclose">)</span></span></span></span>, which any reader takes for arcosh, and a 2025 condensed-matter paper where
+          <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>M</mi><mi>e</mi></msub><mi>ω</mi><mi mathvariant="normal">/</mi><mn>2</mn><mi mathvariant="normal">ℏ</mi></mrow><annotation encoding="application/x-tex">M_e\omega/2\hbar</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">e</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span><span class="mord">/2ℏ</span></span></span></span> is only right if you read it left to right, against the paper's own habit of writing
+          <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi mathvariant="normal">ℏ</mi><mn>2</mn></msup><msup><mi>k</mi><mn>2</mn></msup><mi mathvariant="normal">/</mi><mn>2</mn><mi>M</mi></mrow><annotation encoding="application/x-tex">\hbar^2k^2/2M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord">ℏ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord">/2</span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span> for <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi mathvariant="normal">ℏ</mi><mn>2</mn></msup><msup><mi>k</mi><mn>2</mn></msup><mi mathvariant="normal">/</mi><mo stretchy="false">(</mo><mn>2</mn><mi>M</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\hbar^2k^2/(2M)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord">ℏ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord">/</span><span class="mopen">(</span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mclose">)</span></span></span></span>.</p>
+        <p>Only the 2025 federated learning paper has anything in its source that looks like chat output. The rest
+          read like ordinary slips.</p>
+
+        <h3>Ambiguous slashes</h3>
+        <p>The pattern check over all 200 papers flagged 110 slashes, and I read each one in context. Most weren't a
+          precedence question at all: units like mJ/cm², derivatives written dV/dλ, sample labels like BN/WSe₂/BN.
+          14 papers use the physics habit of writing ħ²k²/2m or Ω/2π for ħ²k²/(2m) and Ω/(2π). Physicists all read
+          those the same way, so I don't count them.</p>
+        <p>Four papers, one in machine learning and three in signal processing, have a slash whose reach a careful
+          reader could get wrong. One example is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Θ</mi><mo stretchy="false">(</mo><msup><mi>l</mi><mn>2</mn></msup><msub><mi>C</mi><mi>n</mi></msub><msqrt><mrow><mi>log</mi><mo>⁡</mo><mi>l</mi></mrow></msqrt><mi mathvariant="normal">/</mi><mi>α</mi><msub><mi>η</mi><mi>e</mi></msub><msqrt><msub><mi>C</mi><mi>p</mi></msub></msqrt><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\Theta(l^2C_n\sqrt{\log l}/\alpha\eta_e\sqrt{C_p})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.24em;vertical-align:-0.3564em;"></span><span class="mord">Θ</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.835em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span></span></span><span style="top:-2.795em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.205em;"><span></span></span></span></span></span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">η</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">e</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8836em;"><span class="svg-align" style="top:-3.2em;"><span class="pstrut" style="height:3.2em;"></span><span class="mord" style="padding-left:1em;"><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span><span style="top:-2.8436em;"><span class="pstrut" style="height:3.2em;"></span><span class="hide-tail" style="min-width:1.02em;height:1.28em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.28em" viewBox="0 0 400000 1296" preserveAspectRatio="xMinYMin slice"><path d="M263,681c0.7,0,18,39.7,52,119
+c34,79.3,68.167,158.7,102.5,238c34.3,79.3,51.8,119.3,52.5,120
+c340,-704.7,510.7,-1060.3,512,-1067
+l0 -0
+c4.7,-7.3,11,-11,19,-11
+H40000v40H1012.3
+s-271.3,567,-271.3,567c-38.7,80.7,-84,175,-136,283c-52,108,-89.167,185.3,-111.5,232
+c-22.3,46.7,-33.8,70.3,-34.5,71c-4.7,4.7,-12.3,7,-23,7s-12,-1,-12,-1
+s-109,-253,-109,-253c-72.7,-168,-109.3,-252,-110,-252c-10.7,8,-22,16.7,-34,26
+c-22,17.3,-33.3,26,-34,26s-26,-26,-26,-26s76,-59,76,-59s76,-60,76,-60z
+M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3564em;"><span></span></span></span></span></span><span class="mclose">)</span></span></span></span>, where it's
+          anyone's guess how much of the tail belongs in the denominator. Three of the four are from 2026.</p>
+        <p>The textbook-orientation check matched 33 formulas (cosine similarity, precision, attention scaling and so
+          on), and all 33 were the right way up. No paper defined a symbol as a/b in one place and b/a in
+          another.</p>
+        <p>Put together, the probability that a paper has an ambiguous or inverted fraction is 4 in 60 reviewed
+          papers, 6.7% (2.6 to 15.9%), for meaning-changing errors in display equations. The pattern check over all
+          200, which also covers inline math but only recognises specific shapes, finds 5 papers, or 2.5%.</p>
+
+        <h3>The trend</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Year</th><th>Reviewed rows</th><th>With error</th><th>Papers with any error</th><th>Chat fingerprint</th><th>Unicode em dash</th><th><code>&#92;(</code> math</th></tr>
+            </thead>
+            <tbody>
+              <tr><th>2021</th><td>350</td><td>4.0%</td><td>7 of 12</td><td>6 of 39</td><td>4</td><td>1</td></tr>
+              <tr><th>2023</th><td>467</td><td>6.2%</td><td>6 of 12</td><td>3 of 40</td><td>2</td><td>1</td></tr>
+              <tr><th>2024</th><td>302</td><td>3.6%</td><td>7 of 12</td><td>8 of 40</td><td>7</td><td>6</td></tr>
+              <tr><th>2025</th><td>528</td><td>7.6%</td><td>6 of 12</td><td>17 of 40</td><td>12</td><td>9</td></tr>
+              <tr><th>2026</th><td>647</td><td>2.8%</td><td>4 of 12</td><td>15 of 40</td><td>11</td><td>4</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>The error rate doesn't trend. The year-to-year swings mostly come down to which bin two or three long
+          papers happen to land in.</p>
+        <p>What does trend is the source code. I counted three things that rarely come from typing LaTeX by hand:
+          Unicode em dashes, the Unicode and non-breaking hyphens that chat interfaces emit, and inline math written
+          as <code>&#92;( &#92;)</code> more than five times. In 2021, 6 of 39 papers had any of them. In 2025 it was
+          17 of 40, and in 2026 15 of 40. The last three columns count papers out of all 40 per year, not just the
+          reviewed ones.</p>
+        <p>The usual LLM word list (delve, intricate, showcasing, underscores and so on) peaks in 2024 at a median of
+          3.6 per 10,000 words and drops back to 1.5 in 2026. That fits people learning to strip the obvious
+          words, while the pasted hyphens and dashes stay in.</p>
+        <p>Among the reviewed papers, the 15 with a chat fingerprint have a pooled error rate of 7.7% against 4.2%
+          for the rest, but a lower average per paper (6.1% against 7.2%). With 15 papers that's no signal in
+          either direction. The rank correlation between a paper's LLM-vocabulary rate and its error rate is
+          &minus;0.03.</p>
+
+        <h3>Caveats</h3>
+        <p>60 reviewed papers and two inversions make for wide intervals. A true rate three times higher would not
+          surprise me.</p>
+        <p>The reviewer is a language model. The rejection pass and the second review catch false alarms and give
+          some sense of what gets missed, but neither is a human referee.</p>
+        <p>Only display equations were reviewed. Inline math, where a lot of quick a/b lives, only went through the
+          pattern check.</p>
+        <p>This is the arXiv LaTeX source, not the journal version. Errors fixed in proofs still count here, and
+          errors introduced by a publisher don't.</p>
+        <p>Four categories isn't all of science. Theory-heavy fields would look different, probably with more
+          equations per paper and more places to go wrong.</p>
+        <p>Nothing here tells you why an equation is wrong. A flipped ratio in a paper full of pasted hyphens is
+          suggestive, not proof. I'm also not linking the papers, since the point is the rate and not the
+          authors.</p>
+
+        <p>The copy-paste flip is real in the sense that the page really does store fractions bottom-up. But across
+          2,294 equations, it shows up at most once in a paper that looks pasted, and the other inversions are the
+          ordinary kind. The errors worth worrying about are the dull ones: a factor that quietly drops out between
+          the definition and the proof, or an index that points at the wrong time step. They were there at about
+          the same rate in 2021. Whatever LLMs are doing to how papers get written, they haven't visibly changed
+          how often the math is wrong.</p>
+      </div>
+
+      <section class="post-sources">
+        <h3>Sources</h3>
+        <ol class="sources">
+          <li id="ref-1">KaTeX contributors. "copy-tex extension." <a href="https://github.com/KaTeX/KaTeX/blob/main/contrib/copy-tex/README.md" target="_blank" rel="noopener noreferrer">github.com/KaTeX/KaTeX</a></li>
+          <li id="ref-2">Liang, W., et al. "Mapping the Increasing Use of LLMs in Scientific Papers." 2024. <a href="https://arxiv.org/abs/2404.01268" target="_blank" rel="noopener noreferrer">arXiv:2404.01268</a></li>
+          <li id="ref-3">Kobak, D., González-Márquez, R., Horvát, E.-Á., Lause, J. "Delving into LLM-assisted writing in biomedical publications through excess vocabulary." <em>Science Advances</em>, 2025. <a href="https://arxiv.org/abs/2406.07016" target="_blank" rel="noopener noreferrer">arXiv:2406.07016</a></li>
+          <li id="ref-4">Holzwarth, L., González-Márquez, R., Kobak, D. "Most biomedical publications show signs of LLM-assisted writing." 2026. <a href="https://arxiv.org/abs/2608.10715" target="_blank" rel="noopener noreferrer">arXiv:2608.10715</a></li>
+        </ol>
+      </section>
+    </article>
+
+    <nav class="post-pager" aria-label="More posts">
+      <a href="post-glee-agent.html">
+        <span class="eyebrow">Next post</span>
+        <span class="post-pager-title">I ran a game-theory RL-Menu Agent in GLEE for 48 hours (no LLM)</span>
+      </a>
+    </nav>
+  </main>
+
+  <footer class="content">
+    <span>© 2026 Julius Störk</span>
+    <span><a href="blog.html">All posts</a></span>
+  </footer>
+
+  <script src="theme.js?v=e512a566"></script>
+  <script src="navigation.js?v=82ad0181"></script>
+  <script src="media.js?v=94604095"></script>
+  <script src="interactions.js?v=cc839e91"></script>
+  <script src="blog.js?v=119b9d1e"></script>
+  <script>
+    window.addEventListener('load', function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://gc.zgo.at/count.js';
+      s.setAttribute('data-goatcounter', 'https://jstoerk.goatcounter.com/count');
+      document.body.appendChild(s);
+    });
+  </script>
+</body>
+
+</html>

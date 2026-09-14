@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://j-stoerk.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>I checked 2,294 arXiv equations for upside-down fractions</title>
+      <link>https://j-stoerk.github.io/post-inverted-fractions.html</link>
+      <guid isPermaLink="true">https://j-stoerk.github.io/post-inverted-fractions.html</guid>
+      <pubDate>Sun, 06 Sep 2026 08:00:00 +0200</pubDate>
+      <description>How often are equations in arXiv papers wrong, how many of those errors are inverted fractions from copy-pasted LLM output, and did it get worse after 2022? A review of 2,294 display equations in 60 papers plus pattern checks on 200.</description>
+    </item>
+    <item>
       <title>I ran a game-theory RL-Menu Agent in GLEE for 48 hours (no LLM)</title>
       <link>https://j-stoerk.github.io/post-glee-agent.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-glee-agent.html</guid>
