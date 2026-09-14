@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reading ConvMem: long-context reasoning as a summary tree · Julius Störk</title>
+  <meta name="description" content="Notes on ConvMem (arXiv:2609.10441), which replaces a sequential memory agent with a tree of question-conditioned summaries, and ideas for making the reasoning path shorter than logarithmic." />
+  <link rel="canonical" href="https://j-stoerk.github.io/post-convmem.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Julius Störk" />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-convmem.html" />
+  <meta property="og:title" content="Reading ConvMem: long-context reasoning as a summary tree" />
+  <meta property="og:description" content="ConvMem reads a long document as a tree of summaries instead of a chain of memory updates. Notes on the method and results, and ideas for a path shorter than logarithmic." />
+  <meta property="og:image" content="https://j-stoerk.github.io/social-convmem.png" />
+  <meta property="og:image:alt" content="Overlapping text windows summarized into a tree, with one window passed straight to the top" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="article:published_time" content="2026-09-13" />
+  <meta property="article:author" content="Julius Störk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/social-convmem.png" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Reading ConvMem: long-context reasoning as a summary tree",
+      "description": "Notes on ConvMem (arXiv:2609.10441), which replaces a sequential memory agent with a tree of question-conditioned summaries, and ideas for making the reasoning path shorter than logarithmic.",
+      "datePublished": "2026-09-13",
+      "dateModified": "2026-09-13",
+      "url": "https://j-stoerk.github.io/post-convmem.html",
+      "image": "https://j-stoerk.github.io/social-convmem.png",
+      "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
+    }
+  </script>
+
+  <!--#HEAD_ASSETS-->
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!--#TOPBAR-->
+
+  <main id="main" class="content">
+
+    <div class="page-art" aria-hidden="true">
+      <svg viewBox="0 0 1000 5200" preserveAspectRatio="none" fill="none">
+        <g class="art-wash">
+          <g transform="translate(-200,20)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#8bbf6e" opacity="0.11"/></g>
+          <g transform="translate(-50,580)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#5a82be" opacity="0.14"/></g>
+          <g transform="translate(-190,1140)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#e0a94a" opacity="0.11"/></g>
+          <g transform="translate(-35,1700)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#7a8a9a" opacity="0.14"/></g>
+          <g transform="translate(-180,2260)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#c85a46" opacity="0.11"/></g>
+          <g transform="translate(-45,2820)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#8bbf6e" opacity="0.14"/></g>
+          <g transform="translate(-170,3380)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#5a82be" opacity="0.11"/></g>
+          <g transform="translate(-60,3940)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#e0a94a" opacity="0.14"/></g>
+          <g transform="translate(-175,4500)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#7a8a9a" opacity="0.11"/></g>
+        </g>
+        <path class="art-ink" d="M720 5180 C 660 4900 780 4650 725 4380 C 665 4120 775 3880 720 3620 C 665 3360 785 3120 725 2860 C 675 2620 775 2380 720 2120 C 675 1880 775 1650 720 1400 C 685 1180 760 960 720 730 C 705 540 730 340 720 150"/>
+        <path class="art-ink-soft" d="M733 5180 C 673 4900 793 4650 738 4380 C 678 4120 788 3880 733 3620 C 678 3360 798 3120 738 2860 C 688 2620 788 2380 733 2120 C 688 1880 788 1650 733 1400 C 698 1180 773 960 733 730 C 718 540 743 340 733 150"/>
+        <g transform="translate(690,1590)"><circle class="art-ink" cx="0" cy="-100" r="10"/><circle class="art-ink" cx="-80" cy="-20" r="10"/><circle class="art-ink" cx="80" cy="-20" r="10"/><circle class="art-ink" cx="-120" cy="60" r="8"/><circle class="art-ink" cx="-40" cy="60" r="8"/><circle class="art-ink" cx="40" cy="60" r="8"/><circle class="art-ink" cx="120" cy="60" r="8"/><path class="art-ink-soft" d="M0 -100 L-80 -20 M0 -100 L80 -20 M-80 -20 L-120 60 M-80 -20 L-40 60 M80 -20 L40 60 M80 -20 L120 60"/></g>
+        <g transform="translate(690,3530)"><path class="art-ink" d="M-140 -120 V 60 H 170"/><path class="art-ink" d="M-130 -100 C -120 20 -100 50 -60 55 C 0 58 80 58 160 58"/><path class="art-ink-soft" d="M-130 -100 C -60 -80 20 -70 160 -66"/></g>
+        <path class="art-ink" d="M720 5180 C 660 5080 560 5050 470 5075 M720 5180 C 790 5080 900 5055 960 5085 M720 5180 C 720 5100 720 5060 720 5030 M470 5075 C 430 5090 410 5125 420 5155 M960 5085 C 900 5100 880 5135 892 5162"/>
+      </svg>
+    </div>
+    <a class="back-link" href="blog.html">All posts</a>
+    <article class="post" id="convmem">
+      <div class="post-cover media-cover">
+        <div class="media">
+          <svg class="cover-art" viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice" role="img"
+            aria-label="Overlapping text windows are summarized into a tree, and one window is passed straight to the top">
+            <defs>
+              <linearGradient id="cmSky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#eef1f5"/><stop offset="60%" stop-color="#ecebe2"/>
+                <stop offset="100%" stop-color="#e4dccb"/>
+              </linearGradient>
+              <radialGradient id="cmA" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#5a82be" stop-opacity=".2"/><stop offset="100%" stop-color="#5a82be" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="cmB" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#e0a94a" stop-opacity=".22"/><stop offset="100%" stop-color="#e0a94a" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="1200" height="675" fill="url(#cmSky)"/>
+            <ellipse cx="420" cy="300" rx="420" ry="320" fill="url(#cmA)"/>
+            <ellipse cx="960" cy="260" rx="340" ry="300" fill="url(#cmB)"/>
+            <g stroke="#33465e" stroke-linecap="round" fill="none">
+              <path d="M190 356 L300 290 M330 408 L300 290 M470 356 L300 290 M470 356 L600 290 M610 408 L600 290 M750 356 L600 290 M750 356 L900 290 M890 408 L900 290 M1030 356 L900 290" stroke-opacity=".35" stroke-width="1.8"/>
+              <path d="M300 240 L600 164 M600 240 L600 164 M900 240 L600 164" stroke-opacity=".4" stroke-width="2"/>
+              <rect x="90" y="356" width="200" height="40" rx="8" fill="#5a82be" fill-opacity=".12" stroke-opacity=".4" stroke-width="1.5"/>
+              <rect x="230" y="408" width="200" height="40" rx="8" fill="#5a82be" fill-opacity=".12" stroke-opacity=".4" stroke-width="1.5"/>
+              <rect x="370" y="356" width="200" height="40" rx="8" fill="#5a82be" fill-opacity=".12" stroke-opacity=".4" stroke-width="1.5"/>
+              <rect x="510" y="408" width="200" height="40" rx="8" fill="#5a82be" fill-opacity=".12" stroke-opacity=".4" stroke-width="1.5"/>
+              <rect x="650" y="356" width="200" height="40" rx="8" fill="#5a82be" fill-opacity=".12" stroke-opacity=".4" stroke-width="1.5"/>
+              <rect x="790" y="408" width="200" height="40" rx="8" fill="#e0a94a" fill-opacity=".35" stroke-opacity=".55" stroke-width="1.8"/>
+              <rect x="930" y="356" width="200" height="40" rx="8" fill="#5a82be" fill-opacity=".12" stroke-opacity=".4" stroke-width="1.5"/>
+              <path d="M110 370 h 60 M110 382 h 40 M250 422 h 60 M250 434 h 40 M390 370 h 60 M390 382 h 40 M530 422 h 60 M530 434 h 40 M670 370 h 60 M670 382 h 40 M810 422 h 60 M810 434 h 40 M950 370 h 60 M950 382 h 40" stroke-opacity=".45" stroke-width="3"/>
+              <rect x="190" y="240" width="220" height="50" rx="9" fill="#2f6fb0" fill-opacity=".18" stroke-opacity=".5" stroke-width="2"/>
+              <rect x="490" y="240" width="220" height="50" rx="9" fill="#2f6fb0" fill-opacity=".18" stroke-opacity=".5" stroke-width="2"/>
+              <rect x="790" y="240" width="220" height="50" rx="9" fill="#2f6fb0" fill-opacity=".18" stroke-opacity=".5" stroke-width="2"/>
+              <path d="M214 260 h 70 M214 272 h 44 M514 260 h 70 M514 272 h 44 M814 260 h 70 M814 272 h 44" stroke-opacity=".5" stroke-width="3"/>
+              <rect x="470" y="110" width="260" height="54" rx="10" fill="#2f6fb0" fill-opacity=".26" stroke-opacity=".6" stroke-width="2.2"/>
+              <path d="M498 137 h 90" stroke-opacity=".55" stroke-width="3.5"/>
+              <path d="M990 428 C 1170 380 1080 150 730 137" stroke="#e0a94a" stroke-opacity=".95" stroke-width="3.5"/>
+              <circle cx="730" cy="137" r="5" fill="#e0a94a" stroke="#e0a94a"/>
+            </g>
+          </svg>
+        </div>
+        <div class="cover-text">
+          <p class="eyebrow"><time datetime="2026-09-13">13 September 2026</time> · Reading notes</p>
+          <h1 class="post-title">Reading ConvMem: long-context reasoning as a summary tree</h1>
+        </div>
+      </div>
+      <div class="prose">
+        <p>ConvMem<sup class="cite"><a class="ref" href="#ref-1">1</a></sup> answers questions over documents of up to
+          896k tokens with a frozen Qwen2.5-32B and no training. It reads the document in overlapping 8,000-token
+          windows, summarizes each window with respect to the question, concatenates the summaries and repeats until
+          the text fits in one window. The authors describe this as a convolution with the LLM as the kernel. Their
+          main comparison is MemAgent,<sup class="cite"><a class="ref" href="#ref-2">2</a></sup> which reads the same
+          document one chunk at a time and rewrites a fixed-size memory after each chunk.</p>
+        <p>With 8,000-token chunks, a fact in the first chunk of a million-token document goes through about 125
+          memory rewrites in a sequential agent before the answer is written. In ConvMem it goes through 3 or 4
+          summarization layers. That is the "linear chain to logarithmic tree" from the abstract. Below are notes on
+          the method and results, followed by ideas for making the path shorter than logarithmic.</p>
+
+        <h3>Method</h3>
+        <p>The paper's notation: kernel size \(W\) (tokens per window), stride \(S\), depth \(L\), and \(C\) channels,
+          one per sub-question. The experiments use \(W = 8{,}000\) and \(S = 1{,}600\), so every token is read by
+          5 windows. All calls run at temperature 0.7.</p>
+        <p>Before reading, the model splits the question into sub-questions, usually 2 to 4. Each sub-question gets a
+          channel and scans the whole document on its own.</p>
+        <p>At layer 0, each window gets a relevance score \(r \in \{0, 1, 2\}\) and a bullet-list summary for the
+          sub-question. Windows scored 2 ("definitely contains the answer") are copied verbatim into a buffer that
+          goes directly to the answer step. The paper calls this a skip connection.</p>
+        <p>In the upper layers, the previous layer's summaries are concatenated, cut into overlapping windows and
+          summarized again until the concatenation is shorter than \(W\). The appendix reports 2 to 3 layers for up
+          to 128k tokens and 3 to 4 layers for up to 1M.</p>
+        <p>Each channel then answers its sub-question from its top-level summary and its buffer, and one last call
+          combines the sub-answers into the final answer.</p>
+        <p>Within a layer, all windows and channels are independent. With enough parallel capacity, latency grows
+          with the number of layers, not with document length.</p>
+
+        <h3>Results</h3>
+        <p>The benchmarks are RULER-HotpotQA,<sup class="cite"><a class="ref" href="#ref-3">3</a></sup> which MemAgent
+          was trained on, and RULER-2WikiMultiHopQA, which the authors built for this paper with the same recipe.
+          F1 at the shortest and longest context:</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Method</th><th>HotpotQA 28k</th><th>HotpotQA 896k</th><th>2Wiki 28k</th><th>2Wiki 896k</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Qwen2.5-32B, full context</td><td>61.9</td><td>16.8</td><td>56.5</td><td>20.9</td></tr>
+              <tr><td>MemAgent without RL</td><td>64.0</td><td>58.7</td><td>60.5</td><td>49.7</td></tr>
+              <tr><td>MemAgent (RL)</td><td>75.6</td><td>68.8</td><td>60.9</td><td>58.4</td></tr>
+              <tr><td>ConvMem</td><td>67.4</td><td>63.1</td><td>72.3</td><td>59.1</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>ConvMem beats MemAgent without RL at every length on 2Wiki and at 5 of 6 lengths on HotpotQA (not at 112k),
+          by 4 to 9 points at 896k. It is below
+          RL-trained MemAgent at every length on HotpotQA. On 2Wiki it is 11 points ahead at 28k and within one point
+          at 896k.</p>
+        <p>The paper reads the 2Wiki numbers as MemAgent overfitting its training data. The direct evidence is one
+          example: the dataset label contains a typo ("Levni Yilmaz" for "Lev Yilmaz"), and MemAgent outputs the typo
+          while the context says "Lev". Measured as gain over the base model at 28k, MemAgent gains 13.7 points on
+          HotpotQA and 4.4 on 2Wiki, and ConvMem gains 5.5 and 15.8. At 896k the two are tied on 2Wiki. The gap is
+          at short contexts, and the two datasets also differ in difficulty for every method.</p>
+        <p>Other things I noticed:</p>
+        <ul>
+          <li>Most Sub-EM scores are multiples of 1/128, so each context length has 128 questions. At 70% accuracy that
+            is a standard error of about 4 points, which covers several of the differences in the table. A few cells
+            (82.47, 73.31) are not multiples of 1/128.</li>
+          <li>No variance over runs is reported, although every call samples at temperature 0.7.</li>
+          <li>Kernel size, stride and number of channels were ablated on RULER-2WikiMultiHopQA, the same set used
+            for the out-of-distribution claim.</li>
+          <li>The text caps sub-questions at 5, the hyperparameter table at 10.</li>
+          <li>RULER-HotpotQA, as built for MemAgent, drops questions the model can answer without the context. The
+            description of the new 2Wiki set does not mention that filter.</li>
+          <li>The paper argues for logarithmic latency but reports no latency or token counts. The limitations section
+            says total compute is higher than for sequential reading.</li>
+        </ul>
+
+        <h3>Cost</h3>
+        <p>At 896k tokens, layer 0 has 556 windows. With 3 channels, and if scoring and summarizing are separate calls
+          as the prompt templates suggest, that is about 3,300 calls of up to 8,000 tokens, or roughly 27 million
+          input tokens before the upper layers. Reading the document once is 0.9 million. The 5× overlap and the
+          channels multiply the work by about 30.</p>
+
+        <h3>What the logarithm counts</h3>
+        <p>The paper uses "reasoning path" for three different quantities:</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Quantity</th><th>Sequential memory</th><th>ConvMem</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Sequential steps (latency with unlimited parallel calls)</td><td>\(N/W\)</td><td>\(L\)</td></tr>
+              <tr><td>Lossy rewrites between a fact and the answer</td><td>up to \(N/W\)</td><td>\(L + 2\), or 2 through the skip buffer</td></tr>
+              <tr><td>Calls at layer 0</td><td>\(N/W\)</td><td>\(2\,C\,N/S\)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>The depth depends on how much each layer shrinks the text. If a window of \(W\) tokens yields a summary of
+          \(h\) tokens, the next layer is \(N h / S\) tokens long, and the number of layers is</p>
+        <div class="equation">$$L = \left\lceil \frac{\log(N/W)}{\log(S/h)} \right\rceil .$$</div>
+        <p>The reported 3 to 4 layers at 1M tokens fit summaries of a few hundred tokens per window. Because of the
+          overlap, the base of the logarithm is \(S/h\) instead of \(W/h\), five times smaller.</p>
+
+        <h3>Getting below logarithmic</h3>
+        <p>Assume each lossy LLM rewrite keeps a needed fact with probability \(p\), independently. A path of \(d\)
+          rewrites keeps it with probability \(p^d\).</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Path</th><th>Rewrites</th><th>\(p = 0.95\)</th><th>\(p = 0.99\)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Sequential, fact in the first of 125 chunks</td><td>125</td><td>0.002</td><td>0.28</td></tr>
+              <tr><td>Sequential, fact at a random position</td><td>1 to 125</td><td>0.15</td><td>0.57</td></tr>
+              <tr><td>ConvMem, \(L = 3\)</td><td>5</td><td>0.77</td><td>0.95</td></tr>
+              <tr><td>ConvMem, \(L = 4\)</td><td>6</td><td>0.74</td><td>0.94</td></tr>
+              <tr><td>Constant path</td><td>2</td><td>0.90</td><td>0.98</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Most of the accuracy gain comes from going from linear to logarithmic. Going from 5 rewrites to 2 adds 13
+          points at \(p = 0.95\) and 3 points at \(p = 0.99\). Below logarithmic, the larger savings are in cost and
+          latency.</p>
+        <p>A tree in which every token passes through question-conditioned LLM calls, each reading at most \(b\)
+          inputs, has depth at least \(\log_b(N/W)\). There are three ways around that bound: send less of the text
+          through the model, merge without the model, or let \(b\) grow with \(N\). Each idea below uses one of
+          them.</p>
+
+        <p><strong>1. Filter, then build the tree.</strong> Layer 0 already scores every window. Dropping windows
+          scored 0 and building the tree only over the rest makes the depth depend on the amount of relevant text
+          instead of \(N\). In RULER-style data the relevant documents are a few paragraphs among hundreds of
+          distractors, so the kept text would often fit in one window, and the path would be constant: score, answer,
+          combine. The scoring step is also the natural place for a smaller model.</p>
+        <p><strong>2. Overlap only at layer 0.</strong> Overlap protects facts that are cut at a window boundary. Above
+          layer 0 the input is bullet lists, which can be split between bullets without cutting a fact. Setting
+          \(S = W\) above layer 0 raises the base from \(S/h\) to \(W/h\). With \(h = 320\), the upper layers then
+          shrink the text 25-fold instead of 5-fold, and a 1M-token document needs 3 layers instead of 4. The duplicate bullets that overlapping layer-0 windows produce can be removed by string
+          or embedding match instead of another model call.</p>
+        <p><strong>3. Records and an exact merge.</strong> The kernel could emit records (entity, attribute, value,
+          source offset) instead of prose. Merging two record sets is a union keyed on entity and attribute. It is
+          associative and loses nothing, so the upper layers can be ordinary code. The model then touches each fact
+          twice, once to extract it and once to answer. Conflicting values stay next to each other with their source
+          offsets instead of being resolved inside an intermediate summary. This is ConvMem as MapReduce, with models
+          only in the map and final steps.</p>
+        <p><strong>4. One round per hop.</strong> ConvMem decomposes the question before reading. For "What government
+          position was held by the woman who portrayed Corliss Archer in the film Kiss and Tell?", the channel for the
+          government position does not know the woman is Shirley Temple, so it has to keep every government position
+          it finds. With one parallel scan per hop, the first round finds the actress and the second scans for her.
+          The number of sequential steps equals the number of hops in the question, 2 to 4 in these datasets,
+          regardless of document length. The second round only needs the windows that mention the bridge entity.</p>
+        <p><strong>5. Index once per document.</strong> Every ConvMem layer is conditioned on the question, so nothing
+          carries over to the next question about the same document. A question-independent pass, either the records
+          from idea 3 or a summary tree as in RAPTOR,<sup class="cite"><a class="ref" href="#ref-4">4</a></sup> costs
+          one pass per document. Each question after that is a lookup and one or two model calls.</p>
+        <p><strong>6. Early exit.</strong> If every channel has a window scored 2 at layer 0, and the overlapping
+          windows extract the same answer, answer from the buffer and skip the upper layers. For needle-style questions
+          this should be the common case.</p>
+        <p><strong>7. Larger fan-in.</strong> The depth is a logarithm with base \(S/h\). A model that reads 128k
+          tokens reliably could merge about 400 summaries per call instead of 25. This moves the problem back into
+          long-context attention, which ConvMem was built to avoid.</p>
+        <p>Ideas 1, 2 and 6 only change prompts and scheduling. Ideas 3 to 5 change what the memory is.</p>
+      </div>
+
+      <section class="post-sources">
+        <h3>Sources</h3>
+        <ol class="sources">
+          <li id="ref-1">Zhang, H., Gu, Z., Bai, F., et al. "ConvMem: Convolutional Memory for Long-Context Reasoning." 2026. <a href="https://arxiv.org/abs/2609.10441" target="_blank" rel="noopener noreferrer">arXiv:2609.10441</a></li>
+          <li id="ref-2">Yu, H., Chen, T., Feng, J., et al. "MemAgent: Reshaping Long-Context LLM with Multi-Conv RL-based Memory Agent." 2025. <a href="https://arxiv.org/abs/2507.02259" target="_blank" rel="noopener noreferrer">arXiv:2507.02259</a></li>
+          <li id="ref-3">Hsieh, C.-P., et al. "RULER: What's the Real Context Size of Your Long-Context Language Models?" 2024. <a href="https://arxiv.org/abs/2404.06654" target="_blank" rel="noopener noreferrer">arXiv:2404.06654</a></li>
+          <li id="ref-4">Sarthi, P., et al. "RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval." ICLR 2024. <a href="https://arxiv.org/abs/2401.18059" target="_blank" rel="noopener noreferrer">arXiv:2401.18059</a></li>
+        </ol>
+      </section>
+    </article>
+
+    <nav class="post-pager" aria-label="More posts">
+      <a href="post-inverted-fractions.html">
+        <span class="eyebrow">Next post</span>
+        <span class="post-pager-title">I checked 2,294 arXiv equations for upside-down fractions</span>
+      </a>
+    </nav>
+  </main>
+
+  <!--#FOOTER-->
+
+  <!--#SCRIPTS-->
+</body>
+
+</html>

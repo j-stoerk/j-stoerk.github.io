@@ -1,5 +1,18 @@
 [
   {
+    "file": "post-convmem.html",
+    "title": "Reading ConvMem: long-context reasoning as a summary tree",
+    "iso": "2026-09-13",
+    "display": "13 September 2026",
+    "category": "Reading notes",
+    "minutes": 10,
+    "summary": "ConvMem reads a long document as a tree of question-conditioned summaries instead of a chain of memory updates, which cuts the path from a fact to the answer from linear to logarithmic. Notes on the method, results and cost, and seven ideas for a path shorter than logarithmic.",
+    "feedDescription": "Reading notes on ConvMem (arXiv:2609.10441): hierarchical summarization with overlapping windows, skip connections and sub-question channels, compared with MemAgent, plus ideas for constant-depth long-context reasoning.",
+    "rfc822": "Sun, 13 Sep 2026 08:00:00 +0200",
+    "lastmod": "2026-09-13",
+    "math": true
+  },
+  {
     "file": "post-inverted-fractions.html",
     "title": "I checked 2,294 arXiv equations for upside-down fractions",
     "iso": "2026-09-06",

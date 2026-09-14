@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://j-stoerk.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Reading ConvMem: long-context reasoning as a summary tree</title>
+      <link>https://j-stoerk.github.io/post-convmem.html</link>
+      <guid isPermaLink="true">https://j-stoerk.github.io/post-convmem.html</guid>
+      <pubDate>Sun, 13 Sep 2026 08:00:00 +0200</pubDate>
+      <description>Reading notes on ConvMem (arXiv:2609.10441): hierarchical summarization with overlapping windows, skip connections and sub-question channels, compared with MemAgent, plus ideas for constant-depth long-context reasoning.</description>
+    </item>
+    <item>
       <title>I checked 2,294 arXiv equations for upside-down fractions</title>
       <link>https://j-stoerk.github.io/post-inverted-fractions.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-inverted-fractions.html</guid>
