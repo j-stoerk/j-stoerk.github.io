@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Reading CausalPFN: causal effects as in-context prediction · Julius Störk</title>
+  <title>Reading CausalPFN: Causal Effects as In-Context Prediction · Julius Störk</title>
   <meta name="description" content="Notes on CausalPFN (NeurIPS 2025): one transformer, trained on simulated identifiable causal worlds, that estimates treatment effects in-context." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-causalpfn.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
@@ -12,7 +12,7 @@
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-causalpfn.html" />
-  <meta property="og:title" content="Reading CausalPFN: causal effects as in-context prediction" />
+  <meta property="og:title" content="Reading CausalPFN: Causal Effects as In-Context Prediction" />
   <meta property="og:description" content="Notes on a NeurIPS 2025 paper that treats causal effect estimation as in-context prediction, and what that would mean for manufacturing data." />
   <meta property="og:image" content="https://j-stoerk.github.io/social-causalpfn.png" />
   <meta property="og:image:alt" content="A wide prior density narrowing to a concentrated posterior at the true treatment effect" />
@@ -27,10 +27,10 @@
     {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
-      "headline": "Reading CausalPFN: causal effects as in-context prediction",
+      "headline": "Reading CausalPFN: Causal Effects as In-Context Prediction",
       "description": "Notes on CausalPFN (NeurIPS 2025): one transformer, trained on simulated identifiable causal worlds, that estimates treatment effects in-context.",
       "datePublished": "2026-07-12",
-      "dateModified": "2026-07-13",
+      "dateModified": "2026-09-30",
       "url": "https://j-stoerk.github.io/post-causalpfn.html",
       "image": "https://j-stoerk.github.io/social-causalpfn.png",
       "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
@@ -77,7 +77,7 @@
         <div class="media"><svg class="cover-art" viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A small causal graph over tabular data with the treatment-to-outcome edge highlighted"><defs><linearGradient id="cpSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#eef1f5"/><stop offset="60%" stop-color="#ecebe2"/><stop offset="100%" stop-color="#e4dccb"/></linearGradient><radialGradient id="cpA" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#5a82be" stop-opacity=".2"/><stop offset="100%" stop-color="#5a82be" stop-opacity="0"/></radialGradient><radialGradient id="cpB" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#e0a94a" stop-opacity=".22"/><stop offset="100%" stop-color="#e0a94a" stop-opacity="0"/></radialGradient><marker id="cpArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2f6fb0"/></marker></defs><rect width="1200" height="675" fill="url(#cpSky)"/><ellipse cx="320" cy="250" rx="380" ry="320" fill="url(#cpA)"/><ellipse cx="930" cy="320" rx="360" ry="320" fill="url(#cpB)"/><path d="M579 190 L 480 293" stroke="#33465e" stroke-width="3" stroke-opacity="0.6" marker-end="url(#cpArrow)"/><path d="M621 189 L 724 294" stroke="#33465e" stroke-width="3" stroke-opacity="0.6" marker-end="url(#cpArrow)"/><path d="M577 432 L 482 348" stroke="#33465e" stroke-width="3" stroke-opacity="0.5" marker-end="url(#cpArrow)"/><path d="M623 433 L 722 348" stroke="#33465e" stroke-width="3" stroke-opacity="0.5" marker-end="url(#cpArrow)"/><path d="M482 322 L 712 322" stroke="#2f6fb0" stroke-width="5" stroke-opacity="1.0" marker-end="url(#cpArrow)"/><g stroke="#33465e" stroke-opacity=".28" stroke-width="1.5" fill="none"><rect x="150" y="470" width="24" height="20" rx="3"/><rect x="180" y="470" width="24" height="20" rx="3"/><rect x="210" y="470" width="24" height="20" rx="3"/><rect x="240" y="470" width="24" height="20" rx="3"/><rect x="150" y="496" width="24" height="20" rx="3"/><rect x="180" y="496" width="24" height="20" rx="3"/><rect x="210" y="496" width="24" height="20" rx="3"/><rect x="240" y="496" width="24" height="20" rx="3"/><rect x="150" y="522" width="24" height="20" rx="3"/><rect x="180" y="522" width="24" height="20" rx="3"/><rect x="210" y="522" width="24" height="20" rx="3"/><rect x="240" y="522" width="24" height="20" rx="3"/><rect x="150" y="548" width="24" height="20" rx="3"/><rect x="180" y="548" width="24" height="20" rx="3"/><rect x="210" y="548" width="24" height="20" rx="3"/><rect x="240" y="548" width="24" height="20" rx="3"/></g><circle cx="600" cy="168" r="30" fill="#f3f1ea" stroke="#33465e" stroke-width="3.5"/><circle cx="600" cy="168" r="6" fill="#33465e"/><circle cx="452" cy="322" r="30" fill="#f3f1ea" stroke="#2f6fb0" stroke-width="3.5"/><circle cx="452" cy="322" r="6" fill="#2f6fb0"/><circle cx="752" cy="322" r="30" fill="#f3f1ea" stroke="#2f6fb0" stroke-width="3.5"/><circle cx="752" cy="322" r="6" fill="#2f6fb0"/><circle cx="600" cy="452" r="30" fill="#f3f1ea" stroke="#33465e" stroke-width="3.5"/><circle cx="600" cy="452" r="6" fill="#33465e"/></svg></div>
         <div class="cover-text">
           <p class="eyebrow"><time datetime="2026-07-12">12 July 2026</time> · Reading notes</p>
-          <h1 class="post-title">Reading CausalPFN: causal effects as in-context prediction</h1>
+          <h1 class="post-title">Reading CausalPFN: Causal Effects as In-Context Prediction</h1>
         </div>
       </div>
       <p class="article-meta muted">Notes on Balazadeh, Kamkari, et al.,
@@ -216,7 +216,7 @@
     <nav class="post-pager" aria-label="More posts">
       <a href="post-geometry-of-forgetting.html">
         <span class="eyebrow">Next post</span>
-        <span class="post-pager-title">The geometry of forgetting in continual learning</span>
+        <span class="post-pager-title">The Geometry of Forgetting in Continual Learning</span>
       </a>
     </nav>
   </main>

@@ -15,7 +15,7 @@
   <meta property="og:title" content="DisCo and the Case for Reusable Agent Skills" />
   <meta property="og:description" content="DisCo distills repositories and papers into reusable operating skills. Scope, ground, construct, and verify: a practical route from research knowledge to repeatable workflows." />
   <meta property="og:image" content="https://j-stoerk.github.io/social-disco.png" />
-  <meta property="og:image:alt" content="An imagined library of blue arches and ochre stairways, linked by fine ink paths on warm paper" />
+  <meta property="og:image:alt" content="Three blue and ochre library arches connected at their bases by continuous ink bridges on warm paper" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="675" />
   <meta property="article:published_time" content="2026-09-20" />
@@ -102,7 +102,7 @@
     <article class="post" id="disco-dry-run">
       <div class="post-cover media-cover">
         <div class="media">
-          <svg class="cover-art" viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice" role="img" aria-label="An imagined library of blue arches and ochre stairways, linked by fine ink paths on warm paper">
+          <svg class="cover-art" viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Three blue and ochre library arches connected at their bases by continuous ink bridges on warm paper">
     <defs>
       <linearGradient id="discoLibraryPaper" x2="0" y2="1"><stop stop-color="#f2eee3"/><stop offset="1" stop-color="#dfd7c4"/></linearGradient>
       <radialGradient id="discoLibraryBlue"><stop stop-color="#739ab5" stop-opacity=".5"/><stop offset="1" stop-color="#739ab5" stop-opacity="0"/></radialGradient>
@@ -112,7 +112,6 @@
     <ellipse cx="320" cy="250" rx="420" ry="350" fill="url(#discoLibraryBlue)"/>
     <ellipse cx="920" cy="300" rx="360" ry="330" fill="url(#discoLibraryGold)"/>
     <circle cx="892" cy="144" r="66" fill="#d09a4d" fill-opacity=".55"/>
-    <path d="M82 442 Q339 399 564 449 T1130 425" fill="none" stroke="#76664f" stroke-opacity=".3"/>
     <path d="M145 419 V270.0 A96.0 96.0 0 0 1 337 270.0 V419 Z" fill="#426b89" fill-opacity=".24" stroke="#426b89" stroke-width="1.8"/>
     <path d="M159 419 V270.0 A82.0 82.0 0 0 1 323 270.0 V419" fill="none" stroke="#426b89" stroke-opacity="0.6" stroke-width="1.2"/>
     <path d="M171 419 V270.0 A70.0 70.0 0 0 1 311 270.0 V419" fill="none" stroke="#426b89" stroke-opacity="0.5" stroke-width="1.2"/>
@@ -131,17 +130,14 @@
     <path d="M860 418 V317.5 A43.5 43.5 0 0 1 947 317.5 V418" fill="none" stroke="#a66f4e" stroke-opacity="0.39999999999999997" stroke-width="1.2"/>
     <path d="M872 418 V317.5 A31.5 31.5 0 0 1 935 317.5 V418" fill="none" stroke="#a66f4e" stroke-opacity="0.29999999999999993" stroke-width="1.2"/>
     <path d="M834 418 l58.68 -42 h65.2 l-58.68 42Z" fill="#f5eedb" fill-opacity=".65"/>
-    <path d="M242 407 H376 V362 H460 V317 H555 M574 391 H713 V353 H828 V315 H903" fill="none" stroke="#455a69" stroke-width="2" stroke-opacity=".65"/>
-    <path d="M242 407 l32 14 h57" fill="none" stroke="#455a69" stroke-opacity=".28"/>
-    <path d="M376 362 l32 14 h57" fill="none" stroke="#455a69" stroke-opacity=".28"/>
-    <path d="M460 317 l32 14 h57" fill="none" stroke="#455a69" stroke-opacity=".28"/>
-    <path d="M713 353 l32 14 h57" fill="none" stroke="#455a69" stroke-opacity=".28"/>
-    <path d="M828 315 l32 14 h57" fill="none" stroke="#455a69" stroke-opacity=".28"/>
-    <path d="M97 255 C206 78 365 98 459 168 S736 246 906 122 M171 469 C438 528 718 427 1069 455" fill="none" stroke="#526678" stroke-opacity=".35" stroke-dasharray="3 7"/>
-    <path d="M99 242h14 M106 235v14" stroke="#607181" stroke-opacity=".65"/>
-    <path d="M359 139h14 M366 132v14" stroke="#607181" stroke-opacity=".65"/>
-    <path d="M727 211h14 M734 204v14" stroke="#607181" stroke-opacity=".65"/>
-    <path d="M1041 325h14 M1048 318v14" stroke="#607181" stroke-opacity=".65"/>
+    <g fill="none" stroke="#455a69" stroke-width="1.8" stroke-opacity=".65" stroke-linecap="round">
+      <path d="M337 419 C379 419 413 399 455 399"/>
+      <path d="M677 399 C728 399 771 418 822 418"/>
+    </g>
+    <g fill="#f2eee3" stroke="#455a69" stroke-width="1.3">
+      <circle cx="337" cy="419" r="3.5"/><circle cx="455" cy="399" r="3.5"/>
+      <circle cx="677" cy="399" r="3.5"/><circle cx="822" cy="418" r="3.5"/>
+    </g>
     </svg>
         </div>
         <div class="cover-text">
@@ -156,7 +152,7 @@
         <p>Jianlyu Chen and colleagues’ <strong>DisCo</strong> agent addresses that gap by distilling know-how from repositories and papers into reusable skills. Its <em>Creator</em> constructs the skills; its <em>Researcher</em> uses them to solve subsequent tasks. Different operating instructions let the same underlying model take on different research roles <sup class="cite">[<a href="#ref-1">1</a>, <a href="#ref-2">2</a>]</sup>.</p>
 
         <h2>What is a skill, really?</h2>
-        <p>A skill is a small, structured folder. For calendering and thermal conductivity, a possible package looks like this:</p>
+        <p>A skill packages its operating instructions, references, and callable scripts in a folder.</p>
         <pre><code>calendering-thermal-conductivity/
   SKILL.md
   references/
@@ -167,12 +163,11 @@
     fit_parameters.py
     plot_ushape.py</code></pre>
         <p><code>SKILL.md</code> is the agent-facing manual: what the skill does, when it applies, which inputs it expects, how to run it, and what usually goes wrong. The references hold deeper evidence. The scripts expose procedures that the agent can call instead of reimplementing. The names above illustrate a package structure; the wrappers should point to the project's actual implementation.</p>
-        <p>Several skills form a graph:</p>
         <div class="equation"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="script">G</mi><mo>=</mo><mo stretchy="false">(</mo><mi mathvariant="script">S</mi><mo separator="true">,</mo><mi mathvariant="script">L</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathcal{G}=(\mathcal{S},\mathcal{L})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7805em;vertical-align:-0.0972em;"></span><span class="mord mathcal" style="margin-right:0.0593em;">G</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathcal" style="margin-right:0.075em;">S</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathcal">L</span><span class="mclose">)</span></span></span></span></span></div>
         <p>Here, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">S</mi></mrow><annotation encoding="application/x-tex">\mathcal{S}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.075em;">S</span></span></span></span> is the set of skills and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">L</mi></mrow><annotation encoding="application/x-tex">\mathcal{L}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal">L</span></span></span></span> contains routing or dependency links. An entry skill points to the relevant component: data preparation, fitting, evaluation, diagnosis, or repair. The agent opens the material it needs at each step. This progressive disclosure makes a large library usable without loading every manual into the context window <sup class="cite">[<a href="#ref-1">1</a>]</sup>.</p>
 
         <h2>Scope, ground, construct, verify</h2>
-        <p>The distillation pipeline starts with an anchor <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>z</mi></mrow><annotation encoding="application/x-tex">z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span></span></span></span>: a repository, paper, or concrete problem. It moves from capabilities to evidence, then to a candidate skill graph and its verification record:</p>
+        <p>A repository, paper, or concrete problem supplies the anchor <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>z</mi></mrow><annotation encoding="application/x-tex">z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span></span></span></span>. Capabilities <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">Q</mi></mrow><annotation encoding="application/x-tex">\mathcal{Q}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7805em;vertical-align:-0.0972em;"></span><span class="mord mathcal">Q</span></span></span></span> are grounded in evidence <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">X</mi></mrow><annotation encoding="application/x-tex">\mathcal{X}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.14643em;">X</span></span></span></span>, packaged into a candidate skill graph, and verified with a construction record <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi></mrow><annotation encoding="application/x-tex">R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span></span>.</p>
         <div class="equation"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>z</mi><mo>→</mo><mi mathvariant="script">Q</mi><mo>→</mo><mi mathvariant="script">X</mi><mo>→</mo><mover accent="true"><mi mathvariant="script">G</mi><mo stretchy="true">~</mo></mover><mo>→</mo><mo stretchy="false">(</mo><mi mathvariant="script">G</mi><mo separator="true">,</mo><mi>R</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">z \rightarrow \mathcal{Q} \rightarrow \mathcal{X} \rightarrow \widetilde{\mathcal{G}} \rightarrow (\mathcal{G},R)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7805em;vertical-align:-0.0972em;"></span><span class="mord mathcal">Q</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.14643em;">X</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0406em;vertical-align:-0.0972em;"></span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9433em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathcal" style="margin-right:0.0593em;">G</span></span><span class="svg-align" style="width:calc(100% - 0.1667em);margin-left:0.1667em;top:-3.6833em;"><span class="pstrut" style="height:3em;"></span><span style="height:0.26em;"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="0.26em" viewBox="0 0 600 260" preserveAspectRatio="none"><path d="M200 55.538c-77 0-168 73.953-177 73.953-3 0-7
 -2.175-9-5.437L2 97c-1-2-2-4-2-6 0-4 2-7 5-9l20-12C116 12 171 0 207 0c86 0
  114 68 191 68 78 0 168-68 177-68 4 0 7 2 9 5l12 19c1 2.175 2 4.35 2 6.525 0
@@ -187,14 +182,14 @@
         <p>A file that describes an experiment is only part of the job. Verification has to establish that the procedure runs and that its checks detect meaningful failures. For manufacturing, useful checks include physical bounds, conservation, approved parameter windows, and a trace from each reported output to the data and configuration that produced it <sup class="cite">[<a href="#ref-2">2</a>]</sup>.</p>
 
         <h2>Creator and Researcher share the same machinery</h2>
-        <p>DisCo separates skill construction from skill use while retaining the model and execution harness. A research agent can be written as:</p>
+        <p>DisCo separates skill construction from skill use while retaining the model and execution harness.</p>
         <div class="equation"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi mathvariant="script">A</mi><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">s</mi></mrow></msub><mo>=</mo><mo stretchy="false">(</mo><msub><mi>M</mi><mi>θ</mi></msub><mo separator="true">,</mo><mi>H</mi><mo separator="true">,</mo><mi mathvariant="script">K</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathcal{A}_{\mathrm{res}}=(M_\theta,H,\mathcal{K})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathcal">A</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathrm mtight">res</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">θ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathcal" style="margin-right:0.01445em;">K</span><span class="mclose">)</span></span></span></span></span></div>
         <p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>M</mi><mi>θ</mi></msub></mrow><annotation encoding="application/x-tex">M_\theta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">θ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> is the language model, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi></mrow><annotation encoding="application/x-tex">H</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span></span></span></span> is the harness for planning, tools, memory, and verification, and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">K</mi></mrow><annotation encoding="application/x-tex">\mathcal{K}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.01445em;">K</span></span></span></span> is the operating knowledge available through skills. Creator builds and verifies that knowledge; Researcher retrieves the subset relevant to its task. Repository distillation is paid for once and reused, although source changes still require maintenance.</p>
         <p>This is useful when an agent repeatedly works on related problems. The workflow for a hyperparameter search can preserve the correct split, scoring convention, and recovery path across many runs. The next session can start from that procedure instead of reconstructing it from scattered notebooks.</p>
 
         <h2>DisCo on my calendering model</h2>
         <p>For this article’s 30 September update, I ran DisCo 0.2.1 in Creator mode on my <a href="post-calendering-u-shape.html">calendering project</a>, using Kimi K2.6 through OpenRouter. The anchor was the actual source repository: the electrode thermal model, data-loading routines, measured calendering states, documentation, and tests. I scoped the extraction to forward through-plane conductivity and the contact/reorientation workflow <sup class="cite">[<a href="#ref-3">3</a>]</sup>.</p>
-        <p>The useful part was making the existing implementation callable without reconstructing its conventions. Creator identified the conductivity and inverse-porosity APIs, the family-specific calibration routines, and the distinction between gas-filled and electrolyte-filled pores. It then exercised ten groups of assertions against the repository’s Python implementation on CPU:</p>
+        <p>Creator identified the conductivity and inverse-porosity APIs, the family-specific calibration routines, and the distinction between gas-filled and electrolyte-filled pores. It exercised ten groups of assertions against the repository’s Python implementation on CPU.</p>
         <div class="table-wrap"><table>
           <thead><tr><th scope="col">Check</th><th scope="col">Result</th></tr></thead>
           <tbody>
@@ -208,7 +203,7 @@
         <p>All ten check groups passed, including the Knudsen correction, isotropic NMC limit, material-family registry, and a single-family calibration. A second pass checked seven integrated results, including the contact and reorientation fits and inverse-porosity uncertainty. The <a href="https://github.com/j-stoerk/j-stoerk.github.io/tree/main/_src/disco" target="_blank" rel="noopener noreferrer">generated skills and execution record</a> keep the inputs and results inspectable.</p>
         <p>These are small, fixed-parameter API cases. The error figures reproduce the repository’s own calibration summary and measure in-sample fit; held-out states and transfer to another chemistry still need their own evaluation. Conductivity alone can also leave contact evolution and graphite reorientation difficult to distinguish.</p>
         <h3>A small Researcher demo</h3>
-        <p>I then opened a separate Researcher session with the generated skill and asked it to compare dry graphite at three porosities. It produced a short Python wrapper around the existing APIs. With an 18 µm particle diameter, solid conductivity of 25 W/(m·K), and bridge conductivity of 130 W/(m·K), the result was:</p>
+        <p>I then opened a separate Researcher session with the generated skill and asked it to compare dry graphite at three porosities. It produced a short Python wrapper around the existing APIs. The sweep used an 18 µm particle diameter, solid conductivity of 25 W/(m·K), and bridge conductivity of 130 W/(m·K).</p>
         <div class="table-wrap"><table>
           <thead><tr><th scope="col">Porosity</th><th scope="col">No bridge</th><th scope="col">Contact fraction 0.01</th><th scope="col">Ratio</th></tr></thead>
           <tbody>
@@ -223,7 +218,7 @@
         <p>The practical starting point is one repository and one short, executable chain. Keep units, parameter conventions, and physical checks in the skill; route to deeper references when needed. For larger Researcher tasks—comparing acquisition rules, predicting held-out states, or running an IGFA sequence—the data split, task order, and resource budget should be fixed before comparing results. The CPU checks establish that the packaged procedure runs; measuring how much time or accuracy the skill adds requires a separate comparison.</p>
 
         <h2>Why operational knowledge is worth the effort</h2>
-        <p>The AREX-Skill authors report gains while keeping the backbone, harness, and execution budget fixed. Their published comparison is:</p>
+        <p>The AREX-Skill authors report gains while keeping the backbone, harness, and execution budget fixed.</p>
         <div class="table-wrap"><table>
           <thead><tr><th scope="col">Benchmark</th><th scope="col">Metric</th><th scope="col">Without skills</th><th scope="col">With skills</th></tr></thead>
           <tbody>
@@ -243,7 +238,7 @@
         <li id="ref-1">Chen, J., et al. <a href="https://arxiv.org/abs/2609.02749" target="_blank" rel="noopener noreferrer">Repo-To-Skill: Distilling GitHub Repositories Into AI4AI Skills</a>, 2026. See also the authors’ <a href="https://github.com/VectorSpaceLab/AREX-Skill" target="_blank" rel="noopener noreferrer">AREX-Skill library and benchmark table</a>.</li>
         <li id="ref-2">VectorSpaceLab. <a href="https://github.com/VectorSpaceLab/AREX-Skill/blob/main/docs/disco-workflows.md" target="_blank" rel="noopener noreferrer">DisCo Creator and Researcher workflows</a>.</li>
         <li id="ref-3">Störk, J. <a href="https://github.com/j-stoerk/zehner-electrode-thermal" target="_blank" rel="noopener noreferrer">Zehner electrode thermal model</a>; <a href="post-calendering-u-shape.html">calendering note</a> and <a href="zehner-closure.pdf">manuscript</a>.</li>
-        <li>Störk, J. <a href="post-geometry-of-forgetting.html">The geometry of forgetting in continual learning</a>, with <a href="forgetting-geometry.pdf">draft manuscript</a>.</li>
+        <li>Störk, J. <a href="post-geometry-of-forgetting.html">The Geometry of Forgetting in Continual Learning</a>, with <a href="forgetting-geometry.pdf">draft manuscript</a>.</li>
       </ol></section>
 
     </article>
@@ -251,7 +246,7 @@
     <nav class="post-pager" aria-label="More posts">
       <a href="post-convmem.html">
         <span class="eyebrow">Next post</span>
-        <span class="post-pager-title">Reading ConvMem: long-context reasoning as a summary tree</span>
+        <span class="post-pager-title">Reading ConvMem: Long-Context Reasoning as a Summary Tree</span>
       </a>
     </nav>
   </main>

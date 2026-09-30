@@ -13,6 +13,12 @@ node _src/build.js
 - `posts.json` — one entry per blog post. Drives the blog listing, the
   home-page cards, `feed.xml`, and `sitemap.xml`. To publish a post: add its
   source page in `pages/`, add an entry here, run the build.
+- **Post titles** use title case: capitalize major words and words of four or
+  more letters; keep short articles, conjunctions, and prepositions lowercase
+  unless they begin or end the title or begin a subtitle. Capitalize the main
+  parts of hyphenated compounds. Preserve names and notation such as DisCo,
+  arXiv, CausalPFN, and O(n). Keep page headings, metadata, and post links aligned
+  with the title in `posts.json`.
 - **Math**: set `"math": true` on a post entry and write `$$...$$` (display)
   or `\( ... \)` (inline) TeX in its source. The build renders it to static
   HTML+MathML via `vendor/katex.min.js`; browsers load only

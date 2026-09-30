@@ -1,7 +1,7 @@
 [
   {
     "file": "post-jev-output-heads.html",
-    "title": "How to (not) reinvent the wheel with Jeff",
+    "title": "How to (Not) Reinvent the Wheel With Jeff",
     "iso": "2026-09-27",
     "display": "27 September 2026",
     "category": "AI research",
@@ -27,7 +27,7 @@
   },
   {
     "file": "post-convmem.html",
-    "title": "Reading ConvMem: long-context reasoning as a summary tree",
+    "title": "Reading ConvMem: Long-Context Reasoning as a Summary Tree",
     "iso": "2026-09-13",
     "display": "13 September 2026",
     "category": "Reading notes",
@@ -35,12 +35,12 @@
     "summary": "ConvMem reads a long document as a tree of question-conditioned summaries instead of a chain of memory updates, which cuts the path from a fact to the answer from linear to logarithmic. Notes on the method, results and cost, and seven ideas for a path shorter than logarithmic.",
     "feedDescription": "Reading notes on ConvMem (arXiv:2609.10441): hierarchical summarization with overlapping windows, skip connections and sub-question channels, compared with MemAgent, plus ideas for constant-depth long-context reasoning.",
     "rfc822": "Sun, 13 Sep 2026 08:00:00 +0200",
-    "lastmod": "2026-09-13",
+    "lastmod": "2026-09-30",
     "math": true
   },
   {
     "file": "post-inverted-fractions.html",
-    "title": "I checked 2,294 arXiv equations for upside-down fractions",
+    "title": "I Checked 2,294 arXiv Equations for Upside-Down Fractions",
     "iso": "2026-09-06",
     "display": "6 September 2026",
     "category": "LLMs in science",
@@ -48,12 +48,12 @@
     "summary": "Copying rendered math from a chat window can put a fraction's denominator first. I reviewed every display equation in 60 arXiv papers and pattern-checked 200: 4.9% of display equations have a meaning-changing error, 2 of 118 errors are inverted fractions, and the rate did not change between 2021 and 2026.",
     "feedDescription": "How often are equations in arXiv papers wrong, how many of the errors are inverted fractions, and did that change after 2022? A review of 2,294 display equations in 60 papers plus pattern checks on 200.",
     "rfc822": "Sun, 06 Sep 2026 08:00:00 +0200",
-    "lastmod": "2026-09-06",
+    "lastmod": "2026-09-30",
     "math": true
   },
   {
     "file": "post-glee-agent.html",
-    "title": "I ran a game-theory RL-Menu Agent in GLEE for 48 hours (no LLM)",
+    "title": "I Ran a Game-Theory RL-Menu Agent in GLEE for 48 Hours (No LLM)",
     "iso": "2026-08-30",
     "display": "30 August 2026",
     "category": "AI agents",
@@ -61,7 +61,7 @@
     "summary": "A weekend building a no-LLM game-theory bot for the GLEE economic games (bargaining, negotiation, persuasion), and what actually moved the percentile score: scaling the reward, measuring in the right seat, and closing before inflation eats the pot. Includes a playable version of the three games.",
     "feedDescription": "Notes from building a game-theory agent for GLEE: what moved the percentile score (reward scaling, same-seat baseline, closing before inflation) and what did not (persuasive messages, hard anchoring). With a playable version of the three games.",
     "rfc822": "Sun, 30 Aug 2026 08:00:00 +0200",
-    "lastmod": "2026-08-30"
+    "lastmod": "2026-09-30"
   },
   {
     "file": "post-fair-evaluation.html",
@@ -78,7 +78,7 @@
   },
   {
     "file": "post-student-becomes-teacher.html",
-    "title": "The student becomes the teacher",
+    "title": "The Student Becomes the Teacher",
     "iso": "2026-08-16",
     "display": "16 August 2026",
     "category": "AI research",
@@ -86,7 +86,7 @@
     "summary": "Three 2026 papers let a language model supply its own supervision, the external teacher, the ground-truth labels, and the privileged context, all replaced by the model itself. What it buys, and where it breaks.",
     "feedDescription": "On-policy self-distillation without labels: OPSD, U-OPSD's label-free majority vote, and L-OPSD's learnable privileged context, with the failure modes that come with self-supervision.",
     "rfc822": "Sun, 16 Aug 2026 08:00:00 +0200",
-    "lastmod": "2026-08-16"
+    "lastmod": "2026-09-30"
   },
   {
     "file": "post-optimizing-reasoning.html",
@@ -110,7 +110,7 @@
     "summary": "Every subquadratic-attention family relaxes one constraint while quietly keeping another. Five families, the routing-absorption trap, and why the frontier keeps flinching back to dense attention.",
     "feedDescription": "Reading notes across the subquadratic-attention literature: pruning, learned selection, linear memory, delta-rule correction, and the impossibility proofs.",
     "rfc822": "Sun, 02 Aug 2026 08:00:00 +0200",
-    "lastmod": "2026-08-11"
+    "lastmod": "2026-09-30"
   },
   {
     "file": "post-dendrites-dandelions.html",
@@ -122,12 +122,12 @@
     "summary": "Ceramic solid electrolytes still fail by dendrite. A March 2026 model derives a closed-form critical current density from first principles, and writes down the same physics that lets a dandelion crack a driveway.",
     "feedDescription": "A first-principles model of critical current density for alkali-metal dendrites in ceramic solid electrolytes, read through the physics of a dandelion cracking pavement.",
     "rfc822": "Sun, 26 Jul 2026 08:00:00 +0200",
-    "lastmod": "2026-08-11",
+    "lastmod": "2026-09-30",
     "math": true
   },
   {
     "file": "post-physical-ai.html",
-    "title": "AI's Bottleneck is Physical",
+    "title": "AI's Bottleneck Is Physical",
     "iso": "2026-07-19",
     "display": "19 July 2026",
     "category": "AI & infrastructure",
@@ -135,12 +135,12 @@
     "summary": "AI becomes truly useful when a physical feedback loop (power, heat, latency, sensors, data lineage, safe actuation) can run reliably. Where the loop is closed and why capability is not deployability.",
     "feedDescription": "The next bottleneck in AI is physical: whether the loop from electricity through inference to actuation and back to sensors can run reliably, efficiently, and observably.",
     "rfc822": "Sun, 19 Jul 2026 08:00:00 +0200",
-    "lastmod": "2026-07-19",
+    "lastmod": "2026-09-30",
     "math": true
   },
   {
     "file": "post-causalpfn.html",
-    "title": "Reading CausalPFN: causal effects as in-context prediction",
+    "title": "Reading CausalPFN: Causal Effects as In-Context Prediction",
     "iso": "2026-07-12",
     "display": "12 July 2026",
     "category": "Reading notes",
@@ -148,11 +148,11 @@
     "summary": "A NeurIPS 2025 paper trains one transformer on simulated, identifiable causal worlds; new observational data goes in as context, treatment-effect posteriors come out. What holds it up, and where it breaks.",
     "feedDescription": "Notes on Balazadeh et al., CausalPFN: one transformer, trained on simulated identifiable DGPs, that estimates treatment effects in-context.",
     "rfc822": "Sun, 12 Jul 2026 08:00:00 +0200",
-    "lastmod": "2026-07-14"
+    "lastmod": "2026-09-30"
   },
   {
     "file": "post-geometry-of-forgetting.html",
-    "title": "The geometry of forgetting in continual learning",
+    "title": "The Geometry of Forgetting in Continual Learning",
     "iso": "2026-07-05",
     "display": "5 July 2026",
     "category": "Continual learning",
@@ -160,12 +160,12 @@
     "summary": "How learning a new task damages an old one, and how interference geometry suggests a structural controller.",
     "feedDescription": "Forgetting as interference energy under a task's feature covariance, and the IGFA controller.",
     "rfc822": "Sun, 05 Jul 2026 08:00:00 +0200",
-    "lastmod": "2026-07-14",
+    "lastmod": "2026-09-30",
     "math": true
   },
   {
     "file": "post-calendering-u-shape.html",
-    "title": "Solving the electrode calendering U-shape puzzle",
+    "title": "Solving the Electrode Calendering U-Shape Puzzle",
     "iso": "2026-06-28",
     "display": "28 June 2026",
     "category": "Electrode manufacturing",
@@ -173,6 +173,6 @@
     "summary": "Why particle reorientation reverses the monotone prediction made by porosity-only thermal models.",
     "feedDescription": "Why through-plane conductivity dips before it rises, and the closure that captures it.",
     "rfc822": "Sun, 28 Jun 2026 08:00:00 +0200",
-    "lastmod": "2026-07-14"
+    "lastmod": "2026-09-30"
   }
 ]

@@ -7,7 +7,7 @@
     <language>en</language>
     <atom:link href="https://j-stoerk.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>How to (not) reinvent the wheel with Jeff</title>
+      <title>How to (Not) Reinvent the Wheel With Jeff</title>
       <link>https://j-stoerk.github.io/post-jev-output-heads.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-jev-output-heads.html</guid>
       <pubDate>Sun, 27 Sep 2026 08:00:00 +0200</pubDate>
@@ -21,21 +21,21 @@
       <description>DisCo distills repositories and papers into reusable operating skills. Scope, ground, construct, and verify: a practical route from research knowledge to repeatable workflows.</description>
     </item>
     <item>
-      <title>Reading ConvMem: long-context reasoning as a summary tree</title>
+      <title>Reading ConvMem: Long-Context Reasoning as a Summary Tree</title>
       <link>https://j-stoerk.github.io/post-convmem.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-convmem.html</guid>
       <pubDate>Sun, 13 Sep 2026 08:00:00 +0200</pubDate>
       <description>Reading notes on ConvMem (arXiv:2609.10441): hierarchical summarization with overlapping windows, skip connections and sub-question channels, compared with MemAgent, plus ideas for constant-depth long-context reasoning.</description>
     </item>
     <item>
-      <title>I checked 2,294 arXiv equations for upside-down fractions</title>
+      <title>I Checked 2,294 arXiv Equations for Upside-Down Fractions</title>
       <link>https://j-stoerk.github.io/post-inverted-fractions.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-inverted-fractions.html</guid>
       <pubDate>Sun, 06 Sep 2026 08:00:00 +0200</pubDate>
       <description>How often are equations in arXiv papers wrong, how many of the errors are inverted fractions, and did that change after 2022? A review of 2,294 display equations in 60 papers plus pattern checks on 200.</description>
     </item>
     <item>
-      <title>I ran a game-theory RL-Menu Agent in GLEE for 48 hours (no LLM)</title>
+      <title>I Ran a Game-Theory RL-Menu Agent in GLEE for 48 Hours (No LLM)</title>
       <link>https://j-stoerk.github.io/post-glee-agent.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-glee-agent.html</guid>
       <pubDate>Sun, 30 Aug 2026 08:00:00 +0200</pubDate>
@@ -49,7 +49,7 @@
       <description>Certified retention under a changing representation: a bottom-up stripe benchmark where a frozen encoder provably cannot win, and the CARG metric for the accuracy-retention tradeoff.</description>
     </item>
     <item>
-      <title>The student becomes the teacher</title>
+      <title>The Student Becomes the Teacher</title>
       <link>https://j-stoerk.github.io/post-student-becomes-teacher.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-student-becomes-teacher.html</guid>
       <pubDate>Sun, 16 Aug 2026 08:00:00 +0200</pubDate>
@@ -77,28 +77,28 @@
       <description>A first-principles model of critical current density for alkali-metal dendrites in ceramic solid electrolytes, read through the physics of a dandelion cracking pavement.</description>
     </item>
     <item>
-      <title>AI's Bottleneck is Physical</title>
+      <title>AI's Bottleneck Is Physical</title>
       <link>https://j-stoerk.github.io/post-physical-ai.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-physical-ai.html</guid>
       <pubDate>Sun, 19 Jul 2026 08:00:00 +0200</pubDate>
       <description>The next bottleneck in AI is physical: whether the loop from electricity through inference to actuation and back to sensors can run reliably, efficiently, and observably.</description>
     </item>
     <item>
-      <title>Reading CausalPFN: causal effects as in-context prediction</title>
+      <title>Reading CausalPFN: Causal Effects as In-Context Prediction</title>
       <link>https://j-stoerk.github.io/post-causalpfn.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-causalpfn.html</guid>
       <pubDate>Sun, 12 Jul 2026 08:00:00 +0200</pubDate>
       <description>Notes on Balazadeh et al., CausalPFN: one transformer, trained on simulated identifiable DGPs, that estimates treatment effects in-context.</description>
     </item>
     <item>
-      <title>The geometry of forgetting in continual learning</title>
+      <title>The Geometry of Forgetting in Continual Learning</title>
       <link>https://j-stoerk.github.io/post-geometry-of-forgetting.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-geometry-of-forgetting.html</guid>
       <pubDate>Sun, 05 Jul 2026 08:00:00 +0200</pubDate>
       <description>Forgetting as interference energy under a task's feature covariance, and the IGFA controller.</description>
     </item>
     <item>
-      <title>Solving the electrode calendering U-shape puzzle</title>
+      <title>Solving the Electrode Calendering U-Shape Puzzle</title>
       <link>https://j-stoerk.github.io/post-calendering-u-shape.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-calendering-u-shape.html</guid>
       <pubDate>Sun, 28 Jun 2026 08:00:00 +0200</pubDate>
