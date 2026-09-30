@@ -7,18 +7,18 @@
     <language>en</language>
     <atom:link href="https://j-stoerk.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Turning my research into operating skills: an offline DisCo dry run</title>
-      <link>https://j-stoerk.github.io/post-disco-dry-run.html</link>
-      <guid isPermaLink="true">https://j-stoerk.github.io/post-disco-dry-run.html</guid>
-      <pubDate>Wed, 30 Sep 2026 08:00:00 +0200</pubDate>
-      <description>An offline DisCo Creator-style dry run on two research threads: source-grounded candidate skills, honest verification gaps, and why a portfolio is not yet a reproducible experiment repository.</description>
-    </item>
-    <item>
-      <title>Jev, Jeff, and the case for different output heads</title>
+      <title>How to (not) reinvent the wheel with Jeff.</title>
       <link>https://j-stoerk.github.io/post-jev-output-heads.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-jev-output-heads.html</guid>
       <pubDate>Sun, 27 Sep 2026 08:00:00 +0200</pubDate>
-      <description>Jev and Jeff suggest an interface for machine-consumable decisions. I connect typed outputs to multi-head continual learning and battery manufacturing, while separating interface guarantees from architecture and empirical calibration.</description>
+      <description>Jev, Jeff, and typed decisions: shared representations, task-specific heads, calibrated probabilities, and a concrete policy for when a manufacturing model acts or requests review.</description>
+    </item>
+    <item>
+      <title>Different Heads make different Decisions</title>
+      <link>https://j-stoerk.github.io/post-disco-dry-run.html</link>
+      <guid isPermaLink="true">https://j-stoerk.github.io/post-disco-dry-run.html</guid>
+      <pubDate>Sun, 20 Sep 2026 08:00:00 +0200</pubDate>
+      <description>DisCo distills repositories and papers into reusable operating skills. Scope, ground, construct, and verify: a practical route from research knowledge to repeatable workflows.</description>
     </item>
     <item>
       <title>Reading ConvMem: long-context reasoning as a summary tree</title>

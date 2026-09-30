@@ -1,0 +1,128 @@
+{
+  "runtime": "python (existing local environment)",
+  "repo_src": "$REPO/src",
+  "date": "2026-09-30",
+  "backend": "CPU (JAX float64)",
+  "checks": [
+    {
+      "name": "imports_all",
+      "status": "PASS",
+      "detail": "electrode_thermal, electrode_data, zbs_jax, key_results all import cleanly"
+    },
+    {
+      "name": "anode_wet_fwd",
+      "status": "PASS",
+      "value": 2.559,
+      "target": "2.5..2.7"
+    },
+    {
+      "name": "cathode_wet_fwd",
+      "status": "PASS",
+      "value": 0.97,
+      "target": "0.9..1.1"
+    },
+    {
+      "name": "separator_knudsen",
+      "status": "PASS",
+      "value": 0.0098,
+      "target": "<0.15"
+    },
+    {
+      "name": "inverse_roundtrip",
+      "status": "PASS",
+      "value": 0.32,
+      "tolerance": "1e-8"
+    },
+    {
+      "name": "contact_increase",
+      "status": "PASS",
+      "base": 0.3905,
+      "bridged": 1.3936
+    },
+    {
+      "name": "reorientation_limits",
+      "status": "PASS",
+      "S=1": 6.0,
+      "S=0": 102.0
+    },
+    {
+      "name": "nmc_isotropic",
+      "status": "PASS",
+      "detail": "lambda_s_perp independent of S when lambda_a==lambda_c"
+    },
+    {
+      "name": "family_registry",
+      "status": "PASS",
+      "families": [
+        "graphite_thin",
+        "graphite_thick",
+        "NMC622",
+        "NMC811"
+      ]
+    },
+    {
+      "name": "calibrate_graphite_thin",
+      "status": "PASS",
+      "mape": 1.8,
+      "theta": [
+        24.8014,
+        0.0094,
+        -0.0244,
+        0.0
+      ]
+    },
+    {
+      "name": "key_results_headlines",
+      "status": "PASS",
+      "zero_fit_avg": 31.1,
+      "calibrated_avg": 4.5
+    }
+  ],
+  "integrated_checks": [
+    {
+      "name": "tc_int_01_contact_mape",
+      "status": "PASS",
+      "value": 1.76,
+      "target": "<5"
+    },
+    {
+      "name": "tc_int_01_reorient_mape",
+      "status": "PASS",
+      "value": 1.93,
+      "target": "<5"
+    },
+    {
+      "name": "tc_int_01_caxis_floor",
+      "status": "PASS",
+      "value": 6.0,
+      "target": "~6.0"
+    },
+    {
+      "name": "tc_int_01_phi0_positive",
+      "status": "PASS",
+      "value": 0.0094,
+      "target": ">0"
+    },
+    {
+      "name": "tc_int_01_a_nonzero",
+      "status": "PASS",
+      "value": -0.0244,
+      "target": "!=0"
+    },
+    {
+      "name": "tc_02_inverse_roundtrip",
+      "status": "PASS",
+      "value": 0.32,
+      "target": "0.32"
+    },
+    {
+      "name": "tc_02_uncertainty_magnitude",
+      "status": "PASS",
+      "value": 0.00924,
+      "target": "0.005..0.015"
+    }
+  ],
+  "all_pass": true,
+  "integrated_elapsed_s": 6.62,
+  "review_note": "Metadata reviewed against CLI output: corrected date, made local paths portable, and attributed elapsed time to the second command only. The first pass contains an import check and ten assertion groups; the second reports seven checks."
+}

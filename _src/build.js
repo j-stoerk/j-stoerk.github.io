@@ -41,9 +41,9 @@ const PAGES = {
     lastmod: '2026-08-25', priority: '0.8',
   },
   'blog.html': {
-    nav: 'blog', extraScripts: [],
+    nav: 'blog', extraScripts: ['blog-view.js'],
     footerExtra: '<a href="index.html">Home</a> · <a href="index.html#contact">Contact</a>',
-    lastmod: '2026-08-25', priority: '0.8',
+    lastmod: '2026-09-30', priority: '0.8',
   },
   /* Served by GitHub Pages for any missing URL; noindex, not in sitemap. */
   '404.html': {
@@ -156,17 +156,30 @@ ${extras ? extras + '\n' : ''}  <script>
 }
 
 /* ---------- post listings ---------- */
+/* Reuse the actual post artwork for tiles. External SVGs isolate each cover's
+   gradient IDs and keep the index small; generated assets are committed too. */
+function postCover(p) {
+  const source = fs.readFileSync(path.join(SRC, 'pages', p.file), 'utf8');
+  const cover = source.match(/<svg\b[^>]*class="cover-art"[\s\S]*?<\/svg>/);
+  if (!cover) throw new Error(`${p.file}: missing cover artwork for blog tiles`);
+  const target = `images/blog-covers/${p.file.replace(/\.html$/, '.svg')}`;
+  fs.mkdirSync(path.dirname(path.join(ROOT, target)), { recursive: true });
+  const svg = cover[0].replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
+  fs.writeFileSync(path.join(ROOT, target), svg + '\n');
+  return target;
+}
+
 function postEntry(p, withMinutes, indent) {
   const meta = withMinutes ? `${p.category} · ${p.minutes} min` : p.category;
   const pad = ' '.repeat(indent);
   return `${pad}<article class="journal-entry">
-${pad}  <div class="journal-meta"><time datetime="${p.iso}">${p.display}</time><span>${meta}</span></div>
+${withMinutes ? `${pad}  <div class="journal-thumbnail"><img src="${postCover(p)}" alt="" width="1200" height="675" loading="lazy" decoding="async"></div>\n` : ''}${pad}  <div class="journal-meta"><time datetime="${p.iso}">${p.display}</time><span>${meta}</span></div>
 ${pad}  <div class="journal-copy"><h3><a class="card-link" href="${p.file}">${p.title}</a></h3><p>${p.summary}</p></div>
 ${pad}  <span class="journal-arrow" aria-hidden="true">↗</span>
 ${pad}</article>`;
 }
 
-const POST_LIST = `<div class="journal-index journal-index-page">
+const POST_LIST = `<div id="blog-posts" class="journal-index journal-index-page" data-blog-view="list">
 ${posts.map((p) => postEntry(p, true, 6)).join('\n')}
     </div>`;
 

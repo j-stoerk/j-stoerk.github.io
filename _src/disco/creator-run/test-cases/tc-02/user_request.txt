@@ -1,0 +1,1 @@
+Given a measured effective thermal conductivity of 2.37 W/mK for a wet graphite anode coating (particle diameter 17 µm, solid conductivity 25 W/mK), invert it to porosity and estimate the absolute uncertainty assuming 3% measurement noise and 2% model-form noise.

@@ -1,0 +1,1 @@
+Load the Gandert 2023 calendering dataset, calibrate both the contact model and the reorientation-coupled model for graphite_thin, then compare their MAPEs. Verify that the reorientation model pins the through-plane solid conductivity near the graphite c-axis floor (~6 W/mK) at full calendering, and that the contact model's phi(Pi) is not identically zero.

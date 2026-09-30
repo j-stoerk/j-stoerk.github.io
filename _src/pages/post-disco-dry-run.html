@@ -4,35 +4,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Turning my research into operating skills: an offline DisCo dry run · Julius Störk</title>
-  <meta name="description" content="I tried DisCo's Creator workflow on my calendering and continual-learning work. The CLI could not be installed here, but a source-grounded dry run exposed what an agent can and cannot reproduce from a portfolio." />
+  <title>Different Heads make different Decisions · Julius Störk</title>
+  <meta name="description" content="DisCo distills repositories and papers into reusable operating skills. Scope, ground, construct, and verify: a practical route from research knowledge to repeatable workflows." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-disco-dry-run.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-disco-dry-run.html" />
-  <meta property="og:title" content="Turning my research into operating skills: an offline DisCo dry run" />
-  <meta property="og:description" content="A source-grounded dry run on two research threads, and what it takes to turn a portfolio into reproducible operating knowledge." />
-  <meta property="og:image" content="https://j-stoerk.github.io/social-card.png" />
-  <meta property="og:image:alt" content="A skill graph connecting evidence to calendering and continual-learning workflows" />
+  <meta property="og:title" content="Different Heads make different Decisions" />
+  <meta property="og:description" content="DisCo distills repositories and papers into reusable operating skills. Scope, ground, construct, and verify: a practical route from research knowledge to repeatable workflows." />
+  <meta property="og:image" content="https://j-stoerk.github.io/social-disco.png" />
+  <meta property="og:image:alt" content="Fine ink wheels and seed-like branches sharing paths across soft blue and ochre washes" />
   <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="article:published_time" content="2026-09-30" />
+  <meta property="og:image:height" content="675" />
+  <meta property="article:published_time" content="2026-09-20" />
   <meta property="article:author" content="Julius Störk" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://j-stoerk.github.io/social-card.png" />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/social-disco.png" />
 
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
-      "headline": "Turning my research into operating skills: an offline DisCo dry run",
-      "description": "A source-grounded dry run on two research threads, and what it takes to turn a portfolio into reproducible operating knowledge.",
-      "datePublished": "2026-09-30",
+      "headline": "Different Heads make different Decisions",
+      "description": "DisCo distills repositories and papers into reusable operating skills. Scope, ground, construct, and verify: a practical route from research knowledge to repeatable workflows.",
+      "datePublished": "2026-09-20",
       "dateModified": "2026-09-30",
       "url": "https://j-stoerk.github.io/post-disco-dry-run.html",
-      "image": "https://j-stoerk.github.io/social-card.png",
+      "image": "https://j-stoerk.github.io/social-disco.png",
       "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
     }
   </script>
@@ -68,105 +68,219 @@
     <article class="post" id="disco-dry-run">
       <div class="post-cover media-cover">
         <div class="media">
-          <svg class="cover-art" viewBox="0 0 1200 675" role="img" aria-label="A central research source routes to two reusable skill notes">
-            <defs>
-              <linearGradient id="dcSky" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#eef1f5"/><stop offset="100%" stop-color="#e4dccb"/>
-              </linearGradient>
-              <radialGradient id="dcA"><stop stop-color="#5a82be" stop-opacity=".25"/><stop offset="1" stop-color="#5a82be" stop-opacity="0"/></radialGradient>
-              <radialGradient id="dcB"><stop stop-color="#e0a94a" stop-opacity=".25"/><stop offset="1" stop-color="#e0a94a" stop-opacity="0"/></radialGradient>
-            </defs>
-            <rect width="1200" height="675" fill="url(#dcSky)"/>
-            <ellipse cx="280" cy="200" rx="360" ry="280" fill="url(#dcA)"/>
-            <ellipse cx="960" cy="470" rx="360" ry="260" fill="url(#dcB)"/>
-            <g fill="none" stroke="#33465e" stroke-width="4" stroke-linecap="round">
-              <path d="M600 245 C440 245 390 340 300 390 M600 245 C760 245 810 340 900 390"/>
-              <path d="M300 390 V470 M900 390 V470" stroke-dasharray="8 12" stroke-opacity=".45"/>
-            </g>
-            <rect x="485" y="165" width="230" height="160" rx="22" fill="#fdfdfc" stroke="#33465e" stroke-width="3"/>
-            <rect x="145" y="390" width="310" height="160" rx="22" fill="#fdfdfc" stroke="#2f6fb0" stroke-width="3"/>
-            <rect x="745" y="390" width="310" height="160" rx="22" fill="#fdfdfc" stroke="#c07a4a" stroke-width="3"/>
-            <g fill="#33465e" text-anchor="middle" font-family="sans-serif">
-              <text x="600" y="230" font-size="27" font-weight="700">Research sources</text>
-              <text x="600" y="272" font-size="19">posts + draft PDFs</text>
-              <text x="300" y="455" font-size="26" font-weight="700">Calendering</text>
-              <text x="300" y="495" font-size="18">measurement → fit → checks</text>
-              <text x="900" y="455" font-size="26" font-weight="700">Continual learning</text>
-              <text x="900" y="495" font-size="18">task stream → retention → checks</text>
-            </g>
-          </svg>
+          <svg class="cover-art" viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Fine ink wheels and seed-like branches sharing paths across soft blue and ochre washes">
+<defs>
+      <linearGradient id="dcSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#eef1f5"/><stop offset="58%" stop-color="#ecebe2"/><stop offset="100%" stop-color="#e4dccb"/></linearGradient>
+      <radialGradient id="dcBlue"><stop stop-color="#5a82be" stop-opacity=".26"/><stop offset="1" stop-color="#5a82be" stop-opacity="0"/></radialGradient>
+      <radialGradient id="dcGold"><stop stop-color="#e0a94a" stop-opacity=".28"/><stop offset="1" stop-color="#e0a94a" stop-opacity="0"/></radialGradient>
+    </defs>
+    <rect width="1200" height="675" fill="url(#dcSky)"/>
+    <ellipse cx="350" cy="255" rx="410" ry="320" fill="url(#dcBlue)"/>
+    <ellipse cx="940" cy="290" rx="350" ry="310" fill="url(#dcGold)"/>
+    <path d="M90 185 C180 68 403 130 430 261 C459 373 294 405 171 332 C78 278 54 233 90 185Z" fill="#5a82be" fill-opacity=".06"/>
+    <path d="M699 124 C846 53 1066 138 1095 305 C1114 433 943 457 817 376 C690 295 635 171 699 124Z" fill="#c07a4a" fill-opacity=".05"/>
+    <g fill="none" stroke="#33465e" stroke-linecap="round">
+      <path d="M145 411 C255 368 362 463 506 388 C613 332 642 166 805 168 C931 169 997 284 1086 246" stroke-width="1.5" stroke-opacity=".35"/>
+      <path d="M141 423 C269 381 365 479 518 400 C646 334 646 179 809 181 C933 183 987 299 1090 260" stroke-width=".8" stroke-opacity=".24"/>
+      <path d="M350 258 C517 101 661 91 795 170 M352 258 C597 489 821 519 970 332" stroke-width="1" stroke-opacity=".3" stroke-dasharray="5 8"/>
+      <path d="M80 295 H1120 M351 73 V493" stroke-width=".8" stroke-opacity=".15"/>
+    </g>
+<g transform="translate(350 265)" fill="none" stroke="#33465e" stroke-linecap="round">
+<circle r="134" stroke-width="2.1" stroke-opacity=".7"/>
+<circle r="125" stroke-width=".8" stroke-opacity=".35"/>
+<circle r="76.38" stroke-width="1.1" stroke-opacity=".4"/>
+<circle r="153" stroke-width=".8" stroke-opacity=".27" stroke-dasharray="2 8"/>
+<path d="M0 0 Q71.7 22.2 134.0 0.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="134.0" cy="0.0" r="3" fill="#33465e" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q51.0 55.0 116.0 67.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="116.0" cy="67.0" r="3" fill="#33465e" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q16.6 73.2 67.0 116.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="67.0" cy="116.0" r="3" fill="#33465e" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q-22.2 71.7 0.0 134.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="0.0" cy="134.0" r="3" fill="#33465e" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q-55.0 51.0 -67.0 116.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="-67.0" cy="116.0" r="3" fill="#33465e" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q-73.2 16.6 -116.0 67.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="-116.0" cy="67.0" r="3" fill="#33465e" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q-71.7 -22.2 -134.0 0.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="-134.0" cy="0.0" r="3" fill="#33465e" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q-51.0 -55.0 -116.0 -67.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="-116.0" cy="-67.0" r="3" fill="#33465e" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q-16.6 -73.2 -67.0 -116.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="-67.0" cy="-116.0" r="3" fill="#33465e" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q22.2 -71.7 -0.0 -134.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="-0.0" cy="-134.0" r="3" fill="#33465e" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q55.0 -51.0 67.0 -116.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="67.0" cy="-116.0" r="3" fill="#33465e" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q73.2 -16.6 116.0 -67.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="116.0" cy="-67.0" r="3" fill="#33465e" fill-opacity=".65" stroke="none"/>
+<circle r="9" fill="#33465e" fill-opacity=".18" stroke-width="1.5"/>
+</g><g transform="translate(786 173)" fill="none" stroke="#2f6fb0" stroke-linecap="round">
+<circle r="66" stroke-width="2.1" stroke-opacity=".7"/>
+<circle r="57" stroke-width=".8" stroke-opacity=".35"/>
+<circle r="37.62" stroke-width="1.1" stroke-opacity=".4"/>
+<circle r="85" stroke-width=".8" stroke-opacity=".27" stroke-dasharray="2 8"/>
+<path d="M0 0 Q35.3 10.9 66.0 0.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="66.0" cy="0.0" r="3" fill="#2f6fb0" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q25.1 27.1 57.2 33.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="57.2" cy="33.0" r="3" fill="#2f6fb0" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q8.2 36.0 33.0 57.2" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="33.0" cy="57.2" r="3" fill="#2f6fb0" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q-10.9 35.3 0.0 66.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="0.0" cy="66.0" r="3" fill="#2f6fb0" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q-27.1 25.1 -33.0 57.2" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="-33.0" cy="57.2" r="3" fill="#2f6fb0" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q-36.0 8.2 -57.2 33.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="-57.2" cy="33.0" r="3" fill="#2f6fb0" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q-35.3 -10.9 -66.0 0.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="-66.0" cy="0.0" r="3" fill="#2f6fb0" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q-25.1 -27.1 -57.2 -33.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="-57.2" cy="-33.0" r="3" fill="#2f6fb0" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q-8.2 -36.0 -33.0 -57.2" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="-33.0" cy="-57.2" r="3" fill="#2f6fb0" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q10.9 -35.3 -0.0 -66.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="-0.0" cy="-66.0" r="3" fill="#2f6fb0" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q27.1 -25.1 33.0 -57.2" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="33.0" cy="-57.2" r="3" fill="#2f6fb0" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q36.0 -8.2 57.2 -33.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="57.2" cy="-33.0" r="3" fill="#2f6fb0" fill-opacity=".65" stroke="none"/>
+<circle r="9" fill="#2f6fb0" fill-opacity=".18" stroke-width="1.5"/>
+</g><g transform="translate(967 325)" fill="none" stroke="#8d6850" stroke-linecap="round">
+<circle r="89" stroke-width="2.1" stroke-opacity=".7"/>
+<circle r="80" stroke-width=".8" stroke-opacity=".35"/>
+<circle r="50.73" stroke-width="1.1" stroke-opacity=".4"/>
+<circle r="108" stroke-width=".8" stroke-opacity=".27" stroke-dasharray="2 8"/>
+<path d="M0 0 Q47.6 14.7 89.0 0.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="89.0" cy="0.0" r="3" fill="#8d6850" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q33.9 36.6 77.1 44.5" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="77.1" cy="44.5" r="3" fill="#8d6850" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q11.1 48.6 44.5 77.1" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="44.5" cy="77.1" r="3" fill="#8d6850" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q-14.7 47.6 0.0 89.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="0.0" cy="89.0" r="3" fill="#8d6850" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q-36.6 33.9 -44.5 77.1" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="-44.5" cy="77.1" r="3" fill="#8d6850" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q-48.6 11.1 -77.1 44.5" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="-77.1" cy="44.5" r="3" fill="#8d6850" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q-47.6 -14.7 -89.0 0.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="-89.0" cy="0.0" r="3" fill="#8d6850" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q-33.9 -36.6 -77.1 -44.5" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="-77.1" cy="-44.5" r="3" fill="#8d6850" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q-11.1 -48.6 -44.5 -77.1" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="-44.5" cy="-77.1" r="3" fill="#8d6850" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q14.7 -47.6 -0.0 -89.0" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="-0.0" cy="-89.0" r="3" fill="#8d6850" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q36.6 -33.9 44.5 -77.1" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="44.5" cy="-77.1" r="3" fill="#8d6850" fill-opacity=".65" stroke="none"/>
+<path d="M0 0 Q48.6 -11.1 77.1 -44.5" stroke-width="1.3" stroke-opacity=".52"/>
+<circle cx="77.1" cy="-44.5" r="3" fill="#8d6850" fill-opacity=".65" stroke="none"/>
+<circle r="9" fill="#8d6850" fill-opacity=".18" stroke-width="1.5"/>
+</g>
+    <g fill="none" stroke="#33465e" stroke-width="1.2" stroke-opacity=".4">
+      <path d="M579 363 C591 300 620 277 661 242 M611 300 Q571 263 558 231 M611 300 Q665 317 695 293"/>
+      <path d="M556 232 Q540 209 555 195 Q574 211 556 232Z M660 244 Q658 216 683 211 Q688 235 660 244Z M695 293 Q714 270 738 282 Q726 304 695 293Z"/>
+    </g>
+    <g fill="#2f6fb0" fill-opacity=".55"><circle cx="548" cy="402" r="4"/><circle cx="583" cy="365" r="3"/><circle cx="678" cy="211" r="4"/></g>
+</svg>
         </div>
         <div class="cover-text">
-          <p class="eyebrow"><time datetime="2026-09-30">30 September 2026</time> · AI agents</p>
-          <h1 class="post-title">Turning my research into operating skills: an offline DisCo dry run</h1>
+          <p class="eyebrow"><time datetime="2026-09-20">20 September 2026</time> · AI agents</p>
+          <h1 class="post-title">Different Heads make different Decisions</h1>
         </div>
       </div>
 
       <div class="prose">
-        <p>There is a particular kind of déjà vu in asking an AI agent to help with research. It can explain a model, derive an equation, and write a training loop. Then, next week, it has to rediscover which metric matters, which plot catches a broken assumption, and why one result should not be called a validation.</p>
+        <p>An AI research agent plans, writes code, runs experiments, and explains its process in almost every language. It then implements k-fold cross-validation from scratch. Again.</p>
+        <p>Agents can resemble a brilliant theoretician who has read every textbook but has never stepped inside the lab. General knowledge travels well; the operating knowledge of a particular workflow often does not. Turning a design-of-experiments strategy into an executable plan requires knowing the data format, the machine limits, the measurement protocol, and the checks that catch a bad result.</p>
+        <p>Jianlyu Chen and colleagues’ <strong>DisCo</strong> agent addresses that gap by distilling know-how from repositories and papers into reusable skills. Its <em>Creator</em> constructs the skills; its <em>Researcher</em> uses them to solve subsequent tasks. Different operating instructions let the same underlying model take on different research roles <sup class="cite">[<a href="#ref-1">1</a>, <a href="#ref-2">2</a>]</sup>.</p>
 
-        <p>DisCo proposes a practical fix: distill the operating knowledge around a source into a small graph of reusable skills. A Creator scopes a source, gathers evidence, builds the skills, then verifies them. A Researcher later loads only the relevant parts. I wanted to see what that would look like on my own work, rather than another generic repository.</p>
+        <h2>What is a skill, really?</h2>
+        <p>A skill is a small, structured folder. For calendering and thermal conductivity, a possible package looks like this:</p>
+        <pre><code>calendering-thermal-conductivity/
+  SKILL.md
+  references/
+    derivation.pdf
+    parameter-tables.csv
+  scripts/
+    compute_keff.py
+    fit_parameters.py
+    plot_ushape.py</code></pre>
+        <p><code>SKILL.md</code> is the agent-facing manual: what the skill does, when it applies, which inputs it expects, how to run it, and what usually goes wrong. The references hold deeper evidence. The scripts expose procedures that the agent can call instead of reimplementing. The names above illustrate a package structure; the wrappers should point to the project's actual implementation.</p>
+        <p>Several skills form a graph:</p>
+        <div class="equation">$$\mathcal{G}=(\mathcal{S},\mathcal{L})$$</div>
+        <p>Here, \(\mathcal{S}\) is the set of skills and \(\mathcal{L}\) contains routing or dependency links. An entry skill points to the relevant component: data preparation, fitting, evaluation, diagnosis, or repair. The agent opens the material it needs at each step. This progressive disclosure makes a large library usable without loading every manual into the context window <sup class="cite">[<a href="#ref-1">1</a>]</sup>.</p>
 
-        <div class="callout">
-          <strong>What I could actually run.</strong> I tried to launch the DisCo Creator CLI, but this environment could not fetch its package from the npm registry (`ENOTCACHED`), and no model-provider key was configured in the shell. So this is an offline Creator-style dry run over the files already in my portfolio, not a DisCo-generated or DisCo-verified result. The distinction matters: I can inspect whether the source contains enough evidence to make useful skills, but I cannot claim the agent produced or executed them.
-        </div>
+        <h2>Scope, ground, construct, verify</h2>
+        <p>The distillation pipeline starts with an anchor \(z\): a repository, paper, or concrete problem. It moves from capabilities to evidence, then to a candidate skill graph and its verification record:</p>
+        <div class="equation">$$z \rightarrow \mathcal{Q} \rightarrow \mathcal{X} \rightarrow \widetilde{\mathcal{G}} \rightarrow (\mathcal{G},R)$$</div>
+        <ol>
+          <li><strong>Scope.</strong> Identify the capabilities worth exposing. Starting from a repository might yield “fit a thermal closure” or “run inference.” Starting from a task such as “increase energy density while keeping adhesion above a threshold” instead reveals capability gaps.</li>
+          <li><strong>Ground.</strong> Gather source code, documentation, examples, configurations, data definitions, and tests. A task-driven pass may need additional papers or operating procedures to fill gaps.</li>
+          <li><strong>Construct.</strong> Turn that evidence into instructions and callable tools. Package the routines, define their inputs and outputs, and connect the resulting skills.</li>
+          <li><strong>Verify.</strong> Exercise the procedures with assertion-backed cases, small fixtures, and native examples or tests. Repair failures locally and retain unresolved gaps in the construction record \(R\).</li>
+        </ol>
+        <p>A file that describes an experiment is only part of the job. Verification has to establish that the procedure runs and that its checks detect meaningful failures. For manufacturing, useful checks include physical bounds, conservation, approved parameter windows, and a trace from each reported output to the data and configuration that produced it <sup class="cite">[<a href="#ref-2">2</a>]</sup>.</p>
 
-        <h2>Two anchors, one small graph</h2>
+        <h2>Creator and Researcher share the same machinery</h2>
+        <p>DisCo separates skill construction from skill use while retaining the model and execution harness. A research agent can be written as:</p>
+        <div class="equation">$$\mathcal{A}_{\mathrm{res}}=(M_\theta,H,\mathcal{K})$$</div>
+        <p>\(M_\theta\) is the language model, \(H\) is the harness for planning, tools, memory, and verification, and \(\mathcal{K}\) is the operating knowledge available through skills. Creator builds and verifies that knowledge; Researcher retrieves the subset relevant to its task. Repository distillation is paid for once and reused, although source changes still require maintenance.</p>
+        <p>This is useful when an agent repeatedly works on related problems. The workflow for a hyperparameter search can preserve the correct split, scoring convention, and recovery path across many runs. The next session can start from that procedure instead of reconstructing it from scattered notebooks.</p>
 
-        <p>I chose two task-agnostic anchors from the portfolio. The first is my calendering work: why electrode through-plane thermal conductivity falls and then rises with compaction, and how a compression-aware closure captures that U-shape. The second is my continual-learning work: how task interference relates to forgetting, and how IGFA gates or projects updates to protect earlier tasks.</p>
+        <h2>DisCo on my calendering model</h2>
+        <p>For this article’s 30 September update, I ran DisCo 0.2.1 in Creator mode on my <a href="post-calendering-u-shape.html">calendering project</a>, using Kimi K2.6 through OpenRouter. The anchor was the actual source repository: the electrode thermal model, data-loading routines, measured calendering states, documentation, and tests. I scoped the extraction to forward through-plane conductivity and the contact/reorientation workflow <sup class="cite">[<a href="#ref-3">3</a>]</sup>.</p>
+        <p>The useful part was making the existing implementation callable without reconstructing its conventions. Creator identified the conductivity and inverse-porosity APIs, the family-specific calibration routines, and the distinction between gas-filled and electrolyte-filled pores. It then exercised ten groups of assertions against the repository’s Python implementation on CPU:</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th scope="col">Check</th><th scope="col">Result</th></tr></thead>
+          <tbody>
+            <tr><td>Wet coating at porosity 0.30</td><td>Graphite: 2.559; NMC: 0.970 W/(m·K)</td></tr>
+            <tr><td>Forward/inverse porosity round trip</td><td>Recovered 0.3200000000 from a case generated at 0.32</td></tr>
+            <tr><td>Adding a contact bridge</td><td>Conductivity increased from 0.3905 to 1.3936 W/(m·K)</td></tr>
+            <tr><td>Graphite orientation limits</td><td>6 W/(m·K) at full alignment; 102 W/(m·K) for the isotropic orientation average</td></tr>
+            <tr><td>Repository calibration summary</td><td>Average MAPE: 31.1% for the baseline; 4.5% after calibration</td></tr>
+          </tbody>
+        </table></div>
+        <p>All ten check groups passed, including the Knudsen correction, isotropic NMC limit, material-family registry, and a single-family calibration. A second pass checked seven integrated results, including the contact and reorientation fits and inverse-porosity uncertainty. The <a href="https://github.com/j-stoerk/j-stoerk.github.io/tree/main/_src/disco" target="_blank" rel="noopener noreferrer">generated skills and execution record</a> keep the inputs and results inspectable.</p>
+        <p>These are small, fixed-parameter API cases. The error figures reproduce the repository’s own calibration summary and measure in-sample fit; held-out states and transfer to another chemistry still need their own evaluation. Conductivity alone can also leave contact evolution and graphite reorientation difficult to distinguish.</p>
+        <h3>A small Researcher demo</h3>
+        <p>I then opened a separate Researcher session with the generated skill and asked it to compare dry graphite at three porosities. It produced a short Python wrapper around the existing APIs. With an 18 µm particle diameter, solid conductivity of 25 W/(m·K), and bridge conductivity of 130 W/(m·K), the result was:</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th scope="col">Porosity</th><th scope="col">No bridge</th><th scope="col">Contact fraction 0.01</th><th scope="col">Ratio</th></tr></thead>
+          <tbody>
+            <tr><td>0.25</td><td>0.754 W/(m·K)</td><td>1.872 W/(m·K)</td><td>2.48×</td></tr>
+            <tr><td>0.35</td><td>0.481 W/(m·K)</td><td>1.525 W/(m·K)</td><td>3.17×</td></tr>
+            <tr><td>0.45</td><td>0.318 W/(m·K)</td><td>1.279 W/(m·K)</td><td>4.02×</td></tr>
+          </tbody>
+        </table></div>
+        <p>Separate wet-graphite forward/inverse checks recovered all three porosities with errors below \(10^{-8}\). This is a small illustrative sweep, with the script and numerical output retained alongside the skill. The fixed contact fraction demonstrates the model’s response; a recipe-specific prediction requires calibration.</p>
+        <p>That exercise made the Creator/Researcher split tangible: the first session assembled the API conventions and checks; the second used them for a new request. Reviewing the generated record still mattered. I corrected its date, check-count labels, and an unsupported total-runtime claim against the command output. Execution evidence belongs next to the instructions.</p>
+        <p>The <a href="post-geometry-of-forgetting.html">continual-learning work</a> supplies another recurring workflow: specify the task sequence, freeze or adapt the representation explicitly, compare IGFA with matched baselines, and record accuracy together with forgetting. A low forgetting score has little value if projection has also stopped the new task from learning. The feature regime, random seeds, retained update norm, and available capacity belong in the operating instructions.</p>
+        <p>The practical starting point is one repository and one short, executable chain. Keep units, parameter conventions, and physical checks in the skill; route to deeper references when needed. For larger Researcher tasks—comparing acquisition rules, predicting held-out states, or running an IGFA sequence—the data split, task order, and resource budget should be fixed before comparing results. The CPU checks establish that the packaged procedure runs; measuring how much time or accuracy the skill adds requires a separate comparison.</p>
 
-        <p>For each, I used the blog post as the readable map and the linked draft PDF as the primary local evidence. The posts are useful, but they also include interactive figures. Those figures are not all experimental results: for example, the calendering curves and the two-dimensional IGFA widget are explicitly schematic. A skill that does not preserve that distinction would make the portfolio less reliable, not more.</p>
-
-        <figure class="pub-figure">
-          <svg viewBox="0 0 600 210" role="img" aria-labelledby="graph-title">
-            <title id="graph-title">One router skill points to calendering and continual-learning skills</title>
-            <g fill="none" stroke="var(--color-divider)" stroke-width="3"><path d="M300 80 L155 145 M300 80 L445 145"/></g>
-            <rect x="205" y="22" width="190" height="62" rx="12" fill="var(--color-surface-2)" stroke="var(--color-primary)" stroke-width="2"/>
-            <rect x="50" y="133" width="210" height="62" rx="12" fill="var(--color-surface-2)" stroke="var(--color-primary)" stroke-width="2"/>
-            <rect x="340" y="133" width="210" height="62" rx="12" fill="var(--color-surface-2)" stroke="var(--color-primary)" stroke-width="2"/>
-            <g fill="var(--color-text)" text-anchor="middle" font-family="sans-serif" font-size="17">
-              <text x="300" y="60">research-router</text><text x="155" y="170">calendering-conductivity</text><text x="445" y="170">continual-learning-igfa</text>
-            </g>
-          </svg>
-          <figcaption>The candidate graph routes from one short entry point to two domain-specific workflow notes.</figcaption>
-        </figure>
-
-        <p>The resulting candidate graph has a router and two operating notes. The router asks the agent to identify which research thread the task concerns, open only that skill, and keep claims separate if a task crosses both domains. That is a deliberately small graph: the GLEE agent post is another distinct workflow, and mixing it in would add breadth without enough evidence for this first pass.</p>
-
-        <h2>What the skills preserve</h2>
-
-        <p>The calendering note starts with the measurement target. The draft calibrates apparent through-plane coating conductivity derived from laser-flash analysis after current-collector subtraction. It reports four electrode families over 27 calendering states. A reusable procedure should keep the target and preprocessing fixed, compare the staged closures, separate in-sample from held-out error, and inspect parameter identifiability before interpreting fitted values.</p>
-
-        <p>That last check changes how the headline result should travel. The draft reports 4.5% in-sample MAPE and 7.8% leave-one-state-out error. It also says the graphite reorientation explanation is not uniquely identified from conductivity alone; same-sheet XRD texture is proposed as a way to distinguish it from a contact-only account. A future agent should carry those boundaries with the number, not just repeat the number.</p>
-
-        <p>The IGFA note begins with a regime check. In the frozen-feature setting, the draft's interference functional gives an exact expression for forgetting. When features move during end-to-end training, it becomes an approximation. The skill then asks for the task order, feature extractor, seeds, baselines, accuracy, and forgetting together. It also records the cost of protection: projecting a gradient can slow learning, while repeated protection can consume the available subspace.</p>
-
-        <p>It also prevents a particularly easy mistake. The interactive widget uses a made-up two-dimensional covariance to show how a gate behaves. The draft separately reports Rotated-Digits benchmark outcomes over five seeds. An agent should not use the widget as a benchmark, or turn the reported result into a claim of independent reproduction.</p>
-
-        <h2>The verification gap is the result</h2>
-
-        <p>The most useful finding from this exercise was what the portfolio cannot yet do. It contains posts and draft PDFs, but not the original calendering data, fit code, pinned environment, continual-learning benchmark implementation, or per-seed outputs. I could write sensible procedures and evidence checks. I could not wrap the actual workflows in stable scripts or run assertion-backed cases against them.</p>
-
-        <p>I recorded that as a gap instead of filling it with invented commands. The candidate skills say exactly which inputs are missing, which reported results remain manuscript claims, and which figures are illustrative. They are useful operating notes for reading and planning. They are not executable research skills yet.</p>
-
-        <p>This is where the distinction between a skill library and a stack of summaries becomes concrete. A summary says what the paper found. An operating skill also says what to load, what to run, which assumption controls the interpretation, what would count as a check, and when the evidence is insufficient. If the data and implementation are not available, “blocked” is part of the useful output.</p>
-
-        <h2>What I would do with a working Creator</h2>
-
-        <p>Once the CLI and provider are available, the next pass is straightforward: give Creator the source repositories alongside these papers, have it verify the two graphs against small native examples, then open a fresh Researcher session with one narrow task per graph. For calendering, that could be a held-out-state prediction with the preprocessing recorded. For IGFA, it could be a matched-seed benchmark rerun with the feature regime and buffer budget fixed.</p>
-
-        <p>Until then, this dry run still paid for itself. It exposed the difference between having research conclusions in a portfolio and having the materials needed to repeat the work. The first is enough to explain a result. The second is what lets an agent help produce the next one.</p>
+        <h2>Why operational knowledge is worth the effort</h2>
+        <p>The AREX-Skill authors report gains while keeping the backbone, harness, and execution budget fixed. Their published comparison is:</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th scope="col">Benchmark</th><th scope="col">Metric</th><th scope="col">Without skills</th><th scope="col">With skills</th></tr></thead>
+          <tbody>
+            <tr><td>MLE-bench</td><td>Any-medal rate</td><td>31.11%</td><td>72.89%</td></tr>
+            <tr><td>PaperBench</td><td>Replication score</td><td>29.45</td><td>39.59</td></tr>
+            <tr><td>FrontierCS</td><td>Score</td><td>70.63</td><td>77.14</td></tr>
+            <tr><td>PassNet</td><td>AS score</td><td>1.343</td><td>1.531</td></tr>
+          </tbody>
+        </table></div>
+        <p>Those correspond to relative gains of 134.3%, 34.4%, 9.2%, and 14.0%. They are the authors’ benchmark results, rather than a measurement on my projects. The implication is nevertheless interesting: better operating context can improve an existing agent without changing its backbone <sup class="cite">[<a href="#ref-1">1</a>]</sup>.</p>
+        <p>For a lab, the practical starting point is a narrow domain and a few recurring tasks. Pick the repositories and papers those tasks depend on; list the capabilities actually used; collect the examples and checks; wrap the stable routines; and connect the resulting skills through an index. Then record which skills get reused, where they fail, and what still requires improvised reasoning.</p>
+        <p>Task-oriented distillation extends the same approach. When a new process objective exposes a missing capability, the agent can gather the relevant evidence and construct a skill for it. Over time, the library can hold procedures for designing experiments, analyzing measurements, and responding to drift. This gives a concrete form to the continual-learning process controller I have been sketching.</p>
+        <p>Many labs have accumulated decades of knowledge about running a process. Research agents still rediscover the same data conventions and experimental checks each time. DisCo offers a way to make those procedures explicit, callable, and maintainable. The next agent should be able to use the wheel that already exists.</p>
       </div>
 
-      <section class="post-sources">
-        <h3>Sources</h3>
-        <ol class="sources">
-          <li><a href="https://arxiv.org/abs/2609.02749" target="_blank" rel="noopener noreferrer">Chen et al., “Repo-To-Skill: Distilling GitHub Repositories Into AI4AI Skills” (DisCo), arXiv:2609.02749, 2026.</a></li>
-          <li><a href="https://github.com/VectorSpaceLab/AREX-Skill" target="_blank" rel="noopener noreferrer">AREX-Skill / DisCo repository and Creator workflow documentation.</a></li>
-          <li><a href="https://j-stoerk.github.io/post-calendering-u-shape.html">My calendering U-shape note</a> and local draft, <a href="zehner-closure.pdf">Capturing the Calendering U-Shape in Lithium-Ion Electrode Thermal Conductivity</a>.</li>
-          <li><a href="https://j-stoerk.github.io/post-geometry-of-forgetting.html">My geometry-of-forgetting note</a> and local draft, <a href="forgetting-geometry.pdf">Interference and Retention in Continual Learning</a>.</li>
-        </ol>
-      </section>
+      <section class="post-sources"><h3>Sources</h3><ol class="sources">
+        <li id="ref-1">Chen, J., et al. <a href="https://arxiv.org/abs/2609.02749" target="_blank" rel="noopener noreferrer">Repo-To-Skill: Distilling GitHub Repositories Into AI4AI Skills</a>, 2026. See also the authors’ <a href="https://github.com/VectorSpaceLab/AREX-Skill" target="_blank" rel="noopener noreferrer">AREX-Skill library and benchmark table</a>.</li>
+        <li id="ref-2">VectorSpaceLab. <a href="https://github.com/VectorSpaceLab/AREX-Skill/blob/main/docs/disco-workflows.md" target="_blank" rel="noopener noreferrer">DisCo Creator and Researcher workflows</a>.</li>
+        <li id="ref-3">Störk, J. <a href="https://github.com/j-stoerk/zehner-electrode-thermal" target="_blank" rel="noopener noreferrer">Zehner electrode thermal model</a>; <a href="post-calendering-u-shape.html">calendering note</a> and <a href="zehner-closure.pdf">manuscript</a>.</li>
+        <li>Störk, J. <a href="post-geometry-of-forgetting.html">The geometry of forgetting in continual learning</a>, with <a href="forgetting-geometry.pdf">draft manuscript</a>.</li>
+      </ol></section>
+
     </article>
 
     <nav class="post-pager" aria-label="More posts">

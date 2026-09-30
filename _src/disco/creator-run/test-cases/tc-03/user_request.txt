@@ -1,0 +1,1 @@
+Calibrate the contact-closure model for the graphite_thin family using the built-in Gandert 2023 dataset, then reproduce the headline key_results: average zero-fit MAPE (~31%), average calibrated MAPE (~4.5%), and the NMC811 uncalendered error (+2.7%).

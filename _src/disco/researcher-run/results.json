@@ -1,0 +1,48 @@
+{
+  "dry_graphite_contact": [
+    {
+      "porosity": 0.25,
+      "d_p": 1.8e-05,
+      "lambda_s": 25.0,
+      "lambda_phi_0.0": 0.7539626730415419,
+      "lambda_phi_0.01": 1.8722890852126126,
+      "ratio_phi0.01_over_phi0": 2.483264957480797
+    },
+    {
+      "porosity": 0.35,
+      "d_p": 1.8e-05,
+      "lambda_s": 25.0,
+      "lambda_phi_0.0": 0.4813689273141174,
+      "lambda_phi_0.01": 1.5246974645164735,
+      "ratio_phi0.01_over_phi0": 3.167419785534956
+    },
+    {
+      "porosity": 0.45,
+      "d_p": 1.8e-05,
+      "lambda_s": 25.0,
+      "lambda_phi_0.0": 0.3180649999477568,
+      "lambda_phi_0.01": 1.2790558569070547,
+      "ratio_phi0.01_over_phi0": 4.021366252549459
+    }
+  ],
+  "wet_graphite_roundtrip": [
+    {
+      "porosity_target": 0.25,
+      "lambda_forward": 3.1308099855478573,
+      "porosity_inverted": 0.24999999999999997,
+      "abs_error": 2.7755575615628914e-17
+    },
+    {
+      "porosity_target": 0.35,
+      "lambda_forward": 2.1152984857679145,
+      "porosity_inverted": 0.35,
+      "abs_error": 0.0
+    },
+    {
+      "porosity_target": 0.45,
+      "lambda_forward": 1.4694157774082715,
+      "porosity_inverted": 0.45000000000000007,
+      "abs_error": 5.551115123125783e-17
+    }
+  ]
+}

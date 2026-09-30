@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="cover-art" viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice" role="img"
+            aria-label="A stylised mountain range at sunrise">
+            <defs>
+              <linearGradient id="cvSky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#e7edf2"/>
+                <stop offset="52%" stop-color="#efe7d6"/>
+                <stop offset="100%" stop-color="#f4dcb2"/>
+              </linearGradient>
+              <radialGradient id="cvSun" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#f4cd6d" stop-opacity="1"/>
+                <stop offset="45%" stop-color="#e7a94a" stop-opacity=".55"/>
+                <stop offset="100%" stop-color="#e7a94a" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="1200" height="675" fill="url(#cvSky)"/>
+            <circle cx="600" cy="452" r="250" fill="url(#cvSun)"/>
+            <circle cx="600" cy="452" r="96" fill="#eeba55"/>
+            <g stroke="#e7cf9a" stroke-width="2" opacity=".5">
+              <path d="M270 452 H 400 M800 452 H 930 M310 486 H 470 M730 486 H 890"/>
+            </g>
+            <path d="M0 430 L120 360 L240 405 L360 328 L500 402 L640 318 L780 396 L920 338 L1060 402 L1200 356 L1200 675 L0 675 Z"
+              fill="#b8c6d6" opacity=".7"/>
+            <path d="M0 484 L150 416 L300 472 L430 406 L560 472 L700 400 L840 466 L980 410 L1120 472 L1200 442 L1200 675 L0 675 Z"
+              fill="#8ba0bb" opacity=".82"/>
+            <path d="M0 566 L180 470 L340 548 L500 458 L680 548 L860 470 L1040 552 L1200 500 L1200 675 L0 675 Z"
+              fill="#5f7488"/>
+            <g fill="none" stroke="#3a4a5e" stroke-opacity=".35" stroke-width="2" stroke-linejoin="round">
+              <path d="M0 430 L120 360 L240 405 L360 328 L500 402 L640 318 L780 396 L920 338 L1060 402 L1200 356"/>
+              <path d="M0 566 L180 470 L340 548 L500 458 L680 548 L860 470 L1040 552 L1200 500"/>
+            </g>
+          </svg>

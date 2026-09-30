@@ -23,7 +23,12 @@ node _src/build.js
   lastmod) lives in the `PAGES` object in `build.js`. Bump `lastmod` when a
   page's content changes.
 
-Runtime assets (styles.css, blog.js, cite.js, theme.js, navigation.js,
+The build also extracts each post's `svg.cover-art` into
+`images/blog-covers/` for the blog tile view. Edit the inline artwork in the
+source page and rebuild; commit the generated SVGs with the HTML.
+`blog-view.js` switches between the list and tiles and remembers the selection.
+
+Runtime assets (styles.css, blog.js, blog-view.js, cite.js, theme.js, navigation.js,
 background.js, fonts, PDFs, images) are plain files at the root and are not
 generated.
 

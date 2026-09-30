@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="cover-art" viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice" role="img"
+            aria-label="Overlapping text windows are summarized into a tree, and one window is passed straight to the top">
+            <defs>
+              <linearGradient id="cmSky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#eef1f5"/><stop offset="60%" stop-color="#ecebe2"/>
+                <stop offset="100%" stop-color="#e4dccb"/>
+              </linearGradient>
+              <radialGradient id="cmA" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#5a82be" stop-opacity=".2"/><stop offset="100%" stop-color="#5a82be" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="cmB" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#e0a94a" stop-opacity=".22"/><stop offset="100%" stop-color="#e0a94a" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="1200" height="675" fill="url(#cmSky)"/>
+            <ellipse cx="420" cy="300" rx="420" ry="320" fill="url(#cmA)"/>
+            <ellipse cx="960" cy="260" rx="340" ry="300" fill="url(#cmB)"/>
+            <g stroke="#33465e" stroke-linecap="round" fill="none">
+              <path d="M190 356 L300 290 M330 408 L300 290 M470 356 L300 290 M470 356 L600 290 M610 408 L600 290 M750 356 L600 290 M750 356 L900 290 M890 408 L900 290 M1030 356 L900 290" stroke-opacity=".35" stroke-width="1.8"/>
+              <path d="M300 240 L600 164 M600 240 L600 164 M900 240 L600 164" stroke-opacity=".4" stroke-width="2"/>
+              <rect x="90" y="356" width="200" height="40" rx="8" fill="#5a82be" fill-opacity=".12" stroke-opacity=".4" stroke-width="1.5"/>
+              <rect x="230" y="408" width="200" height="40" rx="8" fill="#5a82be" fill-opacity=".12" stroke-opacity=".4" stroke-width="1.5"/>
+              <rect x="370" y="356" width="200" height="40" rx="8" fill="#5a82be" fill-opacity=".12" stroke-opacity=".4" stroke-width="1.5"/>
+              <rect x="510" y="408" width="200" height="40" rx="8" fill="#5a82be" fill-opacity=".12" stroke-opacity=".4" stroke-width="1.5"/>
+              <rect x="650" y="356" width="200" height="40" rx="8" fill="#5a82be" fill-opacity=".12" stroke-opacity=".4" stroke-width="1.5"/>
+              <rect x="790" y="408" width="200" height="40" rx="8" fill="#e0a94a" fill-opacity=".35" stroke-opacity=".55" stroke-width="1.8"/>
+              <rect x="930" y="356" width="200" height="40" rx="8" fill="#5a82be" fill-opacity=".12" stroke-opacity=".4" stroke-width="1.5"/>
+              <path d="M110 370 h 60 M110 382 h 40 M250 422 h 60 M250 434 h 40 M390 370 h 60 M390 382 h 40 M530 422 h 60 M530 434 h 40 M670 370 h 60 M670 382 h 40 M810 422 h 60 M810 434 h 40 M950 370 h 60 M950 382 h 40" stroke-opacity=".45" stroke-width="3"/>
+              <rect x="190" y="240" width="220" height="50" rx="9" fill="#2f6fb0" fill-opacity=".18" stroke-opacity=".5" stroke-width="2"/>
+              <rect x="490" y="240" width="220" height="50" rx="9" fill="#2f6fb0" fill-opacity=".18" stroke-opacity=".5" stroke-width="2"/>
+              <rect x="790" y="240" width="220" height="50" rx="9" fill="#2f6fb0" fill-opacity=".18" stroke-opacity=".5" stroke-width="2"/>
+              <path d="M214 260 h 70 M214 272 h 44 M514 260 h 70 M514 272 h 44 M814 260 h 70 M814 272 h 44" stroke-opacity=".5" stroke-width="3"/>
+              <rect x="470" y="110" width="260" height="54" rx="10" fill="#2f6fb0" fill-opacity=".26" stroke-opacity=".6" stroke-width="2.2"/>
+              <path d="M498 137 h 90" stroke-opacity=".55" stroke-width="3.5"/>
+              <path d="M990 428 C 1170 380 1080 150 730 137" stroke="#e0a94a" stroke-opacity=".95" stroke-width="3.5"/>
+              <circle cx="730" cy="137" r="5" fill="#e0a94a" stroke="#e0a94a"/>
+            </g>
+          </svg>

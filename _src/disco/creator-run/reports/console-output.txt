@@ -1,0 +1,63 @@
+imports_ok
+check_anode_wet: 2.559
+check_cathode_wet: 0.970
+check_separator_knudsen: 0.0098
+check_inverse_roundtrip: 0.3200000000
+check_contact_increase: base=0.3905 bridged=1.3936
+check_reorientation_limits: S=1->6.0 S=0->102.0
+check_nmc_isotropic: pass
+check_family_registry: pass
+check_calibrate_graphite_thin: mape=1.8% theta=[24.8014, 0.0094, -0.0244, 0.0]
+check_key_results: zero_fit=31.1 calibrated=4.5
+ALL_CHECKS_PASSED
+
+
+{
+  "checks": [
+    {
+      "name": "tc_int_01_contact_mape",
+      "value": 1.76,
+      "target": "<5",
+      "status": "PASS"
+    },
+    {
+      "name": "tc_int_01_reorient_mape",
+      "value": 1.93,
+      "target": "<5",
+      "status": "PASS"
+    },
+    {
+      "name": "tc_int_01_caxis_floor",
+      "value": 6.0,
+      "target": "~6.0",
+      "status": "PASS"
+    },
+    {
+      "name": "tc_int_01_phi0_positive",
+      "value": 0.0094,
+      "target": ">0",
+      "status": "PASS"
+    },
+    {
+      "name": "tc_int_01_a_nonzero",
+      "value": -0.0244,
+      "target": "!=0",
+      "status": "PASS"
+    },
+    {
+      "name": "tc_02_inverse_roundtrip",
+      "value": 0.32,
+      "target": "0.32",
+      "status": "PASS"
+    },
+    {
+      "name": "tc_02_uncertainty_magnitude",
+      "value": 0.00924,
+      "target": "0.005..0.015",
+      "status": "PASS"
+    }
+  ],
+  "status": "PASS",
+  "elapsed_s": 6.62,
+  "all_pass": true
+}

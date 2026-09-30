@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="cover-art" viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice" role="img"
+            aria-label="A pot shrinking round by round, each split near fifty-fifty">
+            <defs>
+              <linearGradient id="glSky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#eef1f5"/><stop offset="60%" stop-color="#ecebe2"/>
+                <stop offset="100%" stop-color="#e4dccb"/>
+              </linearGradient>
+              <radialGradient id="glA" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#5a82be" stop-opacity=".2"/><stop offset="100%" stop-color="#5a82be" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="glB" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#e0a94a" stop-opacity=".22"/><stop offset="100%" stop-color="#e0a94a" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="1200" height="675" fill="url(#glSky)"/>
+            <ellipse cx="320" cy="250" rx="380" ry="320" fill="url(#glA)"/>
+            <ellipse cx="930" cy="320" rx="360" ry="320" fill="url(#glB)"/>
+            <g>
+              <g><rect x="90" y="170" width="96" height="300" fill="#5a82be" fill-opacity=".12" stroke="#33465e" stroke-opacity=".55" stroke-width="2"/><rect x="90" y="170" width="96" height="150" fill="#2f6fb0" fill-opacity=".26"/><path d="M90 320 H 186" stroke="#33465e" stroke-opacity=".5" stroke-width="1.5" stroke-dasharray="6 6"/></g>
+              <g><rect x="240" y="221" width="96" height="249" fill="#5a82be" fill-opacity=".12" stroke="#33465e" stroke-opacity=".55" stroke-width="2"/><rect x="240" y="221" width="96" height="124" fill="#2f6fb0" fill-opacity=".26"/><path d="M240 345 H 336" stroke="#33465e" stroke-opacity=".5" stroke-width="1.5" stroke-dasharray="6 6"/></g>
+              <g><rect x="390" y="263" width="96" height="207" fill="#5a82be" fill-opacity=".12" stroke="#33465e" stroke-opacity=".55" stroke-width="2"/><rect x="390" y="263" width="96" height="103" fill="#2f6fb0" fill-opacity=".26"/><path d="M390 366 H 486" stroke="#33465e" stroke-opacity=".5" stroke-width="1.5" stroke-dasharray="6 6"/></g>
+              <g><rect x="540" y="299" width="96" height="171" fill="#5a82be" fill-opacity=".12" stroke="#33465e" stroke-opacity=".55" stroke-width="2"/><rect x="540" y="299" width="96" height="85" fill="#2f6fb0" fill-opacity=".26"/><path d="M540 384 H 636" stroke="#33465e" stroke-opacity=".5" stroke-width="1.5" stroke-dasharray="6 6"/></g>
+              <g><rect x="690" y="328" width="96" height="142" fill="#5a82be" fill-opacity=".12" stroke="#33465e" stroke-opacity=".55" stroke-width="2"/><rect x="690" y="328" width="96" height="71" fill="#2f6fb0" fill-opacity=".26"/><path d="M690 399 H 786" stroke="#33465e" stroke-opacity=".5" stroke-width="1.5" stroke-dasharray="6 6"/></g>
+              <g><rect x="840" y="352" width="96" height="118" fill="#5a82be" fill-opacity=".12" stroke="#33465e" stroke-opacity=".55" stroke-width="2"/><rect x="840" y="352" width="96" height="59" fill="#2f6fb0" fill-opacity=".26"/><path d="M840 411 H 936" stroke="#33465e" stroke-opacity=".5" stroke-width="1.5" stroke-dasharray="6 6"/></g>
+              <g><rect x="990" y="372" width="96" height="98" fill="#5a82be" fill-opacity=".12" stroke="#33465e" stroke-opacity=".55" stroke-width="2"/><rect x="990" y="372" width="96" height="49" fill="#2f6fb0" fill-opacity=".26"/><path d="M990 421 H 1086" stroke="#33465e" stroke-opacity=".5" stroke-width="1.5" stroke-dasharray="6 6"/></g>
+            </g>
+          </svg>
