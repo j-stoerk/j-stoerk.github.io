@@ -207,6 +207,7 @@ for (const file of fs.readdirSync(pagesDir)) {
     .replace('<!--#POST_LIST-->', POST_LIST)
     .replace('<!--#POST_CARDS-->', POST_CARDS);
   html = html.replace('<!--#RESEARCH_LAB-->', () => fs.readFileSync(path.join(SRC, 'research-lab.html'), 'utf8'));
+  html = html.replace('<!--#RESEARCH_ATLAS-->', () => fs.readFileSync(path.join(SRC, 'research-atlas.html'), 'utf8'));
   if (cfg.math) html = renderMath(html, file);
   if (/<!--#/.test(html)) throw new Error(`${file}: unresolved marker`);
   fs.writeFileSync(path.join(ROOT, file), html);

@@ -1,4 +1,4 @@
-/* Optional research experiences. Each component is scoped for easy removal. */
+/* Research experiences and illustrated navigation. */
 .portal-flight { position: fixed; z-index: 40; pointer-events: none; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 16px; overflow: hidden; padding: 24px; transform-origin: top left; }
 .portal-flight svg { width: 100%; height: 100%; }
 .publication-portal { display: block; text-decoration: none; color: inherit; border-radius: 12px; }
@@ -7,114 +7,181 @@
 .portal-hint { display: block; margin-top: 8px; color: var(--color-primary); }
 .experience-surface { position: relative; border: 1px solid var(--color-border); border-radius: 16px; background: var(--color-surface); overflow: hidden; }
 .experience-heading { display: flex; justify-content: space-between; align-items: start; gap: 16px; padding: 24px 24px 0; }
-.experience-heading h2, .experience-heading h3 { font-size: var(--text-lg); line-height: 1.4; margin: 8px 0 0; }
+.experience-heading h3 { font-size: var(--text-lg); line-height: 1.4; margin: 8px 0 0; }
 .experience-surface canvas { display: block; width: 100%; height: auto; }
-.experience-surface figcaption { padding: 0 24px 24px; color: var(--color-text-muted); font-size: var(--text-xs); }
 .experience-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 16px 24px; }
-.experience-controls button, .quiet-button { border: 1px solid var(--color-border); border-radius: 99px; padding: 8px 14px; font-size: var(--text-xs); min-height: 40px; background: var(--color-surface); transition: background .2s, border-color .2s; }
+.experience-controls button, .quiet-button { border: 1px solid var(--color-border); border-radius: 99px; padding: 8px 14px; font-size: var(--text-xs); min-height: 44px; background: var(--color-surface); transition: background .2s, border-color .2s; }
 .experience-controls button:hover, .quiet-button:hover { border-color: var(--color-primary); }
 .experience-controls button[aria-pressed="true"] { background: var(--color-primary-highlight); border-color: var(--color-primary); color: var(--color-primary); }
-.experience-controls label { display: flex; gap: 10px; align-items: center; font-size: var(--text-xs); color: var(--color-text-muted); flex-wrap: wrap; }
-.experience-controls input[type="range"] { width: 120px; max-width: 100%; accent-color: var(--color-primary); cursor: pointer; min-height: 28px; }
-.rotation-control { margin-left: auto; }
-.electrode-hero { grid-column: 1 / -1; width: 100%; background: #101c2b; border-color: #263b50; color: #e8f0fa; }
-.electrode-hero .eyebrow, .electrode-hero figcaption, .electrode-hero label { color: #b1c5db; }
-.electrode-hero button { background: #17293c; color: #d5e7fa; border-color: #39536c; }
-.electrode-hero button[aria-pressed="true"] { background: #28476b; color: #fff; border-color: #83bafa; }
-.electrode-hero input[type="range"] { accent-color: #8fb8f7; }
-.electrode-hero .quiet-button { white-space: nowrap; }
-.material-bridge { margin: 0 0 40px; }
 .section-sketch { position: absolute; top: 100px; right: 0; width: min(440px, 75%); aspect-ratio: 7 / 5.6; z-index: -1; opacity: .36; pointer-events: none; transition: opacity .6s, transform .6s; }
 .section-sketch svg { width: 100%; height: 100%; }
 .section:has(a:hover, button:hover, input:focus-visible) > .section-sketch { opacity: .6; }
 .section-sketch .sketch-signal { stroke: var(--color-primary); stroke-dasharray: 8 22; animation: sketch-flow 7s linear infinite; }
 @keyframes sketch-flow { to { stroke-dashoffset: -180; } }
-.section-sketch { animation-play-state: paused; }
 .section-sketch:not(.sketch-visible) .sketch-signal { animation-play-state: paused; }
-.career-layout { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 32px; }
-.career-scene { position: sticky; top: calc(var(--site-header-height) + var(--chapter-height) + 24px); align-self: start; }
-.career-scene figcaption { display: grid; gap: 8px; padding: 0 16px 20px; }
+
+/* Milestones and the evolving object form one sticky sidebar. */
+.career-layout { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 32px; }
+.career-sidebar { position: sticky; top: calc(var(--site-header-height) + var(--chapter-height) + 24px); align-self: start; border: 1px solid var(--color-border); border-radius: 16px; overflow: hidden; background: var(--color-surface); }
+.career-scene { margin: 0; border: 0; border-radius: 0; }
+.career-scene canvas { max-height: 190px; object-fit: contain; }
+.career-scene figcaption { display: grid; gap: 8px; padding: 0 18px 24px; font-size: var(--text-xs); color: var(--color-text-muted); }
 .career-scene strong { color: var(--color-text); font-size: var(--text-base); }
+.career-sidebar .career-milestones { grid-template-columns: 1fr; margin: 0; border: 0; border-radius: 0; }
+.career-sidebar .career-milestones a { position: relative; padding: 12px 18px; border: 0; border-top: 1px solid var(--color-border); }
+.career-sidebar .career-milestones a[aria-current="step"]::before { content: ''; position: absolute; inset: 12px auto 12px 0; width: 3px; background: var(--color-primary); }
 .career-layout .career-entry { grid-template-columns: minmax(0, 1fr); padding-left: 24px; }
 .career-layout .career-entry::before { left: 0; top: 32px; }
 .career-layout .career-timeline::before, .career-layout .career-timeline::after { left: 4px; }
 .career-layout .career-time { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; }
 .career-layout .career-body { margin: 0; padding: 12px; }
-.research-explorer { margin-top: 40px; }
-.research-explorer summary { cursor: pointer; padding: 24px; font-weight: 600; }
-.research-explorer summary span { float: right; color: var(--color-primary); }
-.research-explorer > .experiment-note { margin: 0 24px; }
-.constellation { height: 300px; position: relative; margin: 16px; }
-.constellation svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.constellation line { stroke: var(--color-border); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
-.constellation line.is-connected { stroke: var(--color-primary); stroke-dasharray: 5 7; animation: sketch-flow 9s linear infinite; }
-.constellation button, .constellation-center { position: absolute; left: var(--node-x, 50%); top: var(--node-y, 50%); transform: translate(-50%, -50%); border: 1px solid var(--color-border); background: var(--color-surface); padding: 12px 16px; border-radius: 99px; font-size: var(--text-sm); }
-.constellation button { touch-action: none; cursor: grab; }
-.constellation button:active { cursor: grabbing; }
-.constellation button[aria-pressed="true"] { background: var(--color-primary-highlight); color: var(--color-primary); border-color: var(--color-primary); }
-.constellation-center { padding: 24px 16px; color: var(--color-text-faint); border-style: dashed; pointer-events: none; }
-.constellation-results { margin: 0 24px 24px; padding: 24px; background: var(--color-surface-2); border-radius: 12px; }
-.constellation-results h3 { font-size: var(--text-base); margin: 0 0 8px; }
-.constellation-results ul { margin: 0; padding-left: 20px; font-size: var(--text-sm); }
-.experiment-note { color: var(--color-text-muted); font-size: var(--text-xs); max-width: 70ch; }
-.lab-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin: 24px 0; }
-.instrument-label { font-family: var(--font-mono); color: var(--color-primary); white-space: nowrap; font-size: var(--text-sm); }
-.lab-card > .link-more { display: block; margin: 16px 24px 24px; }
-.instrument-readout { font-size: var(--text-xs); color: var(--color-text-muted); margin: 0 24px; min-height: 5em; }
-.microscope-stage { position: relative; margin-top: 16px; overflow: hidden; }
-.microscope-sample { width: 100%; }
-.microscope-lens { position: absolute; width: 128px; height: 128px; left: 40%; top: 25%; border: 2px solid var(--color-primary); border-radius: 50%; overflow: hidden; background: var(--color-surface-2); pointer-events: none; }
-.microscope-lens::after { content: '+'; position: absolute; inset: 0; display: grid; place-items: center; color: var(--color-primary); opacity: .6; }
-.microscope-lens svg { width: 100%; height: 100%; }
-.playground-layout { display: grid; grid-template-columns: 1.15fr 1fr; align-items: center; }
-.playground-copy { padding: 0 24px 24px; }
-.playground-copy h4 { margin: 0 0 12px; font-size: var(--text-lg); }
-.playground-copy p { font-size: var(--text-sm); color: var(--color-text-muted); }
-.playground-copy .experience-controls { padding: 20px 0; }
-.playground-copy .experience-controls label { width: 100%; }
-.playground-copy .experience-controls input { flex: 1; }
-.experiment-result output { display: block; color: var(--color-primary); font-family: var(--font-mono); font-size: 2rem; line-height: 1.3; }
-.experiment-result span { display: block; font-size: var(--text-xs); margin: 4px 0 12px; }
-.playground-copy .link-more { display: inline-block; margin-top: 16px; }
-#playground-canvas { touch-action: pan-y; }
-.project-preview { margin: 16px 0 0; border: 1px solid var(--color-border); border-radius: 12px; background: var(--color-surface); }
-.project-preview canvas { width: 100%; height: 130px; display: block; }
-.project-preview figcaption { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 16px 12px; font-size: var(--text-xs); color: var(--color-text-muted); }
-.preview-button { font-size: var(--text-xs); color: var(--color-primary); min-height: 36px; padding: 0 8px; }
+
+/* One illustration and three questions share a single surface. */
+.research-statement { margin: 0; padding: 28px 28px 16px; font-size: clamp(1.25rem, 2.3vw, 1.8rem); font-weight: 500; letter-spacing: -.03em; }
+.research-focus-layout { display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
+.research-visual { margin: 0; min-width: 0; }
+.research-visual canvas { aspect-ratio: 520 / 440; }
+.research-visual figcaption { padding: 0 28px 28px; font-size: var(--text-sm); }
+.research-visual figcaption p { min-height: 3em; color: var(--color-text-muted); margin: 10px 0 16px; }
+.research-focus .research-cards { display: grid; grid-template-columns: 1fr; margin: 0; gap: 0; padding: 12px 24px 24px 0; }
+.research-focus .rcard { position: relative; padding: 20px; margin: 0; border: 0; border-left: 2px solid var(--color-border); border-radius: 0; background: transparent; transition: background .25s, border-color .25s; }
+.research-focus .rcard.is-active { background: var(--color-primary-highlight); border-left-color: var(--color-primary); }
+.research-focus .rcard:hover { background: var(--color-surface-2); }
+.research-focus .rcard-tag { margin-bottom: 8px; padding: 0; text-align: left; min-height: 24px; }
+.research-focus .rcard-tag::after { content: ''; position: absolute; inset: 0; }
+.research-focus .rcard:focus-within { outline: 2px solid var(--color-primary); outline-offset: -2px; }
+.research-focus .rcard-q { font-size: var(--text-sm); }
+.research-focus .rcard-d { font-size: var(--text-xs); margin-top: 8px; }
+
+/* The destinations are part of the topic composition. */
+.research-explorer { margin-top: 56px; }
+.atlas-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+.atlas-heading h3 { font-size: var(--text-lg); margin: 0; }
+.atlas-heading p { color: var(--color-text-muted); font-size: var(--text-xs); margin: 0; }
+.atlas-layout { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 24px; }
+.atlas-topics { display: flex; flex-direction: column; align-self: start; }
+.atlas-topics button { display: grid; grid-template-columns: 24px 1fr; gap: 3px 8px; position: relative; text-align: left; padding: 20px 12px; border-bottom: 1px solid var(--color-border); color: var(--color-text-muted); min-height: 84px; }
+.atlas-topics button > span { font-family: var(--font-mono); font-size: 10px; padding-top: 5px; }
+.atlas-topics strong { font-size: var(--text-base); font-weight: 500; }
+.atlas-topics small { grid-column: 2; font-size: 10px; }
+.atlas-topics button[aria-pressed="true"] { color: var(--color-primary); background: var(--color-primary-highlight); border-radius: 8px; border-bottom-color: transparent; }
+.atlas-topics button[aria-pressed="true"]::before { content: ''; position: absolute; left: 0; top: 20px; bottom: 20px; width: 2px; background: var(--color-primary); }
+.atlas-work { min-width: 0; padding: 20px; border-radius: 18px; background: radial-gradient(ellipse at 85% 20%, var(--color-primary-highlight), transparent 70%), var(--color-surface-2); }
+.atlas-panel { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: start; }
+.experiences-ready .atlas-panel:not([data-active="true"]) { display: none; }
+.atlas-story { display: block; color: var(--color-text); text-decoration: none; min-width: 0; }
+.atlas-story:nth-child(2) { margin-top: 38px; }
+.atlas-story img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; transition: transform .4s; }
+.atlas-story:hover img { transform: translateY(-5px) rotate(-1deg); }
+.atlas-story-copy { display: grid; gap: 8px; padding: 16px 2px; }
+.atlas-story-copy small { font-size: 10px; letter-spacing: .05em; text-transform: uppercase; color: var(--color-primary); }
+.atlas-story-copy strong { font-size: var(--text-base); line-height: 1.3; font-weight: 500; }
+.atlas-story-copy > span { font-size: var(--text-xs); line-height: 1.6; color: var(--color-text-muted); }
+.atlas-story-copy em { font-style: normal; font-size: var(--text-xs); color: var(--color-primary); margin-top: 6px; }
+.atlas-software-link { grid-column: 1 / -1; font-size: var(--text-xs); }
+
+/* Direct manipulation replaces the slider demos. */
+.lab-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 24px; }
+.lab-card { display: flex; flex-direction: column; }
+.lab-card canvas { aspect-ratio: 600 / 440; background: var(--color-surface-2); }
+.lab-card canvas:focus-visible { outline-offset: -3px; }
+#landscape-canvas { cursor: crosshair; touch-action: none; }
+#transport-canvas { cursor: pointer; touch-action: pan-y; }
+.lab-instruction { font-size: var(--text-sm); color: var(--color-text-muted); margin: 12px 24px 24px; min-height: 3em; }
+.lab-result { font-size: var(--text-sm); color: var(--color-text); margin: 0 24px 12px; min-height: 4.5em; }
+.lab-card .experiment-note { font-size: 11px; color: var(--color-text-muted); margin: 0 24px 24px; line-height: 1.65; }
+.lab-paper { position: relative; display: block; margin-top: auto; padding: 18px 42px 18px 24px; border-top: 1px solid var(--color-border); background: var(--color-surface-2); color: var(--color-text); font-size: var(--text-sm); text-decoration: none; }
+.lab-paper > span:first-child { display: block; color: var(--color-text-muted); font-size: 10px; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 5px; }
+.lab-paper > span:last-child { position: absolute; right: 20px; top: 28px; color: var(--color-primary); }
+.lab-paper:hover { color: var(--color-primary); }
+
+/* Static project illustrations sit beside the descriptions they explain. */
+#software .software-project { display: grid; grid-template-columns: 240px minmax(0, 1fr); align-items: center; gap: 32px; padding: 28px 0; }
+.software-art { margin: 0; display: block; background: var(--color-surface-2); border-radius: 12px; overflow: hidden; color: var(--color-text-muted); text-decoration: none; }
+.software-art img, .software-art svg { display: block; width: 100%; height: auto; aspect-ratio: 320 / 210; object-fit: cover; }
+.software-art > span, .software-art figcaption { display: block; padding: 12px 14px; font-size: 10px; line-height: 1.5; }
+.software-copy { min-width: 0; }
+.software-copy > strong { overflow-wrap: anywhere; }
+.software-copy .muted { margin: 12px 0; }
+
 html:not(.experiences-ready) .experience-surface canvas,
 html:not(.experiences-ready) .experience-controls,
 html:not(.experiences-ready) .quiet-button,
-html:not(.experiences-ready) .microscope-lens,
-html:not(.experiences-ready) .constellation { display: none; }
-html:not(.experiences-ready) .experience-surface figcaption { padding-top: 24px; }
-.motion-paused .sketch-signal, .motion-paused .constellation line { animation-play-state: paused; }
+html:not(.experiences-ready) .atlas-topics,
+html:not(.experiences-ready) .lab-result { display: none; }
+html:not(.experiences-ready) .atlas-layout { grid-template-columns: 1fr; }
+html:not(.experiences-ready) .atlas-panel { margin-bottom: 24px; }
+html:not(.experiences-ready) .career-scene figcaption { padding-top: 24px; }
+.motion-paused .sketch-signal { animation-play-state: paused; }
+.motion-paused .atlas-story img, .motion-paused .section-sketch { transition: none; }
+@media (max-width: 900px) {
+  .career-layout { grid-template-columns: 180px minmax(0, 1fr); gap: 24px; }
+  .atlas-layout { grid-template-columns: 150px minmax(0, 1fr); gap: 16px; }
+  .atlas-work { padding: 16px; }
+  .atlas-panel { gap: 16px; }
+}
 @media (max-width: 760px) {
-  .hero > .electrode-hero { order: 2; }
   .experience-heading { padding: 20px 16px 0; }
-  .experience-heading h2, .experience-heading h3 { font-size: 1rem; }
-  .experience-controls { padding: 16px; }
+  .experience-controls { padding: 16px; gap: 6px; }
   .experience-controls button, .quiet-button { padding: 8px 12px; }
-  .rotation-control { margin-left: 0; width: 100%; }
-  .experience-surface figcaption { padding: 0 16px 20px; }
-  .electrode-hero canvas { aspect-ratio: 1.3; object-fit: contain; }
   .career-layout { grid-template-columns: minmax(0, 1fr); gap: 24px; }
-  .career-scene { position: static; display: grid; grid-template-columns: 120px 1fr; align-items: center; }
-  .career-scene figcaption { padding: 16px; }
-  .career-layout .career-entry { padding-left: 24px; }
+  .career-sidebar { position: static; display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
+  .career-scene figcaption { padding: 0 16px 20px; }
+  .career-sidebar .career-milestones { border-left: 1px solid var(--color-border); }
+  .career-sidebar .career-milestones a { padding: 12px 16px; }
+  .career-sidebar .career-milestones a:first-child { border-top: 0; }
   .section-sketch { width: 320px; max-width: 100%; opacity: .25; }
-  .lab-grid, .playground-layout { grid-template-columns: minmax(0, 1fr); }
-  .constellation { height: 280px; margin: 8px; }
-  .constellation button { font-size: 11px; padding: 12px 10px; }
-  .constellation-center { font-size: 11px; padding: 20px 8px; }
-  .constellation-results { margin: 0 16px 16px; padding: 16px; }
-  .playground-copy { padding: 0 16px 24px; }
-  .instrument-readout { min-height: auto; }
+  .research-statement { padding: 24px 20px 0; }
+  .research-focus-layout { display: flex; flex-direction: column; }
+  .research-visual { width: 100%; }
+  .research-visual canvas { max-height: 320px; object-fit: contain; }
+  .research-visual figcaption { padding: 0 20px 24px; }
+  .research-visual figcaption p { min-height: 0; }
+  .research-focus .research-cards { padding: 0 16px 20px; width: 100%; }
+  .research-focus .rcard { padding: 16px; }
+  .experiences-ready .research-focus .research-cards { order: -1; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 4px; padding-top: 20px; }
+  .experiences-ready .research-focus .rcard { display: contents; }
+  .experiences-ready .research-focus .rcard-tag { grid-row: 1; padding: 10px 2px; min-height: 44px; border-bottom: 2px solid var(--color-border); font-size: 10px; letter-spacing: .02em; text-align: center; margin: 0; }
+  .experiences-ready .research-focus .rcard-tag::after { content: none; }
+  .experiences-ready .research-focus .rcard-tag[aria-pressed="true"] { border-color: var(--color-primary); background: var(--color-primary-highlight); }
+  .experiences-ready .research-focus .rcard-q { grid-column: 1 / -1; grid-row: 2; margin-top: 8px; }
+  .experiences-ready .research-focus .rcard-d { grid-column: 1 / -1; grid-row: 3; margin: 0; }
+  .experiences-ready .research-focus .rcard:not(.is-active) :is(.rcard-q, .rcard-d) { display: none; }
+  .atlas-heading { display: block; }
+  .atlas-heading p { margin-top: 8px; }
+  .atlas-layout { grid-template-columns: 1fr; }
+  .atlas-topics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; }
+  .atlas-topics button { min-height: 70px; padding: 12px; }
+  .atlas-story-copy strong { font-size: var(--text-sm); }
+  .atlas-story-copy small { font-size: 9px; }
+  .atlas-story-copy > span { font-size: 11px; }
+  .lab-grid { grid-template-columns: minmax(0, 1fr); }
+  .lab-instruction { margin: 12px 16px 20px; min-height: 0; }
+  .lab-result { margin: 0 16px 12px; min-height: 0; }
+  .lab-card .experiment-note { margin: 0 16px 20px; }
+  .lab-paper { padding-left: 16px; }
+  #software .software-project { grid-template-columns: 160px minmax(0, 1fr); gap: 20px; }
+}
+@media (max-width: 480px) {
+  .atlas-work { padding: 14px; }
+  .atlas-panel { grid-template-columns: 1fr; gap: 24px; }
+  .atlas-story { display: grid; grid-template-columns: 100px minmax(0, 1fr); gap: 14px; align-items: start; }
+  .atlas-story:nth-child(2) { margin-top: 0; }
+  .atlas-story img { aspect-ratio: 3 / 4; }
+  .atlas-story-copy { padding: 0; gap: 7px; }
+  .atlas-story-copy em { font-size: 11px; margin: 0; }
+  #software .software-project { grid-template-columns: 1fr; gap: 20px; }
+  .software-art { max-width: 100%; }
+  .software-art img, .software-art svg { aspect-ratio: 16 / 9; object-fit: contain; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .sketch-signal, .constellation line { animation: none !important; }
+  .sketch-signal { animation: none !important; }
+  .atlas-story img, .section-sketch, .research-focus .rcard { transition: none; }
 }
 @media print {
-  .experience-controls, .quiet-button, .section-sketch, .project-preview { display: none; }
-  .career-scene { position: static; }
+  .experience-controls, .quiet-button, .section-sketch, .atlas-topics { display: none; }
+  .career-sidebar { position: static; }
   .experience-surface { break-inside: avoid; }
+  .experiences-ready .atlas-panel { display: grid; margin-bottom: 24px; }
+  .atlas-layout { grid-template-columns: 1fr; }
 }
