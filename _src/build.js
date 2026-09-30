@@ -166,7 +166,7 @@ function postCover(p) {
   fs.mkdirSync(path.dirname(path.join(ROOT, target)), { recursive: true });
   const svg = cover[0].replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
   fs.writeFileSync(path.join(ROOT, target), svg + '\n');
-  return target;
+  return ver(target);
 }
 
 function postEntry(p, withMinutes, indent) {
@@ -179,7 +179,7 @@ ${pad}  <span class="journal-arrow" aria-hidden="true">↗</span>
 ${pad}</article>`;
 }
 
-const POST_LIST = `<div id="blog-posts" class="journal-index journal-index-page" data-blog-view="list">
+const POST_LIST = `<div id="blog-posts" class="journal-index journal-index-page" data-blog-view="tiles">
 ${posts.map((p) => postEntry(p, true, 6)).join('\n')}
     </div>`;
 

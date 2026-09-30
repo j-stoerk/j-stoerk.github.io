@@ -1,7 +1,7 @@
 [
   {
     "file": "post-jev-output-heads.html",
-    "title": "How to (not) reinvent the wheel with Jeff.",
+    "title": "How to (not) reinvent the wheel with Jeff",
     "iso": "2026-09-27",
     "display": "27 September 2026",
     "category": "AI research",
@@ -14,7 +14,7 @@
   },
   {
     "file": "post-disco-dry-run.html",
-    "title": "Different Heads make different Decisions",
+    "title": "DisCo and the Case for Reusable Agent Skills",
     "iso": "2026-09-20",
     "display": "20 September 2026",
     "category": "AI agents",
@@ -73,7 +73,7 @@
     "summary": "Certified retention is easy for frozen features and collapses once the representation moves. A bottom-up stripe benchmark that makes adaptation provably necessary, and CARG, the metric for the accuracy you lose when the retention certificate has to hold.",
     "feedDescription": "Certified retention under a changing representation: a bottom-up stripe benchmark where a frozen encoder provably cannot win, and the CARG metric for the accuracy-retention tradeoff.",
     "rfc822": "Sun, 23 Aug 2026 08:00:00 +0200",
-    "lastmod": "2026-08-23",
+    "lastmod": "2026-09-30",
     "math": true
   },
   {

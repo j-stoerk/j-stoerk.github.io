@@ -7,7 +7,7 @@
   var buttons = controls.querySelectorAll('[data-blog-view-button]');
 
   function setView(view) {
-    view = view === 'tiles' ? 'tiles' : 'list';
+    view = view === 'list' ? 'list' : 'tiles';
     posts.setAttribute('data-blog-view', view);
     buttons.forEach(function (button) {
       button.setAttribute('aria-pressed', String(button.dataset.blogViewButton === view));
