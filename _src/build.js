@@ -33,7 +33,7 @@ const posts = JSON.parse(fs.readFileSync(path.join(SRC, 'posts.json'), 'utf8'))
 const PAGES = {
   'index.html': {
     nav: null, home: true, extraScripts: ['cite.js'],
-    footerExtra: null, lastmod: '2026-08-25', priority: '1.0',
+    footerExtra: null, lastmod: '2026-09-30', priority: '1.0',
   },
   'cv.html': {
     nav: 'cv', extraScripts: [],

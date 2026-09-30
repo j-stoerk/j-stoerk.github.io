@@ -25,25 +25,102 @@
   }, { passive: true });
   barDraw();
 
-  /* ---- scrollspy: highlight the nav link for the section in view ---- */
-  var links = {};
-  slice(document.querySelectorAll('.nav a[href^="#"], .site-title[href^="#"]')).forEach(function (a) {
-    links[a.getAttribute('href').slice(1)] = a;
-  });
-  var spySections = slice(document.querySelectorAll('main [id]')).filter(function (s) {
-    return links[s.id];
-  });
-  if (hasIO && spySections.length) {
-    var current = null;
-    var so = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { if (e.isIntersecting) current = e.target.id; });
-      Object.keys(links).forEach(function (id) {
-        if (id !== current) links[id].classList.remove('current');
+  /* ---- page chapters and the career timeline ---- */
+  (function () {
+    var chapterNav = document.querySelector('.chapter-nav');
+    if (!chapterNav) return;
+    var list = chapterNav.querySelector('.chapter-list');
+    var chapterLinks = slice(list.querySelectorAll('a'));
+    var chapters = chapterLinks.map(function (a) {
+      return document.getElementById(a.hash.slice(1));
+    });
+    var primaryLinks = slice(document.querySelectorAll('.nav a[href^="#"], .site-title[href^="#"]'));
+    var topbar = document.querySelector('.topbar');
+    var timeline = document.querySelector('.career-timeline');
+    var entries = slice(document.querySelectorAll('.career-entry[id]'));
+    var milestones = slice(document.querySelectorAll('.career-milestones a'));
+    var current = -1;
+    var queued = false;
+    var keepLinkVisible = false;
+    var clamp = function (n) { return Math.max(0, Math.min(1, n)); };
+    if (timeline) timeline.classList.add('is-tracking');
+
+    function drawChapters() {
+      queued = false;
+      var headerHeight = topbar.getBoundingClientRect().height;
+      var horizontal = getComputedStyle(chapterNav).position !== 'fixed';
+      var chapterHeight = horizontal ? chapterNav.getBoundingClientRect().height : 0;
+      document.body.style.setProperty('--site-header-height', headerHeight + 'px');
+      document.body.style.setProperty('--chapter-height', chapterHeight + 'px');
+      var readingLine = headerHeight + chapterHeight + Math.min(120, window.innerHeight * .18);
+      var positions = chapters.map(function (section) { return section.getBoundingClientRect(); });
+      var active = 0;
+      positions.forEach(function (rect, i) { if (rect.top <= readingLine) active = i; });
+      var atBottom = window.pageYOffset + window.innerHeight >= root.scrollHeight - 2;
+      if (atBottom) active = chapters.length - 1;
+
+      chapterLinks.forEach(function (a, i) {
+        var end = i + 1 < positions.length ? positions[i + 1].top : positions[i].bottom;
+        var progress = atBottom ? 1 : clamp((readingLine - positions[i].top) / Math.max(1, end - positions[i].top));
+        a.style.setProperty('--chapter-progress', progress.toFixed(3));
       });
-      if (current && links[current]) links[current].classList.add('current');
-    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
-    spySections.forEach(function (s) { so.observe(s); });
-  }
+
+      if (active !== current || keepLinkVisible) {
+        chapterLinks.forEach(function (a, i) {
+          if (i === active) a.setAttribute('aria-current', 'location');
+          else a.removeAttribute('aria-current');
+        });
+        primaryLinks.forEach(function (a) {
+          var selected = a.hash === chapterLinks[active].hash;
+          a.classList.toggle('current', selected);
+          if (selected) a.setAttribute('aria-current', 'location');
+          else a.removeAttribute('aria-current');
+        });
+        // Move only the chapter strip; never move the document or keyboard focus.
+        var keyboardFocus = list.contains(document.activeElement) && document.activeElement.matches(':focus-visible');
+        if (horizontal && !keyboardFocus) {
+          var linkRect = chapterLinks[active].getBoundingClientRect();
+          var listRect = list.getBoundingClientRect();
+          if (linkRect.left < listRect.left || linkRect.right > listRect.right) {
+            list.scrollLeft += linkRect.left - listRect.left - (listRect.width - linkRect.width) / 2;
+          }
+        }
+        current = active;
+        keepLinkVisible = false;
+      }
+
+      if (timeline && entries.length) {
+        var rect = timeline.getBoundingClientRect();
+        timeline.style.setProperty('--timeline-progress', clamp((readingLine - rect.top) / rect.height).toFixed(3));
+        var activeEntry = 0;
+        var entryPositions = entries.map(function (entry) { return entry.getBoundingClientRect().top; });
+        entryPositions.forEach(function (top, i) { if (top <= readingLine) activeEntry = i; });
+        entries.forEach(function (entry, i) {
+          entry.classList.toggle('is-active', i === activeEntry);
+          entry.classList.toggle('is-passed', i < activeEntry);
+        });
+        milestones.forEach(function (a) {
+          if (a.hash === '#' + entries[activeEntry].id) a.setAttribute('aria-current', 'step');
+          else a.removeAttribute('aria-current');
+        });
+      }
+    }
+
+    function schedule() {
+      if (!queued) { queued = true; requestAnimationFrame(drawChapters); }
+    }
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', function () { keepLinkVisible = true; schedule(); }, { passive: true });
+    window.addEventListener('hashchange', schedule);
+    window.addEventListener('pageshow', schedule);
+    window.addEventListener('load', schedule);
+    if ('ResizeObserver' in window) {
+      var layoutObserver = new ResizeObserver(schedule);
+      layoutObserver.observe(document.querySelector('main'));
+      layoutObserver.observe(topbar);
+    }
+    drawChapters();
+  })();
 
   /* ---- contained parallax on feature media ---- */
   if (!reduce) {

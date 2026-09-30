@@ -615,7 +615,141 @@ p {
   .rcard:nth-child(2) { margin-top: 0; }
 }
 
+/* ---------- Chapter navigation ---------- */
+.portfolio-page {
+  --site-header-height: 63px;
+  --chapter-height: 49px;
+}
+
+.portfolio-page main > section[id],
+.portfolio-page .career-entry[id] {
+  scroll-margin-top: calc(var(--site-header-height) + var(--chapter-height) + 16px);
+}
+
+/* Explicit offsets above also work for direct URLs with a section fragment. */
+html:has(.portfolio-page) { scroll-padding-top: 0; }
+
+.chapter-nav {
+  position: sticky;
+  top: var(--site-header-height);
+  z-index: 15;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.chapter-nav-caption { display: none; }
+
+.chapter-list {
+  display: flex;
+  gap: 8px;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  max-width: var(--content);
+  margin: 0 auto;
+  padding: 0 4px;
+}
+
+.chapter-list li { flex: 0 0 auto; }
+
+.chapter-list a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 8px;
+  color: var(--color-text-muted);
+  font-size: var(--text-xs);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color .2s, background .2s;
+}
+
+.chapter-list a::after {
+  content: '';
+  position: absolute;
+  inset: auto 8px 0;
+  height: 2px;
+  background: var(--color-primary);
+  transform: scaleX(var(--chapter-progress, 0));
+  transform-origin: left;
+}
+
+.chapter-number {
+  color: var(--color-text-faint);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.chapter-list a:hover,
+.chapter-list a[aria-current="location"] {
+  background: var(--color-primary-highlight);
+  color: var(--color-primary);
+}
+
+.chapter-list a[aria-current="location"] .chapter-number { color: inherit; }
+.chapter-list a:focus-visible { outline-offset: -3px; }
+
+@media (min-width: 1280px) and (min-height: 600px) {
+  .portfolio-page { --chapter-height: 0px; }
+  .chapter-nav {
+    position: fixed;
+    top: 50%;
+    left: max(16px, calc((100vw - 1280px) / 2));
+    width: 144px;
+    transform: translateY(-50%);
+    border: 0;
+    background: transparent;
+  }
+  .chapter-nav-caption {
+    display: block;
+    margin: 0 0 16px 12px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--color-text-faint);
+  }
+  .chapter-list { display: block; padding: 4px; overflow: visible; }
+  .chapter-list a { min-height: 40px; font-size: 11px; border-radius: 0 4px 4px 0; }
+  .chapter-list a::after {
+    inset: 0 auto 0 0;
+    width: 2px;
+    height: auto;
+    transform: scaleY(var(--chapter-progress, 0));
+    transform-origin: top;
+  }
+}
+
 /* ---------- Research dossier ---------- */
+.career-milestones {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 24px 0 32px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.career-milestones a {
+  padding: 16px;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-size: var(--text-xs);
+  transition: background .25s, color .25s;
+}
+
+.career-milestones a + a { border-left: 1px solid var(--color-border); }
+.career-milestones span { display: block; font-family: var(--font-mono); margin-bottom: 4px; }
+.career-milestones a:hover,
+.career-milestones a[aria-current="step"] {
+  background: var(--color-primary-highlight);
+  color: var(--color-primary);
+}
+.career-milestones a:focus-visible { outline-offset: -3px; }
+
 .career-timeline {
   position: relative;
 }
@@ -628,6 +762,42 @@ p {
   left: 128px;
   width: 1px;
   background: var(--color-border);
+}
+
+.career-timeline.is-tracking::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 128px;
+  width: 2px;
+  background: var(--color-primary);
+  transform: scaleY(var(--timeline-progress, 0));
+  transform-origin: top;
+  pointer-events: none;
+}
+
+.career-entry.is-active .career-body {
+  background: color-mix(in srgb, var(--color-primary-highlight) 65%, transparent);
+}
+
+.career-body {
+  padding: 12px;
+  margin: -12px 0;
+  border-radius: var(--radius-md);
+  transition: background .4s;
+}
+
+.career-timeline.is-tracking .career-entry::before {
+  z-index: 1;
+  transition: background .3s, transform .3s, box-shadow .3s;
+}
+
+.career-entry.is-passed::before { background: var(--color-primary); }
+.career-entry.is-active::before {
+  background: var(--color-primary);
+  transform: scale(1.4);
+  box-shadow: 0 0 0 5px var(--color-primary-highlight);
 }
 
 .career-entry {
@@ -2354,6 +2524,10 @@ footer {
 }
 
 @media (max-width: 760px) {
+  .portfolio-page { --site-header-height: 59px; }
+  .career-timeline.is-tracking::after { left: 5px; }
+  .career-milestones a { padding: 12px 8px; font-size: 11px; }
+
   .topbar-inner {
     min-height: 58px;
     position: relative;
@@ -2517,6 +2691,10 @@ footer {
 }
 
 @media (max-width: 560px) {
+  .career-body .exp-stats { gap: 16px; }
+  .career-body .exp-stats > div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .career-time { flex-wrap: wrap; gap: 4px 16px; }
+
   .publication-actions {
     gap: var(--space-2);
   }
@@ -2539,6 +2717,9 @@ footer {
 
 @media (prefers-reduced-motion: reduce) {
 
+  .career-timeline.is-tracking::after { transform: none; opacity: .3; }
+  .career-entry.is-active::before { transform: none; box-shadow: none; }
+
   html {
     scroll-behavior: auto;
   }
@@ -2554,8 +2735,12 @@ footer {
 @media print {
 
   .topbar,
+  .chapter-nav,
+  .career-milestones,
   .theme-toggle,
   .interactive {
     display: none;
   }
+  .career-timeline.is-tracking::after { display: none; }
+  .career-entry.is-active .career-body { background: none; }
 }
