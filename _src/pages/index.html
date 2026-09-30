@@ -114,11 +114,12 @@
       <li><a href="#home"><span class="chapter-number" aria-hidden="true">01</span> Introduction</a></li>
       <li><a href="#experience"><span class="chapter-number" aria-hidden="true">02</span> Experience</a></li>
       <li><a href="#research"><span class="chapter-number" aria-hidden="true">03</span> Research</a></li>
-      <li><a href="#publications"><span class="chapter-number" aria-hidden="true">04</span> Publications</a></li>
-      <li><a href="#writing"><span class="chapter-number" aria-hidden="true">05</span> Writing</a></li>
-      <li><a href="#software"><span class="chapter-number" aria-hidden="true">06</span> Software</a></li>
-      <li><a href="#contributions"><span class="chapter-number" aria-hidden="true">07</span> Contributions</a></li>
-      <li><a href="#contact"><span class="chapter-number" aria-hidden="true">08</span> Contact</a></li>
+      <li><a href="#lab"><span class="chapter-number" aria-hidden="true">04</span> Lab</a></li>
+      <li><a href="#publications"><span class="chapter-number" aria-hidden="true">05</span> Publications</a></li>
+      <li><a href="#writing"><span class="chapter-number" aria-hidden="true">06</span> Writing</a></li>
+      <li><a href="#software"><span class="chapter-number" aria-hidden="true">07</span> Software</a></li>
+      <li><a href="#contributions"><span class="chapter-number" aria-hidden="true">08</span> Contributions</a></li>
+      <li><a href="#contact"><span class="chapter-number" aria-hidden="true">09</span> Contact</a></li>
     </ol>
   </nav>
 
@@ -264,6 +265,15 @@
             fetchpriority="high">
         </picture>
       </div>
+      <figure class="electrode-hero experience-surface" data-feature="electrode">
+        <div class="experience-heading"><div><span class="eyebrow">Inside the electrode</span><h2>A structure you can explore.</h2></div><button class="quiet-button" data-motion-toggle type="button" aria-pressed="false">Pause motion</button></div>
+        <canvas id="electrode-canvas" width="900" height="380" role="img" aria-label="A three-dimensional schematic of electrode particles and connected pores">An electrode combines solid particles with pores that carry ions. Select a layer to explore its role.</canvas>
+        <div class="experience-controls" aria-label="Electrode layers">
+          <button type="button" data-layer="particles" aria-pressed="true">Particles</button><button type="button" data-layer="pores" aria-pressed="false">Pores</button><button type="button" data-layer="transport" aria-pressed="false">Transport</button>
+          <label class="rotation-control" for="electrode-angle">Rotate <input id="electrode-angle" type="range" min="-60" max="60" value="0"></label>
+        </div>
+        <figcaption id="electrode-caption" aria-live="polite">Active particles store lithium. Move across the structure or use the rotation control to change your view.</figcaption>
+      </figure>
     </section>
 
     <section class="section" id="experience">
@@ -278,6 +288,11 @@
         <a href="#career-catalysis"><span>2024</span>Catalysis</a>
         <a href="#career-batteries"><span>2025–now</span>AI &amp; batteries</a>
       </nav>
+      <div class="career-layout">
+      <figure class="career-scene experience-surface" data-feature="career-object">
+        <canvas id="career-canvas" width="240" height="240" role="img" aria-label="A scientific structure that changes with the active career milestone">Materials, fuel cells, catalysis, and learning networks.</canvas>
+        <figcaption><span class="eyebrow">The connecting thread</span><strong id="career-scene-title">AI &amp; batteries</strong><span id="career-scene-note">Manufacturing meets learning.</span></figcaption>
+      </figure>
       <div class="career-timeline">
         <article class="career-entry career-entry-featured" id="career-batteries">
           <div class="career-time"><time datetime="2025-09">2025–now</time><span>Industrial doctorate</span></div>
@@ -332,12 +347,19 @@
           </div>
         </article>
       </div>
+      </div>
     </section>
 
     <section class="section" id="research">
       <div class="section-head">
         <h2>Research</h2>
       </div>
+      <figure class="material-bridge experience-surface" data-feature="particle-network">
+        <div class="experience-heading"><div><span class="eyebrow">Material → model</span><h3>The same curiosity, at a different scale.</h3></div></div>
+        <canvas id="bridge-canvas" width="900" height="280" role="img" aria-label="Electrode particles rearrange into a connected learning network">The material structure transitions to a network as you scroll.</canvas>
+        <div class="experience-controls"><label for="bridge-mix">Material <input id="bridge-mix" type="range" min="0" max="100" value="0"> Model</label><button type="button" id="bridge-follow" aria-pressed="true">Follow scroll</button></div>
+        <figcaption>From particle contacts to relationships in data. Scroll through the transition, or explore it with the slider.</figcaption>
+      </figure>
       <div class="research-cards">
         <article class="rcard">
           <span class="rcard-tag">01 · Retention</span>
@@ -355,7 +377,22 @@
           <p class="rcard-d">Impedance spectroscopy, cycling-data interpretation, and linking process conditions to cell performance.</p>
         </article>
       </div>
+      <details class="research-explorer experience-surface" open data-feature="constellation">
+        <summary>Explore the connections <span aria-hidden="true">↗</span></summary>
+        <p class="experiment-note">Choose a topic to find connected work. You can also drag the topic nodes.</p>
+        <div class="constellation" aria-label="Research topics">
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><g class="constellation-lines"></g></svg>
+          <span class="constellation-center">Research</span>
+          <button type="button" data-topic="materials" style="--node-x:23%;--node-y:24%" aria-pressed="true">Materials</button>
+          <button type="button" data-topic="learning" style="--node-x:77%;--node-y:24%" aria-pressed="false">Learning</button>
+          <button type="button" data-topic="modelling" style="--node-x:23%;--node-y:76%" aria-pressed="false">Modelling</button>
+          <button type="button" data-topic="automation" style="--node-x:77%;--node-y:76%" aria-pressed="false">Automation</button>
+        </div>
+        <div class="constellation-results" aria-live="polite" aria-atomic="true"><h3>Materials → process → performance</h3><ul><li><a href="post-calendering-u-shape.html">The calendering U-shape</a></li><li><a href="post-dendrites-dandelions.html">Dendrites and dandelions</a></li></ul></div>
+      </details>
     </section>
+
+    <!--#RESEARCH_LAB-->
 
     <section class="section" id="publications">
       <div class="section-head">
@@ -375,7 +412,8 @@
           <p class="muted">Models forgetting as weight-interference energy under a task's feature covariance, and derives
             a replay-free structural controller (IGFA) that protects earlier tasks while allowing capacity to be shared
             where directions do not conflict.</p>
-          <figure class="pub-figure">
+          <a class="publication-portal" href="post-geometry-of-forgetting.html" aria-label="Explore the geometry of forgetting article" data-feature="publication-transition">
+          <figure class="pub-figure" data-paper="forgetting">
             <svg viewBox="0 0 320 88" role="img" aria-labelledby="fig-igfa-title">
               <title id="fig-igfa-title">Bar chart. Forgetting on a 410-million-parameter model, indexed to the naive
                 fine-tuning baseline at 100. With the IGFA gate the index falls to 64, a 36 percent reduction.</title>
@@ -388,8 +426,9 @@
               <text class="fig-label" x="220.4" y="70.5">64 <tspan class="fig-label-primary">(−36%)</tspan></text>
             </svg>
             <figcaption>Forgetting on a 410M-parameter model, indexed to the naive fine-tuning baseline (= 100). The
-              replay-free IGFA gate removes 36% of forgetting.</figcaption>
+              replay-free IGFA gate removes 36% of forgetting. <span class="portal-hint">Explore the article ↗</span></figcaption>
           </figure>
+          </a>
           <div class="pub-tags">
             <span class="tag">cs.LG</span>
             <span class="tag">cs.AI</span>
@@ -432,7 +471,8 @@
           <div class="authors">Julius Störk · VARTA Microbattery GmbH; Institute for Particle Technology (iPAT), TU Braunschweig · 2026</div>
           <p class="muted">A differentiable, calendering-aware Zehner–Bauer–Schlünder closure that tests whether
             contact-network growth or particle reorientation dominates through-plane thermal transport.</p>
-          <figure class="pub-figure">
+          <a class="publication-portal" href="post-calendering-u-shape.html" aria-label="Explore the calendering U-shape article" data-feature="publication-transition">
+          <figure class="pub-figure" data-paper="calendering">
             <svg viewBox="0 0 320 190" role="img" aria-labelledby="fig-ushape-title">
               <title id="fig-ushape-title">Line chart of through-plane thermal conductivity versus compaction for three
                 closure families. Porosity-only and static-contact closures rise monotonically; the calendering-aware
@@ -467,8 +507,9 @@
             <figcaption>Schematic closure comparison (functional forms from the companion note, not fitted data).
               Porosity-only and static-contact closures are monotone by construction; only the calendering-aware ZBS
               closure reproduces the measured dip-then-rise. Fitted across 27 calendering states, MAPE falls from 31.1%
-              to 4.5%.</figcaption>
+              to 4.5%. <span class="portal-hint">Explore the article ↗</span></figcaption>
           </figure>
+          </a>
           <div class="pub-tags">
             <span class="tag">cond-mat.mtrl-sci</span>
             <span class="tag">physics.chem-ph</span>

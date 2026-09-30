@@ -1,0 +1,40 @@
+    <section class="section research-lab" id="lab" data-feature="lab">
+      <div class="section-head"><div><p class="eyebrow">Try a thought experiment</p><h2>A small research lab.</h2></div><a class="link-more" href="#publications">Read the papers →</a></div>
+      <p class="section-lead">Look closer, change a variable, and see what follows.</p>
+      <p class="experiment-note">These are simplified illustrations of research ideas, not calibrated simulations or experimental measurements.</p>
+      <noscript><p>The experiments need JavaScript. Their explanations and links to the research are available below.</p></noscript>
+      <div class="lab-grid">
+        <article class="lab-card experience-surface" data-feature="microscope">
+          <div class="experience-heading"><div><span class="eyebrow">01 / Look closer</span><h3>Inside a porous electrode</h3></div><span class="instrument-label">2.5×</span></div>
+          <div class="microscope-stage">
+            <svg class="microscope-sample" viewBox="0 0 600 330" role="img" aria-label="Schematic cross-section showing graphite particles, pores, and binder"><rect width="600" height="330" fill="var(--color-surface-2)"/><g class="sample-particles"></g></svg>
+            <div class="microscope-lens" aria-hidden="true"><svg viewBox="180 85 120 120"><g class="lens-sample"></g></svg></div>
+          </div>
+          <div class="experience-controls" aria-label="Inspect electrode features"><button type="button" data-inspect="particle" aria-pressed="true">Graphite</button><button type="button" data-inspect="pore" aria-pressed="false">Pore</button><button type="button" data-inspect="binder" aria-pressed="false">Binder</button></div>
+          <p class="instrument-readout" id="microscope-note" aria-live="polite">Graphite particles form the solid skeleton. Move over the image, tap it, or select a feature to look closer.</p>
+          <a class="link-more" href="post-calendering-u-shape.html">From structure to conductivity →</a>
+        </article>
+        <article class="lab-card experience-surface" data-feature="compression">
+          <div class="experience-heading"><div><span class="eyebrow">02 / Apply pressure</span><h3>Hold to compress</h3></div><output id="compression-value" class="instrument-label" for="compression-range">0%</output></div>
+          <canvas id="compression-canvas" width="600" height="330" role="img" aria-label="Electrode particles compress and align while a schematic U-shaped response is traced">Compression changes both particle contacts and orientation.</canvas>
+          <div class="experience-controls"><button type="button" id="compress-hold">Hold to compress</button><label for="compression-range">Compaction <input id="compression-range" type="range" min="0" max="100" value="0"></label><button type="button" id="compress-reset">Reset</button></div>
+          <p class="instrument-readout">Press and hold with a pointer, Space, or Enter; release to reset. Use the slider to inspect a fixed state.</p>
+          <a class="link-more" href="post-calendering-u-shape.html">Why conductivity can dip before rising →</a>
+        </article>
+      </div>
+      <article class="playground experience-surface" data-feature="playground">
+        <div class="experience-heading"><div><span class="eyebrow">03 / Change the geometry</span><h3>One variable. A different outcome.</h3></div></div>
+        <div class="experience-controls playground-modes" aria-label="Choose an experiment"><button type="button" data-experiment="geometry" aria-pressed="true">Task geometry</button><button type="button" data-experiment="packing" aria-pressed="false">Particle packing</button><button type="button" data-experiment="thermal" aria-pressed="false">Thermal transport</button></div>
+        <div class="playground-layout">
+          <canvas id="playground-canvas" width="600" height="360" role="img" aria-label="An update vector projected onto an earlier task direction">Rotating an update away from a protected direction reduces its squared projection.</canvas>
+          <div class="playground-copy">
+            <h4 id="experiment-title">Protect an earlier task</h4>
+            <p id="experiment-description">Rotate the update relative to a protected direction. The squared projection gives a simple illustration of interference.</p>
+            <div class="experience-controls"><label for="experiment-range"><span id="experiment-control-label">Update angle</span><input id="experiment-range" type="range" min="0" max="90" value="35"><output id="experiment-setting" for="experiment-range">35°</output></label></div>
+            <p class="experiment-result"><output id="experiment-result" for="experiment-range">67%</output><span id="experiment-result-label">Squared projection onto the protected direction</span></p>
+            <p class="experiment-note" id="experiment-assumption">Unit update, one protected direction. This geometric toy is not a prediction of model forgetting.</p>
+            <a id="experiment-paper" class="link-more" href="post-geometry-of-forgetting.html">Read the geometry of forgetting →</a>
+          </div>
+        </div>
+      </article>
+    </section>

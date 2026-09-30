@@ -11,7 +11,7 @@
   var slice = function (n) { return Array.prototype.slice.call(n); };
 
   /* ---- scroll-progress indicator ---- */
-  var bar = document.createElement('div');
+  var bar = document.querySelector('.scroll-progress') || document.createElement('div');
   bar.className = 'scroll-progress';
   document.body.appendChild(bar);
   var barTick = false;
@@ -23,6 +23,8 @@
   window.addEventListener('scroll', function () {
     if (!barTick) { barTick = true; requestAnimationFrame(barDraw); }
   }, { passive: true });
+  window.addEventListener('resize', barDraw, { passive: true });
+  if ('ResizeObserver' in window) new ResizeObserver(barDraw).observe(document.querySelector('main'));
   barDraw();
 
   /* ---- page chapters and the career timeline ---- */
@@ -58,12 +60,6 @@
       positions.forEach(function (rect, i) { if (rect.top <= readingLine) active = i; });
       var atBottom = window.pageYOffset + window.innerHeight >= root.scrollHeight - 2;
       if (atBottom) active = chapters.length - 1;
-
-      chapterLinks.forEach(function (a, i) {
-        var end = i + 1 < positions.length ? positions[i + 1].top : positions[i].bottom;
-        var progress = atBottom ? 1 : clamp((readingLine - positions[i].top) / Math.max(1, end - positions[i].top));
-        a.style.setProperty('--chapter-progress', progress.toFixed(3));
-      });
 
       if (active !== current || keepLinkVisible) {
         chapterLinks.forEach(function (a, i) {
@@ -103,6 +99,10 @@
           if (a.hash === '#' + entries[activeEntry].id) a.setAttribute('aria-current', 'step');
           else a.removeAttribute('aria-current');
         });
+        if (timeline.dataset.activeCareer !== entries[activeEntry].id) {
+          timeline.dataset.activeCareer = entries[activeEntry].id;
+          document.dispatchEvent(new CustomEvent('careerchange', { detail: entries[activeEntry].id }));
+        }
       }
     }
 

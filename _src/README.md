@@ -40,3 +40,26 @@ generated.
 
 GitHub Pages runs Jekyll, which skips underscore directories, so `_src` is
 never published.
+
+## Research experiences
+
+`experiences.js` contains independent initializers for the electrode hero,
+particle-to-network transition, microscope, hold-to-compress demo, three lab
+experiments, topic constellation, section artwork, project previews, and career
+object. `experiences.css` styles these components. `portal-transitions.js` animates
+publication illustrations around ordinary navigation to the two companion
+articles and back. It preserves modified clicks and restores the saved reading position;
+reduced motion or unavailable browser animation APIs use ordinary links.
+
+The Lab markup is in `research-lab.html`, inserted at `<!--#RESEARCH_LAB-->`.
+Other component markup lives in `pages/index.html`. Components carry
+`data-feature` attributes to make later review and removal easy. Initializers
+skip missing components, so removing a component's markup is sufficient; its
+initializer and styles can then be cleaned up. Rebuild afterward. Removing the Lab also
+requires removing its chapter link. Scientific demos explicitly state their
+simplifying assumptions; they do not present generated values as measurements.
+
+The shared animation loop pauses canvases offscreen and when the tab is hidden.
+The hero's motion control pauses the experiences, and reduced motion starts
+paused. The top line is the only page-progress indicator; chapter links indicate
+location. Section-local SVGs preserve their proportions at every viewport width.

@@ -32,7 +32,7 @@ const posts = JSON.parse(fs.readFileSync(path.join(SRC, 'posts.json'), 'utf8'))
 /* ---------- page configuration ---------- */
 const PAGES = {
   'index.html': {
-    nav: null, home: true, extraScripts: ['cite.js'],
+    nav: null, home: true, extraScripts: ['cite.js', 'experiences.js'],
     footerExtra: null, lastmod: '2026-09-30', priority: '1.0',
   },
   'cv.html': {
@@ -92,7 +92,8 @@ const HEAD_ASSETS = `  <meta name="theme-color" content="#fdfdfc">
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="${ver('styles.css')}">`;
+  <link rel="stylesheet" href="${ver('styles.css')}">
+  <link rel="stylesheet" href="${ver('experiences.css')}">`;
 
 const NAV_ITEMS = [
   ['research', 'Research', '#research'],
@@ -144,6 +145,7 @@ function scripts(cfg) {
   <script src="${ver('navigation.js')}"></script>
   <script src="${ver('media.js')}"></script>
   <script src="${ver('interactions.js')}"></script>
+  <script src="${ver('portal-transitions.js')}"></script>
 ${extras ? extras + '\n' : ''}  <script>
     window.addEventListener('load', function () {
       var s = document.createElement('script');
@@ -204,6 +206,7 @@ for (const file of fs.readdirSync(pagesDir)) {
     .replace('  <!--#SCRIPTS-->', scripts(cfg))
     .replace('<!--#POST_LIST-->', POST_LIST)
     .replace('<!--#POST_CARDS-->', POST_CARDS);
+  html = html.replace('<!--#RESEARCH_LAB-->', () => fs.readFileSync(path.join(SRC, 'research-lab.html'), 'utf8'));
   if (cfg.math) html = renderMath(html, file);
   if (/<!--#/.test(html)) throw new Error(`${file}: unresolved marker`);
   fs.writeFileSync(path.join(ROOT, file), html);
