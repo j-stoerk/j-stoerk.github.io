@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jev, Jeff, and the case for different output heads · Julius Störk</title>
+  <meta name="description" content="Jev turns model outputs into typed decisions. The interesting lesson for battery research is about interfaces and calibration, not a claim that every decision type needs its own neural head." />
+  <link rel="canonical" href="https://j-stoerk.github.io/post-jev-output-heads.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Julius Störk" />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-jev-output-heads.html" />
+  <meta property="og:title" content="Jev, Jeff, and the case for different output heads" />
+  <meta property="og:description" content="Typed decision interfaces point toward a useful architecture for manufacturing and continual learning, with an important caveat about what Jev's public materials show." />
+  <meta property="og:image" content="https://j-stoerk.github.io/social-card.png" />
+  <meta property="og:image:alt" content="One shared process representation branching into typed decision outputs" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="article:published_time" content="2026-09-27" />
+  <meta property="article:author" content="Julius Störk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/social-card.png" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Jev, Jeff, and the case for different output heads",
+      "description": "Typed decision interfaces point toward a useful architecture for manufacturing and continual learning, with an important caveat about what Jev's public materials show.",
+      "datePublished": "2026-09-27",
+      "dateModified": "2026-09-30",
+      "url": "https://j-stoerk.github.io/post-jev-output-heads.html",
+      "image": "https://j-stoerk.github.io/social-card.png",
+      "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
+    }
+  </script>
+
+  <!--#HEAD_ASSETS-->
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!--#TOPBAR-->
+
+  <main id="main" class="content">
+    <div class="page-art" aria-hidden="true">
+      <svg viewBox="0 0 1000 5200" preserveAspectRatio="none" fill="none">
+        <g class="art-wash">
+          <circle cx="175" cy="840" r="210" fill="#5a82be" fill-opacity=".12" />
+          <circle cx="850" cy="2400" r="250" fill="#e0a94a" fill-opacity=".12" />
+          <circle cx="180" cy="4100" r="230" fill="#8bbf6e" fill-opacity=".12" />
+        </g>
+        <g class="art-ink-soft">
+          <path d="M700 120 C 400 480 400 820 700 1120 M700 1120 C 1000 1480 1000 1820 700 2120 M700 2120 C 400 2480 400 2820 700 3120 M700 3120 C 1000 3480 1000 3820 700 4120" />
+        </g>
+        <g class="art-ink">
+          <circle cx="700" cy="120" r="24" /><circle cx="500" cy="520" r="20" /><circle cx="900" cy="520" r="20" />
+          <circle cx="700" cy="1120" r="24" /><circle cx="500" cy="1520" r="20" /><circle cx="900" cy="1520" r="20" />
+          <circle cx="700" cy="2120" r="24" /><circle cx="500" cy="2520" r="20" /><circle cx="900" cy="2520" r="20" />
+        </g>
+      </svg>
+    </div>
+    <a class="back-link" href="blog.html">All posts</a>
+    <article class="post" id="jev-output-heads">
+      <div class="post-cover media-cover">
+        <div class="media">
+          <svg class="cover-art" viewBox="0 0 1200 675" role="img" aria-label="A shared process representation branches into separate choice, score, and confidence decisions">
+            <defs>
+              <linearGradient id="jevSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#eef1f5"/><stop offset="100%" stop-color="#e4dccb"/></linearGradient>
+              <radialGradient id="jevBlue"><stop stop-color="#5a82be" stop-opacity=".25"/><stop offset="1" stop-color="#5a82be" stop-opacity="0"/></radialGradient>
+              <radialGradient id="jevGold"><stop stop-color="#e0a94a" stop-opacity=".25"/><stop offset="1" stop-color="#e0a94a" stop-opacity="0"/></radialGradient>
+            </defs>
+            <rect width="1200" height="675" fill="url(#jevSky)"/>
+            <ellipse cx="260" cy="230" rx="360" ry="300" fill="url(#jevBlue)"/><ellipse cx="1000" cy="440" rx="360" ry="290" fill="url(#jevGold)"/>
+            <g fill="none" stroke="#33465e" stroke-width="4" stroke-linecap="round"><path d="M600 278 C490 278 450 365 330 405 M600 278 V405 M600 278 C710 278 750 365 870 405"/></g>
+            <rect x="450" y="170" width="300" height="130" rx="22" fill="#fdfdfc" stroke="#33465e" stroke-width="3"/>
+            <rect x="180" y="405" width="300" height="125" rx="22" fill="#fdfdfc" stroke="#2f6fb0" stroke-width="3"/>
+            <rect x="450" y="405" width="300" height="125" rx="22" fill="#fdfdfc" stroke="#8b7756" stroke-width="3"/>
+            <rect x="720" y="405" width="300" height="125" rx="22" fill="#fdfdfc" stroke="#c07a4a" stroke-width="3"/>
+            <g fill="#33465e" text-anchor="middle" font-family="sans-serif"><text x="600" y="225" font-size="28" font-weight="700">Shared process state</text><text x="600" y="267" font-size="19">logs · measurements · history</text><text x="330" y="462" font-size="27" font-weight="700">Choice</text><text x="330" y="500" font-size="18">which action?</text><text x="600" y="462" font-size="27" font-weight="700">Score</text><text x="600" y="500" font-size="18">how much risk?</text><text x="870" y="462" font-size="27" font-weight="700">Noul</text><text x="870" y="500" font-size="18">trust this claim?</text></g>
+          </svg>
+        </div>
+        <div class="cover-text">
+          <p class="eyebrow"><time datetime="2026-09-27">27 September 2026</time> · AI research</p>
+          <h1 class="post-title">Jev, Jeff, and the case for different output heads</h1>
+        </div>
+      </div>
+
+      <div class="prose">
+        <p>There is a new model in town that does not write the answer. It returns probabilities over decisions you defined in advance. TypeSafe AI calls it <strong>Jev</strong>, its first “System One” model: a system for fast, structured judgments that software can consume directly. The useful idea is not that every workflow needs another chatbot. It is that a routing decision, a risk score, and a truth judgment are different questions, and should not have to pretend to be the same output.</p>
+
+        <p>TypeSafe describes Jev as taking a state and a set of typed questions, then evaluating the questions in parallel. Its public interface exposes three primitives: <em>Choice</em> selects among named options, <em>Score</em> places the state on an ordered rubric, and <em>Noul</em> estimates whether a yes/no statement is true. Choice and Score return probability distributions and confidence; Noul returns a probability. The documentation says each question is evaluated independently against the same state <sup class="cite">[<a href="#ref-2">2</a>]</sup>.</p>
+
+        <p>That is a different contract from asking a text model to “decide what to do,” receiving a paragraph, and parsing it back into an enum. It makes the boundary explicit: here are the possible actions; here is the evidence; give me a typed judgment I can route or threshold in code.</p>
+
+        <h2>Typed decisions are not automatically different neural heads</h2>
+
+        <p>The name of this post is a design proposal, not a claim about Jev’s implementation. TypeSafe says Jev uses a new model architecture, a parallel sampler, and a training method it calls Reinforcement Learning for Calibrated Decisions (RLCD) <sup class="cite">[<a href="#ref-1">1</a>]</sup>. The public material I found describes the interface and product claims, but does not disclose enough of the model internals to establish that Choice, Score, and Noul are separate neural output heads.</p>
+
+        <p>That distinction matters because there is already an open-source project called <strong>Jeff</strong>. It is an independent, Jev-compatible implementation. Its repository describes Jeff 1 as a LoRA adapter on Qwen3-4B that scores candidate labels using token probabilities. It supports Choice, Score, and Noul requests, but compatibility of the request format does not establish the same architecture, calibration, or performance as Jev <sup class="cite">[<a href="#ref-3">3</a>]</sup>.</p>
+
+        <p>So I would separate two ideas that are easy to conflate. A <em>typed decision interface</em> says what the software is allowed to receive. A <em>multi-head architecture</em> says how a model computes its outputs. The first can be valuable even when the second is not present. “Different output heads” is a useful direction for a system designer; it is not yet a factual description of Jev.</p>
+
+        <h2>The connection to continual learning</h2>
+
+        <p>This still reminds me of multi-head continual learning. In a task-incremental setup, each task can get its own classifier head while sharing a feature extractor. The separate heads keep task-specific labels apart in output space. Recent Neural Collapse analysis also studies what structure emerges within each task-specific head, while finding that the geometry between tasks is less constrained <sup class="cite">[<a href="#ref-4">4</a>]</sup>.</p>
+
+        <p>Jev’s primitives suggest a related separation, but along a different axis. Continual learning assigns heads by <em>task</em>; a decision system could separate outputs by <em>decision type</em>. A coating inspection might need a Choice among “continue,” “re-measure,” and “hold”; a Score on a defined risk rubric; and a Noul judgment about whether a particular sensor reading is plausible. Each output has its own semantics, errors, and consequences.</p>
+
+        <p>The analogy does not imply that each decision type must get an isolated encoder or even a separate learned head. It says that the output contract should match the decision. Keep a shared representation if the signals are useful across decisions, and separate the readouts or decision functions where their labels and error costs differ.</p>
+
+        <h2>What this could look like in battery manufacturing</h2>
+
+        <p>Manufacturing already combines multiple targets. Coating and calendering data may feed predictions for porosity or conductivity, quality labels such as pass/fail, scores for risk or priority, and meta-decisions about whether a prediction is trustworthy enough to act on. A system that turns all of those into free-form text and then parses the text has inserted an unnecessary translation step.</p>
+
+        <p>A practical architecture might share an encoder over process logs, sensor summaries, experiment metadata, and model outputs, then expose task-appropriate readouts:</p>
+
+        <ul>
+          <li>A classifier for a known quality or failure category.</li>
+          <li>A calibrated score for an ordered risk or priority rubric.</li>
+          <li>A yes/no confidence estimate for a narrowly phrased check, such as whether a measurement is consistent with its stated operating range.</li>
+          <li>A regression model for continuous quantities such as porosity or conductivity. Binning a continuous property into a score should be a deliberate choice, not a workaround.</li>
+          <li>A separate action policy that combines these outputs and decides whether to act, re-measure, or ask for review.</li>
+        </ul>
+
+        <p>The language model still has a job. It can help plan an investigation, explain why a measurement was flagged, and write the experiment record. Narrow, typed predictors can handle the repeated judgments. That division resembles “System One plus System Two,” but in practice it is a hybrid software design, not a claim that one model class can safely replace the other.</p>
+
+        <h2>Calibration is a measured property</h2>
+
+        <p>A typed output is not necessarily a correct output. A schema can guarantee that a result is one of the permitted labels; it cannot guarantee that the chosen label matches reality. Calibration is a separate empirical question. If a model reports 0.8 confidence, cases at that confidence should be right about 80% of the time on the population where the system will be used.</p>
+
+        <p>For a battery workflow, I would hold out data by campaign, material lot, or time period, then measure reliability, Brier score, and the rate of unsafe automatic actions at each escalation threshold. I would also re-check calibration after sensor replacement or process drift. A global score can hide a poorly calibrated chemistry or operating regime. The action threshold should be chosen from the cost of false actions and missed detections, not from a confidence value that merely looks high.</p>
+
+        <p>TypeSafe’s launch post presents calibrated decisions, speed, and reduced parsing errors as Jev’s advantages. Those are the company’s claims and a useful hypothesis for a system to test <sup class="cite">[<a href="#ref-1">1</a>]</sup>. The public technical details are still limited, and the published workflow evaluations are vendor-designed. Jeff’s public comparison is narrower still: it evaluates fact-checking examples and explicitly cautions that this does not establish broad equivalence or reliability on a new task <sup class="cite">[<a href="#ref-3">3</a>]</sup>.</p>
+
+        <p>The enduring lesson is simpler than the product pitch. A model does not have to speak prose for every piece of intelligence. Share representations where that helps; define separate outputs where the decisions differ; calibrate them on the data and operating conditions that matter; and keep the final action policy inspectable. Then let the language model explain the decision, rather than asking it to impersonate every decision system at once.</p>
+      </div>
+
+      <section class="post-sources">
+        <h3>Sources</h3>
+        <ol class="sources">
+          <li id="ref-1">Almeida, D. “<a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev" target="_blank" rel="noopener noreferrer">Introducing System One Models &amp; Jev</a>.” TypeSafe AI, 15 September 2026. Company description and launch claims.</li>
+          <li id="ref-2">TypeSafe AI. “<a href="https://docs.typesafe.ai/introduction" target="_blank" rel="noopener noreferrer">Introduction</a>.” Official documentation for typed questions and Choice, Score, and Noul.</li>
+          <li id="ref-3">Gestalt-Lab. “<a href="https://github.com/Gestalt-Lab/jeff" target="_blank" rel="noopener noreferrer">Jeff 1</a>.” Independent open-source Jev-compatible typed-decision model and implementation notes.</li>
+          <li id="ref-4">Lanzillotta, G., Meier, D., and Hofmann, T. “<a href="https://arxiv.org/abs/2512.07400" target="_blank" rel="noopener noreferrer">Heads Collapse, Features Stay: Why Replay Needs Big Buffers</a>.” arXiv:2512.07400v2.</li>
+          <li>Störk, J. “<a href="post-geometry-of-forgetting.html">The geometry of forgetting in continual learning</a>.” Portfolio note, with <a href="forgetting-geometry.pdf">draft manuscript</a>.</li>
+        </ol>
+      </section>
+    </article>
+
+    <nav class="post-pager" aria-label="More posts">
+      <a href="post-disco-dry-run.html">
+        <span class="eyebrow">Next post</span>
+        <span class="post-pager-title">Turning my research into operating skills: an offline DisCo dry run</span>
+      </a>
+    </nav>
+  </main>
+
+  <!--#FOOTER-->
+
+  <!--#SCRIPTS-->
+</body>
+
+</html>

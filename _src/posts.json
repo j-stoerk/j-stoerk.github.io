@@ -1,5 +1,29 @@
 [
   {
+    "file": "post-disco-dry-run.html",
+    "title": "Turning my research into operating skills: an offline DisCo dry run",
+    "iso": "2026-09-30",
+    "display": "30 September 2026",
+    "category": "AI agents",
+    "minutes": 8,
+    "summary": "I tried DisCo's Creator workflow on my calendering and continual-learning work. The CLI could not be installed here, but a source-grounded dry run exposed what an agent can and cannot reproduce from a portfolio.",
+    "feedDescription": "An offline DisCo Creator-style dry run on two research threads: source-grounded candidate skills, honest verification gaps, and why a portfolio is not yet a reproducible experiment repository.",
+    "rfc822": "Wed, 30 Sep 2026 08:00:00 +0200",
+    "lastmod": "2026-09-30"
+  },
+  {
+    "file": "post-jev-output-heads.html",
+    "title": "Jev, Jeff, and the case for different output heads",
+    "iso": "2026-09-27",
+    "display": "27 September 2026",
+    "category": "AI research",
+    "minutes": 9,
+    "summary": "Jev turns model outputs into typed decisions. The interesting lesson for battery research is about interfaces and calibration, not a claim that every decision type needs its own neural head.",
+    "feedDescription": "Jev and Jeff suggest an interface for machine-consumable decisions. I connect typed outputs to multi-head continual learning and battery manufacturing, while separating interface guarantees from architecture and empirical calibration.",
+    "rfc822": "Sun, 27 Sep 2026 08:00:00 +0200",
+    "lastmod": "2026-09-30"
+  },
+  {
     "file": "post-convmem.html",
     "title": "Reading ConvMem: long-context reasoning as a summary tree",
     "iso": "2026-09-13",

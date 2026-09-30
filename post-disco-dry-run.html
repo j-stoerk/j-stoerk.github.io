@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Turning my research into operating skills: an offline DisCo dry run · Julius Störk</title>
+  <meta name="description" content="I tried DisCo's Creator workflow on my calendering and continual-learning work. The CLI could not be installed here, but a source-grounded dry run exposed what an agent can and cannot reproduce from a portfolio." />
+  <link rel="canonical" href="https://j-stoerk.github.io/post-disco-dry-run.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Julius Störk" />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-disco-dry-run.html" />
+  <meta property="og:title" content="Turning my research into operating skills: an offline DisCo dry run" />
+  <meta property="og:description" content="A source-grounded dry run on two research threads, and what it takes to turn a portfolio into reproducible operating knowledge." />
+  <meta property="og:image" content="https://j-stoerk.github.io/social-card.png" />
+  <meta property="og:image:alt" content="A skill graph connecting evidence to calendering and continual-learning workflows" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="article:published_time" content="2026-09-30" />
+  <meta property="article:author" content="Julius Störk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/social-card.png" />
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Turning my research into operating skills: an offline DisCo dry run",
+      "description": "A source-grounded dry run on two research threads, and what it takes to turn a portfolio into reproducible operating knowledge.",
+      "datePublished": "2026-09-30",
+      "dateModified": "2026-09-30",
+      "url": "https://j-stoerk.github.io/post-disco-dry-run.html",
+      "image": "https://j-stoerk.github.io/social-card.png",
+      "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
+    }
+  </script>
+
+  <meta name="theme-color" content="#fdfdfc">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Applied before first paint so the theme never flashes. -->
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('theme'); } catch (e) { }
+      if (!t) t = 'light';   // light is the standard; dark only on explicit toggle
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'dark' ? '#101214' : '#fdfdfc');
+    })();
+  </script>
+
+  <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=14ea90c3">
+</head>
+
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="site-title" href="index.html">Home</a>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+        <span class="nav-toggle-lines" aria-hidden="true"></span>
+        <span class="sr-only">Open navigation</span>
+      </button>
+      <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
+        <a href="index.html#research">Research</a>
+        <a href="index.html#publications">Publications</a>
+        <a href="index.html#experience">Experience</a>
+        <a href="cv.html">CV</a>
+        <a class="current" href="blog.html" aria-current="page">Blog</a>
+        <a href="index.html#contact">Contact</a>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="content">
+
+    <div class="page-art" aria-hidden="true">
+      <svg viewBox="0 0 1000 5200" preserveAspectRatio="none" fill="none">
+        <g class="art-wash">
+          <circle cx="190" cy="800" r="210" fill="#5a82be" fill-opacity=".12" />
+          <circle cx="830" cy="2100" r="250" fill="#e0a94a" fill-opacity=".12" />
+          <circle cx="180" cy="3800" r="240" fill="#8bbf6e" fill-opacity=".12" />
+        </g>
+        <g class="art-ink-soft">
+          <path d="M700 720 C 370 1050 370 1280 700 1510 S 1030 1980 700 2210 S 370 2680 700 2910 S 1030 3380 700 3610 S 370 4080 700 4310" />
+        </g>
+        <g class="art-ink">
+          <circle cx="700" cy="720" r="30" /><circle cx="480" cy="1140" r="24" /><circle cx="920" cy="1140" r="24" />
+          <circle cx="700" cy="1510" r="30" /><circle cx="480" cy="1930" r="24" /><circle cx="920" cy="1930" r="24" />
+          <circle cx="700" cy="2300" r="30" /><circle cx="480" cy="2720" r="24" /><circle cx="920" cy="2720" r="24" />
+        </g>
+      </svg>
+    </div>
+    <a class="back-link" href="blog.html">All posts</a>
+    <article class="post" id="disco-dry-run">
+      <div class="post-cover media-cover">
+        <div class="media">
+          <svg class="cover-art" viewBox="0 0 1200 675" role="img" aria-label="A central research source routes to two reusable skill notes">
+            <defs>
+              <linearGradient id="dcSky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#eef1f5"/><stop offset="100%" stop-color="#e4dccb"/>
+              </linearGradient>
+              <radialGradient id="dcA"><stop stop-color="#5a82be" stop-opacity=".25"/><stop offset="1" stop-color="#5a82be" stop-opacity="0"/></radialGradient>
+              <radialGradient id="dcB"><stop stop-color="#e0a94a" stop-opacity=".25"/><stop offset="1" stop-color="#e0a94a" stop-opacity="0"/></radialGradient>
+            </defs>
+            <rect width="1200" height="675" fill="url(#dcSky)"/>
+            <ellipse cx="280" cy="200" rx="360" ry="280" fill="url(#dcA)"/>
+            <ellipse cx="960" cy="470" rx="360" ry="260" fill="url(#dcB)"/>
+            <g fill="none" stroke="#33465e" stroke-width="4" stroke-linecap="round">
+              <path d="M600 245 C440 245 390 340 300 390 M600 245 C760 245 810 340 900 390"/>
+              <path d="M300 390 V470 M900 390 V470" stroke-dasharray="8 12" stroke-opacity=".45"/>
+            </g>
+            <rect x="485" y="165" width="230" height="160" rx="22" fill="#fdfdfc" stroke="#33465e" stroke-width="3"/>
+            <rect x="145" y="390" width="310" height="160" rx="22" fill="#fdfdfc" stroke="#2f6fb0" stroke-width="3"/>
+            <rect x="745" y="390" width="310" height="160" rx="22" fill="#fdfdfc" stroke="#c07a4a" stroke-width="3"/>
+            <g fill="#33465e" text-anchor="middle" font-family="sans-serif">
+              <text x="600" y="230" font-size="27" font-weight="700">Research sources</text>
+              <text x="600" y="272" font-size="19">posts + draft PDFs</text>
+              <text x="300" y="455" font-size="26" font-weight="700">Calendering</text>
+              <text x="300" y="495" font-size="18">measurement → fit → checks</text>
+              <text x="900" y="455" font-size="26" font-weight="700">Continual learning</text>
+              <text x="900" y="495" font-size="18">task stream → retention → checks</text>
+            </g>
+          </svg>
+        </div>
+        <div class="cover-text">
+          <p class="eyebrow"><time datetime="2026-09-30">30 September 2026</time> · AI agents</p>
+          <h1 class="post-title">Turning my research into operating skills: an offline DisCo dry run</h1>
+        </div>
+      </div>
+
+      <div class="prose">
+        <p>There is a particular kind of déjà vu in asking an AI agent to help with research. It can explain a model, derive an equation, and write a training loop. Then, next week, it has to rediscover which metric matters, which plot catches a broken assumption, and why one result should not be called a validation.</p>
+
+        <p>DisCo proposes a practical fix: distill the operating knowledge around a source into a small graph of reusable skills. A Creator scopes a source, gathers evidence, builds the skills, then verifies them. A Researcher later loads only the relevant parts. I wanted to see what that would look like on my own work, rather than another generic repository.</p>
+
+        <div class="callout">
+          <strong>What I could actually run.</strong> I tried to launch the DisCo Creator CLI, but this environment could not fetch its package from the npm registry (`ENOTCACHED`), and no model-provider key was configured in the shell. So this is an offline Creator-style dry run over the files already in my portfolio, not a DisCo-generated or DisCo-verified result. The distinction matters: I can inspect whether the source contains enough evidence to make useful skills, but I cannot claim the agent produced or executed them.
+        </div>
+
+        <h2>Two anchors, one small graph</h2>
+
+        <p>I chose two task-agnostic anchors from the portfolio. The first is my calendering work: why electrode through-plane thermal conductivity falls and then rises with compaction, and how a compression-aware closure captures that U-shape. The second is my continual-learning work: how task interference relates to forgetting, and how IGFA gates or projects updates to protect earlier tasks.</p>
+
+        <p>For each, I used the blog post as the readable map and the linked draft PDF as the primary local evidence. The posts are useful, but they also include interactive figures. Those figures are not all experimental results: for example, the calendering curves and the two-dimensional IGFA widget are explicitly schematic. A skill that does not preserve that distinction would make the portfolio less reliable, not more.</p>
+
+        <figure class="pub-figure">
+          <svg viewBox="0 0 600 210" role="img" aria-labelledby="graph-title">
+            <title id="graph-title">One router skill points to calendering and continual-learning skills</title>
+            <g fill="none" stroke="var(--color-divider)" stroke-width="3"><path d="M300 80 L155 145 M300 80 L445 145"/></g>
+            <rect x="205" y="22" width="190" height="62" rx="12" fill="var(--color-surface-2)" stroke="var(--color-primary)" stroke-width="2"/>
+            <rect x="50" y="133" width="210" height="62" rx="12" fill="var(--color-surface-2)" stroke="var(--color-primary)" stroke-width="2"/>
+            <rect x="340" y="133" width="210" height="62" rx="12" fill="var(--color-surface-2)" stroke="var(--color-primary)" stroke-width="2"/>
+            <g fill="var(--color-text)" text-anchor="middle" font-family="sans-serif" font-size="17">
+              <text x="300" y="60">research-router</text><text x="155" y="170">calendering-conductivity</text><text x="445" y="170">continual-learning-igfa</text>
+            </g>
+          </svg>
+          <figcaption>The candidate graph routes from one short entry point to two domain-specific workflow notes.</figcaption>
+        </figure>
+
+        <p>The resulting candidate graph has a router and two operating notes. The router asks the agent to identify which research thread the task concerns, open only that skill, and keep claims separate if a task crosses both domains. That is a deliberately small graph: the GLEE agent post is another distinct workflow, and mixing it in would add breadth without enough evidence for this first pass.</p>
+
+        <h2>What the skills preserve</h2>
+
+        <p>The calendering note starts with the measurement target. The draft calibrates apparent through-plane coating conductivity derived from laser-flash analysis after current-collector subtraction. It reports four electrode families over 27 calendering states. A reusable procedure should keep the target and preprocessing fixed, compare the staged closures, separate in-sample from held-out error, and inspect parameter identifiability before interpreting fitted values.</p>
+
+        <p>That last check changes how the headline result should travel. The draft reports 4.5% in-sample MAPE and 7.8% leave-one-state-out error. It also says the graphite reorientation explanation is not uniquely identified from conductivity alone; same-sheet XRD texture is proposed as a way to distinguish it from a contact-only account. A future agent should carry those boundaries with the number, not just repeat the number.</p>
+
+        <p>The IGFA note begins with a regime check. In the frozen-feature setting, the draft's interference functional gives an exact expression for forgetting. When features move during end-to-end training, it becomes an approximation. The skill then asks for the task order, feature extractor, seeds, baselines, accuracy, and forgetting together. It also records the cost of protection: projecting a gradient can slow learning, while repeated protection can consume the available subspace.</p>
+
+        <p>It also prevents a particularly easy mistake. The interactive widget uses a made-up two-dimensional covariance to show how a gate behaves. The draft separately reports Rotated-Digits benchmark outcomes over five seeds. An agent should not use the widget as a benchmark, or turn the reported result into a claim of independent reproduction.</p>
+
+        <h2>The verification gap is the result</h2>
+
+        <p>The most useful finding from this exercise was what the portfolio cannot yet do. It contains posts and draft PDFs, but not the original calendering data, fit code, pinned environment, continual-learning benchmark implementation, or per-seed outputs. I could write sensible procedures and evidence checks. I could not wrap the actual workflows in stable scripts or run assertion-backed cases against them.</p>
+
+        <p>I recorded that as a gap instead of filling it with invented commands. The candidate skills say exactly which inputs are missing, which reported results remain manuscript claims, and which figures are illustrative. They are useful operating notes for reading and planning. They are not executable research skills yet.</p>
+
+        <p>This is where the distinction between a skill library and a stack of summaries becomes concrete. A summary says what the paper found. An operating skill also says what to load, what to run, which assumption controls the interpretation, what would count as a check, and when the evidence is insufficient. If the data and implementation are not available, “blocked” is part of the useful output.</p>
+
+        <h2>What I would do with a working Creator</h2>
+
+        <p>Once the CLI and provider are available, the next pass is straightforward: give Creator the source repositories alongside these papers, have it verify the two graphs against small native examples, then open a fresh Researcher session with one narrow task per graph. For calendering, that could be a held-out-state prediction with the preprocessing recorded. For IGFA, it could be a matched-seed benchmark rerun with the feature regime and buffer budget fixed.</p>
+
+        <p>Until then, this dry run still paid for itself. It exposed the difference between having research conclusions in a portfolio and having the materials needed to repeat the work. The first is enough to explain a result. The second is what lets an agent help produce the next one.</p>
+      </div>
+
+      <section class="post-sources">
+        <h3>Sources</h3>
+        <ol class="sources">
+          <li><a href="https://arxiv.org/abs/2609.02749" target="_blank" rel="noopener noreferrer">Chen et al., “Repo-To-Skill: Distilling GitHub Repositories Into AI4AI Skills” (DisCo), arXiv:2609.02749, 2026.</a></li>
+          <li><a href="https://github.com/VectorSpaceLab/AREX-Skill" target="_blank" rel="noopener noreferrer">AREX-Skill / DisCo repository and Creator workflow documentation.</a></li>
+          <li><a href="https://j-stoerk.github.io/post-calendering-u-shape.html">My calendering U-shape note</a> and local draft, <a href="zehner-closure.pdf">Capturing the Calendering U-Shape in Lithium-Ion Electrode Thermal Conductivity</a>.</li>
+          <li><a href="https://j-stoerk.github.io/post-geometry-of-forgetting.html">My geometry-of-forgetting note</a> and local draft, <a href="forgetting-geometry.pdf">Interference and Retention in Continual Learning</a>.</li>
+        </ol>
+      </section>
+    </article>
+
+    <nav class="post-pager" aria-label="More posts">
+      <a href="post-convmem.html">
+        <span class="eyebrow">Next post</span>
+        <span class="post-pager-title">Reading ConvMem: long-context reasoning as a summary tree</span>
+      </a>
+    </nav>
+  </main>
+
+  <footer class="content">
+    <span>© 2026 Julius Störk</span>
+    <span><a href="blog.html">All posts</a></span>
+  </footer>
+
+  <script src="theme.js?v=e512a566"></script>
+  <script src="navigation.js?v=82ad0181"></script>
+  <script src="media.js?v=94604095"></script>
+  <script src="interactions.js?v=cc839e91"></script>
+  <script src="blog.js?v=119b9d1e"></script>
+  <script>
+    window.addEventListener('load', function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://gc.zgo.at/count.js';
+      s.setAttribute('data-goatcounter', 'https://jstoerk.goatcounter.com/count');
+      document.body.appendChild(s);
+    });
+  </script>
+</body>
+
+</html>
