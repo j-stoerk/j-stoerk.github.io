@@ -77,15 +77,35 @@
     const buttons = $$('[data-topic]'), panels = $$('.atlas-panel');
     if (!buttons.length) return;
     const stories = panels.filter(panel => panel.id !== 'atlas-latest').flatMap(panel => $$('.atlas-story', panel));
+    const intros = new Map($$('.atlas-intro').map(intro => [intro, intro.textContent.trim()]));
+    function fitIntros() {
+      const panel = panels.find(p => p.dataset.active === 'true');
+      if (!panel) return;
+      $$('.atlas-story:not([hidden]) .atlas-intro', panel).forEach(intro => {
+        const full = intros.get(intro);
+        intro.textContent = full; delete intro.dataset.truncated;
+        if (!intro.clientWidth || intro.scrollHeight <= intro.clientHeight + 1) return;
+        const words = full.split(/\s+/);
+        let lo = 0, hi = words.length;
+        while (lo < hi) {
+          const mid = Math.ceil((lo + hi) / 2);
+          intro.textContent = words.slice(0, mid).join(' ') + ' [...]';
+          if (intro.scrollHeight <= intro.clientHeight + 1) lo = mid; else hi = mid - 1;
+        }
+        intro.textContent = words.slice(0, lo).join(' ') + ' [...]';
+        intro.dataset.truncated = 'true';
+      });
+    }
     let lastPick;
     function select(button) {
       buttons.forEach(b => b.setAttribute('aria-pressed', String(b === button)));
       panels.forEach(panel => {
         panel.dataset.active = String(panel.id === button.getAttribute('aria-controls'));
         delete panel.dataset.featured;
-        $$('.atlas-story', panel).forEach(story => { story.hidden = false; });
+        $$('.atlas-story', panel).forEach(story => { story.hidden = story.dataset.preview !== 'true'; });
       });
       $('#atlas-trail').textContent = $('strong', button).textContent + ' / ' + $('small', button).textContent;
+      fitIntros();
     }
     buttons.forEach(button => button.addEventListener('click', () => select(button)));
     $('[data-atlas-surprise]')?.addEventListener('click', () => {
@@ -98,7 +118,12 @@
       panel.dataset.featured = 'true';
       $$('.atlas-story', panel).forEach(story => { story.hidden = story !== pick; });
       $('#atlas-trail').textContent = $('span', button).textContent + ' / ' + $('strong', button).textContent + ' / A lucky find: ' + $('strong', pick).textContent;
+      fitIntros();
     });
+    requestAnimationFrame(fitIntros);
+    document.fonts?.ready.then(fitIntros);
+    window.addEventListener('resize', fitIntros, { passive: true });
+    if ('ResizeObserver' in window) new ResizeObserver(fitIntros).observe($('#atlas-work'));
   })();
 
   // Section-local vector art preserves its aspect ratio on every viewport.

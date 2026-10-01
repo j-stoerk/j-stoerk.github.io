@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 338" role="img" aria-label="Illustrative impedance arcs and cycling response curves">
+  <defs><linearGradient id="paper" x2="0" y2="1"><stop stop-color="#eef1f5"/><stop offset=".6" stop-color="#ecebe2"/><stop offset="1" stop-color="#e4dccb"/></linearGradient></defs>
+  <rect width="600" height="338" fill="url(#paper)"/>
+  <g fill="none" stroke="#33465e" stroke-width="2"><path d="M54 75v178h235M343 75v178h213"/><path d="M54 130h235m-235 60h235M343 130h213m-213 60h213" stroke-opacity=".1"/></g>
+  <g fill="none" stroke-linecap="round" stroke-width="3.5">
+    <path d="M71 244C73 133 158 117 187 220L220 171" stroke="#2f6fb0"/>
+    <path d="M71 244C77 158 137 145 164 231L209 183" stroke="#a9762c"/>
+    <path d="M358 102C401 112 445 122 548 145" stroke="#2f6fb0"/>
+    <path d="M358 109C411 127 462 142 548 181" stroke="#a9762c"/>
+  </g>
+  <g fill="#33465e" font-family="sans-serif" font-size="18"><text x="54" y="62">−Im(Z)</text><text x="238" y="280">Re(Z)</text><text x="343" y="62">Capacity</text><text x="503" y="280">Cycles</text></g>
+</svg>

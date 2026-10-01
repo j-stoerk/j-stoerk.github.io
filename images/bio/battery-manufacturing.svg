@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 338" role="img" aria-label="Electrode production from coating through calendering to cell assembly">
+  <defs>
+    <linearGradient id="paper" x2="0" y2="1"><stop stop-color="#eef1f5"/><stop offset=".6" stop-color="#ecebe2"/><stop offset="1" stop-color="#e4dccb"/></linearGradient>
+    <linearGradient id="roll" x2="0" y2="1"><stop stop-color="#f5f5ef"/><stop offset=".5" stop-color="#a5bfd3"/><stop offset="1" stop-color="#7393af"/></linearGradient>
+  </defs>
+  <rect width="600" height="338" fill="url(#paper)"/>
+  <g fill="none" stroke="#33465e" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M35 224h410" stroke="#8697a5" stroke-width="6"/>
+    <path d="M110 216h335" stroke="#2f6fb0" stroke-width="8"/>
+    <path d="M76 86h88v60l-35 23-35-23z" fill="#d5e1e9"/>
+    <path d="M110 161v49h20v-49" fill="#5a82be"/>
+    <rect x="250" y="120" width="132" height="49" rx="24" fill="url(#roll)"/>
+    <rect x="250" y="235" width="132" height="49" rx="24" fill="url(#roll)"/>
+    <path d="M274 120v49m84-49v49M274 235v49m84-49v49" stroke-opacity=".35"/>
+    <rect x="477" y="135" width="76" height="130" rx="12" fill="#f2f1e9"/>
+    <path d="M498 135v-10h34v10"/>
+    <path d="M491 155h48m-48 15h48m-48 15h48m-48 15h48m-48 15h48m-48 15h48m-48 15h48" stroke="#5a82be" stroke-width="7"/>
+    <path d="M192 93h31m-7-6 7 6-7 6M404 93h31m-7-6 7 6-7 6" stroke="#a9762c"/>
+    <path d="M316 86v24m-5-7 5 7 5-7" stroke="#a9762c"/>
+  </g>
+  <g fill="#33465e" font-family="sans-serif" font-size="19" text-anchor="middle"><text x="121" y="308">Coating</text><text x="316" y="308">Calendering</text><text x="515" y="308">Cell assembly</text></g>
+</svg>

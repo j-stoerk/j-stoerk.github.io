@@ -61,8 +61,10 @@ reduced motion or unavailable browser animation APIs use ordinary links.
 The Blog explorer lives in `research-atlas.html`, inserted at `<!--#RESEARCH_ATLAS-->`.
 The builder generates its article links from `posts.json`; every post needs a
 `trail` of `materials`, `learning`, `modelling`, or `automation`. JavaScript selects
-the visible topic panel. Surprise me features one random post under its matching
-topic, avoiding an immediate repeat. All post links remain available without JavaScript.
+the visible topic panel. Each topic previews its two newest posts in a fixed-height
+row, with long introductions shortened to fit and marked with `[...]`. Surprise me
+features one random post from the full collection under its matching topic,
+avoiding an immediate repeat. The full archive remains linked through All posts.
 Other component markup lives in `pages/index.html`. Components carry
 `data-feature` attributes to make later review and removal easy. Initializers
 skip missing components, so removing a component's markup is sufficient; its

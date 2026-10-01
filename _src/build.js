@@ -184,16 +184,16 @@ const POST_LIST = `<div id="blog-posts" class="journal-index journal-index-page"
 ${posts.map((p) => postEntry(p, true, 6)).join('\n')}
     </div>`;
 
-function trailStory(p) {
-  return `<a class="atlas-story" data-post="${p.file}" href="${p.file}"><img src="${postCover(p)}" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>${p.display} &middot; ${p.category}</small><strong>${p.title}</strong><span>${p.summary}</span><em>Read the notes &#8599;</em></span></a>`;
+function trailStory(p, preview = true) {
+  return `<a class="atlas-story" data-post="${p.file}" data-preview="${preview}"${preview ? '' : ' hidden'} href="${p.file}"><img src="${postCover(p)}" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>${p.display} &middot; ${p.category}</small><strong>${p.title}</strong><span class="atlas-intro">${p.summary}</span><em>Read the notes &#8599;</em></span></a>`;
 }
-const BLOG_LATEST = posts.slice(0, 2).map(trailStory).join('\n              ');
+const BLOG_LATEST = posts.slice(0, 2).map(p => trailStory(p)).join('\n              ');
 const TRAILS = { materials: 'Materials', learning: 'Learning', modelling: 'Modelling', automation: 'Automation' };
 for (const p of posts) {
   if (!TRAILS[p.trail]) throw new Error(`${p.file}: missing or invalid blog trail`);
 }
 const BLOG_TRAILS = Object.entries(TRAILS).map(([trail, label]) =>
-  `<div class="atlas-panel" id="atlas-${trail}" role="region" aria-label="${label} blog posts">\n              ${posts.filter(p => p.trail === trail).map(trailStory).join('\n              ')}\n            </div>`
+  `<div class="atlas-panel" id="atlas-${trail}" role="region" aria-label="${label} blog posts">\n              ${posts.filter(p => p.trail === trail).map((p, i) => trailStory(p, i < 2)).join('\n              ')}\n            </div>`
 ).join('\n            ');
 
 /* ---------- build pages ---------- */
