@@ -48,15 +48,23 @@ content expands or JavaScript is unavailable. A horizontal mask softens artwork
 under the reading column. Edit the dedicated SVGs rather than the generated assets.
 `blog-view.js` switches between the list and tiles and remembers the selection.
 
-Once Cactus is registered, posts get the compact comment section from `comments.html`;
+Once the comments Worker and Turnstile are configured, posts get the compact comment section from `comments.html`;
 the home page gets the inline message form from `contact-form.html`. Public integration settings
 live in `community.json`. See [service activation instructions](../_services/README.md)
-for registering Cactus and managing the Formspree destination. Comments remain
-hidden until a Cactus site is registered. The contact form posts directly
+for deploying the Cloudflare Worker/D1 service and managing the Formspree destination. Comments remain
+hidden until a public Turnstile site key is configured. The contact form posts directly
 to the configured Formspree endpoint using standard HTML. `contact.js` expands
 the form beside Contact (below it on mobile) and prefills an editable name from
-the configured homeserver's local Cactus identity without contacting Matrix.
+the confirmed local comment identity without contacting the comments service.
 Closing the form preserves edits. Email remains available without JavaScript.
+
+`comment-identity.js` shares the local identity between `comments.js` and
+`contact.js`. Comment reads are anonymous; the first Post asks for a display name,
+then verifies Turnstile. Later posts remember the identity. Optional encrypted
+identity files can be restored on another device. The build exports the post
+allowlist and a standalone dashboard Worker to `_services/comments/`; redeploy
+the Worker after adding a post. Keep server secrets in Cloudflare, never in
+`community.json`.
 
 The shared header order lives in `NAV_ITEMS`. Local HTML links carry a `nav`
 version derived from that list so switching pages refreshes documents cached

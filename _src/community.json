@@ -1,8 +1,7 @@
 {
   "comments": {
-    "homeserverUrl": "https://matrix.cactus.chat:8448",
-    "serverName": "cactus.chat",
-    "siteName": ""
+    "endpoint": "https://rapid-fog-462d.julius-stoerk.workers.dev",
+    "turnstileSiteKey": ""
   },
   "contact": {
     "endpoint": "https://formspree.io/f/xkjgapaj"

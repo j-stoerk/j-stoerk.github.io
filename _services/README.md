@@ -1,97 +1,155 @@
-# Comments and private messages
+# Blog comments and private messages
 
-The contact form is connected to the supplied Formspree endpoint. Blog comments
-still need a Cactus site registration in `_src/community.json` before activation.
-No API key, Gmail credential, or owner Matrix token belongs in the static site.
+Comments use `rapid-fog-462d.julius-stoerk.workers.dev` and the D1 database
+`j-stoerk-comments`, bound to the Worker as `DB`. Private messages continue to use
+Formspree. No custom domain is needed for either integration.
 
-## Comments: Cactus + Matrix
+## Activate comments in the Cloudflare dashboard
 
-You do not need to buy a domain: `j-stoerk.github.io` can use the public Cactus
-service. The site name is a unique label, not a domain name. Only you need a
-regular Matrix account for moderation; visitors use the site's guest flow.
-Comments are omitted from the generated pages while `comments.siteName` is empty.
+The database and `DB` binding already exist. The initial `comments` table uses
+`id`, `page`, `visitor_id`, `username`, `message`, and `created_at`.
+The supplied prototype Worker can read/write that table, but the production
+frontend also needs the upgrade below for Turnstile, identities, and safe retries.
 
-1. Create a **regular Matrix account** in a client such as Element. This is your
-   moderation account; visitors do not need accounts.
-2. Follow the [Cactus quick start](https://cactus.chat/docs/getting-started/quick-start/):
-   message `@cactusbot:cactus.chat` with `register j-stoerk-portfolio` (or another
-   available site name). Wait for a successful registration reply, then accept
-   and keep the resulting moderation room. If the name is taken, try another
-   name and use that exact registered label below. If the bot cannot be reached
-   or does not confirm registration, stop before changing the website config.
-3. In `_src/community.json`, set `comments.siteName` to the **registered** name.
-   `homeserverUrl` and `serverName` must identify that Cactus service. The public
-   server's documented defaults are supplied, but its endpoint could not be
-   reached from this workspace during implementation. Confirm the service is
-   reachable before activation; otherwise use a
-   [self-hosted Cactus service](https://cactus.chat/docs/server/self-host/) on a
-   guest-enabled Matrix homeserver and replace both server settings. A generic
-   Matrix account/server by itself does not create Cactus comment rooms.
-4. Rebuild: `node _src/build.js`. Commit and push the generated pages too.
-5. Open one post in a private browser window, post a comment, and verify its
-   display name and visibility from a second browser. Then verify another post
-   asks for no new name in the first browser. Moderate/redact the test comment
-   in Matrix and refresh the website to confirm removal.
+1. Open **Storage & databases → D1 → j-stoerk-comments → Console**.
+   Run [migrations/0001_comments.sql](comments/migrations/0001_comments.sql)
+   **once**, statement by statement if the console requires it. It keeps the
+   original table and existing rows, adds `request_id` and `hidden`, and creates
+   the `identities` and `rate_limits` tables and indexes. Do not drop the original
+   table. Afterward, `PRAGMA table_info(comments);` should include the two new
+   columns. This migration also works on a fresh database.
+2. Open **Workers & Pages → rapid-fog-462d → Bindings**. Confirm the D1 binding
+   has variable name **DB** and database **j-stoerk-comments**. These names are
+   already correct in your setup. [Cloudflare's binding instructions](https://developers.cloudflare.com/d1/get-started/).
+3. Open **Turnstile → Add widget**. Choose **Managed**, add hostname
+   **j-stoerk.github.io** (without `https://` or a path), and create it.
+   Copy both keys. The **site key is public** and goes into the website config;
+   the **secret key stays in Cloudflare**.
+   [Turnstile setup instructions](https://developers.cloudflare.com/turnstile/get-started/).
+4. In the Worker's **Settings → Variables and Secrets**, add a **Secret** named
+   **TURNSTILE_SECRET_KEY** containing the widget's secret key. Optionally add
+   a text variable **SITE_ORIGIN** with `https://j-stoerk.github.io`; this is also
+   the code's default. Save/deploy the settings. Do not put the secret in GitHub.
+5. In the Worker's **Edit code**, replace the prototype with the entire generated
+   [comments/worker.js](comments/worker.js), then **Deploy**. This single file
+   needs no imports or npm dependencies. Use `rapid-fog-462d`, leaving the earlier
+   contact Worker alone.
+6. Open this read-only check:
+   `https://rapid-fog-462d.julius-stoerk.workers.dev/comments?page=post-geometry-of-forgetting`.
+   An empty working database returns:
+   `{"ok":true,"comments":[],"nextCursor":null}`.
+   A 503 means the secret, binding, or migration is missing or unavailable.
+   The prototype's response lacks `nextCursor`, so it is not the upgraded API.
+7. Set **comments.turnstileSiteKey** to the public widget site key in
+   [_src/community.json](../_src/community.json). Keep the supplied endpoint.
+   Rebuild and push the generated pages:
 
-The custom, dependency-free frontend uses Cactus's room alias convention
-`#comments_<siteName>_<post-slug>:<serverName>` and standard Matrix events.
-Comment loading is lazy; it creates/reuses a guest session to read the room.
-The first **Post** asks only for a display name and sets the guest's Matrix
-`displayname` before joining/sending. Subsequent posts reuse that identity across
-posts and visits in the same browser. Browser storage restrictions/clearing or
-expired guest credentials can require a new identity. Names are chosen labels,
-not verified real-world identities.
+   ```powershell
+   node _src/build.js
+   node --test _services/comments/worker.test.mjs
+   python _src/check.py
+   ```
 
-An optional identity file uses AES-256-GCM with a random salt/IV and a passphrase
-key derived with PBKDF2-SHA-256 (210,000 iterations). Restore verifies the Matrix
-user/token before saving it locally. Transfer the encrypted file privately and
-retain its passphrase; it gives the same identity across browsers/devices without
-adding a separate signup service. Losing both browser credentials and the file
-loses that guest identity. Rotate/revoke compromised guest credentials through
-the homeserver; moderation bans also apply to restored identities.
+   You can send the public site key to the portfolio maintainer to complete this
+   step. Comments are omitted while it is empty, so no unavailable placeholder
+   appears on the site.
+8. In a private browser window, post a comment. The first Post asks only for a
+   display name; Turnstile runs when posting and may request a verification click.
+   Check the comment from another browser, then post on a different article in
+   the first browser. It should remember the name without another name prompt.
+   Refresh to confirm persistence. Hide the test comment with the SQL below.
 
-Comments are public, plain text. HTML is never injected. Existing Matrix edits
-and redactions are reflected on refresh for the loaded event range. Use the
-[Cactus moderation room](https://cactus.chat/docs/getting-started/moderation/)
-for bans and moderator permissions. Cactus does not provide an approval queue.
-To inspect a post's comments in Element, join its room alias, e.g.
-`#comments_j-stoerk-portfolio_post-geometry-of-forgetting:cactus.chat`.
-Replace the registered site label and post slug as appropriate. The custom web
-frontend uses guest identities; your regular moderator account stays in Element.
+This workspace has no Cloudflare login, so creating repository files does not
+deploy them. The dashboard steps above finish the service-side setup.
+
+## Behaviour and maintenance
+
+The public API is `GET /comments?page=<post-slug>&cursor=<optional-id>` and
+`POST /comments`. Responses contain canonical comment objects. `GET /identity`
+verifies an identity when restoring it on another browser. Posting and restoring
+use a random browser credential in `Authorization: Bearer …`; only its SHA-256
+hash is stored in D1. Reading comments needs no identity or challenge. Display
+names are chosen labels, not verified real-world identities.
+
+The Worker checks the site's Origin, published-post allowlist, bounded request
+body, honeypot, and Turnstile result (including hostname and `comment` action).
+Verification is [performed on the server](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/).
+Names allow 40 characters and comments 5,000. Each IP is limited to five POSTs
+and sixty GETs per minute using atomic D1 counters. Counter keys hash the IP
+with the server secret; no plaintext IP is stored in these tables. Old counters
+are cleaned up during traffic after 24 hours. Cloudflare may separately retain
+its own service logs. Comment bodies and credentials are not logged by this code.
+
+Each comment has a browser-generated request ID. Retrying an uncertain submission
+returns the stored comment rather than duplicating it. Failed posting preserves
+the draft. Identity creation and comment insertion are one
+[D1 batch transaction](https://developers.cloudflare.com/d1/worker-api/d1-database/#batch).
+SQL parameters are bound; comment text and names render with `textContent`.
+The editor loads the latest thirty comments and offers earlier pages.
+
+The identity is remembered in local browser storage across articles and visits.
+An optional encrypted identity file supports another browser/device: AES-256-GCM,
+random salt/IV, and PBKDF2-SHA-256 with 210,000 iterations. Restore checks the
+credential against the Worker before saving it locally. Keep the file and its
+passphrase private. Clearing browser storage without a saved file loses that
+identity. The retired Matrix identity files are not compatible with this service.
+
+Moderate through the D1 console; there is no public administration endpoint:
+
+```sql
+SELECT id, page, username, message, created_at, hidden
+FROM comments ORDER BY id DESC LIMIT 100;
+
+-- Replace 123 with the relevant comment ID.
+UPDATE comments SET hidden = 1 WHERE id = 123;
+
+-- Prevent that identity from submitting more comments or restoring its credential.
+UPDATE identities SET banned = 1
+WHERE id = (SELECT visitor_id FROM comments WHERE id = 123);
+```
+
+Refresh the article to see removals. Hiding a comment preserves its retry record,
+so a visitor cannot restore it by retrying the same request. Banning does not
+automatically hide earlier comments. Rows from the original prototype remain
+readable, but their old visitor IDs are not credentials for the new identity API.
+
+Edit `worker.mjs` and run `node _src/build.js` to update the dashboard's standalone
+`worker.js`. The build generates the published-post allowlist from `posts.json`.
+**Redeploy the Worker when adding a blog post**, so its new slug is accepted.
+Rebuild and push the static site when changing the endpoint or public site key.
+
+### Optional CLI setup
+
+Dashboard setup does not require Wrangler. If using the CLI instead, open
+`comments/wrangler.toml`, insert the existing D1 database UUID in `database_id`,
+then run from `_services/comments`:
+
+```powershell
+npx wrangler login
+npx wrangler d1 migrations apply j-stoerk-comments --remote
+npx wrangler secret put TURNSTILE_SECRET_KEY
+npx wrangler deploy
+```
+
+Apply the migration through **one** route: dashboard SQL or Wrangler migrations.
+Do not apply the initial migration again after manually running it. Subsequent
+CLI deploys can reuse the binding and secret without rerunning migration setup.
+
+Backend tests run the actual SQL against temporary SQLite databases through
+Python's standard library, with Cloudflare verification mocked. Tests cover
+schema upgrades, retries, moderation, paging, verification, rate limits, and
+transaction rollback without making external requests.
 
 ## Private messages: Formspree to Gmail
 
-The inline message form posts directly to `https://formspree.io/f/xkjgapaj`
-with `method="POST"`. The form sends `name`, `email`, and `message`; the hidden
-`_gotcha` field uses [Formspree's honeypot filter](https://help.formspree.io/articles/building-your-form/honeypot-spam-filtering/).
-There is no Worker, email API key, or Turnstile dependency in this contact flow.
-Formspree handles the confirmation page and any configured spam challenge.
+The inline form posts directly to `https://formspree.io/f/xkjgapaj` with standard
+HTML POST. Fields are `name`, `email`, `message`, and the `_gotcha` honeypot.
+Formspree handles its confirmation page and spam checks. In Formspree, verify the
+notification destination is `julius.stoerk@gmail.com` and complete any requested
+email verification. The endpoint alone does not prove its delivery destination.
 
-In the Formspree dashboard, confirm this form's notification destination is
-`julius.stoerk@gmail.com` and complete any requested email verification. The
-endpoint alone does not expose or prove its inbox destination. Formspree uses
-[the `email` field as Reply-To](https://help.formspree.io/articles/building-your-form/email-reply-to-address/)
-so you can reply directly to visitors.
-
-The endpoint lives in `_src/community.json` and is injected into the form's
-`action` during the build. The Send button is enabled; browser validation checks
-required fields and email format before submission. `contact.js` opens the form
-beside the contact text on desktop and below it on mobile. It reads only a saved
-display name from the configured Cactus homeserver's browser identity to prefill
-the editable name field; Matrix credentials are never added to the form or sent
-to Formspree. Closing/reopening preserves manual edits. Ordinary HTML submission allows Formspree's hosted
-confirmation and spam checks to work without an AJAX/CAPTCHA setup.
-
-Rebuild and push after changing the endpoint:
-
-```powershell
-node _src/build.js
-python _src/check.py
-```
-
-The Cloudflare/Resend backend files have been removed from the repository. The
-previously created Cloudflare Worker is no longer called by this website; this
-repository change does not delete it from your Cloudflare account.
-
-Browser checks intercept submissions and send no real messages. Send a message
-through the published form to confirm the Formspree destination and Gmail delivery.
+`contact.js` opens the form beside Contact on desktop and below it on mobile.
+A confirmed local comment identity prefills only the editable name. No comment
+credential is sent to Formspree; manual edits survive closing/reopening.
+The earlier `lingering-brook-b11f-contact-form` Worker is not called by the site.
+Browser checks intercept form submissions and send no real email.

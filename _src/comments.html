@@ -6,7 +6,9 @@
       <button type="button" class="quiet-button" data-comments-more hidden>Earlier comments</button>
       <form class="comment-form" data-comment-form>
         <label class="sr-only" for="comment-text">Your comment</label>
-        <textarea id="comment-text" name="comment" rows="4" maxlength="6000" placeholder="Add to the discussion…" required></textarea>
+        <textarea id="comment-text" name="comment" rows="4" maxlength="5000" placeholder="Add to the discussion…" required></textarea>
+        <div class="form-trap" aria-hidden="true"><label for="comment-website">Website</label><input id="comment-website" name="website" tabindex="-1" autocomplete="off"></div>
+        <div data-comment-challenge></div>
         <div class="form-actions">
           <span class="form-note" data-comment-identity hidden></span>
           <button type="submit" class="form-submit" disabled>Post</button>
@@ -28,7 +30,7 @@
         <p class="form-note">Choose a display name for your comments. No email or account signup.</p>
         <form data-comment-name-form>
           <label for="comment-name">Display name</label>
-          <input id="comment-name" name="displayName" autocomplete="nickname" maxlength="48" required>
+          <input id="comment-name" name="displayName" autocomplete="nickname" maxlength="40" required>
           <button type="submit" class="form-submit">Post comment</button>
         </form>
       </dialog>

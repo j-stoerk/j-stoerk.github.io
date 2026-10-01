@@ -18,6 +18,9 @@ jobs:
       - name: Rebuild site from _src
         run: node _src/build.js
 
+      - name: Test the comments Worker against SQLite (no external requests)
+        run: node --test _services/comments/worker.test.mjs
+
       - name: Fail if committed output drifted from sources
         run: |
           git add -A

@@ -2851,6 +2851,7 @@ footer {
 .comment-meta time { flex-shrink: 0; color: var(--color-text-faint); font-size: var(--text-xs); }
 .comment-body { margin-top: var(--space-2); white-space: pre-wrap; overflow-wrap: anywhere; font-size: var(--text-sm); }
 .comment-form { margin-top: var(--space-5); }
+[data-comment-challenge] { margin-top: var(--space-3); }
 .comment-form textarea, .site-dialog input, .site-dialog textarea, .contact-message input, .contact-message textarea {
   display: block;
   width: 100%;
