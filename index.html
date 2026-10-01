@@ -134,9 +134,10 @@
       </button>
       <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
         <a href="#publications">Publications</a>
+        <a href="#software">Code</a>
+        <a href="blog.html">Blog</a>
         <a href="#experience">Experience</a>
         <a href="cv.html">CV</a>
-        <a href="blog.html">Blog</a>
         <a href="#contact">Contact</a>
         <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
       </nav>
@@ -147,10 +148,10 @@
     <span class="chapter-nav-caption">On this page</span>
     <ol class="chapter-list">
       <li><a href="#home"><span class="chapter-number" aria-hidden="true">01</span> Introduction</a></li>
-      <li><a href="#experience"><span class="chapter-number" aria-hidden="true">02</span> Experience</a></li>
-      <li><a href="#publications"><span class="chapter-number" aria-hidden="true">03</span> Publications</a></li>
+      <li><a href="#publications"><span class="chapter-number" aria-hidden="true">02</span> Publications</a></li>
+      <li><a href="#software"><span class="chapter-number" aria-hidden="true">03</span> Code</a></li>
       <li><a href="#writing"><span class="chapter-number" aria-hidden="true">04</span> Blog</a></li>
-      <li><a href="#software"><span class="chapter-number" aria-hidden="true">05</span> Software</a></li>
+      <li><a href="#experience"><span class="chapter-number" aria-hidden="true">05</span> Experience</a></li>
       <li><a href="#contributions"><span class="chapter-number" aria-hidden="true">06</span> Contributions</a></li>
       <li><a href="#contact"><span class="chapter-number" aria-hidden="true">07</span> Contact</a></li>
     </ol>
@@ -303,82 +304,6 @@
           <img class="portrait-img" src="portrait.jpg" alt="Portrait of Julius Störk" width="176" height="176"
             fetchpriority="high">
         </picture>
-      </div>
-    </section>
-
-    <section class="section" id="experience">
-      <div class="section-head">
-        <h2>Selected experience</h2>
-        <a class="link-more outline-action" href="cv.html"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2h7l3 3v13H5z M12 2v4h4 M8 10h5 M8 13h5"/></svg><span>full CV</span></a>
-      </div>
-      <p class="section-lead">From cathode chemistry and fuel-cell production to electrode manufacturing and continual learning.</p>
-      <div class="career-layout">
-      <aside class="career-sidebar" aria-label="The connecting thread">
-      <figure class="career-scene experience-surface" data-feature="career-object">
-        <canvas id="career-canvas" width="240" height="240" role="img" aria-label="A scientific structure that changes with the active career milestone">Materials, fuel cells, catalysis, and learning networks.</canvas>
-        <figcaption><span class="eyebrow">The connecting thread</span><strong id="career-scene-title">AI &amp; batteries</strong><span id="career-scene-note">Manufacturing meets learning.</span></figcaption>
-      </figure>
-      <nav class="career-milestones" aria-label="Explore career milestones">
-        <a href="#career-materials"><span>2020–21</span>Materials</a>
-        <a href="#career-scale"><span>2022</span>Scale-up</a>
-        <a href="#career-catalysis"><span>2024</span>Catalysis</a>
-        <a href="#career-batteries"><span>2025–now</span>AI &amp; batteries</a>
-      </nav>
-      </aside>
-      <div class="career-timeline">
-        <article class="career-entry career-entry-featured" id="career-batteries">
-          <div class="career-time"><time datetime="2025-09">2025–now</time><span>Industrial doctorate</span></div>
-          <div class="career-body">
-            <h3>Electrode Engineer</h3>
-            <p class="career-place">VARTA Microbattery · TU Braunschweig</p>
-            <p>I develop and qualify coating, calendering, and semi-dry processing routes for lithium-ion electrodes.</p>
-            <div class="exp-stats" role="list" aria-label="Impact">
-              <div role="listitem"><strong><span class="num" data-to="3">3</span> kg h<sup>−1</sup></strong><span>Semi-dry processing across chemistries</span></div>
-              <div role="listitem"><strong><span class="num" data-to="6.9" data-dec="1">6.9</span>×</strong><span>Lower model error across 27 calendering states</span></div>
-              <div role="listitem"><strong><span class="num" data-to="36">36</span>%</strong><span>Retention improvement on a 410M-parameter model</span></div>
-            </div>
-          </div>
-        </article>
-        <article class="career-entry" id="career-catalysis">
-          <div class="career-time"><time datetime="2024">2024</time><span>Research internship</span></div>
-          <div class="career-body">
-            <h3>MOF catalysis</h3>
-            <p class="career-place">Technical University of Munich</p>
-            <p>I synthesised and screened catalyst pairs for sequential epoxidation and CO₂ fixation within one framework.</p>
-            <div class="exp-stats" role="list" aria-label="Impact">
-              <div role="listitem"><strong><span class="num" data-to="99">99</span>%</strong><span>Conversion of PO to propylene carbonate</span></div>
-              <div role="listitem"><strong><span class="num" data-to="2">2</span>×</strong><span>Yield improvement via metalation</span></div>
-              <div role="listitem"><strong>Sequential</strong><span>Epoxidation and CO₂ fixation in one framework</span></div>
-            </div>
-          </div>
-        </article>
-        <article class="career-entry" id="career-scale">
-          <div class="career-time"><time datetime="2022">2022</time><span>Process development</span></div>
-          <div class="career-body">
-            <h3>Solid oxide fuel cells</h3>
-            <p class="career-place">Robert Bosch GmbH</p>
-            <p>I scaled ceramic paste processing from laboratory batches toward mass-production volumes.</p>
-            <div class="exp-stats" role="list" aria-label="Impact">
-              <div role="listitem"><strong>0.5 → <span class="num" data-to="50">50</span> L/h</strong><span>Scaled ceramic paste from lab to MP</span></div>
-              <div role="listitem"><strong>Reformulated</strong><span>Adapted paste chemistry for scale</span></div>
-              <div role="listitem"><strong>Screen-print</strong><span>Ensured downstream processability</span></div>
-            </div>
-          </div>
-        </article>
-        <article class="career-entry" id="career-materials">
-          <div class="career-time"><time datetime="2020">2020–2021</time><span>Research assistant</span></div>
-          <div class="career-body">
-            <h3>Cathode active materials</h3>
-            <p class="career-place">Max Planck Institute · BASF</p>
-            <p>I established precursor routes for NCA and NMC and investigated lower-temperature lithiation strategies.</p>
-            <div class="exp-stats" role="list" aria-label="Impact">
-              <div role="listitem"><strong>Precursor screen</strong><span>Systematically screened NCA &amp; NMC calcination routes</span></div>
-              <div role="listitem"><strong><span class="num" data-to="30">30</span>%</strong><span>Lower calcination temperature</span></div>
-              <div role="listitem"><strong>In-situ XRD</strong><span>Validated phase formation during synthesis</span></div>
-            </div>
-          </div>
-        </article>
-      </div>
       </div>
     </section>
 
@@ -536,6 +461,59 @@
       </div>
     </section>
 
+    <section class="section" id="software">
+      <div class="section-head">
+        <h2>Code</h2>
+        <a class="link-more outline-action" href="https://github.com/j-stoerk" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 6-4 4 4 4 m8-8 4 4-4 4 M12 3 8 17"/></svg><span>all repositories</span></a>
+      </div>
+      <p class="section-lead">From research code to autonomous agents.</p>
+      <div class="pub-list">
+        <div class="item software-project">
+          <a class="software-art" href="post-geometry-of-forgetting.html" aria-label="Read the research behind geometry-of-forgetting"><img src="images/blog-covers/post-geometry-of-forgetting.svg" alt="Task covariance contours and an update split into protected and free directions" width="1200" height="675" loading="lazy"><span>Task geometry &middot; paper &amp; code &#8599;</span></a>
+          <div class="software-copy">
+          <strong><a href="https://github.com/j-stoerk/geometry-of-forgetting" target="_blank"
+              rel="noopener noreferrer">geometry-of-forgetting</a></strong>
+          <p class="muted">Diagnosing forgetting requires tracing how updates interfere with earlier tasks. My research
+            code provides interference-attribution analysis and Colab pipelines for continual pretraining and LoRA
+            fine-tuning, with the working notes and negative results that shaped the paper.</p>
+          <div class="pub-tags"><span class="tag">Python</span><span class="tag">paper code</span></div>
+          </div>
+        </div>
+        <div class="item software-project">
+          <a class="software-art" href="post-calendering-u-shape.html" aria-label="Read the research behind zehner-electrode-thermal"><img src="images/blog-covers/post-calendering-u-shape.svg" alt="Electrode particles and the calendering-dependent thermal response" width="1200" height="675" loading="lazy"><span>Process &rarr; property &middot; paper &amp; code &#8599;</span></a>
+          <div class="software-copy">
+          <strong><a href="https://github.com/j-stoerk/zehner-electrode-thermal" target="_blank"
+              rel="noopener noreferrer">zehner-electrode-thermal</a></strong>
+          <p class="muted">Predicting electrode thermal conductivity requires accounting for structural changes during
+            calendering. My notebooks calibrate and validate the closure against electrode data and compare it with
+            ML, PINN, and multiphysics approaches.</p>
+          <div class="pub-tags"><span class="tag">Jupyter</span><span class="tag">paper code</span></div>
+          </div>
+        </div>
+        <div class="item software-project">
+          <figure class="software-art"><svg viewBox="0 0 320 210" role="img" aria-label="Schematic of a scanning droplet cell: fluid supply, probe, and a patterned sample"><defs><linearGradient id="cell-shade" x2="0" y2="1"><stop stop-color="#e5eef5"/><stop offset="1" stop-color="#c3d7e8"/></linearGradient></defs><defs><linearGradient id="helao-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#eef1f5"/><stop offset="60%" stop-color="#ecebe2"/><stop offset="100%" stop-color="#e4dccb"/></linearGradient><radialGradient id="helao-glow"><stop stop-color="#5a82be" stop-opacity=".2"/><stop offset="1" stop-color="#5a82be" stop-opacity="0"/></radialGradient></defs><rect width="320" height="210" fill="url(#helao-bg)"/><ellipse cx="85" cy="78" rx="125" ry="110" fill="url(#helao-glow)"/><path d="M47 43h43v60H47z M58 30v13m19-13v13M90 74h55q14 0 14 14v17" fill="none" stroke="#597389" stroke-width="3"/><path d="M135 111v39l24 17 25-17v-39" fill="url(#cell-shade)" stroke="#486d8e" stroke-width="2"/><path d="M147 95h24v45l-12 18-12-18z" fill="#397da9"/><path d="M75 172l138-24 58 28-138 25z" fill="#d4dde2" stroke="#7691a4"/><g fill="#66879e"><ellipse cx="125" cy="174" rx="8" ry="3"/><ellipse cx="153" cy="169" rx="8" ry="3"/><ellipse cx="182" cy="164" rx="8" ry="3"/><ellipse cx="154" cy="186" rx="8" ry="3"/><ellipse cx="183" cy="180" rx="8" ry="3"/><ellipse cx="211" cy="175" rx="8" ry="3"/></g><ellipse cx="159" cy="163" rx="12" ry="5" fill="#d3a15b"/><path d="M215 107h47m-7-6 7 6-7 6" fill="none" stroke="#597389" stroke-width="2"/><g font-family="sans-serif" font-size="11" fill="#435a6d"><text x="43" y="23">FLUID</text><text x="203" y="96">SCAN</text><text x="202" y="201">SAMPLE</text></g></svg><figcaption>Instrument control &middot; scanning droplet cell</figcaption></figure>
+          <div class="software-copy">
+          <strong><a href="https://github.com/j-stoerk/HELAO" target="_blank"
+              rel="noopener noreferrer">HELAO</a></strong>
+          <p class="muted">Manual electrochemical screening limits throughput and repeatability. I developed pump and
+            robot control for a scanning droplet cell during my M.Sc. to automate measurement sequences.</p>
+          <div class="pub-tags"><span class="tag">Python</span><span class="tag">lab automation</span></div>
+          </div>
+        </div>
+        <div class="item software-project">
+          <figure class="software-art"><svg viewBox="0 0 320 210" role="img" aria-label="Illustrative grid-world observation and action trace for a game-playing agent"><defs><linearGradient id="arc-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#eef1f5"/><stop offset="60%" stop-color="#ecebe2"/><stop offset="100%" stop-color="#e4dccb"/></linearGradient><radialGradient id="arc-glow"><stop stop-color="#5a82be" stop-opacity=".2"/><stop offset="1" stop-color="#5a82be" stop-opacity="0"/></radialGradient></defs><rect width="320" height="210" fill="url(#arc-bg)"/><ellipse cx="85" cy="78" rx="125" ry="110" fill="url(#arc-glow)"/><g stroke="#9baabc" stroke-width="1"><path d="M31 28h140v140H31z M59 28v140m28-140v140m28-140v140m28-140v140M31 56h140M31 84h140M31 112h140M31 140h140" fill="#e9edf1"/></g><g fill="#5a82be"><path d="M32 29h26v26H32zM60 29h26v26H60zM144 85h26v26h-26zM116 113h26v26h-26zM116 141h26v26h-26z"/></g><path d="M45 98h56v56h56" fill="none" stroke="#a9762c" stroke-width="3"/><circle cx="45" cy="98" r="8" fill="#a9762c"/><path d="m150 148 7 6-7 6" fill="none" stroke="#a9762c" stroke-width="3"/><g font-family="sans-serif" font-size="12"><text x="195" y="60" fill="#33465e">Observe</text><text x="195" y="99" fill="#a9762c">Act</text><text x="195" y="138" fill="#33465e">Evaluate</text><text x="31" y="192" fill="#597389" font-size="10">ILLUSTRATIVE AGENT LOOP</text></g><path d="M200 68v14m0 25v14" stroke="#678499"/></svg><figcaption>Agent experiments &middot; observation to action</figcaption></figure>
+          <div class="software-copy">
+          <strong><a href="https://github.com/j-stoerk/arc-autoresearch" target="_blank"
+              rel="noopener noreferrer">arc-autoresearch</a></strong>
+          <p class="muted">Game-playing agents need to infer unfamiliar rules from observations and feedback. My
+            ARC-AGI-3 experiments combine a Python agent with per-game diagnostics and analysis notebooks to investigate
+            where its decisions succeed or fail.</p>
+          <div class="pub-tags"><span class="tag">Python</span><span class="tag">agents</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="writing">
       <div class="section-head">
         <h2>Blog</h2>
@@ -589,56 +567,79 @@
 
     </section>
 
-    <section class="section" id="software">
+    <section class="section" id="experience">
       <div class="section-head">
-        <h2>Software</h2>
-        <a class="link-more outline-action" href="https://github.com/j-stoerk" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 6-4 4 4 4 m8-8 4 4-4 4 M12 3 8 17"/></svg><span>all repositories</span></a>
+        <h2>Selected experience</h2>
+        <a class="link-more outline-action" href="cv.html"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2h7l3 3v13H5z M12 2v4h4 M8 10h5 M8 13h5"/></svg><span>full CV</span></a>
       </div>
-      <p class="section-lead">From research code to autonomous agents.</p>
-      <div class="pub-list">
-        <div class="item software-project">
-          <a class="software-art" href="post-geometry-of-forgetting.html" aria-label="Read the research behind geometry-of-forgetting"><img src="images/blog-covers/post-geometry-of-forgetting.svg" alt="Task covariance contours and an update split into protected and free directions" width="1200" height="675" loading="lazy"><span>Task geometry &middot; paper &amp; code &#8599;</span></a>
-          <div class="software-copy">
-          <strong><a href="https://github.com/j-stoerk/geometry-of-forgetting" target="_blank"
-              rel="noopener noreferrer">geometry-of-forgetting</a></strong>
-          <p class="muted">Diagnosing forgetting requires tracing how updates interfere with earlier tasks. My research
-            code provides interference-attribution analysis and Colab pipelines for continual pretraining and LoRA
-            fine-tuning, with the working notes and negative results that shaped the paper.</p>
-          <div class="pub-tags"><span class="tag">Python</span><span class="tag">paper code</span></div>
+      <p class="section-lead">From cathode chemistry and fuel-cell production to electrode manufacturing and continual learning.</p>
+      <div class="career-layout">
+      <aside class="career-sidebar" aria-label="The connecting thread">
+      <figure class="career-scene experience-surface" data-feature="career-object">
+        <canvas id="career-canvas" width="240" height="240" role="img" aria-label="A scientific structure that changes with the active career milestone">Materials, fuel cells, catalysis, and learning networks.</canvas>
+        <figcaption><span class="eyebrow">The connecting thread</span><strong id="career-scene-title">AI &amp; batteries</strong><span id="career-scene-note">Manufacturing meets learning.</span></figcaption>
+      </figure>
+      <nav class="career-milestones" aria-label="Explore career milestones">
+        <a href="#career-materials"><span>2020–21</span>Materials</a>
+        <a href="#career-scale"><span>2022</span>Scale-up</a>
+        <a href="#career-catalysis"><span>2024</span>Catalysis</a>
+        <a href="#career-batteries"><span>2025–now</span>AI &amp; batteries</a>
+      </nav>
+      </aside>
+      <div class="career-timeline">
+        <article class="career-entry career-entry-featured" id="career-batteries">
+          <div class="career-time"><time datetime="2025-09">2025–now</time><span>Industrial doctorate</span></div>
+          <div class="career-body">
+            <h3>Electrode Engineer</h3>
+            <p class="career-place">VARTA Microbattery · TU Braunschweig</p>
+            <p>I develop and qualify coating, calendering, and semi-dry processing routes for lithium-ion electrodes.</p>
+            <div class="exp-stats" role="list" aria-label="Impact">
+              <div role="listitem"><strong><span class="num" data-to="3">3</span> kg h<sup>−1</sup></strong><span>Semi-dry processing across chemistries</span></div>
+              <div role="listitem"><strong><span class="num" data-to="6.9" data-dec="1">6.9</span>×</strong><span>Lower model error across 27 calendering states</span></div>
+              <div role="listitem"><strong><span class="num" data-to="36">36</span>%</strong><span>Retention improvement on a 410M-parameter model</span></div>
+            </div>
           </div>
-        </div>
-        <div class="item software-project">
-          <a class="software-art" href="post-calendering-u-shape.html" aria-label="Read the research behind zehner-electrode-thermal"><img src="images/blog-covers/post-calendering-u-shape.svg" alt="Electrode particles and the calendering-dependent thermal response" width="1200" height="675" loading="lazy"><span>Process &rarr; property &middot; paper &amp; code &#8599;</span></a>
-          <div class="software-copy">
-          <strong><a href="https://github.com/j-stoerk/zehner-electrode-thermal" target="_blank"
-              rel="noopener noreferrer">zehner-electrode-thermal</a></strong>
-          <p class="muted">Predicting electrode thermal conductivity requires accounting for structural changes during
-            calendering. My notebooks calibrate and validate the closure against electrode data and compare it with
-            ML, PINN, and multiphysics approaches.</p>
-          <div class="pub-tags"><span class="tag">Jupyter</span><span class="tag">paper code</span></div>
+        </article>
+        <article class="career-entry" id="career-catalysis">
+          <div class="career-time"><time datetime="2024">2024</time><span>Research internship</span></div>
+          <div class="career-body">
+            <h3>MOF catalysis</h3>
+            <p class="career-place">Technical University of Munich</p>
+            <p>I synthesised and screened catalyst pairs for sequential epoxidation and CO₂ fixation within one framework.</p>
+            <div class="exp-stats" role="list" aria-label="Impact">
+              <div role="listitem"><strong><span class="num" data-to="99">99</span>%</strong><span>Conversion of PO to propylene carbonate</span></div>
+              <div role="listitem"><strong><span class="num" data-to="2">2</span>×</strong><span>Yield improvement via metalation</span></div>
+              <div role="listitem"><strong>Sequential</strong><span>Epoxidation and CO₂ fixation in one framework</span></div>
+            </div>
           </div>
-        </div>
-        <div class="item software-project">
-          <figure class="software-art"><svg viewBox="0 0 320 210" role="img" aria-label="Schematic of a scanning droplet cell: fluid supply, probe, and a patterned sample"><defs><linearGradient id="cell-shade" x2="0" y2="1"><stop stop-color="#e5eef5"/><stop offset="1" stop-color="#c3d7e8"/></linearGradient></defs><defs><linearGradient id="helao-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#eef1f5"/><stop offset="60%" stop-color="#ecebe2"/><stop offset="100%" stop-color="#e4dccb"/></linearGradient><radialGradient id="helao-glow"><stop stop-color="#5a82be" stop-opacity=".2"/><stop offset="1" stop-color="#5a82be" stop-opacity="0"/></radialGradient></defs><rect width="320" height="210" fill="url(#helao-bg)"/><ellipse cx="85" cy="78" rx="125" ry="110" fill="url(#helao-glow)"/><path d="M47 43h43v60H47z M58 30v13m19-13v13M90 74h55q14 0 14 14v17" fill="none" stroke="#597389" stroke-width="3"/><path d="M135 111v39l24 17 25-17v-39" fill="url(#cell-shade)" stroke="#486d8e" stroke-width="2"/><path d="M147 95h24v45l-12 18-12-18z" fill="#397da9"/><path d="M75 172l138-24 58 28-138 25z" fill="#d4dde2" stroke="#7691a4"/><g fill="#66879e"><ellipse cx="125" cy="174" rx="8" ry="3"/><ellipse cx="153" cy="169" rx="8" ry="3"/><ellipse cx="182" cy="164" rx="8" ry="3"/><ellipse cx="154" cy="186" rx="8" ry="3"/><ellipse cx="183" cy="180" rx="8" ry="3"/><ellipse cx="211" cy="175" rx="8" ry="3"/></g><ellipse cx="159" cy="163" rx="12" ry="5" fill="#d3a15b"/><path d="M215 107h47m-7-6 7 6-7 6" fill="none" stroke="#597389" stroke-width="2"/><g font-family="sans-serif" font-size="11" fill="#435a6d"><text x="43" y="23">FLUID</text><text x="203" y="96">SCAN</text><text x="202" y="201">SAMPLE</text></g></svg><figcaption>Instrument control &middot; scanning droplet cell</figcaption></figure>
-          <div class="software-copy">
-          <strong><a href="https://github.com/j-stoerk/HELAO" target="_blank"
-              rel="noopener noreferrer">HELAO</a></strong>
-          <p class="muted">Manual electrochemical screening limits throughput and repeatability. I developed pump and
-            robot control for a scanning droplet cell during my M.Sc. to automate measurement sequences.</p>
-          <div class="pub-tags"><span class="tag">Python</span><span class="tag">lab automation</span></div>
+        </article>
+        <article class="career-entry" id="career-scale">
+          <div class="career-time"><time datetime="2022">2022</time><span>Process development</span></div>
+          <div class="career-body">
+            <h3>Solid oxide fuel cells</h3>
+            <p class="career-place">Robert Bosch GmbH</p>
+            <p>I scaled ceramic paste processing from laboratory batches toward mass-production volumes.</p>
+            <div class="exp-stats" role="list" aria-label="Impact">
+              <div role="listitem"><strong>0.5 → <span class="num" data-to="50">50</span> L/h</strong><span>Scaled ceramic paste from lab to MP</span></div>
+              <div role="listitem"><strong>Reformulated</strong><span>Adapted paste chemistry for scale</span></div>
+              <div role="listitem"><strong>Screen-print</strong><span>Ensured downstream processability</span></div>
+            </div>
           </div>
-        </div>
-        <div class="item software-project">
-          <figure class="software-art"><svg viewBox="0 0 320 210" role="img" aria-label="Illustrative grid-world observation and action trace for a game-playing agent"><defs><linearGradient id="arc-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#eef1f5"/><stop offset="60%" stop-color="#ecebe2"/><stop offset="100%" stop-color="#e4dccb"/></linearGradient><radialGradient id="arc-glow"><stop stop-color="#5a82be" stop-opacity=".2"/><stop offset="1" stop-color="#5a82be" stop-opacity="0"/></radialGradient></defs><rect width="320" height="210" fill="url(#arc-bg)"/><ellipse cx="85" cy="78" rx="125" ry="110" fill="url(#arc-glow)"/><g stroke="#9baabc" stroke-width="1"><path d="M31 28h140v140H31z M59 28v140m28-140v140m28-140v140m28-140v140M31 56h140M31 84h140M31 112h140M31 140h140" fill="#e9edf1"/></g><g fill="#5a82be"><path d="M32 29h26v26H32zM60 29h26v26H60zM144 85h26v26h-26zM116 113h26v26h-26zM116 141h26v26h-26z"/></g><path d="M45 98h56v56h56" fill="none" stroke="#a9762c" stroke-width="3"/><circle cx="45" cy="98" r="8" fill="#a9762c"/><path d="m150 148 7 6-7 6" fill="none" stroke="#a9762c" stroke-width="3"/><g font-family="sans-serif" font-size="12"><text x="195" y="60" fill="#33465e">Observe</text><text x="195" y="99" fill="#a9762c">Act</text><text x="195" y="138" fill="#33465e">Evaluate</text><text x="31" y="192" fill="#597389" font-size="10">ILLUSTRATIVE AGENT LOOP</text></g><path d="M200 68v14m0 25v14" stroke="#678499"/></svg><figcaption>Agent experiments &middot; observation to action</figcaption></figure>
-          <div class="software-copy">
-          <strong><a href="https://github.com/j-stoerk/arc-autoresearch" target="_blank"
-              rel="noopener noreferrer">arc-autoresearch</a></strong>
-          <p class="muted">Game-playing agents need to infer unfamiliar rules from observations and feedback. My
-            ARC-AGI-3 experiments combine a Python agent with per-game diagnostics and analysis notebooks to investigate
-            where its decisions succeed or fail.</p>
-          <div class="pub-tags"><span class="tag">Python</span><span class="tag">agents</span></div>
+        </article>
+        <article class="career-entry" id="career-materials">
+          <div class="career-time"><time datetime="2020">2020–2021</time><span>Research assistant</span></div>
+          <div class="career-body">
+            <h3>Cathode active materials</h3>
+            <p class="career-place">Max Planck Institute · BASF</p>
+            <p>I established precursor routes for NCA and NMC and investigated lower-temperature lithiation strategies.</p>
+            <div class="exp-stats" role="list" aria-label="Impact">
+              <div role="listitem"><strong>Precursor screen</strong><span>Systematically screened NCA &amp; NMC calcination routes</span></div>
+              <div role="listitem"><strong><span class="num" data-to="30">30</span>%</strong><span>Lower calcination temperature</span></div>
+              <div role="listitem"><strong>In-situ XRD</strong><span>Validated phase formation during synthesis</span></div>
+            </div>
           </div>
-        </div>
+        </article>
+      </div>
       </div>
     </section>
 

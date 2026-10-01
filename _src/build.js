@@ -97,9 +97,10 @@ const HEAD_ASSETS = `  <meta name="theme-color" content="#fdfdfc">
 
 const NAV_ITEMS = [
   ['publications', 'Publications', '#publications'],
+  ['software', 'Code', '#software'],
+  ['blog', 'Blog', 'blog.html'],
   ['experience', 'Experience', '#experience'],
   ['cv', 'CV', 'cv.html'],
-  ['blog', 'Blog', 'blog.html'],
   ['contact', 'Contact', '#contact'],
 ];
 
