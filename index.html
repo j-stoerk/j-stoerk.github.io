@@ -121,8 +121,16 @@
   <link rel="stylesheet" href="styles.css?v=5e7b9811">
   <link rel="stylesheet" href="experiences.css?v=a4630a23">
   <script>
-    // Start at full screen before paint; deep links and reduced motion open directly.
-    if (!location.hash && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    // Play once per tab session, including visits that skip or dismiss the intro.
+    // If storage is unavailable, open directly instead of repeating the animation.
+    let firstVisit = false;
+    try {
+      firstVisit = sessionStorage.getItem('portfolio-intro-seen') !== '1';
+      sessionStorage.setItem('portfolio-intro-seen', '1');
+    } catch (error) {
+      firstVisit = false;
+    }
+    if (firstVisit && !location.hash && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
       document.documentElement.classList.add('intro-pending', 'intro-active');
       window.introFallback = setTimeout(function () {
         document.documentElement.classList.remove('intro-pending', 'intro-active');

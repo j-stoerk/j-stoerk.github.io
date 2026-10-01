@@ -65,8 +65,8 @@ the bio remains plain text and its inline buttons are disabled.
 explorer, section artwork, and career object. The intro projects a layered
 electrode surface onto a canvas, assembling its points on arrival and responding
 to pointer movement, taps, and scroll. It uses the site's theme colours and the
-shared visibility-aware animation loop. Arriving at the homepage without a
-fragment starts the surface at full screen with rolling digits counting from
+shared visibility-aware animation loop. The first homepage visit in a tab session,
+without a fragment, starts the surface at full screen with rolling digits counting from
 000 to 100 and a compact progress bar. The count accelerates with a 3.4 power curve
 and follows elapsed real time so slower rendering cannot extend the opening.
 On the same frame that reaches 100, that same canvas unfolds into a larger, quieter mesh
@@ -78,7 +78,10 @@ Clicking, scrolling, touching the screen, or using the keyboard dismisses the op
 Content becomes interactive after the reveal, so dismissing the intro cannot
 accidentally activate a hidden link. Pointer-driven motion starts after the opening.
 A timeout also restores
-the page if animation fails; deep links skip the opening. Reduced motion renders
+the page if animation fails; deep links skip the opening. The head bootstrap records
+the first visit in sessionStorage before paint, so reloads and returns from CV or
+Blog open directly, even after skipping or dismissing the intro. If sessionStorage
+is unavailable, the page opens directly. Reduced motion renders
 a still surface;
 `images/intro-surface.svg` provides the fallback without JavaScript or canvas.
 `experiences.css` styles these components,
