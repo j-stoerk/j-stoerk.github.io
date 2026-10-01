@@ -13,6 +13,10 @@ node _src/build.js
 - `posts.json` — one entry per blog post. Drives the blog listing, the
   home-page cards, `feed.xml`, and `sitemap.xml`. To publish a post: add its
   source page in `pages/`, add an entry here, run the build.
+- Each post needs a `whyItMatters` sentence in plain language. Place
+  `<!--#POST_CONTEXT-->` just below its title cover and above the article body;
+  the builder inserts the sentence without repeating the technical summary used
+  in blog listings.
 - **Post titles** use title case: capitalize major words and words of four or
   more letters; keep short articles, conjunctions, and prepositions lowercase
   unless they begin or end the title or begin a subtitle. Capitalize the main

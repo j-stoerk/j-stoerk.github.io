@@ -57,8 +57,8 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=d8eebe3a">
-  <link rel="stylesheet" href="experiences.css?v=86be5ccd">
+  <link rel="stylesheet" href="styles.css?v=6d568a8d">
+  <link rel="stylesheet" href="experiences.css?v=a4cc65a9">
 </head>
 
 <body>
@@ -119,6 +119,8 @@
         </div>
       </div>
       <p class="article-meta muted">Reading notes on the 2026 latent-reasoning literature.</p>
+
+      <p class="post-context"><span>Why this matters</span>Understanding what drives a model’s reasoning helps judge whether a convincing explanation reflects how it reached an answer.</p>
 
       <div class="prose">
         <p>For two years, "reasoning model" meant writing a long chain of English sentences before the model commits to an answer. OpenAI's o1 pioneered this, DeepSeek-R1 popularized it, and by mid-2026 every flagship model (GPT-5.6, Qwen3, Kimi K2.5, GLM-5) ships with some version of a thinking-toggle <sup class="cite">[<a href="#ref-1">1</a>,<a href="#ref-2">2</a>]</sup>. The implicit assumption is <strong>(CoT) text is the reasoning</strong>, Quiet-STaR even trained models to "think" at every token position independent of whether a user ever asked for visible reasoning at all <sup class="cite">[<a href="#ref-8">8</a>]</sup>. I argue that this assumption is false. Three 2026 papers make a strong case against this rationale, and imply that reasoning is not based on language.</p>

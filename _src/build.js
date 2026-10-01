@@ -43,7 +43,7 @@ const PAGES = {
   'blog.html': {
     nav: 'blog', extraScripts: ['blog-view.js'],
     footerExtra: '<a href="index.html">Home</a> · <a href="index.html#contact">Contact</a>',
-    lastmod: '2026-09-30', priority: '0.8',
+    lastmod: '2026-10-01', priority: '0.8',
   },
   /* Served by GitHub Pages for any missing URL; noindex, not in sitemap. */
   '404.html': {
@@ -216,6 +216,12 @@ for (const file of fs.readdirSync(pagesDir)) {
   html = html.replace('<!--#RESEARCH_ATLAS-->', () => fs.readFileSync(path.join(SRC, 'research-atlas.html'), 'utf8'));
   html = html.replace('<!--#BLOG_LATEST-->', () => BLOG_LATEST);
   html = html.replace('<!--#BLOG_TRAILS-->', () => BLOG_TRAILS);
+  if (cfg.nav === 'blog' && file !== 'blog.html') {
+    const post = posts.find(p => p.file === file);
+    if (!post?.whyItMatters) throw new Error(`${file}: missing whyItMatters`);
+    const context = post.whyItMatters.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    html = html.replace('<!--#POST_CONTEXT-->', `<p class="post-context"><span>Why this matters</span>${context}</p>`);
+  }
   if (cfg.math) html = renderMath(html, file);
   if (/<!--#/.test(html)) throw new Error(`${file}: unresolved marker`);
   fs.writeFileSync(path.join(ROOT, file), html);

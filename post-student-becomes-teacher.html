@@ -57,8 +57,8 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=d8eebe3a">
-  <link rel="stylesheet" href="experiences.css?v=86be5ccd">
+  <link rel="stylesheet" href="styles.css?v=6d568a8d">
+  <link rel="stylesheet" href="experiences.css?v=a4cc65a9">
 </head>
 
 <body>
@@ -119,6 +119,8 @@
         </div>
       </div>
       <p class="article-meta muted">Reading notes on self-distillation without labels (OPSD, U-OPSD, L-OPSD).</p>
+
+      <p class="post-context"><span>Why this matters</span>Models that teach themselves could reduce the need for labelled data, but they can also reinforce their own mistakes.</p>
 
       <div class="prose">
         <p>In battery research, a single ground-truth requires assembling a cell, cycling it for weeks, and extracting one electrochemical data point. This consumes both time and money and post-training large language models has the exact same problem. Verified reasoning traces, gold answers, and external reward models are the labels, and they are just as scarce relative to the volume of data a model could learn from. This week, both Guibin Zhang from NUS and Yijiang Li from UC San Diego pushed the question "what if the model supplies its own supervision". Short answer: the external teacher (OPSD), the ground-truth labels (U-OPSD), and now handcrafted privileged context have all been replaced by the model itself.</p>

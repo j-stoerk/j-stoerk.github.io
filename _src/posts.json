@@ -7,9 +7,10 @@
     "category": "AI research",
     "minutes": 10,
     "summary": "Jev, Jeff, and typed decisions: shared representations, task-specific heads, calibrated probabilities, and a concrete policy for when a manufacturing model acts or requests review.",
+    "whyItMatters": "Turning a model’s output into a clear decision makes it easier to use and check in a manufacturing workflow.",
     "feedDescription": "Jev, Jeff, and typed decisions: shared representations, task-specific heads, calibrated probabilities, and a concrete policy for when a manufacturing model acts or requests review.",
     "rfc822": "Sun, 27 Sep 2026 08:00:00 +0200",
-    "lastmod": "2026-09-30",
+    "lastmod": "2026-10-01",
     "math": true,
     "trail": "modelling"
   },
@@ -21,9 +22,10 @@
     "category": "AI agents",
     "minutes": 10,
     "summary": "DisCo distills repositories and papers into reusable operating skills. Scope, ground, construct, and verify: a practical route from research knowledge to repeatable workflows.",
+    "whyItMatters": "Reusable, checked procedures can help research agents build on existing work rather than repeat setup and mistakes.",
     "feedDescription": "DisCo distills repositories and papers into reusable operating skills. Scope, ground, construct, and verify: a practical route from research knowledge to repeatable workflows.",
     "rfc822": "Sun, 20 Sep 2026 08:00:00 +0200",
-    "lastmod": "2026-09-30",
+    "lastmod": "2026-10-01",
     "math": true,
     "trail": "automation"
   },
@@ -35,9 +37,10 @@
     "category": "Reading notes",
     "minutes": 10,
     "summary": "ConvMem reads a long document as a tree of question-conditioned summaries instead of a chain of memory updates, which cuts the path from a fact to the answer from linear to logarithmic. Notes on the method, results and cost, and seven ideas for a path shorter than logarithmic.",
+    "whyItMatters": "How a system condenses a long document determines whether the facts needed for an answer survive.",
     "feedDescription": "Reading notes on ConvMem (arXiv:2609.10441): hierarchical summarization with overlapping windows, skip connections and sub-question channels, compared with MemAgent, plus ideas for constant-depth long-context reasoning.",
     "rfc822": "Sun, 13 Sep 2026 08:00:00 +0200",
-    "lastmod": "2026-09-30",
+    "lastmod": "2026-10-01",
     "math": true,
     "trail": "learning"
   },
@@ -49,9 +52,10 @@
     "category": "LLMs in science",
     "minutes": 10,
     "summary": "Copying rendered math from a chat window can put a fraction's denominator first. I reviewed every display equation in 60 arXiv papers and pattern-checked 200: 4.9% of display equations have a meaning-changing error, 2 of 118 errors are inverted fractions, and the rate did not change between 2021 and 2026.",
+    "whyItMatters": "A copied equation can change meaning without looking wrong, so reliable scientific workflows need checks beyond fluent text.",
     "feedDescription": "How often are equations in arXiv papers wrong, how many of the errors are inverted fractions, and did that change after 2022? A review of 2,294 display equations in 60 papers plus pattern checks on 200.",
     "rfc822": "Sun, 06 Sep 2026 08:00:00 +0200",
-    "lastmod": "2026-09-30",
+    "lastmod": "2026-10-01",
     "math": true,
     "trail": "modelling"
   },
@@ -63,9 +67,10 @@
     "category": "AI agents",
     "minutes": 7,
     "summary": "A weekend building a no-LLM game-theory bot for the GLEE economic games (bargaining, negotiation, persuasion), and what actually moved the percentile score: scaling the reward, measuring in the right seat, and closing before inflation eats the pot. Includes a playable version of the three games.",
+    "whyItMatters": "An agent that wins in simulation can still lose against real opponents, making evaluation design as important as the strategy.",
     "feedDescription": "Notes from building a game-theory agent for GLEE: what moved the percentile score (reward scaling, same-seat baseline, closing before inflation) and what did not (persuasive messages, hard anchoring). With a playable version of the three games.",
     "rfc822": "Sun, 30 Aug 2026 08:00:00 +0200",
-    "lastmod": "2026-09-30",
+    "lastmod": "2026-10-01",
     "trail": "automation"
   },
   {
@@ -76,6 +81,7 @@
     "category": "Continual learning",
     "minutes": 11,
     "summary": "Certified retention is easy for frozen features and collapses once the representation moves. A bottom-up stripe benchmark that makes adaptation provably necessary, and CARG, the metric for the accuracy you lose when the retention certificate has to hold.",
+    "whyItMatters": "A learning system should be tested on whether it can adapt and remember when its internal representation changes.",
     "feedDescription": "Certified retention under a changing representation: a bottom-up stripe benchmark where a frozen encoder provably cannot win, and the CARG metric for the accuracy-retention tradeoff.",
     "rfc822": "Sun, 23 Aug 2026 08:00:00 +0200",
     "lastmod": "2026-10-01",
@@ -90,9 +96,10 @@
     "category": "AI research",
     "minutes": 9,
     "summary": "Three 2026 papers let a language model supply its own supervision, the external teacher, the ground-truth labels, and the privileged context, all replaced by the model itself. What it buys, and where it breaks.",
+    "whyItMatters": "Models that teach themselves could reduce the need for labelled data, but they can also reinforce their own mistakes.",
     "feedDescription": "On-policy self-distillation without labels: OPSD, U-OPSD's label-free majority vote, and L-OPSD's learnable privileged context, with the failure modes that come with self-supervision.",
     "rfc822": "Sun, 16 Aug 2026 08:00:00 +0200",
-    "lastmod": "2026-09-30",
+    "lastmod": "2026-10-01",
     "trail": "learning"
   },
   {
@@ -103,9 +110,10 @@
     "category": "AI research",
     "minutes": 12,
     "summary": "Three 2026 papers argue chain-of-thought text was never the reasoning. Reasoning is a latent direction, activated early, held in superposition, and compressible to a few tokens.",
+    "whyItMatters": "Understanding what drives a model’s reasoning helps judge whether a convincing explanation reflects how it reached an answer.",
     "feedDescription": "Reading notes: 2026 evidence that LLM reasoning is a latent computational mode only loosely coupled to the chain-of-thought text printed alongside it.",
     "rfc822": "Sun, 09 Aug 2026 08:00:00 +0200",
-    "lastmod": "2026-08-11",
+    "lastmod": "2026-10-01",
     "trail": "learning"
   },
   {
@@ -116,9 +124,10 @@
     "category": "ML systems",
     "minutes": 14,
     "summary": "Every subquadratic-attention family relaxes one constraint while quietly keeping another. Five families, the routing-absorption trap, and why the frontier keeps flinching back to dense attention.",
+    "whyItMatters": "Making AI cheaper to run requires understanding what faster attention methods trade away.",
     "feedDescription": "Reading notes across the subquadratic-attention literature: pruning, learned selection, linear memory, delta-rule correction, and the impossibility proofs.",
     "rfc822": "Sun, 02 Aug 2026 08:00:00 +0200",
-    "lastmod": "2026-09-30",
+    "lastmod": "2026-10-01",
     "trail": "learning"
   },
   {
@@ -129,9 +138,10 @@
     "category": "Materials",
     "minutes": 8,
     "summary": "Ceramic solid electrolytes still fail by dendrite. A March 2026 model derives a closed-form critical current density from first principles, and writes down the same physics that lets a dandelion crack a driveway.",
+    "whyItMatters": "Understanding how tiny defects grow into battery short circuits can help guide safer material and process choices.",
     "feedDescription": "A first-principles model of critical current density for alkali-metal dendrites in ceramic solid electrolytes, read through the physics of a dandelion cracking pavement.",
     "rfc822": "Sun, 26 Jul 2026 08:00:00 +0200",
-    "lastmod": "2026-09-30",
+    "lastmod": "2026-10-01",
     "math": true,
     "trail": "materials"
   },
@@ -143,9 +153,10 @@
     "category": "AI & infrastructure",
     "minutes": 15,
     "summary": "AI becomes truly useful when a physical feedback loop (power, heat, latency, sensors, data lineage, safe actuation) can run reliably. Where the loop is closed and why capability is not deployability.",
+    "whyItMatters": "AI can support real experiments and production only when sensing, computation, and physical action work reliably together.",
     "feedDescription": "The next bottleneck in AI is physical: whether the loop from electricity through inference to actuation and back to sensors can run reliably, efficiently, and observably.",
     "rfc822": "Sun, 19 Jul 2026 08:00:00 +0200",
-    "lastmod": "2026-09-30",
+    "lastmod": "2026-10-01",
     "math": true,
     "trail": "automation"
   },
@@ -157,9 +168,10 @@
     "category": "Reading notes",
     "minutes": 8,
     "summary": "A NeurIPS 2025 paper trains one transformer on simulated, identifiable causal worlds; new observational data goes in as context, treatment-effect posteriors come out. What holds it up, and where it breaks.",
+    "whyItMatters": "Distinguishing causes from correlations is essential when a model is used to choose what to change in a process.",
     "feedDescription": "Notes on Balazadeh et al., CausalPFN: one transformer, trained on simulated identifiable DGPs, that estimates treatment effects in-context.",
     "rfc822": "Sun, 12 Jul 2026 08:00:00 +0200",
-    "lastmod": "2026-09-30",
+    "lastmod": "2026-10-01",
     "trail": "modelling"
   },
   {
@@ -170,6 +182,7 @@
     "category": "Continual learning",
     "minutes": 9,
     "summary": "How learning a new task damages an old one, and how interference geometry suggests a structural controller.",
+    "whyItMatters": "Models that keep learning need a way to preserve useful earlier knowledge while adapting to new data.",
     "feedDescription": "Forgetting as interference energy under a task's feature covariance, and the IGFA controller.",
     "rfc822": "Sun, 05 Jul 2026 08:00:00 +0200",
     "lastmod": "2026-10-01",
@@ -184,9 +197,10 @@
     "category": "Electrode manufacturing",
     "minutes": 7,
     "summary": "Why particle reorientation reverses the monotone prediction made by porosity-only thermal models.",
+    "whyItMatters": "Connecting electrode processing to heat transport helps explain why pressing an electrode harder does not always improve its thermal behaviour.",
     "feedDescription": "Why through-plane conductivity dips before it rises, and the closure that captures it.",
     "rfc822": "Sun, 28 Jun 2026 08:00:00 +0200",
-    "lastmod": "2026-09-30",
+    "lastmod": "2026-10-01",
     "trail": "materials"
   }
 ]

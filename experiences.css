@@ -24,8 +24,8 @@
 .career-sidebar .career-milestones { grid-template-columns: 1fr; margin: 0; border: 0; border-radius: 0; }
 .career-sidebar .career-milestones a { position: relative; padding: 12px 18px; border: 0; border-top: 1px solid var(--color-border); }
 .career-sidebar .career-milestones a[aria-current="step"]::before { content: ''; position: absolute; inset: 12px auto 12px 0; width: 3px; background: var(--color-primary); }
-.career-layout .career-entry { grid-template-columns: minmax(0, 1fr); padding-left: 24px; }
-.career-layout .career-entry::before { left: 0; top: 32px; }
+.career-layout .career-entry { grid-template-columns: minmax(0, 1fr); padding: var(--space-10) 0 var(--space-10) 24px; }
+.career-layout .career-entry::before { left: 0; top: 56px; }
 .career-layout .career-timeline::before, .career-layout .career-timeline::after { left: 4px; }
 .career-layout .career-time { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; }
 .career-layout .career-body { margin: 0; padding: 12px; }

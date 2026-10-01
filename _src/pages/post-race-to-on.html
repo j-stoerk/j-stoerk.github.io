@@ -87,6 +87,8 @@
       </div>
       <p class="article-meta muted">Reading notes across the subquadratic-attention literature.</p>
 
+      <!--#POST_CONTEXT-->
+
       <div class="prose">
         <p>Every softmax attention layer compares each token against every other token with O(T²) complexity in sequence length, and O(T²) memory costs <sup class="cite">[<a href="#ref-1">1</a>,<a href="#ref-2">2</a>]</sup>. With ever-growing context windows (at least since context windows crossed the hundred-thousand-token mark) the contested race to get attention's cost down to O(n) started. So much so, that Miami startup SubQ raised $29M while the AI community shouted "Theranos allegations" in response to the breakthroughs <sup class="cite">[<a href="#ref-30">30</a>]</sup>. The literature surfaces the pattern that every family of solution relaxes one constraint while quietly keeping another, and the places where people claim to have relaxed all of them at once are exactly where you should look the hardest.</p>
         <h3>Family 1: keep the comparisons, prune them</h3>
