@@ -1,14 +1,22 @@
-      <section class="research-explorer" data-feature="research-atlas" aria-labelledby="atlas-heading">
-        <div class="atlas-heading"><h3 id="atlas-heading">Explore the connections</h3><p>Four ways into the same questions.</p></div>
+      <section class="research-explorer blog-explorer" data-feature="research-atlas" aria-labelledby="atlas-heading">
+        <div class="atlas-heading">
+          <div><h3 id="atlas-heading">Pick a rabbit hole.</h3><p>Start with the latest notes, or follow a thread across disciplines.</p></div>
+          <button class="atlas-surprise" type="button" data-atlas-surprise><span aria-hidden="true">?</span> Surprise me</button>
+        </div>
         <div class="atlas-layout">
-          <div class="atlas-topics" aria-label="Research topics">
-            <button type="button" data-topic="materials" aria-pressed="true" aria-controls="atlas-materials"><span>01</span><strong>Materials</strong><small>Process → structure</small></button>
+          <div class="atlas-topics" aria-label="Blog trails">
+            <button type="button" data-topic="latest" aria-pressed="true" aria-controls="atlas-latest"><span>?</span><strong>Latest</strong><small>Fresh from the notebook</small></button>
+            <button type="button" data-topic="materials" aria-pressed="false" aria-controls="atlas-materials"><span>01</span><strong>Materials</strong><small>Process → structure</small></button>
             <button type="button" data-topic="learning" aria-pressed="false" aria-controls="atlas-learning"><span>02</span><strong>Learning</strong><small>Memory → adaptation</small></button>
             <button type="button" data-topic="modelling" aria-pressed="false" aria-controls="atlas-modelling"><span>03</span><strong>Modelling</strong><small>Physics → prediction</small></button>
             <button type="button" data-topic="automation" aria-pressed="false" aria-controls="atlas-automation"><span>04</span><strong>Automation</strong><small>Experiment → discovery</small></button>
           </div>
           <div class="atlas-work">
-            <div class="atlas-panel" id="atlas-materials" data-active="true" role="region" aria-label="Materials connections">
+            <p class="atlas-trail" id="atlas-trail" role="status">Latest / Fresh from the notebook</p>
+            <div class="atlas-panel" id="atlas-latest" data-active="true" role="region" aria-label="Latest blog posts">
+              <!--#BLOG_LATEST-->
+            </div>
+            <div class="atlas-panel" id="atlas-materials" role="region" aria-label="Materials connections">
               <a class="atlas-story" href="post-calendering-u-shape.html"><img src="images/blog-covers/post-calendering-u-shape.svg" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>Materials × modelling</small><strong>The calendering U-shape</strong><span>How particle contacts and orientation compete.</span><em>Explore the paper ↗</em></span></a>
               <a class="atlas-story" href="post-dendrites-dandelions.html"><img src="images/blog-covers/post-dendrites-dandelions.svg" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>Materials × growth</small><strong>Dendrites and dandelions</strong><span>Branching patterns across very different scales.</span><em>Follow the connection ↗</em></span></a>
             </div>

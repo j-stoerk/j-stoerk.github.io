@@ -185,9 +185,7 @@ const POST_LIST = `<div id="blog-posts" class="journal-index journal-index-page"
 ${posts.map((p) => postEntry(p, true, 6)).join('\n')}
     </div>`;
 
-const POST_CARDS = `<div class="journal-index">
-${posts.slice(0, 2).map((p) => postEntry(p, false, 8)).join('\n')}
-      </div>`;
+const BLOG_LATEST = posts.slice(0, 2).map(p => `<a class="atlas-story" href="${p.file}"><img src="${postCover(p)}" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>${p.display} ? ${p.category}</small><strong>${p.title}</strong><span>${p.summary}</span><em>Read the notes ?</em></span></a>`).join('\n              ');
 
 /* ---------- build pages ---------- */
 const pagesDir = path.join(SRC, 'pages');
@@ -204,10 +202,10 @@ for (const file of fs.readdirSync(pagesDir)) {
     .replace('  <!--#TOPBAR-->', topbar(cfg))
     .replace('  <!--#FOOTER-->', footer(cfg))
     .replace('  <!--#SCRIPTS-->', scripts(cfg))
-    .replace('<!--#POST_LIST-->', POST_LIST)
-    .replace('<!--#POST_CARDS-->', POST_CARDS);
+    .replace('<!--#POST_LIST-->', POST_LIST);
   html = html.replace('<!--#RESEARCH_LAB-->', () => fs.readFileSync(path.join(SRC, 'research-lab.html'), 'utf8'));
   html = html.replace('<!--#RESEARCH_ATLAS-->', () => fs.readFileSync(path.join(SRC, 'research-atlas.html'), 'utf8'));
+  html = html.replace('<!--#BLOG_LATEST-->', () => BLOG_LATEST);
   if (cfg.math) html = renderMath(html, file);
   if (/<!--#/.test(html)) throw new Error(`${file}: unresolved marker`);
   fs.writeFileSync(path.join(ROOT, file), html);

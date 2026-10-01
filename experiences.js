@@ -122,13 +122,20 @@
     ctx.restore();
   }
 
-  // Links are the illustrated objects in the atlas, with no detached results list.
+  // Recent notes and topic trails share the same blog explorer.
   (function atlas() {
     const buttons = $$('[data-topic]'), panels = $$('.atlas-panel');
-    buttons.forEach(button => button.addEventListener('click', () => {
+    if (!buttons.length) return;
+    function select(button) {
       buttons.forEach(b => b.setAttribute('aria-pressed', String(b === button)));
       panels.forEach(panel => { panel.dataset.active = String(panel.id === button.getAttribute('aria-controls')); });
-    }));
+      $('#atlas-trail').textContent = $('strong', button).textContent + ' / ' + $('small', button).textContent;
+    }
+    buttons.forEach(button => button.addEventListener('click', () => select(button)));
+    $('[data-atlas-surprise]')?.addEventListener('click', () => {
+      const trails = buttons.filter(button => button.dataset.topic !== 'latest' && button.getAttribute('aria-pressed') !== 'true');
+      select(trails[Math.floor(Math.random() * trails.length)]);
+    });
   })();
 
   // Drag in the landscape itself. A fixed quadratic makes every readout explicit.

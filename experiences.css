@@ -54,7 +54,13 @@
 .research-focus .rcard-d { font-size: var(--text-xs); margin-top: 8px; }
 
 /* The destinations are part of the topic composition. */
-.research-explorer { margin-top: 56px; }
+.research-explorer { margin-top: 24px; }
+.blog-explorer .atlas-heading { align-items: center; }
+.blog-explorer .atlas-heading p { margin-top: 8px; }
+.atlas-surprise { display: inline-flex; align-items: center; gap: 10px; flex-shrink: 0; min-height: 44px; padding: 10px 16px; border: 1px dashed var(--color-primary); border-radius: 99px; color: var(--color-primary); background: var(--color-surface); }
+.atlas-surprise:hover { background: var(--color-primary-highlight); }
+.atlas-surprise > span { font-size: 22px; line-height: 1; }
+.atlas-trail { margin: 0 0 20px; font-family: var(--font-mono); font-size: 10px; color: var(--color-text-muted); letter-spacing: .04em; }
 .atlas-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
 .atlas-heading h3 { font-size: var(--text-lg); margin: 0; }
 .atlas-heading p { color: var(--color-text-muted); font-size: var(--text-xs); margin: 0; }
@@ -108,6 +114,8 @@ html:not(.experiences-ready) .experience-surface canvas,
 html:not(.experiences-ready) .experience-controls,
 html:not(.experiences-ready) .quiet-button,
 html:not(.experiences-ready) .atlas-topics,
+html:not(.experiences-ready) .atlas-surprise,
+html:not(.experiences-ready) .atlas-trail,
 html:not(.experiences-ready) .lab-result { display: none; }
 html:not(.experiences-ready) .atlas-layout { grid-template-columns: 1fr; }
 html:not(.experiences-ready) .atlas-panel { margin-bottom: 24px; }
@@ -149,6 +157,7 @@ html:not(.experiences-ready) .career-scene figcaption { padding-top: 24px; }
   .experiences-ready .research-focus .rcard:not(.is-active) :is(.rcard-q, .rcard-d) { display: none; }
   .atlas-heading { display: block; }
   .atlas-heading p { margin-top: 8px; }
+  .atlas-surprise { margin-top: 16px; }
   .atlas-layout { grid-template-columns: 1fr; }
   .atlas-topics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; }
   .atlas-topics button { min-height: 70px; padding: 12px; }
@@ -179,7 +188,7 @@ html:not(.experiences-ready) .career-scene figcaption { padding-top: 24px; }
   .atlas-story img, .section-sketch, .research-focus .rcard { transition: none; }
 }
 @media print {
-  .experience-controls, .quiet-button, .section-sketch, .atlas-topics { display: none; }
+  .experience-controls, .quiet-button, .section-sketch, .atlas-topics, .atlas-surprise, .atlas-trail { display: none; }
   .career-sidebar { position: static; }
   .experience-surface { break-inside: avoid; }
   .experiences-ready .atlas-panel { display: grid; margin-bottom: 24px; }
