@@ -1,6 +1,8 @@
-<svg width="1000" height="5200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 5200" preserveAspectRatio="none" fill="none"><style>.art-ink,
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1800" viewBox="0 0 1000 1800" fill="none"><style>.art-ink,
 .art-ink-soft,
-.art-hair {
+.art-hair,
+.art-blue,
+.art-gold {
   fill: none;
   vector-effect: non-scaling-stroke;
   stroke-linecap: round;
@@ -23,6 +25,14 @@
   stroke-width: 0.6;
 }
 
+.art-blue, .art-gold {
+  stroke-width: 1.2;
+  stroke-opacity: .55;
+}
+
+.art-blue { stroke: #5a82be; }
+.art-gold { stroke: #b28945; }
+
 .art-fill-ink {
   fill: rgba(38, 48, 62, .42);
   stroke: none;
@@ -33,20 +43,93 @@
   fill: rgba(38, 48, 62, .22);
   stroke: none;
 }</style>
-        <g class="art-wash">
-          <g transform="translate(-200,20)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#8bbf6e" opacity="0.11"/></g>
-          <g transform="translate(-50,580)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#5a82be" opacity="0.14"/></g>
-          <g transform="translate(-190,1140)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#e0a94a" opacity="0.11"/></g>
-          <g transform="translate(-35,1700)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#7a8a9a" opacity="0.14"/></g>
-          <g transform="translate(-180,2260)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#c85a46" opacity="0.11"/></g>
-          <g transform="translate(-45,2820)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#8bbf6e" opacity="0.14"/></g>
-          <g transform="translate(-170,3380)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#5a82be" opacity="0.11"/></g>
-          <g transform="translate(-60,3940)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#e0a94a" opacity="0.14"/></g>
-          <g transform="translate(-175,4500)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#7a8a9a" opacity="0.11"/></g>
-        </g>
-        <path class="art-ink" d="M720 5180 C 660 4900 780 4650 725 4380 C 665 4120 775 3880 720 3620 C 665 3360 785 3120 725 2860 C 675 2620 775 2380 720 2120 C 675 1880 775 1650 720 1400 C 685 1180 760 960 720 730 C 705 540 730 340 720 150"/>
-        <path class="art-ink-soft" d="M733 5180 C 673 4900 793 4650 738 4380 C 678 4120 788 3880 733 3620 C 678 3360 798 3120 738 2860 C 688 2620 788 2380 733 2120 C 688 1880 788 1650 733 1400 C 698 1180 773 960 733 730 C 718 540 743 340 733 150"/>
-        <g transform="translate(690,1590)"><circle class="art-ink" cx="0" cy="-100" r="10"/><circle class="art-ink" cx="-80" cy="-20" r="10"/><circle class="art-ink" cx="80" cy="-20" r="10"/><circle class="art-ink" cx="-120" cy="60" r="8"/><circle class="art-ink" cx="-40" cy="60" r="8"/><circle class="art-ink" cx="40" cy="60" r="8"/><circle class="art-ink" cx="120" cy="60" r="8"/><path class="art-ink-soft" d="M0 -100 L-80 -20 M0 -100 L80 -20 M-80 -20 L-120 60 M-80 -20 L-40 60 M80 -20 L40 60 M80 -20 L120 60"/></g>
-        <g transform="translate(690,3530)"><path class="art-ink" d="M-140 -120 V 60 H 170"/><path class="art-ink" d="M-130 -100 C -120 20 -100 50 -60 55 C 0 58 80 58 160 58"/><path class="art-ink-soft" d="M-130 -100 C -60 -80 20 -70 160 -66"/></g>
-        <path class="art-ink" d="M720 5180 C 660 5080 560 5050 470 5075 M720 5180 C 790 5080 900 5055 960 5085 M720 5180 C 720 5100 720 5060 720 5030 M470 5075 C 430 5090 410 5125 420 5155 M960 5085 C 900 5100 880 5135 892 5162"/>
-      <path class="art-ink" d="M720 0V150 M720 5180V5200"/><path class="art-ink-soft" d="M733 0V150 M733 5180V5200"/></svg>
+<!-- Overlapping document windows / logarithmic summary tree / query-conditioned skips -->
+<g transform="translate(0 0)" opacity=".65">
+<path class="art-hair" d="M805 0C805 105 750 198 760 320S881 509 825 665S757 820 822 990S891 1235 827 1385S805 1670 805 1800" />
+</g>
+<g transform="translate(12 0)" opacity=".35">
+<path class="art-hair" d="M805 0C805 105 750 198 760 320S881 509 825 665S757 820 822 990S891 1235 827 1385S805 1670 805 1800" />
+</g>
+<g transform="translate(805 68)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
+</g>
+<g transform="translate(805 610)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
+</g>
+<g transform="translate(805 1180)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
+</g>
+<g transform="translate(805 1740)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
+</g>
+<g transform="translate(805 295)" opacity=".85">
+<rect class="art-ink-soft" x="-171" y="-94" width="62" height="82" rx="5" />
+<circle class="art-dot" cx="-160" cy="-67" r="2.5" /><circle class="art-dot" cx="-147" cy="-67" r="2.5" /><circle class="art-dot" cx="-134" cy="-67" r="2.5" />
+<path class="art-hair" d="M-160 -48L-125 -48" />
+<path class="art-hair" d="M-140-12V32H0V105" />
+<rect class="art-ink-soft" x="-120" y="-94" width="62" height="82" rx="5" />
+<circle class="art-dot" cx="-109" cy="-67" r="2.5" /><circle class="art-dot" cx="-96" cy="-67" r="2.5" /><circle class="art-dot" cx="-83" cy="-67" r="2.5" />
+<path class="art-hair" d="M-109 -48L-74 -48" />
+<path class="art-hair" d="M-89-12V47H0V105" />
+<rect class="art-ink-soft" x="-69" y="-94" width="62" height="82" rx="5" />
+<circle class="art-dot" cx="-58" cy="-67" r="2.5" /><circle class="art-dot" cx="-45" cy="-67" r="2.5" /><circle class="art-dot" cx="-32" cy="-67" r="2.5" />
+<path class="art-hair" d="M-58 -48L-23 -48" />
+<path class="art-hair" d="M-38-12V32H0V105" />
+<rect class="art-ink-soft" x="-18" y="-94" width="62" height="82" rx="5" />
+<circle class="art-dot" cx="-7" cy="-67" r="2.5" /><circle class="art-dot" cx="6" cy="-67" r="2.5" /><circle class="art-dot" cx="19" cy="-67" r="2.5" />
+<path class="art-hair" d="M-7 -48L28 -48" />
+<path class="art-hair" d="M13-12V47H0V105" />
+<rect class="art-ink-soft" x="33" y="-94" width="62" height="82" rx="5" />
+<circle class="art-dot" cx="44" cy="-67" r="2.5" /><circle class="art-dot" cx="57" cy="-67" r="2.5" /><circle class="art-dot" cx="70" cy="-67" r="2.5" />
+<path class="art-hair" d="M44 -48L79 -48" />
+<path class="art-hair" d="M64-12V32H0V105" />
+<rect class="art-ink-soft" x="84" y="-94" width="62" height="82" rx="5" />
+<circle class="art-dot" cx="95" cy="-67" r="2.5" /><circle class="art-dot" cx="108" cy="-67" r="2.5" /><circle class="art-dot" cx="121" cy="-67" r="2.5" />
+<path class="art-hair" d="M95 -48L130 -48" />
+<path class="art-hair" d="M115-12V47H0V105" />
+<rect class="art-ink" x="-52" y="105" width="104" height="48" rx="8" />
+<circle class="art-dot" cx="-28" cy="129" r="2.5" /><circle class="art-dot" cx="-10" cy="129" r="2.5" /><circle class="art-dot" cx="8" cy="129" r="2.5" /><circle class="art-dot" cx="26" cy="129" r="2.5" />
+</g>
+<g transform="translate(805 890)" opacity=".85">
+<path class="art-ink-soft" d="M-153 109L-102 4" />
+<path class="art-ink-soft" d="M-51 109L-102 4" />
+<path class="art-ink-soft" d="M51 109L102 4" />
+<path class="art-ink-soft" d="M153 109L102 4" />
+<path class="art-ink-soft" d="M-102 4L0 -112" />
+<path class="art-ink-soft" d="M102 4L0 -112" />
+<circle class="art-ink" cx="-153" cy="109" r="7" />
+<circle class="art-ink" cx="-51" cy="109" r="7" />
+<circle class="art-ink" cx="51" cy="109" r="7" />
+<circle class="art-ink" cx="153" cy="109" r="7" />
+<circle class="art-ink" cx="-102" cy="4" r="7" />
+<circle class="art-ink" cx="102" cy="4" r="7" />
+<circle class="art-ink" cx="0" cy="-112" r="7" />
+<path class="art-blue" d="M-153 109C-204 0-172-138 0-112M51 109C55-39-2-5 0-112" />
+<circle class="art-blue" cx="0" cy="-112" r="19" />
+</g>
+<g transform="translate(805 1490)" opacity=".85">
+<rect class="art-ink" x="-160" y="-128" width="76" height="70" rx="8" />
+<circle class="art-gold" cx="122" cy="-96" r="24" />
+<path class="art-blue" d="M-84-93H33L122-72V-10H-95V76H70V135" />
+<circle class="art-ink" cx="33" cy="-93" r="9" />
+<circle class="art-ink" cx="122" cy="-10" r="9" />
+<circle class="art-ink" cx="-95" cy="-10" r="9" />
+<circle class="art-ink" cx="-95" cy="76" r="9" />
+<circle class="art-ink" cx="70" cy="76" r="9" />
+<rect class="art-ink" x="28" y="135" width="85" height="32" rx="7" />
+<path class="art-hair" d="M-146 17h46m-46 16h31M-28 30h112" />
+<path class="art-hair" d="M122-72C164 4 172 106 113 151" stroke-dasharray="4 7"/>
+</g>
+</svg>

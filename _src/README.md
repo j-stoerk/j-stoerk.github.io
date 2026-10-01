@@ -37,10 +37,14 @@ node _src/build.js
 The build also extracts each post's `svg.cover-art` into
 `images/blog-covers/` for the blog tile view. Edit the inline artwork in the
 source page and rebuild; commit the generated SVGs with the HTML.
-Each post's line-art background is also exported into `images/blog-backgrounds/`
+Each post has a dedicated schematic in `blog-art/<post-name>.svg`, inserted at
+`<!--#POST_BACKGROUND-->`. These are exported into `images/blog-backgrounds/`
 in light and dark variants, using the shared ink styles and theme tokens.
-CSS repeats that artwork vertically at its original proportions for the full
-article height, including when content expands or JavaScript is unavailable.
+Each 1000×1800 tile has three subject-specific vignettes and continuous connecting
+paths that meet at the top and bottom with matching tangents. CSS repeats the
+artwork at its original proportions for the full article height, including when
+content expands or JavaScript is unavailable. A horizontal mask softens artwork
+under the reading column. Edit the dedicated SVGs rather than the generated assets.
 `blog-view.js` switches between the list and tiles and remembers the selection.
 
 The shared header order lives in `NAV_ITEMS`. Local HTML links carry a `nav`

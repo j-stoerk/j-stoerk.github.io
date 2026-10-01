@@ -1,6 +1,8 @@
-<svg width="1000" height="5200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 5200" preserveAspectRatio="none" fill="none"><style>.art-ink,
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1800" viewBox="0 0 1000 1800" fill="none"><style>.art-ink,
 .art-ink-soft,
-.art-hair {
+.art-hair,
+.art-blue,
+.art-gold {
   fill: none;
   vector-effect: non-scaling-stroke;
   stroke-linecap: round;
@@ -23,6 +25,14 @@
   stroke-width: 0.6;
 }
 
+.art-blue, .art-gold {
+  stroke-width: 1.2;
+  stroke-opacity: .55;
+}
+
+.art-blue { stroke: #5a82be; }
+.art-gold { stroke: #b28945; }
+
 .art-fill-ink {
   fill: rgba(196, 210, 230, .38);
   stroke: none;
@@ -33,20 +43,107 @@
   fill: rgba(196, 210, 230, .2);
   stroke: none;
 }</style>
-        <g class="art-wash">
-          <g transform="translate(-205,20)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#8bbf6e" opacity="0.11"/></g>
-          <g transform="translate(-43,580)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#7a8a9a" opacity="0.14"/></g>
-          <g transform="translate(-186,1140)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#e0a94a" opacity="0.11"/></g>
-          <g transform="translate(-72,1700)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#c85a46" opacity="0.14"/></g>
-          <g transform="translate(-197,2260)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#5a82be" opacity="0.11"/></g>
-          <g transform="translate(-22,2820)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#8bbf6e" opacity="0.14"/></g>
-          <g transform="translate(-182,3380)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#7a8a9a" opacity="0.11"/></g>
-          <g transform="translate(-50,3940)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#e0a94a" opacity="0.14"/></g>
-          <g transform="translate(-180,4500)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#c85a46" opacity="0.11"/></g>
-        </g>
-        <path class="art-ink" d="M720 5180 C 660 4900 780 4650 725 4380 C 665 4120 775 3880 720 3620 C 665 3360 785 3120 725 2860 C 675 2620 775 2380 720 2120 C 675 1880 775 1650 720 1400 C 685 1180 760 960 720 730 C 705 540 730 340 720 150"/>
-        <path class="art-ink-soft" d="M733 5180 C 673 4900 793 4650 738 4380 C 678 4120 788 3880 733 3620 C 678 3360 798 3120 738 2860 C 688 2620 788 2380 733 2120 C 688 1880 788 1650 733 1400 C 698 1180 773 960 733 730 C 718 540 743 340 733 150"/>
-        <g transform="translate(690,1590)"><circle class="art-ink" cx="-120" cy="-40" r="10"/><circle class="art-ink" cx="0" cy="-90" r="10"/><circle class="art-ink" cx="0" cy="20" r="10"/><circle class="art-ink" cx="130" cy="-40" r="10"/><circle class="art-ink" cx="130" cy="70" r="10"/><path class="art-ink-soft" d="M-120 -40 L0 -90 M-120 -40 L0 20 M0 -90 L130 -40 M0 20 L130 -40 M0 20 L130 70"/></g>
-        <g transform="translate(690,3530)"><path class="art-ink" d="M-140 -120 V 60 H 170"/><path class="art-ink" d="M-120 -78 C -60 62 -12 92 20 72 C 62 44 112 -58 152 -108"/><rect x="60" y="120" width="22" height="90" fill="#5a82be" fill-opacity=".28"/><rect x="92" y="90" width="22" height="120" fill="#e0a94a" fill-opacity=".28"/><rect x="124" y="140" width="22" height="70" fill="#c85a46" fill-opacity=".25"/></g>
-        <path class="art-ink" d="M720 5180 C 660 5080 560 5050 470 5075 M720 5180 C 790 5080 900 5055 960 5085 M720 5180 C 720 5100 720 5060 720 5030 M470 5075 C 430 5090 410 5125 420 5155 M960 5085 C 900 5100 880 5135 892 5162"/>
-      <path class="art-ink" d="M720 0V150 M720 5180V5200"/><path class="art-ink-soft" d="M733 0V150 M733 5180V5200"/></svg>
+<!-- Bargaining offers / seat-dependent rewards / inflation and timely acceptance -->
+<g transform="translate(0 0)" opacity=".65">
+<path class="art-hair" d="M805 0C805 121 733 184 773 340S897 514 846 672S736 815 778 1029S890 1235 831 1426S805 1690 805 1800" />
+</g>
+<g transform="translate(12 0)" opacity=".35">
+<path class="art-hair" d="M805 0C805 121 733 184 773 340S897 514 846 672S736 815 778 1029S890 1235 831 1426S805 1690 805 1800" />
+</g>
+<g transform="translate(805 68)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
+</g>
+<g transform="translate(805 610)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
+</g>
+<g transform="translate(805 1180)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
+</g>
+<g transform="translate(805 1740)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
+</g>
+<g transform="translate(805 295)" opacity=".85">
+<circle class="art-ink" cx="-85" cy="-75" r="44" />
+<circle class="art-ink" cx="86" cy="-75" r="44" />
+<path class="art-blue" d="M-38 -75L37 -75" /><path class="art-blue" d="M28.9 -71.1L37 -75L28.9 -78.9" />
+<path class="art-hair" d="M-85-31V26H86V-31" />
+<rect class="art-ink" x="-151" y="56" width="302" height="66" rx="9" />
+<path class="art-ink" d="M-15 56L-15 122" />
+<path class="art-hair" d="M-137 77h99m-99 20h99M2 77h132m-132 20h132" />
+<circle class="art-gold" cx="-122" cy="154" r="7" />
+<circle class="art-gold" cx="-101" cy="154" r="7" />
+<circle class="art-gold" cx="-80" cy="154" r="7" />
+<circle class="art-gold" cx="-59" cy="154" r="7" />
+<circle class="art-gold" cx="-38" cy="154" r="7" />
+</g>
+<g transform="translate(805 890)" opacity=".85">
+<rect class="art-ink-soft" x="-139" y="-120" width="280" height="250" rx="1" />
+<path class="art-hair" d="M-69 -120L-69 130" />
+<path class="art-hair" d="M-139 -57.5L141 -57.5" />
+<path class="art-hair" d="M1 -120L1 130" />
+<path class="art-hair" d="M-139 5L141 5" />
+<path class="art-hair" d="M71 -120L71 130" />
+<path class="art-hair" d="M-139 67.5L141 67.5" />
+<circle class="art-blue" cx="-116" cy="-89" r="3" />
+<circle class="art-gold" cx="-94" cy="-89" r="3" />
+<circle class="art-blue" cx="-46" cy="-89" r="4" />
+<circle class="art-gold" cx="-24" cy="-89" r="4" />
+<circle class="art-blue" cx="24" cy="-89" r="5" />
+<circle class="art-gold" cx="46" cy="-89" r="5" />
+<circle class="art-blue" cx="94" cy="-89" r="6" />
+<circle class="art-gold" cx="116" cy="-89" r="6" />
+<circle class="art-blue" cx="-116" cy="-26.5" r="4" />
+<circle class="art-gold" cx="-94" cy="-26.5" r="5" />
+<circle class="art-blue" cx="-46" cy="-26.5" r="5" />
+<circle class="art-gold" cx="-24" cy="-26.5" r="6" />
+<circle class="art-blue" cx="24" cy="-26.5" r="6" />
+<circle class="art-gold" cx="46" cy="-26.5" r="3" />
+<circle class="art-blue" cx="94" cy="-26.5" r="3" />
+<circle class="art-gold" cx="116" cy="-26.5" r="4" />
+<circle class="art-blue" cx="-116" cy="36" r="5" />
+<circle class="art-gold" cx="-94" cy="36" r="3" />
+<circle class="art-blue" cx="-46" cy="36" r="6" />
+<circle class="art-gold" cx="-24" cy="36" r="4" />
+<circle class="art-blue" cx="24" cy="36" r="3" />
+<circle class="art-gold" cx="46" cy="36" r="5" />
+<circle class="art-blue" cx="94" cy="36" r="4" />
+<circle class="art-gold" cx="116" cy="36" r="6" />
+<circle class="art-blue" cx="-116" cy="98.5" r="6" />
+<circle class="art-gold" cx="-94" cy="98.5" r="5" />
+<circle class="art-blue" cx="-46" cy="98.5" r="3" />
+<circle class="art-gold" cx="-24" cy="98.5" r="6" />
+<circle class="art-blue" cx="24" cy="98.5" r="4" />
+<circle class="art-gold" cx="46" cy="98.5" r="3" />
+<circle class="art-blue" cx="94" cy="98.5" r="5" />
+<circle class="art-gold" cx="116" cy="98.5" r="4" />
+<path class="art-blue" d="M-151 146H151M155-129V139" />
+</g>
+<g transform="translate(805 1490)" opacity=".85">
+<path class="art-ink-soft" d="M-161 117L166 117" />
+<path class="art-gold" d="M-148-110C-49-94 5 31 145 72" />
+<circle class="art-ink" cx="-145" cy="-96" r="23" />
+<path class="art-hair" d="M-145 117L-145 129" />
+<circle class="art-ink" cx="-74" cy="-55" r="20" />
+<path class="art-hair" d="M-74 117L-74 129" />
+<circle class="art-ink" cx="-3" cy="-14" r="17" />
+<path class="art-hair" d="M-3 117L-3 129" />
+<circle class="art-ink" cx="68" cy="27" r="14" />
+<path class="art-hair" d="M68 117L68 129" />
+<circle class="art-ink" cx="139" cy="68" r="11" />
+<path class="art-hair" d="M139 117L139 129" />
+<path class="art-blue" d="M40 -18l6 6 12-15" />
+<path class="art-blue" d="M47 6V112" stroke-dasharray="4 6"/>
+</g>
+</svg>
