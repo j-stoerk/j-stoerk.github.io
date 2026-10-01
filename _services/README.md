@@ -12,8 +12,11 @@ The supplied prototype Worker can read/write that table, but the production
 frontend also needs the upgrade below for Turnstile, identities, and safe retries.
 
 1. Open **Storage & databases → D1 → j-stoerk-comments → Console**.
-   Run [migrations/0001_comments.sql](comments/migrations/0001_comments.sql)
-   **once**, statement by statement if the console requires it. It keeps the
+   Open [migrations/0001_comments.sql](comments/migrations/0001_comments.sql),
+   copy its SQL text into the console's query editor, then select **Execute**.
+   A [plain-text copy](https://raw.githubusercontent.com/j-stoerk/j-stoerk.github.io/main/_services/comments/migrations/0001_comments.sql)
+   is also available. Paste the SQL itself, rather than the file's URL or GitHub
+   page. Run it **once**, statement by statement if the console requires it. It keeps the
    original table and existing rows, adds `request_id` and `hidden`, and creates
    the `identities` and `rate_limits` tables and indexes. Do not drop the original
    table. Afterward, `PRAGMA table_info(comments);` should include the two new
@@ -66,6 +69,30 @@ frontend also needs the upgrade below for Turnstile, identities, and safe retrie
 
 This workspace has no Cloudflare login, so creating repository files does not
 deploy them. The dashboard steps above finish the service-side setup.
+
+### SQL console troubleshooting
+
+If the D1 console says **"The request is malformed: Requests without any query
+are not supported"**, check that the query editor contains SQL and that the
+selection is not empty or only a comment. First paste and execute:
+
+```sql
+SELECT 1 AS connected;
+```
+
+It should return `connected = 1`. This read-only query does not change the
+database. Then inspect the current schema:
+
+```sql
+PRAGMA table_info(comments);
+SELECT name FROM sqlite_schema WHERE type IN ('table', 'index') ORDER BY name;
+```
+
+If an upgrade was partially applied, run only its missing statements. Do not
+repeat the `ALTER TABLE` statements when `request_id` and `hidden` already exist.
+Creating the `identities` and `rate_limits` tables twice also produces errors.
+Keep the existing comments table. Cloudflare documents the paste-and-Execute
+flow in its [D1 console guide](https://developers.cloudflare.com/d1/get-started/#run-a-query-against-your-d1-database).
 
 ## Behaviour and maintenance
 
