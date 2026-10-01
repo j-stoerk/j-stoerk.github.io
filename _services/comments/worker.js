@@ -14,9 +14,10 @@ async function digest(value) {
   const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value));
   return [...new Uint8Array(hash)].map(byte => byte.toString(16).padStart(2, '0')).join('');
 }
+function turnstileSecret(env) { return env.TURNSTILE_SECRET || env.TURNSTILE_SECRET_KEY; }
 async function rateLimit(request, env) {
   const minute = Math.floor(Date.now() / 60000);
-  const key = request.method + ':' + await digest(env.TURNSTILE_SECRET_KEY + ':' + (request.headers.get('CF-Connecting-IP') || 'anonymous'));
+  const key = request.method + ':' + await digest(turnstileSecret(env) + ':' + (request.headers.get('CF-Connecting-IP') || 'anonymous'));
   const count = await env.DB.prepare(`INSERT INTO rate_limits (key, minute, used) VALUES (?, ?, 1)
     ON CONFLICT(key) DO UPDATE SET used = CASE WHEN minute = excluded.minute THEN used + 1 ELSE 1 END,
     minute = excluded.minute RETURNING used`).bind(key, minute).first();
@@ -70,7 +71,7 @@ export async function handleRequest(request, env, send = fetch) {
   if ((origin && origin !== allowed) || (request.method === 'POST' && origin !== allowed)) return error(403, 'Use the portfolio to post comments.');
   if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers });
   if (!['GET', 'POST'].includes(request.method) || (url.pathname === '/identity' && request.method !== 'GET')) return error(405, 'Method not allowed.');
-  if (!env.DB || !env.TURNSTILE_SECRET_KEY) return error(503, 'Comments are not connected yet.');
+  if (!env.DB || !turnstileSecret(env)) return error(503, 'Comments are not connected yet.');
 
   try {
     if (!await rateLimit(request, env)) return error(429, 'Please wait a minute before trying again.');
@@ -122,7 +123,7 @@ export async function handleRequest(request, env, send = fetch) {
 
     const verification = await send('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(10000),
-      body: JSON.stringify({ secret: env.TURNSTILE_SECRET_KEY, response: data.turnstileToken,
+      body: JSON.stringify({ secret: turnstileSecret(env), response: data.turnstileToken,
         remoteip: request.headers.get('CF-Connecting-IP') || undefined }),
     });
     if (!verification.ok) return error(503, 'Verification is temporarily unavailable. Your draft is still here.');

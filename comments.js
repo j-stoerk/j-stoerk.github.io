@@ -7,7 +7,7 @@
   if (!config.endpoint || !config.turnstileSiteKey) return;
   const service = config.endpoint;
   const identities = window.PortfolioCommentIdentity;
-  let identity = identities.read(service), cursor = null, loading = false, posting = false, pending = null;
+  let identity = identities.read(service), cursor = null, loading = false, posting = false, pending = null, connected = false;
   const comments = new Map();
   const form = section.querySelector('[data-comment-form]');
   const text = form.elements.comment;
@@ -29,9 +29,9 @@
   }
   function buttons() {
     const busy = loading || posting;
-    post.disabled = busy; more.disabled = busy; refresh.disabled = busy;
+    post.disabled = busy || !connected; more.disabled = busy; refresh.disabled = busy;
     section.querySelector('[data-identity-save]').disabled = busy || !identity?.confirmed;
-    section.querySelector('[data-identity-restore]').disabled = busy;
+    section.querySelector('[data-identity-restore]').disabled = busy || !connected;
   }
   remember(); buttons(); refresh.hidden = false;
 
@@ -74,11 +74,15 @@
       const query = new URLSearchParams({ page: config.sectionId });
       if (older && cursor) query.set('cursor', cursor);
       const data = await api('/comments?' + query);
+      // An older Worker may still be deployed while the owner completes setup.
+      // It cannot accept this editor's submissions, so don't show an unusable form.
+      if (!Object.hasOwn(data, 'nextCursor')) { section.hidden = true; return; }
       if (!Array.isArray(data.comments) || !data.comments.every(validComment)
         || (data.nextCursor !== null && (!Number.isSafeInteger(data.nextCursor) || data.nextCursor < 1))) throw new Error('Couldn’t load this discussion. Please try again.');
       if (!older) comments.clear();
       data.comments.forEach(comment => comments.set(comment.id, comment));
       cursor = data.nextCursor; more.hidden = !cursor; render(); status.textContent = '';
+      connected = true;
     } catch (error) { fail(error); }
     finally { loading = false; buttons(); }
   }
@@ -145,7 +149,7 @@
   }
   form.addEventListener('submit', async event => {
     event.preventDefault(); const body = text.value.trim();
-    if (posting || loading || !body) return;
+    if (posting || loading || !connected || !body) return;
     posting = true; buttons();
     try {
       if (!identity) {

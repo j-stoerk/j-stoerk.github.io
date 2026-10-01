@@ -13,4 +13,5 @@ database_name = "j-stoerk-comments"
 database_id = ""
 migrations_dir = "migrations"
 
-# TURNSTILE_SECRET_KEY is set using wrangler secret put, never in this file.
+# TURNSTILE_SECRET is set using wrangler secret put, never in this file.
+# TURNSTILE_SECRET_KEY is also accepted for older configurations.

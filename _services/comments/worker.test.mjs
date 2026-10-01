@@ -233,3 +233,15 @@ test('default Worker entrypoint accepts Cloudflare context without treating it a
     assert.equal((await worker.fetch(s.request('POST', '/comments', s.payload()), s.env, { waitUntil() {} })).status, 201);
   } finally { globalThis.fetch = previous; }
 });
+
+test('the existing TURNSTILE_SECRET binding works and takes precedence over the alternate name', async t => {
+  const s = setup(t);
+  s.env.TURNSTILE_SECRET = 'existing-private-binding';
+  delete s.env.TURNSTILE_SECRET_KEY;
+  assert.equal((await s.call('GET', '/comments?page=' + page)).status, 200);
+  assert.equal((await s.call('POST', '/comments', s.payload())).status, 201);
+  assert.equal(s.calls[0].payload.secret, 'existing-private-binding');
+  s.env.TURNSTILE_SECRET_KEY = 'alternate-private-binding';
+  assert.equal((await s.call('POST', '/comments', s.payload())).status, 201);
+  assert.equal(s.calls[1].payload.secret, 'existing-private-binding');
+});

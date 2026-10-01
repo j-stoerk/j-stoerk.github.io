@@ -27,7 +27,9 @@ frontend also needs the upgrade below for Turnstile, identities, and safe retrie
    the **secret key stays in Cloudflare**.
    [Turnstile setup instructions](https://developers.cloudflare.com/turnstile/get-started/).
 4. In the Worker's **Settings → Variables and Secrets**, add a **Secret** named
-   **TURNSTILE_SECRET_KEY** containing the widget's secret key. Optionally add
+   **TURNSTILE_SECRET** containing the widget's secret key. The existing
+   **TURNSTILE_SECRET_KEY** name also works; when both exist, `TURNSTILE_SECRET`
+   takes precedence. Optionally add
    a text variable **SITE_ORIGIN** with `https://j-stoerk.github.io`; this is also
    the code's default. Save/deploy the settings. Do not put the secret in GitHub.
 5. In the Worker's **Edit code**, replace the prototype with the entire generated
@@ -51,8 +53,11 @@ frontend also needs the upgrade below for Turnstile, identities, and safe retrie
    ```
 
    You can send the public site key to the portfolio maintainer to complete this
-   step. Comments are omitted while it is empty, so no unavailable placeholder
-   appears on the site.
+   step. Comments are omitted while it is empty. If the prototype Worker is
+   still deployed, the editor hides when its read response identifies the old
+   API. Deploy the upgrade and reload the article to show the editor without
+   another website config change. Posting stays disabled until a valid read
+   succeeds. No unavailable placeholder appears for the prototype API.
 8. In a private browser window, post a comment. The first Post asks only for a
    display name; Turnstile runs when posting and may request a verification click.
    Check the comment from another browser, then post on a different article in
@@ -127,7 +132,7 @@ then run from `_services/comments`:
 ```powershell
 npx wrangler login
 npx wrangler d1 migrations apply j-stoerk-comments --remote
-npx wrangler secret put TURNSTILE_SECRET_KEY
+npx wrangler secret put TURNSTILE_SECRET
 npx wrangler deploy
 ```
 
