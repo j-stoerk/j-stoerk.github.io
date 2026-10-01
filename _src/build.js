@@ -213,7 +213,7 @@ for (const file of fs.readdirSync(pagesDir)) {
     .replace('  <!--#FOOTER-->', footer(cfg))
     .replace('  <!--#SCRIPTS-->', scripts(cfg))
     .replace('<!--#POST_LIST-->', POST_LIST);
-  html = html.replace('<!--#RESEARCH_LAB-->', () => fs.readFileSync(path.join(SRC, 'research-lab.html'), 'utf8'));
+  html = html.replace('<!--#RESEARCH_GALLERY-->', () => fs.readFileSync(path.join(SRC, 'research-gallery.html'), 'utf8'));
   html = html.replace('<!--#RESEARCH_ATLAS-->', () => fs.readFileSync(path.join(SRC, 'research-atlas.html'), 'utf8'));
   html = html.replace('<!--#BLOG_LATEST-->', () => BLOG_LATEST);
   html = html.replace('<!--#BLOG_TRAILS-->', () => BLOG_TRAILS);

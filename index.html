@@ -117,7 +117,7 @@
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles.css?v=d8eebe3a">
-  <link rel="stylesheet" href="experiences.css?v=0ec2f9ed">
+  <link rel="stylesheet" href="experiences.css?v=216ee003">
 </head>
 
 <body class="portfolio-page">
@@ -298,7 +298,7 @@
     <section class="section" id="experience">
       <div class="section-head">
         <h2>Selected experience</h2>
-        <a class="link-more" href="cv.html">Full CV →</a>
+        <a class="link-more outline-action" href="cv.html"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2h7l3 3v13H5z M12 2v4h4 M8 10h5 M8 13h5"/></svg><span>Full CV</span></a>
       </div>
       <p class="section-lead">From cathode chemistry and fuel-cell production to electrode manufacturing and continual learning.</p>
       <div class="career-layout">
@@ -371,47 +371,20 @@
       </div>
     </section>
 
-    <section class="section research-lab" id="research">
+    <section class="section" id="research">
       <div class="section-head"><h2>Research</h2></div>
-      <p class="section-lead">The same curiosity, at a different scale: how learning preserves knowledge, how processing shapes electrodes, and how process history affects cell performance.</p>
-          <div id="lab" data-feature="lab">
-      <div class="lab-grid">
-        <article class="lab-card experience-surface" data-feature="task-landscape">
-          <div class="experience-heading"><div><span class="eyebrow">01 / Learning</span><h3>Shape what survives.</h3></div></div>
-          <p class="lab-instruction" id="landscape-help">Move the new task. See which directions cost old knowledge.</p>
-          <div class="lab-stage">
-            <div class="experience-controls lab-toolbar"><button type="button" id="landscape-protect" aria-pressed="true" aria-label="Protect earlier task">Protection on</button><button class="lab-reset" type="button" id="landscape-reset" aria-label="Reset the new-task target">&#8634; Reset</button></div>
-            <canvas id="landscape-canvas" width="600" height="580" tabindex="0" role="group" aria-label="Interactive task landscape" aria-describedby="landscape-help landscape-detail landscape-result">A quadratic landscape: movement across narrow contours costs more than movement along them. Protecting the sensitive direction reduces that movement.</canvas>
-            <div class="lab-hud landscape-hud">
-              <p class="lab-result" id="landscape-result" aria-live="polite" aria-atomic="true"><strong id="landscape-cost">40%</strong><span>Earlier-task cost<small>of the unprotected move</small></span></p>
-              <div class="lab-meter" aria-hidden="true"><span id="landscape-meter-fill" style="width:40%"></span></div>
-            </div>
-          </div>
-          <p class="experiment-note" id="landscape-detail">Drag or use arrow keys. Quadratic toy: protection scales the sensitive component to 20%; contours show earlier-task cost.</p>
-          <a class="lab-paper" href="post-geometry-of-forgetting.html"><span>Behind the interaction</span>The geometry of forgetting <span aria-hidden="true">↗</span></a>
-        </article>
-        <article class="lab-card experience-surface" data-feature="electrode-paths">
-          <div class="experience-heading"><div><span class="eyebrow">02 / Materials</span><h3>Follow the heat.</h3></div></div>
-          <p class="lab-instruction" id="transport-help">Change the process state. Select a particle to trace its contacts.</p>
-          <div class="lab-stage">
-            <div class="experience-controls lab-toolbar lab-process" role="group" aria-label="Process state"><button type="button" data-compaction="0" aria-pressed="true">As coated</button><button type="button" data-compaction="1" aria-pressed="false">Reoriented</button><button type="button" data-compaction="2" aria-pressed="false">Densified</button></div>
-            <canvas id="transport-canvas" width="600" height="580" tabindex="0" role="group" aria-label="Interactive electrode cross-section" aria-describedby="transport-help transport-detail transport-result">Compaction changes particle orientation and contact geometry. Select a process state to explore the network.</canvas>
-            <div class="lab-hud">
-              <div class="lab-result transport-readout" id="transport-result" aria-live="polite" aria-atomic="true"><p id="transport-note">Open pores interrupt the contact network.</p><p class="transport-count"><strong id="transport-count">1</strong><span id="transport-contact-label">schematic contact at particle 17</span></p></div>
-            </div>
-          </div>
-          <p class="experiment-note" id="transport-detail">Tap a particle or use arrow keys. Illustrative contacts and orientation; no conductivity prediction.</p>
-          <a class="lab-paper" href="post-calendering-u-shape.html"><span>Behind the interaction</span>Why conductivity can dip before rising <span aria-hidden="true">↗</span></a>
-        </article>
+            <div class="research-gallery" aria-label="Research themes">
+        <figure><img src="images/research01.webp" alt="Illustration of a neural network dissolving into streams of data" width="1100" height="733" loading="lazy" decoding="async"><figcaption>Continual learning</figcaption></figure>
+        <figure><img src="images/research02.webp" alt="Illustration of a material cross-section connecting solid structure and digital patterns" width="1100" height="733" loading="lazy" decoding="async"><figcaption>Electrode structure</figcaption></figure>
+        <figure><img src="images/research03.webp" alt="Illustration of electrochemical response curves surrounded by data" width="1100" height="733" loading="lazy" decoding="async"><figcaption>Cell response</figcaption></figure>
       </div>
-    </div>
 
     </section>
 
     <section class="section" id="publications">
       <div class="section-head">
         <h2>Publications</h2>
-        <a class="link-more" href="publications.bib" download>All entries (.bib) ↓</a>
+        <a class="link-more outline-action" href="publications.bib" download><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v10m-4-4 4 4 4-4 M3 13v4h14v-4"/></svg><span>All entries (.bib)</span></a>
       </div>
       <p class="section-lead">Drafts, code, and reproducible results.</p>
       <div class="publication-index">
@@ -420,9 +393,8 @@
           <div class="publication-content">
           <div class="publication-title-row">
             <strong>Interference and retention in continual learning</strong>
-            <span class="badge">Preprint</span>
+            <span class="badge">Preprint &middot; 2026</span>
           </div>
-          <div class="authors">Julius Störk · VARTA Microbattery GmbH; Institute for Particle Technology (iPAT), TU Braunschweig · 2026</div>
           <p class="muted">Models forgetting as weight-interference energy under a task's feature covariance, and derives
             a replay-free structural controller (IGFA) that protects earlier tasks while allowing capacity to be shared
             where directions do not conflict.</p>
@@ -443,21 +415,24 @@
               replay-free IGFA gate removes 36% of forgetting. <span class="portal-hint">Explore the article ↗</span></figcaption>
           </figure>
           </a>
+          <div class="publication-footer">
+            <div class="publication-actions">
+              <a class="publication-link" href="https://arxiv.org/abs/2607.09202" target="_blank"
+              rel="noopener noreferrer">arXiv</a>
+              <a class="publication-link" href="https://github.com/j-stoerk/geometry-of-forgetting" target="_blank"
+              rel="noopener noreferrer">Code &amp; data</a>
+              <a class="publication-link" href="forgetting-geometry.pdf">PDF</a>
+            </div>
+          <details class="bibtex publication-details">
+            <summary>Details &amp; BibTeX</summary>
+            <div class="publication-extra">
+          <div class="authors">Julius Störk · VARTA Microbattery GmbH; Institute for Particle Technology (iPAT), TU Braunschweig · 2026</div>
           <div class="pub-tags">
             <span class="tag">cs.LG</span>
             <span class="tag">cs.AI</span>
           </div>
-          <div class="publication-actions">
-            <a class="download-btn" href="https://arxiv.org/abs/2607.09202" target="_blank"
-              rel="noopener noreferrer">arXiv:2607.09202 <span aria-hidden="true">↗</span></a>
-            <a class="download-btn" href="https://github.com/j-stoerk/geometry-of-forgetting" target="_blank"
-              rel="noopener noreferrer">Code &amp; data</a>
-            <a class="download-btn" href="forgetting-geometry.pdf">View PDF <span aria-hidden="true">↗</span></a>
-            <a class="download-btn" href="forgetting-geometry.pdf" download>Download · 1.2 MB</a>
-            <a class="download-btn" href="post-geometry-of-forgetting.html">Interactive article</a>
-          </div>
-          <details class="bibtex">
-            <summary>Cite (BibTeX)</summary>
+              <a class="publication-link" href="forgetting-geometry.pdf" download>Download · 1.2 MB</a>
+            </div>
             <div class="bibtex-panel">
               <button class="bibtex-copy" type="button">Copy</button>
               <pre><code>@misc{stoerk2026interference,
@@ -473,6 +448,7 @@
             </div>
           </details>
           </div>
+          </div>
         </article>
 
         <article class="publication-record">
@@ -480,9 +456,8 @@
           <div class="publication-content">
           <div class="publication-title-row">
             <strong>Capturing the calendering U-shape in lithium-ion electrode thermal conductivity</strong>
-            <span class="badge">Preprint</span>
+            <span class="badge">Preprint &middot; 2026</span>
           </div>
-          <div class="authors">Julius Störk · VARTA Microbattery GmbH; Institute for Particle Technology (iPAT), TU Braunschweig · 2026</div>
           <p class="muted">A differentiable, calendering-aware Zehner–Bauer–Schlünder closure that tests whether
             contact-network growth or particle reorientation dominates through-plane thermal transport.</p>
           <a class="publication-portal" href="post-calendering-u-shape.html" aria-label="Explore the calendering U-shape article" data-feature="publication-transition">
@@ -524,21 +499,24 @@
               to 4.5%. <span class="portal-hint">Explore the article ↗</span></figcaption>
           </figure>
           </a>
+          <div class="publication-footer">
+            <div class="publication-actions">
+              <a class="publication-link" href="https://arxiv.org/abs/2607.11521" target="_blank"
+              rel="noopener noreferrer">arXiv</a>
+              <a class="publication-link" href="https://github.com/j-stoerk/zehner-electrode-thermal" target="_blank"
+              rel="noopener noreferrer">Code &amp; data</a>
+              <a class="publication-link" href="zehner-closure.pdf">PDF</a>
+            </div>
+          <details class="bibtex publication-details">
+            <summary>Details &amp; BibTeX</summary>
+            <div class="publication-extra">
+          <div class="authors">Julius Störk · VARTA Microbattery GmbH; Institute for Particle Technology (iPAT), TU Braunschweig · 2026</div>
           <div class="pub-tags">
             <span class="tag">cond-mat.mtrl-sci</span>
             <span class="tag">physics.chem-ph</span>
           </div>
-          <div class="publication-actions">
-            <a class="download-btn" href="https://arxiv.org/abs/2607.11521" target="_blank"
-              rel="noopener noreferrer">arXiv:2607.11521 <span aria-hidden="true">↗</span></a>
-            <a class="download-btn" href="https://github.com/j-stoerk/zehner-electrode-thermal" target="_blank"
-              rel="noopener noreferrer">Code &amp; data</a>
-            <a class="download-btn" href="zehner-closure.pdf">View PDF <span aria-hidden="true">↗</span></a>
-            <a class="download-btn" href="zehner-closure.pdf" download>Download · 1.2 MB</a>
-            <a class="download-btn" href="post-calendering-u-shape.html">Interactive article</a>
-          </div>
-          <details class="bibtex">
-            <summary>Cite (BibTeX)</summary>
+              <a class="publication-link" href="zehner-closure.pdf" download>Download · 1.2 MB</a>
+            </div>
             <div class="bibtex-panel">
               <button class="bibtex-copy" type="button">Copy</button>
               <pre><code>@misc{stoerk2026calendering,
@@ -555,6 +533,7 @@
             </div>
           </details>
           </div>
+          </div>
         </article>
       </div>
     </section>
@@ -562,13 +541,13 @@
     <section class="section" id="writing">
       <div class="section-head">
         <h2>Blog</h2>
-        <a class="link-more" href="blog.html">All posts →</a>
+        <a class="link-more outline-action" href="blog.html"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5C7 2 3 3 2 4v12c3-2 6-2 8 0 2-2 5-2 8 0V4c-1-1-5-2-8 1z M10 5v11"/></svg><span>All posts</span></a>
       </div>
 
             <section class="research-explorer blog-explorer" data-feature="research-atlas" aria-labelledby="atlas-heading">
         <div class="atlas-heading">
-          <div><h3 id="atlas-heading">Pick a rabbit hole.</h3><p>Start with the latest notes, or follow a thread across disciplines.</p></div>
-          <button class="atlas-surprise" type="button" data-atlas-surprise aria-controls="atlas-work"><span aria-hidden="true">&#10536;</span> Surprise me</button>
+          <p class="section-lead" id="atlas-heading">Pick a rabbit hole.</p>
+          <button class="atlas-surprise outline-action" type="button" data-atlas-surprise aria-controls="atlas-work"><span aria-hidden="true">&#10536;</span> Surprise me</button>
         </div>
         <div class="atlas-layout">
           <div class="atlas-topics" aria-label="Blog trails">
@@ -615,8 +594,7 @@
     <section class="section" id="software">
       <div class="section-head">
         <h2>Software</h2>
-        <a class="link-more" href="https://github.com/j-stoerk" target="_blank" rel="noopener noreferrer">All
-          repositories →</a>
+        <a class="link-more outline-action" href="https://github.com/j-stoerk" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 6-4 4 4 4 m8-8 4 4-4 4 M12 3 8 17"/></svg><span>All repositories</span></a>
       </div>
       <p class="section-lead">From research code to autonomous agents.</p>
       <div class="pub-list">
@@ -667,8 +645,8 @@
     <section class="section" id="contributions">
       <div class="section-head">
         <h2>Contributions</h2>
-        <a class="link-more" href="https://github.com/harbor-framework/terminal-bench-science" target="_blank"
-          rel="noopener noreferrer">terminal-bench-science →</a>
+        <a class="link-more outline-action" href="https://github.com/harbor-framework/terminal-bench-science" target="_blank"
+          rel="noopener noreferrer"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h16v14H2z m3 4 3 3-3 3 M10 13h5"/></svg><span>terminal-bench-science</span></a>
       </div>
       <div class="pub-list">
         <div class="item">
@@ -708,7 +686,7 @@
   <script src="interactions.js?v=3cfec42c"></script>
   <script src="portal-transitions.js?v=d4060e4b"></script>
   <script src="cite.js?v=382b33f5"></script>
-  <script src="experiences.js?v=8b4d1ad8"></script>
+  <script src="experiences.js?v=3431cf17"></script>
   <script>
     window.addEventListener('load', function () {
       var s = document.createElement('script');

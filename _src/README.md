@@ -43,25 +43,25 @@ never published.
 
 ## Research experiences
 
-`experiences.js` contains independent initializers for the research question
-illustrations, task landscape, electrode contact explorer, illustrated topic
-atlas, section artwork, and career object. `experiences.css` styles these
-components and the static software illustrations. `portal-transitions.js` animates
+`experiences.js` contains independent initializers for the Blog topic explorer,
+section artwork, and career object. `experiences.css` styles these components,
+the Research image gallery, compact publication details, section links, and
+static software illustrations. `portal-transitions.js` animates
 publication illustrations around ordinary navigation to the two companion
 articles and back. It preserves modified clicks and restores the saved reading position;
 reduced motion or unavailable browser animation APIs use ordinary links.
 
-The Lab markup is in `research-lab.html`, inserted at `<!--#RESEARCH_LAB-->`.
-The topic atlas lives in `research-atlas.html`, inserted at `<!--#RESEARCH_ATLAS-->`.
-Its article links are static HTML; JavaScript selects the visible topic panel.
+The Research gallery is in `research-gallery.html`, inserted at `<!--#RESEARCH_GALLERY-->`.
+The Blog explorer lives in `research-atlas.html`, inserted at `<!--#RESEARCH_ATLAS-->`.
+The builder generates its article links from `posts.json`; every post needs a
+`trail` of `materials`, `learning`, `modelling`, or `automation`. JavaScript selects
+the visible topic panel. Surprise me features one random post under its matching
+topic, avoiding an immediate repeat. All post links remain available without JavaScript.
 Other component markup lives in `pages/index.html`. Components carry
 `data-feature` attributes to make later review and removal easy. Initializers
 skip missing components, so removing a component's markup is sufficient; its
-initializer and styles can then be cleaned up. Rebuild afterward. Removing the Lab also
-requires removing its chapter link. Scientific demos explicitly state their
-simplifying assumptions; they do not present generated values as measurements.
+initializer and styles can then be cleaned up. Rebuild afterward.
 
 The shared animation loop pauses canvases offscreen and when the tab is hidden.
-The Research heading's motion control pauses the experiences, and reduced motion starts
-paused. The top line is the only page-progress indicator; chapter links indicate
+Reduced motion starts paused. The top line is the only page-progress indicator; chapter links indicate
 location. Section-local SVGs preserve their proportions at every viewport width.
