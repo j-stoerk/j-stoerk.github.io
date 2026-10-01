@@ -119,6 +119,23 @@
 
   <!--#TOPBAR-->
 
+  <div class="portfolio-atmosphere" aria-hidden="true" data-feature="intro-background">
+    <div class="hero-visual">
+      <img class="hero-static" src="images/intro-surface.svg" alt="" width="600" height="680">
+      <canvas id="intro-canvas" width="600" height="680"></canvas>
+      <div class="intro-readout">
+        <span class="intro-signature">Julius Störk<br><small>Process / structure / learning</small></span>
+        <span class="intro-count">
+          <span class="sr-only" data-intro-count>000</span>
+          <span class="intro-digit" data-intro-place="100"><span class="intro-reel"><span>0</span></span></span>
+          <span class="intro-digit" data-intro-place="10"><span class="intro-reel"><span>0</span></span></span>
+          <span class="intro-digit" data-intro-place="1"><span class="intro-reel"><span>0</span></span></span>
+        </span>
+      </div>
+      <div class="intro-progress"></div>
+    </div>
+  </div>
+
   <nav class="chapter-nav" aria-label="Page chapters">
     <span class="chapter-nav-caption">On this page</span>
     <ol class="chapter-list">
@@ -273,29 +290,11 @@
           <a href="cv.html">CV</a>
         </nav>
       </div>
-      <figure class="hero-stage" aria-label="An abstract electrode surface connecting material structure and learning">
-        <div class="hero-visual" aria-hidden="true">
-          <img class="hero-static" src="images/intro-surface.svg" alt="" width="600" height="680">
-          <canvas id="intro-canvas" width="600" height="680"></canvas>
-          <div class="intro-readout">
-            <span class="intro-signature">Julius Störk<br><small>Process / structure / learning</small></span>
-            <span class="intro-count">
-              <span class="sr-only" data-intro-count>000</span>
-              <span class="intro-digit" data-intro-place="100"><span class="intro-reel"><span>0</span></span></span>
-              <span class="intro-digit" data-intro-place="10"><span class="intro-reel"><span>0</span></span></span>
-              <span class="intro-digit" data-intro-place="1"><span class="intro-reel"><span>0</span></span></span>
-            </span>
-          </div>
-          <div class="intro-progress"></div>
-        </div>
-        <div class="hero-stage-mark" aria-hidden="true"><span></span><span></span><span></span></div>
-        <picture class="hero-portrait">
+      <picture class="hero-portrait">
           <source type="image/webp" srcset="portrait-176.webp 1x, portrait-352.webp 2x">
           <img class="portrait-img" src="portrait.jpg" alt="Portrait of Julius Störk" width="176" height="176"
             fetchpriority="high">
-        </picture>
-        <figcaption>Process <span aria-hidden="true">&#8596;</span> structure <span aria-hidden="true">&#8596;</span> learning</figcaption>
-      </figure>
+      </picture>
     </section>
 
     <section class="section" id="publications">

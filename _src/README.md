@@ -43,7 +43,7 @@ version derived from that list so switching pages refreshes documents cached
 with an older menu. Canonical URLs and in-page anchors remain unchanged.
 
 Runtime assets (styles.css, blog.js, blog-view.js, cite.js, theme.js, navigation.js,
-background.js, fonts, PDFs, images) are plain files at the root and are not
+fonts, PDFs, images) are plain files at the root and are not
 generated.
 
 GitHub Pages runs Jekyll, which skips underscore directories, so `_src` is
@@ -58,16 +58,21 @@ browsers without the Popover API use a fixed-position card. The content lives in
 `bio-popovers.html`, inserted at `<!--#BIO_POPOVERS-->`. With JavaScript disabled,
 the bio remains plain text and its inline buttons are disabled.
 
-`experiences.js` contains independent initializers for the hero intro, Blog topic
+`experiences.js` contains independent initializers for the intro/background, Blog topic
 explorer, section artwork, and career object. The intro projects a layered
 electrode surface onto a canvas, assembling its points on arrival and responding
 to pointer movement, taps, and scroll. It uses the site's theme colours and the
 shared visibility-aware animation loop. Arriving at the homepage without a
 fragment starts the surface at full screen with rolling digits counting from
-000 to 100 and a compact progress bar, then docks it into the hero. The counter
-follows elapsed real time so slower rendering cannot extend the opening.
-Scrolling, touching the screen, or
-using the keyboard dismisses the opening immediately. A timeout also restores
+000 to 100 and a compact progress bar. The count accelerates with a power curve
+and follows elapsed real time so slower rendering cannot extend the opening.
+After a short hold at 100, that same canvas unfolds into a larger, quieter mesh
+and flowing gold line behind the page. Its viewport dimensions stay fixed through
+the reveal; a horizontal opacity mask protects the reading column. The portrait
+uses its original size and occupies its own place in the hero. Ambient frames
+stop outside the hero; scrolling, resizing, and theme changes refresh the backdrop.
+Scrolling, touching the screen, or using the keyboard dismisses the opening immediately.
+A timeout also restores
 the page if animation fails; deep links skip the opening. Reduced motion renders
 a still surface;
 `images/intro-surface.svg` provides the fallback without JavaScript or canvas.

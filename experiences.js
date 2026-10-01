@@ -17,7 +17,10 @@
   readPalette();
   const scenes = [];
   let frame = 0, last = 0, elapsed = 0;
-  function wake() { if (!frame && !document.hidden) frame = requestAnimationFrame(tick); }
+  function wake(changed = true) {
+    if (changed !== false) scenes.forEach(scene => { scene.dirty = true; });
+    if (!frame && !document.hidden) frame = requestAnimationFrame(tick);
+  }
   function tick(now) {
     frame = 0;
     const dt = Math.min(.05, last ? (now - last) / 1000 : .016);
@@ -26,9 +29,10 @@
     let running = false;
     scenes.forEach(scene => {
       if (!scene.visible || !scene.canvas.isConnected) return;
+      if (!scene.dirty && !scene.animate()) return;
       const rect = scene.canvas.getBoundingClientRect();
       if (!rect.width || !rect.height) return;
-      const dpr = Math.min(2, devicePixelRatio || 1);
+      const dpr = Math.min(scene.maxDpr, devicePixelRatio || 1);
       const width = Math.round(rect.width * dpr), height = Math.round(rect.height * dpr);
       if (scene.canvas.width !== width || scene.canvas.height !== height) { scene.canvas.width = width; scene.canvas.height = height; }
       scene.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -36,19 +40,20 @@
       scene.ctx.save();
       scene.draw(scene.ctx, rect.width, rect.height, elapsed, dt);
       scene.ctx.restore();
+      scene.dirty = false;
       if (scene.animate()) running = true;
     });
-    if (running && !paused) wake();
+    if (running && !paused) wake(false);
   }
   const observer = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
     entries.forEach(entry => { const scene = scenes.find(s => s.canvas === entry.target); if (scene) scene.visible = entry.isIntersecting; });
     wake();
   }, { rootMargin: '80px' }) : null;
-  function scene(canvas, draw, animate = () => true) {
+  function scene(canvas, draw, animate = () => true, maxDpr = 2) {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    const entry = { canvas, ctx, draw, animate, visible: !observer };
+    const entry = { canvas, ctx, draw, animate, maxDpr, visible: !observer, dirty: true };
     scenes.push(entry);
     if (observer) observer.observe(canvas);
     wake();
@@ -72,14 +77,13 @@
   window.addEventListener('resize', wake, { passive: true });
   new MutationObserver(() => { readPalette(); wake(); }).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
 
-  // A layered material surface assembles from data points, then follows the reader.
+  // The opening surface unfolds into the page's background without changing canvases.
   (function introduction() {
-    const hero = $('#home'), canvas = $('#intro-canvas'), stage = $('.hero-stage');
+    const hero = $('#home'), canvas = $('#intro-canvas'), stage = $('.portfolio-atmosphere');
     if (!hero || !canvas || !stage) return;
     const visual = $('.hero-visual', stage), count = $('[data-intro-count]', stage);
     let fullScreen = root.classList.contains('intro-pending');
-    const playedIntro = fullScreen;
-    let docking = false, dockingAnimation, introStartedAt;
+    let revealing = false, introStartedAt, heroVisible = true;
     const reels = fullScreen ? $$('[data-intro-place]', stage).map(digit => {
       const place = Number(digit.dataset.introPlace), reel = $('.intro-reel', digit);
       // Long reels roll forward through 009 -> 010 and 099 -> 100 without snapping back.
@@ -96,29 +100,18 @@
     }
     function finishIntro() {
       if (!fullScreen) return;
-      fullScreen = false; docking = false;
+      fullScreen = false; revealing = false;
       root.classList.remove('intro-pending', 'intro-active');
+      root.style.setProperty('--intro-reveal', 1);
       clearTimeout(window.introFallback);
-      dockingAnimation?.cancel();
       setCounter(100);
       stage.dataset.introState = 'settled';
       ['wheel', 'touchstart', 'keydown', 'focusin', 'resize', 'pagehide'].forEach(event => window.removeEventListener(event, finishIntro));
       wake();
     }
-    function dockIntro() {
-      if (docking) return;
-      docking = true; stage.dataset.introState = 'docking';
-      if (!visual.animate) { finishIntro(); return; }
-      const target = stage.getBoundingClientRect(), from = visual.getBoundingClientRect();
-      dockingAnimation = visual.animate([
-        { left: `${from.left}px`, top: `${from.top}px`, width: `${from.width}px`, height: `${from.height}px`, backgroundColor: getComputedStyle(visual).backgroundColor },
-        { left: `${target.left}px`, top: `${target.top}px`, width: `${target.width}px`, height: `${stage.clientHeight - 100}px`, backgroundColor: 'transparent' }
-      ], { duration: 900, easing: 'cubic-bezier(.22,.72,.2,1)', fill: 'forwards' });
-      dockingAnimation.finished.then(finishIntro, finishIntro);
-    }
     if (fullScreen) {
       clearTimeout(window.introFallback);
-      window.introFallback = setTimeout(finishIntro, 5000);
+      window.introFallback = setTimeout(finishIntro, 6000);
       ['wheel', 'touchstart', 'keydown', 'focusin', 'resize', 'pagehide'].forEach(event => window.addEventListener(event, finishIntro, { passive: true }));
       reduced.addEventListener('change', () => { if (reduced.matches) finishIntro(); });
       if (!canvas.getContext('2d')) finishIntro();
@@ -133,7 +126,7 @@
       wake();
     });
     hero.addEventListener('pointerleave', () => { pointer.x = pointer.y = 0; wake(); });
-    stage.addEventListener('pointerdown', event => {
+    hero.addEventListener('pointerdown', event => {
       if (paused) return;
       const rect = stage.getBoundingClientRect();
       pointer.x = clamp((event.clientX - rect.left) / rect.width * 2 - 1, -.9, .9);
@@ -146,24 +139,32 @@
       stage.dataset.ready = 'true';
       if (introStartedAt === undefined) introStartedAt = performance.now();
       const openingTime = (performance.now() - introStartedAt) / 1000;
-      const progress = clamp((openingTime - .12) / 2.2, 0, 1);
-      const entrance = paused || (playedIntro && !fullScreen) ? 1 : fullScreen ? progress : clamp(time / 1.8, 0, 1);
+      const loading = clamp((openingTime - .12) / 2.55, 0, 1);
+      // Increasing velocity lets the early digits breathe before the final rush to 100.
+      const progress = Math.pow(loading, 2.6);
+      const entrance = fullScreen ? loading : 1;
       const assembled = entrance * entrance * (3 - 2 * entrance);
+      const revealTime = fullScreen ? clamp((openingTime - 2.89) / 1.3, 0, 1) : 1;
+      const reveal = 1 - Math.pow(1 - revealTime, 3);
       if (fullScreen) {
         setCounter(Math.floor(progress * 100));
         visual.style.setProperty('--intro-progress', progress);
-        if (openingTime >= 2.52) dockIntro();
+        root.style.setProperty('--intro-reveal', reveal);
+        revealing = revealTime > 0;
+        if (revealTime === 1) finishIntro();
       }
-      stage.dataset.introState = docking ? 'docking' : assembled === 1 ? 'settled' : 'forming';
+      stage.dataset.introState = fullScreen ? revealing ? 'revealing' : 'forming' : 'settled';
       eased.x = mix(eased.x, pointer.x, Math.min(1, dt * 5));
       eased.y = mix(eased.y, pointer.y, Math.min(1, dt * 5));
-      const scroll = paused ? 0 : clamp(-hero.getBoundingClientRect().top / hero.offsetHeight, 0, 1);
-      const yaw = .42 + eased.x * .28 + Math.sin(time * .18) * .12;
-      const pitch = -.65 + eased.y * .18 + scroll * .28;
-      const roll = -.22 + Math.sin(time * .13) * .055;
-      const dockProgress = dockingAnimation?.effect.getComputedTiming().progress || 0;
-      const scale = Math.min(width / 510, height / 580) * (fullScreen ? 1.15 - .15 * dockProgress : 1) * (1 + scroll * .1);
-      const cx = width * .5, cy = height * .43;
+      const heroRect = hero.getBoundingClientRect();
+      heroVisible = heroRect.bottom > 0 && heroRect.top < height;
+      const scroll = paused ? 0 : clamp(window.scrollY / Math.max(1, document.documentElement.scrollHeight - height));
+      const yaw = mix(.42, .18 + scroll * .16, reveal) + eased.x * .12 + Math.sin(time * .18) * .055;
+      const pitch = mix(-.65, -.16, reveal) + eased.y * .08;
+      const roll = mix(-.22, -.58, reveal) + Math.sin(time * .13) * .035;
+      const scale = mix(Math.min(width / 510, height / 580) * 1.15, Math.max(width / 780, height / 720), reveal);
+      const cx = width * mix(.5, .9, reveal), cy = height * mix(.43, .46 - scroll * .12, reveal);
+      const quiet = mix(1, .48, reveal);
       const cosY = Math.cos(yaw), sinY = Math.sin(yaw), cosP = Math.cos(pitch), sinP = Math.sin(pitch);
       const cosR = Math.cos(roll), sinR = Math.sin(roll);
       const columns = width < 330 ? 23 : 29, rows = width < 330 ? 17 : 23;
@@ -193,7 +194,7 @@
       const shadow = ctx.createRadialGradient(cx, height * .74, 0, cx, height * .74, width * .34);
       shadow.addColorStop(0, palette.grid); shadow.addColorStop(1, 'transparent');
       ctx.save(); ctx.translate(0, height * .74); ctx.scale(1, .18);
-      ctx.fillStyle = shadow; ctx.globalAlpha = .26 * assembled;
+      ctx.fillStyle = shadow; ctx.globalAlpha = .26 * assembled * (1 - reveal);
       ctx.fillRect(0, -height * 4, width, height * 8); ctx.restore();
       const grids = [-24, 0].map(layer => Array.from({ length: rows }, (_, row) =>
         Array.from({ length: columns }, (_, col) => project(col / (columns - 1) * 2 - 1, row / (rows - 1) * 2 - 1, layer, assembled))));
@@ -207,34 +208,47 @@
           faces.sort((a, b) => a.depth - b.depth).forEach(face => {
             ctx.beginPath(); face.points.forEach((point, i) => i ? ctx.lineTo(point.x, point.y) : ctx.moveTo(point.x, point.y));
             ctx.closePath(); ctx.fillStyle = palette.blue;
-            ctx.globalAlpha = (.025 + (face.depth + 260) / 520 * .06) * assembled; ctx.fill();
+            ctx.globalAlpha = (.025 + (face.depth + 260) / 520 * .06) * assembled * quiet; ctx.fill();
           });
         }
         grid.forEach((line, row) => stroke(line, layer ? palette.blue : palette.ink,
-          (layer ? .2 + row / rows * .24 : .1) * assembled, layer ? .75 : .5));
+          (layer ? .2 + row / rows * .24 : .1) * assembled * quiet, layer ? .75 : .5));
         for (let col = 0; col < columns; col += layer ? 1 : 3) {
-          stroke(grid.map(row => row[col]), layer ? palette.blue : palette.ink, (layer ? .18 : .08) * assembled, .5);
+          stroke(grid.map(row => row[col]), layer ? palette.blue : palette.ink, (layer ? .18 : .08) * assembled * quiet, .5);
         }
       });
       const nodes = grids[1].flat().sort((a, b) => a.z - b.z);
       nodes.forEach((point, i) => {
         ctx.beginPath(); ctx.arc(point.x, point.y, Math.max(.5, point.p * (i % 11 === 0 ? 1.6 : .65)), 0, Math.PI * 2);
         ctx.fillStyle = i % 11 === 0 ? palette.blue : palette.ink;
-        ctx.globalAlpha = (.24 + (point.z + 250) / 500 * .4) * (.6 + .4 * assembled); ctx.fill();
+        ctx.globalAlpha = (.24 + (point.z + 250) / 500 * .4) * (.6 + .4 * assembled) * quiet; ctx.fill();
       });
       // A warm path follows the structure while the material breathes beneath it.
       const route = Array.from({ length: 80 }, (_, i) => {
         const u = i / 79 * 2 - 1;
-        return project(u, .34 * Math.sin(u * 3 + time * .12), 3);
+        const point = project(u, .34 * Math.sin(u * 3 + time * .12), 3);
+        const along = i / 79;
+        // The same gold curve unwinds into the line running behind the page artwork.
+        return { x: mix(point.x, width * (.76 + .11 * Math.sin(along * 6 + time * .12 + scroll * 2)), reveal),
+          y: mix(point.y, height * (-.12 + along * 1.37), reveal), p: mix(point.p, .7, reveal) };
       });
-      stroke(route, palette.gold, .75 * assembled, 1.35);
+      stroke(route, palette.gold, mix(.75, .32, reveal) * assembled, 1.35);
       for (let i = 0; i < 3; i++) {
         const at = ((time * .065 + i / 3) % 1) * 79, point = route[Math.floor(at)];
         ctx.beginPath(); ctx.arc(point.x, point.y, 2.8 * point.p, 0, Math.PI * 2);
-        ctx.globalAlpha = .9 * assembled; ctx.fillStyle = palette.gold; ctx.fill();
+        ctx.globalAlpha = .9 * assembled * quiet; ctx.fillStyle = palette.gold; ctx.fill();
       }
       ctx.globalAlpha = 1;
-    });
+      // Protect the reading column while keeping the larger mesh clear at the page edge.
+      if (reveal > 0) {
+        const mask = ctx.createLinearGradient(0, 0, width, 0);
+        [[0, .04], [.4, .07], [.66, .3], [1, .85]].forEach(([at, alpha]) => {
+          mask.addColorStop(at, `rgba(0,0,0,${mix(1, alpha, reveal)})`);
+        });
+        ctx.globalCompositeOperation = 'destination-in'; ctx.fillStyle = mask;
+        ctx.fillRect(0, 0, width, height); ctx.globalCompositeOperation = 'source-over';
+      }
+    }, () => fullScreen || heroVisible, 1.5);
   })();
 
   // Recent notes and topic trails share the same blog explorer.

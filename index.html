@@ -119,7 +119,7 @@
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles.css?v=5e7b9811">
-  <link rel="stylesheet" href="experiences.css?v=8a705763">
+  <link rel="stylesheet" href="experiences.css?v=9c4cf345">
   <script>
     // Start at full screen before paint; deep links and reduced motion open directly.
     if (!location.hash && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -152,6 +152,23 @@
       </nav>
     </div>
   </header>
+
+  <div class="portfolio-atmosphere" aria-hidden="true" data-feature="intro-background">
+    <div class="hero-visual">
+      <img class="hero-static" src="images/intro-surface.svg" alt="" width="600" height="680">
+      <canvas id="intro-canvas" width="600" height="680"></canvas>
+      <div class="intro-readout">
+        <span class="intro-signature">Julius Störk<br><small>Process / structure / learning</small></span>
+        <span class="intro-count">
+          <span class="sr-only" data-intro-count>000</span>
+          <span class="intro-digit" data-intro-place="100"><span class="intro-reel"><span>0</span></span></span>
+          <span class="intro-digit" data-intro-place="10"><span class="intro-reel"><span>0</span></span></span>
+          <span class="intro-digit" data-intro-place="1"><span class="intro-reel"><span>0</span></span></span>
+        </span>
+      </div>
+      <div class="intro-progress"></div>
+    </div>
+  </div>
 
   <nav class="chapter-nav" aria-label="Page chapters">
     <span class="chapter-nav-caption">On this page</span>
@@ -307,29 +324,11 @@
           <a href="cv.html?nav=fe6093f0">CV</a>
         </nav>
       </div>
-      <figure class="hero-stage" aria-label="An abstract electrode surface connecting material structure and learning">
-        <div class="hero-visual" aria-hidden="true">
-          <img class="hero-static" src="images/intro-surface.svg" alt="" width="600" height="680">
-          <canvas id="intro-canvas" width="600" height="680"></canvas>
-          <div class="intro-readout">
-            <span class="intro-signature">Julius Störk<br><small>Process / structure / learning</small></span>
-            <span class="intro-count">
-              <span class="sr-only" data-intro-count>000</span>
-              <span class="intro-digit" data-intro-place="100"><span class="intro-reel"><span>0</span></span></span>
-              <span class="intro-digit" data-intro-place="10"><span class="intro-reel"><span>0</span></span></span>
-              <span class="intro-digit" data-intro-place="1"><span class="intro-reel"><span>0</span></span></span>
-            </span>
-          </div>
-          <div class="intro-progress"></div>
-        </div>
-        <div class="hero-stage-mark" aria-hidden="true"><span></span><span></span><span></span></div>
-        <picture class="hero-portrait">
+      <picture class="hero-portrait">
           <source type="image/webp" srcset="portrait-176.webp 1x, portrait-352.webp 2x">
           <img class="portrait-img" src="portrait.jpg" alt="Portrait of Julius Störk" width="176" height="176"
             fetchpriority="high">
-        </picture>
-        <figcaption>Process <span aria-hidden="true">&#8596;</span> structure <span aria-hidden="true">&#8596;</span> learning</figcaption>
-      </figure>
+      </picture>
     </section>
 
     <section class="section" id="publications">
@@ -779,7 +778,7 @@
   <script src="interactions.js?v=3cfec42c"></script>
   <script src="portal-transitions.js?v=d4060e4b"></script>
   <script src="cite.js?v=382b33f5"></script>
-  <script src="experiences.js?v=4449620c"></script>
+  <script src="experiences.js?v=801b62cb"></script>
   <script src="bio-popovers.js?v=009ea442"></script>
   <script>
     window.addEventListener('load', function () {
