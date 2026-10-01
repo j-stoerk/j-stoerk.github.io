@@ -175,6 +175,11 @@ main {
   background-image: var(--post-art-dark);
 }
 
+/* Narrow reading columns overlap the artwork, so keep the extra detail quieter. */
+@media (max-width: 640px) {
+  .page-art-post { opacity: .65; }
+}
+
 .hero,
 .section {
   position: relative;

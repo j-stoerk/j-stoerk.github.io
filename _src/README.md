@@ -40,8 +40,10 @@ source page and rebuild; commit the generated SVGs with the HTML.
 Each post has a dedicated schematic in `blog-art/<post-name>.svg`, inserted at
 `<!--#POST_BACKGROUND-->`. These are exported into `images/blog-backgrounds/`
 in light and dark variants, using the shared ink styles and theme tokens.
-Each 1000×1800 tile has three subject-specific vignettes and continuous connecting
-paths that meet at the top and bottom with matching tangents. CSS repeats the
+Each 1000×1800 tile has six subject-specific sketches and its own continuous
+texture (particle contacts, circuit routing, causal graphs, etc.). The opening
+sketch straddles the tile boundary and is duplicated at both ends so it reconnects
+when repeated. Connecting paths also meet at the top and bottom. CSS repeats the
 artwork at its original proportions for the full article height, including when
 content expands or JavaScript is unavailable. A horizontal mask softens artwork
 under the reading column. Edit the dedicated SVGs rather than the generated assets.

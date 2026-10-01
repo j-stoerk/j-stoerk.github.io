@@ -43,36 +43,170 @@
   fill: rgba(196, 210, 230, .2);
   stroke: none;
 }</style>
-<!-- Lithium filament and ceramic fracture / dandelion root pressure / critical growth barrier -->
-<g transform="translate(0 0)" opacity=".65">
-<path class="art-hair" d="M805 0C805 110 850 157 823 337S757 516 805 668S857 808 820 1027S745 1224 791 1437S805 1681 805 1800" />
+<!-- Lithium dendrites and dandelions: ceramic grain boundaries, ion paths, seed filaments, and fracture under pressure. -->
+<defs>
+<g id="post-texture" opacity=".38">
+<path class="art-hair" d="M692 0V1800" />
+<path class="art-hair" d="M974 0V1800" />
+<path class="art-hair" d="M710 0L733 37 704 78 749 119 710 150" />
+<path class="art-hair" d="M944 0L911 49 959 93 944 150" />
+<path class="art-hair" d="M733 37L787 25 811 71 749 119M911 49L877 24 843 65 867 128 959 93" />
+<circle class="art-blue" cx="779" cy="48" r="3"/>
+<circle class="art-ink-soft" cx="890" cy="80" r="3"/>
+<path class="art-hair" d="M811 71L843 65" />
+<path class="art-hair" d="M710 150L733 187 704 228 749 269 710 300" />
+<path class="art-hair" d="M944 150L911 199 959 243 944 300" />
+<path class="art-hair" d="M733 187L787 175 811 221 749 269M911 199L877 174 843 215 867 278 959 243" />
+<circle class="art-blue" cx="779" cy="198" r="3"/>
+<circle class="art-ink-soft" cx="890" cy="230" r="3"/>
+<path class="art-hair" d="M811 221L843 215" />
+<path class="art-hair" d="M710 300L733 337 704 378 749 419 710 450" />
+<path class="art-hair" d="M944 300L911 349 959 393 944 450" />
+<path class="art-hair" d="M733 337L787 325 811 371 749 419M911 349L877 324 843 365 867 428 959 393" />
+<circle class="art-blue" cx="779" cy="348" r="3"/>
+<circle class="art-ink-soft" cx="890" cy="380" r="3"/>
+<path class="art-hair" d="M811 371L843 365" />
+<path class="art-hair" d="M710 450L733 487 704 528 749 569 710 600" />
+<path class="art-hair" d="M944 450L911 499 959 543 944 600" />
+<path class="art-hair" d="M733 487L787 475 811 521 749 569M911 499L877 474 843 515 867 578 959 543" />
+<circle class="art-blue" cx="779" cy="498" r="3"/>
+<circle class="art-ink-soft" cx="890" cy="530" r="3"/>
+<path class="art-hair" d="M811 521L843 515" />
+<path class="art-hair" d="M710 600L733 637 704 678 749 719 710 750" />
+<path class="art-hair" d="M944 600L911 649 959 693 944 750" />
+<path class="art-hair" d="M733 637L787 625 811 671 749 719M911 649L877 624 843 665 867 728 959 693" />
+<circle class="art-blue" cx="779" cy="648" r="3"/>
+<circle class="art-ink-soft" cx="890" cy="680" r="3"/>
+<path class="art-hair" d="M811 671L843 665" />
+<path class="art-hair" d="M710 750L733 787 704 828 749 869 710 900" />
+<path class="art-hair" d="M944 750L911 799 959 843 944 900" />
+<path class="art-hair" d="M733 787L787 775 811 821 749 869M911 799L877 774 843 815 867 878 959 843" />
+<circle class="art-blue" cx="779" cy="798" r="3"/>
+<circle class="art-ink-soft" cx="890" cy="830" r="3"/>
+<path class="art-hair" d="M811 821L843 815" />
+<path class="art-hair" d="M710 900L733 937 704 978 749 1019 710 1050" />
+<path class="art-hair" d="M944 900L911 949 959 993 944 1050" />
+<path class="art-hair" d="M733 937L787 925 811 971 749 1019M911 949L877 924 843 965 867 1028 959 993" />
+<circle class="art-blue" cx="779" cy="948" r="3"/>
+<circle class="art-ink-soft" cx="890" cy="980" r="3"/>
+<path class="art-hair" d="M811 971L843 965" />
+<path class="art-hair" d="M710 1050L733 1087 704 1128 749 1169 710 1200" />
+<path class="art-hair" d="M944 1050L911 1099 959 1143 944 1200" />
+<path class="art-hair" d="M733 1087L787 1075 811 1121 749 1169M911 1099L877 1074 843 1115 867 1178 959 1143" />
+<circle class="art-blue" cx="779" cy="1098" r="3"/>
+<circle class="art-ink-soft" cx="890" cy="1130" r="3"/>
+<path class="art-hair" d="M811 1121L843 1115" />
+<path class="art-hair" d="M710 1200L733 1237 704 1278 749 1319 710 1350" />
+<path class="art-hair" d="M944 1200L911 1249 959 1293 944 1350" />
+<path class="art-hair" d="M733 1237L787 1225 811 1271 749 1319M911 1249L877 1224 843 1265 867 1328 959 1293" />
+<circle class="art-blue" cx="779" cy="1248" r="3"/>
+<circle class="art-ink-soft" cx="890" cy="1280" r="3"/>
+<path class="art-hair" d="M811 1271L843 1265" />
+<path class="art-hair" d="M710 1350L733 1387 704 1428 749 1469 710 1500" />
+<path class="art-hair" d="M944 1350L911 1399 959 1443 944 1500" />
+<path class="art-hair" d="M733 1387L787 1375 811 1421 749 1469M911 1399L877 1374 843 1415 867 1478 959 1443" />
+<circle class="art-blue" cx="779" cy="1398" r="3"/>
+<circle class="art-ink-soft" cx="890" cy="1430" r="3"/>
+<path class="art-hair" d="M811 1421L843 1415" />
+<path class="art-hair" d="M710 1500L733 1537 704 1578 749 1619 710 1650" />
+<path class="art-hair" d="M944 1500L911 1549 959 1593 944 1650" />
+<path class="art-hair" d="M733 1537L787 1525 811 1571 749 1619M911 1549L877 1524 843 1565 867 1628 959 1593" />
+<circle class="art-blue" cx="779" cy="1548" r="3"/>
+<circle class="art-ink-soft" cx="890" cy="1580" r="3"/>
+<path class="art-hair" d="M811 1571L843 1565" />
+<path class="art-hair" d="M710 1650L733 1687 704 1728 749 1769 710 1800" />
+<path class="art-hair" d="M944 1650L911 1699 959 1743 944 1800" />
+<path class="art-hair" d="M733 1687L787 1675 811 1721 749 1769M911 1699L877 1674 843 1715 867 1778 959 1743" />
+<circle class="art-blue" cx="779" cy="1698" r="3"/>
+<circle class="art-ink-soft" cx="890" cy="1730" r="3"/>
+<path class="art-hair" d="M811 1721L843 1715" />
 </g>
-<g transform="translate(12 0)" opacity=".35">
-<path class="art-hair" d="M805 0C805 110 850 157 823 337S757 516 805 668S857 808 820 1027S745 1224 791 1437S805 1681 805 1800" />
+</defs>
+<use href="#post-texture" transform="translate(0 -1800)"/>
+<use href="#post-texture" transform="translate(0 0)"/>
+<use href="#post-texture" transform="translate(0 1800)"/>
+<g transform="translate(805 0)" opacity=".7">
+<path class="art-ink-soft" d="M-174-65L-111-54 -95 6 -131 67 -180 32Z" />
+<circle class="art-blue" cx="-138" cy="-5" r="4"/>
+<path class="art-ink-soft" d="M-82-65L-19-54 -3 6 -39 67 -88 32Z" />
+<circle class="art-blue" cx="-46" cy="-5" r="4"/>
+<path class="art-ink-soft" d="M10-65L73-54 89 6 53 67 4 32Z" />
+<circle class="art-blue" cx="46" cy="-5" r="4"/>
+<path class="art-ink-soft" d="M102-65L165-54 181 6 145 67 96 32Z" />
+<circle class="art-blue" cx="138" cy="-5" r="4"/>
+<path class="art-gold" d="M-145 46C-108 15-94-8-63 7S-10 31 22-1 79-33 139-45" />
 </g>
-<g transform="translate(805 68)" opacity=".55">
-<circle class="art-ink-soft" cx="0" cy="0" r="5" />
-<path class="art-hair" d="M-22 0L-8 0" />
-<path class="art-hair" d="M8 0L22 0" />
-<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
+<g transform="translate(805 595)" opacity=".7">
+<path class="art-hair" d="M0 0L67 0" />
+<ellipse class="art-hair" cx="67" cy="0" rx="8" ry="3" transform="rotate(0 67 0)"/>
+<path class="art-hair" d="M0 0L64.717 17.3409" />
+<ellipse class="art-hair" cx="64.717" cy="17.3409" rx="8" ry="3" transform="rotate(15 64.717 17.3409)"/>
+<path class="art-hair" d="M0 0L58.0237 33.5" />
+<ellipse class="art-hair" cx="58.0237" cy="33.5" rx="8" ry="3" transform="rotate(30 58.0237 33.5)"/>
+<path class="art-hair" d="M0 0L47.3762 47.3762" />
+<ellipse class="art-hair" cx="47.3762" cy="47.3762" rx="8" ry="3" transform="rotate(45 47.3762 47.3762)"/>
+<path class="art-hair" d="M0 0L33.5 58.0237" />
+<ellipse class="art-hair" cx="33.5" cy="58.0237" rx="8" ry="3" transform="rotate(60 33.5 58.0237)"/>
+<path class="art-hair" d="M0 0L17.3409 64.717" />
+<ellipse class="art-hair" cx="17.3409" cy="64.717" rx="8" ry="3" transform="rotate(75 17.3409 64.717)"/>
+<path class="art-hair" d="M0 0L4.10257e-15 67" />
+<ellipse class="art-hair" cx="4.10257e-15" cy="67" rx="8" ry="3" transform="rotate(90 4.10257e-15 67)"/>
+<path class="art-hair" d="M0 0L-17.3409 64.717" />
+<ellipse class="art-hair" cx="-17.3409" cy="64.717" rx="8" ry="3" transform="rotate(105 -17.3409 64.717)"/>
+<path class="art-hair" d="M0 0L-33.5 58.0237" />
+<ellipse class="art-hair" cx="-33.5" cy="58.0237" rx="8" ry="3" transform="rotate(120 -33.5 58.0237)"/>
+<path class="art-hair" d="M0 0L-47.3762 47.3762" />
+<ellipse class="art-hair" cx="-47.3762" cy="47.3762" rx="8" ry="3" transform="rotate(135 -47.3762 47.3762)"/>
+<path class="art-hair" d="M0 0L-58.0237 33.5" />
+<ellipse class="art-hair" cx="-58.0237" cy="33.5" rx="8" ry="3" transform="rotate(150 -58.0237 33.5)"/>
+<path class="art-hair" d="M0 0L-64.717 17.3409" />
+<ellipse class="art-hair" cx="-64.717" cy="17.3409" rx="8" ry="3" transform="rotate(165 -64.717 17.3409)"/>
+<path class="art-hair" d="M0 0L-67 8.20513e-15" />
+<ellipse class="art-hair" cx="-67" cy="8.20513e-15" rx="8" ry="3" transform="rotate(180 -67 8.20513e-15)"/>
+<path class="art-hair" d="M0 0L-64.717 -17.3409" />
+<ellipse class="art-hair" cx="-64.717" cy="-17.3409" rx="8" ry="3" transform="rotate(195 -64.717 -17.3409)"/>
+<path class="art-hair" d="M0 0L-58.0237 -33.5" />
+<ellipse class="art-hair" cx="-58.0237" cy="-33.5" rx="8" ry="3" transform="rotate(210 -58.0237 -33.5)"/>
+<path class="art-hair" d="M0 0L-47.3762 -47.3762" />
+<ellipse class="art-hair" cx="-47.3762" cy="-47.3762" rx="8" ry="3" transform="rotate(225 -47.3762 -47.3762)"/>
+<path class="art-hair" d="M0 0L-33.5 -58.0237" />
+<ellipse class="art-hair" cx="-33.5" cy="-58.0237" rx="8" ry="3" transform="rotate(240 -33.5 -58.0237)"/>
+<path class="art-hair" d="M0 0L-17.3409 -64.717" />
+<ellipse class="art-hair" cx="-17.3409" cy="-64.717" rx="8" ry="3" transform="rotate(255 -17.3409 -64.717)"/>
+<path class="art-hair" d="M0 0L-1.23077e-14 -67" />
+<ellipse class="art-hair" cx="-1.23077e-14" cy="-67" rx="8" ry="3" transform="rotate(270 -1.23077e-14 -67)"/>
+<path class="art-hair" d="M0 0L17.3409 -64.717" />
+<ellipse class="art-hair" cx="17.3409" cy="-64.717" rx="8" ry="3" transform="rotate(285 17.3409 -64.717)"/>
+<path class="art-hair" d="M0 0L33.5 -58.0237" />
+<ellipse class="art-hair" cx="33.5" cy="-58.0237" rx="8" ry="3" transform="rotate(300 33.5 -58.0237)"/>
+<path class="art-hair" d="M0 0L47.3762 -47.3762" />
+<ellipse class="art-hair" cx="47.3762" cy="-47.3762" rx="8" ry="3" transform="rotate(315 47.3762 -47.3762)"/>
+<path class="art-hair" d="M0 0L58.0237 -33.5" />
+<ellipse class="art-hair" cx="58.0237" cy="-33.5" rx="8" ry="3" transform="rotate(330 58.0237 -33.5)"/>
+<path class="art-hair" d="M0 0L64.717 -17.3409" />
+<ellipse class="art-hair" cx="64.717" cy="-17.3409" rx="8" ry="3" transform="rotate(345 64.717 -17.3409)"/>
+<circle class="art-ink-soft" cx="0" cy="0" r="10"/>
+<path class="art-ink-soft" d="M0 10C-6 29 12 48 6 73" />
 </g>
-<g transform="translate(805 610)" opacity=".55">
-<circle class="art-ink-soft" cx="0" cy="0" r="5" />
-<path class="art-hair" d="M-22 0L-8 0" />
-<path class="art-hair" d="M8 0L22 0" />
-<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
+<g transform="translate(805 1190)" opacity=".7">
+<ellipse class="art-hair" cx="0" cy="0" rx="119" ry="59" transform="rotate(0 0 0)"/>
+<ellipse class="art-hair" cx="0" cy="0" rx="91" ry="43" transform="rotate(0 0 0)"/>
+<path class="art-gold" d="M-15-45L6-21-10 4 13 26-4 48" />
+<path class="art-blue" d="M-86 0L-125 0" /><path class="art-blue" d="M-117.80 -3.48L-125 0L-117.80 3.48" />
+<path class="art-blue" d="M86 0L125 0" /><path class="art-blue" d="M117.80 3.48L125 0L117.80 -3.48" />
+<path class="art-blue" d="M0 -39L0 -71" /><path class="art-blue" d="M3.48 -63.80L0 -71L-3.48 -63.80" />
+<path class="art-blue" d="M0 39L0 71" /><path class="art-blue" d="M-3.48 63.80L0 71L3.48 63.80" />
 </g>
-<g transform="translate(805 1180)" opacity=".55">
-<circle class="art-ink-soft" cx="0" cy="0" r="5" />
-<path class="art-hair" d="M-22 0L-8 0" />
-<path class="art-hair" d="M8 0L22 0" />
-<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
-</g>
-<g transform="translate(805 1740)" opacity=".55">
-<circle class="art-ink-soft" cx="0" cy="0" r="5" />
-<path class="art-hair" d="M-22 0L-8 0" />
-<path class="art-hair" d="M8 0L22 0" />
-<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
+<g transform="translate(805 1800)" opacity=".7">
+<path class="art-ink-soft" d="M-174-65L-111-54 -95 6 -131 67 -180 32Z" />
+<circle class="art-blue" cx="-138" cy="-5" r="4"/>
+<path class="art-ink-soft" d="M-82-65L-19-54 -3 6 -39 67 -88 32Z" />
+<circle class="art-blue" cx="-46" cy="-5" r="4"/>
+<path class="art-ink-soft" d="M10-65L73-54 89 6 53 67 4 32Z" />
+<circle class="art-blue" cx="46" cy="-5" r="4"/>
+<path class="art-ink-soft" d="M102-65L165-54 181 6 145 67 96 32Z" />
+<circle class="art-blue" cx="138" cy="-5" r="4"/>
+<path class="art-gold" d="M-145 46C-108 15-94-8-63 7S-10 31 22-1 79-33 139-45" />
 </g>
 <g transform="translate(805 295)" opacity=".85">
 <rect class="art-ink-soft" x="-157" y="-126" width="312" height="251" rx="1" />
@@ -124,7 +258,7 @@
 <g transform="translate(805 1490)" opacity=".85">
 <path class="art-ink-soft" d="M-145 -120V110H140" />
 <path class="art-gold" d="M-137 91C-98 80-89-97-19-102S85 87 139 91" />
-<path class="art-hair" d="M-137 33H140" stroke-dasharray="5 6"/>
+<path class="art-hair" d="M-137 33H140" stroke-dasharray="5 6" />
 <circle class="art-blue" cx="70" cy="33" r="8" />
 <path class="art-blue" d="M70 33V111" />
 </g>
