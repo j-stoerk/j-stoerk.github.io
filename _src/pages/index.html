@@ -107,7 +107,7 @@
     (function () {
       const root = document.documentElement;
       root.dataset.backgroundRenderer = 'pending';
-      // Play once per tab session, including visits that skip or dismiss the intro.
+      // Play on the first visit and explicit reloads; ordinary returns open directly.
       // If storage is unavailable, open directly instead of repeating the animation.
       let firstVisit = false;
       try {
@@ -116,7 +116,8 @@
       } catch (error) {
         firstVisit = false;
       }
-      if (firstVisit && !location.hash && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const reloading = performance.getEntriesByType('navigation')[0]?.type === 'reload';
+      if ((reloading || (firstVisit && !location.hash)) && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
         root.classList.add('intro-pending', 'intro-active');
       }
       // Select a fallback only if the renderer never produces its first frame.

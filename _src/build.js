@@ -173,6 +173,38 @@ function postCover(p) {
   return ver(target);
 }
 
+/* CSS repeats each article's existing line art without stretching it. Export
+   both themes from the shared ink rules so no runtime SVG cloning is needed. */
+const siteStyles = fs.readFileSync(path.join(ROOT, 'styles.css'), 'utf8').replace(/\r\n/g, '\n');
+const inkStart = siteStyles.indexOf('.art-ink,\n');
+const inkEnd = siteStyles.indexOf('\nbody::before', inkStart);
+if (inkStart < 0 || inkEnd < 0) throw new Error('missing shared line-art styles');
+const inkStyles = siteStyles.slice(inkStart, inkEnd).trim();
+const artThemes = {
+  light: siteStyles.match(/:root,\s*\[data-theme="light"\]\s*\{([\s\S]*?)\n\}/)[1],
+  dark: siteStyles.match(/\[data-theme="dark"\]\s*\{([\s\S]*?)\n\}/)[1],
+};
+function postBackground(html, file) {
+  const background = /<div class="page-art" aria-hidden="true">\s*(<svg\b[\s\S]*?<\/svg>)\s*<\/div>/;
+  const match = html.match(background);
+  if (!match) throw new Error(`${file}: missing article background`);
+  const assets = Object.entries(artThemes).map(([theme, tokens]) => {
+    const styles = inkStyles.replace(/var\((--art-ink(?:-soft)?)\)/g,
+      (_, token) => tokens.match(new RegExp(`${token}:\\s*([^;]+);`))[1]);
+    // Explicit dimensions preserve the tile ratio with preserveAspectRatio="none".
+    const svg = match[1].replace('<svg', '<svg width="1000" height="5200" xmlns="http://www.w3.org/2000/svg"')
+      .replace(/(<svg\b[^>]*>)/, (_, tag) => `${tag}<style>${styles}</style>`)
+      // Join the two trunk lines across tile boundaries.
+      .replace('</svg>', '<path class="art-ink" d="M720 0V150 M720 5180V5200"/>'
+        + '<path class="art-ink-soft" d="M733 0V150 M733 5180V5200"/></svg>');
+    const target = `images/blog-backgrounds/${file.replace(/\.html$/, '')}-${theme}.svg`;
+    fs.mkdirSync(path.dirname(path.join(ROOT, target)), { recursive: true });
+    fs.writeFileSync(path.join(ROOT, target), svg + '\n');
+    return `--post-art-${theme}:url('${ver(target)}')`;
+  });
+  return html.replace(background, () => `<div class="page-art page-art-post" aria-hidden="true" style="${assets.join(';')}"></div>`);
+}
+
 function postEntry(p, withMinutes, indent) {
   const meta = withMinutes ? `${p.category} · ${p.minutes} min` : p.category;
   const pad = ' '.repeat(indent);
@@ -224,6 +256,7 @@ for (const file of fs.readdirSync(pagesDir)) {
     if (!post?.whyItMatters) throw new Error(`${file}: missing whyItMatters`);
     const context = post.whyItMatters.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     html = html.replace('<!--#POST_CONTEXT-->', `<p class="post-context"><span>Why this matters</span>${context}</p>`);
+    html = postBackground(html, file);
   }
   if (cfg.math) html = renderMath(html, file);
   html = html.replace(/href="([^":?#]+\.html)(#[^"]*)?"/g,

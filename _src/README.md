@@ -9,7 +9,8 @@ node _src/build.js
 - `pages/*.html` — page sources. Shared chrome is injected at the markers
   `<!--#HEAD_ASSETS-->`, `<!--#TOPBAR-->`, `<!--#FOOTER-->`, `<!--#SCRIPTS-->`;
   blog listings at `<!--#POST_LIST-->` (blog.html) and `<!--#POST_CARDS-->`
-  (index.html). Everything else in a source file is copied verbatim.
+  (index.html). Article background SVGs are exported as repeating assets;
+  other source content is copied verbatim.
 - `posts.json` — one entry per blog post. Drives the blog listing, the
   home-page cards, `feed.xml`, and `sitemap.xml`. To publish a post: add its
   source page in `pages/`, add an entry here, run the build.
@@ -36,6 +37,10 @@ node _src/build.js
 The build also extracts each post's `svg.cover-art` into
 `images/blog-covers/` for the blog tile view. Edit the inline artwork in the
 source page and rebuild; commit the generated SVGs with the HTML.
+Each post's line-art background is also exported into `images/blog-backgrounds/`
+in light and dark variants, using the shared ink styles and theme tokens.
+CSS repeats that artwork vertically at its original proportions for the full
+article height, including when content expands or JavaScript is unavailable.
 `blog-view.js` switches between the list and tiles and remembers the selection.
 
 The shared header order lives in `NAV_ITEMS`. Local HTML links carry a `nav`
@@ -43,8 +48,8 @@ version derived from that list so switching pages refreshes documents cached
 with an older menu. Canonical URLs and in-page anchors remain unchanged.
 
 Runtime assets (styles.css, blog.js, blog-view.js, cite.js, theme.js, navigation.js,
-fonts, PDFs, images) are plain files at the root and are not
-generated.
+fonts, PDFs, images) are plain files at the root, except for the generated
+`images/blog-covers/` and `images/blog-backgrounds/` folders.
 
 GitHub Pages runs Jekyll, which skips underscore directories, so `_src` is
 never published.
@@ -68,8 +73,8 @@ The intro projects a layered
 electrode surface onto a canvas, assembling its points on arrival and responding
 to pointer movement and taps. It uses the site's theme colours and the
 shared visibility-aware animation loop, with a separate clock for each scene.
-The first homepage visit in a tab session,
-without a fragment, starts the surface at full screen with rolling digits counting from
+The first homepage visit in a tab session without a fragment, or an explicit
+homepage reload, starts the surface at full screen with rolling digits counting from
 000 to 100 and a compact progress bar. The count accelerates with a 3.4 power curve
 and follows elapsed real time so slower rendering cannot extend the opening.
 On the same frame that reaches 100, that same canvas unfolds into a larger, quieter mesh
@@ -87,9 +92,10 @@ Content becomes interactive after the reveal, so dismissing the intro cannot
 accidentally activate a hidden link. Pointer-driven motion starts after the opening.
 A timeout also restores
 the page if animation fails; deep links skip the opening. The head bootstrap records
-the first visit in sessionStorage before paint, so reloads and returns from CV or
-Blog open directly, even after skipping or dismissing the intro. If sessionStorage
-is unavailable, the page opens directly. Reduced motion renders
+the first visit in sessionStorage before paint, so ordinary returns from CV or
+Blog open directly, even after skipping or dismissing the intro. Navigation timing
+identifies explicit reloads, which replay the opening even at a section fragment.
+If sessionStorage is unavailable, ordinary visits open directly. Reduced motion renders
 a still surface;
 `images/intro-surface.svg` provides the fallback without JavaScript or canvas.
 `experiences.css` styles these components,

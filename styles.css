@@ -139,7 +139,7 @@ body {
   overflow-x: clip;
 }
 
-/* ---------- Connected page-art (SVG "tree" behind every section) ---------- */
+/* ---------- Line art for the CV, blog archive, and individual posts ---------- */
 main {
   position: relative;
   z-index: 1;
@@ -160,6 +160,18 @@ main {
   width: max(100%, 700px);
   max-width: none;
   height: auto;
+}
+
+/* Article art repeats at its original proportions for any content length. */
+.page-art-post {
+  background-image: var(--post-art-light);
+  background-position: right top;
+  background-repeat: repeat-y;
+  background-size: max(100%, 700px) auto;
+}
+
+[data-theme="dark"] .page-art-post {
+  background-image: var(--post-art-dark);
 }
 
 .hero,
