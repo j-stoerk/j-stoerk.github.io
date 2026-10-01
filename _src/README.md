@@ -62,10 +62,13 @@ Scrolling keeps the selected explanation open. The content lives in
 the bio remains plain text and its inline buttons are disabled.
 
 `experiences.js` contains independent initializers for the intro/background, Blog topic
-explorer, section artwork, and career object. The intro projects a layered
+explorer, and career object. The homepage uses one fixed mesh and gold curve;
+the older page-wide SVG and section-sketch layers have been removed.
+The intro projects a layered
 electrode surface onto a canvas, assembling its points on arrival and responding
-to pointer movement, taps, and scroll. It uses the site's theme colours and the
-shared visibility-aware animation loop. The first homepage visit in a tab session,
+to pointer movement and taps. It uses the site's theme colours and the
+shared visibility-aware animation loop, with a separate clock for each scene.
+The first homepage visit in a tab session,
 without a fragment, starts the surface at full screen with rolling digits counting from
 000 to 100 and a compact progress bar. The count accelerates with a 3.4 power curve
 and follows elapsed real time so slower rendering cannot extend the opening.
@@ -73,7 +76,12 @@ On the same frame that reaches 100, that same canvas unfolds into a larger, quie
 and flowing gold line behind the page. Its viewport dimensions stay fixed through
 the reveal; a horizontal opacity mask protects the reading column. The portrait
 uses its original size and occupies its own place in the hero. Ambient frames
-stop outside the hero; scrolling, resizing, and theme changes refresh the backdrop.
+stop outside the hero. Scrolling refreshes visibility without changing the mesh's
+placement or phase; resizing and theme changes redraw the current scene.
+The head bootstrap selects a renderer (`pending`, `canvas`, or `fallback`).
+The canvas becomes visible only after its first complete frame. The static SVG is
+reserved for unavailable JavaScript/canvas or a renderer timeout, and a selected
+fallback stays selected for that page visit. There is no SVG-to-canvas cross-fade.
 Clicking, scrolling, touching the screen, or using the keyboard dismisses the opening immediately.
 Content becomes interactive after the reveal, so dismissing the intro cannot
 accidentally activate a hidden link. Pointer-driven motion starts after the opening.

@@ -16,7 +16,7 @@
   }
   readPalette();
   const scenes = [];
-  let frame = 0, last = 0, elapsed = 0;
+  let frame = 0, last = 0;
   function wake(changed = true) {
     if (changed !== false) scenes.forEach(scene => { scene.dirty = true; });
     if (!frame && !document.hidden) frame = requestAnimationFrame(tick);
@@ -25,7 +25,6 @@
     frame = 0;
     const dt = Math.min(.05, last ? (now - last) / 1000 : .016);
     last = now;
-    if (!paused) elapsed += dt;
     let running = false;
     scenes.forEach(scene => {
       if (!scene.visible || !scene.canvas.isConnected) return;
@@ -38,7 +37,10 @@
       scene.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       scene.ctx.clearRect(0, 0, rect.width, rect.height);
       scene.ctx.save();
-      scene.draw(scene.ctx, rect.width, rect.height, elapsed, dt);
+      // Each scene keeps its own clock, so another animation cannot advance
+      // an off-screen scene and make it jump when it is drawn again.
+      if (!paused && scene.animate()) scene.time += dt;
+      scene.draw(scene.ctx, rect.width, rect.height, scene.time, dt);
       scene.ctx.restore();
       scene.dirty = false;
       if (scene.animate()) running = true;
@@ -53,7 +55,7 @@
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    const entry = { canvas, ctx, draw, animate, maxDpr, visible: !observer, dirty: true };
+    const entry = { canvas, ctx, draw, animate, maxDpr, visible: !observer, dirty: true, time: 0 };
     scenes.push(entry);
     if (observer) observer.observe(canvas);
     wake();
@@ -81,11 +83,15 @@
   (function introduction() {
     const hero = $('#home'), canvas = $('#intro-canvas'), stage = $('.portfolio-atmosphere');
     if (!hero || !canvas || !stage) return;
+    if (root.dataset.backgroundRenderer === 'fallback') return;
     const visual = $('.hero-visual', stage), count = $('[data-intro-count]', stage);
     let fullScreen = root.classList.contains('intro-pending');
     let revealing = false, introStartedAt, heroVisible = true;
     const countDelay = .12, countDuration = 2.55, revealDuration = 1.15;
     const dismissEvents = ['pointerdown', 'wheel', 'touchstart', 'keydown', 'focusin', 'resize', 'pagehide'];
+    function setPhase(phase) {
+      if (stage.dataset.introState !== phase) stage.dataset.introState = phase;
+    }
     const reels = fullScreen ? $$('[data-intro-place]', stage).map(digit => {
       const place = Number(digit.dataset.introPlace), reel = $('.intro-reel', digit);
       // Long reels roll forward through 009 -> 010 and 099 -> 100 without snapping back.
@@ -107,19 +113,28 @@
       root.style.setProperty('--intro-reveal', 1);
       clearTimeout(window.introFallback);
       setCounter(100);
-      stage.dataset.introState = 'settled';
+      setPhase('settled');
       dismissEvents.forEach(event => window.removeEventListener(event, finishIntro));
       wake();
     }
     if (fullScreen) {
       clearTimeout(window.introFallback);
-      window.introFallback = setTimeout(finishIntro, 6000);
+      window.introFallback = setTimeout(() => {
+        if (root.dataset.backgroundRenderer === 'pending') root.dataset.backgroundRenderer = 'fallback';
+        finishIntro();
+      }, 6000);
       dismissEvents.forEach(event => window.addEventListener(event, finishIntro, { passive: true }));
       reduced.addEventListener('change', () => { if (reduced.matches) finishIntro(); });
-      if (!canvas.getContext('2d')) finishIntro();
+    }
+    if (!canvas.getContext('2d')) {
+      root.dataset.backgroundRenderer = 'fallback';
+      finishIntro();
+      clearTimeout(window.introFallback);
+      setPhase('settled');
+      return;
     }
     const pointer = { x: 0, y: 0 }, eased = { x: 0, y: 0 };
-    let pulse = -100;
+    let pulse = -100, surfaceTime = 0;
     hero.addEventListener('pointermove', event => {
       if (paused || fullScreen || event.pointerType !== 'mouse') return;
       const rect = stage.getBoundingClientRect();
@@ -133,12 +148,13 @@
       const rect = stage.getBoundingClientRect();
       pointer.x = clamp((event.clientX - rect.left) / rect.width * 2 - 1, -.9, .9);
       pointer.y = clamp((event.clientY - rect.top) / rect.height * 2 - 1, -.9, .9);
-      pulse = elapsed;
+      pulse = surfaceTime;
       wake();
     });
-    window.addEventListener('scroll', () => { if (!paused) wake(); }, { passive: true });
+    window.addEventListener('scroll', () => wake(), { passive: true });
     scene(canvas, (ctx, width, height, time, dt) => {
-      stage.dataset.ready = 'true';
+      if (root.dataset.backgroundRenderer === 'fallback') return;
+      surfaceTime = time;
       if (introStartedAt === undefined) introStartedAt = performance.now();
       const openingTime = (performance.now() - introStartedAt) / 1000;
       const loading = clamp((openingTime - countDelay) / countDuration, 0, 1);
@@ -156,17 +172,18 @@
         revealing = revealTime > 0;
         if (revealTime === 1) finishIntro();
       }
-      stage.dataset.introState = fullScreen ? revealing ? 'revealing' : 'forming' : 'settled';
-      eased.x = mix(eased.x, pointer.x, Math.min(1, dt * 5));
-      eased.y = mix(eased.y, pointer.y, Math.min(1, dt * 5));
+      setPhase(fullScreen ? revealing ? 'revealing' : 'forming' : 'settled');
       const heroRect = hero.getBoundingClientRect();
       heroVisible = heroRect.bottom > 0 && heroRect.top < height;
-      const scroll = paused ? 0 : clamp(window.scrollY / Math.max(1, document.documentElement.scrollHeight - height));
-      const yaw = mix(.42, .18 + scroll * .16, reveal) + eased.x * .12 + Math.sin(time * .18) * .055;
+      if (fullScreen || heroVisible) {
+        eased.x = mix(eased.x, pointer.x, Math.min(1, dt * 5));
+        eased.y = mix(eased.y, pointer.y, Math.min(1, dt * 5));
+      }
+      const yaw = mix(.42, .18, reveal) + eased.x * .12 + Math.sin(time * .18) * .055;
       const pitch = mix(-.65, -.16, reveal) + eased.y * .08;
       const roll = mix(-.22, -.58, reveal) + Math.sin(time * .13) * .035;
       const scale = mix(Math.min(width / 510, height / 580) * 1.15, Math.max(width / 780, height / 720), reveal);
-      const cx = width * mix(.5, .9, reveal), cy = height * mix(.43, .46 - scroll * .12, reveal);
+      const cx = width * mix(.5, .9, reveal), cy = height * mix(.43, .46, reveal);
       const quiet = mix(1, .48, reveal);
       const cosY = Math.cos(yaw), sinY = Math.sin(yaw), cosP = Math.cos(pitch), sinP = Math.sin(pitch);
       const cosR = Math.cos(roll), sinR = Math.sin(roll);
@@ -232,7 +249,7 @@
         const point = project(u, .34 * Math.sin(u * 3 + time * .12), 3);
         const along = i / 79;
         // The same gold curve unwinds into the line running behind the page artwork.
-        return { x: mix(point.x, width * (.76 + .11 * Math.sin(along * 6 + time * .12 + scroll * 2)), reveal),
+        return { x: mix(point.x, width * (.76 + .11 * Math.sin(along * 6 + time * .12)), reveal),
           y: mix(point.y, height * (-.12 + along * 1.37), reveal), p: mix(point.p, .7, reveal) };
       });
       stroke(route, palette.gold, mix(.75, .32, reveal) * assembled, 1.35);
@@ -251,7 +268,13 @@
         ctx.globalCompositeOperation = 'destination-in'; ctx.fillStyle = mask;
         ctx.fillRect(0, 0, width, height); ctx.globalCompositeOperation = 'source-over';
       }
-    }, () => fullScreen || heroVisible, 1.5);
+      // Commit the canvas only after its complete first frame. The static
+      // fallback is never cross-faded with a differently positioned surface.
+      if (root.dataset.backgroundRenderer !== 'canvas') {
+        root.dataset.backgroundRenderer = 'canvas';
+        if (!fullScreen) clearTimeout(window.introFallback);
+      }
+    }, () => root.dataset.backgroundRenderer !== 'fallback' && (fullScreen || heroVisible), 1.5);
   })();
 
   // Recent notes and topic trails share the same blog explorer.
@@ -306,28 +329,6 @@
     document.fonts?.ready.then(fitIntros);
     window.addEventListener('resize', fitIntros, { passive: true });
     if ('ResizeObserver' in window) new ResizeObserver(fitIntros).observe($('#atlas-work'));
-  })();
-
-  // Section-local vector art preserves its aspect ratio on every viewport.
-  (function sketches() {
-    const old = $('.portfolio-page .page-art');
-    if (!old) return;
-    const groups = Array.from($('svg', old).children).filter(e => e.tagName.toLowerCase() === 'g' && e.hasAttribute('transform'));
-    const targets = [null, 'experience', null, 'publications', 'writing', 'software', 'contributions'];
-    const io = 'IntersectionObserver' in window ? new IntersectionObserver(items => items.forEach(e => e.target.classList.toggle('sketch-visible', e.isIntersecting))) : null;
-    groups.forEach((original, i) => {
-      if (!targets[i]) return;
-      const section = document.getElementById(targets[i]); if (!section) return;
-      const wrap = document.createElement('div'); wrap.className = 'section-sketch'; wrap.setAttribute('aria-hidden', 'true'); wrap.dataset.feature = 'responsive-art';
-      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); svg.setAttribute('viewBox', '-240 -210 700 560');
-      const group = original.cloneNode(true); group.removeAttribute('transform'); svg.appendChild(group);
-      const path = $('path', group); if (path) { const pulse = path.cloneNode(true); pulse.classList.add('sketch-signal'); group.appendChild(pulse); }
-      wrap.appendChild(svg); section.prepend(wrap);
-      if (io) io.observe(wrap); else wrap.classList.add('sketch-visible');
-      section.addEventListener('pointermove', e => { if (paused || e.pointerType !== 'mouse') return; const r = section.getBoundingClientRect(); wrap.style.transform = `translate(${((e.clientX - r.left) / r.width - .5) * 12}px, ${clamp((e.clientY - r.top) / r.height - .5, -.5, .5) * 8}px)`; });
-      section.addEventListener('pointerleave', () => { wrap.style.transform = ''; });
-    });
-    old.remove();
   })();
 
   // A changing scientific object accompanies the active career milestone.

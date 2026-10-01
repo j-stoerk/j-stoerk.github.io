@@ -13,7 +13,6 @@
 .intro-active .portfolio-atmosphere::before { opacity: var(--intro-reveal, 0); }
 .intro-active .hero-copy, .intro-active .hero-portrait { opacity: var(--intro-reveal, 0); transform: translateY(calc((1 - var(--intro-reveal, 0)) * 18px)); }
 .intro-active main, .intro-active .topbar, .intro-active .chapter-nav { pointer-events: none; }
-.intro-pending .hero-static { opacity: 0; transition: none; }
 .intro-readout { display: none; position: absolute; inset: auto clamp(24px, 4vw, 64px) 24px; align-items: end; justify-content: space-between; gap: 20px; color: var(--color-primary); }
 .intro-pending .intro-readout { display: flex; }
 .intro-signature { min-width: 0; font-size: 18px; line-height: 1.5; text-align: right; }
@@ -28,11 +27,11 @@
 .portfolio-atmosphere[data-intro-state="revealing"] .intro-readout { opacity: 0; transform: translateY(-10px); transition: opacity .3s ease-out, transform .35s ease-out; }
 .portfolio-atmosphere[data-intro-state="revealing"] .intro-progress { opacity: 0; transform: translate(-50%, -8px); transition: opacity .25s ease-out, transform .35s ease-out; }
 .portfolio-atmosphere canvas, .hero-static { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
-.portfolio-atmosphere canvas { opacity: 0; transition: opacity .4s; }
-.portfolio-atmosphere[data-ready="true"] canvas { opacity: 1; }
-.portfolio-atmosphere[data-ready="true"] .hero-static { opacity: 0; }
-.hero-static { opacity: .22; object-position: 90% center; mask-image: linear-gradient(90deg, transparent 15%, black 80%); transition: opacity .4s; }
-.hero-intro > .section-sketch { display: none; }
+.portfolio-atmosphere canvas { opacity: 0; }
+html[data-background-renderer="canvas"] .portfolio-atmosphere canvas { opacity: 1; }
+html[data-background-renderer="pending"] .hero-static,
+html[data-background-renderer="canvas"] .hero-static { opacity: 0; }
+.hero-static { opacity: .22; object-position: 90% center; mask-image: linear-gradient(90deg, transparent 15%, black 80%); }
 @media (min-width: 761px) and (max-width: 1100px) {
   .hero-intro { grid-template-columns: minmax(0, 1fr) 250px; gap: 28px; }
 }
@@ -60,13 +59,6 @@
 .portal-hint { display: block; margin-top: 8px; color: var(--color-primary); }
 .experience-surface { position: relative; border: 1px solid var(--color-border); border-radius: 16px; background: var(--color-surface); overflow: hidden; }
 .experience-surface canvas { display: block; width: 100%; height: auto; }
-.section-sketch { position: absolute; top: 100px; right: 0; width: min(440px, 75%); aspect-ratio: 7 / 5.6; z-index: -1; opacity: .36; pointer-events: none; transition: opacity .6s, transform .6s; }
-.section-sketch svg { width: 100%; height: 100%; }
-.section:has(a:hover, button:hover, input:focus-visible) > .section-sketch { opacity: .6; }
-.section-sketch .sketch-signal { stroke: var(--color-primary); stroke-dasharray: 8 22; animation: sketch-flow 7s linear infinite; }
-@keyframes sketch-flow { to { stroke-dashoffset: -180; } }
-.section-sketch:not(.sketch-visible) .sketch-signal { animation-play-state: paused; }
-
 /* Milestones and the evolving object form one sticky sidebar. */
 .career-layout { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 32px; }
 .career-sidebar { position: sticky; top: calc(var(--site-header-height) + var(--chapter-height) + 24px); align-self: start; border: 1px solid var(--color-border); border-radius: 16px; overflow: hidden; background: var(--color-surface); }
@@ -183,8 +175,7 @@ html:not(.experiences-ready) .atlas-layout { grid-template-columns: 1fr; }
 html:not(.experiences-ready) .atlas-work { height: auto; overflow: visible; }
 html:not(.experiences-ready) .atlas-panel { flex: none; height: 380px; margin-bottom: 24px; }
 html:not(.experiences-ready) .career-scene figcaption { padding-top: 24px; }
-.motion-paused .sketch-signal { animation-play-state: paused; }
-.motion-paused .atlas-story img, .motion-paused .section-sketch { transition: none; }
+.motion-paused .atlas-story img { transition: none; }
 @media (max-width: 900px) {
   .career-layout { grid-template-columns: 180px minmax(0, 1fr); gap: 24px; }
   .atlas-layout { grid-template-columns: 150px minmax(0, 1fr); gap: 16px; }
@@ -196,7 +187,6 @@ html:not(.experiences-ready) .career-scene figcaption { padding-top: 24px; }
   .career-sidebar .career-milestones { border-left: 1px solid var(--color-border); }
   .career-sidebar .career-milestones a { padding: 12px 16px; }
   .career-sidebar .career-milestones a:first-child { border-top: 0; }
-  .section-sketch { width: 320px; max-width: 100%; opacity: .25; }
   .atlas-heading { display: block; }
   .atlas-surprise { margin-top: 16px; }
   .atlas-layout { grid-template-columns: 1fr; }
@@ -221,15 +211,14 @@ html:not(.experiences-ready) .career-scene figcaption { padding-top: 24px; }
   .software-art img, .software-art svg { aspect-ratio: 16 / 9; object-fit: contain; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .sketch-signal { animation: none !important; }
-  .atlas-story img, .section-sketch { transition: none; }
+  .atlas-story img { transition: none; }
   .bio-popover[data-open="true"] { animation: none; }
 }
 @media print {
   .bio-popover { display: none !important; }
   .hero-bio-rail[data-bio-open="true"] .hero-portrait { opacity: 1; visibility: visible; }
   .bio-term { color: inherit; text-decoration: none; }
-  .section-sketch, .atlas-topics, .atlas-surprise, .atlas-trail { display: none; }
+  .atlas-topics, .atlas-surprise, .atlas-trail { display: none; }
   .career-sidebar { position: static; }
   .experience-surface { break-inside: avoid; }
   .experiences-ready .atlas-panel { display: grid; margin-bottom: 24px; }
