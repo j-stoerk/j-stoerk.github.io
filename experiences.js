@@ -9,7 +9,6 @@
   const mix = (a, b, t) => a + (b - a) * t;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let paused = reduced.matches;
-  try { if (localStorage.getItem('portfolio-motion') === 'paused') paused = true; } catch (_) { }
   let palette;
   function readPalette() {
     const css = getComputedStyle(root);
@@ -66,17 +65,15 @@
   function text(ctx, value, x, y, color = palette.muted, size = 14) { ctx.font = size + 'px "Noto Sans", sans-serif'; ctx.fillStyle = color; ctx.fillText(value, x, y); }
   function applyPause() {
     root.classList.toggle('motion-paused', paused);
-    $$('[data-motion-toggle]').forEach(button => { button.textContent = paused ? 'Resume motion' : 'Pause motion'; button.setAttribute('aria-pressed', String(paused)); });
     document.dispatchEvent(new Event('motionchange'));
     wake();
   }
-  $('[data-motion-toggle]')?.addEventListener('click', () => { paused = !paused; try { localStorage.setItem('portfolio-motion', paused ? 'paused' : 'running'); } catch (_) { } applyPause(); });
   reduced.addEventListener('change', () => { paused = reduced.matches; applyPause(); });
   document.addEventListener('visibilitychange', () => { last = 0; if (document.hidden) { cancelAnimationFrame(frame); frame = 0; } else wake(); });
   window.addEventListener('resize', wake, { passive: true });
   new MutationObserver(() => { readPalette(); wake(); }).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
 
-  // A common material drawing links the research overview and the Lab.
+  // Particle geometry for the electrode interaction.
   function particles(compaction) {
     return Array.from({ length: 30 }, (_, i) => ({
       x: 84 + i % 6 * 84 + (Math.floor(i / 6) % 2 ? 13 : -4) + Math.sin(i * 7) * 12,
@@ -124,61 +121,6 @@
     for (let x = 30; x < width; x += 30) for (let y = 30; y < height; y += 30) dot(ctx, x, y, .7, palette.muted);
     ctx.restore();
   }
-
-  // Each question controls the adjacent illustration, caption and destination.
-  (function researchFocus() {
-    const canvas = $('#bridge-canvas');
-    if (!canvas) return;
-    let mode = 'retention', reveal = 1;
-    const content = {
-      retention: ['01 / Parameter space', 'Make room for new tasks while protecting what a model has learned.', 'post-geometry-of-forgetting.html', 'Explore retention'],
-      structure: ['02 / Particle scale', 'Processing changes the contacts, pores and orientation inside an electrode.', 'post-calendering-u-shape.html', 'Explore structure'],
-      performance: ['03 / Cell scale', 'Read the response of a cell to connect its behaviour with its process history.', '#publications', 'Explore the research']
-    };
-    $$('[data-research]').forEach(button => button.addEventListener('click', () => {
-      mode = button.dataset.research; reveal = paused ? 1 : 0;
-      $$('[data-research]').forEach(b => { b.setAttribute('aria-pressed', String(b === button)); b.closest('.rcard').classList.toggle('is-active', b === button); });
-      const [scale, caption, href, label] = content[mode];
-      $('#research-scale').textContent = scale; $('#research-caption').textContent = caption;
-      $('#research-link').href = href; $('#research-link').textContent = label + ' →';
-      canvas.setAttribute('aria-label', scale + '. ' + caption); wake();
-    }));
-    $('[data-research]').closest('.rcard').classList.add('is-active');
-    scene(canvas, (ctx, w, h, t, dt) => {
-      fit(ctx, w, h, 520, 440); reveal = paused ? 1 : Math.min(1, reveal + dt * 3);
-      ctx.globalAlpha = reveal; plotGrid(ctx, 520, 440);
-      if (mode === 'retention') {
-        contours(ctx, 235, 225, -.4, palette.blue);
-        contours(ctx, 370, 145, .6, palette.gold, 4);
-        arrow(ctx, [235, 225], [382, 128], palette.gold, 2);
-        const end = [390, 195 + Math.sin(t * .5) * 8];
-        arrow(ctx, [235, 225], end, palette.blue, 3);
-        dot(ctx, 235, 225, 5, palette.ink);
-        text(ctx, 'earlier task', 105, 322); text(ctx, 'new task', 368, 93);
-        text(ctx, 'protected update', 300, 249, palette.blue);
-      } else if (mode === 'structure') {
-        ctx.save(); ctx.translate(-25, 0); ctx.scale(.94, 1);
-        particles(1).forEach(p => grain(ctx, p)); ctx.restore();
-        text(ctx, 'contacts', 45, 58, palette.blue); text(ctx, 'orientation', 327, 372, palette.blue);
-        line(ctx, [105, 65], [158, 109], palette.muted); line(ctx, [347, 352], [320, 318], palette.muted);
-      } else {
-        line(ctx, [65, 343], [475, 343], palette.muted); line(ctx, [65, 343], [65, 68], palette.muted);
-        [0, 1, 2].forEach(j => {
-          ctx.beginPath();
-          for (let i = 0; i <= 120; i++) {
-            const a = Math.PI * i / 120, x = 100 + (1 - Math.cos(a)) * (112 + j * 19), y = 340 - Math.sin(a) * (120 - j * 22);
-            if (!i) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-          }
-          ctx.strokeStyle = j === 1 ? palette.blue : palette.grid; ctx.lineWidth = j === 1 ? 3 : 2; ctx.stroke();
-        });
-        const a = (t * .3 % 1) * Math.PI;
-        dot(ctx, 100 + (1 - Math.cos(a)) * 131, 340 - Math.sin(a) * 98, 6, palette.gold);
-        text(ctx, '−Im(Z)', 65, 49); text(ctx, 'Re(Z)', 420, 375);
-        text(ctx, 'Process history → cell response', 98, 115, palette.blue);
-      }
-      text(ctx, 'SCHEMATIC', 32, 412, palette.muted, 11);
-    }, () => mode !== 'structure' || reveal < 1);
-  })();
 
   // Links are the illustrated objects in the atlas, with no detached results list.
   (function atlas() {
