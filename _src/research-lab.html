@@ -3,18 +3,27 @@
         <article class="lab-card experience-surface" data-feature="task-landscape">
           <div class="experience-heading"><div><span class="eyebrow">01 / Learning</span><h3>Shape what survives.</h3></div></div>
           <p class="lab-instruction" id="landscape-help">Move the new task. See which directions cost old knowledge.</p>
-          <canvas id="landscape-canvas" width="600" height="440" tabindex="0" role="group" aria-label="Interactive task landscape" aria-describedby="landscape-help landscape-detail">A quadratic landscape: movement across narrow contours costs more than movement along them. Protecting the sensitive direction reduces that movement.</canvas>
-          <div class="experience-controls"><button type="button" id="landscape-protect" aria-pressed="true">Protect earlier task</button><button type="button" id="landscape-reset">Reset task</button></div>
-          <p class="lab-result" id="landscape-result" aria-live="polite">Protection redirects the update along the earlier task’s valley.</p>
+          <div class="lab-stage">
+            <div class="experience-controls lab-toolbar"><button type="button" id="landscape-protect" aria-pressed="true" aria-label="Protect earlier task">Protection on</button><button class="lab-reset" type="button" id="landscape-reset" aria-label="Reset the new-task target">&#8634; Reset</button></div>
+            <canvas id="landscape-canvas" width="600" height="580" tabindex="0" role="group" aria-label="Interactive task landscape" aria-describedby="landscape-help landscape-detail landscape-result">A quadratic landscape: movement across narrow contours costs more than movement along them. Protecting the sensitive direction reduces that movement.</canvas>
+            <div class="lab-hud landscape-hud">
+              <p class="lab-result" id="landscape-result" aria-live="polite" aria-atomic="true"><strong id="landscape-cost">40%</strong><span>Earlier-task cost<small>of the unprotected move</small></span></p>
+              <div class="lab-meter" aria-hidden="true"><span id="landscape-meter-fill" style="width:40%"></span></div>
+            </div>
+          </div>
           <p class="experiment-note" id="landscape-detail">Drag or use arrow keys. Quadratic toy: protection scales the sensitive component to 20%; contours show earlier-task cost.</p>
           <a class="lab-paper" href="post-geometry-of-forgetting.html"><span>Behind the interaction</span>The geometry of forgetting <span aria-hidden="true">↗</span></a>
         </article>
         <article class="lab-card experience-surface" data-feature="electrode-paths">
           <div class="experience-heading"><div><span class="eyebrow">02 / Materials</span><h3>Follow the heat.</h3></div></div>
           <p class="lab-instruction" id="transport-help">Change the process state. Select a particle to trace its contacts.</p>
-          <canvas id="transport-canvas" width="600" height="440" tabindex="0" role="group" aria-label="Interactive electrode cross-section" aria-describedby="transport-help transport-detail">Compaction changes particle orientation and contact geometry. Select a process state below to explore the network.</canvas>
-          <div class="experience-controls" aria-label="Process state"><button type="button" data-compaction="0" aria-pressed="true">As coated</button><button type="button" data-compaction="1" aria-pressed="false">Reoriented</button><button type="button" data-compaction="2" aria-pressed="false">Densified</button></div>
-          <p class="lab-result" id="transport-result" aria-live="polite">Open pores interrupt the contact network.</p>
+          <div class="lab-stage">
+            <div class="experience-controls lab-toolbar lab-process" role="group" aria-label="Process state"><button type="button" data-compaction="0" aria-pressed="true">As coated</button><button type="button" data-compaction="1" aria-pressed="false">Reoriented</button><button type="button" data-compaction="2" aria-pressed="false">Densified</button></div>
+            <canvas id="transport-canvas" width="600" height="580" tabindex="0" role="group" aria-label="Interactive electrode cross-section" aria-describedby="transport-help transport-detail transport-result">Compaction changes particle orientation and contact geometry. Select a process state to explore the network.</canvas>
+            <div class="lab-hud">
+              <div class="lab-result transport-readout" id="transport-result" aria-live="polite" aria-atomic="true"><p id="transport-note">Open pores interrupt the contact network.</p><p class="transport-count"><strong id="transport-count">1</strong><span id="transport-contact-label">schematic contact at particle 17</span></p></div>
+            </div>
+          </div>
           <p class="experiment-note" id="transport-detail">Tap a particle or use arrow keys. Illustrative contacts and orientation; no conductivity prediction.</p>
           <a class="lab-paper" href="post-calendering-u-shape.html"><span>Behind the interaction</span>Why conductivity can dip before rising <span aria-hidden="true">↗</span></a>
         </article>

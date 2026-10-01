@@ -185,7 +185,17 @@ const POST_LIST = `<div id="blog-posts" class="journal-index journal-index-page"
 ${posts.map((p) => postEntry(p, true, 6)).join('\n')}
     </div>`;
 
-const BLOG_LATEST = posts.slice(0, 2).map(p => `<a class="atlas-story" href="${p.file}"><img src="${postCover(p)}" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>${p.display} ? ${p.category}</small><strong>${p.title}</strong><span>${p.summary}</span><em>Read the notes ?</em></span></a>`).join('\n              ');
+function trailStory(p) {
+  return `<a class="atlas-story" data-post="${p.file}" href="${p.file}"><img src="${postCover(p)}" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>${p.display} &middot; ${p.category}</small><strong>${p.title}</strong><span>${p.summary}</span><em>Read the notes &#8599;</em></span></a>`;
+}
+const BLOG_LATEST = posts.slice(0, 2).map(trailStory).join('\n              ');
+const TRAILS = { materials: 'Materials', learning: 'Learning', modelling: 'Modelling', automation: 'Automation' };
+for (const p of posts) {
+  if (!TRAILS[p.trail]) throw new Error(`${p.file}: missing or invalid blog trail`);
+}
+const BLOG_TRAILS = Object.entries(TRAILS).map(([trail, label]) =>
+  `<div class="atlas-panel" id="atlas-${trail}" role="region" aria-label="${label} blog posts">\n              ${posts.filter(p => p.trail === trail).map(trailStory).join('\n              ')}\n            </div>`
+).join('\n            ');
 
 /* ---------- build pages ---------- */
 const pagesDir = path.join(SRC, 'pages');
@@ -206,6 +216,7 @@ for (const file of fs.readdirSync(pagesDir)) {
   html = html.replace('<!--#RESEARCH_LAB-->', () => fs.readFileSync(path.join(SRC, 'research-lab.html'), 'utf8'));
   html = html.replace('<!--#RESEARCH_ATLAS-->', () => fs.readFileSync(path.join(SRC, 'research-atlas.html'), 'utf8'));
   html = html.replace('<!--#BLOG_LATEST-->', () => BLOG_LATEST);
+  html = html.replace('<!--#BLOG_TRAILS-->', () => BLOG_TRAILS);
   if (cfg.math) html = renderMath(html, file);
   if (/<!--#/.test(html)) throw new Error(`${file}: unresolved marker`);
   fs.writeFileSync(path.join(ROOT, file), html);

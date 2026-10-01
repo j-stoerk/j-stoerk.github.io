@@ -10,7 +10,8 @@
     "feedDescription": "Jev, Jeff, and typed decisions: shared representations, task-specific heads, calibrated probabilities, and a concrete policy for when a manufacturing model acts or requests review.",
     "rfc822": "Sun, 27 Sep 2026 08:00:00 +0200",
     "lastmod": "2026-09-30",
-    "math": true
+    "math": true,
+    "trail": "modelling"
   },
   {
     "file": "post-disco-dry-run.html",
@@ -23,7 +24,8 @@
     "feedDescription": "DisCo distills repositories and papers into reusable operating skills. Scope, ground, construct, and verify: a practical route from research knowledge to repeatable workflows.",
     "rfc822": "Sun, 20 Sep 2026 08:00:00 +0200",
     "lastmod": "2026-09-30",
-    "math": true
+    "math": true,
+    "trail": "automation"
   },
   {
     "file": "post-convmem.html",
@@ -36,7 +38,8 @@
     "feedDescription": "Reading notes on ConvMem (arXiv:2609.10441): hierarchical summarization with overlapping windows, skip connections and sub-question channels, compared with MemAgent, plus ideas for constant-depth long-context reasoning.",
     "rfc822": "Sun, 13 Sep 2026 08:00:00 +0200",
     "lastmod": "2026-09-30",
-    "math": true
+    "math": true,
+    "trail": "learning"
   },
   {
     "file": "post-inverted-fractions.html",
@@ -49,7 +52,8 @@
     "feedDescription": "How often are equations in arXiv papers wrong, how many of the errors are inverted fractions, and did that change after 2022? A review of 2,294 display equations in 60 papers plus pattern checks on 200.",
     "rfc822": "Sun, 06 Sep 2026 08:00:00 +0200",
     "lastmod": "2026-09-30",
-    "math": true
+    "math": true,
+    "trail": "modelling"
   },
   {
     "file": "post-glee-agent.html",
@@ -61,7 +65,8 @@
     "summary": "A weekend building a no-LLM game-theory bot for the GLEE economic games (bargaining, negotiation, persuasion), and what actually moved the percentile score: scaling the reward, measuring in the right seat, and closing before inflation eats the pot. Includes a playable version of the three games.",
     "feedDescription": "Notes from building a game-theory agent for GLEE: what moved the percentile score (reward scaling, same-seat baseline, closing before inflation) and what did not (persuasive messages, hard anchoring). With a playable version of the three games.",
     "rfc822": "Sun, 30 Aug 2026 08:00:00 +0200",
-    "lastmod": "2026-09-30"
+    "lastmod": "2026-09-30",
+    "trail": "automation"
   },
   {
     "file": "post-fair-evaluation.html",
@@ -74,7 +79,8 @@
     "feedDescription": "Certified retention under a changing representation: a bottom-up stripe benchmark where a frozen encoder provably cannot win, and the CARG metric for the accuracy-retention tradeoff.",
     "rfc822": "Sun, 23 Aug 2026 08:00:00 +0200",
     "lastmod": "2026-09-30",
-    "math": true
+    "math": true,
+    "trail": "learning"
   },
   {
     "file": "post-student-becomes-teacher.html",
@@ -86,7 +92,8 @@
     "summary": "Three 2026 papers let a language model supply its own supervision, the external teacher, the ground-truth labels, and the privileged context, all replaced by the model itself. What it buys, and where it breaks.",
     "feedDescription": "On-policy self-distillation without labels: OPSD, U-OPSD's label-free majority vote, and L-OPSD's learnable privileged context, with the failure modes that come with self-supervision.",
     "rfc822": "Sun, 16 Aug 2026 08:00:00 +0200",
-    "lastmod": "2026-09-30"
+    "lastmod": "2026-09-30",
+    "trail": "learning"
   },
   {
     "file": "post-optimizing-reasoning.html",
@@ -98,7 +105,8 @@
     "summary": "Three 2026 papers argue chain-of-thought text was never the reasoning. Reasoning is a latent direction, activated early, held in superposition, and compressible to a few tokens.",
     "feedDescription": "Reading notes: 2026 evidence that LLM reasoning is a latent computational mode only loosely coupled to the chain-of-thought text printed alongside it.",
     "rfc822": "Sun, 09 Aug 2026 08:00:00 +0200",
-    "lastmod": "2026-08-11"
+    "lastmod": "2026-08-11",
+    "trail": "learning"
   },
   {
     "file": "post-race-to-on.html",
@@ -110,7 +118,8 @@
     "summary": "Every subquadratic-attention family relaxes one constraint while quietly keeping another. Five families, the routing-absorption trap, and why the frontier keeps flinching back to dense attention.",
     "feedDescription": "Reading notes across the subquadratic-attention literature: pruning, learned selection, linear memory, delta-rule correction, and the impossibility proofs.",
     "rfc822": "Sun, 02 Aug 2026 08:00:00 +0200",
-    "lastmod": "2026-09-30"
+    "lastmod": "2026-09-30",
+    "trail": "learning"
   },
   {
     "file": "post-dendrites-dandelions.html",
@@ -123,7 +132,8 @@
     "feedDescription": "A first-principles model of critical current density for alkali-metal dendrites in ceramic solid electrolytes, read through the physics of a dandelion cracking pavement.",
     "rfc822": "Sun, 26 Jul 2026 08:00:00 +0200",
     "lastmod": "2026-09-30",
-    "math": true
+    "math": true,
+    "trail": "materials"
   },
   {
     "file": "post-physical-ai.html",
@@ -136,7 +146,8 @@
     "feedDescription": "The next bottleneck in AI is physical: whether the loop from electricity through inference to actuation and back to sensors can run reliably, efficiently, and observably.",
     "rfc822": "Sun, 19 Jul 2026 08:00:00 +0200",
     "lastmod": "2026-09-30",
-    "math": true
+    "math": true,
+    "trail": "automation"
   },
   {
     "file": "post-causalpfn.html",
@@ -148,7 +159,8 @@
     "summary": "A NeurIPS 2025 paper trains one transformer on simulated, identifiable causal worlds; new observational data goes in as context, treatment-effect posteriors come out. What holds it up, and where it breaks.",
     "feedDescription": "Notes on Balazadeh et al., CausalPFN: one transformer, trained on simulated identifiable DGPs, that estimates treatment effects in-context.",
     "rfc822": "Sun, 12 Jul 2026 08:00:00 +0200",
-    "lastmod": "2026-09-30"
+    "lastmod": "2026-09-30",
+    "trail": "modelling"
   },
   {
     "file": "post-geometry-of-forgetting.html",
@@ -161,7 +173,8 @@
     "feedDescription": "Forgetting as interference energy under a task's feature covariance, and the IGFA controller.",
     "rfc822": "Sun, 05 Jul 2026 08:00:00 +0200",
     "lastmod": "2026-09-30",
-    "math": true
+    "math": true,
+    "trail": "learning"
   },
   {
     "file": "post-calendering-u-shape.html",
@@ -173,6 +186,7 @@
     "summary": "Why particle reorientation reverses the monotone prediction made by porosity-only thermal models.",
     "feedDescription": "Why through-plane conductivity dips before it rises, and the closure that captures it.",
     "rfc822": "Sun, 28 Jun 2026 08:00:00 +0200",
-    "lastmod": "2026-09-30"
+    "lastmod": "2026-09-30",
+    "trail": "materials"
   }
 ]

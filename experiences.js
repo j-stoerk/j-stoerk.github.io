@@ -58,6 +58,21 @@
     ctx.translate((w - vw * scale) / 2, (h - vh * scale) / 2);
     ctx.scale(scale, scale);
   }
+  function labViewport(canvas, w, h) {
+    const stage = canvas.closest('.lab-stage');
+    const top = $('.lab-toolbar', stage).offsetHeight + 28;
+    const bottom = $('.lab-hud', stage).offsetHeight + 28;
+    const scale = Math.min(w / 600, Math.max(1, h - top - bottom) / 440);
+    return { scale, x: (w - 600 * scale) / 2, y: top + (h - top - bottom - 440 * scale) / 2 };
+  }
+  function fitLab(ctx, canvas, w, h) {
+    const view = labViewport(canvas, w, h);
+    ctx.translate(view.x, view.y); ctx.scale(view.scale, view.scale);
+  }
+  function labPoint(canvas, e) {
+    const rect = canvas.getBoundingClientRect(), view = labViewport(canvas, rect.width, rect.height);
+    return [(e.clientX - rect.left - view.x) / view.scale, (e.clientY - rect.top - view.y) / view.scale];
+  }
   function line(ctx, a, b, color, width = 1) {
     ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.strokeStyle = color; ctx.lineWidth = width; ctx.stroke();
   }
@@ -126,15 +141,28 @@
   (function atlas() {
     const buttons = $$('[data-topic]'), panels = $$('.atlas-panel');
     if (!buttons.length) return;
+    const stories = panels.filter(panel => panel.id !== 'atlas-latest').flatMap(panel => $$('.atlas-story', panel));
+    let lastPick;
     function select(button) {
       buttons.forEach(b => b.setAttribute('aria-pressed', String(b === button)));
-      panels.forEach(panel => { panel.dataset.active = String(panel.id === button.getAttribute('aria-controls')); });
+      panels.forEach(panel => {
+        panel.dataset.active = String(panel.id === button.getAttribute('aria-controls'));
+        delete panel.dataset.featured;
+        $$('.atlas-story', panel).forEach(story => { story.hidden = false; });
+      });
       $('#atlas-trail').textContent = $('strong', button).textContent + ' / ' + $('small', button).textContent;
     }
     buttons.forEach(button => button.addEventListener('click', () => select(button)));
     $('[data-atlas-surprise]')?.addEventListener('click', () => {
-      const trails = buttons.filter(button => button.dataset.topic !== 'latest' && button.getAttribute('aria-pressed') !== 'true');
-      select(trails[Math.floor(Math.random() * trails.length)]);
+      const pool = stories.filter(story => story.dataset.post !== lastPick);
+      if (!pool.length) return;
+      const pick = pool[Math.floor(Math.random() * pool.length)], panel = pick.closest('.atlas-panel');
+      const button = buttons.find(b => b.getAttribute('aria-controls') === panel.id);
+      select(button);
+      lastPick = pick.dataset.post;
+      panel.dataset.featured = 'true';
+      $$('.atlas-story', panel).forEach(story => { story.hidden = story !== pick; });
+      $('#atlas-trail').textContent = $('span', button).textContent + ' / ' + $('strong', button).textContent + ' / A lucky find: ' + $('strong', pick).textContent;
     });
   })();
 
@@ -152,12 +180,15 @@
     }
     function update() {
       const { u, v, ratio } = geometry();
-      $('#landscape-result').textContent = u * u + v * v < 1 ? 'At the earlier task: no update, no added cost.' : `Earlier-task cost: ${Math.round(ratio * 100)}% of the unprotected move.`;
+      const cost = u * u + v * v < 1 ? 0 : Math.round(ratio * 100);
+      $('#landscape-cost').textContent = cost + '%';
+      $('#landscape-meter-fill').style.width = cost + '%';
+      protect.textContent = protectedTask ? 'Protection on' : 'Protection off';
       wake();
     }
     function move(e) {
-      const r = canvas.getBoundingClientRect();
-      target = [clamp((e.clientX - r.left) / r.width * 600, 50, 550), clamp((e.clientY - r.top) / r.height * 440, 55, 355)]; update();
+      const [x, y] = labPoint(canvas, e);
+      target = [clamp(x, 50, 550), clamp(y, 55, 355)]; update();
     }
     canvas.addEventListener('pointerdown', e => { if (e.button !== 0) return; dragging = true; canvas.setPointerCapture(e.pointerId); canvas.focus({ preventScroll: true }); move(e); });
     canvas.addEventListener('pointermove', e => { if (dragging) move(e); });
@@ -169,7 +200,7 @@
     protect.addEventListener('click', () => { protectedTask = !protectedTask; protect.setAttribute('aria-pressed', String(protectedTask)); update(); });
     $('#landscape-reset').addEventListener('click', () => { target = [380, 75]; update(); });
     scene(canvas, (ctx, w, h, t) => {
-      fit(ctx, w, h, 600, 440); plotGrid(ctx, 600, 400);
+      fitLab(ctx, canvas, w, h); plotGrid(ctx, 600, 400);
       contours(ctx, ...origin, rotation, palette.blue, 10);
       const { point } = geometry();
       ctx.save(); ctx.setLineDash([3, 6]); line(ctx, origin, target, palette.gold, 1.5); line(ctx, point, target, palette.gold, 1); ctx.restore();
@@ -203,7 +234,9 @@
     }
     function update() {
       const edges = contacts(particles(state)), count = edges.filter(edge => edge.includes(selected)).length;
-      $('#transport-result').textContent = `${notes[state]} Selected particle: ${count} schematic contact${count === 1 ? '' : 's'}.`;
+      $('#transport-note').textContent = notes[state];
+      $('#transport-count').textContent = count;
+      $('#transport-contact-label').textContent = `schematic contact${count === 1 ? '' : 's'} at particle ${selected + 1}`;
       wake();
     }
     $$('[data-compaction]').forEach(button => button.addEventListener('click', () => {
@@ -212,7 +245,7 @@
     }));
     canvas.addEventListener('pointerdown', e => {
       if (e.button !== 0) return;
-      const r = canvas.getBoundingClientRect(), x = (e.clientX - r.left) / r.width * 600, y = (e.clientY - r.top) / r.height * 440;
+      const [x, y] = labPoint(canvas, e);
       selected = particles(current).reduce((best, p, i, all) => Math.hypot(p.x - x, p.y - y) < Math.hypot(all[best].x - x, all[best].y - y) ? i : best, 0);
       canvas.focus({ preventScroll: true }); update();
     });
@@ -221,7 +254,7 @@
       if (!delta) return; e.preventDefault(); selected = (selected + delta + 30) % 30; update();
     });
     scene(canvas, (ctx, w, h, t, dt) => {
-      fit(ctx, w, h, 600, 440); current = paused ? state : mix(current, state, 1 - Math.exp(-dt * 5));
+      fitLab(ctx, canvas, w, h); current = paused ? state : mix(current, state, 1 - Math.exp(-dt * 5));
       plotGrid(ctx, 600, 400);
       const points = particles(current), edges = contacts(points), neighbours = new Set([selected]);
       edges.forEach(([i, j]) => { if (i === selected) neighbours.add(j); if (j === selected) neighbours.add(i); });
