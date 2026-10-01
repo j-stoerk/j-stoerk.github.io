@@ -5,7 +5,6 @@
   const card = document.getElementById('bio-popover');
   const template = document.getElementById('bio-explanations');
   if (!terms.length || !card || !template) return;
-  const heading = document.getElementById('bio-popover-title');
   const body = document.getElementById('bio-popover-body');
   const rail = card.closest('.hero-bio-rail');
   let active = null, pinned = false, restoringFocus = false;
@@ -18,7 +17,7 @@
     if (!content) return;
     if (active !== term) {
       active?.setAttribute('aria-expanded', 'false');
-      heading.textContent = content.dataset.title;
+      card.setAttribute('aria-label', content.dataset.title);
       body.replaceChildren(content.cloneNode(true));
     }
     active = term; pinned = pin;

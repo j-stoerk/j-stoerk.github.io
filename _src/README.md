@@ -55,6 +55,8 @@ never published.
 previews a card, and clicking or tapping keeps it open. Escape, the close button,
 or clicking outside dismisses it. The explanation replaces the portrait in a
 reserved right-hand column on desktop and expands below the bio on mobile.
+Artwork and text sit directly on the page without a duplicate heading or card border;
+the region keeps the topic as its accessible label.
 Scrolling keeps the selected explanation open. The content lives in
 `bio-popovers.html`, inserted at `<!--#BIO_POPOVERS-->`. With JavaScript disabled,
 the bio remains plain text and its inline buttons are disabled.
