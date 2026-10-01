@@ -1,10 +1,7 @@
-# Activate comments and private messages
+# Comments and private messages
 
-Both frontends are implemented. The checked-in public configuration deliberately
-has no site registration or Turnstile key. Your Worker endpoint is recorded, but
-message sending stays disabled until the email backend and verification are set up.
-Until configured,
-the website says comments/message sending are unavailable and offers direct email.
+The contact form is connected to the supplied Formspree endpoint. Blog comments
+still need a Cactus site registration in `_src/community.json` before activation.
 No API key, Gmail credential, or owner Matrix token belongs in the static site.
 
 ## Comments: Cactus + Matrix
@@ -50,81 +47,36 @@ and redactions are reflected on refresh for the loaded event range. Use the
 [Cactus moderation room](https://cactus.chat/docs/getting-started/moderation/)
 for bans and moderator permissions. Cactus does not provide an approval queue.
 
-## Private messages: Cloudflare Worker + Resend + Gmail
+## Private messages: Formspree to Gmail
 
-The portfolio stays on GitHub Pages. Only the separate message endpoint runs
-on Cloudflare. The Worker sends to `julius.stoerk@gmail.com`, with the visitor's
-email as `reply_to`. Gmail does not need an app password or public API access.
+The existing message dialog posts directly to `https://formspree.io/f/xkjgapaj`
+with `method="POST"`. The form sends `name`, `email`, and `message`; the hidden
+`_gotcha` field uses [Formspree's honeypot filter](https://help.formspree.io/articles/building-your-form/honeypot-spam-filtering/).
+There is no Worker, email API key, or Turnstile dependency in this contact flow.
+Formspree handles the confirmation page and any configured spam challenge.
 
-Your existing Worker is `lingering-brook-b11f-contact-form`, hosted at
-`https://lingering-brook-b11f-contact-form.julius-stoerk.workers.dev`.
-The website is configured to use its `/message` endpoint. The temporary code
-that logs the message and returns `{ ok: true }` does not deliver email. Replace
-it with `_services/contact/worker.mjs` before enabling the website's form.
+In the Formspree dashboard, confirm this form's notification destination is
+`julius.stoerk@gmail.com` and complete any requested email verification. The
+endpoint alone does not expose or prove its inbox destination. Formspree uses
+[the `email` field as Reply-To](https://help.formspree.io/articles/building-your-form/email-reply-to-address/)
+so you can reply directly to visitors.
 
-If you prefer the Cloudflare dashboard editor, paste the entire `worker.mjs`
-file into the Worker editor and deploy it. Under **Settings → Variables and
-Secrets**, add `SITE_ORIGIN` (`https://j-stoerk.github.io`), `CONTACT_TO`
-(`julius.stoerk@gmail.com`), and your verified `CONTACT_FROM` as text variables;
-add `RESEND_API_KEY` and `TURNSTILE_SECRET_KEY` as secrets. The required
-`CONTACT_RATE_LIMITER` binding is defined in `wrangler.toml`; use the Wrangler
-deployment commands below to provision it. Cloudflare's
-[rate-limit documentation](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/)
-currently notes that these bindings are not visible in the dashboard. Deploying
-with Wrangler installs the backend and binding together on your existing Worker.
+The endpoint lives in `_src/community.json` and is injected into the form's
+`action` during the build. The Send button is enabled; browser validation checks
+required fields and email format before submission. `contact.js` handles only
+opening/closing the dialog. Ordinary HTML submission allows Formspree's hosted
+confirmation and spam checks to work without an AJAX/CAPTCHA setup.
 
-1. Create a [Cloudflare account](https://dash.cloudflare.com/sign-up) and a
-   [Resend account](https://resend.com/signup).
-2. [Add and verify a sending domain in Resend](https://resend.com/docs/dashboard/domains/introduction).
-   Set `CONTACT_FROM` in `_services/contact/wrangler.toml`, e.g.
-   `Julius Störk portfolio <contact@your-domain.example>`. You cannot verify
-   `gmail.com` or `github.io`; use a domain whose DNS you control. The sender
-   domain can differ from the portfolio hostname. Choose a sending-only Resend
-   API key restricted to that domain.
-3. Create a **managed Turnstile widget** in Cloudflare, allowing the hostname
-   `j-stoerk.github.io`. Keep its public site key and private secret key separate.
-4. From the repo, run:
-
-   ```powershell
-   cd _services/contact
-   npx wrangler login
-   npx wrangler secret put RESEND_API_KEY
-   npx wrangler secret put TURNSTILE_SECRET_KEY
-   npx wrangler deploy
-   ```
-
-   Enter secrets only at Wrangler's prompts, never in a commit or chat. Select
-   the Cloudflare account that owns your existing Worker. Its native rate-limit binding
-   allows three attempts per IP per minute; the binding is mandatory, not an
-   in-memory fallback. Confirm your account supports the binding when deploying.
-
-5. In `_src/community.json`, your `contact.endpoint` is already set to
-   `https://lingering-brook-b11f-contact-form.julius-stoerk.workers.dev/message`.
-   Set `contact.turnstileSiteKey` to the widget's **public** site key. Leave the
-   private secret only in Cloudflare.
-6. From the repo root, rebuild, commit, and push. Send a short message through
-   the live form, confirm it reaches your Gmail inbox, and confirm replying uses
-   the sender's email. API success means the provider accepted the message;
-   Gmail filtering/bounces can still affect delivery. Check the Resend dashboard
-   if a message does not arrive.
-
-The Worker rejects unsupported origins/methods, oversized bodies, malformed
-fields, honeypots, invalid/expired Turnstile tokens, and mismatched challenge
-hostname/action. Sender and recipient are fixed server-side. It does not log
-message contents or credentials, or store contact messages in a database.
-Cloudflare/Resend still process requests and emails under their own policies;
-review those alongside the public-comment setup before activating it.
-Use each provider's free tier within its current limits; a sending domain is
-separate and may cost money if you do not already own one.
-
-## Checks
+Rebuild and push after changing the endpoint:
 
 ```powershell
-node --test _services/contact/worker.test.mjs
 node _src/build.js
 python _src/check.py
 ```
 
-The Worker tests mock external APIs and send no real email. Browser checks during
-implementation also use mocked Matrix/Turnstile/Worker endpoints. Live service
-registration and email delivery remain activation checks for the owner.
+The Cloudflare/Resend backend files have been removed from the repository. The
+previously created Cloudflare Worker is no longer called by this website; this
+repository change does not delete it from your Cloudflare account.
+
+Browser checks intercept submissions and send no real messages. Send a message
+through the published form to confirm the Formspree destination and Gmail delivery.

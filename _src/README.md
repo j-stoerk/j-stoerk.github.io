@@ -52,8 +52,10 @@ under the reading column. Edit the dedicated SVGs rather than the generated asse
 All posts get the shared comment section from `comments.html`; the home page gets
 the private message dialog from `contact-form.html`. Public integration settings
 live in `community.json`. See [service activation instructions](../_services/README.md)
-for registering Cactus, deploying the message Worker, and storing private secrets.
-The site keeps both submit actions unavailable until their public settings exist.
+for registering Cactus and managing the Formspree destination. Comments remain
+unavailable until a Cactus site is registered. The contact form posts directly
+to the configured Formspree endpoint using standard HTML; `contact.js` only
+opens and closes its dialog. Email remains available without JavaScript.
 
 The shared header order lives in `NAV_ITEMS`. Local HTML links carry a `nav`
 version derived from that list so switching pages refreshes documents cached

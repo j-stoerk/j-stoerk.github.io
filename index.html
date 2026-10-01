@@ -118,7 +118,7 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=79a1530c">
+  <link rel="stylesheet" href="styles.css?v=d6fd41ae">
   <link rel="stylesheet" href="experiences.css?v=563b4505">
   <script>
     (function () {
@@ -673,19 +673,16 @@
     <button type="button" class="dialog-close" data-message-close aria-label="Close">×</button>
     <h2 id="message-title">Leave me a message</h2>
     <p class="form-note">A little about your setup, your question, or what you’d like to explore together.</p>
-    <form data-message-form>
+    <form action="https://formspree.io/f/xkjgapaj" method="POST" data-message-form>
       <div class="form-field-pair">
         <div><label for="message-name">Your name</label><input id="message-name" name="name" autocomplete="name" maxlength="80" required></div>
         <div><label for="message-email">Email for my reply</label><input id="message-email" name="email" type="email" autocomplete="email" maxlength="254" required></div>
       </div>
       <label for="message-text">Message</label>
-      <textarea id="message-text" name="message" rows="6" minlength="10" maxlength="6000" required></textarea>
-      <div class="form-trap" aria-hidden="true"><label for="message-website">Website</label><input id="message-website" name="website" tabindex="-1" autocomplete="off"></div>
-      <div data-message-challenge></div>
-      <div class="form-actions"><span class="form-note">This message is private.</span><button type="submit" class="form-submit" disabled>Send message</button></div>
-      <p class="form-status" data-message-status role="status">The message form isn’t connected yet. Please <a href="mailto:julius.stoerk@gmail.com">email me directly</a> for now.</p>
+      <textarea id="message-text" name="message" rows="6" maxlength="6000" required></textarea>
+      <div class="form-trap" aria-hidden="true"><label for="message-website">Website</label><input id="message-website" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <div class="form-actions"><span class="form-note">This message is private.</span><button type="submit" class="form-submit">Send message</button></div>
     </form>
-    <script type="application/json" id="contact-config">{"endpoint":"https://lingering-brook-b11f-contact-form.julius-stoerk.workers.dev/message","turnstileSiteKey":""}</script>
   </dialog>
 
 
@@ -701,7 +698,7 @@
   <script src="cite.js?v=382b33f5"></script>
   <script src="experiences.js?v=85a0d2df"></script>
   <script src="bio-popovers.js?v=852f18fa"></script>
-  <script src="contact.js?v=71f81863"></script>
+  <script src="contact.js?v=027f91c4"></script>
   <script>
     window.addEventListener('load', function () {
       var s = document.createElement('script');

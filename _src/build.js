@@ -29,6 +29,9 @@ function ver(file) {
 const posts = JSON.parse(fs.readFileSync(path.join(SRC, 'posts.json'), 'utf8'))
   .sort((a, b) => (a.iso < b.iso ? 1 : -1));
 const community = JSON.parse(fs.readFileSync(path.join(SRC, 'community.json'), 'utf8'));
+if (!/^https:\/\/formspree\.io\/f\/[a-z0-9]+$/i.test(community.contact.endpoint)) {
+  throw new Error('community.json: contact.endpoint must be a Formspree form URL');
+}
 function publicConfig(id, value) {
   return `<script type="application/json" id="${id}">${JSON.stringify(value).replace(/</g, '\\u003c')}</script>`;
 }
@@ -254,7 +257,7 @@ for (const file of fs.readdirSync(pagesDir)) {
   html = html.replace('<!--#BLOG_LATEST-->', () => BLOG_LATEST);
   html = html.replace('<!--#BLOG_TRAILS-->', () => BLOG_TRAILS);
   html = html.replace('<!--#CONTACT_FORM-->', () => fs.readFileSync(path.join(SRC, 'contact-form.html'), 'utf8')
-    .replace('<!--#CONTACT_CONFIG-->', () => publicConfig('contact-config', community.contact)));
+    .replace('<!--#CONTACT_ENDPOINT-->', () => community.contact.endpoint));
   if (cfg.nav === 'blog' && file !== 'blog.html') {
     const post = posts.find(p => p.file === file);
     if (!post?.whyItMatters) throw new Error(`${file}: missing whyItMatters`);
