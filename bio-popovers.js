@@ -1,4 +1,4 @@
-/* Inline bio explanations: hover/focus previews, click/tap pins the card. */
+/* Bio explanations replace the portrait on desktop and expand inline on mobile. */
 (function () {
   'use strict';
   const terms = Array.from(document.querySelectorAll('[data-bio-topic]'));
@@ -7,24 +7,11 @@
   if (!terms.length || !card || !template) return;
   const heading = document.getElementById('bio-popover-title');
   const body = document.getElementById('bio-popover-body');
-  const native = typeof card.showPopover === 'function';
+  const rail = card.closest('.hero-bio-rail');
   let active = null, pinned = false, restoringFocus = false;
   let openTimer, closeTimer;
 
   function clearTimers() { clearTimeout(openTimer); clearTimeout(closeTimer); }
-  function position() {
-    if (!active) return;
-    const margin = 16, gap = 10;
-    const rect = active.getBoundingClientRect();
-    card.style.width = Math.min(340, innerWidth - margin * 2) + 'px';
-    card.style.maxHeight = Math.max(120, innerHeight - margin * 2) + 'px';
-    const height = card.offsetHeight, width = card.offsetWidth;
-    const left = Math.max(margin, Math.min(innerWidth - width - margin, rect.left));
-    let top = rect.bottom + gap;
-    if (top + height > innerHeight - margin) top = rect.top - height - gap;
-    top = Math.max(margin, Math.min(innerHeight - height - margin, top));
-    card.style.left = left + 'px'; card.style.top = top + 'px';
-  }
   function show(term, pin = false) {
     clearTimers();
     const content = template.content.querySelector('[data-bio-card="' + term.dataset.bioTopic + '"]');
@@ -36,10 +23,9 @@
     }
     active = term; pinned = pin;
     term.setAttribute('aria-expanded', 'true');
-    const wasOpen = card.dataset.open === 'true';
     card.dataset.open = 'true'; card.dataset.pinned = String(pinned);
-    if (native && !wasOpen) card.showPopover();
-    position();
+    card.hidden = false;
+    rail.dataset.bioOpen = 'true';
   }
   function close(returnFocus = false) {
     clearTimers();
@@ -47,7 +33,8 @@
     const previous = active;
     previous.setAttribute('aria-expanded', 'false');
     active = null; pinned = false;
-    if (native) card.hidePopover();
+    card.hidden = true;
+    delete rail.dataset.bioOpen;
     delete card.dataset.open; delete card.dataset.pinned;
     if (returnFocus) {
       restoringFocus = true; previous.focus({ preventScroll: true }); restoringFocus = false;
@@ -60,7 +47,7 @@
       if (!active || pinned) return;
       if (active.matches(':hover') || card.matches(':hover') || active === document.activeElement || card.contains(document.activeElement)) return;
       close();
-    }, 220);
+    }, 400);
   }
   terms.forEach(term => {
     term.disabled = false;
@@ -97,8 +84,4 @@
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape' && active) { event.preventDefault(); close(true); }
   });
-  window.addEventListener('resize', position, { passive: true });
-  window.addEventListener('scroll', event => {
-    if (active && !card.contains(event.target)) close();
-  }, { capture: true, passive: true });
 })();

@@ -53,8 +53,9 @@ never published.
 
 `bio-popovers.js` handles the underlined bio phrases: hovering or keyboard focus
 previews a card, and clicking or tapping keeps it open. Escape, the close button,
-or clicking outside dismisses it. Native popovers keep cards above page artwork;
-browsers without the Popover API use a fixed-position card. The content lives in
+or clicking outside dismisses it. The explanation replaces the portrait in a
+reserved right-hand column on desktop and expands below the bio on mobile.
+Scrolling keeps the selected explanation open. The content lives in
 `bio-popovers.html`, inserted at `<!--#BIO_POPOVERS-->`. With JavaScript disabled,
 the bio remains plain text and its inline buttons are disabled.
 
@@ -64,14 +65,16 @@ electrode surface onto a canvas, assembling its points on arrival and responding
 to pointer movement, taps, and scroll. It uses the site's theme colours and the
 shared visibility-aware animation loop. Arriving at the homepage without a
 fragment starts the surface at full screen with rolling digits counting from
-000 to 100 and a compact progress bar. The count accelerates with a power curve
+000 to 100 and a compact progress bar. The count accelerates with a 3.4 power curve
 and follows elapsed real time so slower rendering cannot extend the opening.
-After a short hold at 100, that same canvas unfolds into a larger, quieter mesh
+On the same frame that reaches 100, that same canvas unfolds into a larger, quieter mesh
 and flowing gold line behind the page. Its viewport dimensions stay fixed through
 the reveal; a horizontal opacity mask protects the reading column. The portrait
 uses its original size and occupies its own place in the hero. Ambient frames
 stop outside the hero; scrolling, resizing, and theme changes refresh the backdrop.
-Scrolling, touching the screen, or using the keyboard dismisses the opening immediately.
+Clicking, scrolling, touching the screen, or using the keyboard dismisses the opening immediately.
+Content becomes interactive after the reveal, so dismissing the intro cannot
+accidentally activate a hidden link. Pointer-driven motion starts after the opening.
 A timeout also restores
 the page if animation fails; deep links skip the opening. Reduced motion renders
 a still surface;

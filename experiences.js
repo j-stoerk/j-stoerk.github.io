@@ -84,6 +84,8 @@
     const visual = $('.hero-visual', stage), count = $('[data-intro-count]', stage);
     let fullScreen = root.classList.contains('intro-pending');
     let revealing = false, introStartedAt, heroVisible = true;
+    const countDelay = .12, countDuration = 2.55, revealDuration = 1.15;
+    const dismissEvents = ['pointerdown', 'wheel', 'touchstart', 'keydown', 'focusin', 'resize', 'pagehide'];
     const reels = fullScreen ? $$('[data-intro-place]', stage).map(digit => {
       const place = Number(digit.dataset.introPlace), reel = $('.intro-reel', digit);
       // Long reels roll forward through 009 -> 010 and 099 -> 100 without snapping back.
@@ -106,20 +108,20 @@
       clearTimeout(window.introFallback);
       setCounter(100);
       stage.dataset.introState = 'settled';
-      ['wheel', 'touchstart', 'keydown', 'focusin', 'resize', 'pagehide'].forEach(event => window.removeEventListener(event, finishIntro));
+      dismissEvents.forEach(event => window.removeEventListener(event, finishIntro));
       wake();
     }
     if (fullScreen) {
       clearTimeout(window.introFallback);
       window.introFallback = setTimeout(finishIntro, 6000);
-      ['wheel', 'touchstart', 'keydown', 'focusin', 'resize', 'pagehide'].forEach(event => window.addEventListener(event, finishIntro, { passive: true }));
+      dismissEvents.forEach(event => window.addEventListener(event, finishIntro, { passive: true }));
       reduced.addEventListener('change', () => { if (reduced.matches) finishIntro(); });
       if (!canvas.getContext('2d')) finishIntro();
     }
     const pointer = { x: 0, y: 0 }, eased = { x: 0, y: 0 };
     let pulse = -100;
     hero.addEventListener('pointermove', event => {
-      if (paused || event.pointerType !== 'mouse') return;
+      if (paused || fullScreen || event.pointerType !== 'mouse') return;
       const rect = stage.getBoundingClientRect();
       pointer.x = clamp((event.clientX - rect.left) / rect.width * 2 - 1, -.9, .9);
       pointer.y = clamp((event.clientY - rect.top) / rect.height * 2 - 1, -.9, .9);
@@ -127,7 +129,7 @@
     });
     hero.addEventListener('pointerleave', () => { pointer.x = pointer.y = 0; wake(); });
     hero.addEventListener('pointerdown', event => {
-      if (paused) return;
+      if (paused || fullScreen) return;
       const rect = stage.getBoundingClientRect();
       pointer.x = clamp((event.clientX - rect.left) / rect.width * 2 - 1, -.9, .9);
       pointer.y = clamp((event.clientY - rect.top) / rect.height * 2 - 1, -.9, .9);
@@ -139,12 +141,13 @@
       stage.dataset.ready = 'true';
       if (introStartedAt === undefined) introStartedAt = performance.now();
       const openingTime = (performance.now() - introStartedAt) / 1000;
-      const loading = clamp((openingTime - .12) / 2.55, 0, 1);
+      const loading = clamp((openingTime - countDelay) / countDuration, 0, 1);
       // Increasing velocity lets the early digits breathe before the final rush to 100.
-      const progress = Math.pow(loading, 2.6);
+      const progress = Math.pow(loading, 3.4);
       const entrance = fullScreen ? loading : 1;
       const assembled = entrance * entrance * (3 - 2 * entrance);
-      const revealTime = fullScreen ? clamp((openingTime - 2.89) / 1.3, 0, 1) : 1;
+      // Movement begins on the frame that reaches 100, with no intervening hold.
+      const revealTime = fullScreen ? clamp((openingTime - countDelay - countDuration) / revealDuration, 0, 1) : 1;
       const reveal = 1 - Math.pow(1 - revealTime, 3);
       if (fullScreen) {
         setCounter(Math.floor(progress * 100));
