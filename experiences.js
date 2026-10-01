@@ -106,9 +106,10 @@
     const old = $('.portfolio-page .page-art');
     if (!old) return;
     const groups = Array.from($('svg', old).children).filter(e => e.tagName.toLowerCase() === 'g' && e.hasAttribute('transform'));
-    const targets = ['home', 'experience', 'research', 'publications', 'writing', 'software', 'contributions'];
+    const targets = ['home', 'experience', null, 'publications', 'writing', 'software', 'contributions'];
     const io = 'IntersectionObserver' in window ? new IntersectionObserver(items => items.forEach(e => e.target.classList.toggle('sketch-visible', e.isIntersecting))) : null;
     groups.forEach((original, i) => {
+      if (!targets[i]) return;
       const section = document.getElementById(targets[i]); if (!section) return;
       const wrap = document.createElement('div'); wrap.className = 'section-sketch'; wrap.setAttribute('aria-hidden', 'true'); wrap.dataset.feature = 'responsive-art';
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); svg.setAttribute('viewBox', '-240 -210 700 560');

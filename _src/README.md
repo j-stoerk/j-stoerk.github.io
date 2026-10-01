@@ -43,15 +43,21 @@ never published.
 
 ## Research experiences
 
+`bio-popovers.js` handles the underlined bio phrases: hovering or keyboard focus
+previews a card, and clicking or tapping keeps it open. Escape, the close button,
+or clicking outside dismisses it. Native popovers keep cards above page artwork;
+browsers without the Popover API use a fixed-position card. The content lives in
+`bio-popovers.html`, inserted at `<!--#BIO_POPOVERS-->`. With JavaScript disabled,
+the bio remains plain text and its inline buttons are disabled.
+
 `experiences.js` contains independent initializers for the Blog topic explorer,
 section artwork, and career object. `experiences.css` styles these components,
-the Research image gallery, compact publication details, section links, and
+compact publication details, section links, and
 static software illustrations. `portal-transitions.js` animates
 publication illustrations around ordinary navigation to the two companion
 articles and back. It preserves modified clicks and restores the saved reading position;
 reduced motion or unavailable browser animation APIs use ordinary links.
 
-The Research gallery is in `research-gallery.html`, inserted at `<!--#RESEARCH_GALLERY-->`.
 The Blog explorer lives in `research-atlas.html`, inserted at `<!--#RESEARCH_ATLAS-->`.
 The builder generates its article links from `posts.json`; every post needs a
 `trail` of `materials`, `learning`, `modelling`, or `automation`. JavaScript selects

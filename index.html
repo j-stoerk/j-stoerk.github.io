@@ -117,7 +117,7 @@
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles.css?v=d8eebe3a">
-  <link rel="stylesheet" href="experiences.css?v=216ee003">
+  <link rel="stylesheet" href="experiences.css?v=106a852d">
 </head>
 
 <body class="portfolio-page">
@@ -131,7 +131,6 @@
         <span class="sr-only">Open navigation</span>
       </button>
       <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
-        <a href="#research">Research</a>
         <a href="#publications">Publications</a>
         <a href="#experience">Experience</a>
         <a href="cv.html">CV</a>
@@ -147,12 +146,11 @@
     <ol class="chapter-list">
       <li><a href="#home"><span class="chapter-number" aria-hidden="true">01</span> Introduction</a></li>
       <li><a href="#experience"><span class="chapter-number" aria-hidden="true">02</span> Experience</a></li>
-      <li><a href="#research"><span class="chapter-number" aria-hidden="true">03</span> Research</a></li>
-      <li><a href="#publications"><span class="chapter-number" aria-hidden="true">04</span> Publications</a></li>
-      <li><a href="#writing"><span class="chapter-number" aria-hidden="true">05</span> Blog</a></li>
-      <li><a href="#software"><span class="chapter-number" aria-hidden="true">06</span> Software</a></li>
-      <li><a href="#contributions"><span class="chapter-number" aria-hidden="true">07</span> Contributions</a></li>
-      <li><a href="#contact"><span class="chapter-number" aria-hidden="true">08</span> Contact</a></li>
+      <li><a href="#publications"><span class="chapter-number" aria-hidden="true">03</span> Publications</a></li>
+      <li><a href="#writing"><span class="chapter-number" aria-hidden="true">04</span> Blog</a></li>
+      <li><a href="#software"><span class="chapter-number" aria-hidden="true">05</span> Software</a></li>
+      <li><a href="#contributions"><span class="chapter-number" aria-hidden="true">06</span> Contributions</a></li>
+      <li><a href="#contact"><span class="chapter-number" aria-hidden="true">07</span> Contact</a></li>
     </ol>
   </nav>
 
@@ -273,9 +271,9 @@
       <div>
         <p class="eyebrow hero-kicker">Doctoral researcher</p>
         <h1>Julius Störk</h1>
-        <p class="lead">Artificial intelligence for battery manufacturing. I develop machine-learning methods that
-          connect process data, physical models, and electrochemical performance. At VARTA and TU Braunschweig, my work
-          spans hands-on electrode development, continual learning, and process–property modelling for changing
+        <p class="lead"><button class="bio-term" type="button" disabled data-bio-topic="ai" aria-controls="bio-popover" aria-expanded="false" aria-haspopup="dialog">Artificial intelligence</button> for <button class="bio-term" type="button" disabled data-bio-topic="manufacturing" aria-controls="bio-popover" aria-expanded="false" aria-haspopup="dialog">battery manufacturing</button>. I develop machine-learning methods that
+          connect <button class="bio-term" type="button" disabled data-bio-topic="data" aria-controls="bio-popover" aria-expanded="false" aria-haspopup="dialog">process data</button>, <button class="bio-term" type="button" disabled data-bio-topic="physics" aria-controls="bio-popover" aria-expanded="false" aria-haspopup="dialog">physical models</button>, and <button class="bio-term" type="button" disabled data-bio-topic="performance" aria-controls="bio-popover" aria-expanded="false" aria-haspopup="dialog">electrochemical performance</button>. At VARTA and TU Braunschweig, my work
+          spans <button class="bio-term" type="button" disabled data-bio-topic="electrodes" aria-controls="bio-popover" aria-expanded="false" aria-haspopup="dialog">hands-on electrode development</button>, <button class="bio-term" type="button" disabled data-bio-topic="learning" aria-controls="bio-popover" aria-expanded="false" aria-haspopup="dialog">continual learning</button>, and <button class="bio-term" type="button" disabled data-bio-topic="modelling" aria-controls="bio-popover" aria-expanded="false" aria-haspopup="dialog">process–property modelling</button> for changing
           materials and operating conditions.</p>
         <p class="affiliation">
           <span>Industrial PhD</span><span>VARTA Microbattery GmbH</span><span>TU Braunschweig</span>
@@ -371,16 +369,6 @@
       </div>
     </section>
 
-    <section class="section" id="research">
-      <div class="section-head"><h2>Research</h2></div>
-            <div class="research-gallery" aria-label="Research themes">
-        <figure><img src="images/research01.webp" alt="Illustration of a neural network dissolving into streams of data" width="1100" height="733" loading="lazy" decoding="async"><figcaption>Continual learning</figcaption></figure>
-        <figure><img src="images/research02.webp" alt="Illustration of a material cross-section connecting solid structure and digital patterns" width="1100" height="733" loading="lazy" decoding="async"><figcaption>Electrode structure</figcaption></figure>
-        <figure><img src="images/research03.webp" alt="Illustration of electrochemical response curves surrounded by data" width="1100" height="733" loading="lazy" decoding="async"><figcaption>Cell response</figcaption></figure>
-      </div>
-
-    </section>
-
     <section class="section" id="publications">
       <div class="section-head">
         <h2>Publications</h2>
@@ -431,7 +419,7 @@
             <span class="tag">cs.LG</span>
             <span class="tag">cs.AI</span>
           </div>
-              <a class="publication-link" href="forgetting-geometry.pdf" download>Download · 1.2 MB</a>
+              <a class="publication-link" href="forgetting-geometry.pdf" download>Download PDF</a>
             </div>
             <div class="bibtex-panel">
               <button class="bibtex-copy" type="button">Copy</button>
@@ -515,7 +503,7 @@
             <span class="tag">cond-mat.mtrl-sci</span>
             <span class="tag">physics.chem-ph</span>
           </div>
-              <a class="publication-link" href="zehner-closure.pdf" download>Download · 1.2 MB</a>
+              <a class="publication-link" href="zehner-closure.pdf" download>Download PDF</a>
             </div>
             <div class="bibtex-panel">
               <button class="bibtex-copy" type="button">Copy</button>
@@ -676,6 +664,58 @@
 
   </main>
 
+    <aside class="bio-popover" id="bio-popover" popover="manual" role="dialog" aria-labelledby="bio-popover-title" tabindex="-1">
+    <div class="bio-popover-head">
+      <h2 id="bio-popover-title"></h2>
+      <button class="bio-close" type="button" aria-label="Close explanation">&#215;</button>
+    </div>
+    <div id="bio-popover-body"></div>
+  </aside>
+
+  <template id="bio-explanations">
+    <div data-bio-card="ai" data-title="Artificial intelligence">
+      <img src="images/blog-covers/post-jev-output-heads.svg" alt="" width="1200" height="675">
+      <p>I use machine learning to turn measurements into predictions that support experimental and manufacturing decisions.</p>
+      <a href="#software">Explore the research software &#8599;</a>
+    </div>
+    <div data-bio-card="manufacturing" data-title="Battery manufacturing">
+      <img src="images/research02.webp" alt="" width="1100" height="733">
+      <p>Electrode processing is where materials, equipment, and cell behaviour meet. My focus is connecting what happens on the line to what ends up inside the cell.</p>
+      <a href="#experience">See the manufacturing work &#8599;</a>
+    </div>
+    <div data-bio-card="data" data-title="Process data">
+      <img src="images/blog-covers/post-causalpfn.svg" alt="" width="1200" height="675">
+      <p>Measurements become useful when they can be traced to a material, a process state, and an outcome. That context helps a model support decisions on the line.</p>
+      <a href="post-jev-output-heads.html">From measurements to decisions &#8599;</a>
+    </div>
+    <div data-bio-card="physics" data-title="Physical models">
+      <img src="images/blog-covers/post-calendering-u-shape.svg" alt="" width="1200" height="675">
+      <p>Physical models give learning methods useful constraints: transport paths, particle contacts, and how those structures change under processing.</p>
+      <a href="post-calendering-u-shape.html">Explore the thermal model &#8599;</a>
+    </div>
+    <div data-bio-card="performance" data-title="Electrochemical performance">
+      <img src="images/research03.webp" alt="" width="1100" height="733">
+      <p>Cycling and impedance data reveal how a cell responds. I use that response to connect manufacturing history with electrochemical behaviour.</p>
+      <a href="cv.html">Explore the experimental background &#8599;</a>
+    </div>
+    <div data-bio-card="electrodes" data-title="Electrode development">
+      <img src="images/research02.webp" alt="" width="1100" height="733">
+      <p>I work with coating, calendering, and semi-dry processing, alongside the experiments needed to qualify those routes.</p>
+      <a href="#career-batteries">See the electrode-development work &#8599;</a>
+    </div>
+    <div data-bio-card="learning" data-title="Continual learning">
+      <img src="images/research01.webp" alt="" width="1100" height="733">
+      <p>A manufacturing model needs to adapt as conditions change while preserving useful knowledge from earlier data.</p>
+      <a href="post-geometry-of-forgetting.html">Explore the geometry of forgetting &#8599;</a>
+    </div>
+    <div data-bio-card="modelling" data-title="Process–property modelling">
+      <img src="images/blog-covers/post-calendering-u-shape.svg" alt="" width="1200" height="675">
+      <p>The aim is to connect processing conditions to the structure they create and the properties that follow, rather than modelling each step in isolation.</p>
+      <a href="post-calendering-u-shape.html">Follow the process–property connection &#8599;</a>
+    </div>
+  </template>
+
+
   <footer class="content">
     <span>© 2026 Julius Störk</span>
   </footer>
@@ -686,7 +726,8 @@
   <script src="interactions.js?v=3cfec42c"></script>
   <script src="portal-transitions.js?v=d4060e4b"></script>
   <script src="cite.js?v=382b33f5"></script>
-  <script src="experiences.js?v=3431cf17"></script>
+  <script src="experiences.js?v=a32a7a4e"></script>
+  <script src="bio-popovers.js?v=009ea442"></script>
   <script>
     window.addEventListener('load', function () {
       var s = document.createElement('script');

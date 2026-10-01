@@ -32,7 +32,7 @@ const posts = JSON.parse(fs.readFileSync(path.join(SRC, 'posts.json'), 'utf8'))
 /* ---------- page configuration ---------- */
 const PAGES = {
   'index.html': {
-    nav: null, home: true, extraScripts: ['cite.js', 'experiences.js'],
+    nav: null, home: true, extraScripts: ['cite.js', 'experiences.js', 'bio-popovers.js'],
     footerExtra: null, lastmod: '2026-09-30', priority: '1.0',
   },
   'cv.html': {
@@ -96,7 +96,6 @@ const HEAD_ASSETS = `  <meta name="theme-color" content="#fdfdfc">
   <link rel="stylesheet" href="${ver('experiences.css')}">`;
 
 const NAV_ITEMS = [
-  ['research', 'Research', '#research'],
   ['publications', 'Publications', '#publications'],
   ['experience', 'Experience', '#experience'],
   ['cv', 'CV', 'cv.html'],
@@ -213,7 +212,7 @@ for (const file of fs.readdirSync(pagesDir)) {
     .replace('  <!--#FOOTER-->', footer(cfg))
     .replace('  <!--#SCRIPTS-->', scripts(cfg))
     .replace('<!--#POST_LIST-->', POST_LIST);
-  html = html.replace('<!--#RESEARCH_GALLERY-->', () => fs.readFileSync(path.join(SRC, 'research-gallery.html'), 'utf8'));
+  html = html.replace('<!--#BIO_POPOVERS-->', () => fs.readFileSync(path.join(SRC, 'bio-popovers.html'), 'utf8'));
   html = html.replace('<!--#RESEARCH_ATLAS-->', () => fs.readFileSync(path.join(SRC, 'research-atlas.html'), 'utf8'));
   html = html.replace('<!--#BLOG_LATEST-->', () => BLOG_LATEST);
   html = html.replace('<!--#BLOG_TRAILS-->', () => BLOG_TRAILS);
