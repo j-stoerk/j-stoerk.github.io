@@ -49,6 +49,12 @@ content expands or JavaScript is unavailable. A horizontal mask softens artwork
 under the reading column. Edit the dedicated SVGs rather than the generated assets.
 `blog-view.js` switches between the list and tiles and remembers the selection.
 
+All posts get the shared comment section from `comments.html`; the home page gets
+the private message dialog from `contact-form.html`. Public integration settings
+live in `community.json`. See [service activation instructions](../_services/README.md)
+for registering Cactus, deploying the message Worker, and storing private secrets.
+The site keeps both submit actions unavailable until their public settings exist.
+
 The shared header order lives in `NAV_ITEMS`. Local HTML links carry a `nav`
 version derived from that list so switching pages refreshes documents cached
 with an older menu. Canonical URLs and in-page anchors remain unchanged.

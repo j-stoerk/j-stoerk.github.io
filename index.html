@@ -118,7 +118,7 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=66324726">
+  <link rel="stylesheet" href="styles.css?v=79a1530c">
   <link rel="stylesheet" href="experiences.css?v=563b4505">
   <script>
     (function () {
@@ -656,7 +656,7 @@
       </div>
       <p class="section-lead">I’d be happy to collaborate, share data, or discuss experimental results. If you’re
         interested, feel free to email me with a short description of your setup and what you’re trying to achieve.</p>
-      <p class="contact-route">Email is the best way to reach me.</p>
+      <p class="contact-route">Leave me a message <a href="mailto:julius.stoerk@gmail.com" data-open-message>here</a>.</p>
       <p class="contact-links">
         <a href="mailto:julius.stoerk@gmail.com">julius.stoerk@gmail.com</a><br>
         <a href="https://www.linkedin.com/in/juliusst/" target="_blank"
@@ -668,6 +668,25 @@
     </section>
 
   </main>
+
+    <dialog class="site-dialog contact-dialog" id="contact-message" aria-labelledby="message-title">
+    <button type="button" class="dialog-close" data-message-close aria-label="Close">×</button>
+    <h2 id="message-title">Leave me a message</h2>
+    <p class="form-note">A little about your setup, your question, or what you’d like to explore together.</p>
+    <form data-message-form>
+      <div class="form-field-pair">
+        <div><label for="message-name">Your name</label><input id="message-name" name="name" autocomplete="name" maxlength="80" required></div>
+        <div><label for="message-email">Email for my reply</label><input id="message-email" name="email" type="email" autocomplete="email" maxlength="254" required></div>
+      </div>
+      <label for="message-text">Message</label>
+      <textarea id="message-text" name="message" rows="6" minlength="10" maxlength="6000" required></textarea>
+      <div class="form-trap" aria-hidden="true"><label for="message-website">Website</label><input id="message-website" name="website" tabindex="-1" autocomplete="off"></div>
+      <div data-message-challenge></div>
+      <div class="form-actions"><span class="form-note">This message is private.</span><button type="submit" class="form-submit" disabled>Send message</button></div>
+      <p class="form-status" data-message-status role="status">The message form isn’t connected yet. Please <a href="mailto:julius.stoerk@gmail.com">email me directly</a> for now.</p>
+    </form>
+    <script type="application/json" id="contact-config">{"endpoint":"","turnstileSiteKey":""}</script>
+  </dialog>
 
 
   <footer class="content">
@@ -682,6 +701,7 @@
   <script src="cite.js?v=382b33f5"></script>
   <script src="experiences.js?v=85a0d2df"></script>
   <script src="bio-popovers.js?v=852f18fa"></script>
+  <script src="contact.js?v=71f81863"></script>
   <script>
     window.addEventListener('load', function () {
       var s = document.createElement('script');

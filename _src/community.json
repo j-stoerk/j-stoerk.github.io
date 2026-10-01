@@ -1,0 +1,11 @@
+{
+  "comments": {
+    "homeserverUrl": "https://matrix.cactus.chat:8448",
+    "serverName": "cactus.chat",
+    "siteName": ""
+  },
+  "contact": {
+    "endpoint": "",
+    "turnstileSiteKey": ""
+  }
+}

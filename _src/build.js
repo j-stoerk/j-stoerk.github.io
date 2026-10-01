@@ -28,11 +28,15 @@ function ver(file) {
 
 const posts = JSON.parse(fs.readFileSync(path.join(SRC, 'posts.json'), 'utf8'))
   .sort((a, b) => (a.iso < b.iso ? 1 : -1));
+const community = JSON.parse(fs.readFileSync(path.join(SRC, 'community.json'), 'utf8'));
+function publicConfig(id, value) {
+  return `<script type="application/json" id="${id}">${JSON.stringify(value).replace(/</g, '\\u003c')}</script>`;
+}
 
 /* ---------- page configuration ---------- */
 const PAGES = {
   'index.html': {
-    nav: null, home: true, extraScripts: ['cite.js', 'experiences.js', 'bio-popovers.js'],
+    nav: null, home: true, extraScripts: ['cite.js', 'experiences.js', 'bio-popovers.js', 'contact.js'],
     footerExtra: null, lastmod: '2026-10-01', priority: '1.0',
   },
   'cv.html': {
@@ -54,7 +58,7 @@ const PAGES = {
 };
 for (const p of posts) {
   PAGES[p.file] = {
-    nav: 'blog', extraScripts: ['blog.js'],
+    nav: 'blog', extraScripts: ['blog.js', 'comments.js'],
     footerExtra: '<a href="blog.html">All posts</a>',
     lastmod: p.lastmod, priority: '0.7', math: !!p.math,
   };
@@ -249,12 +253,20 @@ for (const file of fs.readdirSync(pagesDir)) {
   html = html.replace('<!--#RESEARCH_ATLAS-->', () => fs.readFileSync(path.join(SRC, 'research-atlas.html'), 'utf8'));
   html = html.replace('<!--#BLOG_LATEST-->', () => BLOG_LATEST);
   html = html.replace('<!--#BLOG_TRAILS-->', () => BLOG_TRAILS);
+  html = html.replace('<!--#CONTACT_FORM-->', () => fs.readFileSync(path.join(SRC, 'contact-form.html'), 'utf8')
+    .replace('<!--#CONTACT_CONFIG-->', () => publicConfig('contact-config', community.contact)));
   if (cfg.nav === 'blog' && file !== 'blog.html') {
     const post = posts.find(p => p.file === file);
     if (!post?.whyItMatters) throw new Error(`${file}: missing whyItMatters`);
     const context = post.whyItMatters.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     html = html.replace('<!--#POST_CONTEXT-->', `<p class="post-context"><span>Why this matters</span>${context}</p>`);
     html = postBackground(html, file);
+    const comments = fs.readFileSync(path.join(SRC, 'comments.html'), 'utf8')
+      .replace('<!--#COMMENTS_CONFIG-->', () => publicConfig('comments-config', {
+        ...community.comments, sectionId: file.replace(/\.html$/, ''),
+      }));
+    if (!html.includes('    <nav class="post-pager"')) throw new Error(`${file}: missing post pager`);
+    html = html.replace('    <nav class="post-pager"', () => comments + '\n\n    <nav class="post-pager"');
   }
   if (cfg.math) html = renderMath(html, file);
   html = html.replace(/href="([^":?#]+\.html)(#[^"]*)?"/g,

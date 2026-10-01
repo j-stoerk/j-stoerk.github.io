@@ -57,7 +57,7 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=66324726">
+  <link rel="stylesheet" href="styles.css?v=79a1530c">
   <link rel="stylesheet" href="experiences.css?v=563b4505">
 </head>
 
@@ -236,6 +236,61 @@
       </section>
     </article>
 
+    <section class="post-comments" id="comments" aria-labelledby="comments-title" data-comments>
+      <div class="comments-heading">
+        <h2 id="comments-title">Comments</h2>
+        <button type="button" class="quiet-button" data-comments-refresh hidden>Refresh</button>
+      </div>
+      <p class="form-note">Questions, corrections, or another angle on the topic?</p>
+      <div class="comments-list" data-comments-list></div>
+      <button type="button" class="quiet-button" data-comments-more hidden>Earlier comments</button>
+      <form class="comment-form" data-comment-form>
+        <label class="sr-only" for="comment-text">Your comment</label>
+        <textarea id="comment-text" name="comment" rows="4" maxlength="6000" placeholder="Add to the discussion…" required></textarea>
+        <div class="form-actions">
+          <span class="form-note" data-comment-identity>Your name is only needed when you first post.</span>
+          <button type="submit" class="form-submit" disabled>Post</button>
+        </div>
+      </form>
+      <p class="form-status" data-comments-status role="status">Comments aren’t open yet. You can <a href="index.html?nav=fe6093f0#contact">send me a message</a> in the meantime.</p>
+      <details class="comment-identity-tools" data-identity-tools hidden>
+        <summary>Use your identity on another device</summary>
+        <p class="form-note">Save an encrypted identity file and restore it in another browser. Keep the file and its passphrase private.</p>
+        <div class="identity-actions">
+          <button type="button" class="quiet-button" data-identity-save>Save identity</button>
+          <button type="button" class="quiet-button" data-identity-restore>Restore identity</button>
+        </div>
+      </details>
+      <noscript><p class="form-note">JavaScript is needed to load and post comments.</p></noscript>
+      <dialog class="site-dialog" data-comment-name-dialog aria-labelledby="comment-name-title">
+        <button type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <h2 id="comment-name-title">What should I call you?</h2>
+        <p class="form-note">Choose a display name for your comments. No email or account signup.</p>
+        <form data-comment-name-form>
+          <label for="comment-name">Display name</label>
+          <input id="comment-name" name="displayName" autocomplete="nickname" maxlength="48" required>
+          <button type="submit" class="form-submit">Post comment</button>
+        </form>
+      </dialog>
+      <dialog class="site-dialog" data-identity-dialog aria-labelledby="identity-title">
+        <button type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <h2 id="identity-title">Your commenting identity</h2>
+        <form data-identity-form>
+          <div data-identity-file-field hidden>
+            <label for="identity-file">Saved identity file</label>
+            <input id="identity-file" type="file" accept="application/json,.json">
+          </div>
+          <label for="identity-passphrase">Passphrase</label>
+          <input id="identity-passphrase" type="password" minlength="12" maxlength="200" autocomplete="new-password" required>
+          <p class="form-note" data-identity-help>Use at least 12 characters. You’ll need this passphrase to restore the file.</p>
+          <button type="submit" class="form-submit" data-identity-confirm>Save identity</button>
+          <p class="form-status" data-identity-status role="status"></p>
+        </form>
+      </dialog>
+      <script type="application/json" id="comments-config">{"homeserverUrl":"https://matrix.cactus.chat:8448","serverName":"cactus.chat","siteName":"","sectionId":"post-optimizing-reasoning"}</script>
+    </section>
+
+
     <nav class="post-pager" aria-label="More posts">
       <a href="post-race-to-on.html?nav=fe6093f0">
         <span class="eyebrow">Next post</span>
@@ -255,6 +310,7 @@
   <script src="interactions.js?v=3cfec42c"></script>
   <script src="portal-transitions.js?v=d4060e4b"></script>
   <script src="blog.js?v=119b9d1e"></script>
+  <script src="comments.js?v=91b91113"></script>
   <script>
     window.addEventListener('load', function () {
       var s = document.createElement('script');
