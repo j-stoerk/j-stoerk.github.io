@@ -111,7 +111,9 @@
 .atlas-panel[data-featured="true"] .atlas-story[hidden] { display: none; }
 .atlas-panel[data-featured="true"] .atlas-story img { height: 100%; }
 .atlas-panel[data-featured="true"] .atlas-story-copy { padding: 8px 0 0; }
-.atlas-panel[data-featured="true"] .atlas-story-copy strong { font-size: var(--text-lg); }
+.atlas-panel[data-featured="true"] .atlas-story-copy small { height: auto; }
+.atlas-panel[data-featured="true"] .atlas-story-copy strong { height: auto; font-size: var(--text-lg); }
+.atlas-panel[data-featured="true"] .atlas-story-copy .atlas-intro { height: auto; min-height: 0; flex: 1; }
 
 /* Static project illustrations sit beside the descriptions they explain. */
 #software .software-project { display: grid; grid-template-columns: 240px minmax(0, 1fr); align-items: center; gap: 32px; padding: 28px 0; }

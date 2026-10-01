@@ -64,7 +64,8 @@ The builder generates its article links from `posts.json`; every post needs a
 the visible topic panel. Each topic previews its two newest posts in a fixed-height
 row, with long introductions shortened to fit and marked with `[...]`. Surprise me
 features one random post from the full collection under its matching topic,
-avoiding an immediate repeat. The full archive remains linked through All posts.
+avoiding an immediate repeat. Its introduction uses the remaining card height and
+is shortened only when it overflows. The full archive remains linked through all posts.
 Other component markup lives in `pages/index.html`. Components carry
 `data-feature` attributes to make later review and removal easy. Initializers
 skip missing components, so removing a component's markup is sufficient; its

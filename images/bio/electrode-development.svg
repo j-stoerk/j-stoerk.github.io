@@ -1,13 +1,31 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 338" role="img" aria-label="Illustrative electrode cross-sections before and after compaction">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 338" role="img" aria-label="An electrode coating with particle contacts on a thin current collector">
   <defs>
-    <linearGradient id="paper" x2="0" y2="1"><stop stop-color="#eef1f5"/><stop offset=".6" stop-color="#ecebe2"/><stop offset="1" stop-color="#e4dccb"/></linearGradient>
-    <pattern id="open" width="62" height="58" patternUnits="userSpaceOnUse"><ellipse cx="26" cy="28" rx="21" ry="15" transform="rotate(-18 26 28)" fill="#c1d1df" stroke="#486d8e" stroke-width="1.5"/><path d="m12 24 26 7" stroke="#5a82be" stroke-opacity=".5"/></pattern>
-    <pattern id="dense" width="53" height="35" patternUnits="userSpaceOnUse"><ellipse cx="25" cy="18" rx="24" ry="12" fill="#9eb9d0" stroke="#486d8e" stroke-width="1.5"/><path d="m7 18h36" stroke="#5a82be" stroke-opacity=".55"/></pattern>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#eef1f5"/><stop offset=".6" stop-color="#ecebe2"/><stop offset="1" stop-color="#e4dccb"/></linearGradient>
+    <radialGradient id="blue"><stop stop-color="#5a82be" stop-opacity=".2"/><stop offset="1" stop-color="#5a82be" stop-opacity="0"/></radialGradient>
+    <radialGradient id="warm"><stop stop-color="#e0a94a" stop-opacity=".22"/><stop offset="1" stop-color="#e0a94a" stop-opacity="0"/></radialGradient>
   </defs>
-  <rect width="600" height="338" fill="url(#paper)"/>
-  <rect x="42" y="83" width="210" height="158" rx="3" fill="url(#open)"/>
-  <rect x="349" y="130" width="210" height="111" rx="3" fill="url(#dense)"/>
-  <path d="M42 249h210m97 0h210" stroke="#a9762c" stroke-width="10"/>
-  <g fill="none" stroke="#33465e" stroke-width="2"><path d="M35 66v196h225M342 111v151h225" stroke-opacity=".35"/><path d="M278 179h41m-10-9 10 9-10 9"/><path d="M454 76v35m-7-9 7 9 7-9" stroke="#a9762c"/></g>
-  <g fill="#33465e" font-family="sans-serif" font-size="20" text-anchor="middle"><text x="147" y="296">As coated</text><text x="454" y="296">After calendering</text></g>
+  <rect width="600" height="338" fill="url(#sky)"/>
+  <ellipse cx="180" cy="132" rx="210" ry="170" fill="url(#blue)"/>
+  <ellipse cx="473" cy="188" rx="190" ry="170" fill="url(#warm)"/>
+  <g fill="none" stroke="#33465e" stroke-linejoin="round" stroke-width="1.5">
+    <path d="m89 195 153-86 263 98-154 87z" stroke-opacity=".22"/>
+    <path d="m89 195 262 99 154-87v9l-154 87-262-99z" fill="#a9762c" fill-opacity=".07" stroke="#a9762c" stroke-opacity=".55"/>
+    <path d="M89 195v-63l153-85 263 98v62M89 132l262 99 154-86M351 231v63" stroke-opacity=".35"/>
+  </g>
+  <g fill="#5a82be" fill-opacity=".07" stroke="#33465e" stroke-opacity=".6" stroke-width="1.5">
+    <ellipse cx="175" cy="129" rx="29" ry="15" transform="rotate(19 175 129)"/>
+    <ellipse cx="234" cy="106" rx="29" ry="15" transform="rotate(-12 234 106)"/>
+    <ellipse cx="271" cy="144" rx="35" ry="17" transform="rotate(17 271 144)"/>
+    <ellipse cx="327" cy="120" rx="31" ry="15" transform="rotate(20 327 120)"/>
+    <ellipse cx="368" cy="162" rx="34" ry="16" transform="rotate(-11 368 162)"/>
+    <ellipse cx="424" cy="146" rx="27" ry="14" transform="rotate(18 424 146)"/>
+    <ellipse cx="320" cy="194" rx="28" ry="15" transform="rotate(16 320 194)"/>
+    <ellipse cx="225" cy="170" rx="30" ry="14" transform="rotate(19 225 170)"/>
+    <ellipse cx="386" cy="201" rx="26" ry="13" transform="rotate(-15 386 201)"/>
+  </g>
+  <g fill="none" stroke="#2f6fb0" stroke-width="2" stroke-linecap="round">
+    <path d="m199 119 10-4m44 3 4 10m41 6 9-7m-19 33 16 20m40-50 9 18m-102 15 4-10m105 19 10 16m16-31 12-4"/>
+    <path d="m165 159 42 14m125 73 39-21" stroke-opacity=".2"/>
+  </g>
+  <g fill="#2f6fb0"><circle cx="204" cy="117" r="2.5"/><circle cx="255" cy="124" r="2.5"/><circle cx="349" cy="141" r="2.5"/></g>
 </svg>
