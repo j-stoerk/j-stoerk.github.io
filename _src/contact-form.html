@@ -1,7 +1,5 @@
-  <dialog class="site-dialog contact-dialog" id="contact-message" aria-labelledby="message-title">
-    <button type="button" class="dialog-close" data-message-close aria-label="Close">×</button>
-    <h2 id="message-title">Leave me a message</h2>
-    <p class="form-note">A little about your setup, your question, or what you’d like to explore together.</p>
+  <aside class="contact-message" id="contact-message" aria-label="Send a private message" data-comment-homeserver="<!--#COMMENT_HOMESERVER-->" hidden>
+    <button type="button" class="message-close" data-message-close aria-label="Close message form">×</button>
     <form action="<!--#CONTACT_ENDPOINT-->" method="POST" data-message-form>
       <div class="form-field-pair">
         <div><label for="message-name">Your name</label><input id="message-name" name="name" autocomplete="name" maxlength="80" required></div>
@@ -12,4 +10,4 @@
       <div class="form-trap" aria-hidden="true"><label for="message-website">Website</label><input id="message-website" name="_gotcha" tabindex="-1" autocomplete="off"></div>
       <div class="form-actions"><span class="form-note">This message is private.</span><button type="submit" class="form-submit">Send message</button></div>
     </form>
-  </dialog>
+  </aside>

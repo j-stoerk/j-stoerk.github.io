@@ -1,20 +1,18 @@
-    <section class="post-comments" id="comments" aria-labelledby="comments-title" data-comments>
+    <section class="post-comments" id="comments" aria-label="Discussion" data-comments>
       <div class="comments-heading">
-        <h2 id="comments-title">Comments</h2>
         <button type="button" class="quiet-button" data-comments-refresh hidden>Refresh</button>
       </div>
-      <p class="form-note">Questions, corrections, or another angle on the topic?</p>
       <div class="comments-list" data-comments-list></div>
       <button type="button" class="quiet-button" data-comments-more hidden>Earlier comments</button>
       <form class="comment-form" data-comment-form>
         <label class="sr-only" for="comment-text">Your comment</label>
         <textarea id="comment-text" name="comment" rows="4" maxlength="6000" placeholder="Add to the discussion…" required></textarea>
         <div class="form-actions">
-          <span class="form-note" data-comment-identity>Your name is only needed when you first post.</span>
+          <span class="form-note" data-comment-identity hidden></span>
           <button type="submit" class="form-submit" disabled>Post</button>
         </div>
       </form>
-      <p class="form-status" data-comments-status role="status">Comments aren’t open yet. You can <a href="index.html#contact">send me a message</a> in the meantime.</p>
+      <p class="form-status" data-comments-status role="status"></p>
       <details class="comment-identity-tools" data-identity-tools hidden>
         <summary>Use your identity on another device</summary>
         <p class="form-note">Save an encrypted identity file and restore it in another browser. Keep the file and its passphrase private.</p>

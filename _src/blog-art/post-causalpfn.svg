@@ -1,161 +1,34 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1800" viewBox="0 0 1000 1800" fill="none">
-<!-- Causal priors: interventions, simulated worlds, posterior ensembles, and a continuous margin of directed causal forks. -->
-<defs>
-<g id="post-texture" opacity=".38">
-<path class="art-hair" d="M699 0V1800" />
-<path class="art-hair" d="M970 0V1800" />
-<circle class="art-ink-soft" cx="739" cy="40" r="5"/>
-<circle class="art-ink-soft" cx="718" cy="89" r="5"/>
-<circle class="art-ink-soft" cx="761" cy="89" r="5"/>
-<path class="art-hair" d="M739 45L718 84M739 45L761 84M718 94L739 145M761 94L739 145" />
-<circle class="art-ink-soft" cx="939" cy="49" r="5"/>
-<circle class="art-ink-soft" cx="912" cy="111" r="5"/>
-<path class="art-hair" d="M939 54L912 106" />
-<path class="art-hair" d="M939 54V151" stroke-dasharray="3 6"/>
-<circle class="art-ink-soft" cx="739" cy="190" r="5"/>
-<circle class="art-ink-soft" cx="718" cy="239" r="5"/>
-<circle class="art-ink-soft" cx="761" cy="239" r="5"/>
-<path class="art-hair" d="M739 195L718 234M739 195L761 234M718 244L739 295M761 244L739 295" />
-<circle class="art-ink-soft" cx="939" cy="199" r="5"/>
-<circle class="art-ink-soft" cx="912" cy="261" r="5"/>
-<path class="art-hair" d="M939 204L912 256" />
-<path class="art-hair" d="M939 204V301" stroke-dasharray="3 6"/>
-<circle class="art-ink-soft" cx="739" cy="340" r="5"/>
-<circle class="art-ink-soft" cx="718" cy="389" r="5"/>
-<circle class="art-ink-soft" cx="761" cy="389" r="5"/>
-<path class="art-hair" d="M739 345L718 384M739 345L761 384M718 394L739 445M761 394L739 445" />
-<circle class="art-ink-soft" cx="939" cy="349" r="5"/>
-<circle class="art-ink-soft" cx="912" cy="411" r="5"/>
-<path class="art-hair" d="M939 354L912 406" />
-<path class="art-hair" d="M939 354V451" stroke-dasharray="3 6"/>
-<circle class="art-ink-soft" cx="739" cy="490" r="5"/>
-<circle class="art-ink-soft" cx="718" cy="539" r="5"/>
-<circle class="art-ink-soft" cx="761" cy="539" r="5"/>
-<path class="art-hair" d="M739 495L718 534M739 495L761 534M718 544L739 595M761 544L739 595" />
-<circle class="art-ink-soft" cx="939" cy="499" r="5"/>
-<circle class="art-ink-soft" cx="912" cy="561" r="5"/>
-<path class="art-hair" d="M939 504L912 556" />
-<path class="art-hair" d="M939 504V601" stroke-dasharray="3 6"/>
-<circle class="art-ink-soft" cx="739" cy="640" r="5"/>
-<circle class="art-ink-soft" cx="718" cy="689" r="5"/>
-<circle class="art-ink-soft" cx="761" cy="689" r="5"/>
-<path class="art-hair" d="M739 645L718 684M739 645L761 684M718 694L739 745M761 694L739 745" />
-<circle class="art-ink-soft" cx="939" cy="649" r="5"/>
-<circle class="art-ink-soft" cx="912" cy="711" r="5"/>
-<path class="art-hair" d="M939 654L912 706" />
-<path class="art-hair" d="M939 654V751" stroke-dasharray="3 6"/>
-<circle class="art-ink-soft" cx="739" cy="790" r="5"/>
-<circle class="art-ink-soft" cx="718" cy="839" r="5"/>
-<circle class="art-ink-soft" cx="761" cy="839" r="5"/>
-<path class="art-hair" d="M739 795L718 834M739 795L761 834M718 844L739 895M761 844L739 895" />
-<circle class="art-ink-soft" cx="939" cy="799" r="5"/>
-<circle class="art-ink-soft" cx="912" cy="861" r="5"/>
-<path class="art-hair" d="M939 804L912 856" />
-<path class="art-hair" d="M939 804V901" stroke-dasharray="3 6"/>
-<circle class="art-ink-soft" cx="739" cy="940" r="5"/>
-<circle class="art-ink-soft" cx="718" cy="989" r="5"/>
-<circle class="art-ink-soft" cx="761" cy="989" r="5"/>
-<path class="art-hair" d="M739 945L718 984M739 945L761 984M718 994L739 1045M761 994L739 1045" />
-<circle class="art-ink-soft" cx="939" cy="949" r="5"/>
-<circle class="art-ink-soft" cx="912" cy="1011" r="5"/>
-<path class="art-hair" d="M939 954L912 1006" />
-<path class="art-hair" d="M939 954V1051" stroke-dasharray="3 6"/>
-<circle class="art-ink-soft" cx="739" cy="1090" r="5"/>
-<circle class="art-ink-soft" cx="718" cy="1139" r="5"/>
-<circle class="art-ink-soft" cx="761" cy="1139" r="5"/>
-<path class="art-hair" d="M739 1095L718 1134M739 1095L761 1134M718 1144L739 1195M761 1144L739 1195" />
-<circle class="art-ink-soft" cx="939" cy="1099" r="5"/>
-<circle class="art-ink-soft" cx="912" cy="1161" r="5"/>
-<path class="art-hair" d="M939 1104L912 1156" />
-<path class="art-hair" d="M939 1104V1201" stroke-dasharray="3 6"/>
-<circle class="art-ink-soft" cx="739" cy="1240" r="5"/>
-<circle class="art-ink-soft" cx="718" cy="1289" r="5"/>
-<circle class="art-ink-soft" cx="761" cy="1289" r="5"/>
-<path class="art-hair" d="M739 1245L718 1284M739 1245L761 1284M718 1294L739 1345M761 1294L739 1345" />
-<circle class="art-ink-soft" cx="939" cy="1249" r="5"/>
-<circle class="art-ink-soft" cx="912" cy="1311" r="5"/>
-<path class="art-hair" d="M939 1254L912 1306" />
-<path class="art-hair" d="M939 1254V1351" stroke-dasharray="3 6"/>
-<circle class="art-ink-soft" cx="739" cy="1390" r="5"/>
-<circle class="art-ink-soft" cx="718" cy="1439" r="5"/>
-<circle class="art-ink-soft" cx="761" cy="1439" r="5"/>
-<path class="art-hair" d="M739 1395L718 1434M739 1395L761 1434M718 1444L739 1495M761 1444L739 1495" />
-<circle class="art-ink-soft" cx="939" cy="1399" r="5"/>
-<circle class="art-ink-soft" cx="912" cy="1461" r="5"/>
-<path class="art-hair" d="M939 1404L912 1456" />
-<path class="art-hair" d="M939 1404V1501" stroke-dasharray="3 6"/>
-<circle class="art-ink-soft" cx="739" cy="1540" r="5"/>
-<circle class="art-ink-soft" cx="718" cy="1589" r="5"/>
-<circle class="art-ink-soft" cx="761" cy="1589" r="5"/>
-<path class="art-hair" d="M739 1545L718 1584M739 1545L761 1584M718 1594L739 1645M761 1594L739 1645" />
-<circle class="art-ink-soft" cx="939" cy="1549" r="5"/>
-<circle class="art-ink-soft" cx="912" cy="1611" r="5"/>
-<path class="art-hair" d="M939 1554L912 1606" />
-<path class="art-hair" d="M939 1554V1651" stroke-dasharray="3 6"/>
-<circle class="art-ink-soft" cx="739" cy="1690" r="5"/>
-<circle class="art-ink-soft" cx="718" cy="1739" r="5"/>
-<circle class="art-ink-soft" cx="761" cy="1739" r="5"/>
-<path class="art-hair" d="M739 1695L718 1734M739 1695L761 1734M718 1744L739 1795M761 1744L739 1795" />
-<circle class="art-ink-soft" cx="939" cy="1699" r="5"/>
-<circle class="art-ink-soft" cx="912" cy="1761" r="5"/>
-<path class="art-hair" d="M939 1704L912 1756" />
-<path class="art-hair" d="M939 1704V1801" stroke-dasharray="3 6"/>
+<!-- Confounding and intervention / observational context and posterior / paired counterfactual outcomes -->
+<g transform="translate(0 0)" opacity=".65">
+<path class="art-hair" d="M805 0C805 116 878 180 837 344S737 504 788 654S883 837 833 1016S745 1227 792 1415S805 1693 805 1800" />
 </g>
-</defs>
-<use href="#post-texture" transform="translate(0 -1800)"/>
-<use href="#post-texture" transform="translate(0 0)"/>
-<use href="#post-texture" transform="translate(0 1800)"/>
-<g transform="translate(805 0)" opacity=".7">
-<path class="art-hair" d="M0 -62L-107 39" />
-<path class="art-hair" d="M0 -62L107 39" />
-<circle class="art-ink-soft" cx="0" cy="-62" r="5"/>
-<circle class="art-ink-soft" cx="-107" cy="39" r="5"/>
-<circle class="art-ink-soft" cx="107" cy="39" r="5"/>
-<path class="art-blue" d="M-95 39L94 39" /><path class="art-blue" d="M86.80 42.48L94 39L86.80 35.52" />
-<circle class="art-blue" cx="-107" cy="39" r="18"/>
-<path class="art-gold" d="M-123-26l31 31m-31 0 31-31" />
+<g transform="translate(12 0)" opacity=".35">
+<path class="art-hair" d="M805 0C805 116 878 180 837 344S737 504 788 654S883 837 833 1016S745 1227 792 1415S805 1693 805 1800" />
 </g>
-<g transform="translate(805 595)" opacity=".7">
-<circle class="art-ink-soft" cx="-95" cy="-43" r="8"/>
-<circle class="art-ink-soft" cx="-122" cy="39" r="8"/>
-<circle class="art-ink-soft" cx="-68" cy="39" r="8"/>
-<path class="art-hair" d="M-95 -35L-119 32" />
-<path class="art-hair" d="M-95 -35L-71 32" />
-<path class="art-hair" d="M-114 39L-76 39" />
-<circle class="art-ink-soft" cx="0" cy="-43" r="8"/>
-<circle class="art-ink-soft" cx="-27" cy="39" r="8"/>
-<circle class="art-ink-soft" cx="27" cy="39" r="8"/>
-<path class="art-hair" d="M0 -35L-24 32" />
-<path class="art-hair" d="M0 -35L24 32" />
-<path class="art-hair" d="M-19 39L19 39" />
-<circle class="art-ink-soft" cx="95" cy="-43" r="8"/>
-<circle class="art-ink-soft" cx="68" cy="39" r="8"/>
-<circle class="art-ink-soft" cx="122" cy="39" r="8"/>
-<path class="art-hair" d="M95 -35L71 32" />
-<path class="art-hair" d="M95 -35L119 32" />
-<path class="art-hair" d="M76 39L114 39" />
-<path class="art-blue" d="M-132 68H132" />
+<g transform="translate(805 68)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
 </g>
-<g transform="translate(805 1190)" opacity=".7">
-<path class="art-ink-soft" d="M-145 62L145 62" />
-<path class="art-hair" d="M-140 61C-92 61 -78 -45 -45 -45S96 61 141 61" />
-<path class="art-hair" d="M-140 61C-92 61 -63 -51 -30 -51S96 61 141 61" />
-<path class="art-hair" d="M-140 61C-92 61 -48 -57 -15 -57S96 61 141 61" />
-<path class="art-blue" d="M-140 61C-92 61 -33 -63 0 -63S96 61 141 61" />
-<path class="art-hair" d="M-140 61C-92 61 -18 -69 15 -69S96 61 141 61" />
-<path class="art-hair" d="M-140 61C-92 61 -3 -75 30 -75S96 61 141 61" />
-<path class="art-hair" d="M-140 61C-92 61 12 -81 45 -81S96 61 141 61" />
-<path class="art-gold" d="M8 -78L8 77" stroke-dasharray="3 6"/>
+<g transform="translate(805 610)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
 </g>
-<g transform="translate(805 1800)" opacity=".7">
-<path class="art-hair" d="M0 -62L-107 39" />
-<path class="art-hair" d="M0 -62L107 39" />
-<circle class="art-ink-soft" cx="0" cy="-62" r="5"/>
-<circle class="art-ink-soft" cx="-107" cy="39" r="5"/>
-<circle class="art-ink-soft" cx="107" cy="39" r="5"/>
-<path class="art-blue" d="M-95 39L94 39" /><path class="art-blue" d="M86.80 42.48L94 39L86.80 35.52" />
-<circle class="art-blue" cx="-107" cy="39" r="18"/>
-<path class="art-gold" d="M-123-26l31 31m-31 0 31-31" />
+<g transform="translate(805 1180)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
+</g>
+<g transform="translate(805 1740)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
 </g>
 <g transform="translate(805 295)" opacity=".85">
 <path class="art-ink-soft" d="M0 -115L-118 7" />
@@ -168,7 +41,7 @@
 <circle class="art-ink" cx="118" cy="7" r="7" />
 <circle class="art-ink" cx="-118" cy="130" r="7" />
 <circle class="art-ink" cx="118" cy="130" r="7" />
-<path class="art-gold" d="M-28-98L-99-26" stroke-dasharray="5 7" />
+<path class="art-gold" d="M-28-98L-99-26" stroke-dasharray="5 7"/>
 <circle class="art-blue" cx="-118" cy="7" r="25" />
 <path class="art-blue" d="M-89 7L88 7" /><path class="art-blue" d="M79.9 10.9L88 7L79.9 3.1" />
 <path class="art-blue" d="M-165-80h65m-32-32v64" />

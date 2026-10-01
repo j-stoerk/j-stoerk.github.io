@@ -35,6 +35,9 @@ if (!/^https:\/\/formspree\.io\/f\/[a-z0-9]+$/i.test(community.contact.endpoint)
 function publicConfig(id, value) {
   return `<script type="application/json" id="${id}">${JSON.stringify(value).replace(/</g, '\\u003c')}</script>`;
 }
+function attribute(value) {
+  return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
 
 /* ---------- page configuration ---------- */
 const PAGES = {
@@ -257,19 +260,20 @@ for (const file of fs.readdirSync(pagesDir)) {
   html = html.replace('<!--#BLOG_LATEST-->', () => BLOG_LATEST);
   html = html.replace('<!--#BLOG_TRAILS-->', () => BLOG_TRAILS);
   html = html.replace('<!--#CONTACT_FORM-->', () => fs.readFileSync(path.join(SRC, 'contact-form.html'), 'utf8')
-    .replace('<!--#CONTACT_ENDPOINT-->', () => community.contact.endpoint));
+    .replace('<!--#CONTACT_ENDPOINT-->', () => community.contact.endpoint)
+    .replace('<!--#COMMENT_HOMESERVER-->', () => attribute(community.comments.homeserverUrl)));
   if (cfg.nav === 'blog' && file !== 'blog.html') {
     const post = posts.find(p => p.file === file);
     if (!post?.whyItMatters) throw new Error(`${file}: missing whyItMatters`);
     const context = post.whyItMatters.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     html = html.replace('<!--#POST_CONTEXT-->', `<p class="post-context"><span>Why this matters</span>${context}</p>`);
     html = postBackground(html, file);
-    const comments = fs.readFileSync(path.join(SRC, 'comments.html'), 'utf8')
+    const comments = community.comments.siteName ? fs.readFileSync(path.join(SRC, 'comments.html'), 'utf8')
       .replace('<!--#COMMENTS_CONFIG-->', () => publicConfig('comments-config', {
         ...community.comments, sectionId: file.replace(/\.html$/, ''),
-      }));
+      })) : '';
     if (!html.includes('    <nav class="post-pager"')) throw new Error(`${file}: missing post pager`);
-    html = html.replace('    <nav class="post-pager"', () => comments + '\n\n    <nav class="post-pager"');
+    if (comments) html = html.replace('    <nav class="post-pager"', () => comments + '\n\n    <nav class="post-pager"');
   }
   if (cfg.math) html = renderMath(html, file);
   html = html.replace(/href="([^":?#]+\.html)(#[^"]*)?"/g,

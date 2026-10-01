@@ -1,198 +1,34 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1800" viewBox="0 0 1000 1800" fill="none">
-<!-- Typed output heads: feature connections, calibration density, action thresholds, and a continuous multi-channel representation. -->
-<defs>
-<g id="post-texture" opacity=".38">
-<path class="art-hair" d="M705 0V1800" />
-<path class="art-hair" d="M745 0V1800" />
-<path class="art-hair" d="M925 0V1800" />
-<path class="art-hair" d="M965 0V1800" />
-<circle class="art-ink-soft" cx="705" cy="75" r="3"/>
-<circle class="art-ink-soft" cx="745" cy="75" r="3"/>
-<circle class="art-ink-soft" cx="925" cy="75" r="3"/>
-<circle class="art-ink-soft" cx="965" cy="75" r="3"/>
-<path class="art-hair" d="M705 75L745 150" />
-<path class="art-hair" d="M745 75L925 150" />
-<path class="art-hair" d="M925 75L965 150" />
-<circle class="art-ink-soft" cx="705" cy="225" r="3"/>
-<circle class="art-ink-soft" cx="745" cy="225" r="3"/>
-<circle class="art-ink-soft" cx="925" cy="225" r="3"/>
-<circle class="art-ink-soft" cx="965" cy="225" r="3"/>
-<path class="art-hair" d="M705 225L745 300" />
-<path class="art-hair" d="M745 225L925 300" />
-<path class="art-hair" d="M925 225L965 300" />
-<circle class="art-ink-soft" cx="705" cy="375" r="3"/>
-<circle class="art-ink-soft" cx="745" cy="375" r="3"/>
-<circle class="art-ink-soft" cx="925" cy="375" r="3"/>
-<circle class="art-ink-soft" cx="965" cy="375" r="3"/>
-<path class="art-hair" d="M705 375L745 450" />
-<path class="art-hair" d="M745 375L925 450" />
-<path class="art-hair" d="M925 375L965 450" />
-<circle class="art-ink-soft" cx="705" cy="525" r="3"/>
-<circle class="art-ink-soft" cx="745" cy="525" r="3"/>
-<circle class="art-ink-soft" cx="925" cy="525" r="3"/>
-<circle class="art-ink-soft" cx="965" cy="525" r="3"/>
-<path class="art-hair" d="M705 525L745 600" />
-<path class="art-hair" d="M745 525L925 600" />
-<path class="art-hair" d="M925 525L965 600" />
-<circle class="art-ink-soft" cx="705" cy="675" r="3"/>
-<circle class="art-ink-soft" cx="745" cy="675" r="3"/>
-<circle class="art-ink-soft" cx="925" cy="675" r="3"/>
-<circle class="art-ink-soft" cx="965" cy="675" r="3"/>
-<path class="art-hair" d="M705 675L745 750" />
-<path class="art-hair" d="M745 675L925 750" />
-<path class="art-hair" d="M925 675L965 750" />
-<circle class="art-ink-soft" cx="705" cy="825" r="3"/>
-<circle class="art-ink-soft" cx="745" cy="825" r="3"/>
-<circle class="art-ink-soft" cx="925" cy="825" r="3"/>
-<circle class="art-ink-soft" cx="965" cy="825" r="3"/>
-<path class="art-hair" d="M705 825L745 900" />
-<path class="art-hair" d="M745 825L925 900" />
-<path class="art-hair" d="M925 825L965 900" />
-<circle class="art-ink-soft" cx="705" cy="975" r="3"/>
-<circle class="art-ink-soft" cx="745" cy="975" r="3"/>
-<circle class="art-ink-soft" cx="925" cy="975" r="3"/>
-<circle class="art-ink-soft" cx="965" cy="975" r="3"/>
-<path class="art-hair" d="M705 975L745 1050" />
-<path class="art-hair" d="M745 975L925 1050" />
-<path class="art-hair" d="M925 975L965 1050" />
-<circle class="art-ink-soft" cx="705" cy="1125" r="3"/>
-<circle class="art-ink-soft" cx="745" cy="1125" r="3"/>
-<circle class="art-ink-soft" cx="925" cy="1125" r="3"/>
-<circle class="art-ink-soft" cx="965" cy="1125" r="3"/>
-<path class="art-hair" d="M705 1125L745 1200" />
-<path class="art-hair" d="M745 1125L925 1200" />
-<path class="art-hair" d="M925 1125L965 1200" />
-<circle class="art-ink-soft" cx="705" cy="1275" r="3"/>
-<circle class="art-ink-soft" cx="745" cy="1275" r="3"/>
-<circle class="art-ink-soft" cx="925" cy="1275" r="3"/>
-<circle class="art-ink-soft" cx="965" cy="1275" r="3"/>
-<path class="art-hair" d="M705 1275L745 1350" />
-<path class="art-hair" d="M745 1275L925 1350" />
-<path class="art-hair" d="M925 1275L965 1350" />
-<circle class="art-ink-soft" cx="705" cy="1425" r="3"/>
-<circle class="art-ink-soft" cx="745" cy="1425" r="3"/>
-<circle class="art-ink-soft" cx="925" cy="1425" r="3"/>
-<circle class="art-ink-soft" cx="965" cy="1425" r="3"/>
-<path class="art-hair" d="M705 1425L745 1500" />
-<path class="art-hair" d="M745 1425L925 1500" />
-<path class="art-hair" d="M925 1425L965 1500" />
-<circle class="art-ink-soft" cx="705" cy="1575" r="3"/>
-<circle class="art-ink-soft" cx="745" cy="1575" r="3"/>
-<circle class="art-ink-soft" cx="925" cy="1575" r="3"/>
-<circle class="art-ink-soft" cx="965" cy="1575" r="3"/>
-<path class="art-hair" d="M705 1575L745 1650" />
-<path class="art-hair" d="M745 1575L925 1650" />
-<path class="art-hair" d="M925 1575L965 1650" />
-<circle class="art-ink-soft" cx="705" cy="1725" r="3"/>
-<circle class="art-ink-soft" cx="745" cy="1725" r="3"/>
-<circle class="art-ink-soft" cx="925" cy="1725" r="3"/>
-<circle class="art-ink-soft" cx="965" cy="1725" r="3"/>
-<path class="art-hair" d="M705 1725L745 1800" />
-<path class="art-hair" d="M745 1725L925 1800" />
-<path class="art-hair" d="M925 1725L965 1800" />
-<path class="art-hair" d="M745 75C792 93 875 125 925 150" />
-<path class="art-hair" d="M925 75C865 87 805 145 745 150" />
-<path class="art-hair" d="M745 225C792 243 875 275 925 300" />
-<path class="art-hair" d="M925 225C865 237 805 295 745 300" />
-<path class="art-hair" d="M745 375C792 393 875 425 925 450" />
-<path class="art-hair" d="M925 375C865 387 805 445 745 450" />
-<path class="art-hair" d="M745 525C792 543 875 575 925 600" />
-<path class="art-hair" d="M925 525C865 537 805 595 745 600" />
-<path class="art-hair" d="M745 675C792 693 875 725 925 750" />
-<path class="art-hair" d="M925 675C865 687 805 745 745 750" />
-<path class="art-hair" d="M745 825C792 843 875 875 925 900" />
-<path class="art-hair" d="M925 825C865 837 805 895 745 900" />
-<path class="art-hair" d="M745 975C792 993 875 1025 925 1050" />
-<path class="art-hair" d="M925 975C865 987 805 1045 745 1050" />
-<path class="art-hair" d="M745 1125C792 1143 875 1175 925 1200" />
-<path class="art-hair" d="M925 1125C865 1137 805 1195 745 1200" />
-<path class="art-hair" d="M745 1275C792 1293 875 1325 925 1350" />
-<path class="art-hair" d="M925 1275C865 1287 805 1345 745 1350" />
-<path class="art-hair" d="M745 1425C792 1443 875 1475 925 1500" />
-<path class="art-hair" d="M925 1425C865 1437 805 1495 745 1500" />
-<path class="art-hair" d="M745 1575C792 1593 875 1625 925 1650" />
-<path class="art-hair" d="M925 1575C865 1587 805 1645 745 1650" />
-<path class="art-hair" d="M745 1725C792 1743 875 1775 925 1800" />
-<path class="art-hair" d="M925 1725C865 1737 805 1795 745 1800" />
+<!-- Shared encoder / calibrated scores / choice and review gates -->
+<g transform="translate(0 0)" opacity=".65">
+<path class="art-hair" d="M805 0C805 100 758 160 758 300S845 490 805 620S885 820 835 1010S738 1215 790 1380S805 1680 805 1800" />
 </g>
-</defs>
-<use href="#post-texture" transform="translate(0 -1800)"/>
-<use href="#post-texture" transform="translate(0 0)"/>
-<use href="#post-texture" transform="translate(0 1800)"/>
-<g transform="translate(805 0)" opacity=".7">
-<circle class="art-ink-soft" cx="-116" cy="0" r="8"/>
-<path class="art-hair" d="M-116 -45L-116 -8" />
-<path class="art-hair" d="M-116 8L-116 45" />
-<circle class="art-ink-soft" cx="-58" cy="0" r="8"/>
-<path class="art-hair" d="M-58 -45L-58 -8" />
-<path class="art-hair" d="M-58 8L-58 45" />
-<circle class="art-ink-soft" cx="0" cy="0" r="8"/>
-<path class="art-hair" d="M0 -45L0 -8" />
-<path class="art-hair" d="M0 8L0 45" />
-<circle class="art-ink-soft" cx="58" cy="0" r="8"/>
-<path class="art-hair" d="M58 -45L58 -8" />
-<path class="art-hair" d="M58 8L58 45" />
-<circle class="art-ink-soft" cx="116" cy="0" r="8"/>
-<path class="art-hair" d="M116 -45L116 -8" />
-<path class="art-hair" d="M116 8L116 45" />
-<path class="art-blue" d="M-116 0C-90-60 50-60 116 0M-58 0C-30 65 75 65 116 0" />
+<g transform="translate(12 0)" opacity=".35">
+<path class="art-hair" d="M805 0C805 100 758 160 758 300S845 490 805 620S885 820 835 1010S738 1215 790 1380S805 1680 805 1800" />
 </g>
-<g transform="translate(805 595)" opacity=".7">
-<path class="art-ink-soft" d="M-145 65L145 65" />
-<rect class="art-hair" x="-120" y="30" width="18" height="35" rx="1"/>
-<rect class="art-hair" x="-89" y="7" width="18" height="58" rx="1"/>
-<rect class="art-hair" x="-58" y="-13" width="18" height="78" rx="1"/>
-<rect class="art-hair" x="-27" y="-24" width="18" height="89" rx="1"/>
-<rect class="art-hair" x="4" y="-8" width="18" height="73" rx="1"/>
-<rect class="art-hair" x="35" y="17" width="18" height="48" rx="1"/>
-<rect class="art-hair" x="66" y="39" width="18" height="26" rx="1"/>
-<rect class="art-hair" x="97" y="52" width="18" height="13" rx="1"/>
-<path class="art-blue" d="M-137 60C-92 54-79-37-28-39S38 53 135 60" />
-<path class="art-gold" d="M36 -75L36 74" stroke-dasharray="3 6"/>
+<g transform="translate(805 68)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
 </g>
-<g transform="translate(805 1190)" opacity=".7">
-<path class="art-ink-soft" d="M-142-56H142V56H-142Z" />
-<circle class="art-blue" cx="-114" cy="-31" r="4"/>
-<circle class="art-blue" cx="-76" cy="-31" r="4"/>
-<circle class="art-blue" cx="-38" cy="-31" r="4"/>
-<circle class="art-blue" cx="0" cy="-31" r="4"/>
-<circle class="art-ink-soft" cx="38" cy="-31" r="4"/>
-<circle class="art-ink-soft" cx="76" cy="-31" r="4"/>
-<circle class="art-ink-soft" cx="114" cy="-31" r="4"/>
-<circle class="art-blue" cx="-114" cy="0" r="4"/>
-<circle class="art-blue" cx="-76" cy="0" r="4"/>
-<circle class="art-blue" cx="-38" cy="0" r="4"/>
-<circle class="art-blue" cx="0" cy="0" r="4"/>
-<circle class="art-ink-soft" cx="38" cy="0" r="4"/>
-<circle class="art-ink-soft" cx="76" cy="0" r="4"/>
-<circle class="art-ink-soft" cx="114" cy="0" r="4"/>
-<circle class="art-blue" cx="-114" cy="31" r="4"/>
-<circle class="art-blue" cx="-76" cy="31" r="4"/>
-<circle class="art-blue" cx="-38" cy="31" r="4"/>
-<circle class="art-blue" cx="0" cy="31" r="4"/>
-<circle class="art-ink-soft" cx="38" cy="31" r="4"/>
-<circle class="art-ink-soft" cx="76" cy="31" r="4"/>
-<circle class="art-ink-soft" cx="114" cy="31" r="4"/>
-<path class="art-gold" d="M18-71V71" />
-<path class="art-blue" d="M149 0L174 0" /><path class="art-blue" d="M166.80 3.48L174 0L166.80 -3.48" />
+<g transform="translate(805 610)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
 </g>
-<g transform="translate(805 1800)" opacity=".7">
-<circle class="art-ink-soft" cx="-116" cy="0" r="8"/>
-<path class="art-hair" d="M-116 -45L-116 -8" />
-<path class="art-hair" d="M-116 8L-116 45" />
-<circle class="art-ink-soft" cx="-58" cy="0" r="8"/>
-<path class="art-hair" d="M-58 -45L-58 -8" />
-<path class="art-hair" d="M-58 8L-58 45" />
-<circle class="art-ink-soft" cx="0" cy="0" r="8"/>
-<path class="art-hair" d="M0 -45L0 -8" />
-<path class="art-hair" d="M0 8L0 45" />
-<circle class="art-ink-soft" cx="58" cy="0" r="8"/>
-<path class="art-hair" d="M58 -45L58 -8" />
-<path class="art-hair" d="M58 8L58 45" />
-<circle class="art-ink-soft" cx="116" cy="0" r="8"/>
-<path class="art-hair" d="M116 -45L116 -8" />
-<path class="art-hair" d="M116 8L116 45" />
-<path class="art-blue" d="M-116 0C-90-60 50-60 116 0M-58 0C-30 65 75 65 116 0" />
+<g transform="translate(805 1180)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
+</g>
+<g transform="translate(805 1740)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
 </g>
 <g transform="translate(805 295)" opacity=".85">
 <rect class="art-ink" x="-162" y="-125" width="115" height="250" rx="12" />
@@ -208,18 +44,18 @@
 <circle class="art-ink" cx="-130" cy="78" r="5" />
 <path class="art-hair" d="M-125 78L-74 78" />
 <circle class="art-ink" cx="-69" cy="78" r="5" />
-<path class="art-hair" d="M-125 -78L-74 -78" opacity=".55" />
-<path class="art-hair" d="M-125 -78L-74 26" opacity=".55" />
-<path class="art-hair" d="M-125 -78L-74 78" opacity=".55" />
-<path class="art-hair" d="M-125 -26L-74 -78" opacity=".55" />
-<path class="art-hair" d="M-125 -26L-74 26" opacity=".55" />
-<path class="art-hair" d="M-125 -26L-74 78" opacity=".55" />
-<path class="art-hair" d="M-125 26L-74 -78" opacity=".55" />
-<path class="art-hair" d="M-125 26L-74 26" opacity=".55" />
-<path class="art-hair" d="M-125 26L-74 78" opacity=".55" />
-<path class="art-hair" d="M-125 78L-74 -78" opacity=".55" />
-<path class="art-hair" d="M-125 78L-74 26" opacity=".55" />
-<path class="art-hair" d="M-125 78L-74 78" opacity=".55" />
+<path class="art-hair" d="M-125 -78L-74 -78" opacity=".55"/>
+<path class="art-hair" d="M-125 -78L-74 26" opacity=".55"/>
+<path class="art-hair" d="M-125 -78L-74 78" opacity=".55"/>
+<path class="art-hair" d="M-125 -26L-74 -78" opacity=".55"/>
+<path class="art-hair" d="M-125 -26L-74 26" opacity=".55"/>
+<path class="art-hair" d="M-125 -26L-74 78" opacity=".55"/>
+<path class="art-hair" d="M-125 26L-74 -78" opacity=".55"/>
+<path class="art-hair" d="M-125 26L-74 26" opacity=".55"/>
+<path class="art-hair" d="M-125 26L-74 78" opacity=".55"/>
+<path class="art-hair" d="M-125 78L-74 -78" opacity=".55"/>
+<path class="art-hair" d="M-125 78L-74 26" opacity=".55"/>
+<path class="art-hair" d="M-125 78L-74 78" opacity=".55"/>
 <path class="art-blue" d="M-47 0H5M5-92V92M5-92H65M5 0H65M5 92H65" />
 <rect class="art-ink" x="65" y="-116" width="94" height="48" rx="8" />
 <circle class="art-dot" cx="85" cy="-92" r="4" />
@@ -233,7 +69,7 @@
 </g>
 <g transform="translate(805 890)" opacity=".85">
 <path class="art-ink-soft" d="M-145 -120V110H140" />
-<path class="art-hair" d="M-145 110L133 -112" stroke-dasharray="5 7" />
+<path class="art-hair" d="M-145 110L133 -112" stroke-dasharray="5 7"/>
 <path class="art-blue" d="M-138 100C-90 92-76 20-25 15S61-76 129-110" />
 <circle class="art-ink" cx="-122" cy="89" r="4" />
 <circle class="art-ink" cx="-78" cy="57" r="4" />

@@ -6,11 +6,19 @@ No API key, Gmail credential, or owner Matrix token belongs in the static site.
 
 ## Comments: Cactus + Matrix
 
+You do not need to buy a domain: `j-stoerk.github.io` can use the public Cactus
+service. The site name is a unique label, not a domain name. Only you need a
+regular Matrix account for moderation; visitors use the site's guest flow.
+Comments are omitted from the generated pages while `comments.siteName` is empty.
+
 1. Create a **regular Matrix account** in a client such as Element. This is your
    moderation account; visitors do not need accounts.
 2. Follow the [Cactus quick start](https://cactus.chat/docs/getting-started/quick-start/):
    message `@cactusbot:cactus.chat` with `register j-stoerk-portfolio` (or another
-   available site name). Keep the resulting moderation room.
+   available site name). Wait for a successful registration reply, then accept
+   and keep the resulting moderation room. If the name is taken, try another
+   name and use that exact registered label below. If the bot cannot be reached
+   or does not confirm registration, stop before changing the website config.
 3. In `_src/community.json`, set `comments.siteName` to the **registered** name.
    `homeserverUrl` and `serverName` must identify that Cactus service. The public
    server's documented defaults are supplied, but its endpoint could not be
@@ -46,10 +54,14 @@ Comments are public, plain text. HTML is never injected. Existing Matrix edits
 and redactions are reflected on refresh for the loaded event range. Use the
 [Cactus moderation room](https://cactus.chat/docs/getting-started/moderation/)
 for bans and moderator permissions. Cactus does not provide an approval queue.
+To inspect a post's comments in Element, join its room alias, e.g.
+`#comments_j-stoerk-portfolio_post-geometry-of-forgetting:cactus.chat`.
+Replace the registered site label and post slug as appropriate. The custom web
+frontend uses guest identities; your regular moderator account stays in Element.
 
 ## Private messages: Formspree to Gmail
 
-The existing message dialog posts directly to `https://formspree.io/f/xkjgapaj`
+The inline message form posts directly to `https://formspree.io/f/xkjgapaj`
 with `method="POST"`. The form sends `name`, `email`, and `message`; the hidden
 `_gotcha` field uses [Formspree's honeypot filter](https://help.formspree.io/articles/building-your-form/honeypot-spam-filtering/).
 There is no Worker, email API key, or Turnstile dependency in this contact flow.
@@ -63,8 +75,11 @@ so you can reply directly to visitors.
 
 The endpoint lives in `_src/community.json` and is injected into the form's
 `action` during the build. The Send button is enabled; browser validation checks
-required fields and email format before submission. `contact.js` handles only
-opening/closing the dialog. Ordinary HTML submission allows Formspree's hosted
+required fields and email format before submission. `contact.js` opens the form
+beside the contact text on desktop and below it on mobile. It reads only a saved
+display name from the configured Cactus homeserver's browser identity to prefill
+the editable name field; Matrix credentials are never added to the form or sent
+to Formspree. Closing/reopening preserves manual edits. Ordinary HTML submission allows Formspree's hosted
 confirmation and spam checks to work without an AJAX/CAPTCHA setup.
 
 Rebuild and push after changing the endpoint:

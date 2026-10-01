@@ -1,248 +1,34 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1800" viewBox="0 0 1000 1800" fill="none">
-<!-- Rendered mathematics audit: fraction order, scan windows, error counts, and a continuous typesetting margin. -->
-<defs>
-<g id="post-texture" opacity=".38">
-<path class="art-hair" d="M702 0V1800" />
-<path class="art-hair" d="M970 0V1800" />
-<path class="art-ink-soft" d="M708 40L744 40" />
-<circle class="art-ink-soft" cx="720" cy="26" r="2"/>
-<circle class="art-ink-soft" cx="732" cy="26" r="2"/>
-<circle class="art-ink-soft" cx="714" cy="54" r="2"/>
-<circle class="art-ink-soft" cx="726" cy="54" r="2"/>
-<circle class="art-ink-soft" cx="738" cy="54" r="2"/>
-<path class="art-hair" d="M703 13v54m46-54v54" />
-<path class="art-hair" d="M726 85L726 103" />
-<path class="art-ink-soft" d="M917 140L953 140" />
-<circle class="art-ink-soft" cx="929" cy="126" r="2"/>
-<circle class="art-ink-soft" cx="941" cy="126" r="2"/>
-<circle class="art-ink-soft" cx="923" cy="154" r="2"/>
-<circle class="art-ink-soft" cx="935" cy="154" r="2"/>
-<circle class="art-ink-soft" cx="947" cy="154" r="2"/>
-<path class="art-hair" d="M912 113v54m46-54v54" />
-<path class="art-hair" d="M935 185L935 203" />
-<path class="art-ink-soft" d="M708 240L744 240" />
-<circle class="art-ink-soft" cx="720" cy="226" r="2"/>
-<circle class="art-ink-soft" cx="732" cy="226" r="2"/>
-<circle class="art-ink-soft" cx="714" cy="254" r="2"/>
-<circle class="art-ink-soft" cx="726" cy="254" r="2"/>
-<circle class="art-ink-soft" cx="738" cy="254" r="2"/>
-<path class="art-hair" d="M703 213v54m46-54v54" />
-<path class="art-hair" d="M726 285L726 303" />
-<path class="art-ink-soft" d="M917 340L953 340" />
-<circle class="art-ink-soft" cx="929" cy="326" r="2"/>
-<circle class="art-ink-soft" cx="941" cy="326" r="2"/>
-<circle class="art-ink-soft" cx="923" cy="354" r="2"/>
-<circle class="art-ink-soft" cx="935" cy="354" r="2"/>
-<circle class="art-ink-soft" cx="947" cy="354" r="2"/>
-<path class="art-hair" d="M912 313v54m46-54v54" />
-<path class="art-hair" d="M935 385L935 403" />
-<path class="art-ink-soft" d="M708 440L744 440" />
-<circle class="art-ink-soft" cx="720" cy="426" r="2"/>
-<circle class="art-ink-soft" cx="732" cy="426" r="2"/>
-<circle class="art-ink-soft" cx="714" cy="454" r="2"/>
-<circle class="art-ink-soft" cx="726" cy="454" r="2"/>
-<circle class="art-ink-soft" cx="738" cy="454" r="2"/>
-<path class="art-hair" d="M703 413v54m46-54v54" />
-<path class="art-hair" d="M726 485L726 503" />
-<path class="art-ink-soft" d="M917 540L953 540" />
-<circle class="art-ink-soft" cx="929" cy="526" r="2"/>
-<circle class="art-ink-soft" cx="941" cy="526" r="2"/>
-<circle class="art-ink-soft" cx="923" cy="554" r="2"/>
-<circle class="art-ink-soft" cx="935" cy="554" r="2"/>
-<circle class="art-ink-soft" cx="947" cy="554" r="2"/>
-<path class="art-hair" d="M912 513v54m46-54v54" />
-<path class="art-hair" d="M935 585L935 603" />
-<path class="art-ink-soft" d="M708 640L744 640" />
-<circle class="art-ink-soft" cx="720" cy="626" r="2"/>
-<circle class="art-ink-soft" cx="732" cy="626" r="2"/>
-<circle class="art-ink-soft" cx="714" cy="654" r="2"/>
-<circle class="art-ink-soft" cx="726" cy="654" r="2"/>
-<circle class="art-ink-soft" cx="738" cy="654" r="2"/>
-<path class="art-hair" d="M703 613v54m46-54v54" />
-<path class="art-hair" d="M726 685L726 703" />
-<path class="art-ink-soft" d="M917 740L953 740" />
-<circle class="art-ink-soft" cx="929" cy="726" r="2"/>
-<circle class="art-ink-soft" cx="941" cy="726" r="2"/>
-<circle class="art-ink-soft" cx="923" cy="754" r="2"/>
-<circle class="art-ink-soft" cx="935" cy="754" r="2"/>
-<circle class="art-ink-soft" cx="947" cy="754" r="2"/>
-<path class="art-hair" d="M912 713v54m46-54v54" />
-<path class="art-hair" d="M935 785L935 803" />
-<path class="art-ink-soft" d="M708 840L744 840" />
-<circle class="art-ink-soft" cx="720" cy="826" r="2"/>
-<circle class="art-ink-soft" cx="732" cy="826" r="2"/>
-<circle class="art-ink-soft" cx="714" cy="854" r="2"/>
-<circle class="art-ink-soft" cx="726" cy="854" r="2"/>
-<circle class="art-ink-soft" cx="738" cy="854" r="2"/>
-<path class="art-hair" d="M703 813v54m46-54v54" />
-<path class="art-hair" d="M726 885L726 903" />
-<path class="art-ink-soft" d="M917 940L953 940" />
-<circle class="art-ink-soft" cx="929" cy="926" r="2"/>
-<circle class="art-ink-soft" cx="941" cy="926" r="2"/>
-<circle class="art-ink-soft" cx="923" cy="954" r="2"/>
-<circle class="art-ink-soft" cx="935" cy="954" r="2"/>
-<circle class="art-ink-soft" cx="947" cy="954" r="2"/>
-<path class="art-hair" d="M912 913v54m46-54v54" />
-<path class="art-hair" d="M935 985L935 1003" />
-<path class="art-ink-soft" d="M708 1040L744 1040" />
-<circle class="art-ink-soft" cx="720" cy="1026" r="2"/>
-<circle class="art-ink-soft" cx="732" cy="1026" r="2"/>
-<circle class="art-ink-soft" cx="714" cy="1054" r="2"/>
-<circle class="art-ink-soft" cx="726" cy="1054" r="2"/>
-<circle class="art-ink-soft" cx="738" cy="1054" r="2"/>
-<path class="art-hair" d="M703 1013v54m46-54v54" />
-<path class="art-hair" d="M726 1085L726 1103" />
-<path class="art-ink-soft" d="M917 1140L953 1140" />
-<circle class="art-ink-soft" cx="929" cy="1126" r="2"/>
-<circle class="art-ink-soft" cx="941" cy="1126" r="2"/>
-<circle class="art-ink-soft" cx="923" cy="1154" r="2"/>
-<circle class="art-ink-soft" cx="935" cy="1154" r="2"/>
-<circle class="art-ink-soft" cx="947" cy="1154" r="2"/>
-<path class="art-hair" d="M912 1113v54m46-54v54" />
-<path class="art-hair" d="M935 1185L935 1203" />
-<path class="art-ink-soft" d="M708 1240L744 1240" />
-<circle class="art-ink-soft" cx="720" cy="1226" r="2"/>
-<circle class="art-ink-soft" cx="732" cy="1226" r="2"/>
-<circle class="art-ink-soft" cx="714" cy="1254" r="2"/>
-<circle class="art-ink-soft" cx="726" cy="1254" r="2"/>
-<circle class="art-ink-soft" cx="738" cy="1254" r="2"/>
-<path class="art-hair" d="M703 1213v54m46-54v54" />
-<path class="art-hair" d="M726 1285L726 1303" />
-<path class="art-ink-soft" d="M917 1340L953 1340" />
-<circle class="art-ink-soft" cx="929" cy="1326" r="2"/>
-<circle class="art-ink-soft" cx="941" cy="1326" r="2"/>
-<circle class="art-ink-soft" cx="923" cy="1354" r="2"/>
-<circle class="art-ink-soft" cx="935" cy="1354" r="2"/>
-<circle class="art-ink-soft" cx="947" cy="1354" r="2"/>
-<path class="art-hair" d="M912 1313v54m46-54v54" />
-<path class="art-hair" d="M935 1385L935 1403" />
-<path class="art-ink-soft" d="M708 1440L744 1440" />
-<circle class="art-ink-soft" cx="720" cy="1426" r="2"/>
-<circle class="art-ink-soft" cx="732" cy="1426" r="2"/>
-<circle class="art-ink-soft" cx="714" cy="1454" r="2"/>
-<circle class="art-ink-soft" cx="726" cy="1454" r="2"/>
-<circle class="art-ink-soft" cx="738" cy="1454" r="2"/>
-<path class="art-hair" d="M703 1413v54m46-54v54" />
-<path class="art-hair" d="M726 1485L726 1503" />
-<path class="art-ink-soft" d="M917 1540L953 1540" />
-<circle class="art-ink-soft" cx="929" cy="1526" r="2"/>
-<circle class="art-ink-soft" cx="941" cy="1526" r="2"/>
-<circle class="art-ink-soft" cx="923" cy="1554" r="2"/>
-<circle class="art-ink-soft" cx="935" cy="1554" r="2"/>
-<circle class="art-ink-soft" cx="947" cy="1554" r="2"/>
-<path class="art-hair" d="M912 1513v54m46-54v54" />
-<path class="art-hair" d="M935 1585L935 1603" />
-<path class="art-ink-soft" d="M708 1640L744 1640" />
-<circle class="art-ink-soft" cx="720" cy="1626" r="2"/>
-<circle class="art-ink-soft" cx="732" cy="1626" r="2"/>
-<circle class="art-ink-soft" cx="714" cy="1654" r="2"/>
-<circle class="art-ink-soft" cx="726" cy="1654" r="2"/>
-<circle class="art-ink-soft" cx="738" cy="1654" r="2"/>
-<path class="art-hair" d="M703 1613v54m46-54v54" />
-<path class="art-hair" d="M726 1685L726 1703" />
-<path class="art-ink-soft" d="M917 1740L953 1740" />
-<circle class="art-ink-soft" cx="929" cy="1726" r="2"/>
-<circle class="art-ink-soft" cx="941" cy="1726" r="2"/>
-<circle class="art-ink-soft" cx="923" cy="1754" r="2"/>
-<circle class="art-ink-soft" cx="935" cy="1754" r="2"/>
-<circle class="art-ink-soft" cx="947" cy="1754" r="2"/>
-<path class="art-hair" d="M912 1713v54m46-54v54" />
-<path class="art-hair" d="M935 1785L935 1803" />
+<!-- Numerator and denominator swap / rendered equation audit / verified display equations -->
+<g transform="translate(0 0)" opacity=".65">
+<path class="art-hair" d="M805 0C805 100 867 145 851 345S744 504 790 650S866 822 826 1018S755 1203 801 1410S805 1690 805 1800" />
 </g>
-</defs>
-<use href="#post-texture" transform="translate(0 -1800)"/>
-<use href="#post-texture" transform="translate(0 0)"/>
-<use href="#post-texture" transform="translate(0 1800)"/>
-<g transform="translate(805 0)" opacity=".7">
-<path class="art-ink-soft" d="M-128 0L-82 0" />
-<circle class="art-blue" cx="-113" cy="-20" r="2"/>
-<circle class="art-blue" cx="-97" cy="-20" r="2"/>
-<circle class="art-ink-soft" cx="-120" cy="20" r="2"/>
-<circle class="art-ink-soft" cx="-105" cy="20" r="2"/>
-<circle class="art-ink-soft" cx="-90" cy="20" r="2"/>
-<path class="art-ink-soft" d="M-58 0L-12 0" />
-<circle class="art-blue" cx="-43" cy="-20" r="2"/>
-<circle class="art-blue" cx="-27" cy="-20" r="2"/>
-<circle class="art-ink-soft" cx="-50" cy="20" r="2"/>
-<circle class="art-ink-soft" cx="-35" cy="20" r="2"/>
-<circle class="art-ink-soft" cx="-20" cy="20" r="2"/>
-<path class="art-ink-soft" d="M12 0L58 0" />
-<circle class="art-blue" cx="27" cy="-20" r="2"/>
-<circle class="art-blue" cx="43" cy="-20" r="2"/>
-<circle class="art-ink-soft" cx="20" cy="20" r="2"/>
-<circle class="art-ink-soft" cx="35" cy="20" r="2"/>
-<circle class="art-ink-soft" cx="50" cy="20" r="2"/>
-<path class="art-ink-soft" d="M82 0L128 0" />
-<circle class="art-blue" cx="97" cy="-20" r="2"/>
-<circle class="art-blue" cx="113" cy="-20" r="2"/>
-<circle class="art-ink-soft" cx="90" cy="20" r="2"/>
-<circle class="art-ink-soft" cx="105" cy="20" r="2"/>
-<circle class="art-ink-soft" cx="120" cy="20" r="2"/>
-<path class="art-hair" d="M-144-40H144M-144 40H144" />
+<g transform="translate(12 0)" opacity=".35">
+<path class="art-hair" d="M805 0C805 100 867 145 851 345S744 504 790 650S866 822 826 1018S755 1203 801 1410S805 1690 805 1800" />
 </g>
-<g transform="translate(805 595)" opacity=".7">
-<rect class="art-ink-soft" x="-139" y="-63" width="278" height="126" rx="4"/>
-<path class="art-hair" d="M-117 -38L-24 -38" />
-<path class="art-hair" d="M19 -38L117 -38" />
-<rect class="art-blue" x="-10" y="-46" width="18" height="16" rx="1"/>
-<path class="art-hair" d="M-117 -12L-24 -12" />
-<path class="art-hair" d="M19 -12L117 -12" />
-<rect class="art-blue" x="-10" y="-20" width="18" height="16" rx="1"/>
-<path class="art-hair" d="M-117 14L-24 14" />
-<path class="art-hair" d="M19 14L117 14" />
-<rect class="art-blue" x="-10" y="6" width="18" height="16" rx="1"/>
-<path class="art-hair" d="M-117 40L-24 40" />
-<path class="art-hair" d="M19 40L117 40" />
-<rect class="art-blue" x="-10" y="32" width="18" height="16" rx="1"/>
-<path class="art-gold" d="M-151-20V-78H-87M151 20V78H87" />
+<g transform="translate(805 68)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
 </g>
-<g transform="translate(805 1190)" opacity=".7">
-<path class="art-ink-soft" d="M-143 56L145 56" />
-<rect class="art-hair" x="-131" y="-52" width="8" height="108" rx="1"/>
-<rect class="art-hair" x="-116" y="-52" width="8" height="108" rx="1"/>
-<rect class="art-hair" x="-101" y="-52" width="8" height="108" rx="1"/>
-<rect class="art-gold" x="-86" y="-29" width="8" height="85" rx="1"/>
-<rect class="art-hair" x="-71" y="-52" width="8" height="108" rx="1"/>
-<rect class="art-hair" x="-56" y="-52" width="8" height="108" rx="1"/>
-<rect class="art-hair" x="-41" y="-52" width="8" height="108" rx="1"/>
-<rect class="art-gold" x="-26" y="-29" width="8" height="85" rx="1"/>
-<rect class="art-hair" x="-11" y="-52" width="8" height="108" rx="1"/>
-<rect class="art-hair" x="4" y="-52" width="8" height="108" rx="1"/>
-<rect class="art-hair" x="19" y="-52" width="8" height="108" rx="1"/>
-<rect class="art-hair" x="34" y="-52" width="8" height="108" rx="1"/>
-<rect class="art-hair" x="49" y="-52" width="8" height="108" rx="1"/>
-<rect class="art-hair" x="64" y="-52" width="8" height="108" rx="1"/>
-<rect class="art-hair" x="79" y="-52" width="8" height="108" rx="1"/>
-<rect class="art-hair" x="94" y="-52" width="8" height="108" rx="1"/>
-<rect class="art-hair" x="109" y="-52" width="8" height="108" rx="1"/>
-<rect class="art-hair" x="124" y="-52" width="8" height="108" rx="1"/>
+<g transform="translate(805 610)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
 </g>
-<g transform="translate(805 1800)" opacity=".7">
-<path class="art-ink-soft" d="M-128 0L-82 0" />
-<circle class="art-blue" cx="-113" cy="-20" r="2"/>
-<circle class="art-blue" cx="-97" cy="-20" r="2"/>
-<circle class="art-ink-soft" cx="-120" cy="20" r="2"/>
-<circle class="art-ink-soft" cx="-105" cy="20" r="2"/>
-<circle class="art-ink-soft" cx="-90" cy="20" r="2"/>
-<path class="art-ink-soft" d="M-58 0L-12 0" />
-<circle class="art-blue" cx="-43" cy="-20" r="2"/>
-<circle class="art-blue" cx="-27" cy="-20" r="2"/>
-<circle class="art-ink-soft" cx="-50" cy="20" r="2"/>
-<circle class="art-ink-soft" cx="-35" cy="20" r="2"/>
-<circle class="art-ink-soft" cx="-20" cy="20" r="2"/>
-<path class="art-ink-soft" d="M12 0L58 0" />
-<circle class="art-blue" cx="27" cy="-20" r="2"/>
-<circle class="art-blue" cx="43" cy="-20" r="2"/>
-<circle class="art-ink-soft" cx="20" cy="20" r="2"/>
-<circle class="art-ink-soft" cx="35" cy="20" r="2"/>
-<circle class="art-ink-soft" cx="50" cy="20" r="2"/>
-<path class="art-ink-soft" d="M82 0L128 0" />
-<circle class="art-blue" cx="97" cy="-20" r="2"/>
-<circle class="art-blue" cx="113" cy="-20" r="2"/>
-<circle class="art-ink-soft" cx="90" cy="20" r="2"/>
-<circle class="art-ink-soft" cx="105" cy="20" r="2"/>
-<circle class="art-ink-soft" cx="120" cy="20" r="2"/>
-<path class="art-hair" d="M-144-40H144M-144 40H144" />
+<g transform="translate(805 1180)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
+</g>
+<g transform="translate(805 1740)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
 </g>
 <g transform="translate(805 295)" opacity=".85">
 <path class="art-ink" d="M-140 0L-50 0" />

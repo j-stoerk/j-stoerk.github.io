@@ -118,7 +118,7 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=d6fd41ae">
+  <link rel="stylesheet" href="styles.css?v=d9a49713">
   <link rel="stylesheet" href="experiences.css?v=563b4505">
   <script>
     (function () {
@@ -654,25 +654,22 @@
             a shared dataset, or a comparison that tests where our methods break.</p>
         </div>
       </div>
-      <p class="section-lead">I’d be happy to collaborate, share data, or discuss experimental results. If you’re
-        interested, feel free to email me with a short description of your setup and what you’re trying to achieve.</p>
-      <p class="contact-route">Leave me a message <a href="mailto:julius.stoerk@gmail.com" data-open-message>here</a>.</p>
-      <p class="contact-links">
-        <a href="mailto:julius.stoerk@gmail.com">julius.stoerk@gmail.com</a><br>
-        <a href="https://www.linkedin.com/in/juliusst/" target="_blank"
-          rel="noopener noreferrer">linkedin.com/in/juliusst</a><br>
-        <a href="https://github.com/j-stoerk" target="_blank" rel="noopener noreferrer">github.com/j-stoerk</a><br>
-        <a href="https://orcid.org/0009-0006-3519-0950" target="_blank" rel="noopener noreferrer">orcid.org/0009-0006-3519-0950</a><br>
-        <a href="https://scholar.google.com/citations?user=sWLYub0AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a>
-      </p>
-    </section>
-
-  </main>
-
-    <dialog class="site-dialog contact-dialog" id="contact-message" aria-labelledby="message-title">
-    <button type="button" class="dialog-close" data-message-close aria-label="Close">×</button>
-    <h2 id="message-title">Leave me a message</h2>
-    <p class="form-note">A little about your setup, your question, or what you’d like to explore together.</p>
+      <div class="contact-compose">
+        <div class="contact-copy">
+          <p class="section-lead">I’d be happy to collaborate, share data, or discuss experimental results. If you’re
+            interested, feel free to email me with a short description of your setup and what you’re trying to achieve.</p>
+          <p class="contact-route">Leave me a message <a href="mailto:julius.stoerk@gmail.com" data-open-message aria-controls="contact-message" aria-expanded="false">here</a>.</p>
+          <p class="contact-links">
+            <a href="mailto:julius.stoerk@gmail.com">julius.stoerk@gmail.com</a><br>
+            <a href="https://www.linkedin.com/in/juliusst/" target="_blank"
+              rel="noopener noreferrer">linkedin.com/in/juliusst</a><br>
+            <a href="https://github.com/j-stoerk" target="_blank" rel="noopener noreferrer">github.com/j-stoerk</a><br>
+            <a href="https://orcid.org/0009-0006-3519-0950" target="_blank" rel="noopener noreferrer">orcid.org/0009-0006-3519-0950</a><br>
+            <a href="https://scholar.google.com/citations?user=sWLYub0AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+          </p>
+        </div>
+          <aside class="contact-message" id="contact-message" aria-label="Send a private message" data-comment-homeserver="https://matrix.cactus.chat:8448" hidden>
+    <button type="button" class="message-close" data-message-close aria-label="Close message form">×</button>
     <form action="https://formspree.io/f/xkjgapaj" method="POST" data-message-form>
       <div class="form-field-pair">
         <div><label for="message-name">Your name</label><input id="message-name" name="name" autocomplete="name" maxlength="80" required></div>
@@ -683,8 +680,12 @@
       <div class="form-trap" aria-hidden="true"><label for="message-website">Website</label><input id="message-website" name="_gotcha" tabindex="-1" autocomplete="off"></div>
       <div class="form-actions"><span class="form-note">This message is private.</span><button type="submit" class="form-submit">Send message</button></div>
     </form>
-  </dialog>
+  </aside>
 
+      </div>
+    </section>
+
+  </main>
 
   <footer class="content">
     <span>© 2026 Julius Störk</span>
@@ -698,7 +699,7 @@
   <script src="cite.js?v=382b33f5"></script>
   <script src="experiences.js?v=85a0d2df"></script>
   <script src="bio-popovers.js?v=852f18fa"></script>
-  <script src="contact.js?v=027f91c4"></script>
+  <script src="contact.js?v=027172dd"></script>
   <script>
     window.addEventListener('load', function () {
       var s = document.createElement('script');

@@ -1,159 +1,34 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1800" viewBox="0 0 1000 1800" fill="none">
-<!-- Reusable agent skills: source records, verification checklists, versioned procedures, and continuous circuit routing. -->
-<defs>
-<g id="post-texture" opacity=".38">
-<path class="art-hair" d="M705 0V1800" />
-<path class="art-hair" d="M716 0V1800" />
-<path class="art-hair" d="M955 0V1800" />
-<path class="art-hair" d="M966 0V1800" />
-<path class="art-hair" d="M716 60H744V84H768" />
-<circle class="art-ink-soft" cx="771" cy="84" r="3"/>
-<path class="art-hair" d="M955 106H925V82H897" />
-<rect class="art-hair" x="883" y="76" width="14" height="12" rx="2"/>
-<path class="art-hair" d="M705 140H683V165H728" />
-<circle class="art-ink-soft" cx="730" cy="165" r="3"/>
-<path class="art-hair" d="M716 180H744V204H768" />
-<circle class="art-ink-soft" cx="771" cy="204" r="3"/>
-<path class="art-hair" d="M955 226H925V202H897" />
-<rect class="art-hair" x="883" y="196" width="14" height="12" rx="2"/>
-<path class="art-hair" d="M716 300H744V324H768" />
-<circle class="art-ink-soft" cx="771" cy="324" r="3"/>
-<path class="art-hair" d="M955 346H925V322H897" />
-<rect class="art-hair" x="883" y="316" width="14" height="12" rx="2"/>
-<path class="art-hair" d="M705 380H683V405H728" />
-<circle class="art-ink-soft" cx="730" cy="405" r="3"/>
-<path class="art-hair" d="M716 420H744V444H768" />
-<circle class="art-ink-soft" cx="771" cy="444" r="3"/>
-<path class="art-hair" d="M955 466H925V442H897" />
-<rect class="art-hair" x="883" y="436" width="14" height="12" rx="2"/>
-<path class="art-hair" d="M716 540H744V564H768" />
-<circle class="art-ink-soft" cx="771" cy="564" r="3"/>
-<path class="art-hair" d="M955 586H925V562H897" />
-<rect class="art-hair" x="883" y="556" width="14" height="12" rx="2"/>
-<path class="art-hair" d="M705 620H683V645H728" />
-<circle class="art-ink-soft" cx="730" cy="645" r="3"/>
-<path class="art-hair" d="M716 660H744V684H768" />
-<circle class="art-ink-soft" cx="771" cy="684" r="3"/>
-<path class="art-hair" d="M955 706H925V682H897" />
-<rect class="art-hair" x="883" y="676" width="14" height="12" rx="2"/>
-<path class="art-hair" d="M716 780H744V804H768" />
-<circle class="art-ink-soft" cx="771" cy="804" r="3"/>
-<path class="art-hair" d="M955 826H925V802H897" />
-<rect class="art-hair" x="883" y="796" width="14" height="12" rx="2"/>
-<path class="art-hair" d="M705 860H683V885H728" />
-<circle class="art-ink-soft" cx="730" cy="885" r="3"/>
-<path class="art-hair" d="M716 900H744V924H768" />
-<circle class="art-ink-soft" cx="771" cy="924" r="3"/>
-<path class="art-hair" d="M955 946H925V922H897" />
-<rect class="art-hair" x="883" y="916" width="14" height="12" rx="2"/>
-<path class="art-hair" d="M716 1020H744V1044H768" />
-<circle class="art-ink-soft" cx="771" cy="1044" r="3"/>
-<path class="art-hair" d="M955 1066H925V1042H897" />
-<rect class="art-hair" x="883" y="1036" width="14" height="12" rx="2"/>
-<path class="art-hair" d="M705 1100H683V1125H728" />
-<circle class="art-ink-soft" cx="730" cy="1125" r="3"/>
-<path class="art-hair" d="M716 1140H744V1164H768" />
-<circle class="art-ink-soft" cx="771" cy="1164" r="3"/>
-<path class="art-hair" d="M955 1186H925V1162H897" />
-<rect class="art-hair" x="883" y="1156" width="14" height="12" rx="2"/>
-<path class="art-hair" d="M716 1260H744V1284H768" />
-<circle class="art-ink-soft" cx="771" cy="1284" r="3"/>
-<path class="art-hair" d="M955 1306H925V1282H897" />
-<rect class="art-hair" x="883" y="1276" width="14" height="12" rx="2"/>
-<path class="art-hair" d="M705 1340H683V1365H728" />
-<circle class="art-ink-soft" cx="730" cy="1365" r="3"/>
-<path class="art-hair" d="M716 1380H744V1404H768" />
-<circle class="art-ink-soft" cx="771" cy="1404" r="3"/>
-<path class="art-hair" d="M955 1426H925V1402H897" />
-<rect class="art-hair" x="883" y="1396" width="14" height="12" rx="2"/>
-<path class="art-hair" d="M716 1500H744V1524H768" />
-<circle class="art-ink-soft" cx="771" cy="1524" r="3"/>
-<path class="art-hair" d="M955 1546H925V1522H897" />
-<rect class="art-hair" x="883" y="1516" width="14" height="12" rx="2"/>
-<path class="art-hair" d="M705 1580H683V1605H728" />
-<circle class="art-ink-soft" cx="730" cy="1605" r="3"/>
-<path class="art-hair" d="M716 1620H744V1644H768" />
-<circle class="art-ink-soft" cx="771" cy="1644" r="3"/>
-<path class="art-hair" d="M955 1666H925V1642H897" />
-<rect class="art-hair" x="883" y="1636" width="14" height="12" rx="2"/>
-<path class="art-hair" d="M716 1740H744V1764H768" />
-<circle class="art-ink-soft" cx="771" cy="1764" r="3"/>
-<path class="art-hair" d="M955 1786H925V1762H897" />
-<rect class="art-hair" x="883" y="1756" width="14" height="12" rx="2"/>
-<path class="art-hair" d="M705 1820H683V1845H728" />
-<circle class="art-ink-soft" cx="730" cy="1845" r="3"/>
+<!-- Grounded sources / scoped verification cycle / reusable skill library -->
+<g transform="translate(0 0)" opacity=".65">
+<path class="art-hair" d="M805 0C805 130 872 145 852 335S745 495 787 640S873 775 835 1028S736 1175 773 1415S805 1670 805 1800" />
 </g>
-</defs>
-<use href="#post-texture" transform="translate(0 -1800)"/>
-<use href="#post-texture" transform="translate(0 0)"/>
-<use href="#post-texture" transform="translate(0 1800)"/>
-<g transform="translate(805 0)" opacity=".7">
-<path class="art-ink-soft" d="M-118-42h51l13 13v71h-64Z" />
-<path class="art-hair" d="M-67-42v13h13" />
-<path class="art-hair" d="M-106 -11L-66 -11" />
-<path class="art-hair" d="M-106 3L-66 3" />
-<path class="art-hair" d="M-106 17L-66 17" />
-<path class="art-hair" d="M-106 31L-66 31" />
-<path class="art-ink-soft" d="M-34-42h51l13 13v71h-64Z" />
-<path class="art-hair" d="M17-42v13h13" />
-<path class="art-hair" d="M-22 -11L18 -11" />
-<path class="art-hair" d="M-22 3L18 3" />
-<path class="art-hair" d="M-22 17L18 17" />
-<path class="art-hair" d="M-22 31L18 31" />
-<path class="art-ink-soft" d="M50-42h51l13 13v71h-64Z" />
-<path class="art-hair" d="M101-42v13h13" />
-<path class="art-hair" d="M62 -11L102 -11" />
-<path class="art-hair" d="M62 3L102 3" />
-<path class="art-hair" d="M62 17L102 17" />
-<path class="art-hair" d="M62 31L102 31" />
-<path class="art-blue" d="M-86 56V72H84V56" />
+<g transform="translate(12 0)" opacity=".35">
+<path class="art-hair" d="M805 0C805 130 872 145 852 335S745 495 787 640S873 775 835 1028S736 1175 773 1415S805 1670 805 1800" />
 </g>
-<g transform="translate(805 595)" opacity=".7">
-<rect class="art-ink-soft" x="-132" y="-70" width="264" height="140" rx="8"/>
-<rect class="art-ink-soft" x="-110" y="-51" width="18" height="18" rx="3"/>
-<path class="art-blue" d="M-107 -42l5 5 10-13" />
-<path class="art-hair" d="M-78 -42L110 -42" />
-<rect class="art-ink-soft" x="-110" y="-13" width="18" height="18" rx="3"/>
-<path class="art-blue" d="M-107 -4l5 5 10-13" />
-<path class="art-hair" d="M-78 -4L110 -4" />
-<rect class="art-ink-soft" x="-110" y="25" width="18" height="18" rx="3"/>
-<path class="art-blue" d="M-107 34l5 5 10-13" />
-<path class="art-hair" d="M-78 34L110 34" />
+<g transform="translate(805 68)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
 </g>
-<g transform="translate(805 1190)" opacity=".7">
-<circle class="art-ink-soft" cx="-104" cy="-45" r="10"/>
-<circle class="art-blue" cx="-104" cy="-45" r="3"/>
-<circle class="art-ink-soft" cx="-104" cy="45" r="10"/>
-<circle class="art-blue" cx="-104" cy="45" r="3"/>
-<circle class="art-ink-soft" cx="3" cy="45" r="10"/>
-<circle class="art-blue" cx="3" cy="45" r="3"/>
-<circle class="art-ink-soft" cx="107" cy="-45" r="10"/>
-<circle class="art-blue" cx="107" cy="-45" r="3"/>
-<path class="art-hair" d="M-104 -35L-104 35" />
-<path class="art-blue" d="M-94 45H-7M13 45C97 45 107 14 107-35" />
-<path class="art-hair" d="M-94-45H65C93-45 107-8 107 6" />
-<path class="art-hair" d="M-130 73L140 73" />
+<g transform="translate(805 610)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
 </g>
-<g transform="translate(805 1800)" opacity=".7">
-<path class="art-ink-soft" d="M-118-42h51l13 13v71h-64Z" />
-<path class="art-hair" d="M-67-42v13h13" />
-<path class="art-hair" d="M-106 -11L-66 -11" />
-<path class="art-hair" d="M-106 3L-66 3" />
-<path class="art-hair" d="M-106 17L-66 17" />
-<path class="art-hair" d="M-106 31L-66 31" />
-<path class="art-ink-soft" d="M-34-42h51l13 13v71h-64Z" />
-<path class="art-hair" d="M17-42v13h13" />
-<path class="art-hair" d="M-22 -11L18 -11" />
-<path class="art-hair" d="M-22 3L18 3" />
-<path class="art-hair" d="M-22 17L18 17" />
-<path class="art-hair" d="M-22 31L18 31" />
-<path class="art-ink-soft" d="M50-42h51l13 13v71h-64Z" />
-<path class="art-hair" d="M101-42v13h13" />
-<path class="art-hair" d="M62 -11L102 -11" />
-<path class="art-hair" d="M62 3L102 3" />
-<path class="art-hair" d="M62 17L102 17" />
-<path class="art-hair" d="M62 31L102 31" />
-<path class="art-blue" d="M-86 56V72H84V56" />
+<g transform="translate(805 1180)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
+</g>
+<g transform="translate(805 1740)" opacity=".55">
+<circle class="art-ink-soft" cx="0" cy="0" r="5" />
+<path class="art-hair" d="M-22 0L-8 0" />
+<path class="art-hair" d="M8 0L22 0" />
+<circle class="art-dot" cx="-15" cy="20" r="2.5" /><circle class="art-dot" cx="0" cy="20" r="2.5" /><circle class="art-dot" cx="15" cy="20" r="2.5" />
 </g>
 <g transform="translate(805 295)" opacity=".85">
 <path class="art-ink" d="M-166 -115H-120L-104 -99V-25H-166Z" />

@@ -35,7 +35,8 @@
 
   function remember() {
     try { localStorage.setItem(storageKey, JSON.stringify(session)); } catch (_) { }
-    identityLabel.textContent = session?.displayName ? 'Posting as ' + session.displayName : 'Your name is only needed when you first post.';
+    identityLabel.textContent = session?.displayName ? 'Posting as ' + session.displayName : '';
+    identityLabel.hidden = !session?.displayName;
     tools.hidden = false;
     section.querySelector('[data-identity-save]').disabled = !session?.displayName;
   }

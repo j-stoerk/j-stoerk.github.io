@@ -40,22 +40,23 @@ source page and rebuild; commit the generated SVGs with the HTML.
 Each post has a dedicated schematic in `blog-art/<post-name>.svg`, inserted at
 `<!--#POST_BACKGROUND-->`. These are exported into `images/blog-backgrounds/`
 in light and dark variants, using the shared ink styles and theme tokens.
-Each 1000×1800 tile has six subject-specific sketches and its own continuous
-texture (particle contacts, circuit routing, causal graphs, etc.). The opening
-sketch straddles the tile boundary and is duplicated at both ends so it reconnects
-when repeated. Connecting paths also meet at the top and bottom. CSS repeats the
+Each 1000×1800 tile has three subject-specific sketches spaced roughly 600 units
+apart, with a quiet continuous line connecting them. Connecting paths meet at the
+top and bottom so repeats stay seamless. CSS repeats the
 artwork at its original proportions for the full article height, including when
 content expands or JavaScript is unavailable. A horizontal mask softens artwork
 under the reading column. Edit the dedicated SVGs rather than the generated assets.
 `blog-view.js` switches between the list and tiles and remembers the selection.
 
-All posts get the shared comment section from `comments.html`; the home page gets
-the private message dialog from `contact-form.html`. Public integration settings
+Once Cactus is registered, posts get the compact comment section from `comments.html`;
+the home page gets the inline message form from `contact-form.html`. Public integration settings
 live in `community.json`. See [service activation instructions](../_services/README.md)
 for registering Cactus and managing the Formspree destination. Comments remain
-unavailable until a Cactus site is registered. The contact form posts directly
-to the configured Formspree endpoint using standard HTML; `contact.js` only
-opens and closes its dialog. Email remains available without JavaScript.
+hidden until a Cactus site is registered. The contact form posts directly
+to the configured Formspree endpoint using standard HTML. `contact.js` expands
+the form beside Contact (below it on mobile) and prefills an editable name from
+the configured homeserver's local Cactus identity without contacting Matrix.
+Closing the form preserves edits. Email remains available without JavaScript.
 
 The shared header order lives in `NAV_ITEMS`. Local HTML links carry a `nav`
 version derived from that list so switching pages refreshes documents cached
