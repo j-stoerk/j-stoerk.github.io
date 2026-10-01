@@ -78,7 +78,7 @@
     "summary": "Certified retention is easy for frozen features and collapses once the representation moves. A bottom-up stripe benchmark that makes adaptation provably necessary, and CARG, the metric for the accuracy you lose when the retention certificate has to hold.",
     "feedDescription": "Certified retention under a changing representation: a bottom-up stripe benchmark where a frozen encoder provably cannot win, and the CARG metric for the accuracy-retention tradeoff.",
     "rfc822": "Sun, 23 Aug 2026 08:00:00 +0200",
-    "lastmod": "2026-09-30",
+    "lastmod": "2026-10-01",
     "math": true,
     "trail": "learning"
   },
@@ -172,7 +172,7 @@
     "summary": "How learning a new task damages an old one, and how interference geometry suggests a structural controller.",
     "feedDescription": "Forgetting as interference energy under a task's feature covariance, and the IGFA controller.",
     "rfc822": "Sun, 05 Jul 2026 08:00:00 +0200",
-    "lastmod": "2026-09-30",
+    "lastmod": "2026-10-01",
     "math": true,
     "trail": "learning"
   },
