@@ -72,6 +72,115 @@
   window.addEventListener('resize', wake, { passive: true });
   new MutationObserver(() => { readPalette(); wake(); }).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
 
+  // A layered material surface assembles from data points, then follows the reader.
+  (function introduction() {
+    const hero = $('#home'), canvas = $('#intro-canvas'), stage = $('.hero-stage');
+    if (!hero || !canvas || !stage) return;
+    const pointer = { x: 0, y: 0 }, eased = { x: 0, y: 0 };
+    let pulse = -100;
+    hero.addEventListener('pointermove', event => {
+      if (paused || event.pointerType !== 'mouse') return;
+      const rect = stage.getBoundingClientRect();
+      pointer.x = clamp((event.clientX - rect.left) / rect.width * 2 - 1, -.9, .9);
+      pointer.y = clamp((event.clientY - rect.top) / rect.height * 2 - 1, -.9, .9);
+      wake();
+    });
+    hero.addEventListener('pointerleave', () => { pointer.x = pointer.y = 0; wake(); });
+    stage.addEventListener('pointerdown', event => {
+      if (paused) return;
+      const rect = stage.getBoundingClientRect();
+      pointer.x = clamp((event.clientX - rect.left) / rect.width * 2 - 1, -.9, .9);
+      pointer.y = clamp((event.clientY - rect.top) / rect.height * 2 - 1, -.9, .9);
+      pulse = elapsed;
+      wake();
+    });
+    window.addEventListener('scroll', () => { if (!paused) wake(); }, { passive: true });
+    scene(canvas, (ctx, width, height, time, dt) => {
+      stage.dataset.ready = 'true';
+      const entrance = paused ? 1 : clamp(time / 1.8, 0, 1);
+      const assembled = entrance * entrance * (3 - 2 * entrance);
+      stage.dataset.introState = assembled === 1 ? 'settled' : 'forming';
+      eased.x = mix(eased.x, pointer.x, Math.min(1, dt * 5));
+      eased.y = mix(eased.y, pointer.y, Math.min(1, dt * 5));
+      const scroll = paused ? 0 : clamp(-hero.getBoundingClientRect().top / hero.offsetHeight, 0, 1);
+      const yaw = .42 + eased.x * .28 + Math.sin(time * .18) * .12;
+      const pitch = -.65 + eased.y * .18 + scroll * .28;
+      const roll = -.22 + Math.sin(time * .13) * .055;
+      const scale = Math.min(width / 510, height / 580) * (1 + scroll * .1);
+      const cx = width * .5, cy = height * .43;
+      const cosY = Math.cos(yaw), sinY = Math.sin(yaw), cosP = Math.cos(pitch), sinP = Math.sin(pitch);
+      const cosR = Math.cos(roll), sinR = Math.sin(roll);
+      const columns = width < 330 ? 23 : 29, rows = width < 330 ? 17 : 23;
+      function project(u, v, layer = 0, gather = 1) {
+        let x = u * 185, y = v * 195;
+        const distance = Math.hypot(u - eased.x, v - eased.y);
+        const age = time - pulse;
+        const ripple = age < 3 ? Math.sin(distance * 9 - age * 6) * Math.exp(-distance * 2.5 - age * 1.5) * 22 : 0;
+        let z = 78 * Math.sin(u * 2.5 + v * .7 + Math.sin(time * .24) * .25)
+          + 38 * Math.sin(v * 2.2 + time * .2) + layer + ripple;
+        const seed = Math.sin(u * 37 + v * 73);
+        x += (1 - gather) * Math.sin(v * 9 + seed) * 110;
+        y += (1 - gather) * Math.cos(u * 8 - seed) * 120;
+        z += (1 - gather) * seed * 150;
+        const rx = x * cosY + z * sinY, rz = z * cosY - x * sinY;
+        const ry = y * cosP - rz * sinP, depth = y * sinP + rz * cosP;
+        const perspective = 700 / (700 - depth);
+        return { x: cx + (rx * cosR - ry * sinR) * scale * perspective,
+          y: cy + (rx * sinR + ry * cosR) * scale * perspective, z: depth, p: perspective };
+      }
+      function stroke(points, colour, alpha, lineWidth) {
+        ctx.beginPath();
+        points.forEach((point, i) => i ? ctx.lineTo(point.x, point.y) : ctx.moveTo(point.x, point.y));
+        ctx.strokeStyle = colour; ctx.globalAlpha = alpha; ctx.lineWidth = lineWidth; ctx.stroke();
+      }
+      // Grounded, quiet lighting rather than a neon or photographic backdrop.
+      const shadow = ctx.createRadialGradient(cx, height * .74, 0, cx, height * .74, width * .34);
+      shadow.addColorStop(0, palette.grid); shadow.addColorStop(1, 'transparent');
+      ctx.save(); ctx.translate(0, height * .74); ctx.scale(1, .18);
+      ctx.fillStyle = shadow; ctx.globalAlpha = .26 * assembled;
+      ctx.fillRect(0, -height * 4, width, height * 8); ctx.restore();
+      const grids = [-24, 0].map(layer => Array.from({ length: rows }, (_, row) =>
+        Array.from({ length: columns }, (_, col) => project(col / (columns - 1) * 2 - 1, row / (rows - 1) * 2 - 1, layer, assembled))));
+      grids.forEach((grid, layer) => {
+        if (layer) {
+          const faces = [];
+          for (let row = 0; row < rows - 1; row++) for (let col = 0; col < columns - 1; col++) {
+            const points = [grid[row][col], grid[row][col + 1], grid[row + 1][col + 1], grid[row + 1][col]];
+            faces.push({ points, depth: points.reduce((total, point) => total + point.z, 0) / 4 });
+          }
+          faces.sort((a, b) => a.depth - b.depth).forEach(face => {
+            ctx.beginPath(); face.points.forEach((point, i) => i ? ctx.lineTo(point.x, point.y) : ctx.moveTo(point.x, point.y));
+            ctx.closePath(); ctx.fillStyle = palette.blue;
+            ctx.globalAlpha = (.025 + (face.depth + 260) / 520 * .06) * assembled; ctx.fill();
+          });
+        }
+        grid.forEach((line, row) => stroke(line, layer ? palette.blue : palette.ink,
+          (layer ? .2 + row / rows * .24 : .1) * assembled, layer ? .75 : .5));
+        for (let col = 0; col < columns; col += layer ? 1 : 3) {
+          stroke(grid.map(row => row[col]), layer ? palette.blue : palette.ink, (layer ? .18 : .08) * assembled, .5);
+        }
+      });
+      const nodes = grids[1].flat().sort((a, b) => a.z - b.z);
+      nodes.forEach((point, i) => {
+        ctx.beginPath(); ctx.arc(point.x, point.y, Math.max(.5, point.p * (i % 11 === 0 ? 1.6 : .65)), 0, Math.PI * 2);
+        ctx.fillStyle = i % 11 === 0 ? palette.blue : palette.ink;
+        ctx.globalAlpha = (.24 + (point.z + 250) / 500 * .4) * (.6 + .4 * assembled); ctx.fill();
+      });
+      // A warm path follows the structure while the material breathes beneath it.
+      const route = Array.from({ length: 80 }, (_, i) => {
+        const u = i / 79 * 2 - 1;
+        return project(u, .34 * Math.sin(u * 3 + time * .12), 3);
+      });
+      stroke(route, palette.gold, .75 * assembled, 1.35);
+      for (let i = 0; i < 3; i++) {
+        const at = ((time * .065 + i / 3) % 1) * 79, point = route[Math.floor(at)];
+        ctx.beginPath(); ctx.arc(point.x, point.y, 2.8 * point.p, 0, Math.PI * 2);
+        ctx.globalAlpha = .9 * assembled; ctx.fillStyle = palette.gold; ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    });
+  })();
+
   // Recent notes and topic trails share the same blog explorer.
   (function atlas() {
     const buttons = $$('[data-topic]'), panels = $$('.atlas-panel');
@@ -131,7 +240,7 @@
     const old = $('.portfolio-page .page-art');
     if (!old) return;
     const groups = Array.from($('svg', old).children).filter(e => e.tagName.toLowerCase() === 'g' && e.hasAttribute('transform'));
-    const targets = ['home', 'experience', null, 'publications', 'writing', 'software', 'contributions'];
+    const targets = [null, 'experience', null, 'publications', 'writing', 'software', 'contributions'];
     const io = 'IntersectionObserver' in window ? new IntersectionObserver(items => items.forEach(e => e.target.classList.toggle('sketch-visible', e.isIntersecting))) : null;
     groups.forEach((original, i) => {
       if (!targets[i]) return;

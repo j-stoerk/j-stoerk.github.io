@@ -53,8 +53,8 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=6d568a8d">
-  <link rel="stylesheet" href="experiences.css?v=a4cc65a9">
+  <link rel="stylesheet" href="styles.css?v=5e7b9811">
+  <link rel="stylesheet" href="experiences.css?v=4635f742">
   <link rel="stylesheet" href="katex/katex.min.css">
 </head>
 
@@ -63,18 +63,18 @@
 
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="site-title" href="index.html">Home</a>
+      <a class="site-title" href="index.html?nav=fe6093f0">Home</a>
       <button class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
         <span class="nav-toggle-lines" aria-hidden="true"></span>
         <span class="sr-only">Open navigation</span>
       </button>
       <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
-        <a href="index.html#publications">Publications</a>
-        <a href="index.html#software">Code</a>
-        <a class="current" href="blog.html" aria-current="page">Blog</a>
-        <a href="index.html#experience">Experience</a>
-        <a href="cv.html">CV</a>
-        <a href="index.html#contact">Contact</a>
+        <a href="index.html?nav=fe6093f0#publications" data-nav-label="Publications">Publications</a>
+        <a href="index.html?nav=fe6093f0#software" data-nav-label="Code">Code</a>
+        <a class="current" href="blog.html?nav=fe6093f0" data-nav-label="Blog" aria-current="page">Blog</a>
+        <a href="index.html?nav=fe6093f0#experience" data-nav-label="Experience">Experience</a>
+        <a href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
+        <a href="index.html?nav=fe6093f0#contact" data-nav-label="Contact">Contact</a>
         <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
       </nav>
     </div>
@@ -98,7 +98,7 @@
         </g>
       </svg>
     </div>
-    <a class="back-link" href="blog.html">All posts</a>
+    <a class="back-link" href="blog.html?nav=fe6093f0">All posts</a>
     <article class="post" id="jev-output-heads">
       <div class="post-cover media-cover">
         <div class="media">
@@ -224,7 +224,7 @@
         <h2>The bridge to continual learning</h2>
         <p>In multi-head task-incremental learning, each task has its own classification head while the network shares a feature extractor. Labels from different tasks do not have to compete in a single softmax. A study by Lanzillotta, Meier, and Hofmann finds Neural Collapse structure within task heads, with variable alignment and scaling across tasks <sup class="cite">[<a href="#ref-4">4</a>]</sup>.</p>
         <p>There is a useful analogy here. Continual learning separates heads by task; a manufacturing model can separate outputs by decision semantics. A quality class, a conductivity estimate, and a review probability carry different meanings and error costs. Each can have its own loss, validation set, and calibration procedure while drawing on common process features.</p>
-        <p>Shared features still create interference. Updating the encoder for one objective can move the representation used by every other head. That connects directly to my <a href="post-geometry-of-forgetting.html">IGFA work</a>: separate outputs help organize tasks, while retention under a changing representation remains a problem that the training procedure must address.</p>
+        <p>Shared features still create interference. Updating the encoder for one objective can move the representation used by every other head. That connects directly to my <a href="post-geometry-of-forgetting.html?nav=fe6093f0">IGFA work</a>: separate outputs help organize tasks, while retention under a changing representation remains a problem that the training procedure must address.</p>
 
         <h2>A process controller with several outputs</h2>
         <p>Battery manufacturing already lives in a world of multiple tasks and outputs: coating experiment design, calendering settings, impedance analysis, cycling prediction, and drift detection. The labels include pass/fail, risk levels, continuous properties, and decisions about whether to trust a prediction.</p>
@@ -251,13 +251,13 @@
         <li id="ref-2">TypeSafe AI. <a href="https://docs.typesafe.ai/introduction" target="_blank" rel="noopener noreferrer">Official introduction and typed decision primitives</a>.</li>
         <li id="ref-3">Gestalt-Lab. <a href="https://github.com/Gestalt-Lab/jeff" target="_blank" rel="noopener noreferrer">Jeff 1: implementation, evaluation, and training guide</a>.</li>
         <li id="ref-4">Lanzillotta, G., Meier, D., and Hofmann, T. <a href="https://arxiv.org/abs/2512.07400v2" target="_blank" rel="noopener noreferrer">Heads Collapse, Features Stay: Why Replay Needs Big Buffers</a>, 2026.</li>
-        <li>Störk, J. <a href="post-geometry-of-forgetting.html">The Geometry of Forgetting in Continual Learning</a> and <a href="post-calendering-u-shape.html">the calendering U-shape</a>.</li>
+        <li>Störk, J. <a href="post-geometry-of-forgetting.html?nav=fe6093f0">The Geometry of Forgetting in Continual Learning</a> and <a href="post-calendering-u-shape.html?nav=fe6093f0">the calendering U-shape</a>.</li>
       </ol></section>
 
     </article>
 
     <nav class="post-pager" aria-label="More posts">
-      <a href="post-disco-dry-run.html">
+      <a href="post-disco-dry-run.html?nav=fe6093f0">
         <span class="eyebrow">Next post</span>
         <span class="post-pager-title">DisCo and the Case for Reusable Agent Skills</span>
       </a>
@@ -266,7 +266,7 @@
 
   <footer class="content">
     <span>© 2026 Julius Störk</span>
-    <span><a href="blog.html">All posts</a></span>
+    <span><a href="blog.html?nav=fe6093f0">All posts</a></span>
   </footer>
 
   <script src="theme.js?v=e512a566"></script>

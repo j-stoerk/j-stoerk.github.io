@@ -53,8 +53,8 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=6d568a8d">
-  <link rel="stylesheet" href="experiences.css?v=a4cc65a9">
+  <link rel="stylesheet" href="styles.css?v=5e7b9811">
+  <link rel="stylesheet" href="experiences.css?v=4635f742">
   <link rel="stylesheet" href="katex/katex.min.css">
 </head>
 
@@ -63,18 +63,18 @@
 
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="site-title" href="index.html">Home</a>
+      <a class="site-title" href="index.html?nav=fe6093f0">Home</a>
       <button class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
         <span class="nav-toggle-lines" aria-hidden="true"></span>
         <span class="sr-only">Open navigation</span>
       </button>
       <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
-        <a href="index.html#publications">Publications</a>
-        <a href="index.html#software">Code</a>
-        <a class="current" href="blog.html" aria-current="page">Blog</a>
-        <a href="index.html#experience">Experience</a>
-        <a href="cv.html">CV</a>
-        <a href="index.html#contact">Contact</a>
+        <a href="index.html?nav=fe6093f0#publications" data-nav-label="Publications">Publications</a>
+        <a href="index.html?nav=fe6093f0#software" data-nav-label="Code">Code</a>
+        <a class="current" href="blog.html?nav=fe6093f0" data-nav-label="Blog" aria-current="page">Blog</a>
+        <a href="index.html?nav=fe6093f0#experience" data-nav-label="Experience">Experience</a>
+        <a href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
+        <a href="index.html?nav=fe6093f0#contact" data-nav-label="Contact">Contact</a>
         <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
       </nav>
     </div>
@@ -99,7 +99,7 @@
         </g>
       </svg>
     </div>
-    <a class="back-link" href="blog.html">All posts</a>
+    <a class="back-link" href="blog.html?nav=fe6093f0">All posts</a>
     <article class="post" id="disco-dry-run">
       <div class="post-cover media-cover">
         <div class="media">
@@ -191,7 +191,7 @@
         <p>This is useful when an agent repeatedly works on related problems. The workflow for a hyperparameter search can preserve the correct split, scoring convention, and recovery path across many runs. The next session can start from that procedure instead of reconstructing it from scattered notebooks.</p>
 
         <h2>DisCo on my calendering model</h2>
-        <p>For this article’s 30 September update, I ran DisCo 0.2.1 in Creator mode on my <a href="post-calendering-u-shape.html">calendering project</a>, using Kimi K2.6 through OpenRouter. The anchor was the actual source repository: the electrode thermal model, data-loading routines, measured calendering states, documentation, and tests. I scoped the extraction to forward through-plane conductivity and the contact/reorientation workflow <sup class="cite">[<a href="#ref-3">3</a>]</sup>.</p>
+        <p>For this article’s 30 September update, I ran DisCo 0.2.1 in Creator mode on my <a href="post-calendering-u-shape.html?nav=fe6093f0">calendering project</a>, using Kimi K2.6 through OpenRouter. The anchor was the actual source repository: the electrode thermal model, data-loading routines, measured calendering states, documentation, and tests. I scoped the extraction to forward through-plane conductivity and the contact/reorientation workflow <sup class="cite">[<a href="#ref-3">3</a>]</sup>.</p>
         <p>Creator identified the conductivity and inverse-porosity APIs, the family-specific calibration routines, and the distinction between gas-filled and electrolyte-filled pores. It exercised ten groups of assertions against the repository’s Python implementation on CPU.</p>
         <div class="table-wrap"><table>
           <thead><tr><th scope="col">Check</th><th scope="col">Result</th></tr></thead>
@@ -217,7 +217,7 @@
         </table></div>
         <p>Separate wet-graphite forward/inverse checks recovered all three porosities with errors below <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>8</mn></mrow></msup></mrow><annotation encoding="application/x-tex">10^{-8}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">8</span></span></span></span></span></span></span></span></span></span></span></span>. This is a small illustrative sweep, with the script and numerical output retained alongside the skill. The fixed contact fraction demonstrates the model’s response; a recipe-specific prediction requires calibration.</p>
         <p>That exercise made the Creator/Researcher split tangible: the first session assembled the API conventions and checks; the second used them for a new request. Reviewing the generated record still mattered. I corrected its date, check-count labels, and an unsupported total-runtime claim against the command output. Execution evidence belongs next to the instructions.</p>
-        <p>The <a href="post-geometry-of-forgetting.html">continual-learning work</a> supplies another recurring workflow: specify the task sequence, freeze or adapt the representation explicitly, compare IGFA with matched baselines, and record accuracy together with forgetting. A low forgetting score has little value if projection has also stopped the new task from learning. The feature regime, random seeds, retained update norm, and available capacity belong in the operating instructions.</p>
+        <p>The <a href="post-geometry-of-forgetting.html?nav=fe6093f0">continual-learning work</a> supplies another recurring workflow: specify the task sequence, freeze or adapt the representation explicitly, compare IGFA with matched baselines, and record accuracy together with forgetting. A low forgetting score has little value if projection has also stopped the new task from learning. The feature regime, random seeds, retained update norm, and available capacity belong in the operating instructions.</p>
         <p>The practical starting point is one repository and one short, executable chain. Keep units, parameter conventions, and physical checks in the skill; route to deeper references when needed. For larger Researcher tasks—comparing acquisition rules, predicting held-out states, or running an IGFA sequence—the data split, task order, and resource budget should be fixed before comparing results. The CPU checks establish that the packaged procedure runs; measuring how much time or accuracy the skill adds requires a separate comparison.</p>
 
         <h2>Why operational knowledge is worth the effort</h2>
@@ -240,14 +240,14 @@
       <section class="post-sources"><h3>Sources</h3><ol class="sources">
         <li id="ref-1">Chen, J., et al. <a href="https://arxiv.org/abs/2609.02749" target="_blank" rel="noopener noreferrer">Repo-To-Skill: Distilling GitHub Repositories Into AI4AI Skills</a>, 2026. See also the authors’ <a href="https://github.com/VectorSpaceLab/AREX-Skill" target="_blank" rel="noopener noreferrer">AREX-Skill library and benchmark table</a>.</li>
         <li id="ref-2">VectorSpaceLab. <a href="https://github.com/VectorSpaceLab/AREX-Skill/blob/main/docs/disco-workflows.md" target="_blank" rel="noopener noreferrer">DisCo Creator and Researcher workflows</a>.</li>
-        <li id="ref-3">Störk, J. <a href="https://github.com/j-stoerk/zehner-electrode-thermal" target="_blank" rel="noopener noreferrer">Zehner electrode thermal model</a>; <a href="post-calendering-u-shape.html">calendering note</a> and <a href="zehner-closure.pdf">manuscript</a>.</li>
-        <li>Störk, J. <a href="post-geometry-of-forgetting.html">The Geometry of Forgetting in Continual Learning</a>, with <a href="forgetting-geometry.pdf">draft manuscript</a>.</li>
+        <li id="ref-3">Störk, J. <a href="https://github.com/j-stoerk/zehner-electrode-thermal" target="_blank" rel="noopener noreferrer">Zehner electrode thermal model</a>; <a href="post-calendering-u-shape.html?nav=fe6093f0">calendering note</a> and <a href="zehner-closure.pdf">manuscript</a>.</li>
+        <li>Störk, J. <a href="post-geometry-of-forgetting.html?nav=fe6093f0">The Geometry of Forgetting in Continual Learning</a>, with <a href="forgetting-geometry.pdf">draft manuscript</a>.</li>
       </ol></section>
 
     </article>
 
     <nav class="post-pager" aria-label="More posts">
-      <a href="post-convmem.html">
+      <a href="post-convmem.html?nav=fe6093f0">
         <span class="eyebrow">Next post</span>
         <span class="post-pager-title">Reading ConvMem: Long-Context Reasoning as a Summary Tree</span>
       </a>
@@ -256,7 +256,7 @@
 
   <footer class="content">
     <span>© 2026 Julius Störk</span>
-    <span><a href="blog.html">All posts</a></span>
+    <span><a href="blog.html?nav=fe6093f0">All posts</a></span>
   </footer>
 
   <script src="theme.js?v=e512a566"></script>

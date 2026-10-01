@@ -317,7 +317,7 @@ button {
   display: flex;
   align-items: center;
   gap: var(--space-5);
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .nav-toggle {
@@ -366,6 +366,17 @@ button {
   color: var(--color-text-muted);
   text-decoration: none;
   padding: .2rem 0;
+  white-space: nowrap;
+}
+
+/* Reserve the bold label's width so the active page never shifts its neighbours. */
+.nav a::before {
+  content: attr(data-nav-label);
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  font-weight: 600;
 }
 
 .nav a:hover {

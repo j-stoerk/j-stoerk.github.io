@@ -118,8 +118,8 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=6d568a8d">
-  <link rel="stylesheet" href="experiences.css?v=a4cc65a9">
+  <link rel="stylesheet" href="styles.css?v=5e7b9811">
+  <link rel="stylesheet" href="experiences.css?v=4635f742">
 </head>
 
 <body class="portfolio-page">
@@ -133,12 +133,12 @@
         <span class="sr-only">Open navigation</span>
       </button>
       <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
-        <a href="#publications">Publications</a>
-        <a href="#software">Code</a>
-        <a href="blog.html">Blog</a>
-        <a href="#experience">Experience</a>
-        <a href="cv.html">CV</a>
-        <a href="#contact">Contact</a>
+        <a href="#publications" data-nav-label="Publications">Publications</a>
+        <a href="#software" data-nav-label="Code">Code</a>
+        <a href="blog.html?nav=fe6093f0" data-nav-label="Blog">Blog</a>
+        <a href="#experience" data-nav-label="Experience">Experience</a>
+        <a href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
+        <a href="#contact" data-nav-label="Contact">Contact</a>
         <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
       </nav>
     </div>
@@ -270,8 +270,8 @@
       </svg>
     </div>
 
-    <section class="hero" id="home">
-      <div>
+    <section class="hero hero-intro" id="home">
+      <div class="hero-copy">
         <p class="eyebrow hero-kicker">Doctoral researcher</p>
         <div class="hero-identity">
           <h1>Julius Störk</h1>
@@ -295,16 +295,20 @@
           <a href="#publications">Publications</a>
           <a href="#software">Code</a>
           <a href="#writing">Blog</a>
-          <a href="cv.html">CV</a>
+          <a href="cv.html?nav=fe6093f0">CV</a>
         </nav>
       </div>
-      <div class="hero-portrait">
-        <picture>
+      <figure class="hero-stage" aria-label="An abstract electrode surface connecting material structure and learning">
+        <img class="hero-static" src="images/intro-surface.svg" alt="" width="600" height="680">
+        <canvas id="intro-canvas" width="600" height="680" aria-hidden="true"></canvas>
+        <div class="hero-stage-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+        <picture class="hero-portrait">
           <source type="image/webp" srcset="portrait-176.webp 1x, portrait-352.webp 2x">
           <img class="portrait-img" src="portrait.jpg" alt="Portrait of Julius Störk" width="176" height="176"
             fetchpriority="high">
         </picture>
-      </div>
+        <figcaption>Process <span aria-hidden="true">&#8596;</span> structure <span aria-hidden="true">&#8596;</span> learning</figcaption>
+      </figure>
     </section>
 
     <section class="section" id="publications">
@@ -346,7 +350,7 @@
               <a class="publication-link" href="https://github.com/j-stoerk/geometry-of-forgetting" target="_blank"
               rel="noopener noreferrer">Code &amp; data</a>
               <a class="publication-link" href="forgetting-geometry.pdf">PDF</a>
-              <a class="publication-link" href="post-geometry-of-forgetting.html">Explore the article</a>
+              <a class="publication-link" href="post-geometry-of-forgetting.html?nav=fe6093f0">Explore the article</a>
             </div>
           <details class="bibtex publication-details">
             <summary>Details &amp; BibTeX</summary>
@@ -428,7 +432,7 @@
               <a class="publication-link" href="https://github.com/j-stoerk/zehner-electrode-thermal" target="_blank"
               rel="noopener noreferrer">Code &amp; data</a>
               <a class="publication-link" href="zehner-closure.pdf">PDF</a>
-              <a class="publication-link" href="post-calendering-u-shape.html">Explore the article</a>
+              <a class="publication-link" href="post-calendering-u-shape.html?nav=fe6093f0">Explore the article</a>
             </div>
           <details class="bibtex publication-details">
             <summary>Details &amp; BibTeX</summary>
@@ -469,7 +473,7 @@
       <p class="section-lead">From research code to autonomous agents.</p>
       <div class="pub-list">
         <div class="item software-project">
-          <a class="software-art" href="post-geometry-of-forgetting.html" aria-label="Read the research behind geometry-of-forgetting"><img src="images/blog-covers/post-geometry-of-forgetting.svg" alt="Task covariance contours and an update split into protected and free directions" width="1200" height="675" loading="lazy"><span>Task geometry &middot; paper &amp; code &#8599;</span></a>
+          <a class="software-art" href="post-geometry-of-forgetting.html?nav=fe6093f0" aria-label="Read the research behind geometry-of-forgetting"><img src="images/blog-covers/post-geometry-of-forgetting.svg" alt="Task covariance contours and an update split into protected and free directions" width="1200" height="675" loading="lazy"><span>Task geometry &middot; paper &amp; code &#8599;</span></a>
           <div class="software-copy">
           <strong><a href="https://github.com/j-stoerk/geometry-of-forgetting" target="_blank"
               rel="noopener noreferrer">geometry-of-forgetting</a></strong>
@@ -480,7 +484,7 @@
           </div>
         </div>
         <div class="item software-project">
-          <a class="software-art" href="post-calendering-u-shape.html" aria-label="Read the research behind zehner-electrode-thermal"><img src="images/blog-covers/post-calendering-u-shape.svg" alt="Electrode particles and the calendering-dependent thermal response" width="1200" height="675" loading="lazy"><span>Process &rarr; property &middot; paper &amp; code &#8599;</span></a>
+          <a class="software-art" href="post-calendering-u-shape.html?nav=fe6093f0" aria-label="Read the research behind zehner-electrode-thermal"><img src="images/blog-covers/post-calendering-u-shape.svg" alt="Electrode particles and the calendering-dependent thermal response" width="1200" height="675" loading="lazy"><span>Process &rarr; property &middot; paper &amp; code &#8599;</span></a>
           <div class="software-copy">
           <strong><a href="https://github.com/j-stoerk/zehner-electrode-thermal" target="_blank"
               rel="noopener noreferrer">zehner-electrode-thermal</a></strong>
@@ -517,7 +521,7 @@
     <section class="section" id="writing">
       <div class="section-head">
         <h2>Blog</h2>
-        <a class="link-more outline-action" href="blog.html"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5C7 2 3 3 2 4v12c3-2 6-2 8 0 2-2 5-2 8 0V4c-1-1-5-2-8 1z M10 5v11"/></svg><span>all posts</span></a>
+        <a class="link-more outline-action" href="blog.html?nav=fe6093f0"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5C7 2 3 3 2 4v12c3-2 6-2 8 0 2-2 5-2 8 0V4c-1-1-5-2-8 1z M10 5v11"/></svg><span>all posts</span></a>
       </div>
 
             <section class="research-explorer blog-explorer" data-feature="research-atlas" aria-labelledby="atlas-heading">
@@ -536,30 +540,30 @@
           <div class="atlas-work" id="atlas-work">
             <p class="atlas-trail" id="atlas-trail" role="status">Latest / Fresh from the notebook</p>
             <div class="atlas-panel" id="atlas-latest" data-active="true" role="region" aria-label="Latest blog posts">
-              <a class="atlas-story" data-post="post-jev-output-heads.html" data-preview="true" href="post-jev-output-heads.html"><img src="images/blog-covers/post-jev-output-heads.svg?v=bf052a21" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>27 September 2026 &middot; AI research</small><strong>How to (Not) Reinvent the Wheel With Jeff</strong><span class="atlas-intro">Jev, Jeff, and typed decisions: shared representations, task-specific heads, calibrated probabilities, and a concrete policy for when a manufacturing model acts or requests review.</span><em>Read the notes &#8599;</em></span></a>
-              <a class="atlas-story" data-post="post-disco-dry-run.html" data-preview="true" href="post-disco-dry-run.html"><img src="images/blog-covers/post-disco-dry-run.svg?v=d0e51de4" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>20 September 2026 &middot; AI agents</small><strong>DisCo and the Case for Reusable Agent Skills</strong><span class="atlas-intro">DisCo distills repositories and papers into reusable operating skills. Scope, ground, construct, and verify: a practical route from research knowledge to repeatable workflows.</span><em>Read the notes &#8599;</em></span></a>
+              <a class="atlas-story" data-post="post-jev-output-heads.html" data-preview="true" href="post-jev-output-heads.html?nav=fe6093f0"><img src="images/blog-covers/post-jev-output-heads.svg?v=bf052a21" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>27 September 2026 &middot; AI research</small><strong>How to (Not) Reinvent the Wheel With Jeff</strong><span class="atlas-intro">Jev, Jeff, and typed decisions: shared representations, task-specific heads, calibrated probabilities, and a concrete policy for when a manufacturing model acts or requests review.</span><em>Read the notes &#8599;</em></span></a>
+              <a class="atlas-story" data-post="post-disco-dry-run.html" data-preview="true" href="post-disco-dry-run.html?nav=fe6093f0"><img src="images/blog-covers/post-disco-dry-run.svg?v=d0e51de4" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>20 September 2026 &middot; AI agents</small><strong>DisCo and the Case for Reusable Agent Skills</strong><span class="atlas-intro">DisCo distills repositories and papers into reusable operating skills. Scope, ground, construct, and verify: a practical route from research knowledge to repeatable workflows.</span><em>Read the notes &#8599;</em></span></a>
             </div>
             <div class="atlas-panel" id="atlas-materials" role="region" aria-label="Materials blog posts">
-              <a class="atlas-story" data-post="post-dendrites-dandelions.html" data-preview="true" href="post-dendrites-dandelions.html"><img src="images/blog-covers/post-dendrites-dandelions.svg?v=f1c1979a" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>26 July 2026 &middot; Materials</small><strong>Lithium Dendrites Are Batteries' Dandelions</strong><span class="atlas-intro">Ceramic solid electrolytes still fail by dendrite. A March 2026 model derives a closed-form critical current density from first principles, and writes down the same physics that lets a dandelion crack a driveway.</span><em>Read the notes &#8599;</em></span></a>
-              <a class="atlas-story" data-post="post-calendering-u-shape.html" data-preview="true" href="post-calendering-u-shape.html"><img src="images/blog-covers/post-calendering-u-shape.svg?v=e364a052" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>28 June 2026 &middot; Electrode manufacturing</small><strong>Solving the Electrode Calendering U-Shape Puzzle</strong><span class="atlas-intro">Why particle reorientation reverses the monotone prediction made by porosity-only thermal models.</span><em>Read the notes &#8599;</em></span></a>
+              <a class="atlas-story" data-post="post-dendrites-dandelions.html" data-preview="true" href="post-dendrites-dandelions.html?nav=fe6093f0"><img src="images/blog-covers/post-dendrites-dandelions.svg?v=f1c1979a" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>26 July 2026 &middot; Materials</small><strong>Lithium Dendrites Are Batteries' Dandelions</strong><span class="atlas-intro">Ceramic solid electrolytes still fail by dendrite. A March 2026 model derives a closed-form critical current density from first principles, and writes down the same physics that lets a dandelion crack a driveway.</span><em>Read the notes &#8599;</em></span></a>
+              <a class="atlas-story" data-post="post-calendering-u-shape.html" data-preview="true" href="post-calendering-u-shape.html?nav=fe6093f0"><img src="images/blog-covers/post-calendering-u-shape.svg?v=e364a052" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>28 June 2026 &middot; Electrode manufacturing</small><strong>Solving the Electrode Calendering U-Shape Puzzle</strong><span class="atlas-intro">Why particle reorientation reverses the monotone prediction made by porosity-only thermal models.</span><em>Read the notes &#8599;</em></span></a>
             </div>
             <div class="atlas-panel" id="atlas-learning" role="region" aria-label="Learning blog posts">
-              <a class="atlas-story" data-post="post-convmem.html" data-preview="true" href="post-convmem.html"><img src="images/blog-covers/post-convmem.svg?v=fb92a247" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>13 September 2026 &middot; Reading notes</small><strong>Reading ConvMem: Long-Context Reasoning as a Summary Tree</strong><span class="atlas-intro">ConvMem reads a long document as a tree of question-conditioned summaries instead of a chain of memory updates, which cuts the path from a fact to the answer from linear to logarithmic. Notes on the method, results and cost, and seven ideas for a path shorter than logarithmic.</span><em>Read the notes &#8599;</em></span></a>
-              <a class="atlas-story" data-post="post-fair-evaluation.html" data-preview="true" href="post-fair-evaluation.html"><img src="images/blog-covers/post-fair-evaluation.svg?v=5ddc365c" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>23 August 2026 &middot; Continual learning</small><strong>Finding a Fair Evaluation Under Changing Representations</strong><span class="atlas-intro">Certified retention is easy for frozen features and collapses once the representation moves. A bottom-up stripe benchmark that makes adaptation provably necessary, and CARG, the metric for the accuracy you lose when the retention certificate has to hold.</span><em>Read the notes &#8599;</em></span></a>
-              <a class="atlas-story" data-post="post-student-becomes-teacher.html" data-preview="false" hidden href="post-student-becomes-teacher.html"><img src="images/blog-covers/post-student-becomes-teacher.svg?v=f245b6b6" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>16 August 2026 &middot; AI research</small><strong>The Student Becomes the Teacher</strong><span class="atlas-intro">Three 2026 papers let a language model supply its own supervision, the external teacher, the ground-truth labels, and the privileged context, all replaced by the model itself. What it buys, and where it breaks.</span><em>Read the notes &#8599;</em></span></a>
-              <a class="atlas-story" data-post="post-optimizing-reasoning.html" data-preview="false" hidden href="post-optimizing-reasoning.html"><img src="images/blog-covers/post-optimizing-reasoning.svg?v=100a6d42" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>9 August 2026 &middot; AI research</small><strong>From Simulating Speech to Optimizing Reasoning</strong><span class="atlas-intro">Three 2026 papers argue chain-of-thought text was never the reasoning. Reasoning is a latent direction, activated early, held in superposition, and compressible to a few tokens.</span><em>Read the notes &#8599;</em></span></a>
-              <a class="atlas-story" data-post="post-race-to-on.html" data-preview="false" hidden href="post-race-to-on.html"><img src="images/blog-covers/post-race-to-on.svg?v=12e09f08" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>2 August 2026 &middot; ML systems</small><strong>The Race to O(n)</strong><span class="atlas-intro">Every subquadratic-attention family relaxes one constraint while quietly keeping another. Five families, the routing-absorption trap, and why the frontier keeps flinching back to dense attention.</span><em>Read the notes &#8599;</em></span></a>
-              <a class="atlas-story" data-post="post-geometry-of-forgetting.html" data-preview="false" hidden href="post-geometry-of-forgetting.html"><img src="images/blog-covers/post-geometry-of-forgetting.svg?v=fedac32e" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>5 July 2026 &middot; Continual learning</small><strong>The Geometry of Forgetting in Continual Learning</strong><span class="atlas-intro">How learning a new task damages an old one, and how interference geometry suggests a structural controller.</span><em>Read the notes &#8599;</em></span></a>
+              <a class="atlas-story" data-post="post-convmem.html" data-preview="true" href="post-convmem.html?nav=fe6093f0"><img src="images/blog-covers/post-convmem.svg?v=fb92a247" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>13 September 2026 &middot; Reading notes</small><strong>Reading ConvMem: Long-Context Reasoning as a Summary Tree</strong><span class="atlas-intro">ConvMem reads a long document as a tree of question-conditioned summaries instead of a chain of memory updates, which cuts the path from a fact to the answer from linear to logarithmic. Notes on the method, results and cost, and seven ideas for a path shorter than logarithmic.</span><em>Read the notes &#8599;</em></span></a>
+              <a class="atlas-story" data-post="post-fair-evaluation.html" data-preview="true" href="post-fair-evaluation.html?nav=fe6093f0"><img src="images/blog-covers/post-fair-evaluation.svg?v=5ddc365c" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>23 August 2026 &middot; Continual learning</small><strong>Finding a Fair Evaluation Under Changing Representations</strong><span class="atlas-intro">Certified retention is easy for frozen features and collapses once the representation moves. A bottom-up stripe benchmark that makes adaptation provably necessary, and CARG, the metric for the accuracy you lose when the retention certificate has to hold.</span><em>Read the notes &#8599;</em></span></a>
+              <a class="atlas-story" data-post="post-student-becomes-teacher.html" data-preview="false" hidden href="post-student-becomes-teacher.html?nav=fe6093f0"><img src="images/blog-covers/post-student-becomes-teacher.svg?v=f245b6b6" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>16 August 2026 &middot; AI research</small><strong>The Student Becomes the Teacher</strong><span class="atlas-intro">Three 2026 papers let a language model supply its own supervision, the external teacher, the ground-truth labels, and the privileged context, all replaced by the model itself. What it buys, and where it breaks.</span><em>Read the notes &#8599;</em></span></a>
+              <a class="atlas-story" data-post="post-optimizing-reasoning.html" data-preview="false" hidden href="post-optimizing-reasoning.html?nav=fe6093f0"><img src="images/blog-covers/post-optimizing-reasoning.svg?v=100a6d42" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>9 August 2026 &middot; AI research</small><strong>From Simulating Speech to Optimizing Reasoning</strong><span class="atlas-intro">Three 2026 papers argue chain-of-thought text was never the reasoning. Reasoning is a latent direction, activated early, held in superposition, and compressible to a few tokens.</span><em>Read the notes &#8599;</em></span></a>
+              <a class="atlas-story" data-post="post-race-to-on.html" data-preview="false" hidden href="post-race-to-on.html?nav=fe6093f0"><img src="images/blog-covers/post-race-to-on.svg?v=12e09f08" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>2 August 2026 &middot; ML systems</small><strong>The Race to O(n)</strong><span class="atlas-intro">Every subquadratic-attention family relaxes one constraint while quietly keeping another. Five families, the routing-absorption trap, and why the frontier keeps flinching back to dense attention.</span><em>Read the notes &#8599;</em></span></a>
+              <a class="atlas-story" data-post="post-geometry-of-forgetting.html" data-preview="false" hidden href="post-geometry-of-forgetting.html?nav=fe6093f0"><img src="images/blog-covers/post-geometry-of-forgetting.svg?v=fedac32e" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>5 July 2026 &middot; Continual learning</small><strong>The Geometry of Forgetting in Continual Learning</strong><span class="atlas-intro">How learning a new task damages an old one, and how interference geometry suggests a structural controller.</span><em>Read the notes &#8599;</em></span></a>
             </div>
             <div class="atlas-panel" id="atlas-modelling" role="region" aria-label="Modelling blog posts">
-              <a class="atlas-story" data-post="post-jev-output-heads.html" data-preview="true" href="post-jev-output-heads.html"><img src="images/blog-covers/post-jev-output-heads.svg?v=bf052a21" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>27 September 2026 &middot; AI research</small><strong>How to (Not) Reinvent the Wheel With Jeff</strong><span class="atlas-intro">Jev, Jeff, and typed decisions: shared representations, task-specific heads, calibrated probabilities, and a concrete policy for when a manufacturing model acts or requests review.</span><em>Read the notes &#8599;</em></span></a>
-              <a class="atlas-story" data-post="post-inverted-fractions.html" data-preview="true" href="post-inverted-fractions.html"><img src="images/blog-covers/post-inverted-fractions.svg?v=d0aa9b8a" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>6 September 2026 &middot; LLMs in science</small><strong>I Checked 2,294 arXiv Equations for Upside-Down Fractions</strong><span class="atlas-intro">Copying rendered math from a chat window can put a fraction's denominator first. I reviewed every display equation in 60 arXiv papers and pattern-checked 200: 4.9% of display equations have a meaning-changing error, 2 of 118 errors are inverted fractions, and the rate did not change between 2021 and 2026.</span><em>Read the notes &#8599;</em></span></a>
-              <a class="atlas-story" data-post="post-causalpfn.html" data-preview="false" hidden href="post-causalpfn.html"><img src="images/blog-covers/post-causalpfn.svg?v=3128ae45" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>12 July 2026 &middot; Reading notes</small><strong>Reading CausalPFN: Causal Effects as In-Context Prediction</strong><span class="atlas-intro">A NeurIPS 2025 paper trains one transformer on simulated, identifiable causal worlds; new observational data goes in as context, treatment-effect posteriors come out. What holds it up, and where it breaks.</span><em>Read the notes &#8599;</em></span></a>
+              <a class="atlas-story" data-post="post-jev-output-heads.html" data-preview="true" href="post-jev-output-heads.html?nav=fe6093f0"><img src="images/blog-covers/post-jev-output-heads.svg?v=bf052a21" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>27 September 2026 &middot; AI research</small><strong>How to (Not) Reinvent the Wheel With Jeff</strong><span class="atlas-intro">Jev, Jeff, and typed decisions: shared representations, task-specific heads, calibrated probabilities, and a concrete policy for when a manufacturing model acts or requests review.</span><em>Read the notes &#8599;</em></span></a>
+              <a class="atlas-story" data-post="post-inverted-fractions.html" data-preview="true" href="post-inverted-fractions.html?nav=fe6093f0"><img src="images/blog-covers/post-inverted-fractions.svg?v=d0aa9b8a" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>6 September 2026 &middot; LLMs in science</small><strong>I Checked 2,294 arXiv Equations for Upside-Down Fractions</strong><span class="atlas-intro">Copying rendered math from a chat window can put a fraction's denominator first. I reviewed every display equation in 60 arXiv papers and pattern-checked 200: 4.9% of display equations have a meaning-changing error, 2 of 118 errors are inverted fractions, and the rate did not change between 2021 and 2026.</span><em>Read the notes &#8599;</em></span></a>
+              <a class="atlas-story" data-post="post-causalpfn.html" data-preview="false" hidden href="post-causalpfn.html?nav=fe6093f0"><img src="images/blog-covers/post-causalpfn.svg?v=3128ae45" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>12 July 2026 &middot; Reading notes</small><strong>Reading CausalPFN: Causal Effects as In-Context Prediction</strong><span class="atlas-intro">A NeurIPS 2025 paper trains one transformer on simulated, identifiable causal worlds; new observational data goes in as context, treatment-effect posteriors come out. What holds it up, and where it breaks.</span><em>Read the notes &#8599;</em></span></a>
             </div>
             <div class="atlas-panel" id="atlas-automation" role="region" aria-label="Automation blog posts">
-              <a class="atlas-story" data-post="post-disco-dry-run.html" data-preview="true" href="post-disco-dry-run.html"><img src="images/blog-covers/post-disco-dry-run.svg?v=d0e51de4" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>20 September 2026 &middot; AI agents</small><strong>DisCo and the Case for Reusable Agent Skills</strong><span class="atlas-intro">DisCo distills repositories and papers into reusable operating skills. Scope, ground, construct, and verify: a practical route from research knowledge to repeatable workflows.</span><em>Read the notes &#8599;</em></span></a>
-              <a class="atlas-story" data-post="post-glee-agent.html" data-preview="true" href="post-glee-agent.html"><img src="images/blog-covers/post-glee-agent.svg?v=7f127ae4" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>30 August 2026 &middot; AI agents</small><strong>I Ran a Game-Theory RL-Menu Agent in GLEE for 48 Hours (No LLM)</strong><span class="atlas-intro">A weekend building a no-LLM game-theory bot for the GLEE economic games (bargaining, negotiation, persuasion), and what actually moved the percentile score: scaling the reward, measuring in the right seat, and closing before inflation eats the pot. Includes a playable version of the three games.</span><em>Read the notes &#8599;</em></span></a>
-              <a class="atlas-story" data-post="post-physical-ai.html" data-preview="false" hidden href="post-physical-ai.html"><img src="images/blog-covers/post-physical-ai.svg?v=0f8ba499" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>19 July 2026 &middot; AI & infrastructure</small><strong>AI's Bottleneck Is Physical</strong><span class="atlas-intro">AI becomes truly useful when a physical feedback loop (power, heat, latency, sensors, data lineage, safe actuation) can run reliably. Where the loop is closed and why capability is not deployability.</span><em>Read the notes &#8599;</em></span></a>
+              <a class="atlas-story" data-post="post-disco-dry-run.html" data-preview="true" href="post-disco-dry-run.html?nav=fe6093f0"><img src="images/blog-covers/post-disco-dry-run.svg?v=d0e51de4" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>20 September 2026 &middot; AI agents</small><strong>DisCo and the Case for Reusable Agent Skills</strong><span class="atlas-intro">DisCo distills repositories and papers into reusable operating skills. Scope, ground, construct, and verify: a practical route from research knowledge to repeatable workflows.</span><em>Read the notes &#8599;</em></span></a>
+              <a class="atlas-story" data-post="post-glee-agent.html" data-preview="true" href="post-glee-agent.html?nav=fe6093f0"><img src="images/blog-covers/post-glee-agent.svg?v=7f127ae4" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>30 August 2026 &middot; AI agents</small><strong>I Ran a Game-Theory RL-Menu Agent in GLEE for 48 Hours (No LLM)</strong><span class="atlas-intro">A weekend building a no-LLM game-theory bot for the GLEE economic games (bargaining, negotiation, persuasion), and what actually moved the percentile score: scaling the reward, measuring in the right seat, and closing before inflation eats the pot. Includes a playable version of the three games.</span><em>Read the notes &#8599;</em></span></a>
+              <a class="atlas-story" data-post="post-physical-ai.html" data-preview="false" hidden href="post-physical-ai.html?nav=fe6093f0"><img src="images/blog-covers/post-physical-ai.svg?v=0f8ba499" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>19 July 2026 &middot; AI & infrastructure</small><strong>AI's Bottleneck Is Physical</strong><span class="atlas-intro">AI becomes truly useful when a physical feedback loop (power, heat, latency, sensors, data lineage, safe actuation) can run reliably. Where the loop is closed and why capability is not deployability.</span><em>Read the notes &#8599;</em></span></a>
             </div>
           </div>
         </div>
@@ -570,7 +574,7 @@
     <section class="section" id="experience">
       <div class="section-head">
         <h2>Selected experience</h2>
-        <a class="link-more outline-action" href="cv.html"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2h7l3 3v13H5z M12 2v4h4 M8 10h5 M8 13h5"/></svg><span>full CV</span></a>
+        <a class="link-more outline-action" href="cv.html?nav=fe6093f0"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2h7l3 3v13H5z M12 2v4h4 M8 10h5 M8 13h5"/></svg><span>full CV</span></a>
       </div>
       <p class="section-lead">From cathode chemistry and fuel-cell production to electrode manufacturing and continual learning.</p>
       <div class="career-layout">
@@ -702,17 +706,17 @@
     <div data-bio-card="data" data-title="Process data">
       <img src="images/blog-covers/post-causalpfn.svg" alt="" width="1200" height="675">
       <p>Measurements become useful when they can be traced to a material, a process state, and an outcome. That context helps a model support decisions on the line.</p>
-      <a href="post-jev-output-heads.html">From measurements to decisions &#8599;</a>
+      <a href="post-jev-output-heads.html?nav=fe6093f0">From measurements to decisions &#8599;</a>
     </div>
     <div data-bio-card="physics" data-title="Physical models">
       <img src="images/blog-covers/post-calendering-u-shape.svg" alt="" width="1200" height="675">
       <p>Physical models give learning methods useful constraints: transport paths, particle contacts, and how those structures change under processing.</p>
-      <a href="post-calendering-u-shape.html">Explore the thermal model &#8599;</a>
+      <a href="post-calendering-u-shape.html?nav=fe6093f0">Explore the thermal model &#8599;</a>
     </div>
     <div data-bio-card="performance" data-title="Electrochemical performance">
       <img src="images/bio/electrochemical-performance.svg" alt="" width="600" height="338">
       <p>Cycling and impedance data reveal how a cell responds. I use that response to connect manufacturing history with electrochemical behaviour.</p>
-      <a href="cv.html">Explore the experimental background &#8599;</a>
+      <a href="cv.html?nav=fe6093f0">Explore the experimental background &#8599;</a>
     </div>
     <div data-bio-card="electrodes" data-title="Electrode development">
       <img src="images/bio/electrode-development.svg" alt="" width="600" height="338">
@@ -722,12 +726,12 @@
     <div data-bio-card="learning" data-title="Continual learning">
       <img src="images/blog-covers/post-geometry-of-forgetting.svg" alt="" width="600" height="338">
       <p>A manufacturing model needs to adapt as conditions change while preserving useful knowledge from earlier data.</p>
-      <a href="post-geometry-of-forgetting.html">Explore the geometry of forgetting &#8599;</a>
+      <a href="post-geometry-of-forgetting.html?nav=fe6093f0">Explore the geometry of forgetting &#8599;</a>
     </div>
     <div data-bio-card="modelling" data-title="Process–property modelling">
       <img src="images/blog-covers/post-calendering-u-shape.svg" alt="" width="1200" height="675">
       <p>I connect processing conditions to the structure they create and the properties that follow, rather than modelling each step in isolation.</p>
-      <a href="post-calendering-u-shape.html">Follow the process–property connection &#8599;</a>
+      <a href="post-calendering-u-shape.html?nav=fe6093f0">Follow the process–property connection &#8599;</a>
     </div>
   </template>
 
@@ -742,7 +746,7 @@
   <script src="interactions.js?v=3cfec42c"></script>
   <script src="portal-transitions.js?v=d4060e4b"></script>
   <script src="cite.js?v=382b33f5"></script>
-  <script src="experiences.js?v=f30d8285"></script>
+  <script src="experiences.js?v=e17fcf9d"></script>
   <script src="bio-popovers.js?v=009ea442"></script>
   <script>
     window.addEventListener('load', function () {

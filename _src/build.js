@@ -103,13 +103,15 @@ const NAV_ITEMS = [
   ['cv', 'CV', 'cv.html'],
   ['contact', 'Contact', '#contact'],
 ];
+// Refresh cached documents whenever the shared navigation changes.
+const NAV_VERSION = crypto.createHash('md5').update(JSON.stringify(NAV_ITEMS)).digest('hex').slice(0, 8);
 
 function topbar(cfg) {
   const links = NAV_ITEMS.map(([key, label, href]) => {
     const url = href.startsWith('#') && !cfg.home ? 'index.html' + href : href;
     const cur = key === cfg.nav ? ' class="current"' : '';
     const aria = key === cfg.nav ? ' aria-current="page"' : '';
-    return `        <a${cur} href="${url}"${aria}>${label}</a>`;
+    return `        <a${cur} href="${url}" data-nav-label="${label}"${aria}>${label}</a>`;
   }).join('\n');
   const title = cfg.home
     ? '<a class="site-title" href="#home" aria-current="page">Home</a>'
@@ -224,6 +226,8 @@ for (const file of fs.readdirSync(pagesDir)) {
     html = html.replace('<!--#POST_CONTEXT-->', `<p class="post-context"><span>Why this matters</span>${context}</p>`);
   }
   if (cfg.math) html = renderMath(html, file);
+  html = html.replace(/href="([^":?#]+\.html)(#[^"]*)?"/g,
+    (_, page, hash = '') => `href="${page}?nav=${NAV_VERSION}${hash}"`);
   if (/<!--#/.test(html)) throw new Error(`${file}: unresolved marker`);
   fs.writeFileSync(path.join(ROOT, file), html);
   console.log('built', file);

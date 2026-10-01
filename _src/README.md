@@ -38,6 +38,10 @@ The build also extracts each post's `svg.cover-art` into
 source page and rebuild; commit the generated SVGs with the HTML.
 `blog-view.js` switches between the list and tiles and remembers the selection.
 
+The shared header order lives in `NAV_ITEMS`. Local HTML links carry a `nav`
+version derived from that list so switching pages refreshes documents cached
+with an older menu. Canonical URLs and in-page anchors remain unchanged.
+
 Runtime assets (styles.css, blog.js, blog-view.js, cite.js, theme.js, navigation.js,
 background.js, fonts, PDFs, images) are plain files at the root and are not
 generated.
@@ -54,8 +58,13 @@ browsers without the Popover API use a fixed-position card. The content lives in
 `bio-popovers.html`, inserted at `<!--#BIO_POPOVERS-->`. With JavaScript disabled,
 the bio remains plain text and its inline buttons are disabled.
 
-`experiences.js` contains independent initializers for the Blog topic explorer,
-section artwork, and career object. `experiences.css` styles these components,
+`experiences.js` contains independent initializers for the hero intro, Blog topic
+explorer, section artwork, and career object. The intro projects a layered
+electrode surface onto a canvas, assembling its points on arrival and responding
+to pointer movement, taps, and scroll. It uses the site's theme colours and the
+shared visibility-aware animation loop. Reduced motion renders a still surface;
+`images/intro-surface.svg` provides the fallback without JavaScript or canvas.
+`experiences.css` styles these components,
 compact publication details, section links, and
 static software illustrations. `portal-transitions.js` animates
 publication illustrations around ordinary navigation to the two companion
