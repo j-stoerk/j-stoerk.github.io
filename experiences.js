@@ -76,6 +76,53 @@
   (function introduction() {
     const hero = $('#home'), canvas = $('#intro-canvas'), stage = $('.hero-stage');
     if (!hero || !canvas || !stage) return;
+    const visual = $('.hero-visual', stage), count = $('[data-intro-count]', stage);
+    let fullScreen = root.classList.contains('intro-pending');
+    const playedIntro = fullScreen;
+    let docking = false, dockingAnimation, introStartedAt;
+    const reels = fullScreen ? $$('[data-intro-place]', stage).map(digit => {
+      const place = Number(digit.dataset.introPlace), reel = $('.intro-reel', digit);
+      // Long reels roll forward through 009 -> 010 and 099 -> 100 without snapping back.
+      reel.replaceChildren(...Array.from({ length: Math.floor(100 / place) + 1 }, (_, value) => {
+        const row = document.createElement('span'); row.textContent = String(value % 10); return row;
+      }));
+      return { place, reel };
+    }) : [];
+    function setCounter(value) {
+      const digits = String(value).padStart(3, '0');
+      if (count.textContent === digits) return;
+      count.textContent = digits;
+      reels.forEach(({ place, reel }) => { reel.style.transform = `translateY(-${Math.floor(value / place)}em)`; });
+    }
+    function finishIntro() {
+      if (!fullScreen) return;
+      fullScreen = false; docking = false;
+      root.classList.remove('intro-pending', 'intro-active');
+      clearTimeout(window.introFallback);
+      dockingAnimation?.cancel();
+      setCounter(100);
+      stage.dataset.introState = 'settled';
+      ['wheel', 'touchstart', 'keydown', 'focusin', 'resize', 'pagehide'].forEach(event => window.removeEventListener(event, finishIntro));
+      wake();
+    }
+    function dockIntro() {
+      if (docking) return;
+      docking = true; stage.dataset.introState = 'docking';
+      if (!visual.animate) { finishIntro(); return; }
+      const target = stage.getBoundingClientRect(), from = visual.getBoundingClientRect();
+      dockingAnimation = visual.animate([
+        { left: `${from.left}px`, top: `${from.top}px`, width: `${from.width}px`, height: `${from.height}px`, backgroundColor: getComputedStyle(visual).backgroundColor },
+        { left: `${target.left}px`, top: `${target.top}px`, width: `${target.width}px`, height: `${stage.clientHeight - 100}px`, backgroundColor: 'transparent' }
+      ], { duration: 900, easing: 'cubic-bezier(.22,.72,.2,1)', fill: 'forwards' });
+      dockingAnimation.finished.then(finishIntro, finishIntro);
+    }
+    if (fullScreen) {
+      clearTimeout(window.introFallback);
+      window.introFallback = setTimeout(finishIntro, 5000);
+      ['wheel', 'touchstart', 'keydown', 'focusin', 'resize', 'pagehide'].forEach(event => window.addEventListener(event, finishIntro, { passive: true }));
+      reduced.addEventListener('change', () => { if (reduced.matches) finishIntro(); });
+      if (!canvas.getContext('2d')) finishIntro();
+    }
     const pointer = { x: 0, y: 0 }, eased = { x: 0, y: 0 };
     let pulse = -100;
     hero.addEventListener('pointermove', event => {
@@ -97,16 +144,25 @@
     window.addEventListener('scroll', () => { if (!paused) wake(); }, { passive: true });
     scene(canvas, (ctx, width, height, time, dt) => {
       stage.dataset.ready = 'true';
-      const entrance = paused ? 1 : clamp(time / 1.8, 0, 1);
+      if (introStartedAt === undefined) introStartedAt = performance.now();
+      const openingTime = (performance.now() - introStartedAt) / 1000;
+      const progress = clamp((openingTime - .12) / 2.2, 0, 1);
+      const entrance = paused || (playedIntro && !fullScreen) ? 1 : fullScreen ? progress : clamp(time / 1.8, 0, 1);
       const assembled = entrance * entrance * (3 - 2 * entrance);
-      stage.dataset.introState = assembled === 1 ? 'settled' : 'forming';
+      if (fullScreen) {
+        setCounter(Math.floor(progress * 100));
+        visual.style.setProperty('--intro-progress', progress);
+        if (openingTime >= 2.52) dockIntro();
+      }
+      stage.dataset.introState = docking ? 'docking' : assembled === 1 ? 'settled' : 'forming';
       eased.x = mix(eased.x, pointer.x, Math.min(1, dt * 5));
       eased.y = mix(eased.y, pointer.y, Math.min(1, dt * 5));
       const scroll = paused ? 0 : clamp(-hero.getBoundingClientRect().top / hero.offsetHeight, 0, 1);
       const yaw = .42 + eased.x * .28 + Math.sin(time * .18) * .12;
       const pitch = -.65 + eased.y * .18 + scroll * .28;
       const roll = -.22 + Math.sin(time * .13) * .055;
-      const scale = Math.min(width / 510, height / 580) * (1 + scroll * .1);
+      const dockProgress = dockingAnimation?.effect.getComputedTiming().progress || 0;
+      const scale = Math.min(width / 510, height / 580) * (fullScreen ? 1.15 - .15 * dockProgress : 1) * (1 + scroll * .1);
       const cx = width * .5, cy = height * .43;
       const cosY = Math.cos(yaw), sinY = Math.sin(yaw), cosP = Math.cos(pitch), sinP = Math.sin(pitch);
       const cosR = Math.cos(roll), sinR = Math.sin(roll);
