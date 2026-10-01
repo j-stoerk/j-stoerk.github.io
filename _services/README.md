@@ -1,7 +1,9 @@
 # Activate comments and private messages
 
 Both frontends are implemented. The checked-in public configuration deliberately
-has no site registration, message endpoint, or Turnstile key. Until configured,
+has no site registration or Turnstile key. Your Worker endpoint is recorded, but
+message sending stays disabled until the email backend and verification are set up.
+Until configured,
 the website says comments/message sending are unavailable and offers direct email.
 No API key, Gmail credential, or owner Matrix token belongs in the static site.
 
@@ -54,6 +56,23 @@ The portfolio stays on GitHub Pages. Only the separate message endpoint runs
 on Cloudflare. The Worker sends to `julius.stoerk@gmail.com`, with the visitor's
 email as `reply_to`. Gmail does not need an app password or public API access.
 
+Your existing Worker is `lingering-brook-b11f-contact-form`, hosted at
+`https://lingering-brook-b11f-contact-form.julius-stoerk.workers.dev`.
+The website is configured to use its `/message` endpoint. The temporary code
+that logs the message and returns `{ ok: true }` does not deliver email. Replace
+it with `_services/contact/worker.mjs` before enabling the website's form.
+
+If you prefer the Cloudflare dashboard editor, paste the entire `worker.mjs`
+file into the Worker editor and deploy it. Under **Settings → Variables and
+Secrets**, add `SITE_ORIGIN` (`https://j-stoerk.github.io`), `CONTACT_TO`
+(`julius.stoerk@gmail.com`), and your verified `CONTACT_FROM` as text variables;
+add `RESEND_API_KEY` and `TURNSTILE_SECRET_KEY` as secrets. The required
+`CONTACT_RATE_LIMITER` binding is defined in `wrangler.toml`; use the Wrangler
+deployment commands below to provision it. Cloudflare's
+[rate-limit documentation](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/)
+currently notes that these bindings are not visible in the dashboard. Deploying
+with Wrangler installs the backend and binding together on your existing Worker.
+
 1. Create a [Cloudflare account](https://dash.cloudflare.com/sign-up) and a
    [Resend account](https://resend.com/signup).
 2. [Add and verify a sending domain in Resend](https://resend.com/docs/dashboard/domains/introduction).
@@ -74,13 +93,13 @@ email as `reply_to`. Gmail does not need an app password or public API access.
    npx wrangler deploy
    ```
 
-   Enter secrets only at Wrangler's prompts, never in a commit or chat. Set up
-   the Worker when Wrangler asks to create it. Its native rate-limit binding
+   Enter secrets only at Wrangler's prompts, never in a commit or chat. Select
+   the Cloudflare account that owns your existing Worker. Its native rate-limit binding
    allows three attempts per IP per minute; the binding is mandatory, not an
    in-memory fallback. Confirm your account supports the binding when deploying.
 
-5. In `_src/community.json`, set `contact.endpoint` to the deployed URL **ending
-   in `/message`**, e.g. `https://j-stoerk-contact.<account>.workers.dev/message`.
+5. In `_src/community.json`, your `contact.endpoint` is already set to
+   `https://lingering-brook-b11f-contact-form.julius-stoerk.workers.dev/message`.
    Set `contact.turnstileSiteKey` to the widget's **public** site key. Leave the
    private secret only in Cloudflare.
 6. From the repo root, rebuild, commit, and push. Send a short message through

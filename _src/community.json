@@ -5,7 +5,7 @@
     "siteName": ""
   },
   "contact": {
-    "endpoint": "",
+    "endpoint": "https://lingering-brook-b11f-contact-form.julius-stoerk.workers.dev/message",
     "turnstileSiteKey": ""
   }
 }
