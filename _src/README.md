@@ -93,7 +93,11 @@ milestones to readable HTML and `data/battery-market-volumes.csv` during a build
 The regional maps share one circle-area scale and keep circles at the mapped
 headquarters or project coordinates. Company-wide deployment is not output at the marked
 headquarters. Future planned starts remain targets and do not become historical
-production events. The video runs for 44 seconds in one continuous timeline.
+production events. The video uses one continuous timeline, currently about 75 seconds.
+Each announcement gets a short reveal followed by at least one full second at
+rest. Dense dates stretch the playback schedule; same-day announcements queue
+separately so none are overwritten. Caption timing uses video frames independently
+of the historical dates, and the duration adjusts automatically as events are added.
 The video contains only Europe and East Asia. North American and Indian entries
 remain in the downloadable data and are identified as omitted in the article.
 Labels have no background boxes and match their marker colours. A deterministic

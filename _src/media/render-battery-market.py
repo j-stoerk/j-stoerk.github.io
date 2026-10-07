@@ -17,7 +17,10 @@ from battery_map_drawing import Draw, Font
 from battery_map_layout import crossing_count, place_labels
 
 ROOT = Path(__file__).resolve().parents[2]
-W, H, FPS, DURATION = 1440, 780, 24, 44
+W, H, FPS = 1440, 780, 24
+NOMINAL_DURATION = 44
+INTRO_FRAMES, OUTRO_FRAMES = round(1.2 * FPS), round(3.5 * FPS)
+REVEAL_FRAMES, MESSAGE_HOLD_FRAMES = math.ceil(.2 * FPS), FPS
 SCALE = 2
 OUTPUT_SIZE = (W * SCALE, H * SCALE)
 BG, INK, MUTED = '#f4f2ec', '#243d4e', '#74838b'
@@ -105,6 +108,54 @@ def label_text(company, state):
 
 def displayed(company):
     return any(contains(company, panel) for panel in PANELS.values())
+
+
+def timeline_events():
+    return sorted([(event['date'], company, event)
+                   for company in DATA['companies'] if displayed(company)
+                   for event in company['events']
+                   if '2020-01-01' < event['date'] <= DATA['cutoff']],
+                  key=lambda row: row[0])
+
+
+def message_schedule():
+    """Stretch dense dates; queue same-day messages instead of replacing them."""
+    start, end = date_at(0), date_at(1)
+    events = timeline_events()
+    frames_per_day = (NOMINAL_DURATION * FPS - INTRO_FRAMES - OUTRO_FRAMES) / (end - start).days
+    cursor = INTRO_FRAMES + round((dt.date.fromisoformat(events[0][0]) - start).days * frames_per_day)
+    schedule = []
+    for i, event in enumerate(events):
+        date = dt.date.fromisoformat(event[0])
+        next_date = dt.date.fromisoformat(events[i + 1][0]) if i + 1 < len(events) else end
+        span = max(REVEAL_FRAMES + MESSAGE_HOLD_FRAMES,
+                   round((next_date - date).days * frames_per_day))
+        schedule.append({'event': event, 'date': date, 'next_date': next_date,
+                         'start': cursor, 'end': cursor + span})
+        cursor += span
+    return schedule
+
+
+def timeline_at(frame, schedule):
+    """Use video frames for caption timing, and dates only for the map's history."""
+    captions, current = {}, None
+    for slot in schedule:
+        if frame < slot['start']:
+            break
+        current = slot
+        company = slot['event'][1]
+        for key, panel in PANELS.items():
+            if contains(company, panel):
+                captions[key] = (slot['event'], frame - slot['start'])
+    if current is None:
+        start, end = date_at(0), schedule[0]['date']
+        t = max(0, (frame - INTRO_FRAMES) / (schedule[0]['start'] - INTRO_FRAMES))
+    else:
+        start, end = current['date'], current['next_date']
+        t = min(1, (frame - current['start']) / (current['end'] - current['start']))
+    date = start + dt.timedelta(days=round((end - start).days * t))
+    progress = (date - date_at(0)).days / (date_at(1) - date_at(0)).days
+    return progress, captions
 
 
 def marker_color(state, measured):
@@ -213,11 +264,11 @@ def main():
     }
     for key, layout in labels.items():
         print(f'{key}: {crossing_count(layout)} leader crossings', flush=True)
-    all_events = sorted([(event['date'], company, event)
-                         for company in DATA['companies'] if displayed(company) for event in company['events']
-                         if event['date'] > '2020-01-01'], key=lambda row: row[0])
+    all_events = timeline_events()
+    schedule = message_schedule()
+    frame_count = schedule[-1]['end'] + OUTRO_FRAMES
 
-    def render(progress):
+    def render(progress, captions=None):
         date = date_at(progress)
         stamp, year = date.isoformat(), date.year
         image = base.copy()
@@ -225,7 +276,8 @@ def main():
         od = Draw(overlay, SCALE)
         active = []
         events = [row for row in all_events if row[0] <= stamp]
-        latest = events[-1] if events else None
+        latest = (min(captions.values(), key=lambda item: item[1])[0] if captions
+                  else events[-1] if events else None)
         for company in DATA['companies']:
             state = snapshot(company, stamp)
             if state is None:
@@ -337,14 +389,18 @@ def main():
         if year == 2026:
             note = 'Deployment data: Jan–Aug'
             draw.text((1408 - fonts[16].getlength(note), 39), note, font=fonts[16], fill=MUTED)
-        for panel in PANELS.values():
+        for key, panel in PANELS.items():
             x, y, width = panel['caption']
-            regional = [row for row in events if contains(row[1], panel)]
-            if regional:
-                event_date, company, event = regional[-1]
-                # A quick reveal follows each milestone; the caption stays until
-                # the next one so readers can follow it within the same map.
-                reveal = min(1, (date - dt.date.fromisoformat(event_date)).days / 12)
+            if captions is None:
+                regional = [row for row in events if contains(row[1], panel)]
+                caption = (regional[-1], REVEAL_FRAMES) if regional else None
+            else:
+                caption = captions.get(key)
+            if caption:
+                (event_date, company, event), age = caption
+                # The reveal is measured in playback frames. Every scheduled
+                # announcement then has at least one full second at rest.
+                reveal = min(1, age / REVEAL_FRAMES)
                 offset = 5 * (1 - reveal) ** 2
                 cy = y + offset
                 color = marker_color(event, pace(company, year))
@@ -390,11 +446,11 @@ def main():
                str(target / 'battery-market-timeline.mp4')]
     process = subprocess.Popen(command, stdin=subprocess.PIPE)
     try:
-        for frame in range(FPS * DURATION):
-            progress = min(1, max(0, (frame / FPS - 1.2) / (DURATION - 4.7)))
-            process.stdin.write(render(progress).tobytes())
+        for frame in range(frame_count):
+            progress, captions = timeline_at(frame, schedule)
+            process.stdin.write(render(progress, captions).tobytes())
             if frame % (FPS * 5) == 0:
-                print(f'rendered {frame / FPS:.0f}/{DURATION}s', flush=True)
+                print(f'rendered {frame / FPS:.0f}/{frame_count / FPS:.2f}s', flush=True)
     finally:
         process.stdin.close()
     if process.wait() != 0:

@@ -129,6 +129,28 @@ class MapContracts(unittest.TestCase):
         self.assertGreater(video.find(b'mdat'), video.find(b'moov'))
         self.assertGreater((renderer.ROOT / 'media/battery-market-poster.jpg').stat().st_size, 10_000)
 
+    def test_every_message_gets_a_full_second_after_reveal_including_shared_dates(self):
+        schedule = renderer.message_schedule()
+        counts = {}
+        previous_progress = 0
+        for frame in range(schedule[-1]['end'] + renderer.OUTRO_FRAMES):
+            progress, captions = renderer.timeline_at(frame, schedule)
+            self.assertGreaterEqual(progress, previous_progress)
+            self.assertLessEqual(progress, 1)
+            previous_progress = progress
+            for (date, company, event), age in captions.values():
+                if age >= renderer.REVEAL_FRAMES:
+                    key = (date, company['id'], event['text'])
+                    counts[key] = counts.get(key, 0) + 1
+        expected = {(date, company['id'], event['text'])
+                    for date, company, event in renderer.timeline_events()}
+        self.assertEqual(set(counts), expected)
+        self.assertTrue(all(count >= renderer.FPS for count in counts.values()))
+        self.assertEqual(previous_progress, 1)
+        # These two milestones previously overwrote one another in the same panel.
+        shared = [key for key in counts if key[0] == '2025-12-17']
+        self.assertEqual({key[1] for key in shared}, {'agratasuk', 'powerco'})
+
 
 if __name__ == '__main__':
     unittest.main()
