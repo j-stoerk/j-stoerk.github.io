@@ -146,8 +146,28 @@ automatically hide earlier comments. Rows from the original prototype remain
 readable, but their old visitor IDs are not credentials for the new identity API.
 
 Edit `worker.mjs` and run `node _src/build.js` to update the dashboard's standalone
-`worker.js`. The build generates the published-post allowlist from `posts.json`.
-**Redeploy the Worker when adding a blog post**, so its new slug is accepted.
+`worker.js`. The build generates the public `comment-pages.json` manifest from
+`posts.json`. **Deploy this manifest-aware Worker once** in the existing
+`rapid-fog-462d` editor. It loads the published list on demand, so future blog
+posts need only the usual site build and push. No per-post Worker deployment,
+D1 table creation, migration, or new Cloudflare secret is needed.
+
+The Worker fetches the manifest from the fixed site origin, rejects redirects,
+and accepts only listed post slugs. Known posts use the cached list; an unfamiliar
+slug triggers a refresh. There is no periodic polling. Concurrent requests share
+a fetch, and a thirty-second cooldown prevents repeated misses from fetching
+the manifest on every request. A fresh Worker isolate loads its own list once.
+Consequently, a just-published post may need a retry after at most thirty seconds
+if that isolate recently fetched an older list. During a temporary fetch failure
+it continues serving known threads from its last good
+list; unfamiliar posts remain unavailable until the manifest can be read again.
+An isolate with no cached manifest returns a temporary-unavailable response.
+Failed fetches retry on the next request after thirty seconds. The manifest fetch
+revalidates with the origin (`cache: 'no-cache'`); see
+[Cloudflare's Fetch documentation](https://developers.cloudflare.com/workers/runtime-apis/fetch/).
+
+Redeploy only when changing the backend logic. Keep the existing `DB` binding
+and `TURNSTILE_SECRET`; this update does not change the database schema.
 Rebuild and push the static site when changing the endpoint or public site key.
 
 ### Optional CLI setup

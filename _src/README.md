@@ -63,10 +63,12 @@ Closing the form preserves edits. Email remains available without JavaScript.
 `comment-identity.js` shares the local identity between `comments.js` and
 `contact.js`. Comment reads are anonymous; the first Post asks for a display name,
 then verifies Turnstile. Later posts remember the identity. Optional encrypted
-identity files can be restored on another device. The build exports the post
-allowlist and a standalone dashboard Worker to `_services/comments/`; redeploy
-the Worker after adding a post. Keep server secrets in Cloudflare, never in
-`community.json`.
+identity files can be restored on another device. The build publishes
+`comment-pages.json` and a standalone dashboard Worker in `_services/comments/`.
+Deploy the manifest-aware Worker once; future posts are recognised on demand
+after publishing. Known posts use the cached list; unfamiliar slugs trigger a
+refresh, with a thirty-second cooldown and no polling timer. Keep server secrets
+in Cloudflare, never in `community.json`.
 
 The shared header order lives in `NAV_ITEMS`. Local HTML links carry a `nav`
 version derived from that list so switching pages refreshes documents cached

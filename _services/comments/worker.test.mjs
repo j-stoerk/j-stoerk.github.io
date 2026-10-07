@@ -5,8 +5,7 @@ import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import worker, { handleRequest } from './worker.mjs';
-import { allowedPages } from './allowed-pages.mjs';
+import worker, { handleRequest, createPostValidator } from './worker.mjs';
 
 const origin = 'https://j-stoerk.github.io';
 const endpoint = 'https://rapid-fog-462d.julius-stoerk.workers.dev';
@@ -14,6 +13,7 @@ const page = 'post-geometry-of-forgetting', otherPage = 'post-calendering-u-shap
 const token = 'a'.repeat(64);
 const adapter = fileURLToPath(new URL('./test-sqlite.py', import.meta.url));
 const schema = readFileSync(new URL('./migrations/0001_comments.sql', import.meta.url), 'utf8');
+const publishedManifest = JSON.parse(readFileSync(new URL('../../comment-pages.json', import.meta.url), 'utf8'));
 
 function database(t, existing = false) {
   const directory = mkdtempSync(join(tmpdir(), 'portfolio-d1-'));
@@ -48,8 +48,15 @@ function database(t, existing = false) {
 function setup(t) {
   const env = { DB: database(t), SITE_ORIGIN: origin, TURNSTILE_SECRET_KEY: 'test-private-secret' };
   const calls = [];
+  const manifestCalls = [];
+  const validate = createPostValidator();
+  let manifest = structuredClone(publishedManifest);
   let verdict = { success: true, hostname: 'j-stoerk.github.io', action: 'comment' };
   const send = async (url, options) => {
+    if (url === origin + '/comment-pages.json') {
+      manifestCalls.push({ url, options });
+      return Response.json(manifest);
+    }
     calls.push({ url, payload: JSON.parse(options.body) });
     return Response.json(verdict);
   };
@@ -60,11 +67,12 @@ function setup(t) {
     body: method === 'POST' ? (typeof body === 'string' ? body : JSON.stringify(body)) : undefined,
   });
   const call = async (method, path, body, options) => {
-    const response = await handleRequest(request(method, path, body, options), env, send);
+    const response = await handleRequest(request(method, path, body, options), env, send, validate);
     return { status: response.status, headers: response.headers, data: response.status === 204 ? null : await response.json() };
   };
   const payload = (overrides = {}) => ({ page, displayName: 'Ada', body: 'Useful result!', requestId: crypto.randomUUID(), turnstileToken: 'test-challenge', website: '', ...overrides });
-  return { env, calls, request, call, payload, verdict: value => { verdict = value; } };
+  return { env, calls, manifestCalls, validate, request, call, payload,
+    manifest: value => { manifest = value; }, verdict: value => { verdict = value; } };
 }
 
 test('first post stores only a hashed credential; names and bodies stay literal', async t => {
@@ -143,7 +151,7 @@ test('Turnstile requires success, exact hostname and action before any identity 
   }
   assert.equal((await s.env.DB.prepare('SELECT COUNT(*) AS n FROM identities').first()).n, 0);
   assert.equal((await s.env.DB.prepare('SELECT COUNT(*) AS n FROM comments').first()).n, 0);
-  const response = await handleRequest(s.request('POST', '/comments', s.payload()), s.env, async () => new Response('', { status: 502 }));
+  const response = await handleRequest(s.request('POST', '/comments', s.payload()), s.env, async () => new Response('', { status: 502 }), s.validate);
   assert.equal(response.status, 503);
   assert.ok(!(await response.text()).includes(s.env.TURNSTILE_SECRET_KEY));
 });
@@ -217,18 +225,81 @@ test('failed database transactions cannot leave a half-created identity', async 
   assert.equal((await s.env.DB.prepare('SELECT COUNT(*) AS n FROM comments').first()).n, 0);
 });
 
-test('published-post allowlist and standalone dashboard code match the build sources', async () => {
+test('published-post manifest and standalone dashboard code match the build sources', async () => {
   const posts = JSON.parse(readFileSync(new URL('../../_src/posts.json', import.meta.url), 'utf8'));
-  assert.deepEqual([...allowedPages].sort(), posts.map(post => post.file.replace(/\.html$/, '')).sort());
+  assert.equal(publishedManifest.version, 1);
+  assert.deepEqual([...publishedManifest.pages].sort(), posts.map(post => post.file.replace(/\.html$/, '')).sort());
   const source = readFileSync(new URL('./worker.mjs', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
   const standalone = readFileSync(new URL('./worker.js', import.meta.url), 'utf8').replace(/\r\n/g, '\n');
-  assert.ok(standalone.endsWith(source.slice(source.indexOf('\n') + 1)));
+  assert.ok(standalone.endsWith(source));
   assert.ok(!standalone.includes("from './allowed-pages.mjs'"));
+});
+
+test('a future published post can list and receive comments on demand without changing the Worker', async t => {
+  let now = 1791390000000;
+  t.mock.method(Date, 'now', () => now);
+  const s = setup(t), future = 'post-a-future-article';
+  assert.equal((await s.call('GET', '/comments?page=' + page)).status, 200);
+  assert.equal((await s.call('GET', '/comments?page=' + future)).status, 400);
+  assert.equal(s.manifestCalls.length, 1);
+  s.manifest({ version: 1, pages: [...publishedManifest.pages, future] });
+  now += 30001;
+  const listing = await s.call('GET', '/comments?page=' + future);
+  assert.equal(listing.status, 200);
+  assert.deepEqual(listing.data.comments, []);
+  assert.equal((await s.call('POST', '/comments', s.payload({ page: future }))).status, 201);
+  assert.equal((await s.call('GET', '/comments?page=' + future)).data.comments.length, 1);
+  assert.equal((await s.call('POST', '/comments', s.payload({ page: 'post-unpublished' }))).status, 400);
+  assert.equal(s.calls.length, 1);
+  assert.equal(s.manifestCalls.length, 2);
+  now += 30 * 24 * 3600000;
+  assert.equal((await s.call('GET', '/comments?page=' + future)).status, 200);
+  assert.equal(s.manifestCalls.length, 2, 'Known posts must not poll after time passes');
+});
+
+test('manifest fetches coalesce, use only the site URL, and never accept invalid slugs', async () => {
+  const validate = createPostValidator(), calls = [];
+  let finish;
+  const send = (url, options) => {
+    calls.push({ url, options });
+    return new Promise(resolve => { finish = resolve; });
+  };
+  for (const invalid of [null, '../post-test', 'https://attacker.example/post-test', 'post-x?y=z', 'post-' + 'a'.repeat(121)]) {
+    assert.equal(await validate(invalid, origin, send), false);
+  }
+  assert.equal(calls.length, 0);
+  const a = validate(page, origin, send), b = validate(otherPage, origin, send);
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].url, origin + '/comment-pages.json');
+  assert.equal(calls[0].options.redirect, 'error');
+  finish(Response.json(publishedManifest));
+  assert.deepEqual(await Promise.all([a, b]), [true, true]);
+});
+
+test('manifest failures preserve known threads, reject new ones, and recover on demand', async t => {
+  let now = 1791390000000;
+  t.mock.method(Date, 'now', () => now);
+  const validate = createPostValidator();
+  const good = async () => Response.json({ version: 1, pages: [page] });
+  assert.equal(await validate(page, origin, good), true);
+  now += 30 * 24 * 3600000;
+  const unavailable = () => { throw new Error('offline'); };
+  assert.equal(await validate(page, origin, unavailable), true);
+  await assert.rejects(validate('post-new', origin, unavailable));
+  now += 30001;
+  const updated = async () => Response.json({ version: 1, pages: ['post-new'] });
+  assert.equal(await validate('post-new', origin, updated), true);
+  assert.equal(await validate(page, origin, updated), false);
+  for (const bad of [{ version: 2, pages: [page] }, { version: 1, pages: ['../bad'] }, { version: 1, pages: 'all' }]) {
+    await assert.rejects(createPostValidator()(page, origin, async () => Response.json(bad)));
+  }
+  await assert.rejects(createPostValidator()(page, origin, async () => new Response('x'.repeat(32769))));
 });
 
 test('default Worker entrypoint accepts Cloudflare context without treating it as fetch', async t => {
   const s = setup(t), previous = globalThis.fetch;
-  globalThis.fetch = async () => Response.json({ success: true, hostname: 'j-stoerk.github.io', action: 'comment' });
+  globalThis.fetch = async url => Response.json(url === origin + '/comment-pages.json'
+    ? publishedManifest : { success: true, hostname: 'j-stoerk.github.io', action: 'comment' });
   try {
     assert.equal((await worker.fetch(s.request('POST', '/comments', s.payload()), s.env, { waitUntil() {} })).status, 201);
   } finally { globalThis.fetch = previous; }
