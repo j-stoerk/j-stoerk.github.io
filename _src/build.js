@@ -49,11 +49,41 @@ function attribute(value) {
   return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
+/* The video, readable tables, and downloads share one audited dataset. */
+function batteryMarketData() {
+  const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/battery-market.json'), 'utf8'));
+  const esc = attribute;
+  const sourceLink = key => {
+    const s = data.sources[key];
+    if (!s) throw new Error(`unknown battery-map source ${key}`);
+    return `<a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.title)}</a>`;
+  };
+  const csv = [['company', 'year', 'reporting_window', 'months', 'EV_deployment_GWh', 'observed_GWh_per_month', 'source_url']];
+  for (const c of data.companies) {
+    data.periods.forEach((p, i) => {
+      const v = c.volumes[i];
+      csv.push([c.name, p.year, p.label, p.months, v ?? '', v === null ? '' : (v / p.months).toFixed(4), v === null ? '' : data.sources[p.source].url]);
+    });
+  }
+  fs.writeFileSync(path.join(ROOT, 'data/battery-market-volumes.csv'), csv.map(row => row.map(value => `"${String(value).replace(/"/g, '""')}"`).join(',')).join('\n') + '\n');
+  const rows = data.companies.filter(c => c.volumes.some(v => v !== null)).map(c =>
+    `<tr><th scope="row">${esc(c.name)}</th>${c.volumes.map(v => `<td>${v === null ? '<span aria-label="Unavailable">—</span>' : v.toFixed(1)}</td>`).join('')}</tr>`).join('\n');
+  const events = data.companies.flatMap(c => c.events.filter(e => e.date > '2020-01-01').map(e => ({c, e})))
+    .sort((a, b) => a.e.date.localeCompare(b.e.date));
+  return `<div class="battery-data-table" role="region" tabindex="0" aria-label="Scrollable deployment data">
+  <table><caption>Reported EV battery deployment (GWh). 2020–2025 are complete years; 2026 is January–August only. A dash means unavailable.</caption>
+    <thead><tr><th scope="col">Company</th>${data.periods.map(p => `<th scope="col">${p.year}${p.months < 12 ? '<br>Jan–Aug' : ''}</th>`).join('')}</tr></thead>
+    <tbody>${rows}</tbody>
+  </table></div>
+  <div class="prose"><p>Deployment sources by reporting year:</p><ul>${data.periods.map(p => `<li>${p.year} (${p.months} months): ${sourceLink(p.source)}</li>`).join('')}</ul></div>
+  <ol class="timeline-milestones">${events.map(({c, e}) => `<li><time datetime="${e.date}">${e.date}</time> · <strong>${esc(c.name)}</strong> — ${esc(e.text)} ${sourceLink(e.source)}${e.capacitySource ? '; capacity: ' + sourceLink(e.capacitySource) : ''}.</li>`).join('\n')}</ol>`;
+}
+
 /* ---------- page configuration ---------- */
 const PAGES = {
   'index.html': {
     nav: null, home: true, extraScripts: ['cite.js', 'experiences.js', 'bio-popovers.js', 'comment-identity.js', 'contact.js'],
-    footerExtra: null, lastmod: '2026-10-01', priority: '1.0',
+    footerExtra: null, lastmod: '2026-10-07', priority: '1.0',
   },
   'cv.html': {
     nav: 'cv', extraScripts: [],
@@ -63,7 +93,7 @@ const PAGES = {
   'blog.html': {
     nav: 'blog', extraScripts: ['blog-view.js'],
     footerExtra: '<a href="index.html">Home</a> · <a href="index.html#contact">Contact</a>',
-    lastmod: '2026-10-01', priority: '0.8',
+    lastmod: '2026-10-07', priority: '0.8',
   },
   /* Served by GitHub Pages for any missing URL; noindex, not in sitemap. */
   '404.html': {
@@ -74,7 +104,8 @@ const PAGES = {
 };
 for (const p of posts) {
   PAGES[p.file] = {
-    nav: 'blog', extraScripts: ['blog.js', 'comment-identity.js', 'comments.js'],
+    nav: 'blog', extraScripts: ['blog.js', 'comment-identity.js', 'comments.js', ...(p.scripts || [])],
+    extraStyles: p.styles || [],
     footerExtra: '<a href="blog.html">All posts</a>',
     lastmod: p.lastmod, priority: '0.7', math: !!p.math,
   };
@@ -256,9 +287,11 @@ for (const file of fs.readdirSync(pagesDir)) {
   const cfg = PAGES[file];
   if (!cfg) throw new Error(`no page config for ${file}`);
   let html = fs.readFileSync(path.join(pagesDir, file), 'utf8');
-  const headAssets = cfg.math
+  if (html.includes('<!--#BATTERY_MARKET_DATA-->')) html = html.replace('<!--#BATTERY_MARKET_DATA-->', batteryMarketData);
+  let headAssets = cfg.math
     ? HEAD_ASSETS + '\n  <link rel="stylesheet" href="katex/katex.min.css">'
     : HEAD_ASSETS;
+  headAssets += (cfg.extraStyles || []).map(s => `\n  <link rel="stylesheet" href="${ver(s)}">`).join('');
   html = html
     .replace('  <!--#HEAD_ASSETS-->', headAssets)
     .replace('  <!--#TOPBAR-->', topbar(cfg))

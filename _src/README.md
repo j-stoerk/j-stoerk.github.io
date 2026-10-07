@@ -28,6 +28,8 @@ node _src/build.js
   or `\( ... \)` (inline) TeX in its source. The build renders it to static
   HTML+MathML via `vendor/katex.min.js`; browsers load only
   `katex/katex.min.css` + fonts, no client-side JS.
+- Optional `"scripts"` and `"styles"` arrays on a post entry load that article's
+  root-level assets with the normal content hashes.
 - **publications.bib** is regenerated from the BibTeX blocks in the built
   index page — update a citation there and the .bib follows.
 - Page-level config (nav highlight, extra scripts, footer links, sitemap
@@ -76,6 +78,33 @@ fonts, PDFs, images) are plain files at the root, except for the generated
 
 GitHub Pages runs Jekyll, which skips underscore directories, so `_src` is
 never published.
+
+## Battery-market article and video
+
+`data/battery-market.json` is the sourced dataset for the single 2020–4 October
+2026 timeline. Missing observations stay null. Filled areas represent reported
+global EV deployment per month; outlined areas represent annual capacity targets
+divided by twelve. Those targets are not achieved output. Insolvency, funding
+distress, project pauses, and pivots remain distinct. The article's
+`<!--#BATTERY_MARKET_DATA-->` marker exports the same observations and sourced
+milestones to readable HTML and `data/battery-market-volumes.csv` during a build.
+
+The committed MP4, poster and social image need no media tools during ordinary
+builds. After changing the dataset, regenerate them with:
+
+```powershell
+python -m pip install Pillow imageio-ffmpeg
+python _src/media/render-battery-market.py --font C:/Windows/Fonts/segoeui.ttf
+python -m unittest discover -s _src/media -p 'test_*.py'
+node _src/build.js
+python _src/check.py
+```
+
+The renderer uses the included public-domain Natural Earth land outlines and a
+local TrueType font. `--ffmpeg` and `--font` support other installations;
+`--stills-only` previews the final figure without rendering the video.
+`battery-market.js` manages native playback, visibility, manual pause, and reduced
+motion. Native controls and the expandable dataset remain available.
 
 ## Research experiences
 

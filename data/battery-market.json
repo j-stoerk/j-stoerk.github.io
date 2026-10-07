@@ -1,0 +1,996 @@
+{
+  "cutoff": "2026-10-04",
+  "metric": "EV battery energy deployed, GWh; company-wide, not factory output or revenue",
+  "normalisation": "Filled-dot area is proportional to reported GWh divided by months in the reporting window. Dashed-ring area is proportional to announced annual factory capacity divided by 12. Capacity is a target, not achieved production.",
+  "history": "Retrospective annual snapshots, not information available on each historical date. Circle transitions are visual interpolation only. Missing observations remain missing. Historical volumes use the comparison column of the following annual SNE release when available.",
+  "geography": "Approximate headquarters or named project site: Britishvolt (Blyth), ACC (Douvrin), ABF (Tucson), FREYR (Mo i Rana), AMTE (Thurso). Established makers represent global EV deployment, not production at the mapped location. Selected companies, not a census. Lyten / Ett marks the acquired Skelleftea factory, separately from Northvolt corporate history.",
+  "sources": {
+    "catl2020": {
+      "title": "CATL corporate brochure, September 2022, p. 7",
+      "url": "https://www.catl.com/it/uploads/1/file/public/202209/20220916214141_gr6eyva66j.pdf",
+      "published": "2022-09-16"
+    },
+    "sne2022": {
+      "title": "SNE Research, 2022 global EV battery usage (2021 comparison)",
+      "url": "https://sneresearch.com/en/insight/release_view/68/page/300",
+      "published": "2023-02-07"
+    },
+    "sne2023": {
+      "title": "SNE Research, 2023 global EV battery usage (2022 comparison)",
+      "url": "https://www.sneresearch.com/en/insight/release_view/221/page/0",
+      "published": "2024-02-07"
+    },
+    "sne2024": {
+      "title": "SNE Research, 2024 global EV battery usage (2023 comparison)",
+      "url": "https://sneresearch.com/en/insight/release_view/371/page/156",
+      "published": "2025-02-11"
+    },
+    "sne2025": {
+      "title": "SNE Research, 2025 global EV battery usage",
+      "url": "https://sneresearch.com/en/insight/release_view/586/page/72",
+      "published": "2026-02-04"
+    },
+    "sne2026": {
+      "title": "SNE Research, January–August 2026 global EV battery usage",
+      "url": "https://www.sneresearch.com/en/insight/release_view/744/page/view",
+      "published": "2026-10-02"
+    },
+    "northvoltPlan": {
+      "title": "Northvolt Chronicles: original 40 GWh Ett design",
+      "url": "https://chronicles.northvolt.com/web/tweet-button"
+    },
+    "northvoltCell": {
+      "title": "Northvolt assembles its first Ett cell; 60 GWh expansion target",
+      "url": "https://northvolt.com/articles/first-cell/",
+      "published": "2021-12-29"
+    },
+    "northvoltDelivery": {
+      "title": "Northvolt Ett commences commercial deliveries",
+      "url": "https://northvolt.com/articles/northvoltett-delivers/",
+      "published": "2022-06-29"
+    },
+    "northvoltFailure": {
+      "title": "Northvolt files for bankruptcy in Sweden",
+      "url": "https://northvolt.com/articles/northvolt-files-for-bankruptcy-in-sweden/",
+      "published": "2025-03-12"
+    },
+    "britishvoltPlan": {
+      "title": "UK Parliament: Britishvolt's planned 30 GWh Blyth factory",
+      "url": "https://committees.parliament.uk/publications/42201/documents/209779/default/",
+      "published": "2023-11-21"
+    },
+    "britishvoltGrant": {
+      "title": "UK Government: final grant offer to Britishvolt",
+      "url": "https://www.gov.uk/government/news/final-grant-offer-provided-to-britishvolt",
+      "published": "2022-07-27"
+    },
+    "britishvoltFailure": {
+      "title": "EY: Britishvolt administration and liquidation",
+      "url": "https://www.ey.com/en_uk/administrations/pbvadministration"
+    },
+    "enerdelFailure": {
+      "title": "Indianapolis Business Journal: EnerDel files Chapter 7",
+      "url": "https://www.ibj.com/articles/battery-maker-enerdel-files-for-chapter-7-bankruptcy",
+      "published": "2023-07-25"
+    },
+    "verkorLaunch": {
+      "title": "Verkor celebrates one year since its July 2020 launch",
+      "url": "https://verkor.com/en/verkor-celebrates-its-one-year-anniversary/"
+    },
+    "verkorPlan": {
+      "title": "Verkor selects Dunkirk; initial 16 GWh target",
+      "url": "https://verkor.com/en/verkor-selects-dunkirk-for-its-first-gigafactory/",
+      "published": "2022-02-01"
+    },
+    "verkorFinance": {
+      "title": "Verkor secures financing for its 16 GWh gigafactory",
+      "url": "https://verkor.com/en/verkor-secures-more-than-e2-billion-to-launch-high-performance-battery-gigafactory-in-france-and-accelerate-future-sustainable-mobility/",
+      "published": "2023-09-14"
+    },
+    "verkorRamp": {
+      "title": "Verkor: second line commissioned and first on-site batteries delivered",
+      "url": "https://verkor.com/en/verkor-evolves-its-leadership-to-support-its-large-scale-industrial-production-phase/",
+      "published": "2026-08-04"
+    },
+    "powercoLaunch": {
+      "title": "PowerCo founded in July 2022",
+      "url": "https://www.volkswagen-group.com/en/press-releases/volkswagen-group-and-powerco-se-launch-site-search-for-first-gigafactory-in-north-america-16642",
+      "published": "2022-12-01"
+    },
+    "powercoRamp": {
+      "title": "PowerCo commissions Salzgitter: initial 20 GWh capacity, expandable to 40",
+      "url": "https://www.volkswagen-group.com/en/press-releases/start-of-european-battery-cell-production-powerco-commissions-salzgitter-gigafactory-20045",
+      "published": "2025-12-17"
+    },
+    "accLaunch": {
+      "title": "ACC formed in August 2020",
+      "url": "https://www.acc-emotion.com/stories/automotive-cells-company-acc-welcomes-mercedes-benz-future-equal-shareholder-alongside",
+      "published": "2022-03-23"
+    },
+    "accRamp": {
+      "title": "ACC inaugurates Douvrin: initial capacity over 13 GWh, 40 GWh target for 2030",
+      "url": "https://www.acc-emotion.com/de/media/bbd-press-release",
+      "published": "2023-05-30"
+    },
+    "accPause": {
+      "title": "ACC: German and Italian project development paused; French ramp-up continues",
+      "url": "https://www.acc-emotion.com/fr/stories/bfm-business-yann-vincent-confirms-we-are-staying-course",
+      "published": "2024-06-13"
+    },
+    "abfLaunch": {
+      "title": "ABF announces US LFP factory network",
+      "url": "https://www.americanbatteryfactory.com/press/2022-03-09",
+      "published": "2022-03-09"
+    },
+    "abfSite": {
+      "title": "ABF selects Tucson for its first factory and headquarters",
+      "url": "https://americanbatteryfactory.com/press/2022-12-06/abf-selects-tuscon-az",
+      "published": "2022-12-06"
+    },
+    "powercoResearch": {
+      "title": "PowerCo Bundestag disclosure: MiKoBatt participation",
+      "url": "https://www.lobbyregister.bundestag.de/media/0d/83/721075/Lobbyregister-Registereintraege-Detailansicht-R006923-2026-04-09_14-00-24.pdf",
+      "published": "2026-04-09"
+    },
+    "britishvoltFunding": {
+      "title": "EY administrators proposals: financing shortfall before revenue",
+      "url": "https://assets.ey.com/content/dam/ey-sites/ey-com/en_uk/generic/power-by-britishvolt-ltd/ey-pbv-proposals.pdf",
+      "published": "2023-03-13"
+    },
+    "morrowLaunch": {
+      "title": "Morrow: company history, May 2020 launch",
+      "url": "https://www.morrowbatteries.com/about-us"
+    },
+    "morrowRamp": {
+      "title": "Morrow: Arendal inauguration, test production, 1 GWh annual target",
+      "url": "https://news.morrowbatteries.com/pressreleases/jonas-gahr-stoere-prime-minister-of-norway-officially-inaugurates-europes-first-lfp-battery-gigafactory-3337609",
+      "published": "2024-08-16"
+    },
+    "morrowFailure": {
+      "title": "Morrow: board decision to file for bankruptcy and contributing pressures",
+      "url": "https://news.morrowbatteries.com/pressreleases/the-board-of-directors-of-morrow-batteries-asa-has-resolved-to-file-for-bankruptcy-proceedings-3446829",
+      "published": "2026-05-06"
+    },
+    "freyrPlan": {
+      "title": "FREYR: Giga Arctic construction sanction, 29 GWh annual target",
+      "url": "https://news.cision.com/se/t1-energy-inc/r/freyr-battery-sanctions-construction-of-its-inaugural-gigafactory,c3593233",
+      "published": "2022-06-29"
+    },
+    "freyrPause": {
+      "title": "FREYR: Q3 2023 commissioning delay and Giga Arctic spending reduction",
+      "url": "https://ir.t1energy.com/news-releases/news-release-details/freyr-battery-reports-third-quarter-2023-results",
+      "published": "2023-11-09"
+    },
+    "freyrPivot": {
+      "title": "FREYR: US solar pivot and termination of 24M licence",
+      "url": "https://ir.t1energy.com/news-releases/transaction-announcement",
+      "published": "2024-11-06"
+    },
+    "amteFunding": {
+      "title": "AMTE: funding delay and intention to appoint administrators",
+      "url": "https://data.fca.org.uk/artefacts/NSM/RNS/5009318.html",
+      "published": "2023-12-19"
+    },
+    "amteFailure": {
+      "title": "AMTE: regulatory confirmation of administrator appointments",
+      "url": "https://data.fca.org.uk/artefacts/NSM/RNS/5039337.html",
+      "published": "2024-01-19"
+    },
+    "amteSale": {
+      "title": "FRP: AMTE Thurso manufacturing assets sold to LionVolt",
+      "url": "https://www.frpadvisory.com/insights/detail/amte-power-sale-preserves-scottish-battery-manufacturing/",
+      "published": "2024-03-04"
+    },
+    "accShelved": {
+      "title": "UILM: union account of ACC shelving Italian and German plans",
+      "url": "https://www.uilmnazionale.it/wp-content/uploads/2026/02/20260207-Ficco-Guida-su-Gigafactory.pdf",
+      "published": "2026-02-07"
+    },
+    "lgDemand": {
+      "title": "LG Energy Solution: 2025 earnings and 2026 initiatives",
+      "url": "https://www.lgensol.com/en/company/newsroom-detail?seq=8727",
+      "published": "2026-01-29"
+    },
+    "nvEquity": {
+      "title": "Volkswagen: additional EUR 500 million Northvolt investment; 60 GWh expansion target",
+      "url": "https://www.volkswagen-group.com/en/press-releases/volkswagen-invests-a-further-500-million-in-sustainable-battery-activities-with-northvolt-ab-16763",
+      "published": "2021-06-09"
+    },
+    "bmwCancel": {
+      "title": "Reuters: BMW confirms Northvolt supply-order cancellation and next-generation focus",
+      "url": "https://www.marketscreener.com/quote/stock/BMW-AG-56358353/news/BMW-cancels-2-bln-battery-cells-contract-with-Northvolt-47011715/",
+      "published": "2024-06-20"
+    },
+    "nvRescue": {
+      "title": "Northvolt: Chapter 11 restructuring and USD 100 million customer financing commitment",
+      "url": "https://northvolt.com/articles/chapter11/",
+      "published": "2024-11-21"
+    },
+    "lytenAcquisition": {
+      "title": "Lyten: completed acquisition of Northvolt Swedish assets and restart plans",
+      "url": "https://news.cision.com/lyten/r/lyten-completes-acquisition-of-northvolt-sweden-and-establishes-its-first-lyten-industrial-hub-in-sw,c4314000",
+      "published": "2026-02-27"
+    },
+    "vartaCosts": {
+      "title": "VARTA AG: CoinPower demand, input-cost pressure, and capacity adjustments",
+      "url": "https://www.varta-ag.com/fileadmin/varta/investors/publications/corporate_news/20221115_VART_AG_CorporateNews_Q3_EN.pdf",
+      "published": "2022-11-15"
+    },
+    "vartaProceedings": {
+      "title": "VARTA AG: insolvency proceedings opened 1 October; Consumer Batteries unaffected",
+      "url": "https://www.varta-ag.com/de/ueber-varta/news-presse/details/varta-ag-verkaufsprozess-laeuft-planmaessig",
+      "published": "2026-10-02"
+    }
+  },
+  "periods": [
+    {
+      "year": 2020,
+      "months": 12,
+      "label": "Full-year 2020",
+      "source": "catl2020"
+    },
+    {
+      "year": 2021,
+      "months": 12,
+      "label": "Full-year 2021",
+      "source": "sne2022"
+    },
+    {
+      "year": 2022,
+      "months": 12,
+      "label": "Full-year 2022",
+      "source": "sne2023"
+    },
+    {
+      "year": 2023,
+      "months": 12,
+      "label": "Full-year 2023",
+      "source": "sne2024"
+    },
+    {
+      "year": 2024,
+      "months": 12,
+      "label": "Full-year 2024",
+      "source": "sne2025"
+    },
+    {
+      "year": 2025,
+      "months": 12,
+      "label": "Full-year 2025",
+      "source": "sne2025"
+    },
+    {
+      "year": 2026,
+      "months": 8,
+      "label": "Jan–Aug 2026 only",
+      "source": "sne2026"
+    }
+  ],
+  "companies": [
+    {
+      "id": "catl",
+      "name": "CATL",
+      "location": "Ningde, China",
+      "lon": 119.55,
+      "lat": 26.66,
+      "label": [
+        1130,
+        400
+      ],
+      "volumes": [
+        36.2,
+        99.5,
+        184.4,
+        257.7,
+        342.5,
+        464.7,
+        333.0
+      ],
+      "events": []
+    },
+    {
+      "id": "byd",
+      "name": "BYD",
+      "location": "Shenzhen, China",
+      "lon": 114.06,
+      "lat": 22.54,
+      "label": [
+        1120,
+        620
+      ],
+      "volumes": [
+        null,
+        26.4,
+        70.5,
+        111.8,
+        152.6,
+        194.8,
+        127.9
+      ],
+      "events": []
+    },
+    {
+      "id": "lges",
+      "name": "LG Energy Solution",
+      "short": "LGES",
+      "location": "Seoul, South Korea",
+      "lon": 126.98,
+      "lat": 37.57,
+      "label": [
+        1115,
+        240
+      ],
+      "volumes": [
+        null,
+        59.4,
+        71.6,
+        95.1,
+        97.8,
+        108.8,
+        68.3
+      ],
+      "events": [
+        {
+          "date": "2026-01-29",
+          "phase": "operating",
+          "capacity": null,
+          "text": "EV customer slowdown: planned response reallocates idle lines to storage and shifts product mix; production incentives support earnings.",
+          "source": "lgDemand"
+        }
+      ]
+    },
+    {
+      "id": "panasonic",
+      "name": "Panasonic",
+      "location": "Osaka, Japan",
+      "lon": 135.5,
+      "lat": 34.69,
+      "label": [
+        1310,
+        455
+      ],
+      "volumes": [
+        null,
+        36.3,
+        35.6,
+        42.8,
+        34.6,
+        44.2,
+        29.7
+      ],
+      "events": []
+    },
+    {
+      "id": "skon",
+      "name": "SK On / predecessor battery business",
+      "short": "SK On",
+      "location": "Seoul, South Korea",
+      "lon": 126.98,
+      "lat": 37.57,
+      "label": [
+        1250,
+        270
+      ],
+      "volumes": [
+        null,
+        17.3,
+        30.1,
+        34.7,
+        39.7,
+        44.5,
+        24.9
+      ],
+      "events": []
+    },
+    {
+      "id": "samsung",
+      "name": "Samsung SDI",
+      "location": "Yongin, South Korea",
+      "lon": 127.1,
+      "lat": 37.25,
+      "label": [
+        1350,
+        350
+      ],
+      "volumes": [
+        null,
+        14.5,
+        23.9,
+        33.1,
+        31.1,
+        28.9,
+        null
+      ],
+      "events": []
+    },
+    {
+      "id": "calb",
+      "name": "CALB",
+      "location": "Changzhou, China",
+      "lon": 119.97,
+      "lat": 31.81,
+      "label": [
+        940,
+        340
+      ],
+      "volumes": [
+        null,
+        8.0,
+        18.5,
+        33.8,
+        41.2,
+        62.8,
+        44.4
+      ],
+      "events": []
+    },
+    {
+      "id": "gotion",
+      "name": "Gotion",
+      "location": "Hefei, China",
+      "lon": 117.23,
+      "lat": 31.82,
+      "label": [
+        945,
+        480
+      ],
+      "volumes": [
+        null,
+        6.7,
+        13.9,
+        16.4,
+        29.3,
+        53.5,
+        41.5
+      ],
+      "events": []
+    },
+    {
+      "id": "northvolt",
+      "name": "Northvolt",
+      "location": "Stockholm, Sweden; target: Ett, Skellefteå",
+      "lon": 18.07,
+      "lat": 59.33,
+      "label": [
+        775,
+        220
+      ],
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2020-01-01",
+          "phase": "construction",
+          "capacity": 40,
+          "text": "Ett under construction; original 40 GWh/year design target.",
+          "source": "northvoltPlan"
+        },
+        {
+          "date": "2021-06-09",
+          "phase": "construction",
+          "capacity": 60,
+          "text": "Volkswagen invests a further EUR 500 million; Ett expansion target rises from 40 to 60 GWh/year.",
+          "source": "nvEquity"
+        },
+        {
+          "date": "2021-12-29",
+          "phase": "ramp-up",
+          "capacity": 60,
+          "text": "First Ett cell assembled; expansion target now 60 GWh/year.",
+          "source": "northvoltCell"
+        },
+        {
+          "date": "2022-06-29",
+          "phase": "ramp-up",
+          "capacity": 60,
+          "text": "Commercial deliveries reported; nameplate target is not achieved output.",
+          "source": "northvoltDelivery"
+        },
+        {
+          "date": "2024-06-20",
+          "phase": "ramp-up",
+          "capacity": 60,
+          "text": "BMW confirms cancellation of its EUR 2 billion supply order; a purchase contract is distinct from equity investment.",
+          "source": "bmwCancel"
+        },
+        {
+          "date": "2024-11-21",
+          "phase": "distressed",
+          "capacity": 60,
+          "text": "Chapter 11 restructuring provides access to cash collateral and a USD 100 million customer financing commitment; operations planned to continue.",
+          "source": "nvRescue"
+        },
+        {
+          "date": "2025-03-12",
+          "phase": "insolvent",
+          "capacity": null,
+          "text": "Production ramp-up and financing pressures culminate in bankruptcy in Sweden.",
+          "source": "northvoltFailure"
+        },
+        {
+          "date": "2026-02-27",
+          "phase": "insolvent",
+          "capacity": null,
+          "text": "Lyten completes acquisition of Swedish manufacturing assets; the original company failure and the new Ett project are shown separately.",
+          "source": "lytenAcquisition"
+        }
+      ]
+    },
+    {
+      "id": "britishvolt",
+      "name": "Britishvolt",
+      "location": "Blyth, UK (planned factory site)",
+      "lon": -1.51,
+      "lat": 55.13,
+      "label": [
+        565,
+        240
+      ],
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2020-01-01",
+          "phase": "startup",
+          "capacity": null,
+          "text": "Britishvolt exists as a startup; no measured deployment in this dataset.",
+          "source": "britishvoltPlan"
+        },
+        {
+          "date": "2022-07-27",
+          "phase": "planned",
+          "capacity": 30,
+          "text": "UK final grant offer; planned Blyth factory capacity 30 GWh/year.",
+          "source": "britishvoltGrant",
+          "capacitySource": "britishvoltPlan"
+        },
+        {
+          "date": "2023-01-17",
+          "phase": "insolvent",
+          "capacity": null,
+          "text": "Funding shortfall before material revenue; Britishvolt enters administration.",
+          "source": "britishvoltFunding"
+        },
+        {
+          "date": "2024-10-28",
+          "phase": "insolvent",
+          "capacity": null,
+          "text": "Britishvolt moves from administration into liquidation.",
+          "source": "britishvoltFailure"
+        }
+      ]
+    },
+    {
+      "id": "enerdel",
+      "name": "EnerDel",
+      "location": "Indianapolis, USA",
+      "lon": -86.16,
+      "lat": 39.77,
+      "label": [
+        335,
+        270
+      ],
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2020-01-01",
+          "phase": "operating",
+          "capacity": null,
+          "text": "Existing US cell manufacturer; comparable deployment figures unavailable here.",
+          "source": "enerdelFailure"
+        },
+        {
+          "date": "2023-07-13",
+          "phase": "insolvent",
+          "capacity": null,
+          "text": "EnerDel files for Chapter 7 liquidation.",
+          "source": "enerdelFailure"
+        }
+      ]
+    },
+    {
+      "id": "verkor",
+      "name": "Verkor",
+      "location": "Grenoble, France; target: Dunkirk",
+      "lon": 5.72,
+      "lat": 45.19,
+      "label": [
+        580,
+        410
+      ],
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2020-07-29",
+          "phase": "startup",
+          "capacity": null,
+          "text": "Verkor publicly announces its launch.",
+          "source": "verkorLaunch"
+        },
+        {
+          "date": "2022-02-01",
+          "phase": "planned",
+          "capacity": 16,
+          "text": "Dunkirk selected; initial target 16 GWh/year.",
+          "source": "verkorPlan"
+        },
+        {
+          "date": "2023-09-14",
+          "phase": "construction",
+          "capacity": 16,
+          "text": "Financing secured for the initial 16 GWh/year factory.",
+          "source": "verkorFinance"
+        },
+        {
+          "date": "2026-08-04",
+          "phase": "ramp-up",
+          "capacity": 16,
+          "text": "Second line commissioned; first entirely on-site batteries delivered. Achieved annual output not reported here.",
+          "source": "verkorRamp"
+        }
+      ]
+    },
+    {
+      "id": "powerco",
+      "name": "PowerCo",
+      "location": "Salzgitter, Germany",
+      "lon": 10.42,
+      "lat": 52.15,
+      "label": [
+        765,
+        355
+      ],
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2022-07-07",
+          "phase": "startup",
+          "capacity": null,
+          "text": "PowerCo founded; factory ramp-up remains ahead.",
+          "source": "powercoLaunch"
+        },
+        {
+          "date": "2025-12-17",
+          "phase": "ramp-up",
+          "capacity": 20,
+          "text": "Salzgitter commissioned: first-stage nameplate 20 GWh/year; possible later expansion to 40.",
+          "source": "powercoRamp"
+        },
+        {
+          "date": "2026-04-09",
+          "phase": "ramp-up",
+          "capacity": 20,
+          "text": "PowerCo discloses MiKoBatt participation: researching smaller conditioned air volumes with micro-environments.",
+          "source": "powercoResearch"
+        }
+      ]
+    },
+    {
+      "id": "acc",
+      "name": "ACC",
+      "location": "Douvrin, France (factory site)",
+      "lon": 2.83,
+      "lat": 50.51,
+      "label": [
+        635,
+        520
+      ],
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2020-08-01",
+          "phase": "startup",
+          "capacity": null,
+          "text": "ACC formed in August 2020 (month-level date).",
+          "source": "accLaunch"
+        },
+        {
+          "date": "2023-05-30",
+          "phase": "ramp-up",
+          "capacity": 13,
+          "text": "Douvrin inaugurated: initial nameplate over 13 GWh/year, shown conservatively as 13; eventual 40 GWh target is excluded.",
+          "source": "accRamp"
+        },
+        {
+          "date": "2024-06-13",
+          "phase": "ramp-up",
+          "capacity": 13,
+          "text": "Slower EV demand and a lower-cost product strategy: German and Italian development paused; French ramp-up continues.",
+          "source": "accPause"
+        },
+        {
+          "date": "2026-02-07",
+          "phase": "ramp-up",
+          "capacity": 13,
+          "text": "UILM says management confirmed shelving German and Italian expansion; the mapped French factory is a separate project.",
+          "source": "accShelved"
+        }
+      ]
+    },
+    {
+      "id": "abf",
+      "name": "American Battery Factory",
+      "short": "ABF",
+      "location": "Tucson, USA (announced factory/headquarters)",
+      "lon": -110.97,
+      "lat": 32.22,
+      "label": [
+        195,
+        415
+      ],
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2022-03-09",
+          "phase": "startup",
+          "capacity": null,
+          "text": "ABF announces a US LFP factory network.",
+          "source": "abfLaunch"
+        },
+        {
+          "date": "2022-12-06",
+          "phase": "planned",
+          "capacity": null,
+          "text": "Tucson selected for first factory and headquarters; no comparable capacity or output entered in this dataset.",
+          "source": "abfSite"
+        }
+      ]
+    },
+    {
+      "id": "morrow",
+      "name": "Morrow",
+      "location": "Arendal, Norway",
+      "lon": 8.77,
+      "lat": 58.46,
+      "label": [
+        690,
+        170
+      ],
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2020-05-01",
+          "phase": "startup",
+          "capacity": null,
+          "text": "Morrow launched in May 2020 (month-level date).",
+          "source": "morrowLaunch"
+        },
+        {
+          "date": "2024-08-16",
+          "phase": "ramp-up",
+          "capacity": 1,
+          "text": "Arendal inaugurated: test production and equipment tuning; 1 GWh/year target is not achieved output.",
+          "source": "morrowRamp"
+        },
+        {
+          "date": "2026-05-06",
+          "phase": "insolvent",
+          "capacity": null,
+          "text": "Board decides to file: price pressure, capital costs and industrialisation delays; financing could not close before liquidity expired.",
+          "source": "morrowFailure"
+        }
+      ]
+    },
+    {
+      "id": "freyr",
+      "name": "FREYR",
+      "location": "Mo i Rana, Norway (Giga Arctic project site)",
+      "lon": 14.14,
+      "lat": 66.31,
+      "label": [
+        930,
+        180
+      ],
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2022-06-29",
+          "phase": "planned",
+          "capacity": 29,
+          "text": "Giga Arctic construction sanctioned with a 29 GWh/year target.",
+          "source": "freyrPlan"
+        },
+        {
+          "date": "2023-11-09",
+          "phase": "paused",
+          "capacity": 29,
+          "text": "Qualification equipment commissioning delayed; Giga Arctic spending minimised to preserve liquidity and await competitive policy conditions.",
+          "source": "freyrPause"
+        },
+        {
+          "date": "2024-11-06",
+          "phase": "pivoted",
+          "capacity": null,
+          "text": "US solar acquisition announced; 24M licence terminated. A strategy pivot, not a bankruptcy.",
+          "source": "freyrPivot"
+        }
+      ]
+    },
+    {
+      "id": "amte",
+      "name": "AMTE Power",
+      "location": "Thurso, Scotland (manufacturing site)",
+      "lon": -3.52,
+      "lat": 58.59,
+      "label": [
+        420,
+        180
+      ],
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2020-01-01",
+          "phase": "operating",
+          "capacity": null,
+          "text": "Existing cell manufacturing business; no comparable deployment series entered.",
+          "source": "amteSale"
+        },
+        {
+          "date": "2023-12-19",
+          "phase": "distressed",
+          "capacity": null,
+          "text": "Funding completion delayed and bridge advance refused; intention to appoint administrators announced.",
+          "source": "amteFunding"
+        },
+        {
+          "date": "2024-01-19",
+          "phase": "insolvent",
+          "capacity": null,
+          "text": "Regulatory announcement confirms administrator appointments (confirmation date).",
+          "source": "amteFailure"
+        },
+        {
+          "date": "2024-03-04",
+          "phase": "insolvent",
+          "capacity": null,
+          "text": "Administrators report Thurso manufacturing assets sold to LionVolt; insolvency does not mean permanent factory closure.",
+          "source": "amteSale"
+        }
+      ]
+    },
+    {
+      "id": "lytenett",
+      "name": "Lyten / Ett",
+      "location": "Skelleftea, Sweden (acquired factory site)",
+      "lon": 20.95,
+      "lat": 64.75,
+      "label": [
+        830,
+        530
+      ],
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2026-02-27",
+          "phase": "restart",
+          "capacity": 16,
+          "text": "Swedish Northvolt assets acquired; 16 GWh/year existing nameplate and planned restart, not measured achieved production.",
+          "source": "lytenAcquisition"
+        }
+      ]
+    },
+    {
+      "id": "varta",
+      "name": "VARTA AG",
+      "location": "Ellwangen, Germany (headquarters; CoinPower is a miniature-cell product, not EV deployment)",
+      "lon": 10.135,
+      "lat": 48.962,
+      "label": [
+        770,
+        630
+      ],
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2022-11-15",
+          "phase": "operating",
+          "capacity": null,
+          "text": "CoinPower demand falls; energy and material costs rise. Capacity adjustments announced; EV-deployment volume not applicable.",
+          "source": "vartaCosts"
+        },
+        {
+          "date": "2026-10-01",
+          "phase": "insolvent",
+          "capacity": null,
+          "text": "Insolvency proceedings open for VARTA AG and three subsidiaries. Consumer Batteries is unaffected; this is not a whole-brand closure.",
+          "source": "vartaProceedings"
+        }
+      ]
+    }
+  ],
+  "status": "Black marks documented company insolvency or an announced decision to file. Amber diamonds mark funding distress, project spending pauses or strategic pivots, without volume scale. Manufacturing assets can be acquired or restarted. Confirmation dates and month-level dates are identified in milestone text."
+}

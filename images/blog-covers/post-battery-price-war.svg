@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="cover-art" viewBox="0 0 1200 675" role="img" aria-label="Battery production volumes and factory ambitions connected across the world">
+            <defs><linearGradient id="marketSky" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e9eff2" /><stop offset="1" stop-color="#eee7da" /></linearGradient></defs>
+            <rect width="1200" height="675" fill="url(#marketSky)" />
+            <g fill="none" stroke="#778d97" stroke-width="2" opacity=".45"><ellipse cx="600" cy="335" rx="480" ry="230" /><ellipse cx="600" cy="335" rx="240" ry="230" /><path d="M120 335H1080M160 245H1040M160 425H1040M600 105V565" /></g>
+            <g stroke="#83949b" stroke-width="2" fill="none"><path d="M250 350L475 240L720 315L940 380M475 240L575 435L940 380" /></g>
+            <g fill="#3279ac"><circle cx="940" cy="380" r="90" /><circle cx="805" cy="215" r="37" /><circle cx="720" cy="315" r="28" /></g>
+            <g stroke="#ab7f47" stroke-width="4" stroke-dasharray="8 8" fill="none"><circle cx="475" cy="240" r="34" /><circle cx="575" cy="435" r="23" /><circle cx="250" cy="350" r="22" /></g>
+            <circle cx="430" cy="340" r="14" fill="#202a30" />
+            <path d="M170 580H1020" stroke="#778d97" stroke-width="2" /><path d="M170 580H815" stroke="#3279ac" stroke-width="5" /><circle cx="815" cy="580" r="9" fill="#3279ac" />
+          </svg>

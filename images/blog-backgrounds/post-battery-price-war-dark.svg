@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1800" viewBox="0 0 1000 1800" fill="none"><style>.art-ink,
+.art-ink-soft,
+.art-hair,
+.art-blue,
+.art-gold {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.art-ink {
+  stroke: rgba(196, 210, 230, .38);
+  stroke-width: 1.6;
+}
+
+.art-ink-soft {
+  stroke: rgba(196, 210, 230, .2);
+  stroke-width: 1.2;
+}
+
+/* Hairline filigree — the finest lines (tree-rings, arcs, contours). */
+.art-hair {
+  stroke: rgba(196, 210, 230, .2);
+  stroke-width: 0.6;
+}
+
+.art-blue, .art-gold {
+  stroke-width: 1.2;
+  stroke-opacity: .55;
+}
+
+.art-blue { stroke: #5a82be; }
+.art-gold { stroke: #b28945; }
+
+.art-fill-ink {
+  fill: rgba(196, 210, 230, .38);
+  stroke: none;
+}
+
+/* Stipple dots for organic growth. */
+.art-dot {
+  fill: rgba(196, 210, 230, .2);
+  stroke: none;
+}</style>
+  <!-- Global production / the constrained factory atmosphere / granules into electrode. -->
+  <path class="art-hair" opacity=".65" d="M805 0C805 105 872 180 837 351S742 493 789 660S876 838 829 1030S742 1241 793 1422S805 1690 805 1800" />
+  <path class="art-hair" opacity=".25" d="M817 0C817 105 884 180 849 351S754 493 801 660S888 838 841 1030S754 1241 805 1422S817 1690 817 1800" />
+  <g transform="translate(805 295)" opacity=".8">
+    <circle class="art-ink" r="110" /><ellipse class="art-hair" rx="55" ry="110" />
+    <path class="art-hair" d="M-110 0H110M-94-55H94M-94 55H94M0-110V110" />
+    <path class="art-ink-soft" d="M-81-54l22-13 27 12 10 32-24 8-15 31-15-12-7-25M-24 39l30 7 16 37-14 15-11-17M14-62l35-15 38 25 13 37-23 11-12 35-21-5-10-30-20-10Z" />
+    <circle class="art-blue" cx="58" cy="-9" r="23" /><circle class="art-gold" cx="-17" cy="-56" r="12" stroke-dasharray="4 5" />
+    <path class="art-blue" d="M-53-22Q2-86 58-9" />
+    <circle class="art-dot" cx="-53" cy="-22" r="4" />
+  </g>
+  <g transform="translate(805 890)" opacity=".8">
+    <path class="art-hair" d="M-161 120V-92L-120-116H141V120Z" />
+    <rect class="art-ink" x="-106" y="-49" width="169" height="126" rx="6" />
+    <path class="art-ink-soft" d="M-161 77H141M-131-90V-65M-114-90V-65M-97-90V-65" />
+    <circle class="art-hair" cx="-73" cy="17" r="21" /><circle class="art-hair" cx="29" cy="17" r="21" />
+    <path class="art-blue" d="M-146 18H98M-106-59V-72H63V-59" />
+    <path class="art-gold" d="M-98-71C-98-136 104-136 104-31M104-31l-6-13m6 13 6-13" />
+    <path class="art-ink-soft" d="M65 95H113V-86H131M73 95l6-6m-6 6 6 6" />
+    <circle class="art-dot" cx="-33" cy="-90" r="3" /><circle class="art-dot" cx="-16" cy="-94" r="3" /><circle class="art-dot" cx="1" cy="-90" r="3" />
+  </g>
+  <g transform="translate(805 1490)" opacity=".8">
+    <path class="art-ink" d="M-120-120H4L-20-30H-97Z" />
+    <circle class="art-ink-soft" cx="-102" cy="-99" r="8" /><circle class="art-ink-soft" cx="-76" cy="-96" r="8" /><circle class="art-ink-soft" cx="-47" cy="-102" r="8" /><circle class="art-ink-soft" cx="-17" cy="-98" r="8" />
+    <circle class="art-ink-soft" cx="-85" cy="-71" r="8" /><circle class="art-ink-soft" cx="-57" cy="-73" r="8" /><circle class="art-ink-soft" cx="-31" cy="-71" r="8" />
+    <path class="art-hair" d="M-61-29V32M-72-7l11 11 11-11" />
+    <circle class="art-ink" cx="-34" cy="65" r="34" /><circle class="art-hair" cx="-34" cy="65" r="18" />
+    <circle class="art-ink" cx="-34" cy="139" r="34" /><circle class="art-hair" cx="-34" cy="139" r="18" />
+    <path class="art-blue" d="M-146 102H174M-146 109H174" />
+    <path class="art-gold" d="M80 39H123V70M117 63l6 7 6-7" />
+    <rect class="art-hair" x="68" y="-20" width="91" height="48" rx="5" />
+    <path class="art-blue" d="M80 10l12-10 13 6 13-15 13 4 15-12" />
+  </g>
+</svg>
