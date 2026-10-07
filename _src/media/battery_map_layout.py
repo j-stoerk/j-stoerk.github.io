@@ -41,6 +41,7 @@ def pair_cost(a, b):
 def place_labels(panel, entries):
     """Entries supply id, anchor, reserved width, and maximum marker radius."""
     x, y, width, height = panel['rect']
+    reserved = panel.get('reserved', ())
     markers = [(*entry['anchor'], entry['radius']) for entry in entries]
     candidates = {}
     for entry in entries:
@@ -58,6 +59,8 @@ def place_labels(panel, entries):
                     continue
                 endpoint = (min(max(ax, box[0]), box[2]), min(max(ay, box[1]), box[3]))
                 line = (entry['anchor'], endpoint)
+                if any(overlaps(box, area) or through_label(line, area) for area in reserved):
+                    continue
                 marker_hits = sum(covers_marker(box, marker) for marker in markers)
                 options.append({'box': box, 'line': line,
                                 'cost': 10_000_000 * marker_hits + math.dist(*line)})
@@ -80,7 +83,7 @@ def place_labels(panel, entries):
         math.dist(entry['anchor'], other['anchor']) < 90 for other in entries), entry['id']))
     rng = random.Random(24)
     best, best_cost = None, math.inf
-    for attempt in range(5):
+    for attempt in range(24):
         if attempt:
             rng.shuffle(order)
         placed = {}

@@ -99,10 +99,12 @@ remain in the downloadable data and are identified as omitted in the article.
 Labels have no background boxes and match their marker colours. A deterministic
 layout searches nearby positions, avoiding label overlaps and leader crossings,
 with space reserved for future planned-start years. New milestones briefly pulse at
-their geographic anchor. The dated event track and one compact legend sit within
-the video, without a duplicate HTML legend. Poster and MP4 URLs carry content
+their geographic anchor. Region titles and dated announcements sit inside each
+map, with their space reserved during label placement. The date appears only at
+the top; there is no bottom timeline. One compact legend uses tangent nested
+circles on the same area scale, without a duplicate HTML legend. Poster and MP4 URLs carry content
 hashes after building, so updated media does not reuse a cached earlier version.
-The renderer uses logical coordinates at twice the resolution for a 2880×1920
+The renderer uses logical coordinates at twice the resolution for a 2880×1560
 MP4, with larger labels and H.264 CRF 16 encoding. Poster JPEGs use full colour
 resolution. Geography uses Natural Earth's public-domain 1:50m land polygons and
 country boundaries, cached in `battery-world-land.json` and

@@ -11,22 +11,26 @@ import shutil
 import subprocess
 from pathlib import Path
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageChops, ImageDraw
 
 from battery_map_drawing import Draw, Font
 from battery_map_layout import crossing_count, place_labels
 
 ROOT = Path(__file__).resolve().parents[2]
-W, H, FPS, DURATION = 1440, 960, 24, 44
+W, H, FPS, DURATION = 1440, 780, 24, 44
 SCALE = 2
 OUTPUT_SIZE = (W * SCALE, H * SCALE)
 BG, INK, MUTED = '#f4f2ec', '#243d4e', '#74838b'
 BLUE, GOLD, LAND = '#277bb0', '#aa7e48', '#dce2e2'
 DATA = json.loads((ROOT / 'data/battery-market.json').read_text(encoding='utf-8'))
 PANELS = {
-    'europe': {'rect': (44, 104, 650, 546), 'bounds': (-12, 31, 38, 71), 'title': 'Europe'},
-    'asia': {'rect': (746, 104, 650, 546), 'bounds': (106, 143, 17, 43), 'title': 'East Asia'},
+    'europe': {'rect': (44, 96, 650, 556), 'bounds': (-12, 31, 31, 71), 'title': 'Europe'},
+    'asia': {'rect': (746, 96, 650, 556), 'bounds': (106, 143, 17, 43), 'title': 'East Asia'},
 }
+for panel in PANELS.values():
+    px, py, pw, ph = panel['rect']
+    panel['reserved'] = ((px + 16, py + 14, px + 195, py + 50),
+                         (px + 16, py + ph - 99, px + pw - 16, py + ph - 14))
 
 
 def snapshot(company, date):
@@ -193,7 +197,17 @@ def main():
         base.paste(tile, (x * scale, y * scale), mask)
         draw.rounded_rectangle((x, y, x + width - 1, y + height - 1), radius=10,
                                outline='#d5dee0', width=1)
-        draw.text((x, y - 31), panel['title'], font=fonts[18], fill=INK)
+        draw.text((x + 22, y + 20), panel['title'], font=bold[24], fill=INK)
+        # Fade into the map's own sea colour, leaving a quiet lower corner for
+        # the region's latest announcement without another floating card.
+        footer = Image.new('RGBA', (width * SCALE, 106 * SCALE))
+        fd = ImageDraw.Draw(footer)
+        for row in range(106 * SCALE):
+            alpha = round(255 * min(1, row / (24 * SCALE)))
+            fd.line((0, row, width * SCALE, row), fill=(234, 240, 241, alpha))
+        footer.putalpha(ImageChops.multiply(footer.getchannel('A'),
+                        mask.crop((0, (height - 106) * SCALE, width * SCALE, height * SCALE))))
+        base.paste(footer, (x * SCALE, (y + height - 106) * SCALE), footer)
 
     labels = {
         key: label_positions(panel, [c for c in DATA['companies'] if contains(c, panel)], bold[22])
@@ -204,8 +218,6 @@ def main():
     all_events = sorted([(event['date'], company, event)
                          for company in DATA['companies'] if displayed(company) for event in company['events']
                          if event['date'] > '2020-01-01'], key=lambda row: row[0])
-    start_date = dt.date(2020, 1, 1)
-    total_days = (dt.date.fromisoformat(DATA['cutoff']) - start_date).days
 
     def render(progress):
         date = date_at(progress)
@@ -299,12 +311,15 @@ def main():
                 draw.text((lx, top), name, font=font, fill=marker_color(state, r), anchor='lt')
 
         # One compact legend in the video; the page does not repeat it.
-        draw.text((884, 672), 'GWh/mo · circle area', font=fonts[18], fill=INK)
-        draw.text((884, 706), 'Targets: annual GWh / 12', font=fonts[16], fill=MUTED)
-        for x, value in ((918, 1), (1000, 5), (1150, 20), (1320, 40)):
+        # Tangent nested circles retain the exact map scale in a single swatch.
+        draw.text((1120, 674), 'GWh/mo', font=bold[18], fill=INK)
+        draw.text((1120, 747), 'Targets ÷ 12', font=fonts[15], fill=MUTED)
+        for value in (20, 5, 1):
             r = radius(value)
-            circle(draw, x, 786 - r, r, '#e7eff4', BLUE, 1.25)
-            draw.text((x - fonts[18].getlength(str(value)) / 2, 791), str(value), font=fonts[18], fill=INK)
+            circle(draw, 1035, 757 - r, r, None, BLUE, 1.25)
+            top = 757 - 2 * r
+            draw.line((1035, top, 1102, top), '#94b8cd', width=.75)
+            draw.text((1107, top - 10), str(value), font=fonts[17], fill=INK)
         keys = (('volume', 'EV deployment'), ('plan', 'Capacity target'),
                 ('pivot', 'Pause / pivot'), ('unknown', 'Unavailable'), ('failure', 'Insolvency'))
         for i, (kind, text) in enumerate(keys):
@@ -321,30 +336,33 @@ def main():
 
         draw.text((44, 13), str(year), font=bold[48], fill=INK)
         draw.text((178, 35), date.strftime('%d %b').upper(), font=fonts[17], fill=MUTED)
-        window = DATA['periods'][year - 2020]['label']
-        draw.text((1396 - fonts[16].getlength(window), 35), window, font=fonts[16], fill=MUTED)
-
-        draw.line((44, 856, 1396, 856), '#ccd7dc', width=2)
-        # Historical event ticks give the timeline structure without extra prose.
-        for event_date, _, _ in all_events:
-            t = (dt.date.fromisoformat(event_date) - start_date).days / total_days
-            ex = 44 + 1352 * t
-            draw.line((ex, 852, ex, 860), '#b6c4cb', width=1)
-        for tick_year in range(2020, 2027):
-            t = (dt.date(tick_year, 1, 1) - start_date).days / total_days
-            tx = 44 + 1352 * t
-            draw.text((tx, 833), str(tick_year), font=fonts[13], fill=MUTED)
-        cursor = 44 + 1352 * progress
-        draw.line((44, 856, cursor, 856), BLUE, width=3)
-        circle(draw, cursor, 856, 5, BLUE, BG, 1)
-        if latest:
-            event_date, company, event = latest
-            draw.text((44, 875), company.get('short', company['name']), font=bold[24], fill=marker_color(event, pace(company, year)))
-            draw.text((1396 - fonts[16].getlength(event_date), 882), event_date, font=fonts[16], fill=MUTED)
-            for i, line in enumerate(wrap(event['text'], 1352, fonts[17])):
-                draw.text((44, 910 + i * 23), line, font=fonts[17], fill=MUTED)
-        else:
-            draw.text((44, 880), 'Measured deployment and documented factory plans', font=fonts[19], fill=INK)
+        if year == 2026:
+            note = 'Deployment data: Jan–Aug'
+            draw.text((1396 - fonts[16].getlength(note), 35), note, font=fonts[16], fill=MUTED)
+        for panel in PANELS.values():
+            x, y, width, height = panel['rect']
+            regional = [row for row in events if contains(row[1], panel)]
+            if regional:
+                event_date, company, event = regional[-1]
+                # A quick reveal follows each milestone; the caption stays until
+                # the next one so readers can follow it within the same map.
+                reveal = min(1, (date - dt.date.fromisoformat(event_date)).days / 12)
+                offset = 5 * (1 - reveal) ** 2
+                cy = y + height - 90 + offset
+                color = marker_color(event, pace(company, year))
+                draw.text((x + 22, cy), company.get('short', company['name']), font=bold[18], fill=color)
+                draw.text((x + width - 22 - fonts[14].getlength(event_date), cy + 2), event_date, font=fonts[14], fill=MUTED)
+                for i, line in enumerate(wrap(event['text'], width - 44, fonts[17])):
+                    draw.text((x + 22, cy + 29 + i * 22), line, font=fonts[17], fill=INK)
+            elif panel['title'] == 'East Asia':
+                leader = max((row for row in active if contains(row[0], panel) and row[2] is not None),
+                             key=lambda row: row[2], default=None)
+                if leader:
+                    company = leader[0]
+                    draw.text((x + 22, y + height - 88), company.get('short', company['name']), font=bold[18], fill=BLUE)
+                    draw.text((x + 22, y + height - 59),
+                              f"{pace(company, year):.1f} GWh/mo installed in EVs worldwide",
+                              font=fonts[17], fill=INK)
         return image
 
     target = ROOT / 'media'

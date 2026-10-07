@@ -42,6 +42,9 @@ class MapContracts(unittest.TestCase):
             self.assertEqual(crossing_count(layout), 0)
             labels = list(layout.values())
             for i, a in enumerate(labels):
+                for reserved in panel['reserved']:
+                    self.assertFalse(overlaps(a['box'], reserved))
+                    self.assertFalse(through_label(a['line'], reserved))
                 for b in labels[i + 1:]:
                     self.assertFalse(overlaps(a['box'], b['box']))
                     self.assertFalse(through_label(a['line'], b['box']))

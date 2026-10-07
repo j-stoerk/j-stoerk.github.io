@@ -42,7 +42,7 @@
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles.css?v=4bf1f06e">
   <link rel="stylesheet" href="experiences.css?v=46a70b1b">
-  <link rel="stylesheet" href="battery-market.css?v=b4bdb4f0">
+  <link rel="stylesheet" href="battery-market.css?v=42fda098">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
@@ -90,8 +90,8 @@
       </div>
 
       <figure class="battery-timeline" aria-labelledby="battery-map-caption">
-        <video id="battery-map-video" width="2880" height="1920" autoplay muted loop playsinline controls preload="metadata" poster="media/battery-market-poster.jpg?v=f7652e2f" aria-describedby="battery-map-caption">
-          <source src="media/battery-market-timeline.mp4?v=ed42d72a" type="video/mp4" />
+        <video id="battery-map-video" width="2880" height="1560" autoplay muted loop playsinline controls preload="metadata" poster="media/battery-market-poster.jpg?v=c1012084" aria-describedby="battery-map-caption">
+          <source src="media/battery-market-timeline.mp4?v=3f0a4060" type="video/mp4" />
           <a href="media/battery-market-timeline.mp4">Watch the battery timeline</a> or read the data below.
         </video>
         <figcaption id="battery-map-caption">2020–4 October 2026. Manufacturer circles show company-wide EV battery deployment at their headquarters; factory rings show planned capacity, not achieved output. 2026 observations cover January–August only. Future start years are plans. <a href="#map-method">Data, dates &amp; method ↓</a></figcaption>
@@ -183,46 +183,47 @@
       <div class="prose">
         <p>These notices also cannot retrospectively explain VARTA's documented 2022 difficulties. For a company-specific attribution, I would want the actual input purchased, its origin, contract date, tariff classification, and the price change that reached the factory. Without that chain, the plausible mechanism remains a hypothesis.</p>
 
-        <h2 id="cost-drivers">Twenty more reasons the gap persists</h2>
-        <p>Wages, energy tariffs, climate conditioning, and environmental requirements matter. They do not exhaust the explanation. Below are twenty additional mechanisms to examine, grouped by what changes the product, the factory, the financing, or the selling price. They overlap; they are not twenty independently measured shares of the 56% premium. The explanations combine published findings with straightforward cost-accounting implications.</p>
+        <h2 id="cost-drivers">Twenty reasons the gap persists, in numbers</h2>
+        <p>Each factor compares a European reference or conventional route with a cheaper or more efficient benchmark. The unit matters: parts, staff, time, and power are not interchangeable with total cell cost. Where factory purchasing data are private, the comparison uses a published model or an explicitly labelled scenario. These are the available benchmarks, not proof of the cheapest possible factory.</p>
 
         <h3>The product and its supply chain</h3>
         <ol class="cost-mechanisms" start="1">
-          <li><strong>Chemistry mix.</strong> More LFP and less nickel/cobalt-rich chemistry changes materials cost before the factory location enters the comparison. <a class="ref" href="#ref-1">[1]</a></li>
-          <li><strong>Application and specification.</strong> Automotive fast charging, lifetime, and safety requirements create a different product from a stationary-storage cell. Comparing unlike specifications assigns that difference to geography. <a class="ref" href="#ref-2">[2]</a></li>
-          <li><strong>Energy per cell.</strong> Higher electrode loading and larger formats can spread inactive-material and handling costs across more kWh, subject to performance limits. <a class="ref" href="#ref-5">[5]</a></li>
-          <li><strong>Pack architecture and standardisation.</strong> Fewer intermediate components and more repeatable designs change pack cost without changing the price of the active material. <a class="ref" href="#ref-2">[2]</a></li>
-          <li><strong>Refining and precursor access.</strong> Competitive cathode and anode inputs matter as much as access to the mineral itself. A local assembly plant does not automatically obtain low-cost materials. <a class="ref" href="#ref-3">[3]</a></li>
-          <li><strong>Vertical integration.</strong> Material production, cells, packs, and vehicle demand under coordinated ownership can reduce supplier margins and align investments. It can also concentrate risk. <a class="ref" href="#ref-9">[9]</a></li>
-          <li><strong>Supplier clusters and logistics.</strong> Nearby specialist suppliers make maintenance, replacement parts, material transport, and process troubleshooting easier to coordinate. Building that ecosystem takes time. <a class="ref" href="#ref-10">[10]</a></li>
-          <li><strong>Purchasing timing and contracts.</strong> Inventory bought at yesterday's metal prices, long-term supply agreements, and hedging can delay or soften commodity price changes. <a class="ref" href="#ref-1">[1]</a></li>
+          <li><strong>Chemistry mix: roughly 1.67× or more in pack price.</strong> The IEA reports LFP packs were over 40% cheaper than NMC in 2025: NMC/LFP &gt; 1/0.60. EU EV demand remained predominantly nickel-based. Storage applications affect the average; this is not a matched-cell experiment. <span class="cost-basis">Market comparison · <a class="ref" href="#ref-2">[2]</a></span></li>
+          <li><strong>Specification: 1.24× the pack mass for the same energy.</strong> The IEA's 2025 examples reach 205 Wh/kg for LFP and 255 Wh/kg for nickel-based packs: 255/205 = 1.24. Choosing cheaper chemistry changes mass and packaging requirements. This physical ratio is not a manufacturing-cost penalty. <span class="cost-basis">Product benchmark · <a class="ref" href="#ref-67">[67, p. 123]</a></span></li>
+          <li><strong>Electrode processing: 1.10× the cell cost.</strong> A 2026 LFP study models an optimised dry route 9.3% below its water-based reference: 1/0.907 = 1.10. The corresponding cell costs are approximately €45.1 versus €49.8/kWh. This is a process scenario, not an EU–China measurement. <span class="cost-basis">Cost model · <a class="ref" href="#ref-5">[5]</a></span></li>
+          <li><strong>Pack architecture: 1.67× as many parts.</strong> CATL claimed its first cell-to-pack design removed 40% of conventional pack parts: 1/0.60 = 1.67. That reduces assembly work, but does not establish an equal cost saving or describe every current European pack. <span class="cost-basis">Manufacturer claim · <a class="ref" href="#ref-68">[68]</a></span></li>
+          <li><strong>Lithium purchasing: 1.27× the input price.</strong> The IEA assumes approximately €61.9/kg of lithium content for EU buyers versus €48.7/kg for major Chinese buyers. The inputs reflect bargaining power and integration, not a uniform tariff; they are not prices per kilogram of lithium carbonate. <span class="cost-basis">Cost-model inputs · <a class="ref" href="#ref-67">[67, Annex A]</a></span></li>
+          <li><strong>Materials sourcing: 1.24× input price.</strong> Modelled discount: 19.5%, calibrated to reported Chinese prices; purchasing contracts are undisclosed. <span class="cost-basis">Model assumption · <a class="ref" href="#ref-4">[4, §3.1.2]</a></span></li>
+          <li><strong>Manufacturing experience: roughly 10× the cumulative volume in China.</strong> By 2024, China had cumulatively produced about ten times Europe's EV battery volume. More output provides more opportunities to learn; ten times the volume does not imply ten times lower costs. <span class="cost-basis">Historical production · <a class="ref" href="#ref-67">[67, p. 119]</a></span></li>
+          <li><strong>Late rejection: 5× scrap.</strong> Modelling 5% versus 1% end-of-line rejects lowers cell cost 4.2%. <span class="cost-basis">Research scenario · <a class="ref" href="#ref-4">[4, §3.3.3]</a></span></li>
         </ol>
 
         <h3>The plant that actually runs</h3>
         <ol class="cost-mechanisms" start="9">
-          <li><strong>Equipment procurement.</strong> Comparable production lines can have different purchase, integration, and commissioning costs. Factory CAPEX is not simply a local electricity bill. <a class="ref" href="#ref-4">[4]</a></li>
-          <li><strong>First-pass yield.</strong> Scrap consumes valuable materials and processing time. The denominator is saleable energy, not metres of electrode coated. <a class="ref" href="#ref-3">[3]</a></li>
-          <li><strong>Capacity utilisation.</strong> A half-used factory must recover its fixed costs over fewer good kWh, even if its nameplate capacity looks impressive. <a class="ref" href="#ref-4">[4]</a></li>
-          <li><strong>Ramp-up duration and learning.</strong> Building the plant is one milestone; stabilising its processes is another. Delays postpone income while costs continue. <a class="ref" href="#ref-4">[4]</a></li>
-          <li><strong>Throughput, downtime, and bottlenecks.</strong> Faster coating helps only if downstream drying, assembly, formation, and testing can keep up. <a class="ref" href="#ref-7">[7]</a></li>
-          <li><strong>Customer qualification.</strong> Repeatable cells and customer approval are needed before nominal capacity becomes dependable demand. ACC's account of its first ramp-up illustrates this learning burden. <a class="ref" href="#ref-11">[11]</a></li>
+          <li><strong>Equipment: about 2× machine price.</strong> Chinese-supplier equipment is assumed to cost half the European benchmark. <span class="cost-basis">Model inputs · <a class="ref" href="#ref-4">[4, §3.1.2]</a></span></li>
+          <li><strong>Scrap and downtime: 3× the inefficiency allowance.</strong> The IEA assumes 15% for the EU and 5% for China, combining rejects and downtime. For equal input and other conditions, 95%/85% implies about 1.12× the cost per good unit, rather than 3× total cost. <span class="cost-basis">Model assumption · <a class="ref" href="#ref-67">[67, Annex A]</a></span></li>
+          <li><strong>Capacity utilisation: 1.70× the fixed cost in a half-used plant.</strong> At 50% versus 85% utilisation, fixed cost per kWh scales as 85/50 = 1.70, holding yield constant. The IEA uses 85% as a planning ceiling; 50% here is an illustration, not a measured European average or Chinese benchmark. <span class="cost-basis">Illustrative calculation · <a class="ref" href="#ref-69">[69]</a></span></li>
+          <li><strong>Factory planning: 1.80× time.</strong> German model: 4.5 years; Chinese expert estimate: 2.5 years before production. <span class="cost-basis">Model / estimate · <a class="ref" href="#ref-4">[4, §3.1]</a></span></li>
+          <li><strong>Staffing and automation: 3.57× the labour intensity.</strong> The IEA assumes 125 workers/GWh for the EU versus 35 in China: 125/35 = 3.57. This measures staffing for equivalent output, before differences in hourly pay. <span class="cost-basis">Cost-model inputs · <a class="ref" href="#ref-67">[67, Annex A]</a></span></li>
+          <li><strong>Specialist pay: 5.86× hourly wage.</strong> German/Chinese inputs: €45.4/€7.7 per hour. <span class="cost-basis">Model inputs · <a class="ref" href="#ref-4">[4, Table 1]</a></span></li>
         </ol>
 
-        <h3>Financing and industrial policy</h3>
+        <h3>Buildings, energy, and the operating schedule</h3>
         <ol class="cost-mechanisms" start="15">
-          <li><strong>Cost of capital and funding runway.</strong> Interest and refinancing exposure change the economics of a long ramp-up. A technically promising factory can run out of cash. <a class="ref" href="#ref-4">[4]</a></li>
-          <li><strong>Investment support.</strong> Grants, low-cost loans, and publicly supported financing reduce the upfront burden. The IEA identifies consistent policy and financial support among China's accumulated advantages. Payment milestones still matter: a grant offer is not cash already received. <a class="ref" href="#ref-12">[12]</a> <a class="ref" href="#ref-34">[34]</a></li>
-          <li><strong>Support per unit produced.</strong> Production-linked incentives change effective cost per kWh and reward output differently from a one-off construction grant. Eligibility and policy design matter. <a class="ref" href="#ref-4">[4]</a></li>
-          <li><strong>Trade and local-content policy.</strong> Tariffs, import treatment, and domestic-content conditions change the buyer's comparison even when the underlying process is unchanged. <a class="ref" href="#ref-8">[8]</a></li>
+          <li><strong>Construction: 1.33× cost/m².</strong> German/Chinese inputs: €3,129/€2,347; factory areas vary independently. <span class="cost-basis">Model inputs · <a class="ref" href="#ref-4">[4, Table 1]</a></span></li>
+          <li><strong>Electricity: 2.46× tariff.</strong> German/Chinese inputs: €0.183/€0.074 per kWh, before energy-demand differences. <span class="cost-basis">Model inputs · <a class="ref" href="#ref-4">[4, Table 1]</a></span></li>
+          <li><strong>Gas: 1.23× tariff.</strong> German/Chinese inputs: €0.051/€0.042 per kWh. <span class="cost-basis">Model inputs · <a class="ref" href="#ref-4">[4, Table 1]</a></span></li>
+          <li><strong>Dry-room scheduling: 4.59× the power in the active setting.</strong> Buck's model reduces power by 78.23% in a lowered, unoccupied operating mode: 1/0.2177 = 4.59. This is an idle-period opportunity, not evidence that occupied production can run at the same saving or that MiKoBatt has already achieved it. <span class="cost-basis">Operating-mode scenario · <a class="ref" href="#ref-6">[6]</a></span></li>
         </ol>
 
-        <h3>What the customer pays</h3>
+        <h3>The cash needed to reach competitive production</h3>
         <ol class="cost-mechanisms" start="19">
-          <li><strong>Overcapacity and competition.</strong> Suppliers competing for orders can compress selling margins. A low market price does not reveal a producer's sustainable long-run cost. <a class="ref" href="#ref-1">[1]</a></li>
-          <li><strong>Demand certainty and offtake.</strong> Committed customers can support financing and utilisation. An optimistic EV-demand forecast is weaker than qualified cells and a buyer ready to take them. <a class="ref" href="#ref-13">[13]</a></li>
+          <li><strong>Ramp-up: 1.99× spending.</strong> Doubled duration raises modelled German ramp-up cost from €170 million to €339 million. <span class="cost-basis">Delay scenario · <a class="ref" href="#ref-4">[4, §3.2]</a></span></li>
+          <li><strong>Output support: 1.57× breakeven price without aid.</strong> Modelled credit: €31/kWh; German levelized cost: €85.8 versus €54.8/kWh. <span class="cost-basis">Policy scenario · <a class="ref" href="#ref-4">[4, §3.3.1]</a></span></li>
         </ol>
 
-        <p>The IEA's controlled 2025 comparison of domestic NMC811 cell production identifies manufacturing efficiency, automation, and access to competitive components as substantial levers. That is a much more useful engineering starting point than attributing the entire regional pack-price gap to high European electricity prices. <sup class="cite">[<a href="#ref-3">3</a>]</sup></p>
+        <p>These factors cannot be multiplied together: staffing, scrap, throughput, and utilisation overlap, while several comparisons change the product itself. Subsidies change what a producer must recover from sales, rather than making the physical process cheaper. The output credit above is a modelling experiment based on a historical US incentive, not a claim about current EU eligibility.</p>
+        <p>Monetary model inputs are shown in euros using the ECB's 2025 annual average of 1.12998 US dollars per euro, without an inflation adjustment; factors use the unrounded original inputs. <a class="ref" href="#ref-70">[70]</a> Supplier clusters, qualification, financing terms, customer commitments, and margin compression also matter, but the public sources do not provide comparable company-level cost factors for each.</p>
 
         <aside class="battery-cost-note">
           <p class="eyebrow">A denominator worth watching</p>
@@ -420,6 +421,10 @@
         <li id="ref-64">China, Ministry of Commerce / General Administration of Customs. <a href="https://www.mofcom.gov.cn/zfxxgk/fdzdgknr/ztfl/dwmygl/art/2025/art_00667414c0524b018985abd28b8847a5.html" target="_blank" rel="noopener noreferrer">Announcement 2025 No. 70: suspension through 10 November 2026</a>, 7 November 2025. Includes Announcement 58.</li>
         <li id="ref-65">China, Ministry of Finance / General Administration of Customs / State Taxation Administration. <a href="https://fgk.chinatax.gov.cn/zcfgk/c102416/c5251171/content.html" target="_blank" rel="noopener noreferrer">Announcement 2026 No. 20: battery consumption tax</a>, 16 July 2026. Rates and effective dates for the listed categories.</li>
         <li id="ref-66">China, State Taxation Administration. <a href="https://www.chinatax.gov.cn/chinatax/c102414/c5252006/content.html" target="_blank" rel="noopener noreferrer">Battery consumption-tax Q&amp;A, part three</a>, 27 August 2026. Explains export refund/exemption treatment alongside the export VAT rebate change.</li>
+        <li id="ref-67">IEA. <a href="https://iea.blob.core.windows.net/assets/0b32e014-f1c6-43f6-9c9f-ee9bfc8c2e65/Whatnextfortheglobalcarindustry.pdf" target="_blank" rel="noopener noreferrer">What Next for the Global Car Industry?</a>, 18 November 2025. Product and production benchmarks: pp. 119–123; regional modelling inputs: Annex A, p. 176. Inefficiencies include both scrap and downtime.</li>
+        <li id="ref-68">CATL. <a href="https://www.catl.com/en/news/468.html" target="_blank" rel="noopener noreferrer">Cell-to-pack platform unveiled at IAA</a>, 10 September 2019. Manufacturer's comparison with a conventional modular pack, including 40% fewer parts.</li>
+        <li id="ref-69">IEA. <a href="https://www.iea.org/data-and-statistics/charts/historical-production-and-announced-expansion-of-lithium-ion-battery-manufacturing-maximum-output-by-region-and-battery-deployment-needs-by-scenario-2024-2025-2030" target="_blank" rel="noopener noreferrer">Battery production and expansion scenarios</a>, 5 May 2026. Assumes 85% maximum average utilisation; does not report 85% as China's observed average.</li>
+        <li id="ref-70">European Central Bank. <a href="https://data.ecb.europa.eu/data/datasets/EXR/EXR.A.USD.EUR.SP00.A" target="_blank" rel="noopener noreferrer">Annual USD/EUR reference rate, 2025</a>. Conversion convention for the monetary model inputs in the twenty comparisons.</li>
       </ol></section>
     </article>
     <section class="post-comments" id="comments" aria-label="Discussion" data-comments>
