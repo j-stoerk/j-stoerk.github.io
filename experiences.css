@@ -19,10 +19,11 @@
 .intro-signature small { font-family: var(--font-mono); font-size: 10px; color: var(--color-text-muted); }
 .intro-count { display: flex; order: -1; flex-shrink: 0; font-family: var(--font-body); font-size: clamp(80px, 10vw, 144px); font-weight: 400; font-variant-numeric: tabular-nums; line-height: 1; letter-spacing: -.055em; }
 .intro-digit { display: block; width: .62em; height: 1em; overflow: hidden; }
-.intro-reel { display: block; transition: transform .07s linear; will-change: transform; }
+.intro-reel { display: block; transition: transform var(--intro-roll-duration, .1s) cubic-bezier(.2, .7, .3, 1); }
+.intro-pending .intro-reel { will-change: transform; }
 .intro-reel > span { display: block; height: 1em; line-height: 1; }
 .intro-progress { display: none; position: absolute; top: 76%; left: 50%; transform: translateX(-50%); width: clamp(140px, 16vw, 210px); height: 6px; background: var(--color-border); }
-.intro-progress::before { content: ''; display: block; width: calc(var(--intro-progress, 0) * 100%); height: 100%; background: var(--color-primary); }
+.intro-progress::before { content: ''; display: block; width: 100%; height: 100%; background: var(--color-primary); transform: scaleX(var(--intro-progress, 0)); transform-origin: left; }
 .intro-pending .intro-progress { display: block; }
 .portfolio-atmosphere[data-intro-state="revealing"] .intro-readout { opacity: 0; transform: translateY(-10px); transition: opacity .3s ease-out, transform .35s ease-out; }
 .portfolio-atmosphere[data-intro-state="revealing"] .intro-progress { opacity: 0; transform: translate(-50%, -8px); transition: opacity .25s ease-out, transform .35s ease-out; }

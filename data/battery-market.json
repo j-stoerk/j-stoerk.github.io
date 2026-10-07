@@ -3,7 +3,7 @@
   "metric": "EV battery energy deployed, GWh; company-wide, not factory output or revenue",
   "normalisation": "Filled-dot area is proportional to reported GWh divided by months in the reporting window. Dashed-ring area is proportional to announced annual factory capacity divided by 12. Capacity is a target, not achieved production.",
   "history": "Retrospective annual snapshots, not information available on each historical date. Circle transitions are visual interpolation only. Missing observations remain missing. Historical volumes use the comparison column of the following annual SNE release when available.",
-  "geography": "Approximate headquarters or named project site: Britishvolt (Blyth), ACC (Douvrin), ABF (Tucson), FREYR (Mo i Rana), AMTE (Thurso). Established makers represent global EV deployment, not production at the mapped location. Selected companies, not a census. Lyten / Ett marks the acquired Skelleftea factory, separately from Northvolt corporate history.",
+  "geography": "Circles are centred on approximate headquarters or named project coordinates. Regional maps preserve these positions; only labels are offset with leader lines. The world overview uses unscaled locator pins. Established manufacturers encode company-wide global EV deployment at their HQ, not output at that location. Site targets have no deployment observations and are never added to a parent-company volume. Northvolt and Lyten/Ett share Skelleftea because the site changes ownership.",
   "sources": {
     "catl2020": {
       "title": "CATL corporate brochure, September 2022, p. 7",
@@ -220,6 +220,139 @@
       "title": "VARTA AG: insolvency proceedings opened 1 October; Consumer Batteries unaffected",
       "url": "https://www.varta-ag.com/de/ueber-varta/news-presse/details/varta-ag-verkaufsprozess-laeuft-planmaessig",
       "published": "2026-10-02"
+    },
+    "eveLocation": {
+      "title": "EVE headquarters, Huizhou",
+      "url": "https://www.evebattery.com/en/contact"
+    },
+    "svoltLocation": {
+      "title": "SVOLT headquarters, Changzhou",
+      "url": "https://www.svolt.cn/en/about/contact"
+    },
+    "reptLocation": {
+      "title": "REPT headquarters, Wenzhou",
+      "url": "https://www.reptbattero.com/contact/"
+    },
+    "sunwodaLocation": {
+      "title": "Sunwoda headquarters, Shenzhen",
+      "url": "https://en.sunwoda.com/contact"
+    },
+    "agratasUK": {
+      "title": "Agratas: Somerset site confirmed; 40 GWh/year target",
+      "url": "https://agratas.net/news/",
+      "published": "2024-02-28"
+    },
+    "agratasBuild": {
+      "title": "Agratas: Bridgwater construction progress",
+      "url": "https://www.agratas.com/news/powering-ahead-agratas-uk-battery-facility-builds-momentum-in-2025-with-big-steps-expected-in-2026",
+      "published": "2025-12-17"
+    },
+    "agratasStart": {
+      "title": "Environment Agency: Agratas UK operations scheduled for 2027",
+      "url": "https://engageenvironmentagency.uk.engagementhq.com/wessex-regulated-industry-sites/widgets/123562/faqs"
+    },
+    "agratasIndiaPlan": {
+      "title": "Tata Sons annual report FY2024: Sanand 20 GWh target",
+      "url": "https://www.tata.com/content/dam/tata/pdf/fy24/Tata-Sons-Annual-Report-FY24.pdf"
+    },
+    "agratasIndiaBuild": {
+      "title": "Agratas: Sanand steel frame completed; 2027 production target",
+      "url": "https://www.agratas.com/news/agratas-crosses-key-construction-milestone-at-sanand-facility",
+      "published": "2026-04-02"
+    },
+    "prologiumBuild": {
+      "title": "ProLogium: Dunkirk groundbreaking and 2028-2032 phased roadmap",
+      "url": "https://prologium.com/prologium-breaks-ground-on-dunkirk-gigafactory-in-france/",
+      "published": "2026-02-10"
+    },
+    "prologiumProgress": {
+      "title": "ProLogium: Dunkirk infrastructure update",
+      "url": "https://prologium.com/prologium-advances-dunkirk-gigafactory-as-site-infrastructure-and-localization-work-accelerate/",
+      "published": "2026-09-29"
+    },
+    "gibBuild": {
+      "title": "Gotion: Surany groundbreaking; 20 GWh/year target, 2027 production plan",
+      "url": "https://www.prnewswire.com/news-releases/la-premiere-usine-de-batteries-de-slovaquie-demarre-officiellement--gotion-redefinit-la-logique-de-leurope-de-lenergie-302606124.html",
+      "published": "2025-11-05"
+    },
+    "elevenesPlan": {
+      "title": "ElevenEs: Caterpillar investment and planned 1 GWh factory",
+      "url": "https://elevenes.com/sr/vesti/elevenes-podrzan-od-strane-caterpillar-venture-capital-inc/",
+      "published": "2026-02-16"
+    },
+    "tiamatPlan": {
+      "title": "Tiamat: financing round and future 5 GWh factory",
+      "url": "https://www.tiamat-energy.com/wp-content/uploads/2025/06/PressRelease_Investment_vsend_FR.pdf",
+      "published": "2025-06-16"
+    },
+    "tiamatPause": {
+      "title": "Amiens Metropole: Tiamat construction postponed pending private financing",
+      "url": "https://www.amiens.fr/Actualites/Tiamat-peine-a-charger-ses-fonds-prive-s",
+      "published": "2026-09-23"
+    },
+    "onePilot": {
+      "title": "ONE: Michigan pilot production begins; 20 GWh factory design",
+      "url": "https://one.ai/pilot-production-of-lfp-battery-cells-at-20-gwh-michigan",
+      "published": "2023-11-01"
+    },
+    "onePivot": {
+      "title": "ONE: automotive EV investments paused; infrastructure and defence focus",
+      "url": "https://one.ai/one-focuses-on-infrastructure-defense-pauses-evs",
+      "published": "2026-01-07"
+    },
+    "factorialPilot": {
+      "title": "Factorial press release: Methuen pilot facility, up to 200 MWh design",
+      "url": "https://www.theautochannel.com/news/2023/10/23/1319072-factorial-energy-opens-new-manufacturing-facility-to-house-largest-solid.html",
+      "published": "2023-10-23"
+    },
+    "ampriusPlan": {
+      "title": "Amprius: Brighton approval; initial 500 MWh/year target",
+      "url": "https://ir.amprius.com/news-events/press-releases/detail/66/amprius-state-of-the-art-gigawatt-hour-scale-factory-in-colorado-passes-major-milestone",
+      "published": "2023-09-28"
+    },
+    "ampriusExit": {
+      "title": "Amprius 2025 annual report: Brighton lease termination and contract-manufacturing strategy",
+      "url": "https://ir.amprius.com/sec-filings/all-sec-filings/content/0001899287-26-000015/ampx-20251231.htm",
+      "published": "2026-03-06"
+    },
+    "aescSunderland": {
+      "title": "UK Export Finance: Sunderland plant 2, 15.8 GWh/year nameplate",
+      "url": "https://www.gov.uk/government/publications/category-b-project-supported-aesc-edg-uk/category-b-project-supported-aesc-edg-uk",
+      "published": "2025-06-02"
+    },
+    "aescOpening": {
+      "title": "AESC statement reported by Mysteel: Sunderland start of operations",
+      "url": "https://www.mysteel.net/news/5107363-flash-envision-aesc-uk-battery-gigafactory-officially-puts-into-operation",
+      "published": "2025-12-18"
+    },
+    "powercoCanada": {
+      "title": "Volkswagen: St. Thomas, up to 90 GWh/year at final expansion",
+      "url": "https://www.volkswagen-group.com/en/press-releases/volkswagen-and-powerco-se-will-build-their-largest-cell-factory-to-date-in-canada-16163/download?disposition=attachment",
+      "published": "2023-04-21"
+    },
+    "powercoCanadaStart": {
+      "title": "Volkswagen Q1 2023 report: St. Thomas start envisaged for 2027",
+      "url": "https://uploads.vw-mms.de/system/production/documents/cws/001/727/file_en/1e4ff2d8a3bbb74b1e22af7863caedae2ee583f6/Q1_2023_e.pdf?1683540234="
+    },
+    "powercoSpain": {
+      "title": "Volkswagen: Sagunto construction starts; 40 GWh/year design",
+      "url": "https://www.volkswagen-group.com/en/press-releases/gigafactory-valencia-powerco-gives-starting-signal-for-construction-of-second-cell-factory-17033",
+      "published": "2023-03-17"
+    },
+    "powercoGotion": {
+      "title": "Volkswagen, PowerCo and Gotion: Valencia joint venture and 2027 start",
+      "url": "https://www.volkswagen-group.com/en/press-releases/volkswagen-group-powerco-and-gotion-deepen-strategic-partnership-20710",
+      "published": "2026-09-28"
+    },
+    "catlHungary": {
+      "title": "CATL: 100 GWh/year Debrecen target across phases",
+      "url": "https://www.catl.com/en/news/983.html",
+      "published": "2022-08-12"
+    },
+    "catlHungaryModules": {
+      "title": "CATL: Debrecen module assembly begins, distinct from cell production",
+      "url": "https://www.catl.com/en/hungarynews/6810.html?lang=hu&type=1",
+      "published": "2026-05-12"
     }
   },
   "periods": [
@@ -273,10 +406,6 @@
       "location": "Ningde, China",
       "lon": 119.55,
       "lat": 26.66,
-      "label": [
-        1130,
-        400
-      ],
       "volumes": [
         36.2,
         99.5,
@@ -294,10 +423,6 @@
       "location": "Shenzhen, China",
       "lon": 114.06,
       "lat": 22.54,
-      "label": [
-        1120,
-        620
-      ],
       "volumes": [
         null,
         26.4,
@@ -316,10 +441,6 @@
       "location": "Seoul, South Korea",
       "lon": 126.98,
       "lat": 37.57,
-      "label": [
-        1115,
-        240
-      ],
       "volumes": [
         null,
         59.4,
@@ -330,6 +451,13 @@
         68.3
       ],
       "events": [
+        {
+          "date": "2020-01-01",
+          "phase": "operating",
+          "capacity": null,
+          "text": "Established manufacturer; historical global EV-deployment observations follow the reporting windows.",
+          "source": "sne2022"
+        },
         {
           "date": "2026-01-29",
           "phase": "operating",
@@ -345,10 +473,6 @@
       "location": "Osaka, Japan",
       "lon": 135.5,
       "lat": 34.69,
-      "label": [
-        1310,
-        455
-      ],
       "volumes": [
         null,
         36.3,
@@ -367,10 +491,6 @@
       "location": "Seoul, South Korea",
       "lon": 126.98,
       "lat": 37.57,
-      "label": [
-        1250,
-        270
-      ],
       "volumes": [
         null,
         17.3,
@@ -388,10 +508,6 @@
       "location": "Yongin, South Korea",
       "lon": 127.1,
       "lat": 37.25,
-      "label": [
-        1350,
-        350
-      ],
       "volumes": [
         null,
         14.5,
@@ -409,10 +525,6 @@
       "location": "Changzhou, China",
       "lon": 119.97,
       "lat": 31.81,
-      "label": [
-        940,
-        340
-      ],
       "volumes": [
         null,
         8.0,
@@ -430,10 +542,6 @@
       "location": "Hefei, China",
       "lon": 117.23,
       "lat": 31.82,
-      "label": [
-        945,
-        480
-      ],
       "volumes": [
         null,
         6.7,
@@ -448,13 +556,9 @@
     {
       "id": "northvolt",
       "name": "Northvolt",
-      "location": "Stockholm, Sweden; target: Ett, Skellefteå",
-      "lon": 18.07,
-      "lat": 59.33,
-      "label": [
-        775,
-        220
-      ],
+      "location": "Ett, Skelleftea; corporate insolvency history",
+      "lon": 20.95,
+      "lat": 64.75,
       "volumes": [
         null,
         null,
@@ -529,10 +633,6 @@
       "location": "Blyth, UK (planned factory site)",
       "lon": -1.51,
       "lat": 55.13,
-      "label": [
-        565,
-        240
-      ],
       "volumes": [
         null,
         null,
@@ -580,10 +680,6 @@
       "location": "Indianapolis, USA",
       "lon": -86.16,
       "lat": 39.77,
-      "label": [
-        335,
-        270
-      ],
       "volumes": [
         null,
         null,
@@ -613,13 +709,9 @@
     {
       "id": "verkor",
       "name": "Verkor",
-      "location": "Grenoble, France; target: Dunkirk",
-      "lon": 5.72,
-      "lat": 45.19,
-      "label": [
-        580,
-        410
-      ],
+      "location": "Dunkirk factory, not Grenoble headquarters",
+      "lon": 2.2,
+      "lat": 51.03,
       "volumes": [
         null,
         null,
@@ -666,10 +758,6 @@
       "location": "Salzgitter, Germany",
       "lon": 10.42,
       "lat": 52.15,
-      "label": [
-        765,
-        355
-      ],
       "volumes": [
         null,
         null,
@@ -709,10 +797,6 @@
       "location": "Douvrin, France (factory site)",
       "lon": 2.83,
       "lat": 50.51,
-      "label": [
-        635,
-        520
-      ],
       "volumes": [
         null,
         null,
@@ -760,10 +844,6 @@
       "location": "Tucson, USA (announced factory/headquarters)",
       "lon": -110.97,
       "lat": 32.22,
-      "label": [
-        195,
-        415
-      ],
       "volumes": [
         null,
         null,
@@ -796,10 +876,6 @@
       "location": "Arendal, Norway",
       "lon": 8.77,
       "lat": 58.46,
-      "label": [
-        690,
-        170
-      ],
       "volumes": [
         null,
         null,
@@ -839,10 +915,6 @@
       "location": "Mo i Rana, Norway (Giga Arctic project site)",
       "lon": 14.14,
       "lat": 66.31,
-      "label": [
-        930,
-        180
-      ],
       "volumes": [
         null,
         null,
@@ -882,10 +954,6 @@
       "location": "Thurso, Scotland (manufacturing site)",
       "lon": -3.52,
       "lat": 58.59,
-      "label": [
-        420,
-        180
-      ],
       "volumes": [
         null,
         null,
@@ -932,10 +1000,6 @@
       "location": "Skelleftea, Sweden (acquired factory site)",
       "lon": 20.95,
       "lat": 64.75,
-      "label": [
-        830,
-        530
-      ],
       "volumes": [
         null,
         null,
@@ -961,10 +1025,6 @@
       "location": "Ellwangen, Germany (headquarters; CoinPower is a miniature-cell product, not EV deployment)",
       "lon": 10.135,
       "lat": 48.962,
-      "label": [
-        770,
-        630
-      ],
       "volumes": [
         null,
         null,
@@ -990,7 +1050,516 @@
           "source": "vartaProceedings"
         }
       ]
+    },
+    {
+      "id": "eve",
+      "name": "EVE Energy",
+      "short": "EVE",
+      "lon": 114.41,
+      "lat": 23.04,
+      "location": "Huizhou headquarters",
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        18.7,
+        31.3,
+        29.5
+      ],
+      "events": [],
+      "locationSource": "eveLocation"
+    },
+    {
+      "id": "svolt",
+      "name": "SVOLT",
+      "short": "SVOLT",
+      "lon": 119.6,
+      "lat": 31.74,
+      "location": "Jintan, Changzhou headquarters",
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        17.4,
+        28.5,
+        22.0
+      ],
+      "events": [],
+      "locationSource": "svoltLocation"
+    },
+    {
+      "id": "rept",
+      "name": "REPT BATTERO",
+      "short": "REPT",
+      "lon": 120.81,
+      "lat": 27.91,
+      "location": "Wenzhou headquarters",
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        20.3
+      ],
+      "events": [],
+      "locationSource": "reptLocation"
+    },
+    {
+      "id": "sunwoda",
+      "name": "Sunwoda",
+      "short": "Sunwoda",
+      "lon": 113.93,
+      "lat": 22.7,
+      "location": "Shenzhen headquarters",
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        19.3
+      ],
+      "events": [],
+      "locationSource": "sunwodaLocation"
+    },
+    {
+      "id": "agratasuk",
+      "name": "Agratas / Bridgwater",
+      "short": "Agratas UK",
+      "lon": -2.95,
+      "lat": 51.18,
+      "location": "Gravity site, near Bridgwater",
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2024-02-28",
+          "phase": "planned",
+          "capacity": 40,
+          "text": "Somerset selected: 40 GWh/year factory target, not achieved output.",
+          "source": "agratasUK"
+        },
+        {
+          "date": "2025-12-17",
+          "phase": "construction",
+          "capacity": 40,
+          "text": "Building One steel frame reaches 90% completion; UK operations scheduled for 2027.",
+          "source": "agratasBuild",
+          "targetStart": "2027",
+          "targetSource": "agratasStart"
+        }
+      ]
+    },
+    {
+      "id": "agratasindia",
+      "name": "Agratas / Sanand",
+      "short": "Agratas India",
+      "lon": 72.39,
+      "lat": 22.99,
+      "location": "Sanand, Gujarat",
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2026-04-02",
+          "phase": "construction",
+          "capacity": 20,
+          "text": "Steel frame completed; production expected in 2027. Tata reports a 20 GWh/year plant target.",
+          "source": "agratasIndiaBuild",
+          "capacitySource": "agratasIndiaPlan",
+          "targetStart": "2027"
+        }
+      ]
+    },
+    {
+      "id": "prologium",
+      "name": "ProLogium / Dunkirk",
+      "short": "ProLogium",
+      "lon": 2.2,
+      "lat": 50.99,
+      "location": "Dunkirk project site",
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2026-02-10",
+          "phase": "construction",
+          "capacity": 0.8,
+          "text": "Groundbreaking: 0.8 GWh/year first phase targeted for 2028; full Fab 1 at 4 GWh/year targeted for 2030.",
+          "source": "prologiumBuild",
+          "targetStart": "2028",
+          "futureTargets": [
+            {
+              "year": 2030,
+              "capacity": 4
+            },
+            {
+              "year": 2032,
+              "capacity": 12
+            }
+          ]
+        },
+        {
+          "date": "2026-09-29",
+          "phase": "construction",
+          "capacity": 0.8,
+          "text": "Site infrastructure and grid work advance; the phased 2028-2032 roadmap remains a plan.",
+          "source": "prologiumProgress",
+          "capacitySource": "prologiumBuild",
+          "targetStart": "2028",
+          "futureTargets": [
+            {
+              "year": 2030,
+              "capacity": 4
+            },
+            {
+              "year": 2032,
+              "capacity": 12
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gib",
+      "name": "Gotion InoBat / Surany",
+      "short": "GIB",
+      "lon": 18.17,
+      "lat": 48.09,
+      "location": "Surany, Slovakia",
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2025-10-28",
+          "phase": "construction",
+          "capacity": 20,
+          "text": "Groundbreaking: initial 20 GWh/year target, production expected in 2027.",
+          "source": "gibBuild",
+          "targetStart": "2027"
+        }
+      ]
+    },
+    {
+      "id": "elevenes",
+      "name": "ElevenEs / Subotica",
+      "short": "ElevenEs",
+      "lon": 19.66,
+      "lat": 46.1,
+      "location": "Subotica, Serbia",
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2026-02-16",
+          "phase": "planned",
+          "capacity": 1,
+          "text": "Series B first closing funds initial works; 1 GWh/year factory planned, first cells expected in 2027.",
+          "source": "elevenesPlan",
+          "targetStart": "2027"
+        }
+      ]
+    },
+    {
+      "id": "tiamat",
+      "name": "Tiamat / Boves",
+      "short": "Tiamat",
+      "lon": 2.39,
+      "lat": 49.85,
+      "location": "Boves project site",
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2025-06-16",
+          "phase": "planned",
+          "capacity": 5,
+          "text": "Financing round for a future 5 GWh/year factory; first phase targeted for mid-2027. Its power rating is not energy capacity.",
+          "source": "tiamatPlan",
+          "targetStart": "2027"
+        },
+        {
+          "date": "2026-09-16",
+          "phase": "paused",
+          "capacity": 5,
+          "text": "CEO confirms construction postponed pending private finance. Contract production in Asia continues; no bankruptcy.",
+          "source": "tiamatPause",
+          "capacitySource": "tiamatPlan"
+        }
+      ]
+    },
+    {
+      "id": "one",
+      "name": "Our Next Energy / Michigan",
+      "short": "ONE",
+      "lon": -83.52,
+      "lat": 42.22,
+      "location": "Van Buren Township, Michigan",
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2023-11-01",
+          "phase": "pilot",
+          "capacity": 20,
+          "text": "Pilot cells produced; 20 GWh/year describes the factory design, not pilot output.",
+          "source": "onePilot"
+        },
+        {
+          "date": "2026-01-07",
+          "phase": "pivoted",
+          "capacity": null,
+          "text": "EV investments paused; infrastructure and defence batteries prioritised. Not an insolvency.",
+          "source": "onePivot"
+        }
+      ]
+    },
+    {
+      "id": "factorial",
+      "name": "Factorial / Methuen",
+      "short": "Factorial",
+      "lon": -71.18,
+      "lat": 42.73,
+      "location": "Methuen, Massachusetts",
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2023-10-23",
+          "phase": "pilot",
+          "capacity": 0.2,
+          "text": "Solid-state development facility opens, designed for up to 200 MWh/year. Not measured deployment.",
+          "source": "factorialPilot"
+        }
+      ]
+    },
+    {
+      "id": "amprius",
+      "name": "Amprius / Brighton project",
+      "short": "Amprius",
+      "lon": -104.77,
+      "lat": 39.97,
+      "location": "Brighton, Colorado project site",
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2023-09-28",
+          "phase": "planned",
+          "capacity": 0.5,
+          "text": "Rezoning approved; 500 MWh/year initial target and a projected 2025 opening.",
+          "source": "ampriusPlan",
+          "targetStart": "2025"
+        },
+        {
+          "date": "2026-01-30",
+          "phase": "pivoted",
+          "capacity": null,
+          "text": "Lease termination agreed; contract manufacturing chosen for capital-efficient expansion. Not a bankruptcy.",
+          "source": "ampriusExit"
+        }
+      ]
+    },
+    {
+      "id": "aesc",
+      "name": "AESC / Sunderland",
+      "short": "AESC",
+      "lon": -1.48,
+      "lat": 54.92,
+      "location": "Sunderland plant 2",
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2025-06-02",
+          "phase": "construction",
+          "capacity": 15.8,
+          "text": "UK Export Finance supports plant 2: 15.8 GWh/year nameplate, not achieved output.",
+          "source": "aescSunderland"
+        },
+        {
+          "date": "2025-12-16",
+          "phase": "ramp-up",
+          "capacity": 15.8,
+          "text": "Start of operations announced; nameplate remains distinct from achieved annual production.",
+          "source": "aescOpening"
+        }
+      ]
+    },
+    {
+      "id": "powercocanada",
+      "name": "PowerCo / St. Thomas",
+      "short": "PowerCo Canada",
+      "lon": -81.14,
+      "lat": 42.79,
+      "location": "St. Thomas, Ontario",
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2023-04-21",
+          "phase": "planned",
+          "capacity": 90,
+          "text": "Up to 90 GWh/year in the final expansion phase, not at its envisaged 2027 start.",
+          "source": "powercoCanada",
+          "targetStart": "2027",
+          "targetSource": "powercoCanadaStart"
+        }
+      ]
+    },
+    {
+      "id": "powercospain",
+      "name": "PowerCo / Sagunto",
+      "short": "PowerCo Spain",
+      "lon": -0.28,
+      "lat": 39.69,
+      "location": "Sagunto, Valencia",
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2023-03-17",
+          "phase": "construction",
+          "capacity": 40,
+          "text": "Construction begins: 40 GWh/year design, production initially targeted for 2026.",
+          "source": "powercoSpain",
+          "targetStart": "2026"
+        },
+        {
+          "date": "2026-09-28",
+          "phase": "construction",
+          "capacity": 30,
+          "text": "PowerCo and Gotion plan a joint venture: 30 GWh/year initial capacity, production from 2027.",
+          "source": "powercoGotion",
+          "targetStart": "2027"
+        }
+      ]
+    },
+    {
+      "id": "catlhungary",
+      "name": "CATL / Debrecen project",
+      "short": "CATL Hungary",
+      "lon": 21.64,
+      "lat": 47.49,
+      "location": "Debrecen, Hungary",
+      "volumes": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "events": [
+        {
+          "date": "2022-08-12",
+          "phase": "planned",
+          "capacity": 100,
+          "text": "100 GWh/year cell factory announced across successive phases; total target, not first-phase output.",
+          "source": "catlHungary"
+        },
+        {
+          "date": "2026-05-06",
+          "phase": "construction",
+          "capacity": 100,
+          "text": "Adjacent module assembly begins. This does not establish achieved cell output.",
+          "source": "catlHungaryModules",
+          "capacitySource": "catlHungary"
+        }
+      ]
     }
   ],
-  "status": "Black marks documented company insolvency or an announced decision to file. Amber diamonds mark funding distress, project spending pauses or strategic pivots, without volume scale. Manufacturing assets can be acquired or restarted. Confirmation dates and month-level dates are identified in milestone text."
+  "status": "Black marks documented company insolvency or an announced decision to file. Amber diamonds mark funding distress, project spending pauses or strategic pivots, without volume scale. Manufacturing assets can be acquired or restarted. Confirmation dates and month-level dates are identified in milestone text.",
+  "coverage": "37 selected company/site entries, including all ten suppliers in SNE Research January-August 2026 top ten, plus Samsung SDI, Sunwoda, AESC and selected startups and factory plans. Not a census of cell plants or a stationary-storage ranking.",
+  "future": "Only announcements documented by 4 October 2026 appear. Target-start years and later expansions are attributed plans, not future milestones or achieved production. Pilot opening is distinct from commercial ramp-up and achieved nameplate output."
 }

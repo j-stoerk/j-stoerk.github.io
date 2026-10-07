@@ -117,14 +117,16 @@
         firstVisit = false;
       }
       const reloading = performance.getEntriesByType('navigation')[0]?.type === 'reload';
-      if ((reloading || (firstVisit && !location.hash)) && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const connection = navigator.connection;
+      const conserveData = connection && (connection.saveData || /^(slow-)?2g$/.test(connection.effectiveType));
+      if ((reloading || (firstVisit && !location.hash)) && !conserveData && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
         root.classList.add('intro-pending', 'intro-active');
       }
       // Select a fallback only if the renderer never produces its first frame.
       window.introFallback = setTimeout(function () {
         if (root.dataset.backgroundRenderer === 'pending') root.dataset.backgroundRenderer = 'fallback';
         root.classList.remove('intro-pending', 'intro-active');
-      }, 7000);
+      }, 1800);
     })();
   </script>
 </head>

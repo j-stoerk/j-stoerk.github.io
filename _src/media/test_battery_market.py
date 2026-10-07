@@ -14,6 +14,25 @@ companies = {c['id']: c for c in data['companies']}
 
 
 class MapContracts(unittest.TestCase):
+    def test_regional_maps_keep_circles_at_factory_or_headquarters_coordinates(self):
+        # Northvolt's cell plant is in Skelleftea, not its former Stockholm HQ;
+        # Verkor's gigafactory is in Dunkirk, not its Grenoble headquarters.
+        self.assertAlmostEqual(companies['northvolt']['lat'], 64.75, places=1)
+        self.assertAlmostEqual(companies['verkor']['lat'], 51.03, places=1)
+        for company in data['companies']:
+            self.assertNotIn('label', company)
+            self.assertTrue(any(renderer.contains(company, panel)
+                                for panel in renderer.PANELS.values()))
+
+    def test_expansion_includes_top_ten_without_inventing_startup_output(self):
+        top_ten = {'catl', 'byd', 'lges', 'calb', 'gotion', 'skon', 'eve',
+                   'svolt', 'rept', 'panasonic'}
+        self.assertTrue(top_ten.issubset(companies))
+        for name in ('agratasuk', 'agratasindia', 'prologium', 'elevenes'):
+            self.assertTrue(all(v is None for v in companies[name]['volumes']))
+        self.assertEqual(renderer.snapshot(companies['tiamat'], data['cutoff'])['phase'], 'paused')
+        self.assertEqual(data['sources']['aescSunderland']['published'], '2025-06-02')
+
     def test_missing_is_not_zero_or_a_full_year_forecast(self):
         self.assertIsNone(renderer.pace(companies['samsung'], 2026))
         self.assertIsNone(renderer.pace(companies['byd'], 2020))

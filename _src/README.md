@@ -90,6 +90,11 @@ divided by twelve. Those targets are not achieved output. Insolvency, funding
 distress, project pauses, and pivots remain distinct. The article's
 `<!--#BATTERY_MARKET_DATA-->` marker exports the same observations and sourced
 milestones to readable HTML and `data/battery-market-volumes.csv` during a build.
+The regional maps share one circle-area scale and keep circles at the mapped
+headquarters or project coordinates. Labels use leader lines; the world overview
+uses unscaled locator pins. Company-wide deployment is not output at the marked
+headquarters. Future planned starts remain targets and do not become historical
+production events. The video runs for 44 seconds in one continuous timeline.
 
 The committed MP4, poster and social image need no media tools during ordinary
 builds. After changing the dataset, regenerate them with:
@@ -129,14 +134,20 @@ to pointer movement and taps. It uses the site's theme colours and the
 shared visibility-aware animation loop, with a separate clock for each scene.
 The first homepage visit in a tab session without a fragment, or an explicit
 homepage reload, starts the surface at full screen with rolling digits counting from
-000 to 100 and a compact progress bar. The count accelerates with a 3.4 power curve
+000 to 100 and a compact progress bar. The count accelerates with an exponential curve
 and follows elapsed real time so slower rendering cannot extend the opening.
+The surface assembles and moves with the displayed integer, and digit transitions
+shorten as the counter accelerates. The renderer is deferred in the head so it
+downloads early without blocking HTML parsing. All other runtime scripts defer too.
 On the same frame that reaches 100, that same canvas unfolds into a larger, quieter mesh
 and flowing gold line behind the page. Its viewport dimensions stay fixed through
 the reveal; a horizontal opacity mask protects the reading column. The portrait
 uses its original size and occupies its own place in the hero. Ambient frames
-stop outside the hero. Scrolling refreshes visibility without changing the mesh's
-placement or phase; resizing and theme changes redraw the current scene.
+stop outside the hero. Intersection observers track visibility and resize observers
+cache canvas dimensions. Mobile devices use fewer mesh points, a lower pixel ratio
+and a 30 fps intro; the settled background rests until interaction. Slow drawing
+also enables this lighter rendering. Desktop ambient motion runs at 20 fps, with
+a shared pixel budget. Resizing and theme changes redraw the current scene.
 The head bootstrap selects a renderer (`pending`, `canvas`, or `fallback`).
 The canvas becomes visible only after its first complete frame. The static SVG is
 reserved for unavailable JavaScript/canvas or a renderer timeout, and a selected
@@ -144,8 +155,8 @@ fallback stays selected for that page visit. There is no SVG-to-canvas cross-fad
 Clicking, scrolling, touching the screen, or using the keyboard dismisses the opening immediately.
 Content becomes interactive after the reveal, so dismissing the intro cannot
 accidentally activate a hidden link. Pointer-driven motion starts after the opening.
-A timeout also restores
-the page if animation fails; deep links skip the opening. The head bootstrap records
+A 1.8-second fallback restores the page if the renderer never draws its first
+frame; deep links and data-saving connections skip the opening. The head bootstrap records
 the first visit in sessionStorage before paint, so ordinary returns from CV or
 Blog open directly, even after skipping or dismissing the intro. Navigation timing
 identifies explicit reloads, which replay the opening even at a section fragment.

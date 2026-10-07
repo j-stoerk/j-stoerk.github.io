@@ -190,15 +190,16 @@ function footer(cfg) {
 }
 
 function scripts(cfg) {
-  const extras = cfg.extraScripts.map((s) => `  <script src="${ver(s)}"></script>`).join('\n');
+  const extras = cfg.extraScripts.filter(s => !(cfg.home && s === 'experiences.js'))
+    .map((s) => `  <script defer src="${ver(s)}"></script>`).join('\n');
   /* GoatCounter is injected after window load so a slow or filtered
      analytics host can never hold the page in its loading state
      (busy cursor / tab spinner). */
-  return `  <script src="${ver('theme.js')}"></script>
-  <script src="${ver('navigation.js')}"></script>
-  <script src="${ver('media.js')}"></script>
-  <script src="${ver('interactions.js')}"></script>
-  <script src="${ver('portal-transitions.js')}"></script>
+  return `  <script defer src="${ver('theme.js')}"></script>
+  <script defer src="${ver('navigation.js')}"></script>
+  <script defer src="${ver('media.js')}"></script>
+  <script defer src="${ver('interactions.js')}"></script>
+  <script defer src="${ver('portal-transitions.js')}"></script>
 ${extras ? extras + '\n' : ''}  <script>
     window.addEventListener('load', function () {
       var s = document.createElement('script');
@@ -292,6 +293,7 @@ for (const file of fs.readdirSync(pagesDir)) {
     ? HEAD_ASSETS + '\n  <link rel="stylesheet" href="katex/katex.min.css">'
     : HEAD_ASSETS;
   headAssets += (cfg.extraStyles || []).map(s => `\n  <link rel="stylesheet" href="${ver(s)}">`).join('');
+  if (cfg.home) headAssets += `\n  <script defer fetchpriority="high" src="${ver('experiences.js')}"></script>`;
   html = html
     .replace('  <!--#HEAD_ASSETS-->', headAssets)
     .replace('  <!--#TOPBAR-->', topbar(cfg))

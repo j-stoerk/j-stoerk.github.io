@@ -28,10 +28,14 @@
     let running = false;
     scenes.forEach(scene => {
       if (!scene.visible || !scene.canvas.isConnected) return;
-      if (!scene.dirty && !scene.animate()) return;
-      const rect = scene.canvas.getBoundingClientRect();
+      const animating = scene.animate();
+      if (!scene.dirty && !animating) return;
+      const fps = typeof scene.maxFps === 'function' ? scene.maxFps() : scene.maxFps;
+      if (!scene.dirty && now - scene.lastDraw < 1000 / fps - .5) { running = animating || running; return; }
+      const rect = scene.size;
       if (!rect.width || !rect.height) return;
-      const dpr = Math.min(scene.maxDpr, devicePixelRatio || 1);
+      const maxDpr = typeof scene.maxDpr === 'function' ? scene.maxDpr() : scene.maxDpr;
+      const dpr = Math.min(maxDpr, devicePixelRatio || 1, Math.sqrt(scene.maxPixels / (rect.width * rect.height)));
       const width = Math.round(rect.width * dpr), height = Math.round(rect.height * dpr);
       if (scene.canvas.width !== width || scene.canvas.height !== height) { scene.canvas.width = width; scene.canvas.height = height; }
       scene.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -39,8 +43,10 @@
       scene.ctx.save();
       // Each scene keeps its own clock, so another animation cannot advance
       // an off-screen scene and make it jump when it is drawn again.
-      if (!paused && scene.animate()) scene.time += dt;
-      scene.draw(scene.ctx, rect.width, rect.height, scene.time, dt);
+      const elapsed = Math.min(.05, scene.lastDraw ? (now - scene.lastDraw) / 1000 : dt);
+      scene.lastDraw = now;
+      if (!paused && animating) scene.time += elapsed;
+      scene.draw(scene.ctx, rect.width, rect.height, scene.time, elapsed);
       scene.ctx.restore();
       scene.dirty = false;
       if (scene.animate()) running = true;
@@ -51,11 +57,16 @@
     entries.forEach(entry => { const scene = scenes.find(s => s.canvas === entry.target); if (scene) scene.visible = entry.isIntersecting; });
     wake();
   }, { rootMargin: '80px' }) : null;
-  function scene(canvas, draw, animate = () => true, maxDpr = 2) {
+  function scene(canvas, draw, animate = () => true, maxDpr = 2, maxFps = 60, maxPixels = Infinity) {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    const entry = { canvas, ctx, draw, animate, maxDpr, visible: !observer, dirty: true, time: 0 };
+    const entry = { canvas, ctx, draw, animate, maxDpr, maxFps, maxPixels, visible: !observer, dirty: true, time: 0, lastDraw: 0, size: canvas.getBoundingClientRect() };
+    const measure = () => { entry.size = canvas.getBoundingClientRect(); entry.dirty = true; wake(false); };
+    if ('ResizeObserver' in window) new ResizeObserver(entries => {
+      entry.size = entries[0].contentRect; entry.dirty = true; wake(false);
+    }).observe(canvas);
+    else window.addEventListener('resize', measure, { passive: true });
     scenes.push(entry);
     if (observer) observer.observe(canvas);
     wake();
@@ -85,10 +96,16 @@
     if (!hero || !canvas || !stage) return;
     if (root.dataset.backgroundRenderer === 'fallback') return;
     const visual = $('.hero-visual', stage), count = $('[data-intro-count]', stage);
+    const compact = matchMedia('(max-width: 760px), (pointer: coarse)');
+    let slowFrames = 0, economy = Boolean(navigator.connection?.saveData);
+    const lightweight = () => compact.matches || economy;
     let fullScreen = root.classList.contains('intro-pending');
     let revealing = false, introStartedAt, heroVisible = true;
-    const countDelay = .12, countDuration = 2.55, revealDuration = 1.15;
-    const dismissEvents = ['pointerdown', 'wheel', 'touchstart', 'keydown', 'focusin', 'resize', 'pagehide'];
+    let pulse = -100, surfaceTime = 0, meshTime = 0, settledClockOffset = 0;
+    const countDelay = .03, countDuration = 2.55, revealDuration = 1.15;
+    const countAcceleration = 3, countRange = Math.expm1(countAcceleration);
+    // Mobile browsers resize while settling their viewport; the scene already adapts.
+    const dismissEvents = ['pointerdown', 'wheel', 'touchstart', 'keydown', 'focusin', 'pagehide'];
     function setPhase(phase) {
       if (stage.dataset.introState !== phase) stage.dataset.introState = phase;
     }
@@ -104,10 +121,16 @@
       const digits = String(value).padStart(3, '0');
       if (count.textContent === digits) return;
       count.textContent = digits;
+      // The time between successive integers shrinks with the accelerating count.
+      const step = countDuration * 1000 / countAcceleration * Math.log(
+        (1 + (value + 1) * countRange / 100) / (1 + value * countRange / 100));
+      visual.style.setProperty('--intro-roll-duration', `${clamp(step, 24, 160)}ms`);
+      visual.style.setProperty('--intro-progress', value / 100);
       reels.forEach(({ place, reel }) => { reel.style.transform = `translateY(-${Math.floor(value / place)}em)`; });
     }
     function finishIntro() {
       if (!fullScreen) return;
+      settledClockOffset = meshTime - surfaceTime;
       fullScreen = false; revealing = false;
       root.classList.remove('intro-pending', 'intro-active');
       root.style.setProperty('--intro-reveal', 1);
@@ -134,7 +157,6 @@
       return;
     }
     const pointer = { x: 0, y: 0 }, eased = { x: 0, y: 0 };
-    let pulse = -100, surfaceTime = 0;
     hero.addEventListener('pointermove', event => {
       if (paused || fullScreen || event.pointerType !== 'mouse') return;
       const rect = stage.getBoundingClientRect();
@@ -151,30 +173,38 @@
       pulse = surfaceTime;
       wake();
     });
-    window.addEventListener('scroll', () => wake(), { passive: true });
+    if ('IntersectionObserver' in window) new IntersectionObserver(entries => {
+      heroVisible = entries[0].isIntersecting; wake(false);
+    }).observe(hero);
+    else window.addEventListener('scroll', () => {
+      const rect = hero.getBoundingClientRect();
+      heroVisible = rect.bottom > 0 && rect.top < innerHeight; wake(false);
+    }, { passive: true });
     scene(canvas, (ctx, width, height, time, dt) => {
       if (root.dataset.backgroundRenderer === 'fallback') return;
+      const drawStarted = performance.now();
       surfaceTime = time;
       if (introStartedAt === undefined) introStartedAt = performance.now();
       const openingTime = (performance.now() - introStartedAt) / 1000;
       const loading = clamp((openingTime - countDelay) / countDuration, 0, 1);
       // Increasing velocity lets the early digits breathe before the final rush to 100.
-      const progress = Math.pow(loading, 3.4);
-      const entrance = fullScreen ? loading : 1;
+      const value = Math.min(100, Math.floor(100 * Math.expm1(countAcceleration * loading) / countRange));
+      const progress = value / 100;
+      const entrance = fullScreen ? progress : 1;
       const assembled = entrance * entrance * (3 - 2 * entrance);
       // Movement begins on the frame that reaches 100, with no intervening hold.
       const revealTime = fullScreen ? clamp((openingTime - countDelay - countDuration) / revealDuration, 0, 1) : 1;
       const reveal = 1 - Math.pow(1 - revealTime, 3);
       if (fullScreen) {
-        setCounter(Math.floor(progress * 100));
-        visual.style.setProperty('--intro-progress', progress);
-        root.style.setProperty('--intro-reveal', reveal);
+        setCounter(value);
+        if (revealTime > 0) root.style.setProperty('--intro-reveal', reveal);
         revealing = revealTime > 0;
         if (revealTime === 1) finishIntro();
       }
       setPhase(fullScreen ? revealing ? 'revealing' : 'forming' : 'settled');
-      const heroRect = hero.getBoundingClientRect();
-      heroVisible = heroRect.bottom > 0 && heroRect.top < height;
+      // During the count, surface formation and its motion follow the same integer.
+      time = fullScreen ? progress * 4.5 : time + settledClockOffset;
+      meshTime = time;
       if (fullScreen || heroVisible) {
         eased.x = mix(eased.x, pointer.x, Math.min(1, dt * 5));
         eased.y = mix(eased.y, pointer.y, Math.min(1, dt * 5));
@@ -187,12 +217,15 @@
       const quiet = mix(1, .48, reveal);
       const cosY = Math.cos(yaw), sinY = Math.sin(yaw), cosP = Math.cos(pitch), sinP = Math.sin(pitch);
       const cosR = Math.cos(roll), sinR = Math.sin(roll);
-      const columns = width < 330 ? 23 : 29, rows = width < 330 ? 17 : 23;
+      const columns = lightweight() ? 19 : 29, rows = lightweight() ? 15 : 23;
+      const age = surfaceTime - pulse;
       function project(u, v, layer = 0, gather = 1) {
         let x = u * 185, y = v * 195;
-        const distance = Math.hypot(u - eased.x, v - eased.y);
-        const age = time - pulse;
-        const ripple = age < 3 ? Math.sin(distance * 9 - age * 6) * Math.exp(-distance * 2.5 - age * 1.5) * 22 : 0;
+        let ripple = 0;
+        if (age < 3) {
+          const distance = Math.hypot(u - eased.x, v - eased.y);
+          ripple = Math.sin(distance * 9 - age * 6) * Math.exp(-distance * 2.5 - age * 1.5) * 22;
+        }
         let z = 78 * Math.sin(u * 2.5 + v * .7 + Math.sin(time * .24) * .25)
           + 38 * Math.sin(v * 2.2 + time * .2) + layer + ripple;
         const seed = Math.sin(u * 37 + v * 73);
@@ -225,7 +258,8 @@
             const points = [grid[row][col], grid[row][col + 1], grid[row + 1][col + 1], grid[row + 1][col]];
             faces.push({ points, depth: points.reduce((total, point) => total + point.z, 0) / 4 });
           }
-          faces.sort((a, b) => a.depth - b.depth).forEach(face => {
+          if (!lightweight()) faces.sort((a, b) => a.depth - b.depth);
+          faces.forEach(face => {
             ctx.beginPath(); face.points.forEach((point, i) => i ? ctx.lineTo(point.x, point.y) : ctx.moveTo(point.x, point.y));
             ctx.closePath(); ctx.fillStyle = palette.blue;
             ctx.globalAlpha = (.025 + (face.depth + 260) / 520 * .06) * assembled * quiet; ctx.fill();
@@ -237,7 +271,8 @@
           stroke(grid.map(row => row[col]), layer ? palette.blue : palette.ink, (layer ? .18 : .08) * assembled * quiet, .5);
         }
       });
-      const nodes = grids[1].flat().sort((a, b) => a.z - b.z);
+      const nodes = grids[1].flat();
+      if (!lightweight()) nodes.sort((a, b) => a.z - b.z);
       nodes.forEach((point, i) => {
         ctx.beginPath(); ctx.arc(point.x, point.y, Math.max(.5, point.p * (i % 11 === 0 ? 1.6 : .65)), 0, Math.PI * 2);
         ctx.fillStyle = i % 11 === 0 ? palette.blue : palette.ink;
@@ -274,7 +309,10 @@
         root.dataset.backgroundRenderer = 'canvas';
         if (!fullScreen) clearTimeout(window.introFallback);
       }
-    }, () => root.dataset.backgroundRenderer !== 'fallback' && (fullScreen || heroVisible), 1.5);
+      if (fullScreen && performance.now() - drawStarted > 16 && ++slowFrames >= 4) economy = true;
+    }, () => root.dataset.backgroundRenderer !== 'fallback' && (fullScreen ||
+      heroVisible && (!lightweight() || surfaceTime - pulse < 3)),
+    () => lightweight() ? 1 : 1.5, () => fullScreen ? lightweight() ? 30 : 60 : 20, 2500000);
   })();
 
   // Recent notes and topic trails share the same blog explorer.
