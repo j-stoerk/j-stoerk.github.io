@@ -99,9 +99,11 @@ remain in the downloadable data and are identified as omitted in the article.
 Labels have no background boxes and match their marker colours. A deterministic
 layout searches nearby positions, avoiding label overlaps and leader crossings,
 with space reserved for future planned-start years. New milestones briefly pulse at
-their geographic anchor. Region titles and dated announcements sit inside each
-map, with their space reserved during label placement. The date appears only at
-the top; there is no bottom timeline. One compact legend uses tangent nested
+their geographic anchor. Both maps tile the entire video edge to edge, separated
+by a thin divider. Titles, dates, announcements and legends overlay the geography,
+with their space reserved during label placement. Subtle translucent edge fades
+preserve the country lines underneath; there are no opaque headers or footers.
+The date appears only at the top; there is no bottom timeline. One compact legend uses tangent nested
 circles on the same area scale, without a duplicate HTML legend. Poster and MP4 URLs carry content
 hashes after building, so updated media does not reuse a cached earlier version.
 The renderer uses logical coordinates at twice the resolution for a 2880×1560

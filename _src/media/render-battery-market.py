@@ -11,7 +11,7 @@ import shutil
 import subprocess
 from pathlib import Path
 
-from PIL import Image, ImageChops, ImageDraw
+from PIL import Image, ImageDraw
 
 from battery_map_drawing import Draw, Font
 from battery_map_layout import crossing_count, place_labels
@@ -24,13 +24,15 @@ BG, INK, MUTED = '#f4f2ec', '#243d4e', '#74838b'
 BLUE, GOLD, LAND = '#277bb0', '#aa7e48', '#dce2e2'
 DATA = json.loads((ROOT / 'data/battery-market.json').read_text(encoding='utf-8'))
 PANELS = {
-    'europe': {'rect': (44, 96, 650, 556), 'bounds': (-12, 31, 31, 71), 'title': 'Europe'},
-    'asia': {'rect': (746, 96, 650, 556), 'bounds': (106, 143, 17, 43), 'title': 'East Asia'},
+    'europe': {'rect': (0, 0, W // 2, H), 'bounds': (-12, 31, 31, 71), 'title': 'Europe',
+               'title_at': (32, 105), 'caption': (32, H - 157, 656),
+               'reserved': ((28, 18, 285, 88), (28, 99, 210, 141),
+                            (28, H - 163, 692, H - 80), (28, H - 65, 692, H - 8))},
+    'asia': {'rect': (W // 2, 0, W // 2, H), 'bounds': (106, 143, 17, 43), 'title': 'East Asia',
+             'title_at': (752, 32), 'caption': (752, H - 157, 448),
+             'reserved': ((748, 26, 950, 68), (1150, 26, 1412, 68),
+                          (748, H - 163, 1204, H - 55), (1230, H - 163, 1412, H - 8))},
 }
-for panel in PANELS.values():
-    px, py, pw, ph = panel['rect']
-    panel['reserved'] = ((px + 16, py + 14, px + 195, py + 50),
-                         (px + 16, py + ph - 99, px + pw - 16, py + ph - 14))
 
 
 def snapshot(company, date):
@@ -152,12 +154,7 @@ def main():
 
     borders = json.loads((ROOT / '_src/media/battery-country-borders.json').read_text(encoding='utf-8'))
 
-    base = Image.new('RGB', OUTPUT_SIZE, BG)
-    draw = Draw(base, SCALE)
-    for row in range(H):
-        t = row / H
-        shade = tuple(round(a + (b - a) * t) for a, b in zip((249, 247, 242), (241, 238, 230)))
-        draw.line((0, row, W, row), fill=shade)
+    base = Image.new('RGB', OUTPUT_SIZE, '#eaf0f1')
     for panel in PANELS.values():
         x, y, width, height = panel['rect']
         # Supersample the static map so coastlines and grid lines remain quiet
@@ -191,23 +188,24 @@ def main():
                           for px, py in (project(lon, lat, panel) for lon, lat in line)]
                 if len(points) > 1:
                     td.line(points, '#c2cdd1', width=2)
-        mask = Image.new('L', (width * scale, height * scale))
-        ImageDraw.Draw(mask).rounded_rectangle((0, 0, width * scale - 1, height * scale - 1),
-                                               radius=10 * scale, fill=255)
-        base.paste(tile, (x * scale, y * scale), mask)
-        draw.rounded_rectangle((x, y, x + width - 1, y + height - 1), radius=10,
-                               outline='#d5dee0', width=1)
-        draw.text((x + 22, y + 20), panel['title'], font=bold[24], fill=INK)
-        # Fade into the map's own sea colour, leaving a quiet lower corner for
-        # the region's latest announcement without another floating card.
-        footer = Image.new('RGBA', (width * SCALE, 106 * SCALE))
-        fd = ImageDraw.Draw(footer)
-        for row in range(106 * SCALE):
-            alpha = round(255 * min(1, row / (24 * SCALE)))
-            fd.line((0, row, width * SCALE, row), fill=(234, 240, 241, alpha))
-        footer.putalpha(ImageChops.multiply(footer.getchannel('A'),
-                        mask.crop((0, (height - 106) * SCALE, width * SCALE, height * SCALE))))
-        base.paste(footer, (x * SCALE, (y + height - 106) * SCALE), footer)
+        base.paste(tile, (x * scale, y * scale))
+
+    # Geography fills every pixel. A translucent edge veil keeps overlaid text
+    # readable while retaining the country lines underneath, without cards,
+    # gutters, header bands, or an opaque footer.
+    veil = Image.new('RGBA', OUTPUT_SIZE)
+    vd = ImageDraw.Draw(veil)
+    for row in range(H * SCALE):
+        y = row / SCALE
+        top = max(0, 1 - y / 150)
+        bottom = max(0, (y - (H - 210)) / 210)
+        alpha = round(140 * max(top, bottom) ** 1.3)
+        vd.line((0, row, OUTPUT_SIZE[0], row), fill=(244, 247, 245, alpha))
+    base = Image.alpha_composite(base.convert('RGBA'), veil).convert('RGB')
+    draw = Draw(base, SCALE)
+    draw.line((W // 2, 0, W // 2, H), '#c9d5da', width=1)
+    for panel in PANELS.values():
+        draw.text(panel['title_at'], panel['title'], font=bold[24], fill=INK)
 
     labels = {
         key: label_positions(panel, [c for c in DATA['companies'] if contains(c, panel)], bold[22])
@@ -312,18 +310,18 @@ def main():
 
         # One compact legend in the video; the page does not repeat it.
         # Tangent nested circles retain the exact map scale in a single swatch.
-        draw.text((1120, 674), 'GWh/mo', font=bold[18], fill=INK)
-        draw.text((1120, 747), 'Targets ÷ 12', font=fonts[15], fill=MUTED)
+        draw.text((1250, H - 157), 'GWh/mo', font=bold[18], fill=INK)
+        draw.text((1250, H - 27), 'Targets ÷ 12', font=fonts[15], fill=MUTED)
         for value in (20, 5, 1):
             r = radius(value)
-            circle(draw, 1035, 757 - r, r, None, BLUE, 1.25)
-            top = 757 - 2 * r
-            draw.line((1035, top, 1102, top), '#94b8cd', width=.75)
-            draw.text((1107, top - 10), str(value), font=fonts[17], fill=INK)
+            circle(draw, 1293, H - 38 - r, r, None, BLUE, 1.25)
+            top = H - 38 - 2 * r
+            draw.line((1293, top, 1360, top), '#94b8cd', width=.75)
+            draw.text((1365, top - 10), str(value), font=fonts[17], fill=INK)
         keys = (('volume', 'EV deployment'), ('plan', 'Capacity target'),
                 ('pivot', 'Pause / pivot'), ('unknown', 'Unavailable'), ('failure', 'Insolvency'))
         for i, (kind, text) in enumerate(keys):
-            x, y = 44 + (i % 3) * 235, 688 + (i // 3) * 39
+            x, y = 32 + (i % 3) * 225, H - 61 + (i // 3) * 29
             if kind == 'plan':
                 dashed_circle(draw, x + 6, y + 10, 6, GOLD)
             elif kind == 'pivot':
@@ -332,15 +330,15 @@ def main():
                 circle(draw, x + 6, y + 10, 5,
                        BLUE if kind == 'volume' else '#171717' if kind == 'failure' else None,
                        MUTED if kind == 'unknown' else None)
-            draw.text((x + 24, y - 1), text, font=fonts[20], fill=MUTED)
+            draw.text((x + 24, y - 1), text, font=fonts[17], fill=INK)
 
-        draw.text((44, 13), str(year), font=bold[48], fill=INK)
-        draw.text((178, 35), date.strftime('%d %b').upper(), font=fonts[17], fill=MUTED)
+        draw.text((32, 20), str(year), font=bold[48], fill=INK)
+        draw.text((166, 42), date.strftime('%d %b').upper(), font=fonts[17], fill=MUTED)
         if year == 2026:
             note = 'Deployment data: Jan–Aug'
-            draw.text((1396 - fonts[16].getlength(note), 35), note, font=fonts[16], fill=MUTED)
+            draw.text((1408 - fonts[16].getlength(note), 39), note, font=fonts[16], fill=MUTED)
         for panel in PANELS.values():
-            x, y, width, height = panel['rect']
+            x, y, width = panel['caption']
             regional = [row for row in events if contains(row[1], panel)]
             if regional:
                 event_date, company, event = regional[-1]
@@ -348,19 +346,20 @@ def main():
                 # the next one so readers can follow it within the same map.
                 reveal = min(1, (date - dt.date.fromisoformat(event_date)).days / 12)
                 offset = 5 * (1 - reveal) ** 2
-                cy = y + height - 90 + offset
+                cy = y + offset
                 color = marker_color(event, pace(company, year))
-                draw.text((x + 22, cy), company.get('short', company['name']), font=bold[18], fill=color)
-                draw.text((x + width - 22 - fonts[14].getlength(event_date), cy + 2), event_date, font=fonts[14], fill=MUTED)
-                for i, line in enumerate(wrap(event['text'], width - 44, fonts[17])):
-                    draw.text((x + 22, cy + 29 + i * 22), line, font=fonts[17], fill=INK)
+                draw.text((x, cy), company.get('short', company['name']), font=bold[18], fill=color)
+                draw.text((x + width - fonts[14].getlength(event_date), cy + 2), event_date, font=fonts[14], fill=MUTED)
+                max_lines = 3 if panel['title'] == 'East Asia' else 2
+                for i, line in enumerate(wrap(event['text'], width, fonts[17], max_lines)):
+                    draw.text((x, cy + 29 + i * 22), line, font=fonts[17], fill=INK)
             elif panel['title'] == 'East Asia':
                 leader = max((row for row in active if contains(row[0], panel) and row[2] is not None),
                              key=lambda row: row[2], default=None)
                 if leader:
                     company = leader[0]
-                    draw.text((x + 22, y + height - 88), company.get('short', company['name']), font=bold[18], fill=BLUE)
-                    draw.text((x + 22, y + height - 59),
+                    draw.text((x, y), company.get('short', company['name']), font=bold[18], fill=BLUE)
+                    draw.text((x, y + 29),
                               f"{pace(company, year):.1f} GWh/mo installed in EVs worldwide",
                               font=fonts[17], fill=INK)
         return image
@@ -369,9 +368,10 @@ def main():
     target.mkdir(exist_ok=True)
     final = render(1)
     final.save(target / 'battery-market-poster.jpg', quality=96, subsampling=0)
-    social = Image.new('RGB', (1200, 630), BG)
-    overview = final.crop((0, 0, W * SCALE, 660 * SCALE)).resize((1200, 550), Image.Resampling.LANCZOS)
-    social.paste(overview, (0, 40))
+    social = Image.new('RGB', (1200, 630), '#eaf0f1')
+    preview_width = round(W / H * 630)
+    overview = final.resize((preview_width, 630), Image.Resampling.LANCZOS)
+    social.paste(overview, ((1200 - preview_width) // 2, 0))
     social.save(ROOT / 'social-battery-price-war.jpg', quality=95, subsampling=0)
     if args.preview_dir:
         args.preview_dir.mkdir(parents=True, exist_ok=True)
