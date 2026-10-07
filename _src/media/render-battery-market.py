@@ -161,6 +161,8 @@ def timeline_at(frame, schedule):
 def marker_color(state, measured):
     if state['phase'] == 'insolvent':
         return '#171717'
+    if state['phase'] == 'restructuring':
+        return BLUE
     if state['phase'] in ('paused', 'pivoted', 'distressed'):
         return MUTED if state.get('capacity') is not None else GOLD
     if state.get('capacity') is not None:
@@ -300,7 +302,7 @@ def main():
                 start, end = labels[key][company['id']]['line']
                 length = math.dist(start, end)
                 target = state.get('capacity')
-                marker_r = (7 if state['phase'] == 'insolvent' else
+                marker_r = (7 if state['phase'] in ('insolvent', 'restructuring') else
                             radius(target / 12) if target is not None else r or 4)
                 trim = min(marker_r + 3, length)
                 sx = start[0] + (end[0] - start[0]) * trim / length
@@ -315,6 +317,7 @@ def main():
                     continue
                 x, y = project(company['lon'], company['lat'], panel)
                 failed = state['phase'] == 'insolvent'
+                restructuring = state['phase'] == 'restructuring'
                 pivot = state['phase'] in ('paused', 'pivoted', 'distressed')
                 target = state.get('capacity')
                 event_age = ((date - dt.date.fromisoformat(state['date'])).days
@@ -322,11 +325,16 @@ def main():
                 emphasis = latest is not None and latest[1]['id'] == company['id']
                 if emphasis and event_age < 40 and progress < 1:
                     t = event_age / 40
-                    halo_r = (7 if failed else radius(target / 12) if target is not None else r or 4)
+                    halo_r = (7 if failed or restructuring else radius(target / 12) if target is not None else r or 4)
                     circle(od, x, y, halo_r + 5 + 15 * t,
                            outline=(170, 126, 72, round(160 * (1 - t))), width=2)
                 if failed:
                     circle(od, x, y, 7, '#171717', BG, 2)
+                elif restructuring:
+                    # Continuing operations are distinct from both an insolvency
+                    # marker and measured output; this small symbol has no scale.
+                    circle(od, x, y, 7, None, BLUE, 2)
+                    circle(od, x, y, 2, BLUE)
                 elif pivot:
                     if target is not None:
                         dashed_circle(od, x, y, radius(target / 12), MUTED)
@@ -371,13 +379,17 @@ def main():
             draw.line((1293, top, 1360, top), '#94b8cd', width=.75)
             draw.text((1365, top - 10), str(value), font=fonts[17], fill=INK)
         keys = (('volume', 'EV deployment'), ('plan', 'Capacity target'),
-                ('pivot', 'Pause / pivot'), ('unknown', 'Unavailable'), ('failure', 'Insolvency'))
+                ('pivot', 'Pause / pivot'), ('unknown', 'Unavailable'), ('failure', 'Insolvency'),
+                ('restructuring', 'Operating / reorg.'))
         for i, (kind, text) in enumerate(keys):
             x, y = 32 + (i % 3) * 225, H - 61 + (i // 3) * 29
             if kind == 'plan':
                 dashed_circle(draw, x + 6, y + 10, 6, GOLD)
             elif kind == 'pivot':
                 draw.polygon(((x + 6, y + 4), (x + 12, y + 10), (x + 6, y + 16), (x, y + 10)), fill=GOLD)
+            elif kind == 'restructuring':
+                circle(draw, x + 6, y + 10, 6, None, BLUE, 1.5)
+                circle(draw, x + 6, y + 10, 1.5, BLUE)
             else:
                 circle(draw, x + 6, y + 10, 5,
                        BLUE if kind == 'volume' else '#171717' if kind == 'failure' else None,

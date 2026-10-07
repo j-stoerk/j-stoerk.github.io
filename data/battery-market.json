@@ -212,12 +212,12 @@
       "published": "2026-02-27"
     },
     "vartaCosts": {
-      "title": "VARTA AG: CoinPower demand, input-cost pressure, and capacity adjustments",
+      "title": "VARTA AG: production adjustments in response to CoinPower demand and input costs",
       "url": "https://www.varta-ag.com/fileadmin/varta/investors/publications/corporate_news/20221115_VART_AG_CorporateNews_Q3_EN.pdf",
       "published": "2022-11-15"
     },
     "vartaProceedings": {
-      "title": "VARTA AG: insolvency proceedings opened 1 October; Consumer Batteries unaffected",
+      "title": "VARTA AG: stabilised operations and sales process progressing during restructuring",
       "url": "https://www.varta-ag.com/de/ueber-varta/news-presse/details/varta-ag-verkaufsprozess-laeuft-planmaessig",
       "published": "2026-10-02"
     },
@@ -1039,14 +1039,16 @@
           "date": "2022-11-15",
           "phase": "operating",
           "capacity": null,
-          "text": "CoinPower demand falls; energy and material costs rise. Capacity adjustments announced; EV-deployment volume not applicable.",
+          "text": "Capacity and cost measures respond to CoinPower demand and higher input prices; miniature cells, not EV deployment.",
           "source": "vartaCosts"
         },
         {
           "date": "2026-10-01",
-          "phase": "insolvent",
+          "phase": "restructuring",
+          "legalStatus": "insolvency_proceedings",
+          "operations": "continuing",
           "capacity": null,
-          "text": "Insolvency proceedings open for VARTA AG and three subsidiaries. Consumer Batteries is unaffected; this is not a whole-brand closure.",
+          "text": "Operations stabilised during restructuring; investor process on track. VARTA Microbattery continues operating.",
           "source": "vartaProceedings"
         }
       ]
@@ -1559,7 +1561,7 @@
       ]
     }
   ],
-  "status": "Black marks documented company insolvency or an announced decision to file. Amber diamonds mark funding distress, project spending pauses or strategic pivots, without volume scale. Manufacturing assets can be acquired or restarted. Confirmation dates and month-level dates are identified in milestone text.",
+  "status": "Black marks insolvency cases; it does not assert permanent factory closure. A small blue ring with a blue centre identifies continuing operations during restructuring, without volume scale. VARTA AG's legal proceedings and continuing operations are recorded separately. Amber diamonds mark funding distress, project spending pauses or strategic pivots. Manufacturing assets can be acquired or restarted. Confirmation dates and month-level dates are identified in milestone text.",
   "coverage": "37 selected company/site entries, including all ten suppliers in SNE Research January-August 2026 top ten, plus Samsung SDI, Sunwoda, AESC and selected startups and factory plans. Not a census of cell plants or a stationary-storage ranking.",
   "future": "Only announcements documented by 4 October 2026 appear. Target-start years and later expansions are attributed plans, not future milestones or achieved production. Pilot opening is distinct from commercial ramp-up and achieved nameplate output."
 }

@@ -56,6 +56,7 @@ class MapContracts(unittest.TestCase):
         self.assertEqual(renderer.marker_color({'phase': 'ramp-up', 'capacity': 20}, None), renderer.GOLD)
         self.assertEqual(renderer.marker_color({'phase': 'paused', 'capacity': 5}, None), renderer.MUTED)
         self.assertEqual(renderer.marker_color({'phase': 'insolvent'}, None), '#171717')
+        self.assertEqual(renderer.marker_color({'phase': 'restructuring'}, None), renderer.BLUE)
 
     def test_expansion_includes_top_ten_without_inventing_startup_output(self):
         top_ten = {'catl', 'byd', 'lges', 'calb', 'gotion', 'skon', 'eve',
@@ -98,7 +99,11 @@ class MapContracts(unittest.TestCase):
         self.assertIsNone(renderer.snapshot(companies['lytenett'], '2026-02-26'))
         self.assertEqual(renderer.snapshot(companies['lytenett'], '2026-02-27')['phase'], 'restart')
         self.assertNotEqual(renderer.snapshot(companies['varta'], '2026-09-30')['phase'], 'insolvent')
-        self.assertEqual(renderer.snapshot(companies['varta'], '2026-10-01')['phase'], 'insolvent')
+        varta_state = renderer.snapshot(companies['varta'], '2026-10-01')
+        self.assertEqual(varta_state['phase'], 'restructuring')
+        self.assertEqual(varta_state['legalStatus'], 'insolvency_proceedings')
+        self.assertEqual(varta_state['operations'], 'continuing')
+        self.assertEqual(renderer.marker_color(varta_state, None), renderer.BLUE)
         self.assertTrue(all(v is None for v in companies['varta']['volumes']))
 
     def test_all_observations_and_events_have_sources_within_the_cutoff(self):

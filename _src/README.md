@@ -100,6 +100,10 @@ separately so none are overwritten. Caption timing uses video frames independent
 of the historical dates, and the duration adjusts automatically as events are added.
 The video contains only Europe and East Asia. North American and Indian entries
 remain in the downloadable data and are identified as omitted in the article.
+VARTA is shown as operating during restructuring with an unscaled blue ring and
+centre, rather than a black insolvency marker. Its legal proceedings remain recorded
+separately from its continuing operations in the dataset. The article distinguishes
+VARTA Microbattery in Ellwangen from VARTA Micro Production's Nördlingen site decision.
 Labels have no background boxes and match their marker colours. A deterministic
 layout searches nearby positions, avoiding label overlaps and leader crossings,
 with space reserved for future planned-start years. New milestones briefly pulse at
