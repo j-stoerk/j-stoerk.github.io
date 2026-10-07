@@ -95,6 +95,12 @@ headquarters or project coordinates. Labels use leader lines; the world overview
 uses unscaled locator pins. Company-wide deployment is not output at the marked
 headquarters. Future planned starts remain targets and do not become historical
 production events. The video runs for 44 seconds in one continuous timeline.
+Europe and East Asia are the main panels; North America and the world locator
+provide context below. Stable label positions follow anchor latitudes, with
+space reserved for future planned-start years. New milestones briefly pulse at
+their geographic anchor. The dated event track and one compact legend sit within
+the video, without a duplicate HTML legend. Poster and MP4 URLs carry content
+hashes after building, so updated media does not reuse a cached earlier version.
 
 The committed MP4, poster and social image need no media tools during ordinary
 builds. After changing the dataset, regenerate them with:
@@ -110,6 +116,7 @@ python _src/check.py
 The renderer uses the included public-domain Natural Earth land outlines and a
 local TrueType font. `--ffmpeg` and `--font` support other installations;
 `--stills-only` previews the final figure without rendering the video.
+`--preview-dir <directory>` also exports representative frames for visual review.
 `battery-market.js` manages native playback, visibility, manual pause, and reduced
 motion. Native controls and the expandable dataset remain available.
 
