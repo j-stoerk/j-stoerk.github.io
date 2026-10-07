@@ -3,9 +3,11 @@ import json
 import importlib.util
 import math
 import unittest
+import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
 spec = importlib.util.spec_from_file_location('renderer', HERE / 'render-battery-market.py')
 renderer = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(renderer)
@@ -21,8 +23,36 @@ class MapContracts(unittest.TestCase):
         self.assertAlmostEqual(companies['verkor']['lat'], 51.03, places=1)
         for company in data['companies']:
             self.assertNotIn('label', company)
-            self.assertTrue(any(renderer.contains(company, panel)
-                                for panel in renderer.PANELS.values()))
+        omitted = {c['id'] for c in data['companies'] if not renderer.displayed(c)}
+        self.assertEqual(omitted, {'enerdel', 'abf', 'one', 'factorial', 'amprius',
+                                  'powercocanada', 'agratasindia'})
+        self.assertEqual(set(renderer.PANELS), {'europe', 'asia'})
+
+    def test_leaders_do_not_cross_labels_or_each_other(self):
+        from battery_map_layout import crossing_count, overlaps, through_label
+        font_path = next((path for path in (
+            Path('C:/Windows/Fonts/seguisb.ttf'),
+            Path('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf')) if path.is_file()), None)
+        if font_path is None:
+            self.skipTest('No test font installed')
+        font = renderer.Font(font_path, 22, renderer.SCALE)
+        for panel in renderer.PANELS.values():
+            roster = [c for c in data['companies'] if renderer.contains(c, panel)]
+            layout = renderer.label_positions(panel, roster, font)
+            self.assertEqual(crossing_count(layout), 0)
+            labels = list(layout.values())
+            for i, a in enumerate(labels):
+                for b in labels[i + 1:]:
+                    self.assertFalse(overlaps(a['box'], b['box']))
+                    self.assertFalse(through_label(a['line'], b['box']))
+                    self.assertFalse(through_label(b['line'], a['box']))
+
+    def test_label_colour_follows_the_marker_including_missing_data_and_pauses(self):
+        self.assertEqual(renderer.marker_color({'phase': 'operating'}, 12), renderer.BLUE)
+        self.assertEqual(renderer.marker_color({'phase': 'operating'}, None), renderer.MUTED)
+        self.assertEqual(renderer.marker_color({'phase': 'ramp-up', 'capacity': 20}, None), renderer.GOLD)
+        self.assertEqual(renderer.marker_color({'phase': 'paused', 'capacity': 5}, None), renderer.MUTED)
+        self.assertEqual(renderer.marker_color({'phase': 'insolvent'}, None), '#171717')
 
     def test_expansion_includes_top_ten_without_inventing_startup_output(self):
         top_ten = {'catl', 'byd', 'lges', 'calb', 'gotion', 'skon', 'eve',

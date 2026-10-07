@@ -91,16 +91,22 @@ distress, project pauses, and pivots remain distinct. The article's
 `<!--#BATTERY_MARKET_DATA-->` marker exports the same observations and sourced
 milestones to readable HTML and `data/battery-market-volumes.csv` during a build.
 The regional maps share one circle-area scale and keep circles at the mapped
-headquarters or project coordinates. Labels use leader lines; the world overview
-uses unscaled locator pins. Company-wide deployment is not output at the marked
+headquarters or project coordinates. Company-wide deployment is not output at the marked
 headquarters. Future planned starts remain targets and do not become historical
 production events. The video runs for 44 seconds in one continuous timeline.
-Europe and East Asia are the main panels; North America and the world locator
-provide context below. Stable label positions follow anchor latitudes, with
-space reserved for future planned-start years. New milestones briefly pulse at
+The video contains only Europe and East Asia. North American and Indian entries
+remain in the downloadable data and are identified as omitted in the article.
+Labels have no background boxes and match their marker colours. A deterministic
+layout searches nearby positions, avoiding label overlaps and leader crossings,
+with space reserved for future planned-start years. New milestones briefly pulse at
 their geographic anchor. The dated event track and one compact legend sit within
 the video, without a duplicate HTML legend. Poster and MP4 URLs carry content
 hashes after building, so updated media does not reuse a cached earlier version.
+The renderer uses logical coordinates at twice the resolution for a 2880×1920
+MP4, with larger labels and H.264 CRF 16 encoding. Poster JPEGs use full colour
+resolution. Geography uses Natural Earth's public-domain 1:50m land polygons and
+country boundaries, cached in `battery-world-land.json` and
+`battery-country-borders.json`. Their source URLs are embedded in those files.
 
 The committed MP4, poster and social image need no media tools during ordinary
 builds. After changing the dataset, regenerate them with:

@@ -11,18 +11,21 @@ import shutil
 import subprocess
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
+
+from battery_map_drawing import Draw, Font
+from battery_map_layout import crossing_count, place_labels
 
 ROOT = Path(__file__).resolve().parents[2]
 W, H, FPS, DURATION = 1440, 960, 24, 44
+SCALE = 2
+OUTPUT_SIZE = (W * SCALE, H * SCALE)
 BG, INK, MUTED = '#f4f2ec', '#243d4e', '#74838b'
 BLUE, GOLD, LAND = '#277bb0', '#aa7e48', '#dce2e2'
 DATA = json.loads((ROOT / 'data/battery-market.json').read_text(encoding='utf-8'))
 PANELS = {
-    'europe': {'rect': (44, 104, 650, 424), 'bounds': (-12, 31, 38, 71), 'title': 'Europe'},
-    'asia': {'rect': (746, 104, 650, 424), 'bounds': (106, 143, 17, 43), 'title': 'East Asia'},
-    'world': {'rect': (44, 586, 410, 190), 'bounds': (-180, 180, -55, 80), 'title': 'World locator'},
-    'america': {'rect': (486, 586, 422, 190), 'bounds': (-119, -64, 27, 51), 'title': 'North America'},
+    'europe': {'rect': (44, 104, 650, 546), 'bounds': (-12, 31, 38, 71), 'title': 'Europe'},
+    'asia': {'rect': (746, 104, 650, 546), 'bounds': (106, 143, 17, 43), 'title': 'East Asia'},
 }
 
 
@@ -94,35 +97,34 @@ def label_text(company, state):
     return name
 
 
-def label_positions(panel, companies, font):
-    """Stable rails, ordered geographically, close to each anchor's latitude.
+def displayed(company):
+    return any(contains(company, panel) for panel in PANELS.values())
 
-    Only the text moves; the circle always uses the same map projection as land.
-    Reserve enough space for every documented label so new entries do not move
-    existing names around or cause labels to collide during the animation.
-    """
-    x, y, width, height = panel['rect']
-    positions = {}
-    ordered = sorted(companies, key=lambda company: company['lon'])
-    groups = (ordered[:len(ordered) // 2], ordered[len(ordered) // 2:])
-    for side, group in enumerate(groups):
-        group = sorted(group, key=lambda company: -company['lat'])
-        rows = []
-        for company in group:
-            _, anchor_y = project(company['lon'], company['lat'], panel)
-            row = max(y + 10, min(y + height - 30, anchor_y - 12))
-            rows.append(max(row, rows[-1] + 30) if rows else row)
-        if rows and rows[-1] > y + height - 30:
-            rows[-1] = y + height - 30
-            for i in range(len(rows) - 2, -1, -1):
-                rows[i] = min(rows[i], rows[i + 1] - 30)
-        for company, row in zip(group, rows):
-            names = [label_text(company, event) for event in company['events']]
-            names.append(company.get('short', company['name']))
-            label_width = max(font.getlength(name) for name in names)
-            left = x + 10 if side == 0 else x + width - 10 - label_width
-            positions[company['id']] = (left, row, side, label_width)
-    return positions
+
+def marker_color(state, measured):
+    if state['phase'] == 'insolvent':
+        return '#171717'
+    if state['phase'] in ('paused', 'pivoted', 'distressed'):
+        return MUTED if state.get('capacity') is not None else GOLD
+    if state.get('capacity') is not None:
+        return GOLD
+    return BLUE if measured is not None else MUTED
+
+
+def label_positions(panel, companies, font):
+    entries = []
+    for company in companies:
+        names = [label_text(company, event) for event in company['events']]
+        names.append(company.get('short', company['name']))
+        radii = [7]
+        radii.extend(radius(value / period['months'])
+                     for value, period in zip(company['volumes'], DATA['periods'])
+                     if value is not None)
+        radii.extend(radius(event['capacity'] / 12) for event in company['events']
+                     if event.get('capacity') is not None)
+        entries.append({'id': company['id'], 'anchor': project(company['lon'], company['lat'], panel),
+                        'width': max(font.getlength(name) for name in names), 'radius': max(radii)})
+    return place_labels(panel, entries)
 
 
 def main():
@@ -136,16 +138,18 @@ def main():
     font_path = Path(args.font)
     if not font_path.is_file():
         raise SystemExit('Pass --font with a TrueType font file.')
-    bold_path = Path(args.bold_font) if args.bold_font else font_path.with_name('segoeuisb.ttf')
+    bold_path = Path(args.bold_font) if args.bold_font else font_path.with_name('seguisb.ttf')
     if not bold_path.is_file():
         bold_path = font_path
-    sizes = (13, 14, 15, 16, 17, 18, 19, 20, 24, 26, 48)
-    fonts = {size: ImageFont.truetype(str(font_path), size) for size in sizes}
-    bold = {size: ImageFont.truetype(str(bold_path), size) for size in (17, 18, 24, 48)}
+    sizes = (13, 14, 15, 16, 17, 18, 19, 20, 22, 24, 26, 48)
+    fonts = {size: Font(font_path, size, SCALE) for size in sizes}
+    bold = {size: Font(bold_path, size, SCALE) for size in (17, 18, 22, 24, 48)}
     land = json.loads((ROOT / '_src/media/battery-world-land.json').read_text(encoding='utf-8'))
 
-    base = Image.new('RGB', (W, H), BG)
-    draw = ImageDraw.Draw(base)
+    borders = json.loads((ROOT / '_src/media/battery-country-borders.json').read_text(encoding='utf-8'))
+
+    base = Image.new('RGB', OUTPUT_SIZE, BG)
+    draw = Draw(base, SCALE)
     for row in range(H):
         t = row / H
         shade = tuple(round(a + (b - a) * t) for a, b in zip((249, 247, 242), (241, 238, 230)))
@@ -154,11 +158,11 @@ def main():
         x, y, width, height = panel['rect']
         # Supersample the static map so coastlines and grid lines remain quiet
         # and smooth. Frames reuse this cache rather than drawing geography again.
-        scale = 2
+        scale = SCALE
         tile = Image.new('RGB', (width * scale, height * scale), '#eaf0f1')
         td = ImageDraw.Draw(tile)
         west, east, south, north = panel['bounds']
-        step = 30 if panel is PANELS['world'] else 10
+        step = 10
         for lon in range(math.ceil(west / step) * step, math.ceil(east), step):
             px, _ = project(lon, north, panel)
             td.line(((px - x) * scale, 0, (px - x) * scale, height * scale), '#e0e8eb', width=1)
@@ -175,20 +179,30 @@ def main():
                     if len(points) > 2:
                         td.polygon(points, fill=LAND)
                         td.line(points + [points[0]], '#f4f7f6', width=2)
-        tile = tile.resize((width, height), Image.Resampling.LANCZOS)
-        mask = Image.new('L', (width, height))
-        ImageDraw.Draw(mask).rounded_rectangle((0, 0, width - 1, height - 1), radius=10, fill=255)
-        base.paste(tile, (x, y), mask)
+        for feature in borders['features']:
+            geometry = feature['geometry']
+            lines = geometry['coordinates'] if geometry['type'] == 'MultiLineString' else [geometry['coordinates']]
+            for line in lines:
+                points = [((px - x) * scale, (py - y) * scale)
+                          for px, py in (project(lon, lat, panel) for lon, lat in line)]
+                if len(points) > 1:
+                    td.line(points, '#c2cdd1', width=2)
+        mask = Image.new('L', (width * scale, height * scale))
+        ImageDraw.Draw(mask).rounded_rectangle((0, 0, width * scale - 1, height * scale - 1),
+                                               radius=10 * scale, fill=255)
+        base.paste(tile, (x * scale, y * scale), mask)
         draw.rounded_rectangle((x, y, x + width - 1, y + height - 1), radius=10,
                                outline='#d5dee0', width=1)
         draw.text((x, y - 31), panel['title'], font=fonts[18], fill=INK)
 
     labels = {
-        key: label_positions(panel, [c for c in DATA['companies'] if contains(c, panel)], bold[17])
-        for key, panel in PANELS.items() if key != 'world'
+        key: label_positions(panel, [c for c in DATA['companies'] if contains(c, panel)], bold[22])
+        for key, panel in PANELS.items()
     }
+    for key, layout in labels.items():
+        print(f'{key}: {crossing_count(layout)} leader crossings', flush=True)
     all_events = sorted([(event['date'], company, event)
-                         for company in DATA['companies'] for event in company['events']
+                         for company in DATA['companies'] if displayed(company) for event in company['events']
                          if event['date'] > '2020-01-01'], key=lambda row: row[0])
     start_date = dt.date(2020, 1, 1)
     total_days = (dt.date.fromisoformat(DATA['cutoff']) - start_date).days
@@ -197,8 +211,8 @@ def main():
         date = date_at(progress)
         stamp, year = date.isoformat(), date.year
         image = base.copy()
-        overlay = Image.new('RGBA', (W, H))
-        od = ImageDraw.Draw(overlay)
+        overlay = Image.new('RGBA', OUTPUT_SIZE)
+        od = Draw(overlay, SCALE)
         active = []
         events = [row for row in all_events if row[0] <= stamp]
         latest = events[-1] if events else None
@@ -215,6 +229,24 @@ def main():
                     r = previous + (r - previous) * t
             active.append((company, state, r))
 
+        # Leaders sit behind circles, stop at their perimeter, and never erase
+        # geography. Labels use the same marker colour without a background box.
+        for key, panel in PANELS.items():
+            for company, state, r in active:
+                if not contains(company, panel):
+                    continue
+                start, end = labels[key][company['id']]['line']
+                length = math.dist(start, end)
+                target = state.get('capacity')
+                marker_r = (7 if state['phase'] == 'insolvent' else
+                            radius(target / 12) if target is not None else r or 4)
+                trim = min(marker_r + 3, length)
+                sx = start[0] + (end[0] - start[0]) * trim / length
+                sy = start[1] + (end[1] - start[1]) * trim / length
+                color = marker_color(state, r).lstrip('#')
+                rgba = tuple(int(color[i:i + 2], 16) for i in (0, 2, 4)) + (95,)
+                od.line((sx, sy, *end), fill=rgba, width=.75)
+
         for key, panel in PANELS.items():
             for company, state, r in sorted(active, key=lambda row: -(row[2] or 0)):
                 if not contains(company, panel):
@@ -228,12 +260,10 @@ def main():
                 emphasis = latest is not None and latest[1]['id'] == company['id']
                 if emphasis and event_age < 40 and progress < 1:
                     t = event_age / 40
-                    halo_r = (7 if failed or key == 'world' else radius(target / 12) if target is not None else r or 4)
+                    halo_r = (7 if failed else radius(target / 12) if target is not None else r or 4)
                     circle(od, x, y, halo_r + 5 + 15 * t,
                            outline=(170, 126, 72, round(160 * (1 - t))), width=2)
-                if key == 'world':
-                    circle(od, x, y, 3, '#171717' if failed else GOLD if pivot else BLUE)
-                elif failed:
+                if failed:
                     circle(od, x, y, 7, '#171717', BG, 2)
                 elif pivot:
                     if target is not None:
@@ -250,59 +280,44 @@ def main():
                     circle(od, x, y, 4, None, MUTED, 2)
 
         image = Image.alpha_composite(image.convert('RGBA'), overlay).convert('RGB')
-        draw = ImageDraw.Draw(image)
+        draw = Draw(image, SCALE)
         for key, panel in PANELS.items():
-            if key == 'world':
-                continue
             for company, state, r in active:
                 if not contains(company, panel):
                     continue
-                ax, ay = project(company['lon'], company['lat'], panel)
-                lx, ly, side, reserved = labels[key][company['id']]
+                ax, _ = project(company['lon'], company['lat'], panel)
+                left, top, right, _ = labels[key][company['id']]['box']
                 name = label_text(company, state)
-                emphasis = latest is not None and latest[1]['id'] == company['id']
-                font = bold[17] if emphasis else fonts[17]
+                font = bold[22]
                 width = font.getlength(name)
-                tx = lx + width + 5 if side == 0 else lx - 5
-                elbow = tx + 10 if side == 0 else tx - 10
-                draw.line((ax, ay, elbow, ly + 12, tx, ly + 12),
-                          GOLD if emphasis else '#a4b1b6', width=1)
-                draw.rounded_rectangle((lx - 4, ly - 1, lx + width + 4, ly + 25),
-                                       radius=4, fill=BG)
-                draw.text((lx, ly), name, font=font, fill=GOLD if emphasis else INK)
-
-        india = next((row for row in active if row[0]['id'] == 'agratasindia'), None)
-        if india:
-            x, y = project(india[0]['lon'], india[0]['lat'], PANELS['world'])
-            name = label_text(india[0], india[1])
-            lx = min(x + 8, 446 - fonts[13].getlength(name))
-            draw.rounded_rectangle((lx - 2, y + 7, lx + fonts[13].getlength(name) + 2, y + 25),
-                                   radius=3, fill=BG)
-            draw.text((lx, y + 7), name, font=fonts[13], fill=INK)
+                if right <= ax:
+                    lx = right - width
+                elif left >= ax:
+                    lx = left
+                else:
+                    lx = (left + right - width) / 2
+                draw.text((lx, top), name, font=font, fill=marker_color(state, r), anchor='lt')
 
         # One compact legend in the video; the page does not repeat it.
-        draw.text((966, 554), 'GWh/mo · circle area', font=fonts[17], fill=INK)
-        draw.text((966, 581), 'Targets: annual GWh / 12', font=fonts[15], fill=MUTED)
-        for x, value in ((978, 1), (1055, 5), (1173, 20), (1318, 40)):
+        draw.text((884, 672), 'GWh/mo · circle area', font=fonts[18], fill=INK)
+        draw.text((884, 706), 'Targets: annual GWh / 12', font=fonts[16], fill=MUTED)
+        for x, value in ((918, 1), (1000, 5), (1150, 20), (1320, 40)):
             r = radius(value)
-            circle(draw, x, 762 - r, r, '#e7eff4', BLUE, 2)
-            draw.text((x - fonts[17].getlength(str(value)) / 2, 767), str(value),
-                      font=fonts[17], fill=INK)
+            circle(draw, x, 786 - r, r, '#e7eff4', BLUE, 1.25)
+            draw.text((x - fonts[18].getlength(str(value)) / 2, 791), str(value), font=fonts[18], fill=INK)
         keys = (('volume', 'EV deployment'), ('plan', 'Capacity target'),
                 ('pivot', 'Pause / pivot'), ('unknown', 'Unavailable'), ('failure', 'Insolvency'))
-        x = 44
-        for kind, text in keys:
-            y = 804
+        for i, (kind, text) in enumerate(keys):
+            x, y = 44 + (i % 3) * 235, 688 + (i // 3) * 39
             if kind == 'plan':
-                dashed_circle(draw, x + 6, y + 9, 6, GOLD)
+                dashed_circle(draw, x + 6, y + 10, 6, GOLD)
             elif kind == 'pivot':
-                draw.polygon(((x + 6, y + 3), (x + 12, y + 9), (x + 6, y + 15), (x, y + 9)), fill=GOLD)
+                draw.polygon(((x + 6, y + 4), (x + 12, y + 10), (x + 6, y + 16), (x, y + 10)), fill=GOLD)
             else:
-                circle(draw, x + 6, y + 9, 5,
+                circle(draw, x + 6, y + 10, 5,
                        BLUE if kind == 'volume' else '#171717' if kind == 'failure' else None,
                        MUTED if kind == 'unknown' else None)
-            draw.text((x + 22, y - 1), text, font=fonts[16], fill=MUTED)
-            x += 22 + fonts[16].getlength(text) + 34
+            draw.text((x + 24, y - 1), text, font=fonts[20], fill=MUTED)
 
         draw.text((44, 13), str(year), font=bold[48], fill=INK)
         draw.text((178, 35), date.strftime('%d %b').upper(), font=fonts[17], fill=MUTED)
@@ -324,7 +339,7 @@ def main():
         circle(draw, cursor, 856, 5, BLUE, BG, 1)
         if latest:
             event_date, company, event = latest
-            draw.text((44, 875), company.get('short', company['name']), font=bold[24], fill=INK)
+            draw.text((44, 875), company.get('short', company['name']), font=bold[24], fill=marker_color(event, pace(company, year)))
             draw.text((1396 - fonts[16].getlength(event_date), 882), event_date, font=fonts[16], fill=MUTED)
             for i, line in enumerate(wrap(event['text'], 1352, fonts[17])):
                 draw.text((44, 910 + i * 23), line, font=fonts[17], fill=MUTED)
@@ -335,9 +350,11 @@ def main():
     target = ROOT / 'media'
     target.mkdir(exist_ok=True)
     final = render(1)
-    final.save(target / 'battery-market-poster.jpg', quality=93)
-    final.resize((1200, 800), Image.Resampling.LANCZOS).crop((0, 0, 1200, 630)).save(
-        ROOT / 'social-battery-price-war.jpg', quality=93)
+    final.save(target / 'battery-market-poster.jpg', quality=96, subsampling=0)
+    social = Image.new('RGB', (1200, 630), BG)
+    overview = final.crop((0, 0, W * SCALE, 660 * SCALE)).resize((1200, 550), Image.Resampling.LANCZOS)
+    social.paste(overview, (0, 40))
+    social.save(ROOT / 'social-battery-price-war.jpg', quality=95, subsampling=0)
     if args.preview_dir:
         args.preview_dir.mkdir(parents=True, exist_ok=True)
         for progress in (0, .35, .65, 1):
@@ -349,9 +366,9 @@ def main():
         import imageio_ffmpeg
         binary = imageio_ffmpeg.get_ffmpeg_exe()
     command = [binary, '-y', '-hide_banner', '-loglevel', 'error', '-f', 'rawvideo',
-               '-vcodec', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r',
+               '-vcodec', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{OUTPUT_SIZE[0]}x{OUTPUT_SIZE[1]}', '-r',
                str(FPS), '-i', '-', '-an', '-c:v', 'libx264', '-preset', 'medium',
-               '-crf', '22', '-pix_fmt', 'yuv420p', '-movflags', '+faststart',
+               '-crf', '16', '-pix_fmt', 'yuv420p', '-movflags', '+faststart',
                str(target / 'battery-market-timeline.mp4')]
     process = subprocess.Popen(command, stdin=subprocess.PIPE)
     try:
