@@ -207,6 +207,11 @@ Rebuild and push the static site when changing the endpoint or public site key.
 
 ### Optional CLI setup
 
+The checked-in Wrangler configuration matches the dashboard's observability
+settings: logs and invocation logs are enabled at 100% sampling and persisted;
+traces are disabled. Future CLI deployments retain these settings. This enables
+diagnostics; it does not resolve a comments HTTP 503 by itself.
+
 Dashboard setup does not require Wrangler. If using the CLI instead, open
 `comments/wrangler.toml`, insert the existing D1 database UUID in `database_id`,
 then run from `_services/comments`:
