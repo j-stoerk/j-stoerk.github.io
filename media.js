@@ -1,13 +1,12 @@
-/* Autoplay muted background/feature videos only while visible, and never
-   under reduced-motion (the poster frame stays). Keeps several looping
-   clips cheap by pausing whatever is scrolled off-screen. */
+/* Suppress native page dragging. Autoplay muted background/feature videos only
+   while visible, and never under reduced motion (the poster frame stays).
+   Pause off-screen clips to keep several looping videos cheap. */
 (function () {
   'use strict';
-  // Prevent native image/linked-image drag previews, including dynamic images.
-  // Clicks and pointer-based interactions keep their normal behaviour.
+  // Page content has no native drag-and-drop interaction. Keep text editing
+  // available; interactive charts use pointer events, so they are unaffected.
   document.addEventListener('dragstart', function (event) {
-    var target = event.target;
-    if (target.closest('img, picture') || target.closest('a')?.querySelector('img')) {
+    if (!event.target.closest('input, textarea, [contenteditable]:not([contenteditable="false"])')) {
       event.preventDefault();
     }
   });

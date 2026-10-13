@@ -53,28 +53,28 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=36854c8e">
+  <link rel="stylesheet" href="styles.css?v=44b93ec7">
   <link rel="stylesheet" href="experiences.css?v=46a70b1b">
 </head>
 
 <body>
-  <a href="#main" class="skip-link">Skip to main content</a>
+  <a draggable="false" href="#main" class="skip-link">Skip to main content</a>
 
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="site-title" href="index.html?nav=fe6093f0">Home</a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+      <a draggable="false" class="site-title" href="index.html?nav=fe6093f0">Home</a>
+      <button draggable="false" class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
         <span class="nav-toggle-lines" aria-hidden="true"></span>
         <span class="sr-only">Open navigation</span>
       </button>
       <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
-        <a href="index.html?nav=fe6093f0#publications" data-nav-label="Publications">Publications</a>
-        <a href="index.html?nav=fe6093f0#software" data-nav-label="Code">Code</a>
-        <a class="current" href="blog.html?nav=fe6093f0" data-nav-label="Blog" aria-current="page">Blog</a>
-        <a href="index.html?nav=fe6093f0#experience" data-nav-label="Experience">Experience</a>
-        <a href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
-        <a href="index.html?nav=fe6093f0#contact" data-nav-label="Contact">Contact</a>
-        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+        <a draggable="false" href="index.html?nav=fe6093f0#publications" data-nav-label="Publications">Publications</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#software" data-nav-label="Code">Code</a>
+        <a draggable="false" class="current" href="blog.html?nav=fe6093f0" data-nav-label="Blog" aria-current="page">Blog</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#experience" data-nav-label="Experience">Experience</a>
+        <a draggable="false" href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#contact" data-nav-label="Contact">Contact</a>
+        <button draggable="false" class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
       </nav>
     </div>
   </header>
@@ -82,7 +82,7 @@
   <main id="main" class="content">
 
     <div class="page-art page-art-post" aria-hidden="true" style="--post-art-light:url('images/blog-backgrounds/post-glee-agent-light.svg?v=5c1a186c');--post-art-dark:url('images/blog-backgrounds/post-glee-agent-dark.svg?v=ba6f1412')"></div>
-    <a class="back-link" href="blog.html?nav=fe6093f0">All posts</a>
+    <a draggable="false" class="back-link" href="blog.html?nav=fe6093f0">All posts</a>
     <article class="post" id="glee-agent">
       <div class="post-cover media-cover">
         <div class="media">
@@ -194,14 +194,14 @@
         <p>The winning play is to pick up a tactic while it's mispriced, ride it, then freeze the agent to lock in
           the peak before the counter-adaptation arrives. The strong teams stopped at the top. I kept playing a
           field that had already moved.</p>
-        <p>If you want to feel the seats yourself, the <a href="games.html?nav=fe6093f0">three games are playable here</a>.</p>
+        <p>If you want to feel the seats yourself, the <a draggable="false" href="games.html?nav=fe6093f0">three games are playable here</a>.</p>
       </div>
 
       <section class="post-sources">
         <h3>Sources</h3>
         <ol class="sources">
           <li id="ref-1">Shapira, E., et al. "GLEE: A Unified Framework and Benchmark for Language-based Economic
-            Environments." 2024. <a href="https://arxiv.org/abs/2410.05254" target="_blank" rel="noopener noreferrer">arXiv:2410.05254</a></li>
+            Environments." 2024. <a draggable="false" href="https://arxiv.org/abs/2410.05254" target="_blank" rel="noopener noreferrer">arXiv:2410.05254</a></li>
           <li id="ref-2">Rubinstein, A. "Perfect Equilibrium in a Bargaining Model." <em>Econometrica</em>, 1982.</li>
           <li id="ref-3">Kamenica, E., Gentzkow, M. "Bayesian Persuasion." <em>American Economic Review</em>, 2011.</li>
         </ol>
@@ -210,10 +210,10 @@
 
     <section class="post-comments" id="comments" aria-label="Discussion" data-comments>
       <div class="comments-heading">
-        <button type="button" class="quiet-button" data-comments-refresh hidden>Refresh</button>
+        <button draggable="false" type="button" class="quiet-button" data-comments-refresh hidden>Refresh</button>
       </div>
       <div class="comments-list" data-comments-list></div>
-      <button type="button" class="quiet-button" data-comments-more hidden>Earlier comments</button>
+      <button draggable="false" type="button" class="quiet-button" data-comments-more hidden>Earlier comments</button>
       <form class="comment-form" data-comment-form>
         <label class="sr-only" for="comment-text">Your comment</label>
         <textarea id="comment-text" name="comment" rows="4" maxlength="5000" placeholder="Add to the discussion…" required></textarea>
@@ -221,31 +221,31 @@
         <div data-comment-challenge></div>
         <div class="form-actions">
           <span class="form-note" data-comment-identity hidden></span>
-          <button type="submit" class="form-submit" disabled>Post</button>
+          <button draggable="false" type="submit" class="form-submit" disabled>Post</button>
         </div>
       </form>
       <p class="form-status" data-comments-status role="status"></p>
       <details class="comment-identity-tools" data-identity-tools hidden>
-        <summary>Use your identity on another device</summary>
+        <summary draggable="false">Use your identity on another device</summary>
         <p class="form-note">Save an encrypted identity file and restore it in another browser. Keep the file and its passphrase private.</p>
         <div class="identity-actions">
-          <button type="button" class="quiet-button" data-identity-save>Save identity</button>
-          <button type="button" class="quiet-button" data-identity-restore>Restore identity</button>
+          <button draggable="false" type="button" class="quiet-button" data-identity-save>Save identity</button>
+          <button draggable="false" type="button" class="quiet-button" data-identity-restore>Restore identity</button>
         </div>
       </details>
       <noscript><p class="form-note">JavaScript is needed to load and post comments.</p></noscript>
       <dialog class="site-dialog" data-comment-name-dialog aria-labelledby="comment-name-title">
-        <button type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <button draggable="false" type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
         <h2 id="comment-name-title">What should I call you?</h2>
         <p class="form-note">Choose a display name for your comments. No email or account signup.</p>
         <form data-comment-name-form>
           <label for="comment-name">Display name</label>
           <input id="comment-name" name="displayName" autocomplete="nickname" maxlength="40" required>
-          <button type="submit" class="form-submit">Post comment</button>
+          <button draggable="false" type="submit" class="form-submit">Post comment</button>
         </form>
       </dialog>
       <dialog class="site-dialog" data-identity-dialog aria-labelledby="identity-title">
-        <button type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <button draggable="false" type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
         <h2 id="identity-title">Your commenting identity</h2>
         <form data-identity-form>
           <div data-identity-file-field hidden>
@@ -255,7 +255,7 @@
           <label for="identity-passphrase">Passphrase</label>
           <input id="identity-passphrase" type="password" minlength="12" maxlength="200" autocomplete="new-password" required>
           <p class="form-note" data-identity-help>Use at least 12 characters. You’ll need this passphrase to restore the file.</p>
-          <button type="submit" class="form-submit" data-identity-confirm>Save identity</button>
+          <button draggable="false" type="submit" class="form-submit" data-identity-confirm>Save identity</button>
           <p class="form-status" data-identity-status role="status"></p>
         </form>
       </dialog>
@@ -264,7 +264,7 @@
 
 
     <nav class="post-pager" aria-label="More posts">
-      <a href="post-fair-evaluation.html?nav=fe6093f0">
+      <a draggable="false" href="post-fair-evaluation.html?nav=fe6093f0">
         <span class="eyebrow">Next post</span>
         <span class="post-pager-title">Finding a Fair Evaluation Under Changing Representations</span>
       </a>
@@ -273,12 +273,12 @@
 
   <footer class="content">
     <span>© 2026 Julius Störk</span>
-    <span><a href="blog.html?nav=fe6093f0">All posts</a></span>
+    <span><a draggable="false" href="blog.html?nav=fe6093f0">All posts</a></span>
   </footer>
 
   <script defer src="theme.js?v=e512a566"></script>
   <script defer src="navigation.js?v=82ad0181"></script>
-  <script defer src="media.js?v=6c5df084"></script>
+  <script defer src="media.js?v=3803c5ba"></script>
   <script defer src="interactions.js?v=3cfec42c"></script>
   <script defer src="cursor.js?v=836db8cc"></script>
   <script defer src="portal-transitions.js?v=d4060e4b"></script>

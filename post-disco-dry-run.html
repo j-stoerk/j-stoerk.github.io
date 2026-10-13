@@ -53,29 +53,29 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=36854c8e">
+  <link rel="stylesheet" href="styles.css?v=44b93ec7">
   <link rel="stylesheet" href="experiences.css?v=46a70b1b">
   <link rel="stylesheet" href="katex/katex.min.css">
 </head>
 
 <body>
-  <a href="#main" class="skip-link">Skip to main content</a>
+  <a draggable="false" href="#main" class="skip-link">Skip to main content</a>
 
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="site-title" href="index.html?nav=fe6093f0">Home</a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+      <a draggable="false" class="site-title" href="index.html?nav=fe6093f0">Home</a>
+      <button draggable="false" class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
         <span class="nav-toggle-lines" aria-hidden="true"></span>
         <span class="sr-only">Open navigation</span>
       </button>
       <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
-        <a href="index.html?nav=fe6093f0#publications" data-nav-label="Publications">Publications</a>
-        <a href="index.html?nav=fe6093f0#software" data-nav-label="Code">Code</a>
-        <a class="current" href="blog.html?nav=fe6093f0" data-nav-label="Blog" aria-current="page">Blog</a>
-        <a href="index.html?nav=fe6093f0#experience" data-nav-label="Experience">Experience</a>
-        <a href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
-        <a href="index.html?nav=fe6093f0#contact" data-nav-label="Contact">Contact</a>
-        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+        <a draggable="false" href="index.html?nav=fe6093f0#publications" data-nav-label="Publications">Publications</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#software" data-nav-label="Code">Code</a>
+        <a draggable="false" class="current" href="blog.html?nav=fe6093f0" data-nav-label="Blog" aria-current="page">Blog</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#experience" data-nav-label="Experience">Experience</a>
+        <a draggable="false" href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#contact" data-nav-label="Contact">Contact</a>
+        <button draggable="false" class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
       </nav>
     </div>
   </header>
@@ -83,7 +83,7 @@
   <main id="main" class="content">
 
     <div class="page-art page-art-post" aria-hidden="true" style="--post-art-light:url('images/blog-backgrounds/post-disco-dry-run-light.svg?v=7730b017');--post-art-dark:url('images/blog-backgrounds/post-disco-dry-run-dark.svg?v=41229774')"></div>
-    <a class="back-link" href="blog.html?nav=fe6093f0">All posts</a>
+    <a draggable="false" class="back-link" href="blog.html?nav=fe6093f0">All posts</a>
     <article class="post" id="disco-dry-run">
       <div class="post-cover media-cover">
         <div class="media">
@@ -136,7 +136,7 @@
       <div class="prose">
         <p>An AI research agent plans, writes code, runs experiments, and explains its process in almost every language. It then implements k-fold cross-validation from scratch. Again.</p>
         <p>Agents can resemble a brilliant theoretician who has read every textbook but has never stepped inside the lab. General knowledge travels well; the operating knowledge of a particular workflow often does not. Turning a design-of-experiments strategy into an executable plan requires knowing the data format, the machine limits, the measurement protocol, and the checks that catch a bad result.</p>
-        <p>Jianlyu Chen and colleagues’ <strong>DisCo</strong> agent addresses that gap by distilling know-how from repositories and papers into reusable skills. Its <em>Creator</em> constructs the skills; its <em>Researcher</em> uses them to solve subsequent tasks. Different operating instructions let the same underlying model take on different research roles <sup class="cite">[<a href="#ref-1">1</a>, <a href="#ref-2">2</a>]</sup>.</p>
+        <p>Jianlyu Chen and colleagues’ <strong>DisCo</strong> agent addresses that gap by distilling know-how from repositories and papers into reusable skills. Its <em>Creator</em> constructs the skills; its <em>Researcher</em> uses them to solve subsequent tasks. Different operating instructions let the same underlying model take on different research roles <sup class="cite">[<a draggable="false" href="#ref-1">1</a>, <a draggable="false" href="#ref-2">2</a>]</sup>.</p>
 
         <h2>What is a skill, really?</h2>
         <p>A skill packages its operating instructions, references, and callable scripts in a folder.</p>
@@ -151,7 +151,7 @@
     plot_ushape.py</code></pre>
         <p><code>SKILL.md</code> is the agent-facing manual: what the skill does, when it applies, which inputs it expects, how to run it, and what usually goes wrong. The references hold deeper evidence. The scripts expose procedures that the agent can call instead of reimplementing. The names above illustrate a package structure; the wrappers should point to the project's actual implementation.</p>
         <div class="equation"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="script">G</mi><mo>=</mo><mo stretchy="false">(</mo><mi mathvariant="script">S</mi><mo separator="true">,</mo><mi mathvariant="script">L</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathcal{G}=(\mathcal{S},\mathcal{L})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7805em;vertical-align:-0.0972em;"></span><span class="mord mathcal" style="margin-right:0.0593em;">G</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathcal" style="margin-right:0.075em;">S</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathcal">L</span><span class="mclose">)</span></span></span></span></span></div>
-        <p>Here, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">S</mi></mrow><annotation encoding="application/x-tex">\mathcal{S}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.075em;">S</span></span></span></span> is the set of skills and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">L</mi></mrow><annotation encoding="application/x-tex">\mathcal{L}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal">L</span></span></span></span> contains routing or dependency links. An entry skill points to the relevant component: data preparation, fitting, evaluation, diagnosis, or repair. The agent opens the material it needs at each step. This progressive disclosure makes a large library usable without loading every manual into the context window <sup class="cite">[<a href="#ref-1">1</a>]</sup>.</p>
+        <p>Here, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">S</mi></mrow><annotation encoding="application/x-tex">\mathcal{S}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.075em;">S</span></span></span></span> is the set of skills and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">L</mi></mrow><annotation encoding="application/x-tex">\mathcal{L}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal">L</span></span></span></span> contains routing or dependency links. An entry skill points to the relevant component: data preparation, fitting, evaluation, diagnosis, or repair. The agent opens the material it needs at each step. This progressive disclosure makes a large library usable without loading every manual into the context window <sup class="cite">[<a draggable="false" href="#ref-1">1</a>]</sup>.</p>
 
         <h2>Scope, ground, construct, verify</h2>
         <p>A repository, paper, or concrete problem supplies the anchor <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>z</mi></mrow><annotation encoding="application/x-tex">z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span></span></span></span>. Capabilities <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">Q</mi></mrow><annotation encoding="application/x-tex">\mathcal{Q}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7805em;vertical-align:-0.0972em;"></span><span class="mord mathcal">Q</span></span></span></span> are grounded in evidence <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">X</mi></mrow><annotation encoding="application/x-tex">\mathcal{X}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.14643em;">X</span></span></span></span>, packaged into a candidate skill graph, and verified with a construction record <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi></mrow><annotation encoding="application/x-tex">R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span></span>.</p>
@@ -166,7 +166,7 @@
           <li><strong>Construct.</strong> Turn that evidence into instructions and callable tools. Package the routines, define their inputs and outputs, and connect the resulting skills.</li>
           <li><strong>Verify.</strong> Exercise the procedures with assertion-backed cases, small fixtures, and native examples or tests. Repair failures locally and retain unresolved gaps in the construction record <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi></mrow><annotation encoding="application/x-tex">R</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span></span>.</li>
         </ol>
-        <p>A file that describes an experiment is only part of the job. Verification has to establish that the procedure runs and that its checks detect meaningful failures. For manufacturing, useful checks include physical bounds, conservation, approved parameter windows, and a trace from each reported output to the data and configuration that produced it <sup class="cite">[<a href="#ref-2">2</a>]</sup>.</p>
+        <p>A file that describes an experiment is only part of the job. Verification has to establish that the procedure runs and that its checks detect meaningful failures. For manufacturing, useful checks include physical bounds, conservation, approved parameter windows, and a trace from each reported output to the data and configuration that produced it <sup class="cite">[<a draggable="false" href="#ref-2">2</a>]</sup>.</p>
 
         <h2>Creator and Researcher share the same machinery</h2>
         <p>DisCo separates skill construction from skill use while retaining the model and execution harness.</p>
@@ -175,7 +175,7 @@
         <p>This is useful when an agent repeatedly works on related problems. The workflow for a hyperparameter search can preserve the correct split, scoring convention, and recovery path across many runs. The next session can start from that procedure instead of reconstructing it from scattered notebooks.</p>
 
         <h2>DisCo on my calendering model</h2>
-        <p>For this article’s 30 September update, I ran DisCo 0.2.1 in Creator mode on my <a href="post-calendering-u-shape.html?nav=fe6093f0">calendering project</a>, using Kimi K2.6 through OpenRouter. The anchor was the actual source repository: the electrode thermal model, data-loading routines, measured calendering states, documentation, and tests. I scoped the extraction to forward through-plane conductivity and the contact/reorientation workflow <sup class="cite">[<a href="#ref-3">3</a>]</sup>.</p>
+        <p>For this article’s 30 September update, I ran DisCo 0.2.1 in Creator mode on my <a draggable="false" href="post-calendering-u-shape.html?nav=fe6093f0">calendering project</a>, using Kimi K2.6 through OpenRouter. The anchor was the actual source repository: the electrode thermal model, data-loading routines, measured calendering states, documentation, and tests. I scoped the extraction to forward through-plane conductivity and the contact/reorientation workflow <sup class="cite">[<a draggable="false" href="#ref-3">3</a>]</sup>.</p>
         <p>Creator identified the conductivity and inverse-porosity APIs, the family-specific calibration routines, and the distinction between gas-filled and electrolyte-filled pores. It exercised ten groups of assertions against the repository’s Python implementation on CPU.</p>
         <div class="table-wrap"><table>
           <thead><tr><th scope="col">Check</th><th scope="col">Result</th></tr></thead>
@@ -187,7 +187,7 @@
             <tr><td>Repository calibration summary</td><td>Average MAPE: 31.1% for the baseline; 4.5% after calibration</td></tr>
           </tbody>
         </table></div>
-        <p>All ten check groups passed, including the Knudsen correction, isotropic NMC limit, material-family registry, and a single-family calibration. A second pass checked seven integrated results, including the contact and reorientation fits and inverse-porosity uncertainty. The <a href="https://github.com/j-stoerk/j-stoerk.github.io/tree/main/_src/disco" target="_blank" rel="noopener noreferrer">generated skills and execution record</a> keep the inputs and results inspectable.</p>
+        <p>All ten check groups passed, including the Knudsen correction, isotropic NMC limit, material-family registry, and a single-family calibration. A second pass checked seven integrated results, including the contact and reorientation fits and inverse-porosity uncertainty. The <a draggable="false" href="https://github.com/j-stoerk/j-stoerk.github.io/tree/main/_src/disco" target="_blank" rel="noopener noreferrer">generated skills and execution record</a> keep the inputs and results inspectable.</p>
         <p>These are small, fixed-parameter API cases. The error figures reproduce the repository’s own calibration summary and measure in-sample fit; held-out states and transfer to another chemistry still need their own evaluation. Conductivity alone can also leave contact evolution and graphite reorientation difficult to distinguish.</p>
         <h3>A small Researcher demo</h3>
         <p>I then opened a separate Researcher session with the generated skill and asked it to compare dry graphite at three porosities. It produced a short Python wrapper around the existing APIs. The sweep used an 18 µm particle diameter, solid conductivity of 25 W/(m·K), and bridge conductivity of 130 W/(m·K).</p>
@@ -201,7 +201,7 @@
         </table></div>
         <p>Separate wet-graphite forward/inverse checks recovered all three porosities with errors below <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>8</mn></mrow></msup></mrow><annotation encoding="application/x-tex">10^{-8}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">8</span></span></span></span></span></span></span></span></span></span></span></span>. This is a small illustrative sweep, with the script and numerical output retained alongside the skill. The fixed contact fraction demonstrates the model’s response; a recipe-specific prediction requires calibration.</p>
         <p>That exercise made the Creator/Researcher split tangible: the first session assembled the API conventions and checks; the second used them for a new request. Reviewing the generated record still mattered. I corrected its date, check-count labels, and an unsupported total-runtime claim against the command output. Execution evidence belongs next to the instructions.</p>
-        <p>The <a href="post-geometry-of-forgetting.html?nav=fe6093f0">continual-learning work</a> supplies another recurring workflow: specify the task sequence, freeze or adapt the representation explicitly, compare IGFA with matched baselines, and record accuracy together with forgetting. A low forgetting score has little value if projection has also stopped the new task from learning. The feature regime, random seeds, retained update norm, and available capacity belong in the operating instructions.</p>
+        <p>The <a draggable="false" href="post-geometry-of-forgetting.html?nav=fe6093f0">continual-learning work</a> supplies another recurring workflow: specify the task sequence, freeze or adapt the representation explicitly, compare IGFA with matched baselines, and record accuracy together with forgetting. A low forgetting score has little value if projection has also stopped the new task from learning. The feature regime, random seeds, retained update norm, and available capacity belong in the operating instructions.</p>
         <p>The practical starting point is one repository and one short, executable chain. Keep units, parameter conventions, and physical checks in the skill; route to deeper references when needed. For larger Researcher tasks—comparing acquisition rules, predicting held-out states, or running an IGFA sequence—the data split, task order, and resource budget should be fixed before comparing results. The CPU checks establish that the packaged procedure runs; measuring how much time or accuracy the skill adds requires a separate comparison.</p>
 
         <h2>Why operational knowledge is worth the effort</h2>
@@ -215,20 +215,20 @@
             <tr><td>PassNet</td><td>AS score</td><td>1.343</td><td>1.531</td></tr>
           </tbody>
         </table></div>
-        <p>Those correspond to relative gains of 134.3%, 34.4%, 9.2%, and 14.0%. They are the authors’ benchmark results, rather than a measurement on my projects. The implication is nevertheless interesting: better operating context can improve an existing agent without changing its backbone <sup class="cite">[<a href="#ref-1">1</a>]</sup>.</p>
+        <p>Those correspond to relative gains of 134.3%, 34.4%, 9.2%, and 14.0%. They are the authors’ benchmark results, rather than a measurement on my projects. The implication is nevertheless interesting: better operating context can improve an existing agent without changing its backbone <sup class="cite">[<a draggable="false" href="#ref-1">1</a>]</sup>.</p>
         <p>For a lab, the practical starting point is a narrow domain and a few recurring tasks. Pick the repositories and papers those tasks depend on; list the capabilities actually used; collect the examples and checks; wrap the stable routines; and connect the resulting skills through an index. Then record which skills get reused, where they fail, and what still requires improvised reasoning.</p>
         <p>Task-oriented distillation extends the same approach. When a new process objective exposes a missing capability, the agent can gather the relevant evidence and construct a skill for it. Over time, the library can hold procedures for designing experiments, analyzing measurements, and responding to drift. This gives a concrete form to the continual-learning process controller I have been sketching.</p>
         <p>Many labs have accumulated decades of knowledge about running a process. Research agents still rediscover the same data conventions and experimental checks each time. DisCo offers a way to make those procedures explicit, callable, and maintainable. The next agent should be able to use the wheel that already exists.</p>
       </div>
 
       <section class="post-sources"><h3>Sources</h3><ol class="sources">
-        <li id="ref-1">Chen, J., et al. <a href="https://arxiv.org/abs/2609.02749" target="_blank" rel="noopener noreferrer">Repo-To-Skill: Distilling GitHub Repositories Into AI4AI Skills</a>, 2026. See also the authors’ <a href="https://github.com/VectorSpaceLab/AREX-Skill" target="_blank" rel="noopener noreferrer">AREX-Skill library and benchmark table</a>.</li>
-        <li id="ref-2">VectorSpaceLab. <a href="https://github.com/VectorSpaceLab/AREX-Skill/blob/main/docs/disco-workflows.md" target="_blank" rel="noopener noreferrer">DisCo Creator and Researcher workflows</a>.</li>
-        <li id="ref-3">Störk, J. <a href="https://github.com/j-stoerk/zehner-electrode-thermal" target="_blank" rel="noopener noreferrer">Zehner electrode thermal model</a>; <a href="post-calendering-u-shape.html?nav=fe6093f0">calendering note</a> and <a href="zehner-closure.pdf">manuscript</a>.</li>
+        <li id="ref-1">Chen, J., et al. <a draggable="false" href="https://arxiv.org/abs/2609.02749" target="_blank" rel="noopener noreferrer">Repo-To-Skill: Distilling GitHub Repositories Into AI4AI Skills</a>, 2026. See also the authors’ <a draggable="false" href="https://github.com/VectorSpaceLab/AREX-Skill" target="_blank" rel="noopener noreferrer">AREX-Skill library and benchmark table</a>.</li>
+        <li id="ref-2">VectorSpaceLab. <a draggable="false" href="https://github.com/VectorSpaceLab/AREX-Skill/blob/main/docs/disco-workflows.md" target="_blank" rel="noopener noreferrer">DisCo Creator and Researcher workflows</a>.</li>
+        <li id="ref-3">Störk, J. <a draggable="false" href="https://github.com/j-stoerk/zehner-electrode-thermal" target="_blank" rel="noopener noreferrer">Zehner electrode thermal model</a>; <a draggable="false" href="post-calendering-u-shape.html?nav=fe6093f0">calendering note</a> and <a draggable="false" href="zehner-closure.pdf">manuscript</a>.</li>
         </ol>
         <details class="references-more">
-          <summary class="references-toggle"><span class="references-show">show all 4 references</span><span class="references-hide">show fewer references</span><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></summary>
-          <ol class="sources" start="4"><li>Störk, J. <a href="post-geometry-of-forgetting.html?nav=fe6093f0">The Geometry of Forgetting in Continual Learning</a>, with <a href="forgetting-geometry.pdf">draft manuscript</a>.</li>
+          <summary draggable="false" class="references-toggle"><span class="references-show">show all 4 references</span><span class="references-hide">show fewer references</span><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></summary>
+          <ol class="sources" start="4"><li>Störk, J. <a draggable="false" href="post-geometry-of-forgetting.html?nav=fe6093f0">The Geometry of Forgetting in Continual Learning</a>, with <a draggable="false" href="forgetting-geometry.pdf">draft manuscript</a>.</li>
       </ol>
         </details></section>
 
@@ -236,10 +236,10 @@
 
     <section class="post-comments" id="comments" aria-label="Discussion" data-comments>
       <div class="comments-heading">
-        <button type="button" class="quiet-button" data-comments-refresh hidden>Refresh</button>
+        <button draggable="false" type="button" class="quiet-button" data-comments-refresh hidden>Refresh</button>
       </div>
       <div class="comments-list" data-comments-list></div>
-      <button type="button" class="quiet-button" data-comments-more hidden>Earlier comments</button>
+      <button draggable="false" type="button" class="quiet-button" data-comments-more hidden>Earlier comments</button>
       <form class="comment-form" data-comment-form>
         <label class="sr-only" for="comment-text">Your comment</label>
         <textarea id="comment-text" name="comment" rows="4" maxlength="5000" placeholder="Add to the discussion…" required></textarea>
@@ -247,31 +247,31 @@
         <div data-comment-challenge></div>
         <div class="form-actions">
           <span class="form-note" data-comment-identity hidden></span>
-          <button type="submit" class="form-submit" disabled>Post</button>
+          <button draggable="false" type="submit" class="form-submit" disabled>Post</button>
         </div>
       </form>
       <p class="form-status" data-comments-status role="status"></p>
       <details class="comment-identity-tools" data-identity-tools hidden>
-        <summary>Use your identity on another device</summary>
+        <summary draggable="false">Use your identity on another device</summary>
         <p class="form-note">Save an encrypted identity file and restore it in another browser. Keep the file and its passphrase private.</p>
         <div class="identity-actions">
-          <button type="button" class="quiet-button" data-identity-save>Save identity</button>
-          <button type="button" class="quiet-button" data-identity-restore>Restore identity</button>
+          <button draggable="false" type="button" class="quiet-button" data-identity-save>Save identity</button>
+          <button draggable="false" type="button" class="quiet-button" data-identity-restore>Restore identity</button>
         </div>
       </details>
       <noscript><p class="form-note">JavaScript is needed to load and post comments.</p></noscript>
       <dialog class="site-dialog" data-comment-name-dialog aria-labelledby="comment-name-title">
-        <button type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <button draggable="false" type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
         <h2 id="comment-name-title">What should I call you?</h2>
         <p class="form-note">Choose a display name for your comments. No email or account signup.</p>
         <form data-comment-name-form>
           <label for="comment-name">Display name</label>
           <input id="comment-name" name="displayName" autocomplete="nickname" maxlength="40" required>
-          <button type="submit" class="form-submit">Post comment</button>
+          <button draggable="false" type="submit" class="form-submit">Post comment</button>
         </form>
       </dialog>
       <dialog class="site-dialog" data-identity-dialog aria-labelledby="identity-title">
-        <button type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <button draggable="false" type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
         <h2 id="identity-title">Your commenting identity</h2>
         <form data-identity-form>
           <div data-identity-file-field hidden>
@@ -281,7 +281,7 @@
           <label for="identity-passphrase">Passphrase</label>
           <input id="identity-passphrase" type="password" minlength="12" maxlength="200" autocomplete="new-password" required>
           <p class="form-note" data-identity-help>Use at least 12 characters. You’ll need this passphrase to restore the file.</p>
-          <button type="submit" class="form-submit" data-identity-confirm>Save identity</button>
+          <button draggable="false" type="submit" class="form-submit" data-identity-confirm>Save identity</button>
           <p class="form-status" data-identity-status role="status"></p>
         </form>
       </dialog>
@@ -290,7 +290,7 @@
 
 
     <nav class="post-pager" aria-label="More posts">
-      <a href="post-convmem.html?nav=fe6093f0">
+      <a draggable="false" href="post-convmem.html?nav=fe6093f0">
         <span class="eyebrow">Next post</span>
         <span class="post-pager-title">Reading ConvMem: Long-Context Reasoning as a Summary Tree</span>
       </a>
@@ -299,12 +299,12 @@
 
   <footer class="content">
     <span>© 2026 Julius Störk</span>
-    <span><a href="blog.html?nav=fe6093f0">All posts</a></span>
+    <span><a draggable="false" href="blog.html?nav=fe6093f0">All posts</a></span>
   </footer>
 
   <script defer src="theme.js?v=e512a566"></script>
   <script defer src="navigation.js?v=82ad0181"></script>
-  <script defer src="media.js?v=6c5df084"></script>
+  <script defer src="media.js?v=3803c5ba"></script>
   <script defer src="interactions.js?v=3cfec42c"></script>
   <script defer src="cursor.js?v=836db8cc"></script>
   <script defer src="portal-transitions.js?v=d4060e4b"></script>

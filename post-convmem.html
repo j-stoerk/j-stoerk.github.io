@@ -53,29 +53,29 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=36854c8e">
+  <link rel="stylesheet" href="styles.css?v=44b93ec7">
   <link rel="stylesheet" href="experiences.css?v=46a70b1b">
   <link rel="stylesheet" href="katex/katex.min.css">
 </head>
 
 <body>
-  <a href="#main" class="skip-link">Skip to main content</a>
+  <a draggable="false" href="#main" class="skip-link">Skip to main content</a>
 
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="site-title" href="index.html?nav=fe6093f0">Home</a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+      <a draggable="false" class="site-title" href="index.html?nav=fe6093f0">Home</a>
+      <button draggable="false" class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
         <span class="nav-toggle-lines" aria-hidden="true"></span>
         <span class="sr-only">Open navigation</span>
       </button>
       <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
-        <a href="index.html?nav=fe6093f0#publications" data-nav-label="Publications">Publications</a>
-        <a href="index.html?nav=fe6093f0#software" data-nav-label="Code">Code</a>
-        <a class="current" href="blog.html?nav=fe6093f0" data-nav-label="Blog" aria-current="page">Blog</a>
-        <a href="index.html?nav=fe6093f0#experience" data-nav-label="Experience">Experience</a>
-        <a href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
-        <a href="index.html?nav=fe6093f0#contact" data-nav-label="Contact">Contact</a>
-        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+        <a draggable="false" href="index.html?nav=fe6093f0#publications" data-nav-label="Publications">Publications</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#software" data-nav-label="Code">Code</a>
+        <a draggable="false" class="current" href="blog.html?nav=fe6093f0" data-nav-label="Blog" aria-current="page">Blog</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#experience" data-nav-label="Experience">Experience</a>
+        <a draggable="false" href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#contact" data-nav-label="Contact">Contact</a>
+        <button draggable="false" class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
       </nav>
     </div>
   </header>
@@ -83,7 +83,7 @@
   <main id="main" class="content">
 
     <div class="page-art page-art-post" aria-hidden="true" style="--post-art-light:url('images/blog-backgrounds/post-convmem-light.svg?v=6a30894b');--post-art-dark:url('images/blog-backgrounds/post-convmem-dark.svg?v=78e06f38')"></div>
-    <a class="back-link" href="blog.html?nav=fe6093f0">All posts</a>
+    <a draggable="false" class="back-link" href="blog.html?nav=fe6093f0">All posts</a>
     <article class="post" id="convmem">
       <div class="post-cover media-cover">
         <div class="media">
@@ -134,11 +134,11 @@
       <p class="post-context"><span>Why this matters</span>How a system condenses a long document determines whether the facts needed for an answer survive.</p>
 
       <div class="prose">
-        <p>ConvMem<sup class="cite"><a class="ref" href="#ref-1">1</a></sup> answers questions over documents of up to
+        <p>ConvMem<sup class="cite"><a draggable="false" class="ref" href="#ref-1">1</a></sup> answers questions over documents of up to
           896k tokens with a frozen Qwen2.5-32B and no training. It reads the document in overlapping 8,000-token
           windows, summarizes each window with respect to the question, concatenates the summaries and repeats until
           the text fits in one window. The authors describe this as a convolution with the LLM as the kernel. Their
-          main comparison is MemAgent,<sup class="cite"><a class="ref" href="#ref-2">2</a></sup> which reads the same
+          main comparison is MemAgent,<sup class="cite"><a draggable="false" class="ref" href="#ref-2">2</a></sup> which reads the same
           document one chunk at a time and rewrites a fixed-size memory after each chunk.</p>
         <p>With 8,000-token chunks, a fact in the first chunk of a million-token document goes through about 125
           memory rewrites in a sequential agent before the answer is written. In ConvMem it goes through 3 or 4
@@ -163,7 +163,7 @@
           with the number of layers, not with document length.</p>
 
         <h3>Results</h3>
-        <p>The benchmarks are RULER-HotpotQA,<sup class="cite"><a class="ref" href="#ref-3">3</a></sup> which MemAgent
+        <p>The benchmarks are RULER-HotpotQA,<sup class="cite"><a draggable="false" class="ref" href="#ref-3">3</a></sup> which MemAgent
           was trained on, and RULER-2WikiMultiHopQA, which the authors built for this paper with the same recipe.
           F1 at the shortest and longest context:</p>
         <div class="table-wrap">
@@ -278,7 +278,7 @@
           regardless of document length. The second round only needs the windows that mention the bridge entity.</p>
         <p><strong>5. Index once per document.</strong> Every ConvMem layer is conditioned on the question, so nothing
           carries over to the next question about the same document. A question-independent pass, either the records
-          from idea 3 or a summary tree as in RAPTOR,<sup class="cite"><a class="ref" href="#ref-4">4</a></sup> costs
+          from idea 3 or a summary tree as in RAPTOR,<sup class="cite"><a draggable="false" class="ref" href="#ref-4">4</a></sup> costs
           one pass per document. Each question after that is a lookup and one or two model calls.</p>
         <p><strong>6. Early exit.</strong> If every channel has a window scored 2 at layer 0, and the overlapping
           windows extract the same answer, answer from the buffer and skip the upper layers. For needle-style questions
@@ -292,13 +292,13 @@
       <section class="post-sources">
         <h3>Sources</h3>
         <ol class="sources">
-          <li id="ref-1">Zhang, H., Gu, Z., Bai, F., et al. "ConvMem: Convolutional Memory for Long-Context Reasoning." 2026. <a href="https://arxiv.org/abs/2609.10441" target="_blank" rel="noopener noreferrer">arXiv:2609.10441</a></li>
-          <li id="ref-2">Yu, H., Chen, T., Feng, J., et al. "MemAgent: Reshaping Long-Context LLM with Multi-Conv RL-based Memory Agent." 2025. <a href="https://arxiv.org/abs/2507.02259" target="_blank" rel="noopener noreferrer">arXiv:2507.02259</a></li>
-          <li id="ref-3">Hsieh, C.-P., et al. "RULER: What's the Real Context Size of Your Long-Context Language Models?" 2024. <a href="https://arxiv.org/abs/2404.06654" target="_blank" rel="noopener noreferrer">arXiv:2404.06654</a></li>
+          <li id="ref-1">Zhang, H., Gu, Z., Bai, F., et al. "ConvMem: Convolutional Memory for Long-Context Reasoning." 2026. <a draggable="false" href="https://arxiv.org/abs/2609.10441" target="_blank" rel="noopener noreferrer">arXiv:2609.10441</a></li>
+          <li id="ref-2">Yu, H., Chen, T., Feng, J., et al. "MemAgent: Reshaping Long-Context LLM with Multi-Conv RL-based Memory Agent." 2025. <a draggable="false" href="https://arxiv.org/abs/2507.02259" target="_blank" rel="noopener noreferrer">arXiv:2507.02259</a></li>
+          <li id="ref-3">Hsieh, C.-P., et al. "RULER: What's the Real Context Size of Your Long-Context Language Models?" 2024. <a draggable="false" href="https://arxiv.org/abs/2404.06654" target="_blank" rel="noopener noreferrer">arXiv:2404.06654</a></li>
         </ol>
         <details class="references-more">
-          <summary class="references-toggle"><span class="references-show">show all 4 references</span><span class="references-hide">show fewer references</span><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></summary>
-          <ol class="sources" start="4"><li id="ref-4">Sarthi, P., et al. "RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval." ICLR 2024. <a href="https://arxiv.org/abs/2401.18059" target="_blank" rel="noopener noreferrer">arXiv:2401.18059</a></li>
+          <summary draggable="false" class="references-toggle"><span class="references-show">show all 4 references</span><span class="references-hide">show fewer references</span><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></summary>
+          <ol class="sources" start="4"><li id="ref-4">Sarthi, P., et al. "RAPTOR: Recursive Abstractive Processing for Tree-Organized Retrieval." ICLR 2024. <a draggable="false" href="https://arxiv.org/abs/2401.18059" target="_blank" rel="noopener noreferrer">arXiv:2401.18059</a></li>
         </ol>
         </details>
       </section>
@@ -306,10 +306,10 @@
 
     <section class="post-comments" id="comments" aria-label="Discussion" data-comments>
       <div class="comments-heading">
-        <button type="button" class="quiet-button" data-comments-refresh hidden>Refresh</button>
+        <button draggable="false" type="button" class="quiet-button" data-comments-refresh hidden>Refresh</button>
       </div>
       <div class="comments-list" data-comments-list></div>
-      <button type="button" class="quiet-button" data-comments-more hidden>Earlier comments</button>
+      <button draggable="false" type="button" class="quiet-button" data-comments-more hidden>Earlier comments</button>
       <form class="comment-form" data-comment-form>
         <label class="sr-only" for="comment-text">Your comment</label>
         <textarea id="comment-text" name="comment" rows="4" maxlength="5000" placeholder="Add to the discussion…" required></textarea>
@@ -317,31 +317,31 @@
         <div data-comment-challenge></div>
         <div class="form-actions">
           <span class="form-note" data-comment-identity hidden></span>
-          <button type="submit" class="form-submit" disabled>Post</button>
+          <button draggable="false" type="submit" class="form-submit" disabled>Post</button>
         </div>
       </form>
       <p class="form-status" data-comments-status role="status"></p>
       <details class="comment-identity-tools" data-identity-tools hidden>
-        <summary>Use your identity on another device</summary>
+        <summary draggable="false">Use your identity on another device</summary>
         <p class="form-note">Save an encrypted identity file and restore it in another browser. Keep the file and its passphrase private.</p>
         <div class="identity-actions">
-          <button type="button" class="quiet-button" data-identity-save>Save identity</button>
-          <button type="button" class="quiet-button" data-identity-restore>Restore identity</button>
+          <button draggable="false" type="button" class="quiet-button" data-identity-save>Save identity</button>
+          <button draggable="false" type="button" class="quiet-button" data-identity-restore>Restore identity</button>
         </div>
       </details>
       <noscript><p class="form-note">JavaScript is needed to load and post comments.</p></noscript>
       <dialog class="site-dialog" data-comment-name-dialog aria-labelledby="comment-name-title">
-        <button type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <button draggable="false" type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
         <h2 id="comment-name-title">What should I call you?</h2>
         <p class="form-note">Choose a display name for your comments. No email or account signup.</p>
         <form data-comment-name-form>
           <label for="comment-name">Display name</label>
           <input id="comment-name" name="displayName" autocomplete="nickname" maxlength="40" required>
-          <button type="submit" class="form-submit">Post comment</button>
+          <button draggable="false" type="submit" class="form-submit">Post comment</button>
         </form>
       </dialog>
       <dialog class="site-dialog" data-identity-dialog aria-labelledby="identity-title">
-        <button type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <button draggable="false" type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
         <h2 id="identity-title">Your commenting identity</h2>
         <form data-identity-form>
           <div data-identity-file-field hidden>
@@ -351,7 +351,7 @@
           <label for="identity-passphrase">Passphrase</label>
           <input id="identity-passphrase" type="password" minlength="12" maxlength="200" autocomplete="new-password" required>
           <p class="form-note" data-identity-help>Use at least 12 characters. You’ll need this passphrase to restore the file.</p>
-          <button type="submit" class="form-submit" data-identity-confirm>Save identity</button>
+          <button draggable="false" type="submit" class="form-submit" data-identity-confirm>Save identity</button>
           <p class="form-status" data-identity-status role="status"></p>
         </form>
       </dialog>
@@ -360,7 +360,7 @@
 
 
     <nav class="post-pager" aria-label="More posts">
-      <a href="post-inverted-fractions.html?nav=fe6093f0">
+      <a draggable="false" href="post-inverted-fractions.html?nav=fe6093f0">
         <span class="eyebrow">Next post</span>
         <span class="post-pager-title">I Checked 2,294 arXiv Equations for Upside-Down Fractions</span>
       </a>
@@ -369,12 +369,12 @@
 
   <footer class="content">
     <span>© 2026 Julius Störk</span>
-    <span><a href="blog.html?nav=fe6093f0">All posts</a></span>
+    <span><a draggable="false" href="blog.html?nav=fe6093f0">All posts</a></span>
   </footer>
 
   <script defer src="theme.js?v=e512a566"></script>
   <script defer src="navigation.js?v=82ad0181"></script>
-  <script defer src="media.js?v=6c5df084"></script>
+  <script defer src="media.js?v=3803c5ba"></script>
   <script defer src="interactions.js?v=3cfec42c"></script>
   <script defer src="cursor.js?v=836db8cc"></script>
   <script defer src="portal-transitions.js?v=d4060e4b"></script>

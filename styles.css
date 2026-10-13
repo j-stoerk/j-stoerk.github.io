@@ -253,7 +253,8 @@ a:hover {
   text-decoration-color: currentColor;
 }
 
-img { -webkit-user-drag: none; user-select: none; }
+a, button, summary, [role="button"], img { -webkit-user-drag: none; }
+img { user-select: none; }
 
 img,
 svg {

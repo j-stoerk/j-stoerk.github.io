@@ -57,28 +57,28 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=36854c8e">
+  <link rel="stylesheet" href="styles.css?v=44b93ec7">
   <link rel="stylesheet" href="experiences.css?v=46a70b1b">
 </head>
 
 <body>
-  <a href="#main" class="skip-link">Skip to main content</a>
+  <a draggable="false" href="#main" class="skip-link">Skip to main content</a>
 
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="site-title" href="index.html?nav=fe6093f0">Home</a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+      <a draggable="false" class="site-title" href="index.html?nav=fe6093f0">Home</a>
+      <button draggable="false" class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
         <span class="nav-toggle-lines" aria-hidden="true"></span>
         <span class="sr-only">Open navigation</span>
       </button>
       <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
-        <a href="index.html?nav=fe6093f0#publications" data-nav-label="Publications">Publications</a>
-        <a href="index.html?nav=fe6093f0#software" data-nav-label="Code">Code</a>
-        <a class="current" href="blog.html?nav=fe6093f0" data-nav-label="Blog" aria-current="page">Blog</a>
-        <a href="index.html?nav=fe6093f0#experience" data-nav-label="Experience">Experience</a>
-        <a href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
-        <a href="index.html?nav=fe6093f0#contact" data-nav-label="Contact">Contact</a>
-        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+        <a draggable="false" href="index.html?nav=fe6093f0#publications" data-nav-label="Publications">Publications</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#software" data-nav-label="Code">Code</a>
+        <a draggable="false" class="current" href="blog.html?nav=fe6093f0" data-nav-label="Blog" aria-current="page">Blog</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#experience" data-nav-label="Experience">Experience</a>
+        <a draggable="false" href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#contact" data-nav-label="Contact">Contact</a>
+        <button draggable="false" class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
       </nav>
     </div>
   </header>
@@ -86,7 +86,7 @@
   <main id="main" class="content">
 
     <div class="page-art page-art-post" aria-hidden="true" style="--post-art-light:url('images/blog-backgrounds/post-student-becomes-teacher-light.svg?v=b9659bae');--post-art-dark:url('images/blog-backgrounds/post-student-becomes-teacher-dark.svg?v=ac830347')"></div>
-    <a class="back-link" href="blog.html?nav=fe6093f0">All posts</a>
+    <a draggable="false" class="back-link" href="blog.html?nav=fe6093f0">All posts</a>
     <article class="post" id="student-becomes-teacher">
 
       <div class="post-cover media-cover">
@@ -103,10 +103,10 @@
       <div class="prose">
         <p>In battery research, a single ground-truth requires assembling a cell, cycling it for weeks, and extracting one electrochemical data point. This consumes both time and money and post-training large language models has the exact same problem. Verified reasoning traces, gold answers, and external reward models are the labels, and they are just as scarce relative to the volume of data a model could learn from. This week, both Guibin Zhang from NUS and Yijiang Li from UC San Diego pushed the question "what if the model supplies its own supervision". Short answer: the external teacher (OPSD), the ground-truth labels (U-OPSD), and now handcrafted privileged context have all been replaced by the model itself.</p>
         <h3>Background: one model, two contexts</h3>
-        <p>The line of work starts with <strong>On-Policy Self-Distillation</strong> (OPSD, January 2026, <a href="https://arxiv.org/abs/2601.18734" target="_blank" rel="noopener noreferrer">arXiv:2601.18734</a>). A single LLM acts as both teacher and student under different contexts. The teacher conditions on privileged information (verified reasoning traces) while the student sees only the question. Training minimizes the per-token divergence between the two distributions over the student's own rollouts, on trajectories it would actually produce.</p>
-        <p><strong>Self-Distillation Fine-Tuning</strong> (SDFT) applies the same trick to demonstrations: the demonstration-conditioned model becomes its own teacher, generating on-policy training signals that, in the original experiments, preserved prior capabilities better than ordinary SFT while acquiring new skills. It was one of the papers put through the ICML 2026 open reproduction effort (<a href="https://huggingface.co/blog/icml-2026-open-reproductions" target="_blank" rel="noopener noreferrer">Hugging Face report</a>), I come back to that below.</p>
+        <p>The line of work starts with <strong>On-Policy Self-Distillation</strong> (OPSD, January 2026, <a draggable="false" href="https://arxiv.org/abs/2601.18734" target="_blank" rel="noopener noreferrer">arXiv:2601.18734</a>). A single LLM acts as both teacher and student under different contexts. The teacher conditions on privileged information (verified reasoning traces) while the student sees only the question. Training minimizes the per-token divergence between the two distributions over the student's own rollouts, on trajectories it would actually produce.</p>
+        <p><strong>Self-Distillation Fine-Tuning</strong> (SDFT) applies the same trick to demonstrations: the demonstration-conditioned model becomes its own teacher, generating on-policy training signals that, in the original experiments, preserved prior capabilities better than ordinary SFT while acquiring new skills. It was one of the papers put through the ICML 2026 open reproduction effort (<a draggable="false" href="https://huggingface.co/blog/icml-2026-open-reproductions" target="_blank" rel="noopener noreferrer">Hugging Face report</a>), I come back to that below.</p>
         <h3>Remove or learn the supervision</h3>
-        <p><strong>U-OPSD</strong>, On-Policy Self-Distillation without any Supervision <a href="https://arxiv.org/abs/2608.06296" target="_blank" rel="noopener noreferrer">arXiv:2608.06296</a> removes the last external crutch. Sample <em>k</em> rollouts, majority-vote a pseudo-solution, gate it by a self-consistency threshold, then condition the model on that pseudo-solution and distill only on the <em>disagreeing</em> completions. The model corrects itself where it is confidently wrong. An answer the model produces consistently is treated as correct, the agreement among samples is taken as evidence (in place of any external check). On Qwen3 math in non-thinking mode, U-OPSD beats supervised OPSD by up to 3.2 points and GRPO by up to 8.9 points (<a href="https://x.com/askalphaxiv/status/2085757874127397129" target="_blank" rel="noopener noreferrer">summary</a>), using no labels at all.</p>
+        <p><strong>U-OPSD</strong>, On-Policy Self-Distillation without any Supervision <a draggable="false" href="https://arxiv.org/abs/2608.06296" target="_blank" rel="noopener noreferrer">arXiv:2608.06296</a> removes the last external crutch. Sample <em>k</em> rollouts, majority-vote a pseudo-solution, gate it by a self-consistency threshold, then condition the model on that pseudo-solution and distill only on the <em>disagreeing</em> completions. The model corrects itself where it is confidently wrong. An answer the model produces consistently is treated as correct, the agreement among samples is taken as evidence (in place of any external check). On Qwen3 math in non-thinking mode, U-OPSD beats supervised OPSD by up to 3.2 points and GRPO by up to 8.9 points (<a draggable="false" href="https://x.com/askalphaxiv/status/2085757874127397129" target="_blank" rel="noopener noreferrer">summary</a>), using no labels at all.</p>
 
         <div class="interactive">
           <div class="widget-controls">
@@ -122,7 +122,7 @@
                 <div class="metric-item"><div>Consistency (top share)</div><div class="metric-value" id="mv-cons">…</div></div>
                 <div class="metric-item"><div>Pseudo-label</div><div class="metric-value" id="mv-label">…</div></div>
               </div>
-              <button class="download-btn" type="button" id="mv-run" style="margin-top:var(--space-3)">Replay</button>
+              <button draggable="false" class="download-btn" type="button" id="mv-run" style="margin-top:var(--space-3)">Replay</button>
             </div>
             <p class="widget-note">Monte Carlo over four answers (A is the truth). The pseudo-label locks when the
               leading answer crosses the 60% consistency threshold. Raise ρ and consensus can converge, confidently, on a wrong answer.</p>
@@ -139,7 +139,7 @@
             </svg>
           </div>
         </div>
-        <p><strong>L-OPSD</strong>, Latent On-Policy Self-Distillation <a href="https://papers.cool/arxiv/2608.13040" target="_blank" rel="noopener noreferrer">arXiv:2608.13040</a> steps in the opposite direction. Instead of removing the privileged context, it makes privilege learnable: retrieved experiences are composed into continuous latent tokens that condition the self-teacher and dense supervision is provided at every visited prefix. Because the composer is trainable, the distillation loss has a degenerate minimum (the teacher collapses into the student for uninformative context). The privileged-margin objective forbids this by requiring the teacher to maintain a verifiable log-probability advantage over the student on successful trajectories. The latent context must stay informative, not merely easy to match. Without the constraint, joint training performs worse than freezing the composer outright. With this constraint, L-OPSD outperforms GRPO, OPSD, SDPO, and Skill-SD on agentic tool use and code generation, using under 30% of GRPO's rollout budget.</p>
+        <p><strong>L-OPSD</strong>, Latent On-Policy Self-Distillation <a draggable="false" href="https://papers.cool/arxiv/2608.13040" target="_blank" rel="noopener noreferrer">arXiv:2608.13040</a> steps in the opposite direction. Instead of removing the privileged context, it makes privilege learnable: retrieved experiences are composed into continuous latent tokens that condition the self-teacher and dense supervision is provided at every visited prefix. Because the composer is trainable, the distillation loss has a degenerate minimum (the teacher collapses into the student for uninformative context). The privileged-margin objective forbids this by requiring the teacher to maintain a verifiable log-probability advantage over the student on successful trajectories. The latent context must stay informative, not merely easy to match. Without the constraint, joint training performs worse than freezing the composer outright. With this constraint, L-OPSD outperforms GRPO, OPSD, SDPO, and Skill-SD on agentic tool use and code generation, using under 30% of GRPO's rollout budget.</p>
 
         <div class="interactive">
           <div class="widget-controls">
@@ -157,7 +157,7 @@
               <div class="metric-display" aria-live="polite" style="margin-top:var(--space-2)">
                 <div class="metric-item"><div>Reroutes to informative at</div><div class="metric-value" id="dc-flip">…</div></div>
               </div>
-              <button class="download-btn" type="button" id="dc-run" style="margin-top:var(--space-3)">Replay descent</button>
+              <button draggable="false" class="download-btn" type="button" id="dc-run" style="margin-top:var(--space-3)">Replay descent</button>
             </div>
             <p class="widget-note">Schematic landscape. The margin penalty fills the mirror basin; past a critical m the
               descent reroutes to the informative one. Endpoint scores 0.551 (mirror) and 0.637 (informative) are the
@@ -180,26 +180,26 @@
         </div>
         <p>One paper removes privileged information entirely, the other learns to construct it. Which algorithm wins depends on the failure mode you're more afraid of; the model confidently agreeing with its own mistakes vs. the teacher collapsing into a mirror of the student.</p>
         <h3>Some limitations</h3>
-        <p><strong>The privilege illusion.</strong> The DAPD analysis (<a href="https://aiweekly.co/node/8951" target="_blank" rel="noopener noreferrer">coverage</a>) argues that OPSD quietly teaches the student to behave as if the reference were still present at inference time. The measured consequence: gains of +5.19 points at 1.7B parameters collapse to ≤ +0.28 at 8B–32B. What works at small scale may be an artifact of scale.</p>
-        <p><strong>Decoding collapse.</strong> In agentic settings, feedback-augmented self-distillation can produce trajectories that look diverse but are largely input-agnostic templates. The KL-based supervision signal becomes uninformative, and standard evaluation metrics miss it (<a href="https://arxiv.org/abs/2607.17558" target="_blank" rel="noopener noreferrer">arXiv:2607.17558</a>). An exponential-moving-average teacher is a partial fix.</p>
-        <p><strong>The awkward reproduction.</strong> In the ICML 2026 open reproduction challenge, at least one independent attempt found no SDFT advantage over matched SFT on a 507-example science evaluation, leaving toy-scale support only for the reduced-forgetting claim (<a href="https://huggingface.co/spaces/ICML-2026-agent-repro/challenge/discussions/33" target="_blank" rel="noopener noreferrer">reproduction logbooks</a>). One reproduction is not a refutation, but it is exactly the kind of result that should be cited next to the original.</p>
+        <p><strong>The privilege illusion.</strong> The DAPD analysis (<a draggable="false" href="https://aiweekly.co/node/8951" target="_blank" rel="noopener noreferrer">coverage</a>) argues that OPSD quietly teaches the student to behave as if the reference were still present at inference time. The measured consequence: gains of +5.19 points at 1.7B parameters collapse to ≤ +0.28 at 8B–32B. What works at small scale may be an artifact of scale.</p>
+        <p><strong>Decoding collapse.</strong> In agentic settings, feedback-augmented self-distillation can produce trajectories that look diverse but are largely input-agnostic templates. The KL-based supervision signal becomes uninformative, and standard evaluation metrics miss it (<a draggable="false" href="https://arxiv.org/abs/2607.17558" target="_blank" rel="noopener noreferrer">arXiv:2607.17558</a>). An exponential-moving-average teacher is a partial fix.</p>
+        <p><strong>The awkward reproduction.</strong> In the ICML 2026 open reproduction challenge, at least one independent attempt found no SDFT advantage over matched SFT on a 507-example science evaluation, leaving toy-scale support only for the reduced-forgetting claim (<a draggable="false" href="https://huggingface.co/spaces/ICML-2026-agent-repro/challenge/discussions/33" target="_blank" rel="noopener noreferrer">reproduction logbooks</a>). One reproduction is not a refutation, but it is exactly the kind of result that should be cited next to the original.</p>
         <p>The meta-point: every failure above is an examination failure, not a teaching failure. Self-generated supervision inherits the model's blind spots, and internal consistency measures confidence, not correctness. Majority vote repairs the cases where the model is right often and wrong sometimes; it amplifies the cases where it is confidently, systematically wrong.</p>
         <h3>Why I care</h3>
         <p>Process–property models in electrode manufacturing have the same structure as this problem: abundant process data from coating and calendering lines, scarce and delayed electrochemical labels from cycling tests. Any method that extracts training signal from internal consistency rather than external labels is directly relevant to surrogate models that have to stay useful between cycling campaigns.</p>
-        <p>The SDFT thread also connects to my continual-learning work. On-policy self-signals reduce forgetting relative to off-policy SFT, which makes them a candidate complement to structural protection mechanisms like the interference-gated approach I wrote about <a href="https://j-stoerk.github.io/post-geometry-of-forgetting.html" target="_blank" rel="noopener noreferrer">earlier</a>. A speculative extension: could majority-vote pseudo-labels over process-parameter rollouts bootstrap a surrogate model during the weeks while a cycling campaign is still running? The failure modes above, especially confident systematic error, are exactly what a battery surrogate would exhibit under process drift, so the caveats transfer along with the method.</p>
+        <p>The SDFT thread also connects to my continual-learning work. On-policy self-signals reduce forgetting relative to off-policy SFT, which makes them a candidate complement to structural protection mechanisms like the interference-gated approach I wrote about <a draggable="false" href="https://j-stoerk.github.io/post-geometry-of-forgetting.html" target="_blank" rel="noopener noreferrer">earlier</a>. A speculative extension: could majority-vote pseudo-labels over process-parameter rollouts bootstrap a surrogate model during the weeks while a cycling campaign is still running? The failure modes above, especially confident systematic error, are exactly what a battery surrogate would exhibit under process drift, so the caveats transfer along with the method.</p>
         <h3>A geometric caution</h3>
         <p>The temptation, after reading this literature, is a geometric intuition: self-distillation keeps updates KL-close to the current policy, KL-close means small parameter drift, small drift means the model stays in a flat region of its loss landscape, and flat regions retain. It is a good story.</p>
-        <p>A recent theory paper is a useful antidote. <em>Flat Minima and Generalization: Insights from Stochastic Convex Optimization</em> (<a href="https://arxiv.org/html/2511.03548v2" target="_blank" rel="noopener noreferrer">arXiv:2511.03548</a>) constructs settings (in the friendliest possible regime, convex and smooth) where provably flat minima generalize trivially, and where a SAM-style algorithm converges quickly to exactly such points. It was the most-reproduced paper in the ICML 2026 challenge, with twelve independent teams verifying every claim, so this is not a fringe counterexample. Geometry is suggestive; it is never sufficient.</p>
+        <p>A recent theory paper is a useful antidote. <em>Flat Minima and Generalization: Insights from Stochastic Convex Optimization</em> (<a draggable="false" href="https://arxiv.org/html/2511.03548v2" target="_blank" rel="noopener noreferrer">arXiv:2511.03548</a>) constructs settings (in the friendliest possible regime, convex and smooth) where provably flat minima generalize trivially, and where a SAM-style algorithm converges quickly to exactly such points. It was the most-reproduced paper in the ICML 2026 challenge, with twelve independent teams verifying every claim, so this is not a fringe counterexample. Geometry is suggestive; it is never sufficient.</p>
         <p>Models can teach themself. The student has become the teacher. It has not yet become the examiner.</p>
       </div>
     </article>
 
     <section class="post-comments" id="comments" aria-label="Discussion" data-comments>
       <div class="comments-heading">
-        <button type="button" class="quiet-button" data-comments-refresh hidden>Refresh</button>
+        <button draggable="false" type="button" class="quiet-button" data-comments-refresh hidden>Refresh</button>
       </div>
       <div class="comments-list" data-comments-list></div>
-      <button type="button" class="quiet-button" data-comments-more hidden>Earlier comments</button>
+      <button draggable="false" type="button" class="quiet-button" data-comments-more hidden>Earlier comments</button>
       <form class="comment-form" data-comment-form>
         <label class="sr-only" for="comment-text">Your comment</label>
         <textarea id="comment-text" name="comment" rows="4" maxlength="5000" placeholder="Add to the discussion…" required></textarea>
@@ -207,31 +207,31 @@
         <div data-comment-challenge></div>
         <div class="form-actions">
           <span class="form-note" data-comment-identity hidden></span>
-          <button type="submit" class="form-submit" disabled>Post</button>
+          <button draggable="false" type="submit" class="form-submit" disabled>Post</button>
         </div>
       </form>
       <p class="form-status" data-comments-status role="status"></p>
       <details class="comment-identity-tools" data-identity-tools hidden>
-        <summary>Use your identity on another device</summary>
+        <summary draggable="false">Use your identity on another device</summary>
         <p class="form-note">Save an encrypted identity file and restore it in another browser. Keep the file and its passphrase private.</p>
         <div class="identity-actions">
-          <button type="button" class="quiet-button" data-identity-save>Save identity</button>
-          <button type="button" class="quiet-button" data-identity-restore>Restore identity</button>
+          <button draggable="false" type="button" class="quiet-button" data-identity-save>Save identity</button>
+          <button draggable="false" type="button" class="quiet-button" data-identity-restore>Restore identity</button>
         </div>
       </details>
       <noscript><p class="form-note">JavaScript is needed to load and post comments.</p></noscript>
       <dialog class="site-dialog" data-comment-name-dialog aria-labelledby="comment-name-title">
-        <button type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <button draggable="false" type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
         <h2 id="comment-name-title">What should I call you?</h2>
         <p class="form-note">Choose a display name for your comments. No email or account signup.</p>
         <form data-comment-name-form>
           <label for="comment-name">Display name</label>
           <input id="comment-name" name="displayName" autocomplete="nickname" maxlength="40" required>
-          <button type="submit" class="form-submit">Post comment</button>
+          <button draggable="false" type="submit" class="form-submit">Post comment</button>
         </form>
       </dialog>
       <dialog class="site-dialog" data-identity-dialog aria-labelledby="identity-title">
-        <button type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <button draggable="false" type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
         <h2 id="identity-title">Your commenting identity</h2>
         <form data-identity-form>
           <div data-identity-file-field hidden>
@@ -241,7 +241,7 @@
           <label for="identity-passphrase">Passphrase</label>
           <input id="identity-passphrase" type="password" minlength="12" maxlength="200" autocomplete="new-password" required>
           <p class="form-note" data-identity-help>Use at least 12 characters. You’ll need this passphrase to restore the file.</p>
-          <button type="submit" class="form-submit" data-identity-confirm>Save identity</button>
+          <button draggable="false" type="submit" class="form-submit" data-identity-confirm>Save identity</button>
           <p class="form-status" data-identity-status role="status"></p>
         </form>
       </dialog>
@@ -250,7 +250,7 @@
 
 
     <nav class="post-pager" aria-label="More posts">
-      <a href="post-optimizing-reasoning.html?nav=fe6093f0">
+      <a draggable="false" href="post-optimizing-reasoning.html?nav=fe6093f0">
         <span class="eyebrow">Next post</span>
         <span class="post-pager-title">From Simulating Speech to Optimizing Reasoning</span>
       </a>
@@ -259,12 +259,12 @@
 
   <footer class="content">
     <span>© 2026 Julius Störk</span>
-    <span><a href="blog.html?nav=fe6093f0">All posts</a></span>
+    <span><a draggable="false" href="blog.html?nav=fe6093f0">All posts</a></span>
   </footer>
 
   <script defer src="theme.js?v=e512a566"></script>
   <script defer src="navigation.js?v=82ad0181"></script>
-  <script defer src="media.js?v=6c5df084"></script>
+  <script defer src="media.js?v=3803c5ba"></script>
   <script defer src="interactions.js?v=3cfec42c"></script>
   <script defer src="cursor.js?v=836db8cc"></script>
   <script defer src="portal-transitions.js?v=d4060e4b"></script>

@@ -53,36 +53,36 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=36854c8e">
+  <link rel="stylesheet" href="styles.css?v=44b93ec7">
   <link rel="stylesheet" href="experiences.css?v=46a70b1b">
   <link rel="stylesheet" href="katex/katex.min.css">
 </head>
 
 <body>
-  <a href="#main" class="skip-link">Skip to main content</a>
+  <a draggable="false" href="#main" class="skip-link">Skip to main content</a>
 
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="site-title" href="index.html?nav=fe6093f0">Home</a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+      <a draggable="false" class="site-title" href="index.html?nav=fe6093f0">Home</a>
+      <button draggable="false" class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
         <span class="nav-toggle-lines" aria-hidden="true"></span>
         <span class="sr-only">Open navigation</span>
       </button>
       <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
-        <a href="index.html?nav=fe6093f0#publications" data-nav-label="Publications">Publications</a>
-        <a href="index.html?nav=fe6093f0#software" data-nav-label="Code">Code</a>
-        <a class="current" href="blog.html?nav=fe6093f0" data-nav-label="Blog" aria-current="page">Blog</a>
-        <a href="index.html?nav=fe6093f0#experience" data-nav-label="Experience">Experience</a>
-        <a href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
-        <a href="index.html?nav=fe6093f0#contact" data-nav-label="Contact">Contact</a>
-        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+        <a draggable="false" href="index.html?nav=fe6093f0#publications" data-nav-label="Publications">Publications</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#software" data-nav-label="Code">Code</a>
+        <a draggable="false" class="current" href="blog.html?nav=fe6093f0" data-nav-label="Blog" aria-current="page">Blog</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#experience" data-nav-label="Experience">Experience</a>
+        <a draggable="false" href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#contact" data-nav-label="Contact">Contact</a>
+        <button draggable="false" class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
       </nav>
     </div>
   </header>
 
   <main id="main" class="content">
     <div class="page-art page-art-post" aria-hidden="true" style="--post-art-light:url('images/blog-backgrounds/post-jev-output-heads-light.svg?v=8257e78b');--post-art-dark:url('images/blog-backgrounds/post-jev-output-heads-dark.svg?v=6b116cca')"></div>
-    <a class="back-link" href="blog.html?nav=fe6093f0">All posts</a>
+    <a draggable="false" class="back-link" href="blog.html?nav=fe6093f0">All posts</a>
     <article class="post" id="jev-output-heads">
       <div class="post-cover media-cover">
         <div class="media">
@@ -174,7 +174,7 @@
 
       <div class="prose">
         <p>There is a new model in town that does not talk. It does not write essays, explain its reasoning, or apologize for being late. It returns probabilities over things you already defined.</p>
-        <p>The model is <strong>Jev</strong>, from TypeSafe AI. The company presents it as a “System One” model for fast, structured decisions. Independent open-source projects such as <strong>Jeff</strong> explore a similar interface. The idea is appealing: give software the kind of output its decision needs, instead of turning every judgment into a paragraph <sup class="cite">[<a href="#ref-1">1</a>, <a href="#ref-3">3</a>]</sup>.</p>
+        <p>The model is <strong>Jev</strong>, from TypeSafe AI. The company presents it as a “System One” model for fast, structured decisions. Independent open-source projects such as <strong>Jeff</strong> explore a similar interface. The idea is appealing: give software the kind of output its decision needs, instead of turning every judgment into a paragraph <sup class="cite">[<a draggable="false" href="#ref-1">1</a>, <a draggable="false" href="#ref-3">3</a>]</sup>.</p>
 
         <h2>Choice, Score, and Noul</h2>
         <p>Jev accepts typed questions about a state supplied as text, logs, tickets, or a structured summary. Its three primitives are:</p>
@@ -186,7 +186,7 @@
             <tr><td><strong>Noul</strong></td><td>How likely is this statement to be true?</td><td>Probability that a reading is anomalous</td></tr>
           </tbody>
         </table></div>
-        <p>Choice and Score return distributions and confidence; Noul returns a value between zero and one. The official documentation says the questions in one request are evaluated independently and in parallel against the same state. More complex decisions can then combine those answers in ordinary code <sup class="cite">[<a href="#ref-2">2</a>]</sup>.</p>
+        <p>Choice and Score return distributions and confidence; Noul returns a value between zero and one. The official documentation says the questions in one request are evaluated independently and in parallel against the same state. More complex decisions can then combine those answers in ordinary code <sup class="cite">[<a draggable="false" href="#ref-2">2</a>]</sup>.</p>
         <p>This resembles a smart function call. A caller defines the decision space and receives values it can branch on. The output type rules out malformed labels, while the probabilities expose uncertainty for the next step.</p>
 
         <h2>A shared body, different decision spaces</h2>
@@ -198,7 +198,7 @@
         <p>These equations describe a concrete implementation of the design idea. Jev’s public materials establish its typed interface and parallel evaluation, but do not establish that each primitive has this particular neural head. Likewise, Noul can ask a review question without implying a separate, documented “Act/Escalate” module inside Jev.</p>
 
         <h2>Calibrated decisions need an appropriate objective</h2>
-        <p>TypeSafe calls its training method <strong>Reinforcement Learning for Calibrated Decisions</strong>, or RLCD. Its stated objective is to make the probabilities useful for decisions: predictions made with similar confidence should be correct at a corresponding frequency <sup class="cite">[<a href="#ref-1">1</a>]</sup>. That is a measurable requirement. For binary outcomes <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi></mrow><annotation encoding="application/x-tex">Y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span></span></span></span>, ideal calibration means:</p>
+        <p>TypeSafe calls its training method <strong>Reinforcement Learning for Calibrated Decisions</strong>, or RLCD. Its stated objective is to make the probabilities useful for decisions: predictions made with similar confidence should be correct at a corresponding frequency <sup class="cite">[<a draggable="false" href="#ref-1">1</a>]</sup>. That is a measurable requirement. For binary outcomes <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Y</mi></mrow><annotation encoding="application/x-tex">Y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span></span></span></span>, ideal calibration means:</p>
         <div class="equation"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="double-struck">E</mi><mo stretchy="false">[</mo><mi>Y</mi><mo>∣</mo><mi>q</mi><mo stretchy="false">(</mo><mi>X</mi><mo stretchy="false">)</mo><mo>=</mo><mi>p</mi><mo stretchy="false">]</mo><mo>=</mo><mi>p</mi></mrow><annotation encoding="application/x-tex">\mathbb{E}[Y\mid q(X)=p]=p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathbb">E</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">p</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span></span></span></span></span></div>
         <p>For example, among many comparable cases assigned probability 0.8, the event should occur about 80% of the time. A standard diagnostic for categorical predictions is the Brier score:</p>
         <div class="equation"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi mathvariant="normal">BS</mi><mo>⁡</mo><mo>=</mo><mfrac><mn>1</mn><mi>N</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover><munderover><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mi>K</mi></munderover><msup><mrow><mo fence="true">(</mo><msub><mi>p</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub><mo>−</mo><mn mathvariant="bold">1</mn><mo stretchy="false">[</mo><msub><mi>y</mi><mi>i</mi></msub><mo>=</mo><mi>k</mi><mo stretchy="false">]</mo><mo fence="true">)</mo></mrow><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\operatorname{BS}=\frac{1}{N}\sum_{i=1}^{N}\sum_{k=1}^{K}\left(p_{ik}-\mathbf{1}[y_i=k]\right)^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mop"><span class="mord mathrm">BS</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:3.1304em;vertical-align:-1.3021em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3214em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8283em;"><span style="top:-1.8723em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.3em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.2777em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8283em;"><span style="top:-1.8479em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.3em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.07153em;">K</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.3021em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">ik</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathbf">1</span><span class="mopen">[</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose">]</span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.954em;"><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span></div>
@@ -206,9 +206,9 @@
         <p>Type correctness and decision quality remain separate properties. A model can return a perfectly valid “continue” label and still make the wrong decision. Calibration therefore has to be checked on the actual process data, including new material lots and changed operating conditions.</p>
 
         <h2>The bridge to continual learning</h2>
-        <p>In multi-head task-incremental learning, each task has its own classification head while the network shares a feature extractor. Labels from different tasks do not have to compete in a single softmax. A study by Lanzillotta, Meier, and Hofmann finds Neural Collapse structure within task heads, with variable alignment and scaling across tasks <sup class="cite">[<a href="#ref-4">4</a>]</sup>.</p>
+        <p>In multi-head task-incremental learning, each task has its own classification head while the network shares a feature extractor. Labels from different tasks do not have to compete in a single softmax. A study by Lanzillotta, Meier, and Hofmann finds Neural Collapse structure within task heads, with variable alignment and scaling across tasks <sup class="cite">[<a draggable="false" href="#ref-4">4</a>]</sup>.</p>
         <p>There is a useful analogy here. Continual learning separates heads by task; a manufacturing model can separate outputs by decision semantics. A quality class, a conductivity estimate, and a review probability carry different meanings and error costs. Each can have its own loss, validation set, and calibration procedure while drawing on common process features.</p>
-        <p>Shared features still create interference. Updating the encoder for one objective can move the representation used by every other head. That connects directly to my <a href="post-geometry-of-forgetting.html?nav=fe6093f0">IGFA work</a>: separate outputs help organize tasks, while retention under a changing representation remains a problem that the training procedure must address.</p>
+        <p>Shared features still create interference. Updating the encoder for one objective can move the representation used by every other head. That connects directly to my <a draggable="false" href="post-geometry-of-forgetting.html?nav=fe6093f0">IGFA work</a>: separate outputs help organize tasks, while retention under a changing representation remains a problem that the training procedure must address.</p>
 
         <h2>A process controller with several outputs</h2>
         <p>Battery manufacturing already lives in a world of multiple tasks and outputs: coating experiment design, calendering settings, impedance analysis, cycling prediction, and drift detection. The labels include pass/fail, risk levels, continuous properties, and decisions about whether to trust a prediction.</p>
@@ -225,20 +225,20 @@
         <p>Historical data and simulations can train the heads, with later campaigns reserved for evaluation. The language model then handles experiment planning, documentation, and explanation around the decisions. This is the useful System One / System Two split: repeated judgments have a compact interface, and open-ended research retains a flexible reasoning tool.</p>
 
         <h2>Jeff makes the interface inspectable</h2>
-        <p>The open-source Jeff 1 from Gestalt-Lab implements Jev-style Choice, Score, and Noul requests using a LoRA adapter on Qwen3-4B-Instruct-2507. It scores candidate labels from the language model’s token probabilities, using the first token when labels are distinguishable there and sequence scoring otherwise. This is a different implementation route to a typed interface <sup class="cite">[<a href="#ref-3">3</a>]</sup>.</p>
+        <p>The open-source Jeff 1 from Gestalt-Lab implements Jev-style Choice, Score, and Noul requests using a LoRA adapter on Qwen3-4B-Instruct-2507. It scores candidate labels from the language model’s token probabilities, using the first token when labels are distinguishable there and sequence scoring otherwise. This is a different implementation route to a typed interface <sup class="cite">[<a draggable="false" href="#ref-3">3</a>]</sup>.</p>
         <p>The project publishes fact-checking evaluations and limitations, including confidently wrong judgments and weak performance when evidence is insufficient. Its results establish an inspectable starting point for that task; matching the API does not establish equivalent behavior on manufacturing data. The reusable part is the pattern: define the questions, supply representative labeled examples, fit or distill a model, and evaluate the probabilities and resulting decisions.</p>
         <p>Jev and Jeff are reminders that every AI output does not need to be a sentence. Some outputs predict properties, some classify quality, some score risk, and some decide whether to ask for help. A common representation can support all of them. Give each decision a suitable output, then let the language model write the report.</p>
       </div>
 
       <section class="post-sources"><h3>Sources</h3><ol class="sources">
-        <li id="ref-1">Almeida, D. <a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev" target="_blank" rel="noopener noreferrer">Introducing System One Models &amp; Jev</a>. TypeSafe AI, 15 September 2026.</li>
-        <li id="ref-2">TypeSafe AI. <a href="https://docs.typesafe.ai/introduction" target="_blank" rel="noopener noreferrer">Official introduction and typed decision primitives</a>.</li>
-        <li id="ref-3">Gestalt-Lab. <a href="https://github.com/Gestalt-Lab/jeff" target="_blank" rel="noopener noreferrer">Jeff 1: implementation, evaluation, and training guide</a>.</li>
+        <li id="ref-1">Almeida, D. <a draggable="false" href="https://typesafe.ai/blog/introducing-system-one-models-and-jev" target="_blank" rel="noopener noreferrer">Introducing System One Models &amp; Jev</a>. TypeSafe AI, 15 September 2026.</li>
+        <li id="ref-2">TypeSafe AI. <a draggable="false" href="https://docs.typesafe.ai/introduction" target="_blank" rel="noopener noreferrer">Official introduction and typed decision primitives</a>.</li>
+        <li id="ref-3">Gestalt-Lab. <a draggable="false" href="https://github.com/Gestalt-Lab/jeff" target="_blank" rel="noopener noreferrer">Jeff 1: implementation, evaluation, and training guide</a>.</li>
         </ol>
         <details class="references-more">
-          <summary class="references-toggle"><span class="references-show">show all 5 references</span><span class="references-hide">show fewer references</span><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></summary>
-          <ol class="sources" start="4"><li id="ref-4">Lanzillotta, G., Meier, D., and Hofmann, T. <a href="https://arxiv.org/abs/2512.07400v2" target="_blank" rel="noopener noreferrer">Heads Collapse, Features Stay: Why Replay Needs Big Buffers</a>, 2026.</li>
-        <li>Störk, J. <a href="post-geometry-of-forgetting.html?nav=fe6093f0">The Geometry of Forgetting in Continual Learning</a> and <a href="post-calendering-u-shape.html?nav=fe6093f0">the calendering U-shape</a>.</li>
+          <summary draggable="false" class="references-toggle"><span class="references-show">show all 5 references</span><span class="references-hide">show fewer references</span><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></summary>
+          <ol class="sources" start="4"><li id="ref-4">Lanzillotta, G., Meier, D., and Hofmann, T. <a draggable="false" href="https://arxiv.org/abs/2512.07400v2" target="_blank" rel="noopener noreferrer">Heads Collapse, Features Stay: Why Replay Needs Big Buffers</a>, 2026.</li>
+        <li>Störk, J. <a draggable="false" href="post-geometry-of-forgetting.html?nav=fe6093f0">The Geometry of Forgetting in Continual Learning</a> and <a draggable="false" href="post-calendering-u-shape.html?nav=fe6093f0">the calendering U-shape</a>.</li>
       </ol>
         </details></section>
 
@@ -246,10 +246,10 @@
 
     <section class="post-comments" id="comments" aria-label="Discussion" data-comments>
       <div class="comments-heading">
-        <button type="button" class="quiet-button" data-comments-refresh hidden>Refresh</button>
+        <button draggable="false" type="button" class="quiet-button" data-comments-refresh hidden>Refresh</button>
       </div>
       <div class="comments-list" data-comments-list></div>
-      <button type="button" class="quiet-button" data-comments-more hidden>Earlier comments</button>
+      <button draggable="false" type="button" class="quiet-button" data-comments-more hidden>Earlier comments</button>
       <form class="comment-form" data-comment-form>
         <label class="sr-only" for="comment-text">Your comment</label>
         <textarea id="comment-text" name="comment" rows="4" maxlength="5000" placeholder="Add to the discussion…" required></textarea>
@@ -257,31 +257,31 @@
         <div data-comment-challenge></div>
         <div class="form-actions">
           <span class="form-note" data-comment-identity hidden></span>
-          <button type="submit" class="form-submit" disabled>Post</button>
+          <button draggable="false" type="submit" class="form-submit" disabled>Post</button>
         </div>
       </form>
       <p class="form-status" data-comments-status role="status"></p>
       <details class="comment-identity-tools" data-identity-tools hidden>
-        <summary>Use your identity on another device</summary>
+        <summary draggable="false">Use your identity on another device</summary>
         <p class="form-note">Save an encrypted identity file and restore it in another browser. Keep the file and its passphrase private.</p>
         <div class="identity-actions">
-          <button type="button" class="quiet-button" data-identity-save>Save identity</button>
-          <button type="button" class="quiet-button" data-identity-restore>Restore identity</button>
+          <button draggable="false" type="button" class="quiet-button" data-identity-save>Save identity</button>
+          <button draggable="false" type="button" class="quiet-button" data-identity-restore>Restore identity</button>
         </div>
       </details>
       <noscript><p class="form-note">JavaScript is needed to load and post comments.</p></noscript>
       <dialog class="site-dialog" data-comment-name-dialog aria-labelledby="comment-name-title">
-        <button type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <button draggable="false" type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
         <h2 id="comment-name-title">What should I call you?</h2>
         <p class="form-note">Choose a display name for your comments. No email or account signup.</p>
         <form data-comment-name-form>
           <label for="comment-name">Display name</label>
           <input id="comment-name" name="displayName" autocomplete="nickname" maxlength="40" required>
-          <button type="submit" class="form-submit">Post comment</button>
+          <button draggable="false" type="submit" class="form-submit">Post comment</button>
         </form>
       </dialog>
       <dialog class="site-dialog" data-identity-dialog aria-labelledby="identity-title">
-        <button type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <button draggable="false" type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
         <h2 id="identity-title">Your commenting identity</h2>
         <form data-identity-form>
           <div data-identity-file-field hidden>
@@ -291,7 +291,7 @@
           <label for="identity-passphrase">Passphrase</label>
           <input id="identity-passphrase" type="password" minlength="12" maxlength="200" autocomplete="new-password" required>
           <p class="form-note" data-identity-help>Use at least 12 characters. You’ll need this passphrase to restore the file.</p>
-          <button type="submit" class="form-submit" data-identity-confirm>Save identity</button>
+          <button draggable="false" type="submit" class="form-submit" data-identity-confirm>Save identity</button>
           <p class="form-status" data-identity-status role="status"></p>
         </form>
       </dialog>
@@ -300,11 +300,11 @@
 
 
     <nav class="post-pager" aria-label="More posts">
-      <a href="post-battery-price-war.html?nav=fe6093f0">
+      <a draggable="false" href="post-battery-price-war.html?nav=fe6093f0">
         <span class="eyebrow">Newer post</span>
         <span class="post-pager-title">Price Wars: East vs. West Battery Production and the SynBatt Response</span>
       </a>
-      <a href="post-disco-dry-run.html?nav=fe6093f0">
+      <a draggable="false" href="post-disco-dry-run.html?nav=fe6093f0">
         <span class="eyebrow">Next post</span>
         <span class="post-pager-title">DisCo and the Case for Reusable Agent Skills</span>
       </a>
@@ -313,12 +313,12 @@
 
   <footer class="content">
     <span>© 2026 Julius Störk</span>
-    <span><a href="blog.html?nav=fe6093f0">All posts</a></span>
+    <span><a draggable="false" href="blog.html?nav=fe6093f0">All posts</a></span>
   </footer>
 
   <script defer src="theme.js?v=e512a566"></script>
   <script defer src="navigation.js?v=82ad0181"></script>
-  <script defer src="media.js?v=6c5df084"></script>
+  <script defer src="media.js?v=3803c5ba"></script>
   <script defer src="interactions.js?v=3cfec42c"></script>
   <script defer src="cursor.js?v=836db8cc"></script>
   <script defer src="portal-transitions.js?v=d4060e4b"></script>

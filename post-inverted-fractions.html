@@ -53,29 +53,29 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=36854c8e">
+  <link rel="stylesheet" href="styles.css?v=44b93ec7">
   <link rel="stylesheet" href="experiences.css?v=46a70b1b">
   <link rel="stylesheet" href="katex/katex.min.css">
 </head>
 
 <body>
-  <a href="#main" class="skip-link">Skip to main content</a>
+  <a draggable="false" href="#main" class="skip-link">Skip to main content</a>
 
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="site-title" href="index.html?nav=fe6093f0">Home</a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+      <a draggable="false" class="site-title" href="index.html?nav=fe6093f0">Home</a>
+      <button draggable="false" class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
         <span class="nav-toggle-lines" aria-hidden="true"></span>
         <span class="sr-only">Open navigation</span>
       </button>
       <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
-        <a href="index.html?nav=fe6093f0#publications" data-nav-label="Publications">Publications</a>
-        <a href="index.html?nav=fe6093f0#software" data-nav-label="Code">Code</a>
-        <a class="current" href="blog.html?nav=fe6093f0" data-nav-label="Blog" aria-current="page">Blog</a>
-        <a href="index.html?nav=fe6093f0#experience" data-nav-label="Experience">Experience</a>
-        <a href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
-        <a href="index.html?nav=fe6093f0#contact" data-nav-label="Contact">Contact</a>
-        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+        <a draggable="false" href="index.html?nav=fe6093f0#publications" data-nav-label="Publications">Publications</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#software" data-nav-label="Code">Code</a>
+        <a draggable="false" class="current" href="blog.html?nav=fe6093f0" data-nav-label="Blog" aria-current="page">Blog</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#experience" data-nav-label="Experience">Experience</a>
+        <a draggable="false" href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#contact" data-nav-label="Contact">Contact</a>
+        <button draggable="false" class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
       </nav>
     </div>
   </header>
@@ -83,7 +83,7 @@
   <main id="main" class="content">
 
     <div class="page-art page-art-post" aria-hidden="true" style="--post-art-light:url('images/blog-backgrounds/post-inverted-fractions-light.svg?v=c27c226f');--post-art-dark:url('images/blog-backgrounds/post-inverted-fractions-dark.svg?v=b62c56a9')"></div>
-    <a class="back-link" href="blog.html?nav=fe6093f0">All posts</a>
+    <a draggable="false" class="back-link" href="blog.html?nav=fe6093f0">All posts</a>
     <article class="post" id="inverted-fractions">
       <div class="post-cover media-cover">
         <div class="media">
@@ -143,9 +143,9 @@
           not the TeX. In that text, a fraction's denominator can come before its numerator. Paste it into a second
           model and the model has to guess which part goes on top.</p>
         <p>Estimates of LLM use in papers so far are based on vocabulary in abstracts and body text. Up to 17.5% of
-          computer science abstracts showed LLM editing by early 2024,<sup class="cite"><a class="ref" href="#ref-2">2</a></sup>
-          at least 13.5% of 2024 biomedical abstracts,<sup class="cite"><a class="ref" href="#ref-3">3</a></sup>
-          and a majority of biomedical papers by the end of 2025.<sup class="cite"><a class="ref" href="#ref-4">4</a></sup>
+          computer science abstracts showed LLM editing by early 2024,<sup class="cite"><a draggable="false" class="ref" href="#ref-2">2</a></sup>
+          at least 13.5% of 2024 biomedical abstracts,<sup class="cite"><a draggable="false" class="ref" href="#ref-3">3</a></sup>
+          and a majority of biomedical papers by the end of 2025.<sup class="cite"><a draggable="false" class="ref" href="#ref-4">4</a></sup>
           I wanted numbers for the equations, so I downloaded the LaTeX source of 200 arXiv papers.</p>
 
         <h3>Where the flip comes from</h3>
@@ -177,7 +177,7 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
           </table>
         </div>
         <p>What ends up on the clipboard depends on the browser, the app, and whether the site uses KaTeX's copy-tex
-          extension.<sup class="cite"><a class="ref" href="#ref-1">1</a></sup> A model that only gets the visible
+          extension.<sup class="cite"><a draggable="false" class="ref" href="#ref-1">1</a></sup> A model that only gets the visible
           layer can read <code>P=TP+FPTP</code> as (TP+FP)/TP. For precision someone would notice. For a less
           familiar formula, the inverted version compiles and looks normal.</p>
 
@@ -373,13 +373,13 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
       <section class="post-sources">
         <h3>Sources</h3>
         <ol class="sources">
-          <li id="ref-1">KaTeX contributors. "copy-tex extension." <a href="https://github.com/KaTeX/KaTeX/blob/main/contrib/copy-tex/README.md" target="_blank" rel="noopener noreferrer">github.com/KaTeX/KaTeX</a></li>
-          <li id="ref-2">Liang, W., et al. "Mapping the Increasing Use of LLMs in Scientific Papers." 2024. <a href="https://arxiv.org/abs/2404.01268" target="_blank" rel="noopener noreferrer">arXiv:2404.01268</a></li>
-          <li id="ref-3">Kobak, D., González-Márquez, R., Horvát, E.-Á., Lause, J. "Delving into LLM-assisted writing in biomedical publications through excess vocabulary." <em>Science Advances</em>, 2025. <a href="https://arxiv.org/abs/2406.07016" target="_blank" rel="noopener noreferrer">arXiv:2406.07016</a></li>
+          <li id="ref-1">KaTeX contributors. "copy-tex extension." <a draggable="false" href="https://github.com/KaTeX/KaTeX/blob/main/contrib/copy-tex/README.md" target="_blank" rel="noopener noreferrer">github.com/KaTeX/KaTeX</a></li>
+          <li id="ref-2">Liang, W., et al. "Mapping the Increasing Use of LLMs in Scientific Papers." 2024. <a draggable="false" href="https://arxiv.org/abs/2404.01268" target="_blank" rel="noopener noreferrer">arXiv:2404.01268</a></li>
+          <li id="ref-3">Kobak, D., González-Márquez, R., Horvát, E.-Á., Lause, J. "Delving into LLM-assisted writing in biomedical publications through excess vocabulary." <em>Science Advances</em>, 2025. <a draggable="false" href="https://arxiv.org/abs/2406.07016" target="_blank" rel="noopener noreferrer">arXiv:2406.07016</a></li>
         </ol>
         <details class="references-more">
-          <summary class="references-toggle"><span class="references-show">show all 4 references</span><span class="references-hide">show fewer references</span><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></summary>
-          <ol class="sources" start="4"><li id="ref-4">Holzwarth, L., González-Márquez, R., Kobak, D. "Most biomedical publications show signs of LLM-assisted writing." 2026. <a href="https://arxiv.org/abs/2608.10715" target="_blank" rel="noopener noreferrer">arXiv:2608.10715</a></li>
+          <summary draggable="false" class="references-toggle"><span class="references-show">show all 4 references</span><span class="references-hide">show fewer references</span><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></summary>
+          <ol class="sources" start="4"><li id="ref-4">Holzwarth, L., González-Márquez, R., Kobak, D. "Most biomedical publications show signs of LLM-assisted writing." 2026. <a draggable="false" href="https://arxiv.org/abs/2608.10715" target="_blank" rel="noopener noreferrer">arXiv:2608.10715</a></li>
         </ol>
         </details>
       </section>
@@ -387,10 +387,10 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
 
     <section class="post-comments" id="comments" aria-label="Discussion" data-comments>
       <div class="comments-heading">
-        <button type="button" class="quiet-button" data-comments-refresh hidden>Refresh</button>
+        <button draggable="false" type="button" class="quiet-button" data-comments-refresh hidden>Refresh</button>
       </div>
       <div class="comments-list" data-comments-list></div>
-      <button type="button" class="quiet-button" data-comments-more hidden>Earlier comments</button>
+      <button draggable="false" type="button" class="quiet-button" data-comments-more hidden>Earlier comments</button>
       <form class="comment-form" data-comment-form>
         <label class="sr-only" for="comment-text">Your comment</label>
         <textarea id="comment-text" name="comment" rows="4" maxlength="5000" placeholder="Add to the discussion…" required></textarea>
@@ -398,31 +398,31 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
         <div data-comment-challenge></div>
         <div class="form-actions">
           <span class="form-note" data-comment-identity hidden></span>
-          <button type="submit" class="form-submit" disabled>Post</button>
+          <button draggable="false" type="submit" class="form-submit" disabled>Post</button>
         </div>
       </form>
       <p class="form-status" data-comments-status role="status"></p>
       <details class="comment-identity-tools" data-identity-tools hidden>
-        <summary>Use your identity on another device</summary>
+        <summary draggable="false">Use your identity on another device</summary>
         <p class="form-note">Save an encrypted identity file and restore it in another browser. Keep the file and its passphrase private.</p>
         <div class="identity-actions">
-          <button type="button" class="quiet-button" data-identity-save>Save identity</button>
-          <button type="button" class="quiet-button" data-identity-restore>Restore identity</button>
+          <button draggable="false" type="button" class="quiet-button" data-identity-save>Save identity</button>
+          <button draggable="false" type="button" class="quiet-button" data-identity-restore>Restore identity</button>
         </div>
       </details>
       <noscript><p class="form-note">JavaScript is needed to load and post comments.</p></noscript>
       <dialog class="site-dialog" data-comment-name-dialog aria-labelledby="comment-name-title">
-        <button type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <button draggable="false" type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
         <h2 id="comment-name-title">What should I call you?</h2>
         <p class="form-note">Choose a display name for your comments. No email or account signup.</p>
         <form data-comment-name-form>
           <label for="comment-name">Display name</label>
           <input id="comment-name" name="displayName" autocomplete="nickname" maxlength="40" required>
-          <button type="submit" class="form-submit">Post comment</button>
+          <button draggable="false" type="submit" class="form-submit">Post comment</button>
         </form>
       </dialog>
       <dialog class="site-dialog" data-identity-dialog aria-labelledby="identity-title">
-        <button type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <button draggable="false" type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
         <h2 id="identity-title">Your commenting identity</h2>
         <form data-identity-form>
           <div data-identity-file-field hidden>
@@ -432,7 +432,7 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
           <label for="identity-passphrase">Passphrase</label>
           <input id="identity-passphrase" type="password" minlength="12" maxlength="200" autocomplete="new-password" required>
           <p class="form-note" data-identity-help>Use at least 12 characters. You’ll need this passphrase to restore the file.</p>
-          <button type="submit" class="form-submit" data-identity-confirm>Save identity</button>
+          <button draggable="false" type="submit" class="form-submit" data-identity-confirm>Save identity</button>
           <p class="form-status" data-identity-status role="status"></p>
         </form>
       </dialog>
@@ -441,7 +441,7 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
 
 
     <nav class="post-pager" aria-label="More posts">
-      <a href="post-glee-agent.html?nav=fe6093f0">
+      <a draggable="false" href="post-glee-agent.html?nav=fe6093f0">
         <span class="eyebrow">Next post</span>
         <span class="post-pager-title">I Ran a Game-Theory RL-Menu Agent in GLEE for 48 Hours (No LLM)</span>
       </a>
@@ -450,12 +450,12 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
 
   <footer class="content">
     <span>© 2026 Julius Störk</span>
-    <span><a href="blog.html?nav=fe6093f0">All posts</a></span>
+    <span><a draggable="false" href="blog.html?nav=fe6093f0">All posts</a></span>
   </footer>
 
   <script defer src="theme.js?v=e512a566"></script>
   <script defer src="navigation.js?v=82ad0181"></script>
-  <script defer src="media.js?v=6c5df084"></script>
+  <script defer src="media.js?v=3803c5ba"></script>
   <script defer src="interactions.js?v=3cfec42c"></script>
   <script defer src="cursor.js?v=836db8cc"></script>
   <script defer src="portal-transitions.js?v=d4060e4b"></script>
