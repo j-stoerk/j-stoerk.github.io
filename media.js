@@ -3,6 +3,14 @@
    clips cheap by pausing whatever is scrolled off-screen. */
 (function () {
   'use strict';
+  // Prevent native image/linked-image drag previews, including dynamic images.
+  // Clicks and pointer-based interactions keep their normal behaviour.
+  document.addEventListener('dragstart', function (event) {
+    var target = event.target;
+    if (target.closest('img, picture') || target.closest('a')?.querySelector('img')) {
+      event.preventDefault();
+    }
+  });
   var vids = document.querySelectorAll('video[data-autoplay]');
   if (!vids.length) return;
 

@@ -253,6 +253,8 @@ a:hover {
   text-decoration-color: currentColor;
 }
 
+img { -webkit-user-drag: none; user-select: none; }
+
 img,
 svg {
   display: block;

@@ -347,6 +347,10 @@ for (const file of fs.readdirSync(pagesDir)) {
     if (comments) html = html.replace('    <nav class="post-pager"', () => comments + '\n\n    <nav class="post-pager"');
   }
   if (cfg.math) html = renderMath(html, file);
+  // Disable native image dragging in the HTML, even before scripts load.
+  html = html.replace(/<img\b[^>]*>/gi, tag => tag
+    .replace(/\s+draggable\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '')
+    .replace(/^<img\b/i, '<img draggable="false"'));
   html = html.replace(/href="([^":?#]+\.html)(#[^"]*)?"/g,
     (_, page, hash = '') => `href="${page}?nav=${NAV_VERSION}${hash}"`);
   if (/<!--#/.test(html)) throw new Error(`${file}: unresolved marker`);
