@@ -4,6 +4,15 @@
 .training-excerpt-grid > div { min-width: 0; }
 .training-excerpt-grid a { display: block; margin-top: 1rem; }
 .training-excerpt-grid img { display: block; width: 100%; height: 250px; object-fit: contain; background: #fff; border-radius: 4px; }
+.training-excerpt-grid > div > .eyebrow { min-height: 2.8em; margin-bottom: 0; }
+.training-source { display: flex; align-items: center; gap: .75rem; height: 100px; margin-top: 1rem; }
+.training-source a { margin: 0; flex: 0 0 auto; }
+.training-source span { min-width: 0; font-size: .8rem; font-weight: 600; }
+.training-source small { display: block; margin-top: .2rem; color: var(--color-text-muted); font-size: .72rem; font-weight: 400; line-height: 1.4; }
+.training-source img.training-source-cover { width: 45px; height: 68px; background: transparent; border-radius: 0; }
+.training-source img.training-source-logo { width: 180px; max-width: 100%; height: 56px; padding: .65rem; }
+.training-source img[src$="patronus-logo.svg"] { background: #191923; }
+.training-source-brand a { max-width: 100%; }
 .training-excerpts figcaption,
 .training-paper-figure figcaption { margin-top: .85rem; color: var(--color-text-muted); font-size: .8rem; line-height: 1.7; }
 .training-paper-figure img { display: block; width: 100%; height: auto; background: #fff; border-radius: 4px; }
@@ -19,6 +28,11 @@
 }
 @media (max-width: 580px) {
   .training-excerpt-grid { gap: .75rem; }
+  .training-excerpt-grid > div > .eyebrow { min-height: 4.5em; line-height: 1.5; }
   .training-excerpt-grid img { height: 170px; }
+  .training-source { flex-direction: column; justify-content: center; align-items: flex-start; gap: .4rem; height: 150px; }
+  .training-source span { font-size: .75rem; }
+  .training-source-brand { justify-content: center; }
+  .training-source img.training-source-logo { width: 160px; }
   .training-contract > div { grid-template-columns: 1fr; gap: .3rem; }
 }
