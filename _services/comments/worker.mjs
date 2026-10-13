@@ -20,6 +20,7 @@ function failureCode(failure) {
   if (table) return 'missing_table_' + table[1].toLowerCase();
   const column = message.match(/no such column:\s*(?:[a-z]+\.)?(hidden|request_id)\b/i);
   if (column) return 'missing_column_' + column[1].toLowerCase();
+  if (/^manifest_(fetch|timeout|invalid|too_large|cache_unsupported|http_[1-5][0-9]{2})$/.test(message)) return message;
   return message === 'manifest unavailable' ? 'manifest_unavailable' : 'operation_failed';
 }
 async function rateLimit(request, env) {
@@ -60,26 +61,34 @@ export function createPostValidator() {
     if (typeof page !== 'string' || page.length > 120 || !POST_SLUG.test(page)) return false;
     let entry = manifests.get(origin);
     if (!entry) {
-      entry = { pages: null, retryAfter: 0, pending: null, failed: false };
+      entry = { pages: null, retryAfter: 0, pending: null, failed: null };
       manifests.set(origin, entry);
     }
     if (entry.pages?.has(page)) return true;
     if (Date.now() >= entry.retryAfter) {
       if (!entry.pending) entry.pending = (async () => {
+        let failure = 'manifest_fetch';
         try {
           const response = await send(new URL('/comment-pages.json', origin).href, {
-            headers: { Accept: 'application/json' }, redirect: 'error', cache: 'no-cache',
+            // Explicit headers also work with older dashboard compatibility dates.
+            headers: { Accept: 'application/json', 'Cache-Control': 'no-cache', Pragma: 'no-cache' },
+            // Workers rejects redirect: 'error'; inspect the unfollowed status instead.
+            redirect: 'manual',
             signal: AbortSignal.timeout(5000),
           });
-          if (!response.ok) throw new Error('manifest');
+          if (!response.ok) { failure = 'manifest_http_' + response.status; throw new Error('manifest'); }
+          failure = 'manifest_invalid';
           const data = await readBody(response);
           if (data?.version !== 1 || !Array.isArray(data.pages) || data.pages.length > 500
             || data.pages.some(p => typeof p !== 'string' || p.length > 120 || !POST_SLUG.test(p))) throw new Error('manifest');
           entry.pages = new Set(data.pages);
-          entry.failed = false;
+          entry.failed = null;
           entry.retryAfter = Date.now() + 30000;
-        } catch (_) {
-          entry.failed = true;
+        } catch (error) {
+          if (error?.name === 'TimeoutError' || error?.name === 'AbortError') failure = 'manifest_timeout';
+          else if (error?.message === 'large') failure = 'manifest_too_large';
+          else if (/Unsupported cache mode/i.test(error?.message || '')) failure = 'manifest_cache_unsupported';
+          entry.failed = failure;
           entry.retryAfter = Date.now() + 30000;
         }
       })();
@@ -87,7 +96,7 @@ export function createPostValidator() {
       entry.pending = null;
     }
     if (entry.pages?.has(page)) return true;
-    if (entry.failed) throw new Error('manifest unavailable');
+    if (entry.failed) throw new Error(entry.failed);
     return false;
   };
 }

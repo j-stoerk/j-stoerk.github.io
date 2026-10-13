@@ -113,8 +113,24 @@ comment text, IPs, credentials, or raw exception messages:
 - `missing_column_hidden` or `missing_column_request_id`: the comments schema
   upgrade is incomplete. Run only the missing migration statements.
 - `manifest_unavailable`: the Worker could not read the published
-  `https://j-stoerk.github.io/comment-pages.json` manifest.
+  `https://j-stoerk.github.io/comment-pages.json` manifest (older Worker versions).
+- `manifest_http_404` or another `manifest_http_*` status: the published manifest
+  returned that HTTP status. Check its public URL and the `SITE_ORIGIN` setting.
+- `manifest_fetch` or `manifest_timeout`: the upstream request failed or timed out.
+- `manifest_invalid` or `manifest_too_large`: the response is not a valid,
+  bounded post list. Rebuild and publish the generated `comment-pages.json`.
 - `operation_failed`: the logged step identifies which operation needs inspection.
+
+The manifest request uses `Cache-Control: no-cache` and `Pragma: no-cache` headers
+instead of the date-dependent `fetch` cache option. Dashboard deployments can
+retain an older compatibility date independently of this repository's Wrangler
+configuration; older runtimes reject `cache: 'no-cache'` before contacting the
+site. It also uses `redirect: 'manual'` and rejects non-success HTTP statuses:
+the Workers runtime rejects `redirect: 'error'` even with a recent compatibility
+date. Redirects remain blocked without using that unsupported option.
+Copy the updated `comments/worker.js` into the dashboard and deploy it.
+The manifest allowlist, request coalescing, and thirty-second failure cooldown
+remain in place. A future post still needs only a site build and publish.
 
 These read-only D1 queries show the schema without exposing comments:
 

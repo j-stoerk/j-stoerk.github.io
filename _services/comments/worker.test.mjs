@@ -308,9 +308,40 @@ test('manifest fetches coalesce, use only the site URL, and never accept invalid
   const a = validate(page, origin, send), b = validate(otherPage, origin, send);
   assert.equal(calls.length, 1);
   assert.equal(calls[0].url, origin + '/comment-pages.json');
-  assert.equal(calls[0].options.redirect, 'error');
+  assert.equal(calls[0].options.redirect, 'manual');
+  assert.equal(Object.hasOwn(calls[0].options, 'cache'), false, 'Older Workers reject the cache option');
+  assert.equal(calls[0].options.headers['Cache-Control'], 'no-cache');
+  assert.equal(calls[0].options.headers.Pragma, 'no-cache');
   finish(Response.json(publishedManifest));
   assert.deepEqual(await Promise.all([a, b]), [true, true]);
+});
+
+test('manifest diagnostics distinguish upstream, timeout, size and format failures and recover', async t => {
+  let now = 1791390000000;
+  t.mock.method(Date, 'now', () => now);
+  const logs = [];
+  t.mock.method(console, 'error', (...args) => logs.push(args));
+  const s = setup(t);
+  const failures = [
+    [async () => new Response(null, { status: 302, headers: { Location: 'https://other.example/manifest.json' } }), 'manifest_http_302'],
+    [async () => new Response('Unavailable', { status: 503 }), 'manifest_http_503'],
+    [async () => { throw new DOMException('Private URL or provider detail', 'TimeoutError'); }, 'manifest_timeout'],
+    [async () => { throw new TypeError('Private URL or provider detail'); }, 'manifest_fetch'],
+    [async () => Response.json({ version: 2, pages: [page] }), 'manifest_invalid'],
+    [async () => new Response('x'.repeat(32769)), 'manifest_too_large'],
+  ];
+  for (const [send, code] of failures) {
+    const validate = createPostValidator();
+    const response = await handleRequest(s.request('GET', '/comments?page=' + page), s.env, send, validate);
+    assert.equal(response.status, 503);
+    assert.deepEqual(logs.pop(), ['Comments service failure', { stage: 'post-manifest', code }]);
+    let retried = false;
+    await assert.rejects(validate(page, origin, async () => { retried = true; }));
+    assert.equal(retried, false, 'Failed requests respect the cooldown');
+    now += 30001;
+    assert.equal(await validate(page, origin, async () => Response.json(publishedManifest)), true);
+  }
+  assert.deepEqual(logs, []);
 });
 
 test('manifest failures preserve known threads, reject new ones, and recover on demand', async t => {
