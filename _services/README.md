@@ -94,6 +94,41 @@ Creating the `identities` and `rate_limits` tables twice also produces errors.
 Keep the existing comments table. Cloudflare documents the paste-and-Execute
 flow in its [D1 console guide](https://developers.cloudflare.com/d1/get-started/#run-a-query-against-your-d1-database).
 
+### Worker editor errors and HTTP 503
+
+The dashboard's `TextDecoderConstructorOptions` requires both options when an
+options object is provided. The generated Worker explicitly uses
+`new TextDecoder('utf-8', { fatal: true, ignoreBOM: false })`. This keeps invalid
+UTF-8 rejected and permits a UTF-8 byte-order marker in JSON. Replace the entire
+dashboard file with the current `comments/worker.js` and deploy it; a GitHub push
+alone does not update the running Cloudflare Worker.
+
+The editor's type diagnostic does not identify a runtime HTTP 503. For a read
+failure, reload a post and inspect the Worker's live logs for **Comments service
+failure**. Logs contain only the step and a fixed diagnostic label, without
+comment text, IPs, credentials, or raw exception messages:
+
+- `missing_table_rate_limits`, `missing_table_identities`, or
+  `missing_table_comments`: inspect the selected D1 database and migration.
+- `missing_column_hidden` or `missing_column_request_id`: the comments schema
+  upgrade is incomplete. Run only the missing migration statements.
+- `manifest_unavailable`: the Worker could not read the published
+  `https://j-stoerk.github.io/comment-pages.json` manifest.
+- `operation_failed`: the logged step identifies which operation needs inspection.
+
+These read-only D1 queries show the schema without exposing comments:
+
+```sql
+PRAGMA table_info(comments);
+SELECT name FROM sqlite_schema WHERE type = 'table' ORDER BY name;
+```
+
+The comments table needs `request_id` and `hidden` in addition to its six original
+columns; the tables `identities` and `rate_limits` must also exist. Preserve
+existing rows and do not rerun an `ALTER TABLE` that was already applied.
+`ERR_BLOCKED_BY_CLIENT` for the GoatCounter `count.js` analytics script is a
+separate browser-blocking message; comments do not depend on analytics.
+
 ## Behaviour and maintenance
 
 The public API is `GET /comments?page=<post-slug>&cursor=<optional-id>` and

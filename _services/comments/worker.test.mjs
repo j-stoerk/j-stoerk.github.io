@@ -225,6 +225,43 @@ test('failed database transactions cannot leave a half-created identity', async 
   assert.equal((await s.env.DB.prepare('SELECT COUNT(*) AS n FROM comments').first()).n, 0);
 });
 
+test('JSON decoding accepts a UTF-8 BOM but rejects malformed UTF-8 in a comment', async t => {
+  const validate = createPostValidator();
+  assert.equal(await validate(page, origin, async () => new Response('\ufeff' + JSON.stringify(publishedManifest))), true);
+  const s = setup(t);
+  const bytes = new TextEncoder().encode(JSON.stringify(s.payload()));
+  bytes[bytes.indexOf('U'.charCodeAt(0))] = 0xff;
+  const request = new Request(s.request('POST', '/comments', s.payload()), { body: bytes });
+  const response = await handleRequest(request, s.env,
+    async () => assert.fail('Malformed UTF-8 must fail before any external request'), s.validate);
+  assert.equal(response.status, 400);
+  assert.equal(s.calls.length, 0);
+  assert.equal((await s.env.DB.prepare('SELECT COUNT(*) AS n FROM comments').first()).n, 0);
+});
+
+test('503 diagnostics identify missing schema and manifest failures without logging private data', async t => {
+  const logs = [];
+  t.mock.method(console, 'error', (...args) => logs.push(args));
+  const s = setup(t);
+  await s.env.DB.prepare('ALTER TABLE comments RENAME COLUMN hidden TO hidden_old').run();
+  assert.equal((await s.call('GET', '/comments?page=' + page)).status, 503);
+  assert.deepEqual(logs.pop(), ['Comments service failure', { stage: 'read-comments', code: 'missing_column_hidden' }]);
+  await s.env.DB.prepare('DROP TABLE rate_limits').run();
+  assert.equal((await s.call('GET', '/comments?page=' + page)).status, 503);
+  assert.deepEqual(logs.pop(), ['Comments service failure', { stage: 'rate-limit', code: 'missing_table_rate_limits' }]);
+
+  const fresh = setup(t);
+  const response = await handleRequest(fresh.request('GET', '/comments?page=' + page), fresh.env, undefined,
+    async () => { throw new Error('manifest unavailable'); });
+  assert.equal(response.status, 503);
+  assert.deepEqual(logs.pop(), ['Comments service failure', { stage: 'post-manifest', code: 'manifest_unavailable' }]);
+  fresh.env.DB.prepare = () => { throw new Error('Private detail: ' + token + fresh.env.TURNSTILE_SECRET_KEY); };
+  assert.equal((await fresh.call('GET', '/comments?page=' + page)).status, 503);
+  assert.deepEqual(logs, [['Comments service failure', { stage: 'rate-limit', code: 'operation_failed' }]]);
+  assert.ok(!JSON.stringify(logs).includes(token));
+  assert.ok(!JSON.stringify(logs).includes(fresh.env.TURNSTILE_SECRET_KEY));
+});
+
 test('published-post manifest and standalone dashboard code match the build sources', async () => {
   const posts = JSON.parse(readFileSync(new URL('../../_src/posts.json', import.meta.url), 'utf8'));
   assert.equal(publishedManifest.version, 1);

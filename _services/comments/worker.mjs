@@ -13,6 +13,15 @@ async function digest(value) {
   return [...new Uint8Array(hash)].map(byte => byte.toString(16).padStart(2, '0')).join('');
 }
 function turnstileSecret(env) { return env.TURNSTILE_SECRET || env.TURNSTILE_SECRET_KEY; }
+function failureCode(failure) {
+  // Emit only fixed labels, never database/provider exception text.
+  const message = failure instanceof Error ? failure.message : '';
+  const table = message.match(/no such table:\s*(comments|identities|rate_limits)\b/i);
+  if (table) return 'missing_table_' + table[1].toLowerCase();
+  const column = message.match(/no such column:\s*(?:[a-z]+\.)?(hidden|request_id)\b/i);
+  if (column) return 'missing_column_' + column[1].toLowerCase();
+  return message === 'manifest unavailable' ? 'manifest_unavailable' : 'operation_failed';
+}
 async function rateLimit(request, env) {
   const minute = Math.floor(Date.now() / 60000);
   const key = request.method + ':' + await digest(turnstileSecret(env) + ':' + (request.headers.get('CF-Connecting-IP') || 'anonymous'));
@@ -39,7 +48,7 @@ async function readBody(request) {
   }
   const bytes = new Uint8Array(length); let offset = 0;
   for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.byteLength; }
-  return JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes));
+  return JSON.parse(new TextDecoder('utf-8', { fatal: true, ignoreBOM: false }).decode(bytes));
 }
 
 /* Read only the owner's published manifest; never a URL supplied by a visitor.
@@ -114,9 +123,11 @@ export async function handleRequest(request, env, send = fetch, validatePost = i
   if (!['GET', 'POST'].includes(request.method) || (url.pathname === '/identity' && request.method !== 'GET')) return error(405, 'Method not allowed.');
   if (!env.DB || !turnstileSecret(env)) return error(503, 'Comments are not connected yet.');
 
+  let stage = 'rate-limit';
   try {
     if (!await rateLimit(request, env)) return error(429, 'Please wait a minute before trying again.');
     if (url.pathname === '/identity') {
+      stage = 'read-identity';
       const hash = await authorToken(request);
       if (!hash) return error(401, 'Choose a valid commenting identity.');
       const identity = await env.DB.prepare('SELECT id, display_name AS displayName, banned FROM identities WHERE token_hash = ?').bind(hash).first();
@@ -127,10 +138,12 @@ export async function handleRequest(request, env, send = fetch, validatePost = i
 
     if (request.method === 'GET') {
       const page = url.searchParams.get('page');
+      stage = 'post-manifest';
       if (!await validatePost(page, allowed, send)) return error(400, 'Choose a valid blog post.');
       const rawCursor = url.searchParams.get('cursor');
       if (rawCursor !== null && (!/^[1-9][0-9]{0,15}$/.test(rawCursor) || !Number.isSafeInteger(Number(rawCursor)))) return error(400, 'Invalid comment cursor.');
       const cursor = rawCursor === null ? Number.MAX_SAFE_INTEGER : Number(rawCursor);
+      stage = 'read-comments';
       const result = await env.DB.prepare(SELECT + ' WHERE c.page = ? AND c.hidden = 0 AND c.id < ? ORDER BY c.id DESC LIMIT ?')
         .bind(page, cursor, PAGE_SIZE + 1).all();
       if (!result.success || !Array.isArray(result.results)) throw new Error('database');
@@ -151,12 +164,15 @@ export async function handleRequest(request, env, send = fetch, validatePost = i
       || !body || body.length > 5000 || /\u0000/.test(body) || typeof data.requestId !== 'string' || !REQUEST_ID.test(data.requestId)
       || typeof data.turnstileToken !== 'string' || !data.turnstileToken || data.turnstileToken.length > 2048
       || data.website !== '') return error(400, 'Please check your name and comment.');
+    stage = 'post-manifest';
     if (!await validatePost(data.page, allowed, send)) return error(400, 'Choose a valid blog post.');
     const hash = await authorToken(request);
     if (!hash) return error(401, 'Choose a valid commenting identity.');
     const authorId = hash.slice(0, 32);
+    stage = 'read-identity';
     const identity = await env.DB.prepare('SELECT banned FROM identities WHERE id = ?').bind(authorId).first();
     if (identity?.banned) return error(403, 'This identity cannot post comments.');
+    stage = 'read-retry';
     const previous = await env.DB.prepare(SELECT + ' WHERE c.visitor_id = ? AND c.request_id = ?').bind(authorId, data.requestId).first();
     if (previous) {
       if (previous.hidden) return error(410, 'This comment was removed.');
@@ -164,6 +180,7 @@ export async function handleRequest(request, env, send = fetch, validatePost = i
       return reply(200, { ok: true, comment: publicComment(previous) });
     }
 
+    stage = 'turnstile';
     const verification = await send('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(10000),
       body: JSON.stringify({ secret: turnstileSecret(env), response: data.turnstileToken,
@@ -174,6 +191,7 @@ export async function handleRequest(request, env, send = fetch, validatePost = i
     if (challenge.success !== true || challenge.hostname !== new URL(allowed).hostname || challenge.action !== 'comment') return error(400, 'Verification failed or expired. Please try again.');
 
     const now = Date.now();
+    stage = 'write-comment';
     const results = await env.DB.batch([
       env.DB.prepare('INSERT INTO identities (id, token_hash, display_name, created_at) VALUES (?, ?, ?, ?) ON CONFLICT(id) DO NOTHING').bind(authorId, hash, name, now),
       env.DB.prepare(`INSERT INTO comments (page, visitor_id, username, message, created_at, request_id)
@@ -181,12 +199,14 @@ export async function handleRequest(request, env, send = fetch, validatePost = i
         ON CONFLICT(visitor_id, request_id) DO NOTHING`).bind(data.page, body, new Date(now).toISOString(), data.requestId, authorId),
     ]);
     if (results.some(result => !result.success)) throw new Error('database');
+    stage = 'read-saved-comment';
     const saved = await env.DB.prepare(SELECT + ' WHERE c.visitor_id = ? AND c.request_id = ?').bind(authorId, data.requestId).first();
     if (!saved || saved.hidden) return error(403, 'This comment could not be posted.');
     if (saved.page !== data.page || saved.body !== body) return error(409, 'Please retry with a new comment.');
     return reply(201, { ok: true, comment: publicComment(saved) });
-  } catch (_) {
+  } catch (failure) {
     // No message bodies, IPs, credentials or provider error details are logged.
+    console.error('Comments service failure', { stage, code: failureCode(failure) });
     return error(503, 'Comments are temporarily unavailable. Your draft is still here.');
   }
 }
