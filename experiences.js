@@ -35,7 +35,8 @@
       const rect = scene.size;
       if (!rect.width || !rect.height) return;
       const maxDpr = typeof scene.maxDpr === 'function' ? scene.maxDpr() : scene.maxDpr;
-      const dpr = Math.min(maxDpr, devicePixelRatio || 1, Math.sqrt(scene.maxPixels / (rect.width * rect.height)));
+      const maxPixels = typeof scene.maxPixels === 'function' ? scene.maxPixels() : scene.maxPixels;
+      const dpr = Math.min(maxDpr, devicePixelRatio || 1, Math.sqrt(maxPixels / (rect.width * rect.height)));
       const width = Math.round(rect.width * dpr), height = Math.round(rect.height * dpr);
       if (scene.canvas.width !== width || scene.canvas.height !== height) { scene.canvas.width = width; scene.canvas.height = height; }
       scene.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -157,14 +158,16 @@
       return;
     }
     const pointer = { x: 0, y: 0 }, eased = { x: 0, y: 0 };
+    let grids, nodes, gridColumns = 0, mask, maskWidth = 0, maskPixels = 0, maskReveal = -1;
+    const route = Array.from({ length: 80 }, () => ({}));
     hero.addEventListener('pointermove', event => {
       if (paused || fullScreen || event.pointerType !== 'mouse') return;
       const rect = stage.getBoundingClientRect();
       pointer.x = clamp((event.clientX - rect.left) / rect.width * 2 - 1, -.9, .9);
       pointer.y = clamp((event.clientY - rect.top) / rect.height * 2 - 1, -.9, .9);
-      wake();
+      wake(false);
     });
-    hero.addEventListener('pointerleave', () => { pointer.x = pointer.y = 0; wake(); });
+    hero.addEventListener('pointerleave', () => { pointer.x = pointer.y = 0; wake(false); });
     hero.addEventListener('pointerdown', event => {
       if (paused || fullScreen) return;
       const rect = stage.getBoundingClientRect();
@@ -219,7 +222,7 @@
       const cosR = Math.cos(roll), sinR = Math.sin(roll);
       const columns = lightweight() ? 19 : 29, rows = lightweight() ? 15 : 23;
       const age = surfaceTime - pulse;
-      function project(u, v, layer = 0, gather = 1) {
+      function project(u, v, layer = 0, gather = 1, point = {}) {
         let x = u * 185, y = v * 195;
         let ripple = 0;
         if (age < 3) {
@@ -235,8 +238,10 @@
         const rx = x * cosY + z * sinY, rz = z * cosY - x * sinY;
         const ry = y * cosP - rz * sinP, depth = y * sinP + rz * cosP;
         const perspective = 700 / (700 - depth);
-        return { x: cx + (rx * cosR - ry * sinR) * scale * perspective,
-          y: cy + (rx * sinR + ry * cosR) * scale * perspective, z: depth, p: perspective };
+        point.x = cx + (rx * cosR - ry * sinR) * scale * perspective;
+        point.y = cy + (rx * sinR + ry * cosR) * scale * perspective;
+        point.z = depth; point.p = perspective;
+        return point;
       }
       function stroke(points, colour, alpha, lineWidth) {
         ctx.beginPath();
@@ -244,26 +249,33 @@
         ctx.strokeStyle = colour; ctx.globalAlpha = alpha; ctx.lineWidth = lineWidth; ctx.stroke();
       }
       // Grounded, quiet lighting rather than a neon or photographic backdrop.
-      const shadow = ctx.createRadialGradient(cx, height * .74, 0, cx, height * .74, width * .34);
-      shadow.addColorStop(0, palette.grid); shadow.addColorStop(1, 'transparent');
-      ctx.save(); ctx.translate(0, height * .74); ctx.scale(1, .18);
-      ctx.fillStyle = shadow; ctx.globalAlpha = .26 * assembled * (1 - reveal);
-      ctx.fillRect(0, -height * 4, width, height * 8); ctx.restore();
-      const grids = [-24, 0].map(layer => Array.from({ length: rows }, (_, row) =>
-        Array.from({ length: columns }, (_, col) => project(col / (columns - 1) * 2 - 1, row / (rows - 1) * 2 - 1, layer, assembled))));
+      if (reveal < 1 && assembled > 0) {
+        const shadow = ctx.createRadialGradient(cx, height * .74, 0, cx, height * .74, width * .34);
+        shadow.addColorStop(0, palette.grid); shadow.addColorStop(1, 'transparent');
+        ctx.save(); ctx.translate(0, height * .74); ctx.scale(1, .18);
+        ctx.fillStyle = shadow; ctx.globalAlpha = .26 * assembled * (1 - reveal);
+        ctx.fillRect(0, -height * 4, width, height * 8); ctx.restore();
+      }
+      // Keep geometry buffers between frames instead of allocating hundreds of shapes.
+      if (gridColumns !== columns) {
+        gridColumns = columns;
+        grids = [-24, 0].map(() => Array.from({ length: rows }, () =>
+          Array.from({ length: columns }, () => ({}))));
+        nodes = grids[1].flat();
+      }
+      grids.forEach((grid, layer) => grid.forEach((row, r) => row.forEach((point, c) =>
+        project(c / (columns - 1) * 2 - 1, r / (rows - 1) * 2 - 1, layer ? 0 : -24, assembled, point))));
       grids.forEach((grid, layer) => {
         if (layer) {
-          const faces = [];
           for (let row = 0; row < rows - 1; row++) for (let col = 0; col < columns - 1; col++) {
-            const points = [grid[row][col], grid[row][col + 1], grid[row + 1][col + 1], grid[row + 1][col]];
-            faces.push({ points, depth: points.reduce((total, point) => total + point.z, 0) / 4 });
+            const a = grid[row][col], b = grid[row][col + 1], c = grid[row + 1][col + 1], d = grid[row + 1][col];
+            const depth = (a.z + b.z + c.z + d.z) / 4;
+            // Translucent faces share one colour, so their blend needs no depth sort.
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+            ctx.lineTo(c.x, c.y); ctx.lineTo(d.x, d.y); ctx.closePath();
+            ctx.fillStyle = palette.blue;
+            ctx.globalAlpha = (.025 + (depth + 260) / 520 * .06) * assembled * quiet; ctx.fill();
           }
-          if (!lightweight()) faces.sort((a, b) => a.depth - b.depth);
-          faces.forEach(face => {
-            ctx.beginPath(); face.points.forEach((point, i) => i ? ctx.lineTo(point.x, point.y) : ctx.moveTo(point.x, point.y));
-            ctx.closePath(); ctx.fillStyle = palette.blue;
-            ctx.globalAlpha = (.025 + (face.depth + 260) / 520 * .06) * assembled * quiet; ctx.fill();
-          });
         }
         grid.forEach((line, row) => stroke(line, layer ? palette.blue : palette.ink,
           (layer ? .2 + row / rows * .24 : .1) * assembled * quiet, layer ? .75 : .5));
@@ -271,7 +283,6 @@
           stroke(grid.map(row => row[col]), layer ? palette.blue : palette.ink, (layer ? .18 : .08) * assembled * quiet, .5);
         }
       });
-      const nodes = grids[1].flat();
       if (!lightweight()) nodes.sort((a, b) => a.z - b.z);
       nodes.forEach((point, i) => {
         ctx.beginPath(); ctx.arc(point.x, point.y, Math.max(.5, point.p * (i % 11 === 0 ? 1.6 : .65)), 0, Math.PI * 2);
@@ -279,13 +290,14 @@
         ctx.globalAlpha = (.24 + (point.z + 250) / 500 * .4) * (.6 + .4 * assembled) * quiet; ctx.fill();
       });
       // A warm path follows the structure while the material breathes beneath it.
-      const route = Array.from({ length: 80 }, (_, i) => {
+      route.forEach((point, i) => {
         const u = i / 79 * 2 - 1;
-        const point = project(u, .34 * Math.sin(u * 3 + time * .12), 3);
+        project(u, .34 * Math.sin(u * 3 + time * .12), 3, 1, point);
         const along = i / 79;
         // The same gold curve unwinds into the line running behind the page artwork.
-        return { x: mix(point.x, width * (.76 + .11 * Math.sin(along * 6 + time * .12)), reveal),
-          y: mix(point.y, height * (-.12 + along * 1.37), reveal), p: mix(point.p, .7, reveal) };
+        point.x = mix(point.x, width * (.76 + .11 * Math.sin(along * 6 + time * .12)), reveal);
+        point.y = mix(point.y, height * (-.12 + along * 1.37), reveal);
+        point.p = mix(point.p, .7, reveal);
       });
       stroke(route, palette.gold, mix(.75, .32, reveal) * assembled, 1.35);
       for (let i = 0; i < 3; i++) {
@@ -296,10 +308,13 @@
       ctx.globalAlpha = 1;
       // Protect the reading column while keeping the larger mesh clear at the page edge.
       if (reveal > 0) {
-        const mask = ctx.createLinearGradient(0, 0, width, 0);
-        [[0, .04], [.4, .07], [.66, .3], [1, .85]].forEach(([at, alpha]) => {
-          mask.addColorStop(at, `rgba(0,0,0,${mix(1, alpha, reveal)})`);
-        });
+        if (maskWidth !== width || maskPixels !== canvas.width || maskReveal !== reveal) {
+          maskWidth = width; maskPixels = canvas.width; maskReveal = reveal;
+          mask = ctx.createLinearGradient(0, 0, width, 0);
+          [[0, .04], [.4, .07], [.66, .3], [1, .85]].forEach(([at, alpha]) => {
+            mask.addColorStop(at, `rgba(0,0,0,${mix(1, alpha, reveal)})`);
+          });
+        }
         ctx.globalCompositeOperation = 'destination-in'; ctx.fillStyle = mask;
         ctx.fillRect(0, 0, width, height); ctx.globalCompositeOperation = 'source-over';
       }
@@ -312,7 +327,8 @@
       if (fullScreen && performance.now() - drawStarted > 16 && ++slowFrames >= 4) economy = true;
     }, () => root.dataset.backgroundRenderer !== 'fallback' && (fullScreen ||
       heroVisible && (!lightweight() || surfaceTime - pulse < 3)),
-    () => lightweight() ? 1 : 1.5, () => fullScreen ? lightweight() ? 30 : 60 : 20, 2500000);
+    () => lightweight() ? 1 : 1.5, () => fullScreen ? lightweight() ? 30 : 60 : 20,
+    () => fullScreen ? 2000000 : 1200000);
   })();
 
   // Recent notes and topic trails share the same blog explorer.
@@ -387,14 +403,17 @@
         return i < 15 ? [35 + i % 3 * 23, 60 + Math.floor(i / 3) * 30] : [140 + i % 3 * 28, 50 + Math.floor((i - 15) / 3) * 32];
       });
     }
-    let points = targets(active);
-    function change(id) { if (!descriptions[id]) return; active = id; $('#career-scene-title').textContent = descriptions[id][0]; $('#career-scene-note').textContent = descriptions[id][1]; $('#career-canvas').setAttribute('aria-label', descriptions[id].join('. ')); wake(); }
+    let target = targets(active), points = target.map(p => [...p]);
+    function change(id) { if (!descriptions[id]) return; active = id; target = targets(active); $('#career-scene-title').textContent = descriptions[id][0]; $('#career-scene-note').textContent = descriptions[id][1]; $('#career-canvas').setAttribute('aria-label', descriptions[id].join('. ')); wake(); }
     document.addEventListener('careerchange', e => change(e.detail));
     scene($('#career-canvas'), (ctx, w, h, t, dt) => {
       fit(ctx, w, h, 240, 240);
-      const target = targets(active);
-      points = points.map((p, i) => [mix(p[0], target[i][0], paused ? 1 : 1 - Math.exp(-dt * 6)), mix(p[1], target[i][1], paused ? 1 : 1 - Math.exp(-dt * 6))]);
-      points.forEach((a, i) => { points.slice(i + 1).forEach(b => { if (Math.hypot(a[0] - b[0], a[1] - b[1]) < 44) line(ctx, a, b, palette.grid, 1.5); }); });
+      const easing = paused ? 1 : 1 - Math.exp(-dt * 6);
+      points.forEach((p, i) => { p[0] = mix(p[0], target[i][0], easing); p[1] = mix(p[1], target[i][1], easing); });
+      points.forEach((a, i) => { for (let j = i + 1; j < points.length; j++) {
+        const b = points[j];
+        if ((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2 < 44 ** 2) line(ctx, a, b, palette.grid, 1.5);
+      } });
       points.forEach((p, i) => dot(ctx, p[0], p[1], 4.5 + (paused ? 0 : Math.sin(t + i) * .5), i % 5 ? palette.blue : palette.gold));
     });
     change(active);

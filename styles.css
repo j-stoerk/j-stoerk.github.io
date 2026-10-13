@@ -2620,6 +2620,8 @@ footer {
 }
 
 /* ---------- Responsive ---------- */
+.footer-links { margin-left: auto; text-align: right; }
+
 @media (max-width: 900px) {
   .interactive {
     grid-template-columns: 1fr;

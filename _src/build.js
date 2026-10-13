@@ -105,18 +105,18 @@ const PAGES = {
   },
   'cv.html': {
     nav: 'cv', extraScripts: [],
-    footerExtra: '<a href="index.html">Home</a> · <a href="cv.pdf" download>CV (PDF)</a>',
-    lastmod: '2026-10-01', priority: '0.8',
+    footerExtra: '<a href="index.html">Home</a>',
+    lastmod: '2026-10-13', priority: '0.8',
   },
   'blog.html': {
     nav: 'blog', extraScripts: ['blog-view.js'],
-    footerExtra: '<a href="index.html">Home</a> · <a href="index.html#contact">Contact</a>',
+    footerExtra: '<a href="index.html">Home</a>',
     lastmod: '2026-10-13', priority: '0.8',
   },
   /* Served by GitHub Pages for any missing URL; noindex, not in sitemap. */
   '404.html': {
     nav: null, extraScripts: [],
-    footerExtra: '<a href="index.html">Home</a> · <a href="index.html#contact">Contact</a>',
+    footerExtra: '<a href="index.html">Home</a>',
     lastmod: null, priority: null,
   },
 };
@@ -201,7 +201,8 @@ ${links}
 }
 
 function footer(cfg) {
-  const extra = cfg.footerExtra ? `\n    <span>${cfg.footerExtra}</span>` : '';
+  const contact = cfg.home ? '#contact' : 'index.html#contact';
+  const extra = `\n    <span class="footer-links">${cfg.footerExtra ? cfg.footerExtra + ' · ' : ''}<a href="${contact}">Contact</a></span>`;
   return `  <footer class="content">
     <span>© 2026 Julius Störk</span>${extra}
   </footer>`;
