@@ -50,6 +50,13 @@ content expands or JavaScript is unavailable. A horizontal mask softens artwork
 under the reading column. Edit the dedicated SVGs rather than the generated assets.
 `blog-view.js` switches between the list and tiles and remembers the selection.
 
+Reference sections (`post-sources` or `post-references`) show their first three
+entries. The builder places the rest in native `details`, continuing numbering
+at four. `references.js` opens a folded reference when its citation or direct
+anchor is followed; print includes the full list. This applies to future posts too.
+`cursor.js` adds the theme-coloured dot and following ring on mouse devices,
+pauses drawing when it settles, and preserves native cursors in forms and dialogs.
+
 Once the comments Worker and Turnstile are configured, posts get the compact comment section from `comments.html`;
 the home page gets the inline message form from `contact-form.html`. Public integration settings
 live in `community.json`. See [service activation instructions](../_services/README.md)

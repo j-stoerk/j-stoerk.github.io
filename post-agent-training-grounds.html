@@ -40,7 +40,7 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=966f3f7f">
+  <link rel="stylesheet" href="styles.css?v=fd607a53">
   <link rel="stylesheet" href="experiences.css?v=46a70b1b">
   <link rel="stylesheet" href="agent-training.css?v=a08ce038">
 </head>
@@ -160,28 +160,32 @@
       <div class="prose">
         <p>An agent may propose its next skill or training stage, while independent execution decides whether the change helps. Keeping a record of rejected and accepted changes makes the improvement process inspectable.</p>
 
-        <h2>Verifying electrode placement</h2>
-        <p>Here is a thought experiment for a stacking environment. The task is to place several electrode and separator layers within a specified tolerance. The simulator records every placement, pickup confirmation, sensor reading, and final inspection. Those records make several rewards possible:</p>
-        <ul>
-          <li><strong>“The agent says it finished.”</strong> Cheap to score, but rewards a statement about the work.</li>
-          <li><strong>“The final photograph looks aligned.”</strong> Better evidence, but may miss a shifted layer beneath the top sheet.</li>
-          <li><strong>“Each placement passed independent measurement, and the final stack passed inspection.”</strong> More informative, with higher instrumentation and verification costs.</li>
-        </ul>
-        <p>A faster agent can exploit an incomplete check without improving the stack. It might omit an inspection, accept outdated measurements, or rewrite a result file. The verifier must read evidence the agent cannot simply overwrite. If the simulator itself guarantees perfect pickup, no amount of training inside it will teach recovery from a failed pickup.</p>
-        <p>Stage rewards need care too. Rewarding a particular trajectory can punish a valid alternative. Scoring physical constraints and useful artifacts allows several ways to satisfy them, with the final outcome retained as an independent check. A diagnostic report is helpful because it explains a failure; it must not turn a failed stack into a successful one.</p>
+        <h2>Learning rewards from near-misses</h2>
+        <p><strong>RoboReward</strong> (January 2026) tackles a specific data problem. Robot demonstration datasets contain many successful runs and too few failures to train a reliable judge. Lee and colleagues generate negative examples by changing the task description of a successful video and cutting videos short to represent partial progress. Their released <strong>4B- and 8B-parameter</strong> reward models learn from successes, failures, and near-misses. The 8B model also improves policy learning in real-robot RL compared with Gemini Robotics-ER 1.5 rewards, although human-provided rewards remain better in that experiment. <sup class="cite">[<a href="#ref-18">18</a>]</sup></p>
+        <p>For electrode placement, near-misses are particularly useful. A sheet can reach the correct destination but be rotated, shifted, folded, or picked up together with another sheet. A training set could pair camera clips with independently measured alignment and pickup outcomes. Visual feedback would help classify the failure; the acceptance criterion would still come from the measurements. A final photograph alone cannot establish the alignment of layers hidden beneath the top sheet.</p>
+        <p><strong>Hack-Verifiable Environments</strong> (May 2026) makes the scoring problem testable. Roth and colleagues deliberately insert exploitable reward shortcuts into TextArena environments, with deterministic checks that identify whether an agent uses them. Their open-source testbed measures reward hacking directly instead of relying on retrospective judgement of a suspicious trajectory. <sup class="cite">[<a href="#ref-19">19</a>]</sup> A manufacturing adaptation could include an editable success report alongside protected sensor records, or an apparently favourable but outdated camera frame. The test would record whether the agent accepts the shortcut, requests fresh evidence, or stops.</p>
 
-        <h2>A first manufacturing environment</h2>
-        <p>A useful starting task is to <strong>diagnose and recover a simulated failed pickup</strong>. The agent receives a log, a camera snapshot, vacuum readings, and a small set of authorised tools. It must identify whether the sheet was picked up, choose a permitted recovery, and produce a traceable report. Motion limits and stop conditions belong in the tool implementation.</p>
-        <p>Early versions can replay recorded sensor data and use a simplified machine model. That is enough to test tool use, evidence handling, and diagnosis, while leaving contact mechanics and real machine qualification unresolved. A replay cannot establish the consequences of an action absent from the recording; a simulator must model that transition, with its assumptions made explicit.</p>
-        <p>The curriculum can start with a failed pickup under clean sensor conditions, then introduce noisy pressure readings, delayed camera frames, and outdated calibration one at a time before combining them. Successful runs and recoverable failures both belong in the set. If every training run contains a fault, the agent may learn to intervene even when a production cycle is working normally.</p>
-        <p>The starting agent, a revised harness around the same frozen model, and a trained model using the same fixed harness can then be tested on identical unseen cases. Combining the accepted changes comes after those separate comparisons, so improvements can be attributed to learned behaviour, a useful procedure, or a more capable tool.</p>
-        <p>Useful measures include accepted recoveries per attempt, correct fault attribution, false-success reports, time and tool calls per accepted recovery, and performance on withheld batches or fault combinations. A higher rubric score should correspond to improvements in these outcomes. Fresh tasks, fixed budgets, and a verifier kept outside the agent's editing permissions make that relationship testable.</p>
-        <p>The step from replay to a test stand is a separate engineering milestone. A model that handles a simulated vacuum fault still has to cope with actual sensor timing, sheet variability, and equipment behaviour. Offline evaluation, shadow operation, and bounded test-stand trials should precede any influence on production.</p>
+        <h2>Recovery needs its own training data</h2>
+        <p><strong>FLARE</strong> (CVPR 2026) separates errors that permit a retry from failures that require the scene to be reset. Its training demonstrations include perturbed robot poses and bridging motions, so a vision-language-action policy learns to resume after execution deviates from the successful trajectory. For larger failures, offline video analysis identifies broken task states and guides the collection of object-specific reset skills. An online multimodal monitor then chooses between continuing the task and invoking a reset skill. <sup class="cite">[<a href="#ref-20">20</a>]</sup> In a stacking cell, a missed pickup may permit another attempt; a dropped or damaged sheet may require removal and a verified restart. Those are different recovery tasks and need different examples.</p>
+        <p><strong>REVOLVE</strong> (September 2026) puts correction, reset, and retraining into one real-robot loop. Its four tasks include sorting workpieces, throwing paper, pouring water, and ringing a bell. Each starts with <strong>100 demonstrations</strong>; subsequent rounds add successful runs and failure-correction trajectories. Across five iterations, average task success rises from <strong>40% to 58.5%</strong>, an increase of 18.5 percentage points. The reset policies succeed in <strong>98% of 200 trials</strong>. In the authors' human-effort comparison, data collection falls from 8.89 to 0.50 hours and deployment testing from 2.67 to 0.13 hours. These results concern their four configured tasks, with task-specific reset policies generated and manually refined beforehand. <sup class="cite">[<a href="#ref-21">21</a>]</sup></p>
+        <p>Resetting is therefore part of the training infrastructure, with its own failure rate and labour cost. For a sheet-handling experiment, each episode should record recovery success, reset time, discarded sheets, and operator interventions. An agent that improves pickup success but doubles the time needed to restore the cell may make training more expensive. Reset failures should also be recorded separately from failures of the task policy.</p>
 
-        <h2>More useful training cycles</h2>
-        <p>These environments make repeated learning cycles possible. Each attempt starts from a known state, its consequences are checked, and an update is accepted or rejected before the next attempt on a fresh case. Faster resets and better evidence can make those cycles cheaper. A fragile simulator or an easily fooled score can make thousands of cycles teach the wrong habit.</p>
-        <p>For manufacturing, varied, faithful practice tasks could improve procedures before they consume material and machine time. Code and maths benefit from unusually strong checks. Bringing comparable feedback to experiments, diagnostics, and process operations is a substantial part of the work still ahead.</p>
-        <p>The first convincing result would be better recovery on unfamiliar pickup failures, fewer unnecessary interventions, and a trace of the measurements behind each decision. That is a manageable experiment, with a direct connection to the work on the line.</p>
+        <h2>Building and testing a manufacturing environment</h2>
+        <p>NVIDIA's July 2026 <strong>Isaac GR00T development workflow</strong> provides a concrete implementation route. Isaac Lab-Arena hosts the scene; teleoperation produces demonstrations; recordings are converted into LeRobot format; GR00T is post-trained and evaluated in closed-loop rollouts. The tutorial uses <strong>400 demonstrations</strong> for its example and tunes the visual components and action model while freezing the language model. It also distinguishes a one-episode smoke test from a success-rate estimate over <strong>100 or 1,000 complete episodes</strong>. <sup class="cite">[<a href="#ref-22">22</a>]</sup> An electrode-handling version would need its own sheet mechanics, vacuum behaviour, sensors, and tooling; the available robot workflow supplies the software structure.</p>
+        <p>A first environment could focus on one sheet and a small set of controlled pickup and placement faults. The table below is a proposed test design, rather than a result reported by these projects. Tolerances and permitted motions would come from the test cell's configuration.</p>
+        <div class="table-wrap" role="region" aria-label="Proposed electrode-handling test cases" tabindex="0">
+          <table>
+            <thead><tr><th scope="col">Episode condition</th><th scope="col">Expected response</th><th scope="col">Independent check</th></tr></thead>
+            <tbody>
+              <tr><td>Normal pickup and placement</td><td>Complete the cycle without unnecessary recovery</td><td>Pickup confirmation and measured final alignment</td></tr>
+              <tr><td>No sheet on the gripper</td><td>Inspect and retry within the configured attempt limit</td><td>Vacuum trace and fresh camera observation agree</td></tr>
+              <tr><td>Double pickup or damaged sheet</td><td>Reject the sheet or stop for intervention</td><td>Sheet count or inspection confirms the fault; no invalid placement is accepted</td></tr>
+              <tr><td>Delayed image or incorrect calibration</td><td>Refresh observations or request recalibration</td><td>Sensor timestamps and calibration state, kept outside the agent's editing permissions</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>RoboDojo</strong> (July 2026) offers a model for evaluating the resulting policy across environments. It brings together <strong>42 simulation tasks, 18 real-world tasks, and 30 integrated policies</strong>. The simulation suite explicitly tests generalisation, memory, precision, long-horizon execution, and open-vocabulary instructions. Its real-world evaluation system standardises hardware, resets, deployment, and the evaluation protocol. <sup class="cite">[<a href="#ref-23">23</a>]</sup> For manufacturing, the corresponding test split could withhold material batches, lighting conditions, and fault combinations, then repeat selected cases on a test stand. Simulation and physical results should be reported separately.</p>
+        <p>That produces a concrete comparison between the original policy, a revised harness around the same model, and a retrained model using the original harness. Accepted placements per hour, false acceptance of defective sheets, material loss, and intervention time would decide which changes are useful. These 2026 projects make several parts of that experiment available today; matching the environment and its checks to an actual electrode process remains the engineering work.</p>
       </div>
       <section class="post-references" aria-label="References">
         <h2>References</h2>
@@ -189,7 +193,10 @@
           <li id="ref-1">ICPC. <a href="https://worldfinals.icpc.global/2025/openai.html" target="_blank" rel="noopener noreferrer">OpenAI's 2025 ICPC experiment</a>. Organiser account, including differences from championship constraints.</li>
           <li id="ref-2">Google DeepMind. <a href="https://deepmind.google/blog/gemini-achieves-gold-medal-level-at-the-international-collegiate-programming-contest-world-finals/" target="_blank" rel="noopener noreferrer">Gemini achieves gold-medal level at the ICPC World Finals</a>, September 2025.</li>
           <li id="ref-3">Ficek et al. <a href="https://arxiv.org/abs/2609.02849v2" target="_blank" rel="noopener noreferrer">Post-Training Language Models for Gold-Medal Performance in Coding Competitions</a>, September 2026. Competition-specific system and prospective IOI evaluation.</li>
-          <li id="ref-4">OpenAI. <a href="https://github.com/openai/math" target="_blank" rel="noopener noreferrer">Mathematical manuscripts and supporting proof artifacts</a>. Repository distinguishes formalised and unformalised results.</li>
+        </ol>
+        <details class="references-more">
+          <summary class="references-toggle"><span class="references-show">show all 23 references</span><span class="references-hide">show fewer references</span><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></summary>
+          <ol start="4"><li id="ref-4">OpenAI. <a href="https://github.com/openai/math" target="_blank" rel="noopener noreferrer">Mathematical manuscripts and supporting proof artifacts</a>. Repository distinguishes formalised and unformalised results.</li>
           <li id="ref-5">Kwa et al., METR. <a href="https://arxiv.org/abs/2503.14499" target="_blank" rel="noopener noreferrer">Measuring AI Ability to Complete Long Tasks</a>, March 2025. <a href="https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/" target="_blank" rel="noopener noreferrer">Methodology explainer</a>.</li>
           <li id="ref-6">Sutton &amp; Barto. <a href="https://incompleteideas.net/book/the-book-2nd.html" target="_blank" rel="noopener noreferrer">Reinforcement Learning: An Introduction</a>, second edition, 2018, §3.1.</li>
           <li id="ref-7">Szepesvári. <a href="https://sites.ualberta.ca/~szepesva/rlbook.html" target="_blank" rel="noopener noreferrer">Algorithms for Reinforcement Learning</a>, 2010, §2.2.</li>
@@ -203,7 +210,14 @@
           <li id="ref-15">Wu et al. <a href="https://arxiv.org/abs/2604.20987" target="_blank" rel="noopener noreferrer">Co-Evolving LLM Decision and Skill Bank Agents for Long-Horizon Tasks</a>, April 2026.</li>
           <li id="ref-16">Liu et al. <a href="https://arxiv.org/abs/2610.05923v1" target="_blank" rel="noopener noreferrer">VERA: Scaling Verifiable Environments for Agentic co-Evolution</a>, 5 October 2026, preprint. Figure excerpts; §2 and Appendix E.</li>
           <li id="ref-17">Nastase et al. <a href="https://doi.org/10.1016/j.neuron.2026.07.024" target="_blank" rel="noopener noreferrer">Unifying the structures of language in a neural population code</a>, <em>Neuron</em>, 2026. <a href="https://snastase.github.io/files/Nastase_Neuron_2026.pdf" target="_blank" rel="noopener noreferrer">Author PDF</a>, p. 11, on language-input volumes in LLMs and humans.</li>
+          <li id="ref-18">Lee et al. <a href="https://arxiv.org/abs/2601.00675v2" target="_blank" rel="noopener noreferrer">RoboReward: General-Purpose Vision-Language Reward Models for Robotics</a>, January 2026. Dataset, negative-example construction, reward models, and real-robot RL comparison.</li>
+          <li id="ref-19">Roth et al. <a href="https://arxiv.org/abs/2605.20744" target="_blank" rel="noopener noreferrer">Hack-Verifiable Environments: Towards Evaluating Reward Hacking at Scale</a>, May 2026. <a href="https://github.com/MajoRoth/hack-verifiable-environments/" target="_blank" rel="noopener noreferrer">Code</a>.</li>
+          <li id="ref-20">Zhao et al. <a href="https://openaccess.thecvf.com/content/CVPR2026/papers/Zhao_FLARE_A_Failure-Aware_Framework_for_Autonomous_Correction_and_Recovery_in_CVPR_2026_paper.pdf" target="_blank" rel="noopener noreferrer">FLARE: A Failure-Aware Framework for Autonomous Correction and Recovery in Visual-Language Robotic Manipulation</a>, CVPR 2026. Retry demonstrations and reset-skill pipeline.</li>
+          <li id="ref-21">Liu et al. <a href="https://arxiv.org/html/2609.14633v2" target="_blank" rel="noopener noreferrer">REVOLVE: An Automated Closed-Loop Framework for Evolving Robot Manipulation with Minimal Human Intervention</a>, September 2026, preprint. Tables I–III and §IV-C.</li>
+          <li id="ref-22">Llontop &amp; Neel, NVIDIA. <a href="https://developer.nvidia.com/blog/develop-humanoid-robot-policies-end-to-end-with-nvidia-isaac-gr00t/" target="_blank" rel="noopener noreferrer">Develop Humanoid Robot Policies End-to-End with NVIDIA Isaac GR00T</a>, 7 July 2026. Demonstration collection, post-training, and closed-loop evaluation workflow.</li>
+          <li id="ref-23">Chen et al. <a href="https://arxiv.org/abs/2607.04434v3" target="_blank" rel="noopener noreferrer">RoboDojo: A Unified Sim-and-Real Benchmark for Comprehensive Evaluation of Generalist Robot Manipulation Policies</a>, July 2026. <a href="https://robodojo-benchmark.com/" target="_blank" rel="noopener noreferrer">Project and benchmark</a>.</li>
         </ol>
+        </details>
       </section>
     </article>
     <section class="post-comments" id="comments" aria-label="Discussion" data-comments>
@@ -273,8 +287,10 @@
   <script defer src="navigation.js?v=82ad0181"></script>
   <script defer src="media.js?v=94604095"></script>
   <script defer src="interactions.js?v=3cfec42c"></script>
+  <script defer src="cursor.js?v=836db8cc"></script>
   <script defer src="portal-transitions.js?v=d4060e4b"></script>
   <script defer src="blog.js?v=119b9d1e"></script>
+  <script defer src="references.js?v=e51071fb"></script>
   <script defer src="comment-identity.js?v=dddce228"></script>
   <script defer src="comments.js?v=43a43fce"></script>
   <script>

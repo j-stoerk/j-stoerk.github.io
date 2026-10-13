@@ -49,6 +49,24 @@ function attribute(value) {
   return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
+/* Keep reference previews compact, retaining IDs and native list numbering.
+   Native details works without JavaScript; references.js opens cited targets. */
+function foldReferences(html) {
+  return html.replace(/(<section\b[^>]*class="post-(?:sources|references)"[^>]*>)([\s\S]*?)(<\/section>)/g,
+    (_, section, content, end) => section + content.replace(/<ol([^>]*)>([\s\S]*?)<\/ol>/,
+      (list, attributes, body) => {
+        const items = [...body.matchAll(/<li\b[\s\S]*?<\/li>/g)];
+        if (items.length <= 3) return list;
+        const split = items[3].index;
+        const continued = attributes.replace(/\sstart="[^"]*"/g, '');
+        return `<ol${attributes}>${body.slice(0, split).trimEnd()}\n        </ol>
+        <details class="references-more">
+          <summary class="references-toggle"><span class="references-show">show all ${items.length} references</span><span class="references-hide">show fewer references</span><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></summary>
+          <ol${continued} start="4">${body.slice(split)}<\/ol>
+        </details>`;
+      }) + end);
+}
+
 /* The video, readable tables, and downloads share one audited dataset. */
 function batteryMarketData() {
   const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/battery-market.json'), 'utf8'));
@@ -104,7 +122,7 @@ const PAGES = {
 };
 for (const p of posts) {
   PAGES[p.file] = {
-    nav: 'blog', extraScripts: ['blog.js', 'comment-identity.js', 'comments.js', ...(p.scripts || [])],
+    nav: 'blog', extraScripts: ['blog.js', 'references.js', 'comment-identity.js', 'comments.js', ...(p.scripts || [])],
     extraStyles: p.styles || [],
     footerExtra: '<a href="blog.html">All posts</a>',
     lastmod: p.lastmod, priority: '0.7', math: !!p.math,
@@ -199,6 +217,7 @@ function scripts(cfg) {
   <script defer src="${ver('navigation.js')}"></script>
   <script defer src="${ver('media.js')}"></script>
   <script defer src="${ver('interactions.js')}"></script>
+  <script defer src="${ver('cursor.js')}"></script>
   <script defer src="${ver('portal-transitions.js')}"></script>
 ${extras ? extras + '\n' : ''}  <script>
     window.addEventListener('load', function () {
@@ -317,6 +336,7 @@ for (const file of fs.readdirSync(pagesDir)) {
     const context = post.whyItMatters.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     html = html.replace('<!--#POST_CONTEXT-->', `<p class="post-context"><span>Why this matters</span>${context}</p>`);
     html = postBackground(html, file);
+    html = foldReferences(html);
     const comments = community.comments.endpoint && community.comments.turnstileSiteKey ? fs.readFileSync(path.join(SRC, 'comments.html'), 'utf8')
       .replace('<!--#COMMENTS_CONFIG-->', () => publicConfig('comments-config', {
         endpoint: community.comments.endpoint,
