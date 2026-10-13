@@ -83,7 +83,7 @@ function batteryMarketData() {
 const PAGES = {
   'index.html': {
     nav: null, home: true, extraScripts: ['cite.js', 'experiences.js', 'bio-popovers.js', 'comment-identity.js', 'contact.js'],
-    footerExtra: null, lastmod: '2026-10-07', priority: '1.0',
+    footerExtra: null, lastmod: '2026-10-13', priority: '1.0',
   },
   'cv.html': {
     nav: 'cv', extraScripts: [],
@@ -93,7 +93,7 @@ const PAGES = {
   'blog.html': {
     nav: 'blog', extraScripts: ['blog-view.js'],
     footerExtra: '<a href="index.html">Home</a> · <a href="index.html#contact">Contact</a>',
-    lastmod: '2026-10-07', priority: '0.8',
+    lastmod: '2026-10-13', priority: '0.8',
   },
   /* Served by GitHub Pages for any missing URL; noindex, not in sitemap. */
   '404.html': {
@@ -259,7 +259,7 @@ function postEntry(p, withMinutes, indent) {
   const meta = withMinutes ? `${p.category} · ${p.minutes} min` : p.category;
   const pad = ' '.repeat(indent);
   return `${pad}<article class="journal-entry">
-${withMinutes ? `${pad}  <div class="journal-thumbnail"><img src="${postCover(p)}" alt="" width="1200" height="675" loading="lazy" decoding="async"></div>\n` : ''}${pad}  <div class="journal-meta"><time datetime="${p.iso}">${p.display}</time><span>${meta}</span></div>
+${withMinutes ? `${pad}  <div class="journal-thumbnail"><img src="${postCover(p)}" alt="" width="1200" height="675" loading="lazy" decoding="async"><time class="journal-image-date" datetime="${p.iso}">${p.display}</time></div>\n` : ''}${pad}  <div class="journal-meta"><time datetime="${p.iso}">${p.display}</time><span>${meta}</span></div>
 ${pad}  <div class="journal-copy"><h3><a class="card-link" href="${p.file}">${p.title}</a></h3><p>${p.summary}</p></div>
 ${pad}  <span class="journal-arrow" aria-hidden="true">↗</span>
 ${pad}</article>`;

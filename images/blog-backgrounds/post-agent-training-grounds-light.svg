@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1800" viewBox="0 0 1000 1800" fill="none"><style>.art-ink,
+.art-ink-soft,
+.art-hair,
+.art-blue,
+.art-gold {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.art-ink {
+  stroke: rgba(38, 48, 62, .42);
+  stroke-width: 1.6;
+}
+
+.art-ink-soft {
+  stroke: rgba(38, 48, 62, .22);
+  stroke-width: 1.2;
+}
+
+/* Hairline filigree — the finest lines (tree-rings, arcs, contours). */
+.art-hair {
+  stroke: rgba(38, 48, 62, .22);
+  stroke-width: 0.6;
+}
+
+.art-blue, .art-gold {
+  stroke-width: 1.2;
+  stroke-opacity: .55;
+}
+
+.art-blue { stroke: #5a82be; }
+.art-gold { stroke: #b28945; }
+
+.art-fill-ink {
+  fill: rgba(38, 48, 62, .42);
+  stroke: none;
+}
+
+/* Stipple dots for organic growth. */
+.art-dot {
+  fill: rgba(38, 48, 62, .22);
+  stroke: none;
+}</style>
+  <!-- A continuous practice loop connects a sandbox, an inspected stack, and reusable skills. -->
+  <path class="art-hair" d="M805 0C805 145 735 175 767 353S885 505 820 646S752 886 800 1010S875 1230 821 1410S805 1650 805 1800"/>
+  <path class="art-hair" opacity=".3" d="M817 0C817 145 747 175 779 353S897 505 832 646S764 886 812 1010S887 1230 833 1410S817 1650 817 1800"/>
+  <g transform="translate(805 290)">
+    <rect class="art-ink" x="-120" y="-80" width="240" height="160" rx="9"/>
+    <path class="art-ink-soft" d="M-120 -50H120M-91 -69H-83M-70 -69H-62M-80 -15L-56 1L-80 17M-40 25H10"/>
+    <circle class="art-ink" cx="49" cy="0" r="19"/><path class="art-hair" d="M49 -19V-34M49 19V34M30 0H15M68 0H83"/>
+    <path class="art-ink-soft" d="M-105 -99C-38 -155 73 -150 114 -97M-105 -99L-106 -119M-105 -99L-83 -100M105 98C38 154 -73 149 -114 97M105 98L105 118M105 98L83 99"/>
+  </g>
+  <g transform="translate(800 890)">
+    <path class="art-ink" d="M-95 35L38 35L103 65L-30 65ZM-95 10L38 10L103 40L-30 40ZM-95 -15L38 -15L103 15L-30 15Z"/>
+    <path class="art-ink-soft" d="M-112 -32V88M-124 -29H-101M-124 85H-101M122 -32V88M110 -29H133M110 85H133"/>
+    <path class="art-ink" d="M-58 -111H64V-65L19 -33M64 -65L83 -43M4 -37L23 -28"/>
+    <circle class="art-ink-soft" cx="64" cy="-65" r="8"/>
+    <path class="art-hair" d="M-116 128H132M-36 119L-22 128L-36 137M110 119L96 128L110 137"/>
+  </g>
+  <g transform="translate(805 1490)">
+    <rect class="art-ink-soft" x="-104" y="-65" width="170" height="120" rx="6"/>
+    <rect class="art-ink" x="-83" y="-44" width="170" height="120" rx="6"/>
+    <path class="art-ink" d="M-60 -16L-50 -6L-33 -25M-60 20L-50 30L-33 11M-60 56L-50 66L-33 47"/>
+    <path class="art-ink-soft" d="M-12 -13H63M-12 23H63M-12 59H63"/>
+  </g>
+  <g class="art-ink-soft"><circle cx="805" cy="50" r="4"/><circle cx="794" cy="610" r="4"/><circle cx="819" cy="1185" r="4"/><circle cx="805" cy="1740" r="4"/></g>
+</svg>

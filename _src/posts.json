@@ -1,5 +1,20 @@
 [
   {
+    "file": "post-agent-training-grounds.html",
+    "title": "Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents",
+    "iso": "2026-10-11",
+    "display": "11 October 2026",
+    "category": "Agents & learning",
+    "minutes": 10,
+    "summary": "From programming medals to battery stacking: what an agent needs to practise, how VERA builds verifiable environments, and why better scores need a trustworthy test.",
+    "whyItMatters": "An agent can improve only if its practice environment rewards the work we actually need done. Reliable feedback is what connects impressive answers to useful actions.",
+    "feedDescription": "From competitive programming to battery stacking: resettable environments, verifiable rewards, model and harness improvement, and a practical design for testing long-horizon agents. With original excerpts and VERA figures.",
+    "rfc822": "Sun, 11 Oct 2026 12:00:00 +0200",
+    "lastmod": "2026-10-13",
+    "trail": "automation",
+    "styles": ["agent-training.css"]
+  },
+  {
     "file": "post-battery-price-war.html",
     "title": "Price Wars: East vs. West Battery Production and the SynBatt Response",
     "iso": "2026-10-04",
@@ -10,7 +25,7 @@
     "whyItMatters": "Cheaper, reliable battery production helps clean energy scale. Knowing which costs engineering can change makes the next investment more useful.",
     "feedDescription": "A sourced timeline of EV battery deployment and factory milestones, twenty reasons regional battery prices differ, six 2026 publications, and the SynBatt projects addressing manufacturing costs.",
     "rfc822": "Sun, 04 Oct 2026 08:00:00 +0200",
-    "lastmod": "2026-10-07",
+    "lastmod": "2026-10-13",
     "trail": "materials",
     "scripts": [
       "battery-market.js"

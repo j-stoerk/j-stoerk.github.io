@@ -1,0 +1,24 @@
+.training-excerpts,
+.training-paper-figure { max-width: 880px; margin: 2rem auto; }
+.training-excerpt-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+.training-excerpt-grid > div { min-width: 0; }
+.training-excerpt-grid a { display: block; margin-top: 1rem; }
+.training-excerpt-grid img { display: block; width: 100%; height: 250px; object-fit: contain; background: #fff; border-radius: 4px; }
+.training-excerpts figcaption,
+.training-paper-figure figcaption { margin-top: .85rem; color: var(--color-text-muted); font-size: .8rem; line-height: 1.7; }
+.training-paper-figure img { display: block; width: 100%; height: auto; background: #fff; border-radius: 4px; }
+.training-paper-figure-large { max-width: 650px; }
+.training-contract { margin: 1.5rem 0 2rem; }
+.training-contract > div { display: grid; grid-template-columns: minmax(120px, 1fr) 3fr; gap: 1rem; padding: .9rem 0; border-bottom: 1px solid var(--color-border); }
+.training-contract dt { font-weight: 600; color: var(--color-primary); }
+.training-contract dd { margin: 0; }
+@media (max-width: 640px) {
+  .agent-training-post .cover-text { position: static; padding: var(--space-5); background: var(--color-surface-2); }
+  .agent-training-post .cover-text .eyebrow { color: var(--color-text-muted); }
+  .agent-training-post .cover-text .post-title { color: var(--color-text); }
+}
+@media (max-width: 580px) {
+  .training-excerpt-grid { gap: .75rem; }
+  .training-excerpt-grid img { height: 170px; }
+  .training-contract > div { grid-template-columns: 1fr; gap: .3rem; }
+}

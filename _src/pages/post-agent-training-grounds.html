@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents · Julius Störk</title>
+  <meta name="description" content="From programming medals to battery stacking: how resettable environments, verifiable rewards, and model–harness co-evolution turn agent attempts into useful learning." />
+  <link rel="canonical" href="https://j-stoerk.github.io/post-agent-training-grounds.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Julius Störk" />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-agent-training-grounds.html" />
+  <meta property="og:title" content="Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents" />
+  <meta property="og:description" content="An agent needs somewhere to practise, a world it can reset, and a score that rewards real work. From RL textbooks to VERA and the factory floor." />
+  <meta property="og:image" content="https://j-stoerk.github.io/social-agent-training-grounds.png" />
+  <meta property="og:image:alt" content="A programming trophy connected through a practice environment to a battery stacking machine" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="article:published_time" content="2026-10-11" />
+  <meta property="article:author" content="Julius Störk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/social-agent-training-grounds.png" />
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BlogPosting","headline":"Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents","description":"Resettable environments, verifiable rewards, and model–harness co-evolution for useful agents.","datePublished":"2026-10-11","dateModified":"2026-10-13","url":"https://j-stoerk.github.io/post-agent-training-grounds.html","image":"https://j-stoerk.github.io/social-agent-training-grounds.png","author":{"@type":"Person","name":"Julius Störk","url":"https://j-stoerk.github.io/"}}
+  </script>
+  <!--#HEAD_ASSETS-->
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <!--#TOPBAR-->
+  <main id="main" class="content">
+    <!--#POST_BACKGROUND-->
+    <a class="back-link" href="blog.html">All posts</a>
+    <article class="post agent-training-post" id="agent-training-grounds">
+      <div class="post-cover media-cover">
+        <div class="media">
+          <svg class="cover-art" viewBox="0 0 1200 675" role="img" aria-label="From a programming trophy through a repeatable training loop to a battery stacking machine">
+            <defs>
+              <linearGradient id="trainingSky" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e9eff3"/><stop offset="1" stop-color="#ece5d8"/></linearGradient>
+              <marker id="trainingArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10" fill="none" stroke="#477baf" stroke-width="1.5"/></marker>
+            </defs>
+            <rect width="1200" height="675" fill="url(#trainingSky)"/>
+            <g fill="none" stroke="#8c9ca4" stroke-width="1" opacity=".22"><path d="M0 145H1200M0 235H1200M0 325H1200M0 415H1200M0 505H1200M140 0V675M320 0V675M500 0V675M680 0V675M860 0V675M1040 0V675"/></g>
+            <path d="M290 340C360 340 379 268 452 268M749 402C811 402 813 474 877 474" fill="none" stroke="#477baf" stroke-width="3" stroke-dasharray="6 9"/>
+            <g fill="none" stroke="#9c7b46" stroke-width="5" stroke-linejoin="round"><path d="M145 216H276L261 270Q255 302 210 315Q165 302 158 270Z" fill="#c9ad72" fill-opacity=".24"/><path d="M146 230H115V251Q115 278 167 286M275 230H306V251Q306 278 253 286M210 315V359M178 360H242M164 376H256"/></g>
+            <g fill="none" stroke="#33465e" stroke-width="3"><rect x="127" y="410" width="170" height="90" rx="8"/><path d="M145 432L159 443L145 454M173 456H204M238 433L253 446L238 459"/></g>
+            <g fill="none" stroke="#477baf" stroke-width="3.5"><path d="M472 235C506 171 681 165 724 239" marker-end="url(#trainingArrow)"/><path d="M728 425C684 503 516 508 473 432" marker-end="url(#trainingArrow)"/></g>
+            <g fill="#f1f2ee" stroke="#33465e" stroke-width="3"><rect x="440" y="260" width="314" height="147" rx="10"/><path d="M440 290H754"/><circle cx="460" cy="275" r="3" fill="#477baf"/><circle cx="476" cy="275" r="3" fill="#b3935f"/></g>
+            <g fill="none" stroke="#477baf" stroke-width="3"><circle cx="481" cy="348" r="12"/><circle cx="548" cy="320" r="12"/><circle cx="595" cy="371" r="12"/><circle cx="663" cy="328" r="12"/><path d="M493 343L536 325M557 330L587 362M606 365L651 335M675 328H708L720 349L708 366H690"/></g>
+            <g fill="none" stroke="#33465e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M895 178H1060V247H1010L981 300L1006 351"/><circle cx="1010" cy="247" r="12" fill="#edf0ef"/><circle cx="981" cy="300" r="12" fill="#edf0ef"/><path d="M991 351H1021M997 351V369M1015 351V369M894 178V528M856 530H1092"/></g>
+            <g stroke-width="3" stroke-linejoin="round"><path d="M940 410L1026 410L1071 433L985 433Z" stroke="#477baf" fill="#7e9dbc" fill-opacity=".35"/><path d="M940 426L1026 426L1071 449L985 449Z" stroke="#9c7b46" fill="#c8ae7a" fill-opacity=".3"/><path d="M940 442L1026 442L1071 465L985 465Z" stroke="#477baf" fill="#7e9dbc" fill-opacity=".35"/><path d="M940 458L1026 458L1071 481L985 481Z" stroke="#9c7b46" fill="#c8ae7a" fill-opacity=".3"/></g>
+            <g fill="none" stroke="#477baf" stroke-width="2" opacity=".7"><path d="M914 393H929M915 390V490M914 489H929M1082 393H1096M1095 390V490M1082 489H1096"/></g>
+          </svg>
+        </div>
+        <div class="cover-text">
+          <p class="eyebrow"><time datetime="2026-10-11">11 October 2026</time> · Agents &amp; learning</p>
+          <h1 class="post-title">Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents</h1>
+        </div>
+      </div>
+      <!--#POST_CONTEXT-->
+      <div class="prose">
+        <p>The promise behind AI, and especially recursive self-improvement, is a system that learns from its own attempts: a programmer that becomes a better programmer, a researcher that builds better experiments, eventually a generalist that can carry a job through to completion. Where does the measuring stick hang now?</p>
+        <p>In competitive programming, remarkably high. At the 2025 ICPC World Finals, OpenAI's system solved all <strong>12 problems</strong>; Google DeepMind's Gemini Deep Think solved <strong>10 of 12</strong>, reaching gold-medal level. The ICPC organisers explicitly distinguish OpenAI's experiment from the more restrictive university championship setting. <sup class="cite">[<a href="#ref-1">1</a>, <a href="#ref-2">2</a>]</sup> NVIDIA then reported <strong>535.4 out of 600</strong> on the IOI 2026 problems for a competition-specific Nemotron-3-Ultra-CC system with iterative feedback, above the top human score of 498.27. This was a prospective AI evaluation, not a place in the official human standings. <sup class="cite">[<a href="#ref-3">3</a>]</sup></p>
+        <p>Research mathematics is moving too. OpenAI's <a href="https://github.com/openai/math" target="_blank" rel="noopener noreferrer">math repository</a> contains model-produced manuscripts and proof artifacts, with verification still at different stages. Formal proofs and unchecked manuscripts deserve different levels of confidence. <sup class="cite">[<a href="#ref-4">4</a>]</sup></p>
+        <p>I am not saying coding and mathematics aren't useful. But you can't have a nontrivial automorphism for dinner, and a programming medal doesn't align an electrode stack.</p>
+
+        <h2>A factory gives feedback very differently</h2>
+        <p>Consider battery stacking. A useful system has to combine camera observations, distance measurements, vacuum readings, motion commands, and alignment checks. It needs to recognise an electrode edge, pick the sheet without damaging it, place it within tolerance, and notice when the pickup did not work. A convincing explanation of the trajectory is worth very little if the sheet is still on the table.</p>
+        <p>This is also a hierarchy of timescales. Camera acquisition and machine control can run far faster than a language model should be asked to deliberate. The agent's job could be to select a procedure, diagnose an abnormal run, or propose a correction; fast controllers still execute bounded motions and enforce machine interlocks. I would start with that division of work, rather than send every camera frame to an LLM.</p>
+        <p>Long workflows compound uncertainty. An early calibration mistake can survive several apparently successful steps before the final inspection exposes it. METR's task-horizon work measures how agent success changes with the time a human expert needs for a software task. It is a useful measure of sustained autonomy, but it does not measure how long an agent can safely run a battery line. <sup class="cite">[<a href="#ref-5">5</a>]</sup></p>
+        <p>To improve at this work, an agent needs repeatable attempts, observable consequences, and feedback that distinguishes a good explanation from a good result. More attempts help only when they exercise the right failures and score them correctly.</p>
+
+        <h2>The old loop, with new plumbing</h2>
+        <p>An environment specifies what the agent can observe, which actions are possible, how those actions change the situation, and how success is scored. Sutton and Barto's agent–environment loop and Szepesvári's Markov decision processes already describe the core interaction. The modern packaging adds containers, tool APIs, files, and execution traces. <sup class="cite">[<a href="#ref-6">6</a>, <a href="#ref-7">7</a>]</sup></p>
+        <p>One distinction matters: the agent's observation is not necessarily the full state. A photograph may hide a misaligned lower electrode; a successful tool response may not establish that a downstream file is valid. A Markov model assumes the state contains what is needed to predict the next transition. Real agents often have to infer that state from incomplete observations and history.</p>
+      </div>
+
+      <figure class="training-excerpts">
+        <div class="training-excerpt-grid">
+          <div><p class="eyebrow">Textbook formulation</p><a href="images/agent-training/sutton-barto.png" target="_blank" rel="noopener noreferrer"><img src="images/agent-training/sutton-barto.png" alt="Sutton and Barto's agent–environment interface and feedback-loop diagram" width="671" height="882" loading="lazy" /></a><a href="images/agent-training/szepesvari.png" target="_blank" rel="noopener noreferrer"><img src="images/agent-training/szepesvari.png" alt="Szepesvári's definition of a Markov decision process, transition kernel, and reward" width="713" height="638" loading="lazy" /></a></div>
+          <div><p class="eyebrow">Current environment tooling</p><a href="images/agent-training/patronus.png" target="_blank" rel="noopener noreferrer"><img src="images/agent-training/patronus.png" alt="Patronus AI's explanation of RL environment components, with the environment definition highlighted" width="888" height="514" loading="lazy" /></a><a href="images/agent-training/gymnasium-explainer.png" target="_blank" rel="noopener noreferrer"><img src="images/agent-training/gymnasium-explainer.png" alt="A practical explanation of Gymnasium observation and action spaces, reset, and step" width="703" height="824" loading="lazy" /></a></div>
+        </div>
+        <figcaption>The same interaction, from textbooks to practical guides: Sutton &amp; Barto; Szepesvári; <a href="https://www.patronus.ai/guide-to-rl-environments" target="_blank" rel="noopener noreferrer">Patronus AI</a>; Abhilasha Gulhane's Gymnasium explainer. Open an image to read the original. Gymnasium's <a href="https://gymnasium.farama.org/introduction/create_custom_env/" target="_blank" rel="noopener noreferrer">official implementation guide</a> documents the interface. <sup class="cite">[<a href="#ref-6">6</a>–<a href="#ref-8">8</a>]</sup></figcaption>
+      </figure>
+
+      <div class="prose">
+        <p>For a tool-using agent, I would write the environment contract before choosing a training algorithm:</p>
+        <dl class="training-contract">
+          <div><dt>Initial state</dt><dd>The exact files, material batch, calibration, and machine configuration at the start.</dd></div>
+          <div><dt>Observations and tools</dt><dd>The readings the agent can access and the bounded actions it can request. Permissions are part of the experiment.</dd></div>
+          <div><dt>Task and budget</dt><dd>A concrete outcome, tolerances, and limits on time, actions, or compute.</dd></div>
+          <div><dt>Reset</dt><dd>A way to restore the same starting conditions without carrying accidental advantages into the next attempt.</dd></div>
+          <div><dt>Evidence and scoring</dt><dd>Independent checks of the resulting state, alongside a trace explaining how it was reached.</dd></div>
+        </dl>
+        <p>Gymnasium makes part of this contract explicit through observation and action spaces, <code>reset()</code>, and <code>step(action)</code>. Reset returns the first observation; step returns an observation, reward, termination and truncation flags, and auxiliary information. Reaching the goal and exhausting a time budget are different endings. <sup class="cite">[<a href="#ref-8">8</a>]</sup></p>
+
+        <h2>What changes when the agent learns?</h2>
+        <p>The environment supplies experience. The learning procedure decides what persists from it. That persistent change can live in two places.</p>
+        <p><strong>Inside the model:</strong> training changes its weights. R2E-Gym builds executable software tasks with hybrid verification to train coding agents. On-policy distillation instead trains a student on its own generated sequences using feedback from a teacher, addressing the mismatch between practising on teacher answers and generating its own at deployment. These are different ways of using experience, not interchangeable names for running a test suite. <sup class="cite">[<a href="#ref-9">9</a>, <a href="#ref-10">10</a>]</sup></p>
+        <p><strong>Around the model:</strong> the harness changes what is stored, retrieved, called, and checked. Reflexion keeps verbal feedback in memory for later attempts; Voyager builds a library of executable skills; DSPy optimises language-model pipelines against a metric. A saved procedure can improve an agent without changing the underlying model weights. <sup class="cite">[<a href="#ref-11">11</a>–<a href="#ref-13">13</a>]</sup></p>
+        <p>Meta-Harness goes further by searching over the harness code itself, using previous candidates, scores, and execution traces. Lee and colleagues report a 7.7-point improvement on their online text-classification comparison with four times fewer context tokens, plus results on maths retrieval and agentic coding. It is a reason to measure the complete system: the same model can behave differently when its surrounding software changes. <sup class="cite">[<a href="#ref-14">14</a>]</sup></p>
+        <p>COS-PLAY, from Xiyang Wu and colleagues, couples a decision agent with an evolving skill bank. Skills are extracted and refined from rollouts, while the decision agent learns to retrieve and use them. Its experiments span six game environments. That gives a concrete example of joint improvement, with demonstrated scope in games rather than battery manufacturing. <sup class="cite">[<a href="#ref-15">15</a>]</sup></p>
+        <p>A benchmark can supply tasks, tools, and executable checks; using it for training additionally requires a loop that turns attempts and feedback into updates. Evaluation needs separate, held-out tasks. Repeatedly adapting to the same cases can produce a very competent specialist in that particular test suite.</p>
+
+        <h2>VERA turns recorded work into a place to practise</h2>
+        <p>The October 2026 <strong>VERA</strong> preprint constructs restartable environments from benchmark trajectories, workspace state, and tool specifications. Generated binary rubrics attach scores to observable evidence. A judge inspects execution and artifacts; container replay checks that the task actually runs. Executable failures override favourable judge scores. Only admitted environments enter the training bank. <sup class="cite">[<a href="#ref-16">16</a>]</sup></p>
+      </div>
+      <figure class="training-paper-figure"><img src="images/agent-training/vera-environments.png" alt="VERA pipeline: generate rubrics, inspect evidence, replay the container, admit verified environments, then scale" width="808" height="123" loading="lazy" /><figcaption>VERA's environment admission pipeline. Figure excerpt from Liu et al. <a href="#ref-16">[16]</a>.</figcaption></figure>
+      <div class="prose">
+        <p>Its co-evolution loop attributes failures to model stages or harness skills. Model updates use verified rubric rewards; harness edits face paired development runs with the model frozen. Updates alternate, and rejected candidates do not replace the accepted system. Stage-wise evaluation helps locate failures; end-to-end evaluation checks the complete workflow. The reported gains concern automation and medical-research benchmarks. <sup class="cite">[<a href="#ref-16">16</a>]</sup></p>
+      </div>
+      <figure class="training-paper-figure training-paper-figure-large"><img src="images/agent-training/vera-coevolution.png" alt="VERA's alternating model-training and harness-editing loops, with attribution and separate verifiers" width="728" height="491" loading="lazy" /><figcaption>Alternating model and harness updates. Figure excerpt from Liu et al. <a href="#ref-16">[16]</a>.</figcaption></figure>
+      <div class="prose">
+        <p>I find the separation of proposals from acceptance especially useful. An agent may propose its next skill or training stage, while independent execution decides whether the change helps. That is a much more inspectable improvement process than keeping every edit because the agent produced a persuasive rationale.</p>
+
+        <h2>A stack that passes the test can still be wrong</h2>
+        <p>Here is a thought experiment for a stacking environment. The task is to place several electrode and separator layers within a specified tolerance. The simulator records every placement, pickup confirmation, sensor reading, and final inspection. Those records make several rewards possible:</p>
+        <ul>
+          <li><strong>“The agent says it finished.”</strong> Cheap to score, but rewards a statement about the work.</li>
+          <li><strong>“The final photograph looks aligned.”</strong> Better evidence, but may miss a shifted layer beneath the top sheet.</li>
+          <li><strong>“Each placement passed independent measurement, and the final stack passed inspection.”</strong> More informative, with higher instrumentation and verification costs.</li>
+        </ul>
+        <p>A faster agent can exploit an incomplete check without improving the stack. It might omit an inspection, accept stale measurements, or rewrite a result file. The verifier must read evidence the agent cannot simply overwrite. If the simulator itself guarantees perfect pickup, no amount of training inside it will teach recovery from a failed pickup.</p>
+        <p>Stage rewards need care too. Rewarding a particular trajectory can punish a valid alternative. I would score physical constraints and useful artifacts, allowing several ways to satisfy them, and keep the final outcome as an independent check. A diagnostic report is helpful because it explains a failure; it must not turn a failed stack into a successful one.</p>
+
+        <h2>How I would build the first manufacturing environment</h2>
+        <p>I would begin with a bounded task: <strong>diagnose and recover a simulated failed pickup</strong>. The agent receives a log, a camera snapshot, vacuum readings, and a small set of authorised tools. It must identify whether the sheet was picked up, choose a permitted recovery, and produce a traceable report. Motion limits and stop conditions belong in the tool implementation.</p>
+        <p>Early versions can replay recorded sensor data and use a simplified machine model. That is enough to test tool use, evidence handling, and diagnosis, while leaving contact mechanics and real machine qualification unresolved. A replay cannot tell us what would have happened under an action absent from the recording; a simulator must supply that transition, with its assumptions made explicit.</p>
+        <p>The curriculum would change one difficulty at a time: a clean failed pickup, noisy pressure readings, a delayed camera frame, a stale calibration, then combinations. Successful runs and recoverable failures both belong in the set. A task that always ends in a fault teaches a different prior from a production line where most cycles work.</p>
+        <p>I would then compare three systems on the same unseen cases: the starting agent, a revised harness around the same frozen model, and a trained model using the same fixed harness. Only after those comparisons would I combine the accepted changes. That makes it possible to ask whether a gain came from learned behaviour, a useful procedure, or simply a more generous tool.</p>
+        <p>My main measures would be accepted recoveries per attempt, correct fault attribution, false-success reports, time and tool calls per accepted recovery, and performance on withheld batches or fault combinations. A higher rubric score is encouraging when it moves these outcomes too. Fresh tasks, fixed budgets, and a verifier kept outside the agent's editing permissions make that claim testable.</p>
+        <p>The step from replay to a test stand is a separate engineering milestone. A model that handles a simulated vacuum fault still has to cope with actual sensor timing, sheet variability, and equipment behaviour. I would move through offline evaluation, shadow operation, and bounded test-stand trials before allowing a validated procedure to influence production.</p>
+
+        <h2>The scarce resource is useful feedback</h2>
+        <p>What makes these environments valuable is the number of reliable learning cycles they enable: start from a known state, try something, inspect the consequences, accept or reject an update, and repeat on a fresh case. Faster resets and better evidence can make those cycles cheaper. A fragile simulator or an easily fooled score can make thousands of cycles teach the wrong habit.</p>
+        <p>For manufacturing, the interesting question is whether we can build enough varied, faithful practice tasks to improve useful procedures before consuming material and machine time. Code and maths benefit from unusually strong checks. Bringing comparable feedback to experiments, diagnostics, and process operations is a substantial part of the work still ahead.</p>
+        <p>An agent that says “I learned from that” has supplied another sentence. An agent that handles the next unfamiliar failed pickup correctly, with the evidence to show it, has supplied something I can measure.</p>
+      </div>
+      <section class="post-references" aria-label="References">
+        <h2>References</h2>
+        <ol>
+          <li id="ref-1">ICPC. <a href="https://worldfinals.icpc.global/2025/openai.html" target="_blank" rel="noopener noreferrer">OpenAI's 2025 ICPC experiment</a>. Organiser account, including differences from championship constraints.</li>
+          <li id="ref-2">Google DeepMind. <a href="https://deepmind.google/blog/gemini-achieves-gold-medal-level-at-the-international-collegiate-programming-contest-world-finals/" target="_blank" rel="noopener noreferrer">Gemini achieves gold-medal level at the ICPC World Finals</a>, September 2025.</li>
+          <li id="ref-3">Ficek et al. <a href="https://arxiv.org/abs/2609.02849v2" target="_blank" rel="noopener noreferrer">Post-Training Language Models for Gold-Medal Performance in Coding Competitions</a>, September 2026. Competition-specific system and prospective IOI evaluation.</li>
+          <li id="ref-4">OpenAI. <a href="https://github.com/openai/math" target="_blank" rel="noopener noreferrer">Mathematical manuscripts and supporting proof artifacts</a>. Repository distinguishes formalised and unformalised results.</li>
+          <li id="ref-5">Kwa et al., METR. <a href="https://arxiv.org/abs/2503.14499" target="_blank" rel="noopener noreferrer">Measuring AI Ability to Complete Long Tasks</a>, March 2025. <a href="https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/" target="_blank" rel="noopener noreferrer">Methodology explainer</a>.</li>
+          <li id="ref-6">Sutton &amp; Barto. <a href="https://incompleteideas.net/book/the-book-2nd.html" target="_blank" rel="noopener noreferrer">Reinforcement Learning: An Introduction</a>, second edition, 2018, §3.1.</li>
+          <li id="ref-7">Szepesvári. <a href="https://sites.ualberta.ca/~szepesva/rlbook.html" target="_blank" rel="noopener noreferrer">Algorithms of Reinforcement Learning</a>, 2010, §2.2.</li>
+          <li id="ref-8">Farama Foundation. <a href="https://gymnasium.farama.org/introduction/create_custom_env/" target="_blank" rel="noopener noreferrer">Gymnasium: Create a Custom Environment</a>. Interface and environment design.</li>
+          <li id="ref-9">Jain et al. <a href="https://arxiv.org/abs/2504.07164" target="_blank" rel="noopener noreferrer">R2E-Gym: Procedural Environments and Hybrid Verifiers for Scaling Open-Weights SWE Agents</a>, 2025.</li>
+          <li id="ref-10">Agarwal et al. <a href="https://arxiv.org/abs/2306.13649" target="_blank" rel="noopener noreferrer">On-Policy Distillation of Language Models: Learning from Self-Generated Mistakes</a>, ICLR 2024.</li>
+          <li id="ref-11">Shinn et al. <a href="https://arxiv.org/abs/2303.11366" target="_blank" rel="noopener noreferrer">Reflexion: Language Agents with Verbal Reinforcement Learning</a>, 2023.</li>
+          <li id="ref-12">Wang et al. <a href="https://arxiv.org/abs/2305.16291" target="_blank" rel="noopener noreferrer">Voyager: An Open-Ended Embodied Agent with Large Language Models</a>, 2023.</li>
+          <li id="ref-13">Khattab et al. <a href="https://arxiv.org/abs/2310.03714" target="_blank" rel="noopener noreferrer">DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines</a>, ICLR 2024.</li>
+          <li id="ref-14">Lee et al. <a href="https://arxiv.org/abs/2603.28052" target="_blank" rel="noopener noreferrer">Meta-Harness: End-to-End Optimization of Model Harnesses</a>, March 2026.</li>
+          <li id="ref-15">Wu et al. <a href="https://arxiv.org/abs/2604.20987" target="_blank" rel="noopener noreferrer">Co-Evolving LLM Decision and Skill Bank Agents for Long-Horizon Tasks</a>, April 2026.</li>
+          <li id="ref-16">Liu et al. <a href="https://arxiv.org/abs/2610.05923v1" target="_blank" rel="noopener noreferrer">VERA: Scaling Verifiable Environments for Agentic co-Evolution</a>, 5 October 2026, preprint. Figure excerpts; §2 and Appendix E.</li>
+        </ol>
+      </section>
+    </article>
+    <nav class="post-pager" aria-label="More posts">
+      <a href="post-battery-price-war.html"><span class="eyebrow">Previous post</span><span class="post-pager-title">Price Wars: East vs. West Battery Production and the SynBatt Response</span></a>
+    </nav>
+  </main>
+  <!--#FOOTER-->
+  <!--#SCRIPTS-->
+</body>
+</html>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="cover-art" viewBox="0 0 1200 675" role="img" aria-label="From a programming trophy through a repeatable training loop to a battery stacking machine">
+            <defs>
+              <linearGradient id="trainingSky" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e9eff3"/><stop offset="1" stop-color="#ece5d8"/></linearGradient>
+              <marker id="trainingArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10" fill="none" stroke="#477baf" stroke-width="1.5"/></marker>
+            </defs>
+            <rect width="1200" height="675" fill="url(#trainingSky)"/>
+            <g fill="none" stroke="#8c9ca4" stroke-width="1" opacity=".22"><path d="M0 145H1200M0 235H1200M0 325H1200M0 415H1200M0 505H1200M140 0V675M320 0V675M500 0V675M680 0V675M860 0V675M1040 0V675"/></g>
+            <path d="M290 340C360 340 379 268 452 268M749 402C811 402 813 474 877 474" fill="none" stroke="#477baf" stroke-width="3" stroke-dasharray="6 9"/>
+            <g fill="none" stroke="#9c7b46" stroke-width="5" stroke-linejoin="round"><path d="M145 216H276L261 270Q255 302 210 315Q165 302 158 270Z" fill="#c9ad72" fill-opacity=".24"/><path d="M146 230H115V251Q115 278 167 286M275 230H306V251Q306 278 253 286M210 315V359M178 360H242M164 376H256"/></g>
+            <g fill="none" stroke="#33465e" stroke-width="3"><rect x="127" y="410" width="170" height="90" rx="8"/><path d="M145 432L159 443L145 454M173 456H204M238 433L253 446L238 459"/></g>
+            <g fill="none" stroke="#477baf" stroke-width="3.5"><path d="M472 235C506 171 681 165 724 239" marker-end="url(#trainingArrow)"/><path d="M728 425C684 503 516 508 473 432" marker-end="url(#trainingArrow)"/></g>
+            <g fill="#f1f2ee" stroke="#33465e" stroke-width="3"><rect x="440" y="260" width="314" height="147" rx="10"/><path d="M440 290H754"/><circle cx="460" cy="275" r="3" fill="#477baf"/><circle cx="476" cy="275" r="3" fill="#b3935f"/></g>
+            <g fill="none" stroke="#477baf" stroke-width="3"><circle cx="481" cy="348" r="12"/><circle cx="548" cy="320" r="12"/><circle cx="595" cy="371" r="12"/><circle cx="663" cy="328" r="12"/><path d="M493 343L536 325M557 330L587 362M606 365L651 335M675 328H708L720 349L708 366H690"/></g>
+            <g fill="none" stroke="#33465e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M895 178H1060V247H1010L981 300L1006 351"/><circle cx="1010" cy="247" r="12" fill="#edf0ef"/><circle cx="981" cy="300" r="12" fill="#edf0ef"/><path d="M991 351H1021M997 351V369M1015 351V369M894 178V528M856 530H1092"/></g>
+            <g stroke-width="3" stroke-linejoin="round"><path d="M940 410L1026 410L1071 433L985 433Z" stroke="#477baf" fill="#7e9dbc" fill-opacity=".35"/><path d="M940 426L1026 426L1071 449L985 449Z" stroke="#9c7b46" fill="#c8ae7a" fill-opacity=".3"/><path d="M940 442L1026 442L1071 465L985 465Z" stroke="#477baf" fill="#7e9dbc" fill-opacity=".35"/><path d="M940 458L1026 458L1071 481L985 481Z" stroke="#9c7b46" fill="#c8ae7a" fill-opacity=".3"/></g>
+            <g fill="none" stroke="#477baf" stroke-width="2" opacity=".7"><path d="M914 393H929M915 390V490M914 489H929M1082 393H1096M1095 390V490M1082 489H1096"/></g>
+          </svg>

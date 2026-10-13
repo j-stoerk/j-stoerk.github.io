@@ -42,7 +42,7 @@
     const response = await fetch(service + path, { method, headers, credentials: 'omit', cache: 'no-store',
       body: body === undefined ? undefined : JSON.stringify(body), signal: AbortSignal.timeout(15000) });
     const result = await response.json();
-    if (!response.ok || result.ok !== true) throw new Error(result.message || 'Comments are temporarily unavailable. Your draft is still here.');
+    if (!response.ok || result.ok !== true) throw new Error(result.message || 'Couldn’t complete the request. Please retry.');
     return result;
   }
   function fail(error) {
@@ -83,7 +83,13 @@
       data.comments.forEach(comment => comments.set(comment.id, comment));
       cursor = data.nextCursor; more.hidden = !cursor; render(); status.textContent = '';
       connected = true;
-    } catch (error) { fail(error); }
+      refresh.textContent = 'Refresh';
+    } catch (error) {
+      // Read failures need a brief retry state, not a warning about a draft
+      // the visitor may not have started. Submission failures keep their detail.
+      status.textContent = 'Couldn’t load comments.';
+      refresh.textContent = 'Retry';
+    }
     finally { loading = false; buttons(); }
   }
   refresh.addEventListener('click', () => load()); more.addEventListener('click', () => load(true));

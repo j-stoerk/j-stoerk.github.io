@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://j-stoerk.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents</title>
+      <link>https://j-stoerk.github.io/post-agent-training-grounds.html</link>
+      <guid isPermaLink="true">https://j-stoerk.github.io/post-agent-training-grounds.html</guid>
+      <pubDate>Sun, 11 Oct 2026 12:00:00 +0200</pubDate>
+      <description>From competitive programming to battery stacking: resettable environments, verifiable rewards, model and harness improvement, and a practical design for testing long-horizon agents. With original excerpts and VERA figures.</description>
+    </item>
+    <item>
       <title>Price Wars: East vs. West Battery Production and the SynBatt Response</title>
       <link>https://j-stoerk.github.io/post-battery-price-war.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-battery-price-war.html</guid>
