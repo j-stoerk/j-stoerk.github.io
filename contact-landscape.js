@@ -1,10 +1,9 @@
-/* Pointer-lit contour tiles over one photograph, with no idle animation loop. */
+/* Pointer-lit geometric texture over one photograph, with no idle animation loop. */
 (function () {
   'use strict';
   const section = document.querySelector('.contact-landscape');
   const grid = section?.querySelector('.contact-photo-grid');
-  const photo = section?.querySelector('.contact-landscape-photo');
-  if (!grid || !photo) return;
+  if (!grid) return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let tiles = [], columns = 0, rows = 0, cell = 80, frame = 0, visible = false;
   let pointer = null, previous = null, width = 0, height = 0, startX = 0, startY = 0;
@@ -31,21 +30,13 @@
     startX = (anchor.left - rect.left) % cell - cell;
     startY = (anchor.top - rect.top) % cell - cell;
     columns = Math.ceil((width - startX) / cell); rows = Math.ceil((height - startY) / cell);
-    const scale = Math.max(width / 1600, height / 1200);
-    const imageWidth = 1600 * scale, imageHeight = 1200 * scale;
     grid.style.setProperty('--photo-cell', cell + 'px');
     grid.style.setProperty('--photo-cols', columns);
-    grid.style.setProperty('--photo-width', imageWidth + 'px');
-    grid.style.setProperty('--photo-height', imageHeight + 'px');
     grid.style.left = startX + 'px'; grid.style.top = startY + 'px';
     grid.style.width = columns * cell + 'px';
-    tiles = Array.from({ length: columns * rows }, (_, i) => {
+    tiles = Array.from({ length: columns * rows }, () => {
       const tile = document.createElement('span');
       tile.className = 'contact-photo-tile';
-      // Different orientations let a sweep build an irregular, connected field.
-      tile.style.setProperty('--pattern-turn', ((i % columns + Math.floor(i / columns) * 3) % 4 * 90) + 'deg');
-      tile.style.setProperty('--photo-x', ((width - imageWidth) / 2 - startX - i % columns * cell) + 'px');
-      tile.style.setProperty('--photo-y', ((height - imageHeight) / 2 - startY - Math.floor(i / columns) * cell) + 'px');
       return tile;
     });
     grid.replaceChildren(...tiles);

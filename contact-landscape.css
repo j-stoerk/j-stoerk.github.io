@@ -9,7 +9,6 @@
   --color-border: rgb(214 229 250 / 24%);
   --color-divider: rgb(214 229 250 / 22%);
   --color-surface: rgb(15 29 46 / 82%);
-  --contact-photo: url('images/contact-ridge.jpg');
   position: relative;
   isolation: isolate;
   width: 100vw;
@@ -53,31 +52,18 @@
   overflow: hidden;
   width: var(--photo-cell);
   height: var(--photo-cell);
-  border-right: 1px solid rgb(193 216 247 / 15%);
-  border-bottom: 1px solid rgb(193 216 247 / 15%);
-}
-.contact-photo-tile::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: var(--contact-photo);
-  background-size: var(--photo-width) var(--photo-height);
-  background-position: var(--photo-x) var(--photo-y);
-  opacity: 0;
-  transition: opacity 1.35s cubic-bezier(.22, .61, .36, 1);
+  border-right: 1px solid rgb(193 216 247 / 8%);
+  border-bottom: 1px solid rgb(193 216 247 / 8%);
 }
 .contact-photo-tile::after {
   content: '';
   position: absolute;
   inset: 0;
-  box-shadow: inset 0 0 0 1px rgb(169 203 255 / 55%);
-  background: url('images/contact-contour-tile.svg') center / 100% 100% no-repeat;
-  transform: rotate(var(--pattern-turn, 0deg));
+  background: rgb(157 187 225 / 4%) url('images/contact-tile-pattern.svg') center / 80px 80px repeat;
   opacity: 0;
   transition: opacity 1.6s ease-out;
 }
-.contact-photo-tile.is-lit::before { opacity: 1; transition-duration: 70ms; }
-.contact-photo-tile.is-lit::after { opacity: 1; transition-duration: 70ms; }
+.contact-photo-tile.is-lit::after { opacity: .65; transition-duration: 0ms; }
 .contact-landscape-content { max-width: var(--content); min-height: 680px; margin: 0 auto; }
 .contact-landscape h2 { font-size: clamp(2rem, 3.5vw, 3rem); letter-spacing: -.035em; }
 .contact-landscape .contact-context { margin-top: 32px; margin-bottom: 40px; }
@@ -105,7 +91,7 @@
   .contact-landscape-art::after { background: rgb(7 19 33 / 68%); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .contact-photo-tile::before, .contact-photo-tile::after { transition: none; }
+  .contact-photo-tile::after { transition: none; }
 }
 @media print {
   .portfolio-page .contact-landscape { width: auto; margin-inline: 0; padding: 0; background: none; --color-text: #111; --color-text-muted: #444; --color-text-faint: #555; --color-primary: #164c96; }
