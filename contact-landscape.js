@@ -1,4 +1,4 @@
-/* Pointer-lit photo tiles. One image, a bounded grid, and no idle animation loop. */
+/* Pointer-lit contour tiles over one photograph, with no idle animation loop. */
 (function () {
   'use strict';
   const section = document.querySelector('.contact-landscape');
@@ -42,6 +42,8 @@
     tiles = Array.from({ length: columns * rows }, (_, i) => {
       const tile = document.createElement('span');
       tile.className = 'contact-photo-tile';
+      // Different orientations let a sweep build an irregular, connected field.
+      tile.style.setProperty('--pattern-turn', ((i % columns + Math.floor(i / columns) * 3) % 4 * 90) + 'deg');
       tile.style.setProperty('--photo-x', ((width - imageWidth) / 2 - startX - i % columns * cell) + 'px');
       tile.style.setProperty('--photo-y', ((height - imageHeight) / 2 - startY - Math.floor(i / columns) * cell) + 'px');
       return tile;

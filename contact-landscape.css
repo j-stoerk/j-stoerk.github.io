@@ -41,6 +41,7 @@
     linear-gradient(0deg, rgb(7 17 29 / 30%), transparent 50%);
 }
 .contact-photo-grid {
+  z-index: 1;
   display: grid;
   grid-auto-rows: var(--photo-cell, 80px);
   grid-template-columns: repeat(var(--photo-cols, 1), var(--photo-cell, 80px));
@@ -49,6 +50,7 @@
 }
 .contact-photo-tile {
   position: relative;
+  overflow: hidden;
   width: var(--photo-cell);
   height: var(--photo-cell);
   border-right: 1px solid rgb(193 216 247 / 15%);
@@ -68,8 +70,9 @@
   content: '';
   position: absolute;
   inset: 0;
-  box-shadow: inset 0 0 0 1px rgb(169 203 255 / 60%);
-  background: linear-gradient(135deg, rgb(169 203 255 / 10%), transparent 65%);
+  box-shadow: inset 0 0 0 1px rgb(169 203 255 / 55%);
+  background: url('images/contact-contour-tile.svg') center / 100% 100% no-repeat;
+  transform: rotate(var(--pattern-turn, 0deg));
   opacity: 0;
   transition: opacity 1.6s ease-out;
 }
