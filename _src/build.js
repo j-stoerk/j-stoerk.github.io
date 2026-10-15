@@ -100,8 +100,9 @@ function batteryMarketData() {
 /* ---------- page configuration ---------- */
 const PAGES = {
   'index.html': {
-    nav: null, home: true, extraScripts: ['cite.js', 'experiences.js', 'bio-popovers.js', 'comment-identity.js', 'contact.js'],
-    footerExtra: null, lastmod: '2026-10-13', priority: '1.0',
+    nav: null, home: true, extraScripts: ['cite.js', 'experiences.js', 'bio-popovers.js', 'comment-identity.js', 'contact.js', 'contact-landscape.js'],
+    extraStyles: ['contact-landscape.css'],
+    footerExtra: null, lastmod: '2026-10-15', priority: '1.0',
   },
   'cv.html': {
     nav: 'cv', extraScripts: [],

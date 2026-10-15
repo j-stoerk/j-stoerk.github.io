@@ -120,6 +120,7 @@
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles.css?v=5721c9bc">
   <link rel="stylesheet" href="experiences.css?v=46a70b1b">
+  <link rel="stylesheet" href="contact-landscape.css?v=1adf5439">
   <script defer fetchpriority="high" src="experiences.js?v=1b52152d"></script>
   <script>
     (function () {
@@ -645,7 +646,12 @@
       </div>
     </section>
 
-    <section class="section" id="contact">
+    <section class="section contact-landscape" id="contact">
+      <div class="contact-landscape-art" aria-hidden="true">
+        <img draggable="false" class="contact-landscape-photo" src="images/contact-ridge.jpg" alt="" width="1600" height="1200" loading="lazy" decoding="async">
+        <div class="contact-photo-grid"></div>
+      </div>
+      <div class="contact-landscape-content">
       <h2>Contact</h2>
       <div class="contact-context">
         <div>
@@ -688,6 +694,7 @@
   </aside>
 
       </div>
+      </div>
     </section>
 
   </main>
@@ -707,6 +714,7 @@
   <script defer src="bio-popovers.js?v=852f18fa"></script>
   <script defer src="comment-identity.js?v=dddce228"></script>
   <script defer src="contact.js?v=d020bf62"></script>
+  <script defer src="contact-landscape.js?v=147d5737"></script>
   <script>
     window.addEventListener('load', function () {
       var s = document.createElement('script');

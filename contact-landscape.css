@@ -1,0 +1,111 @@
+/* A full-width photographic contact section; the photograph stays one panorama. */
+.portfolio-page { overflow-x: clip; }
+.portfolio-page .contact-landscape {
+  --color-text: #f3f6fc;
+  --color-text-muted: #d0dbea;
+  --color-text-faint: #adbed3;
+  --color-primary: #a9cbff;
+  --color-primary-highlight: rgb(169 203 255 / 13%);
+  --color-border: rgb(214 229 250 / 24%);
+  --color-divider: rgb(214 229 250 / 22%);
+  --color-surface: rgb(15 29 46 / 82%);
+  --contact-photo: url('images/contact-ridge.jpg');
+  position: relative;
+  isolation: isolate;
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  padding: clamp(64px, 7vw, 112px) 20px;
+  border: 0;
+  background: #111f2d;
+  color: var(--color-text);
+  overflow: clip;
+}
+.contact-landscape-art, .contact-landscape-photo, .contact-photo-grid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.contact-landscape-art { z-index: -1; }
+.contact-landscape-photo {
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(.6) brightness(.75);
+}
+.contact-landscape-art::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgb(7 17 29 / 81%), rgb(8 21 37 / 65%) 58%, rgb(8 21 37 / 60%)),
+    linear-gradient(0deg, rgb(7 17 29 / 30%), transparent 50%);
+}
+.contact-photo-grid {
+  display: grid;
+  grid-auto-rows: var(--photo-cell, 80px);
+  grid-template-columns: repeat(var(--photo-cols, 1), var(--photo-cell, 80px));
+  height: auto;
+  bottom: auto;
+}
+.contact-photo-tile {
+  position: relative;
+  width: var(--photo-cell);
+  height: var(--photo-cell);
+  border-right: 1px solid rgb(193 216 247 / 15%);
+  border-bottom: 1px solid rgb(193 216 247 / 15%);
+}
+.contact-photo-tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--contact-photo);
+  background-size: var(--photo-width) var(--photo-height);
+  background-position: var(--photo-x) var(--photo-y);
+  opacity: 0;
+  transition: opacity 1.35s cubic-bezier(.22, .61, .36, 1);
+}
+.contact-photo-tile::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgb(169 203 255 / 60%);
+  background: linear-gradient(135deg, rgb(169 203 255 / 10%), transparent 65%);
+  opacity: 0;
+  transition: opacity 1.6s ease-out;
+}
+.contact-photo-tile.is-lit::before { opacity: 1; transition-duration: 70ms; }
+.contact-photo-tile.is-lit::after { opacity: 1; transition-duration: 70ms; }
+.contact-landscape-content { max-width: var(--content); min-height: 680px; margin: 0 auto; }
+.contact-landscape h2 { font-size: clamp(2rem, 3.5vw, 3rem); letter-spacing: -.035em; }
+.contact-landscape .contact-context { margin-top: 32px; margin-bottom: 40px; }
+.contact-landscape .contact-links { font-size: var(--text-sm); line-height: 1.9; }
+.contact-landscape .contact-links a, .contact-landscape .contact-route a { text-decoration-color: rgb(169 203 255 / 50%); }
+.contact-landscape a:hover { color: #fff; }
+.contact-landscape .contact-message { padding-top: 24px; }
+.contact-landscape .contact-message input, .contact-landscape .contact-message textarea { background: rgb(12 26 43 / 82%); }
+.contact-landscape .form-submit { color: #0d2340; background: #b5d2ff; border-color: #b5d2ff; }
+.contact-landscape .form-submit:hover { background: #d5e5ff; border-color: #d5e5ff; }
+.contact-landscape .message-close { color: var(--color-text-muted); }
+@media (min-width: 1280px) and (min-height: 600px) {
+  .chapter-nav:has(a[href="#contact"][aria-current="location"]) {
+    --color-text-muted: #cdd8e7;
+    --color-text-faint: #a5b6cc;
+    --color-primary: #b5d2ff;
+    --color-primary-highlight: rgb(169 203 255 / 15%);
+  }
+}
+@media (max-width: 820px) {
+  .portfolio-page .contact-landscape { padding-block: 56px; }
+  .contact-landscape-content { min-height: 0; }
+  .contact-landscape .contact-message { padding-top: 40px; }
+  .contact-landscape .contact-context { margin-block: 24px 32px; }
+  .contact-landscape-art::after { background: rgb(7 19 33 / 68%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .contact-photo-tile::before, .contact-photo-tile::after { transition: none; }
+}
+@media print {
+  .portfolio-page .contact-landscape { width: auto; margin-inline: 0; padding: 0; background: none; --color-text: #111; --color-text-muted: #444; --color-text-faint: #555; --color-primary: #164c96; }
+  .contact-landscape-content { min-height: 0; }
+  .contact-landscape-art { display: none; }
+}
