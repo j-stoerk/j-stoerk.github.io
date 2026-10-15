@@ -1,4 +1,4 @@
-/* Pointer-lit geometric texture over one photograph, with no idle animation loop. */
+/* Pointer-lit crops of one aperiodic hat tiling, with no idle animation loop. */
 (function () {
   'use strict';
   const section = document.querySelector('.contact-landscape');
@@ -32,11 +32,15 @@
     columns = Math.ceil((width - startX) / cell); rows = Math.ceil((height - startY) / cell);
     grid.style.setProperty('--photo-cell', cell + 'px');
     grid.style.setProperty('--photo-cols', columns);
+    // All squares reveal the same coordinate field; the hat patch never repeats.
+    grid.style.setProperty('--hat-size', Math.max(1600, width, height) + 'px');
     grid.style.left = startX + 'px'; grid.style.top = startY + 'px';
     grid.style.width = columns * cell + 'px';
-    tiles = Array.from({ length: columns * rows }, () => {
+    tiles = Array.from({ length: columns * rows }, (_, i) => {
       const tile = document.createElement('span');
       tile.className = 'contact-photo-tile';
+      tile.style.setProperty('--hat-x', (-startX - i % columns * cell) + 'px');
+      tile.style.setProperty('--hat-y', (-startY - Math.floor(i / columns) * cell) + 'px');
       return tile;
     });
     grid.replaceChildren(...tiles);

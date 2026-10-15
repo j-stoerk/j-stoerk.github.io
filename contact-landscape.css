@@ -59,7 +59,10 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: rgb(157 187 225 / 4%) url('images/contact-tile-pattern.svg') center / 80px 80px repeat;
+  background-image: url('images/contact-hat-pattern.svg');
+  background-size: var(--hat-size) var(--hat-size);
+  background-position: var(--hat-x) var(--hat-y);
+  background-repeat: no-repeat;
   opacity: 0;
   transition: opacity 1.6s ease-out;
 }

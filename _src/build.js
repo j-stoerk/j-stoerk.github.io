@@ -15,6 +15,7 @@ const crypto = require('crypto');
 const SRC = __dirname;
 const ROOT = path.join(__dirname, '..');
 const SITE = 'https://j-stoerk.github.io';
+require('./generate-contact-hats')();
 
 /* Content-hash cache-buster: append ?v=<hash> to a runtime asset so a
    changed file is refetched instead of served stale from browser cache. */
