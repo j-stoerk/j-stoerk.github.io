@@ -103,7 +103,7 @@ const PAGES = {
   'index.html': {
     nav: null, home: true, extraScripts: ['cite.js', 'experiences.js', 'bio-popovers.js', 'comment-identity.js', 'contact.js', 'contact-landscape.js'],
     extraStyles: ['contact-landscape.css'],
-    footerExtra: null, lastmod: '2026-10-15', priority: '1.0',
+    footerExtra: null, lastmod: '2026-10-26', priority: '1.0',
   },
   'cv.html': {
     nav: 'cv', extraScripts: [],
@@ -113,7 +113,7 @@ const PAGES = {
   'blog.html': {
     nav: 'blog', extraScripts: ['blog-view.js'],
     footerExtra: '<a href="index.html">Home</a>',
-    lastmod: '2026-10-13', priority: '0.8',
+    lastmod: '2026-10-26', priority: '0.8',
   },
   /* Served by GitHub Pages for any missing URL; noindex, not in sitemap. */
   '404.html': {

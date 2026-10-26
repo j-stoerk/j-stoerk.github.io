@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChargeWise: Before You Upgrade the Grid Connection · Julius Störk</title>
+  <meta name="description" content="Building ChargeWise AI: a four-van charging example, an 8.89 kW energy bound, independent schedule checks, and what better price forecasts actually buy." />
+  <link rel="canonical" href="https://j-stoerk.github.io/post-chargewise.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
+  <meta property="og:type" content="article" /><meta property="og:site_name" content="Julius Störk" />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-chargewise.html" />
+  <meta property="og:title" content="ChargeWise: Before You Upgrade the Grid Connection" />
+  <meta property="og:description" content="Four vans need 84 kWh. Two 11 kW ports can meet their departures on an 8.89 kW shared connection in the synthetic example. Explore the demo and the calculation." />
+  <meta property="og:image" content="https://j-stoerk.github.io/images/social-chargewise.png" />
+  <meta property="og:image:alt" content="Four vans, two charging ports, and a flatter shared-power curve" />
+  <meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
+  <meta property="article:published_time" content="2026-10-25" /><meta property="article:modified_time" content="2026-10-26" />
+  <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:image" content="https://j-stoerk.github.io/images/social-chargewise.png" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"ChargeWise: Before You Upgrade the Grid Connection","description":"Depot charging under physical constraints: optimization, independent checks, and a small return from better price forecasts.","datePublished":"2026-10-25","dateModified":"2026-10-26","url":"https://j-stoerk.github.io/post-chargewise.html","image":"https://j-stoerk.github.io/images/social-chargewise.png","author":{"@type":"Person","name":"Julius Störk","url":"https://j-stoerk.github.io/"}}</script>
+  <!--#HEAD_ASSETS-->
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <!--#TOPBAR-->
+  <main id="main" class="content">
+    <!--#POST_BACKGROUND-->
+    <a class="back-link" href="blog.html">All posts</a>
+    <article class="post" id="chargewise">
+      <div class="post-cover media-cover"><div class="media">
+        <svg class="cover-art" viewBox="0 0 1200 675" role="img" aria-label="Schematic of four vans, two charging ports, and a flatter shared-power curve">
+          <defs><linearGradient id="chargingPaper" x2="1" y2="1"><stop stop-color="#e8eff4"/><stop offset="1" stop-color="#ede9dd"/></linearGradient></defs>
+          <rect width="1200" height="675" fill="url(#chargingPaper)"/>
+          <g stroke="#9aa8b6" opacity=".2"><path d="M0 135H1200M0 270H1200M0 405H1200M0 540H1200M150 0V675M330 0V675M510 0V675M690 0V675M870 0V675M1050 0V675"/></g>
+          <g fill="#eff3f3" stroke="#526c85" stroke-width="3">
+            <path d="M105 232V169H224L260 197V232Z"/><path d="M105 392V329H224L260 357V392Z"/>
+            <path d="M394 232V169H513L549 197V232Z"/><path d="M394 392V329H513L549 357V392Z"/>
+            <circle cx="137" cy="235" r="15"/><circle cx="229" cy="235" r="15"/><circle cx="137" cy="395" r="15"/><circle cx="229" cy="395" r="15"/>
+            <circle cx="426" cy="235" r="15"/><circle cx="518" cy="235" r="15"/><circle cx="426" cy="395" r="15"/><circle cx="518" cy="395" r="15"/>
+          </g>
+          <g fill="none" stroke="#477bb7" stroke-width="3"><rect x="269" y="270" width="51" height="87" rx="5"/><rect x="558" y="270" width="51" height="87" rx="5"/><path d="M295 357V487H735M583 357V487M260 202H277Q295 202 295 244V270M549 202H566Q583 202 583 244V270M260 361H269M549 361H558"/></g>
+          <g fill="none" stroke="#8a9ba9" stroke-width="2"><path d="M735 190V487H1105"/><path d="M735 240H1105M735 365H1105" stroke-dasharray="4 7"/></g>
+          <path d="M746 477V240H822V477H926V240H1027V477" fill="none" stroke="#b5894f" stroke-width="3" stroke-dasharray="7 6"/>
+          <path d="M746 477V365H1095" fill="none" stroke="#477bb7" stroke-width="5"/>
+          <g fill="#536a83" font-family="system-ui,sans-serif" font-size="19"><text x="105" y="130">Four vans · two plugs</text><text x="1130" y="247" text-anchor="end">22 kW</text><text x="1130" y="352" text-anchor="end">8.89 kW</text><text x="105" y="557">Same energy targets, a lower site peak</text></g>
+        </svg>
+      </div></div>
+      <header class="post-header">
+        <p class="post-meta"><time datetime="2026-10-25">25 October 2026</time> · Energy &amp; optimization · 8 min read</p>
+        <h1>ChargeWise: Before You Upgrade the Grid Connection</h1>
+        <p class="post-update">Updated 26 October 2026 with the forecasting follow-up</p>
+      </header>
+      <!--#POST_CONTEXT-->
+      <div class="post-project-links">
+        <a class="btn btn-primary" href="chargewise/">Open the interactive demo ↗</a>
+        <a href="chargewise/downloads/ChargeWise_Test_Build.zip" download>Download the editable planner</a>
+        <a href="https://github.com/j-stoerk/nebiusxnvidia_hackathon">Source code ↗</a>
+      </div>
+      <div class="prose">
+        <p>Two 11 kW chargers do not necessarily require a 22 kW grid connection. The answer depends on which vehicles are plugged in, how much energy they need, and when they leave.</p>
+        <p>For the <strong>Nebius × NVIDIA hackathon</strong>, I built ChargeWise AI with <strong>Muhammad Talha Toqeer and Umar Khan</strong>. A fleet manager enters the vehicles, departure times, energy requirements, and available hardware. The planner compares schedules and works out how much shared site power the configured fleet needs. <sup class="cite">[<a href="#ref-1">1</a>]</sup></p>
+        <p>The hosted demo contains a capacity explorer and an interactive architecture film. The downloadable application includes the editable React dashboard, FastAPI backend, and OR-Tools optimizer. It runs locally without an inference API key. The example is synthetic and controls no physical chargers.</p>
+
+        <h2>The plug stays occupied after charging ends</h2>
+        <p>A van can finish charging at 09:00 and remain parked until noon. Unless someone moves it, that charger cannot serve another vehicle during those three hours. A scheduler that ignores occupancy can produce an attractive power curve that the depot cannot follow.</p>
+        <p>ChargeWise checks connector compatibility, physical connection and availability, charger ratings, vehicle power limits, charging efficiency, and the site's combined load. It also uses a conservative state-of-charge-dependent taper envelope. That envelope makes planning tractable; a particular vehicle's measured charging curve would describe its battery more closely.</p>
+        <p>The three greedy baselines use the same physical constraints as the optimized schedule. First-come-first-served follows arrival order; earliest-deadline-first prioritises departures; least-laxity-first prioritises the vehicles with least remaining scheduling slack.</p>
+
+        <h2>Why 8.89 kW is enough for this fleet</h2>
+        <p>The four-van example has two fixed 11 kW ports and requires <strong>84 battery kWh</strong> over the day. All three baselines meet every energy target and reach a <strong>22 kW</strong> peak. The optimized schedule also meets every target, at <strong>8.89 kW</strong>. The published fixture records an optimal solver result and independent validation. <sup class="cite">[<a href="#ref-2">2</a>]</sup></p>
+        <p>The afternoon pair needs 48 battery kWh in six hours. At 90% charging efficiency, that requires 53.33 grid kWh. Even a perfectly flat schedule therefore needs at least</p>
+        $$P_{\min}\geq\frac{48\ \mathrm{kWh}}{6\ \mathrm{h}\times0.90}=8.888\ldots\ \mathrm{kW}.$$
+        <p>A lower limit cannot supply enough energy in that window. The optimizer finds a schedule attaining the bound while meeting the configured constraints. The peak is about <strong>60% lower</strong> than the greedy schedules. Both the infeasibility argument below the bound and a feasible schedule at the bound are available in this example.</p>
+      </div>
+      <figure class="post-interactive">
+        <div class="capacity-explorer">
+          <h3>Try the six-hour energy bound</h3>
+          <label for="capacity-limit">Shared connection limit <output id="capacity-power" for="capacity-limit">8.89 kW</output></label>
+          <input id="capacity-limit" type="range" min="4" max="22" step="0.01" value="8.89" />
+          <div class="capacity-track" aria-hidden="true"><span class="capacity-track-fill" id="capacity-fill"></span></div>
+          <div class="capacity-track-labels"><span>0 kW</span><span>Threshold: 8.89 kW</span><span>22 kW</span></div>
+          <p class="capacity-result" id="capacity-result" aria-live="polite">At 8.89 kW, six hours and 90% efficiency provide approximately 48 battery kWh.</p>
+        </div>
+        <figcaption>Energy available to the afternoon pair = connection limit × six hours × 0.90. This explorer checks the energy bound, not the complete charging schedule. <a href="chargewise/#explore">Open the project demo ↗</a></figcaption>
+      </figure>
+      <div class="prose">
+        <h2>Cheap electricity can set an expensive peak</h2>
+        <p>If every van follows the same low-price interval, the combined load can create a new demand peak. An energy-only objective misses that part of the bill.</p>
+        <p>Under the illustrative tariff, optimization raises the energy component from about <strong>€21.47 to €24.09</strong>. The smaller peak reduces the demand component enough that the combined scenario cost falls from <strong>€355.87 to €159.20</strong>. These are synthetic prices and a €15.20/kW/month demand tariff applied to the example's partial billing period with a zero prior peak. They are not observed fleet savings or an annual return.</p>
+        <p>A previous peak changes the decision too. Once the billing period has already reached a particular demand level, pushing today's load below that level cannot reduce the established demand charge. The planner needs that history as well as the upcoming prices.</p>
+
+        <h2>Nemotron requests a replan; the solver builds it</h2>
+        <p>NVIDIA Nemotron, accessed through Nebius Token Factory, connects an operator's questions to application tools. It can retrieve schedule facts or request an authorised simulated charger outage. The tool changes equipment availability, OR-Tools computes a new schedule, and a separate validator checks the allocations before the assistant explains the result.</p>
+        <p>In the verified CH-01 morning-outage example, the optimized peak rises from <strong>8.89 to 10 kW</strong> and every vehicle still receives its requested energy. The architecture film below demonstrates a separate afternoon outage: CH-02 is unavailable from 16:00 to 18:00, with delivery before noon frozen. In that recorded schedule, redistributing the remaining allocations retains the 8.89 kW peak.</p>
+        <p>Freezing delivered energy is essential. A replan after noon must preserve what happened in the morning. Otherwise an optimizer could appear to recover by changing a past allocation that the depot can no longer execute.</p>
+      </div>
+      <figure class="post-interactive">
+        <iframe src="chargewise/film.html" title="ChargeWise architecture and replanning walkthrough with playback and scrubbing controls" width="1600" height="1020" loading="lazy" data-autoheight></iframe>
+        <figcaption>Interactive architecture film. Play or scrub through input validation, scheduling, independent checks, the Nemotron tool loop, and replanning. The film uses recorded synthetic results; it does not call an LLM or run the optimizer. <a href="chargewise/film.html" target="_blank" rel="noopener">Open film ↗</a></figcaption>
+      </figure>
+      <div class="prose">
+        <h2>Better forecasts saved a quarter of a cent</h2>
+        <p>In a follow-up run on <strong>26 October</strong>, pretrained time-series models forecast 37 locally held-out days of historical German electricity prices from August–September 2019. Chronos-Bolt Small reduced price mean absolute error by <strong>29.2%</strong> against ridge regression. TimesFM also improved forecast accuracy. <sup class="cite">[<a href="#ref-3">3</a>]</sup></p>
+        <div class="post-data-table" role="region" tabindex="0" aria-label="Price forecasting and charging-cost comparison">
+          <table><caption>Four-van replay means. Scenario costs use the realised held-out prices; the optimizer plans against each forecast.</caption><thead><tr><th>Forecast</th><th>Price MAE<br>€/MWh</th><th>Energy only<br>€/scenario-day</th><th>With demand<br>€/scenario-day</th></tr></thead><tbody>
+            <tr><td>Ridge</td><td>7.042</td><td>3.3353</td><td>138.9116</td></tr>
+            <tr><td>TimesFM 2.5 200M</td><td>5.720</td><td>3.3377</td><td>138.9092</td></tr>
+            <tr><td>Chronos-Bolt Small 48M</td><td>4.988</td><td>3.3395</td><td>138.9095</td></tr>
+            <tr><td>Perfect-price oracle</td><td>n/a</td><td>3.3141</td><td>138.9059</td></tr>
+          </tbody></table>
+        </div>
+        <p>TimesFM's demand-inclusive improvement over ridge was about <strong>€0.0025 per scenario-day</strong>: a quarter of a euro cent. Ridge remained best among the forecasts for energy-only cost. All 518 paired scenario/model/tariff solves passed independent checks and met the energy targets.</p>
+        <p>The models can improve prices during hours when no van is connected, or distinguish between cheap hours that the timetable makes interchangeable. A demand peak can also dominate the small differences in energy cost. Lower forecasting error therefore need not yield a useful change in the charging decision.</p>
+        <p>This was an exploratory replay of old data, with unknown overlap between the evaluation period and model pretraining. Retail prices and the depot's other electrical loads were absent. Forecasts were evaluated by passing them through the physical optimizer and costing the resulting schedule against realised prices. Already published day-ahead prices should be used directly; prediction is useful only where information is still missing.</p>
+
+        <h2>Run the planner</h2>
+        <p>The <a href="chargewise/">hosted ChargeWise demo</a> includes the architecture film, capacity slider, and project materials. For editable vehicles, charger configurations, tariff comparisons, capacity checks, and simulated outages, download the portable build. <sup class="cite">[<a href="#ref-4">4</a>]</sup></p>
+        <p>With Python 3.11+ and <code>uv</code> installed, extract it and run:</p>
+        <pre><code>uv run --locked python scripts/run_demo.py</code></pre>
+        <p>Open <code>http://127.0.0.1:8000</code>. The frontend is prebuilt, so Node.js is unnecessary. Planning works without an inference API key. Without a configured provider, the assistant shows a labelled local summary of computed results; that mode is not Nemotron inference.</p>
+      </div>
+      <section class="post-references" aria-label="References">
+        <h2>Code, data, and demo</h2>
+        <ol>
+          <li id="ref-1"><a href="https://github.com/j-stoerk/nebiusxnvidia_hackathon">ChargeWise AI source repository</a>. Project by Julius Störk, Muhammad Talha Toqeer, and Umar Khan for the Nebius × NVIDIA hackathon; MIT licence.</li>
+          <li id="ref-2"><a href="chargewise/data/comparison.json">Validated synthetic comparison results</a> and <a href="chargewise/data/manifest.json">fixture manifest and assumptions</a>, from the 25 October portable build. The four-van example is a partial-period scenario.</li>
+          <li id="ref-3"><a href="https://github.com/j-stoerk/nebiusxnvidia_hackathon/blob/main/docs/forecast-models.md">Pretrained models: measured forecasting and decision results</a>, 26 October 2026. Models, 37-day protocol, costs, and pretraining-overlap limitations.</li>
+          <li id="ref-4"><a href="chargewise/">Hosted interactive demo</a> and <a href="chargewise/downloads/ChargeWise_Test_Build.zip" download>portable editable application</a>. Includes its licence, locked dependencies, example inputs, and local run instructions.</li>
+        </ol>
+      </section>
+    </article>
+    <nav class="post-pager" aria-label="More posts">
+      <a href="post-ai-tipping.html"><span class="eyebrow">Previous post</span><span class="post-pager-title">When Do AI Outputs Tip?</span></a>
+    </nav>
+  </main>
+  <!--#FOOTER-->
+  <!--#SCRIPTS-->
+</body>
+</html>

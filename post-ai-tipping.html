@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>When Do AI Outputs Tip? · Julius Störk</title>
+  <meta name="description" content="Attention-head interventions, an exact response-clock construction, and experiments on what a language model carries from one answer into the next." />
+  <link rel="canonical" href="https://j-stoerk.github.io/post-ai-tipping.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Julius Störk" />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-ai-tipping.html" />
+  <meta property="og:title" content="When Do AI Outputs Tip?" />
+  <meta property="og:description" content="The current answer can hide large changes in a model's internal computation. Two interactive figures separate measured head interventions from a mathematical error clock." />
+  <meta property="og:image" content="https://j-stoerk.github.io/images/social-ai-tipping.png" />
+  <meta property="og:image:alt" content="Schematic of an attention-head intervention and histories sharing an initial readout" />
+  <meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
+  <meta property="article:published_time" content="2026-10-18" />
+  <meta property="article:modified_time" content="2026-10-26" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/images/social-ai-tipping.png" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"When Do AI Outputs Tip?","description":"Attention-head interventions, response clocks, and the state carried between language-model answers.","datePublished":"2026-10-18","dateModified":"2026-10-26","url":"https://j-stoerk.github.io/post-ai-tipping.html","image":"https://j-stoerk.github.io/images/social-ai-tipping.png","author":{"@type":"Person","name":"Julius Störk","url":"https://j-stoerk.github.io/"}}</script>
+  <meta name="theme-color" content="#fdfdfc">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Applied before first paint so the theme never flashes. -->
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('theme'); } catch (e) { }
+      if (!t) t = 'light';   // light is the standard; dark only on explicit toggle
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'dark' ? '#101214' : '#fdfdfc');
+    })();
+  </script>
+
+  <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=5721c9bc">
+  <link rel="stylesheet" href="experiences.css?v=46a70b1b">
+  <link rel="stylesheet" href="katex/katex.min.css">
+  <link rel="stylesheet" href="post-figures.css?v=b33b42e7">
+</head>
+<body>
+  <a draggable="false" href="#main" class="skip-link">Skip to main content</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a draggable="false" class="site-title" href="index.html?nav=fe6093f0">Home</a>
+      <button draggable="false" class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+        <span class="nav-toggle-lines" aria-hidden="true"></span>
+        <span class="sr-only">Open navigation</span>
+      </button>
+      <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
+        <a draggable="false" href="index.html?nav=fe6093f0#publications" data-nav-label="Publications">Publications</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#software" data-nav-label="Code">Code</a>
+        <a draggable="false" class="current" href="blog.html?nav=fe6093f0" data-nav-label="Blog" aria-current="page">Blog</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#experience" data-nav-label="Experience">Experience</a>
+        <a draggable="false" href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#contact" data-nav-label="Contact">Contact</a>
+        <button draggable="false" class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="content">
+    <div class="page-art page-art-post" aria-hidden="true" style="--post-art-light:url('images/blog-backgrounds/post-ai-tipping-light.svg?v=33963ded');--post-art-dark:url('images/blog-backgrounds/post-ai-tipping-dark.svg?v=ffeb5115')"></div>
+    <a draggable="false" class="back-link" href="blog.html?nav=fe6093f0">All posts</a>
+    <article class="post" id="ai-tipping">
+      <div class="post-cover media-cover"><div class="media">
+        <svg class="cover-art" viewBox="0 0 1200 675" role="img" aria-label="Schematic of a patched attention head and two histories with the same initial readout">
+          <defs><linearGradient id="tippingPaper" x2="1" y2="1"><stop stop-color="#eaf0f5"/><stop offset="1" stop-color="#eee9de"/></linearGradient></defs>
+          <rect width="1200" height="675" fill="url(#tippingPaper)"/>
+          <g fill="none" stroke="#9aa8b6" opacity=".2"><path d="M0 135H1200M0 270H1200M0 405H1200M0 540H1200M150 0V675M330 0V675M510 0V675M690 0V675M870 0V675M1050 0V675"/></g>
+          <g fill="#f4f5f1" stroke="#536a83" stroke-width="2"><rect x="100" y="200" width="235" height="100" rx="8"/><rect x="100" y="370" width="235" height="100" rx="8"/></g>
+          <g fill="none" stroke-width="9" stroke-linecap="round"><path stroke="#a15d61" d="M135 237H213M255 407H302"/><path stroke="#477bb7" d="M255 237H302M135 407H213"/></g>
+          <g fill="none" stroke="#536a83" stroke-width="2"><path d="M335 250C400 250 400 335 460 335M335 420C400 420 400 335 460 335"/><circle cx="522" cy="335" r="62"/><path d="M584 335H675"/></g>
+          <g fill="#eaf0f5" stroke="#477bb7" stroke-width="2"><circle cx="493" cy="313" r="7"/><circle cx="548" cy="303" r="7"/><circle cx="554" cy="354" r="7"/><circle cx="505" cy="369" r="7"/></g>
+          <path d="M498 317L543 306L550 348L510 365Z" fill="none" stroke="#477bb7" stroke-width="2"/>
+          <g fill="none" stroke="#6b7f91" stroke-width="2"><path d="M715 190V475H1100"/><path d="M715 370H1100" stroke-dasharray="4 7"/></g>
+          <path d="M715 370C780 370 805 366 849 344S938 235 1090 220" fill="none" stroke="#477bb7" stroke-width="4"/>
+          <path d="M715 370C850 370 930 360 1090 328" fill="none" stroke="#b5894f" stroke-width="4"/>
+          <circle cx="715" cy="370" r="8" fill="#f5f5ef" stroke="#536a83" stroke-width="2"/>
+          <g fill="#536a83" font-family="system-ui,sans-serif" font-size="18"><text x="100" y="167">Two histories</text><text x="465" y="445">Head message</text><text x="752" y="521">Same readout, different state</text></g>
+        </svg>
+      </div></div>
+      <header class="post-header">
+        <p class="post-meta"><time datetime="2026-10-18">18 October 2026</time> · AI research · 10 min read</p>
+        <h1>When Do AI Outputs Tip?</h1>
+        <p class="post-update">Updated 26 October 2026</p>
+      </header>
+      <p class="post-context"><span>Why this matters</span>The probability of a correct answer may omit information needed to predict later errors or choose when to intervene.</p>
+      <div class="prose">
+        <p>Reversing “red or blue” to “blue or red” moved a model's probability of answering red by <strong>65.3 percentage points</strong> on average. Its mean probability of an incorrect answer moved by only 1.1 points.</p>
+        <p>Across sixteen matched pairs, the shift toward blue helped when blue was correct and hurt when red was correct. The two effects largely cancelled in the average error. The probe was also too unreliable to study the loss of previously reliable behaviour, so I moved to a separately qualified retrieval task. Option-order sensitivity and forgetting need different measurements.</p>
+        <p>The broader project asks what a model carries into its next answer. Can a small description of its computation predict several future answers and the effect of a correction? Neil F. Johnson and Frank Y. Huo's <a draggable="false" href="https://arxiv.org/abs/2602.14370">Competition for attention predicts good-to-bad tipping in AI</a> gave me a starting model: competing representations can change which output dominates as a conversation develops. <sup class="cite">[<a draggable="false" href="#ref-1">1</a>]</sup></p>
+
+        <h2>Swapping one head's message</h2>
+        <p>Qwen2.5-0.5B-Instruct read a source fact and answered a factual question. I kept an incorrect earlier answer in the visible conversation, then replaced one attention head's internal message with the message from a matched conversation containing the correct earlier answer.</p>
+        <p>On <strong>sixteen held-out prompts</strong>, mean error probability fell from <strong>3.65% to 1.33%</strong>. The selected head was layer 16, head 7, using zero-based indexing; selection used separate discovery prompts. These probabilities came from a decoder restricted to two answer tokens. They are conditional model probabilities, not error frequencies from sampled conversations. <sup class="cite">[<a draggable="false" href="#ref-2">2</a>]</sup></p>
+        <p>The message has two components worth separating: the values carrying information and the attention weights deciding how to combine them. Replacing only the value content, while keeping the recipient's attention weights, reduced mean error to <strong>1.26%</strong>. Replacing only the attention weights gave <strong>3.70%</strong>. Content transfer reproduced the average rescue in this experiment; routing transfer did not.</p>
+      </div>
+      <figure class="post-interactive">
+        <iframe src="figures/ai-tipping/head-content-vs-routing.html" title="Measured attention-head interventions across sixteen held-out prompts" width="900" height="950" loading="lazy" data-autoheight></iframe>
+        <figcaption>Measured probabilities. Compare all three interventions, then filter by source colour and wording. Each line is one prompt. <a draggable="false" href="figures/ai-tipping/head-content-vs-routing.html?nav=fe6093f0" target="_blank" rel="noopener">Open figure ↗</a> · <a draggable="false" href="figures/ai-tipping/head-interventions.csv" download>Download data</a></figcaption>
+      </figure>
+      <div class="prose">
+        <p>The location of the edit also matters. In this cached decoder, temporarily patching the final layer's attention output can change the current logits without changing stored keys or values. If the same next token is forced in both runs, their later computations receive the same cache. An edit to stored values can persist because later queries can read those values again.</p>
+
+        <h2>An attention mass for the response clock</h2>
+        <p>My work on continual learning and physical modelling keeps running into a related problem: a variable can describe the present accurately while omitting information needed to update it. The fixed-prototype binary attention model gives a small example.</p>
+        <p>Let <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi></mrow><annotation encoding="application/x-tex">F</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span></span></span></span> be the current score margin for the incorrect answer, so its probability is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>σ</mi><mo stretchy="false">(</mo><mi>F</mi><mi mathvariant="normal">/</mi><mi>τ</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\sigma(F/\tau)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="mclose">)</span></span></span></span>, where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi></mrow><annotation encoding="application/x-tex">\tau</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span></span></span></span> is the decoder temperature. The margin fixes the next-answer probability. The effective attention mass <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ν</mi></mrow><annotation encoding="application/x-tex">\nu</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.06366em;">ν</span></span></span></span> controls how strongly another correct output changes that margin. After <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi></mrow><annotation encoding="application/x-tex">j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span></span> additional correct outputs,</p>
+        <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>F</mi><mi>j</mi></msub><mo>=</mo><mfrac><mrow><mi>ν</mi><mi>F</mi><mo>+</mo><mi>j</mi><mi>β</mi></mrow><mrow><mi>ν</mi><mo>+</mo><mi>j</mi></mrow></mfrac><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">F_j = \frac{\nu F + j\beta}{\nu + j}.</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.2519em;vertical-align:-0.8804em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.06366em;">ν</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.06366em;">ν</span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mord mathnormal" style="margin-right:0.05278em;">β</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.8804em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord">.</span></span></span></span></span>
+        <p>Here <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ν</mi></mrow><annotation encoding="application/x-tex">\nu</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.06366em;">ν</span></span></span></span> measures existing attention weight in units of one additional correct output. The fixed output prototypes determine the limiting margin <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>β</mi></mrow><annotation encoding="application/x-tex">\beta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05278em;">β</span></span></span></span>. With <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ν</mi><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">\nu=4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.06366em;">ν</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span>, the next correct output receives one fifth of the updated attention mass. With <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ν</mi><mo>=</mo><mn>40</mn></mrow><annotation encoding="application/x-tex">\nu=40</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.06366em;">ν</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">40</span></span></span></span>, it receives one forty-first.</p>
+        <p>Two histories can therefore start with the same error probability and evolve differently. At future answer <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>j</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">j+1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.854em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.05724em;">j</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>, the hazard is conditional on the preceding answers being correct. Multiplying the survival probabilities gives the chance of a first error within <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi></mrow><annotation encoding="application/x-tex">H</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span></span></span></span> answers:</p>
+        <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>Pr</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>T</mi><mo>≤</mo><mi>H</mi><mo stretchy="false">)</mo><mo>=</mo><mn>1</mn><mo>−</mo><munderover><mo>∏</mo><mrow><mi>j</mi><mo>=</mo><mn>0</mn></mrow><mrow><mi>H</mi><mo>−</mo><mn>1</mn></mrow></munderover><mrow><mo fence="true">[</mo><mn>1</mn><mo>−</mo><mi>σ</mi><mrow><mo fence="true">(</mo><msub><mi>F</mi><mi>j</mi></msub><mi mathvariant="normal">/</mi><mi>τ</mi><mo fence="true">)</mo></mrow><mo fence="true">]</mo></mrow><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">\Pr(T\leq H)=1-\prod_{j=0}^{H-1}\left[1-\sigma\left(F_j/\tau\right)\right].</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">Pr</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:3.2421em;vertical-align:-1.4138em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8283em;"><span style="top:-1.8723em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span><span class="mrel mtight">=</span><span class="mord mtight">0</span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∏</span></span></span><span style="top:-4.3em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.08125em;">H</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.4138em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">[</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mclose delimcenter" style="top:0em;">]</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">.</span></span></span></span></span>
+        <p>This is an exact construction for the stated simplified head, with fixed prototypes and no positions, residual path, MLP, or layer normalisation. It is not a fitted law for Qwen. The neural experiments still have to establish which parts survive the additional computation.</p>
+      </div>
+      <figure class="post-interactive">
+        <iframe src="figures/ai-tipping/attention-memory-clock.html" title="Mathematical construction: equal current error probabilities with different future error clocks" width="900" height="1120" loading="lazy" data-autoheight></iframe>
+        <figcaption><strong>Mathematical construction.</strong> Change the two attention masses while holding the current margin fixed. Both histories begin at the same risk; their conditional hazards and cumulative error probabilities can diverge. <a draggable="false" href="figures/ai-tipping/attention-memory-clock.html?nav=fe6093f0" target="_blank" rel="noopener">Open figure ↗</a></figcaption>
+      </figure>
+      <div class="prose">
+        <h2>The time of a correction</h2>
+        <p>Timing matters in the measured model too. In one recorded history, re-encoding an earlier correct “Red” as “red” before a two-answer continuation improved net success by <strong>3.31–3.70 percentage points</strong>. Applying the corresponding normalisation only after a later accepted “Red” answer had a small negative effect on whole-continuation success.</p>
+        <p>That comparison was calculated post hoc from measured conditional probabilities. It shows why a correction needs a position in the sequence as well as a description of what it changes.</p>
+        <p>“red”, “Red”, and a longer sentence can express the same answer but leave different token histories. Semantic correctness sums the probabilities of accepted complete sequences. A ranking of one representative vector need not rank that sum.</p>
+        <p>For the later experiments I defined <strong>twelve accepted answer forms</strong>, included their end-of-answer tokens, and retained the original vocabulary normalisation. Unmeasured branches kept explicit probability bounds. Those ranges describe the contribution missing branches could make; they are not sampling confidence intervals.</p>
+
+        <h2>Accurate prediction, a difficult baseline</h2>
+        <p>A 64-number description of a structured value-cache edit, together with reference computation retained from the decoder, predicted <strong>296 future conditional vocabulary distributions</strong>. The largest total-variation discrepancy was about <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1.4</mn><mo>×</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>9</mn></mrow></msup></mrow><annotation encoding="application/x-tex">1.4\times10^{-9}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">1.4</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">9</span></span></span></span></span></span></span></span></span></span></span></span>. That prediction still required the original nonlinear downstream operations: the 64 numbers describe only the edit. The CPU decoder read trained BF16 weights and computed in float64.</p>
+        <p>A state-dependent correction policy improved two-answer success by roughly <strong>0.052–0.070 percentage points</strong> over retaining the edited cache. A simpler rule, given the current complete-answer probability, chose the same correction in every tested state. Accurate prediction had not yet demonstrated a decision advantage from remembering the intervention.</p>
+
+        <h2>Holding the current answers fixed</h2>
+        <p>The next test changes cached state while preserving declared current readouts. A content vector is distributed across <strong>32 cached positions</strong>. Three current queries across seven reader heads impose <strong>21 scalar constraints</strong> on that position profile. The remaining freedom can suppress current head-message changes while retaining a response at later public queries.</p>
+        <p>This uses the same geometry that makes protected subspaces useful in continual learning: a change can be invisible to one set of readouts and visible to another. The edited cache values were rounded to float32 before checking the actual output probabilities.</p>
+        <p>Four contexts combined red or blue source facts with positive or explicitly negated wording. Two opposite edits per context produced eight internal states. All eight passed the frozen matching checks:</p>
+        <div class="post-data-table" role="region" tabindex="0" aria-label="Current-output matching results">
+          <table><thead><tr><th>Current readout</th><th>Largest measured change</th></tr></thead><tbody>
+            <tr><td>Initial next-token distribution</td><td><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4.8</mn><mo>×</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>10</mn></mrow></msup></mrow><annotation encoding="application/x-tex">4.8\times10^{-10}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">4.8</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">10</span></span></span></span></span></span></span></span></span></span></span></span> total variation</td></tr>
+            <tr><td>Total probability of twelve accepted complete answers</td><td><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5.7</mn><mo>×</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>9</mn></mrow></msup></mrow><annotation encoding="application/x-tex">5.7\times10^{-9}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">5.7</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">9</span></span></span></span></span></span></span></span></span></span></span></span> absolute probability</td></tr>
+          </tbody></table>
+        </div>
+        <p>Checks of the accepted spellings separately also found very little redistribution. Internally different states now agree on the measured current behaviour to high precision. <strong>The future semantic-error comparison is unfinished.</strong> A later head's nonzero response alone does not establish a later change in semantic correctness.</p>
+        <p>The observation used by a controller therefore needs to be specified. A head message, a vocabulary distribution, and the meaning of a complete answer preserve different information. Nick Cammarata's Goodfire essay, <a draggable="false" href="https://already-clean.goodfire.com/">Neural Networks Are Already Clean</a>, argues for examining native mechanisms with their inputs and downstream readers. Its broader claims are a working hypothesis; following the actual downstream computation is useful for these experiments. <sup class="cite">[<a draggable="false" href="#ref-4">4</a>]</sup></p>
+        <p>The next comparison gives one controller the edit description and others the matched initial readouts. It also includes a controller allowed to measure risk later and react then. If that reactive controller catches up, retaining internal state would need to justify its value through observation cost, latency, or an intervention window that closes before the next measurement. I have not established that advantage yet.</p>
+      </div>
+      <section class="post-references" aria-label="References">
+        <h2>References and experiment materials</h2>
+        <ol>
+          <li id="ref-1">Johnson, N. F. &amp; Huo, F. Y. <a draggable="false" href="https://arxiv.org/abs/2602.14370">Competition for attention predicts good-to-bad tipping in AI</a>, 2026, preprint. Starting framework; the experiments and clock extension described here are separate work.</li>
+          <li id="ref-2">Störk, J. <a draggable="false" href="figures/ai-tipping/head-content-vs-routing.html?nav=fe6093f0">Head-content versus routing intervention figure</a> and <a draggable="false" href="figures/ai-tipping/head-interventions.csv" download>published plotting data</a>. Sixteen held-out prompts, three interventions, conditional two-token decoder.</li>
+          <li id="ref-3">Störk, J. <a draggable="false" href="figures/ai-tipping/attention-memory-clock.html?nav=fe6093f0">Attention-memory response clock</a>. Interactive mathematical construction accompanying the fixed-prototype update law; no fitted neural-model results.</li>
+        </ol>
+        <details class="references-more">
+          <summary draggable="false" class="references-toggle"><span class="references-show">show all 4 references</span><span class="references-hide">show fewer references</span><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></summary>
+          <ol start="4"><li id="ref-4">Cammarata, N. <a draggable="false" href="https://already-clean.goodfire.com/">Neural Networks Are Already Clean</a>, Goodfire. Informal research essay and working hypothesis.</li>
+        </ol>
+        </details>
+      </section>
+    </article>
+    <section class="post-comments" id="comments" aria-label="Discussion" data-comments>
+      <div class="comments-heading">
+        <button draggable="false" type="button" class="quiet-button" data-comments-refresh hidden>Refresh</button>
+      </div>
+      <div class="comments-list" data-comments-list></div>
+      <button draggable="false" type="button" class="quiet-button" data-comments-more hidden>Earlier comments</button>
+      <form class="comment-form" data-comment-form>
+        <label class="sr-only" for="comment-text">Your comment</label>
+        <textarea id="comment-text" name="comment" rows="4" maxlength="5000" placeholder="Add to the discussion…" required></textarea>
+        <div class="form-trap" aria-hidden="true"><label for="comment-website">Website</label><input id="comment-website" name="website" tabindex="-1" autocomplete="off"></div>
+        <div data-comment-challenge></div>
+        <div class="form-actions">
+          <span class="form-note" data-comment-identity hidden></span>
+          <button draggable="false" type="submit" class="form-submit" disabled>Post</button>
+        </div>
+      </form>
+      <p class="form-status" data-comments-status role="status"></p>
+      <details class="comment-identity-tools" data-identity-tools hidden>
+        <summary draggable="false">Use your identity on another device</summary>
+        <p class="form-note">Save an encrypted identity file and restore it in another browser. Keep the file and its passphrase private.</p>
+        <div class="identity-actions">
+          <button draggable="false" type="button" class="quiet-button" data-identity-save>Save identity</button>
+          <button draggable="false" type="button" class="quiet-button" data-identity-restore>Restore identity</button>
+        </div>
+      </details>
+      <noscript><p class="form-note">JavaScript is needed to load and post comments.</p></noscript>
+      <dialog class="site-dialog" data-comment-name-dialog aria-labelledby="comment-name-title">
+        <button draggable="false" type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <h2 id="comment-name-title">What should I call you?</h2>
+        <p class="form-note">Choose a display name for your comments. No email or account signup.</p>
+        <form data-comment-name-form>
+          <label for="comment-name">Display name</label>
+          <input id="comment-name" name="displayName" autocomplete="nickname" maxlength="40" required>
+          <button draggable="false" type="submit" class="form-submit">Post comment</button>
+        </form>
+      </dialog>
+      <dialog class="site-dialog" data-identity-dialog aria-labelledby="identity-title">
+        <button draggable="false" type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <h2 id="identity-title">Your commenting identity</h2>
+        <form data-identity-form>
+          <div data-identity-file-field hidden>
+            <label for="identity-file">Saved identity file</label>
+            <input id="identity-file" type="file" accept="application/json,.json">
+          </div>
+          <label for="identity-passphrase">Passphrase</label>
+          <input id="identity-passphrase" type="password" minlength="12" maxlength="200" autocomplete="new-password" required>
+          <p class="form-note" data-identity-help>Use at least 12 characters. You’ll need this passphrase to restore the file.</p>
+          <button draggable="false" type="submit" class="form-submit" data-identity-confirm>Save identity</button>
+          <p class="form-status" data-identity-status role="status"></p>
+        </form>
+      </dialog>
+      <script type="application/json" id="comments-config">{"endpoint":"https://rapid-fog-462d.julius-stoerk.workers.dev","turnstileSiteKey":"0x4AAAAAAFLP0eNtJsW_8Au1","sectionId":"post-ai-tipping"}</script>
+    </section>
+
+
+    <nav class="post-pager" aria-label="More posts">
+      <a draggable="false" href="post-agent-training-grounds.html?nav=fe6093f0"><span class="eyebrow">Previous post</span><span class="post-pager-title">Gold Medals Don't Stack Batteries</span></a>
+      <a draggable="false" href="post-chargewise.html?nav=fe6093f0"><span class="eyebrow">Next post</span><span class="post-pager-title">ChargeWise: Before You Upgrade the Grid Connection</span></a>
+    </nav>
+  </main>
+  <footer class="content">
+    <span>© 2026 Julius Störk</span>
+    <span class="footer-links"><a draggable="false" href="blog.html?nav=fe6093f0">All posts</a> · <a draggable="false" href="index.html?nav=fe6093f0#contact">Contact</a></span>
+  </footer>
+  <script defer src="theme.js?v=e512a566"></script>
+  <script defer src="navigation.js?v=82ad0181"></script>
+  <script defer src="media.js?v=3803c5ba"></script>
+  <script defer src="interactions.js?v=3cfec42c"></script>
+  <script defer src="cursor.js?v=836db8cc"></script>
+  <script defer src="portal-transitions.js?v=d4060e4b"></script>
+  <script defer src="blog.js?v=119b9d1e"></script>
+  <script defer src="references.js?v=e51071fb"></script>
+  <script defer src="comment-identity.js?v=dddce228"></script>
+  <script defer src="comments.js?v=43a43fce"></script>
+  <script defer src="post-figures.js?v=7feec9d6"></script>
+  <script>
+    window.addEventListener('load', function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://gc.zgo.at/count.js';
+      s.setAttribute('data-goatcounter', 'https://jstoerk.goatcounter.com/count');
+      document.body.appendChild(s);
+    });
+  </script>
+</body>
+</html>

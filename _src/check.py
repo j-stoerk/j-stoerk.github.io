@@ -75,6 +75,8 @@ def check_page(name):
             continue
         for part in [p.strip().split(' ')[0] for p in ref.split(',')]:
             part = part.split('#')[0].split('?')[0]   # strip fragment + cache-buster
+            if part.endswith('/'):
+                part += 'index.html'
             if part and not os.path.isfile(os.path.join(ROOT, part)):
                 fail(f'{name}: broken local reference "{part}"')
 

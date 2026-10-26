@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChargeWise: Before You Upgrade the Grid Connection · Julius Störk</title>
+  <meta name="description" content="Building ChargeWise AI: a four-van charging example, an 8.89 kW energy bound, independent schedule checks, and what better price forecasts actually buy." />
+  <link rel="canonical" href="https://j-stoerk.github.io/post-chargewise.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
+  <meta property="og:type" content="article" /><meta property="og:site_name" content="Julius Störk" />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-chargewise.html" />
+  <meta property="og:title" content="ChargeWise: Before You Upgrade the Grid Connection" />
+  <meta property="og:description" content="Four vans need 84 kWh. Two 11 kW ports can meet their departures on an 8.89 kW shared connection in the synthetic example. Explore the demo and the calculation." />
+  <meta property="og:image" content="https://j-stoerk.github.io/images/social-chargewise.png" />
+  <meta property="og:image:alt" content="Four vans, two charging ports, and a flatter shared-power curve" />
+  <meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
+  <meta property="article:published_time" content="2026-10-25" /><meta property="article:modified_time" content="2026-10-26" />
+  <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:image" content="https://j-stoerk.github.io/images/social-chargewise.png" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"ChargeWise: Before You Upgrade the Grid Connection","description":"Depot charging under physical constraints: optimization, independent checks, and a small return from better price forecasts.","datePublished":"2026-10-25","dateModified":"2026-10-26","url":"https://j-stoerk.github.io/post-chargewise.html","image":"https://j-stoerk.github.io/images/social-chargewise.png","author":{"@type":"Person","name":"Julius Störk","url":"https://j-stoerk.github.io/"}}</script>
+  <meta name="theme-color" content="#fdfdfc">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Applied before first paint so the theme never flashes. -->
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('theme'); } catch (e) { }
+      if (!t) t = 'light';   // light is the standard; dark only on explicit toggle
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'dark' ? '#101214' : '#fdfdfc');
+    })();
+  </script>
+
+  <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=5721c9bc">
+  <link rel="stylesheet" href="experiences.css?v=46a70b1b">
+  <link rel="stylesheet" href="katex/katex.min.css">
+  <link rel="stylesheet" href="post-figures.css?v=b33b42e7">
+</head>
+<body>
+  <a draggable="false" href="#main" class="skip-link">Skip to main content</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a draggable="false" class="site-title" href="index.html?nav=fe6093f0">Home</a>
+      <button draggable="false" class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+        <span class="nav-toggle-lines" aria-hidden="true"></span>
+        <span class="sr-only">Open navigation</span>
+      </button>
+      <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
+        <a draggable="false" href="index.html?nav=fe6093f0#publications" data-nav-label="Publications">Publications</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#software" data-nav-label="Code">Code</a>
+        <a draggable="false" class="current" href="blog.html?nav=fe6093f0" data-nav-label="Blog" aria-current="page">Blog</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#experience" data-nav-label="Experience">Experience</a>
+        <a draggable="false" href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#contact" data-nav-label="Contact">Contact</a>
+        <button draggable="false" class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="content">
+    <div class="page-art page-art-post" aria-hidden="true" style="--post-art-light:url('images/blog-backgrounds/post-chargewise-light.svg?v=6a33a5f6');--post-art-dark:url('images/blog-backgrounds/post-chargewise-dark.svg?v=0ad7fa5f')"></div>
+    <a draggable="false" class="back-link" href="blog.html?nav=fe6093f0">All posts</a>
+    <article class="post" id="chargewise">
+      <div class="post-cover media-cover"><div class="media">
+        <svg class="cover-art" viewBox="0 0 1200 675" role="img" aria-label="Schematic of four vans, two charging ports, and a flatter shared-power curve">
+          <defs><linearGradient id="chargingPaper" x2="1" y2="1"><stop stop-color="#e8eff4"/><stop offset="1" stop-color="#ede9dd"/></linearGradient></defs>
+          <rect width="1200" height="675" fill="url(#chargingPaper)"/>
+          <g stroke="#9aa8b6" opacity=".2"><path d="M0 135H1200M0 270H1200M0 405H1200M0 540H1200M150 0V675M330 0V675M510 0V675M690 0V675M870 0V675M1050 0V675"/></g>
+          <g fill="#eff3f3" stroke="#526c85" stroke-width="3">
+            <path d="M105 232V169H224L260 197V232Z"/><path d="M105 392V329H224L260 357V392Z"/>
+            <path d="M394 232V169H513L549 197V232Z"/><path d="M394 392V329H513L549 357V392Z"/>
+            <circle cx="137" cy="235" r="15"/><circle cx="229" cy="235" r="15"/><circle cx="137" cy="395" r="15"/><circle cx="229" cy="395" r="15"/>
+            <circle cx="426" cy="235" r="15"/><circle cx="518" cy="235" r="15"/><circle cx="426" cy="395" r="15"/><circle cx="518" cy="395" r="15"/>
+          </g>
+          <g fill="none" stroke="#477bb7" stroke-width="3"><rect x="269" y="270" width="51" height="87" rx="5"/><rect x="558" y="270" width="51" height="87" rx="5"/><path d="M295 357V487H735M583 357V487M260 202H277Q295 202 295 244V270M549 202H566Q583 202 583 244V270M260 361H269M549 361H558"/></g>
+          <g fill="none" stroke="#8a9ba9" stroke-width="2"><path d="M735 190V487H1105"/><path d="M735 240H1105M735 365H1105" stroke-dasharray="4 7"/></g>
+          <path d="M746 477V240H822V477H926V240H1027V477" fill="none" stroke="#b5894f" stroke-width="3" stroke-dasharray="7 6"/>
+          <path d="M746 477V365H1095" fill="none" stroke="#477bb7" stroke-width="5"/>
+          <g fill="#536a83" font-family="system-ui,sans-serif" font-size="19"><text x="105" y="130">Four vans · two plugs</text><text x="1130" y="247" text-anchor="end">22 kW</text><text x="1130" y="352" text-anchor="end">8.89 kW</text><text x="105" y="557">Same energy targets, a lower site peak</text></g>
+        </svg>
+      </div></div>
+      <header class="post-header">
+        <p class="post-meta"><time datetime="2026-10-25">25 October 2026</time> · Energy &amp; optimization · 8 min read</p>
+        <h1>ChargeWise: Before You Upgrade the Grid Connection</h1>
+        <p class="post-update">Updated 26 October 2026 with the forecasting follow-up</p>
+      </header>
+      <p class="post-context"><span>Why this matters</span>A feasible charging schedule can reveal how much grid capacity a depot actually needs before more hardware or a larger connection is considered.</p>
+      <div class="post-project-links">
+        <a draggable="false" class="btn btn-primary" href="chargewise/">Open the interactive demo ↗</a>
+        <a draggable="false" href="chargewise/downloads/ChargeWise_Test_Build.zip" download>Download the editable planner</a>
+        <a draggable="false" href="https://github.com/j-stoerk/nebiusxnvidia_hackathon">Source code ↗</a>
+      </div>
+      <div class="prose">
+        <p>Two 11 kW chargers do not necessarily require a 22 kW grid connection. The answer depends on which vehicles are plugged in, how much energy they need, and when they leave.</p>
+        <p>For the <strong>Nebius × NVIDIA hackathon</strong>, I built ChargeWise AI with <strong>Muhammad Talha Toqeer and Umar Khan</strong>. A fleet manager enters the vehicles, departure times, energy requirements, and available hardware. The planner compares schedules and works out how much shared site power the configured fleet needs. <sup class="cite">[<a draggable="false" href="#ref-1">1</a>]</sup></p>
+        <p>The hosted demo contains a capacity explorer and an interactive architecture film. The downloadable application includes the editable React dashboard, FastAPI backend, and OR-Tools optimizer. It runs locally without an inference API key. The example is synthetic and controls no physical chargers.</p>
+
+        <h2>The plug stays occupied after charging ends</h2>
+        <p>A van can finish charging at 09:00 and remain parked until noon. Unless someone moves it, that charger cannot serve another vehicle during those three hours. A scheduler that ignores occupancy can produce an attractive power curve that the depot cannot follow.</p>
+        <p>ChargeWise checks connector compatibility, physical connection and availability, charger ratings, vehicle power limits, charging efficiency, and the site's combined load. It also uses a conservative state-of-charge-dependent taper envelope. That envelope makes planning tractable; a particular vehicle's measured charging curve would describe its battery more closely.</p>
+        <p>The three greedy baselines use the same physical constraints as the optimized schedule. First-come-first-served follows arrival order; earliest-deadline-first prioritises departures; least-laxity-first prioritises the vehicles with least remaining scheduling slack.</p>
+
+        <h2>Why 8.89 kW is enough for this fleet</h2>
+        <p>The four-van example has two fixed 11 kW ports and requires <strong>84 battery kWh</strong> over the day. All three baselines meet every energy target and reach a <strong>22 kW</strong> peak. The optimized schedule also meets every target, at <strong>8.89 kW</strong>. The published fixture records an optimal solver result and independent validation. <sup class="cite">[<a draggable="false" href="#ref-2">2</a>]</sup></p>
+        <p>The afternoon pair needs 48 battery kWh in six hours. At 90% charging efficiency, that requires 53.33 grid kWh. Even a perfectly flat schedule therefore needs at least</p>
+        <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>P</mi><mi>min</mi><mo>⁡</mo></msub><mo>≥</mo><mfrac><mrow><mn>48</mn><mtext> </mtext><mrow><mi mathvariant="normal">k</mi><mi mathvariant="normal">W</mi><mi mathvariant="normal">h</mi></mrow></mrow><mrow><mn>6</mn><mtext> </mtext><mi mathvariant="normal">h</mi><mo>×</mo><mn>0.90</mn></mrow></mfrac><mo>=</mo><mn>8.888</mn><mo>…</mo><mtext> </mtext><mrow><mi mathvariant="normal">k</mi><mi mathvariant="normal">W</mi></mrow><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">P_{\min}\geq\frac{48\ \mathrm{kWh}}{6\ \mathrm{h}\times0.90}=8.888\ldots\ \mathrm{kW}.</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3175em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mop mtight"><span class="mtight">m</span><span class="mtight">i</span><span class="mtight">n</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.1408em;vertical-align:-0.7693em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3714em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">6</span><span class="mspace"> </span><span class="mord mathrm">h</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">0.90</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">48</span><span class="mspace"> </span><span class="mord"><span class="mord mathrm">kWh</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7693em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">8.888</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">…</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.01389em;">kW</span></span><span class="mord">.</span></span></span></span></span>
+        <p>A lower limit cannot supply enough energy in that window. The optimizer finds a schedule attaining the bound while meeting the configured constraints. The peak is about <strong>60% lower</strong> than the greedy schedules. Both the infeasibility argument below the bound and a feasible schedule at the bound are available in this example.</p>
+      </div>
+      <figure class="post-interactive">
+        <div class="capacity-explorer">
+          <h3>Try the six-hour energy bound</h3>
+          <label for="capacity-limit">Shared connection limit <output id="capacity-power" for="capacity-limit">8.89 kW</output></label>
+          <input id="capacity-limit" type="range" min="4" max="22" step="0.01" value="8.89" />
+          <div class="capacity-track" aria-hidden="true"><span class="capacity-track-fill" id="capacity-fill"></span></div>
+          <div class="capacity-track-labels"><span>0 kW</span><span>Threshold: 8.89 kW</span><span>22 kW</span></div>
+          <p class="capacity-result" id="capacity-result" aria-live="polite">At 8.89 kW, six hours and 90% efficiency provide approximately 48 battery kWh.</p>
+        </div>
+        <figcaption>Energy available to the afternoon pair = connection limit × six hours × 0.90. This explorer checks the energy bound, not the complete charging schedule. <a draggable="false" href="chargewise/#explore">Open the project demo ↗</a></figcaption>
+      </figure>
+      <div class="prose">
+        <h2>Cheap electricity can set an expensive peak</h2>
+        <p>If every van follows the same low-price interval, the combined load can create a new demand peak. An energy-only objective misses that part of the bill.</p>
+        <p>Under the illustrative tariff, optimization raises the energy component from about <strong>€21.47 to €24.09</strong>. The smaller peak reduces the demand component enough that the combined scenario cost falls from <strong>€355.87 to €159.20</strong>. These are synthetic prices and a €15.20/kW/month demand tariff applied to the example's partial billing period with a zero prior peak. They are not observed fleet savings or an annual return.</p>
+        <p>A previous peak changes the decision too. Once the billing period has already reached a particular demand level, pushing today's load below that level cannot reduce the established demand charge. The planner needs that history as well as the upcoming prices.</p>
+
+        <h2>Nemotron requests a replan; the solver builds it</h2>
+        <p>NVIDIA Nemotron, accessed through Nebius Token Factory, connects an operator's questions to application tools. It can retrieve schedule facts or request an authorised simulated charger outage. The tool changes equipment availability, OR-Tools computes a new schedule, and a separate validator checks the allocations before the assistant explains the result.</p>
+        <p>In the verified CH-01 morning-outage example, the optimized peak rises from <strong>8.89 to 10 kW</strong> and every vehicle still receives its requested energy. The architecture film below demonstrates a separate afternoon outage: CH-02 is unavailable from 16:00 to 18:00, with delivery before noon frozen. In that recorded schedule, redistributing the remaining allocations retains the 8.89 kW peak.</p>
+        <p>Freezing delivered energy is essential. A replan after noon must preserve what happened in the morning. Otherwise an optimizer could appear to recover by changing a past allocation that the depot can no longer execute.</p>
+      </div>
+      <figure class="post-interactive">
+        <iframe src="chargewise/film.html" title="ChargeWise architecture and replanning walkthrough with playback and scrubbing controls" width="1600" height="1020" loading="lazy" data-autoheight></iframe>
+        <figcaption>Interactive architecture film. Play or scrub through input validation, scheduling, independent checks, the Nemotron tool loop, and replanning. The film uses recorded synthetic results; it does not call an LLM or run the optimizer. <a draggable="false" href="chargewise/film.html?nav=fe6093f0" target="_blank" rel="noopener">Open film ↗</a></figcaption>
+      </figure>
+      <div class="prose">
+        <h2>Better forecasts saved a quarter of a cent</h2>
+        <p>In a follow-up run on <strong>26 October</strong>, pretrained time-series models forecast 37 locally held-out days of historical German electricity prices from August–September 2019. Chronos-Bolt Small reduced price mean absolute error by <strong>29.2%</strong> against ridge regression. TimesFM also improved forecast accuracy. <sup class="cite">[<a draggable="false" href="#ref-3">3</a>]</sup></p>
+        <div class="post-data-table" role="region" tabindex="0" aria-label="Price forecasting and charging-cost comparison">
+          <table><caption>Four-van replay means. Scenario costs use the realised held-out prices; the optimizer plans against each forecast.</caption><thead><tr><th>Forecast</th><th>Price MAE<br>€/MWh</th><th>Energy only<br>€/scenario-day</th><th>With demand<br>€/scenario-day</th></tr></thead><tbody>
+            <tr><td>Ridge</td><td>7.042</td><td>3.3353</td><td>138.9116</td></tr>
+            <tr><td>TimesFM 2.5 200M</td><td>5.720</td><td>3.3377</td><td>138.9092</td></tr>
+            <tr><td>Chronos-Bolt Small 48M</td><td>4.988</td><td>3.3395</td><td>138.9095</td></tr>
+            <tr><td>Perfect-price oracle</td><td>n/a</td><td>3.3141</td><td>138.9059</td></tr>
+          </tbody></table>
+        </div>
+        <p>TimesFM's demand-inclusive improvement over ridge was about <strong>€0.0025 per scenario-day</strong>: a quarter of a euro cent. Ridge remained best among the forecasts for energy-only cost. All 518 paired scenario/model/tariff solves passed independent checks and met the energy targets.</p>
+        <p>The models can improve prices during hours when no van is connected, or distinguish between cheap hours that the timetable makes interchangeable. A demand peak can also dominate the small differences in energy cost. Lower forecasting error therefore need not yield a useful change in the charging decision.</p>
+        <p>This was an exploratory replay of old data, with unknown overlap between the evaluation period and model pretraining. Retail prices and the depot's other electrical loads were absent. Forecasts were evaluated by passing them through the physical optimizer and costing the resulting schedule against realised prices. Already published day-ahead prices should be used directly; prediction is useful only where information is still missing.</p>
+
+        <h2>Run the planner</h2>
+        <p>The <a draggable="false" href="chargewise/">hosted ChargeWise demo</a> includes the architecture film, capacity slider, and project materials. For editable vehicles, charger configurations, tariff comparisons, capacity checks, and simulated outages, download the portable build. <sup class="cite">[<a draggable="false" href="#ref-4">4</a>]</sup></p>
+        <p>With Python 3.11+ and <code>uv</code> installed, extract it and run:</p>
+        <pre><code>uv run --locked python scripts/run_demo.py</code></pre>
+        <p>Open <code>http://127.0.0.1:8000</code>. The frontend is prebuilt, so Node.js is unnecessary. Planning works without an inference API key. Without a configured provider, the assistant shows a labelled local summary of computed results; that mode is not Nemotron inference.</p>
+      </div>
+      <section class="post-references" aria-label="References">
+        <h2>Code, data, and demo</h2>
+        <ol>
+          <li id="ref-1"><a draggable="false" href="https://github.com/j-stoerk/nebiusxnvidia_hackathon">ChargeWise AI source repository</a>. Project by Julius Störk, Muhammad Talha Toqeer, and Umar Khan for the Nebius × NVIDIA hackathon; MIT licence.</li>
+          <li id="ref-2"><a draggable="false" href="chargewise/data/comparison.json">Validated synthetic comparison results</a> and <a draggable="false" href="chargewise/data/manifest.json">fixture manifest and assumptions</a>, from the 25 October portable build. The four-van example is a partial-period scenario.</li>
+          <li id="ref-3"><a draggable="false" href="https://github.com/j-stoerk/nebiusxnvidia_hackathon/blob/main/docs/forecast-models.md">Pretrained models: measured forecasting and decision results</a>, 26 October 2026. Models, 37-day protocol, costs, and pretraining-overlap limitations.</li>
+        </ol>
+        <details class="references-more">
+          <summary draggable="false" class="references-toggle"><span class="references-show">show all 4 references</span><span class="references-hide">show fewer references</span><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></summary>
+          <ol start="4"><li id="ref-4"><a draggable="false" href="chargewise/">Hosted interactive demo</a> and <a draggable="false" href="chargewise/downloads/ChargeWise_Test_Build.zip" download>portable editable application</a>. Includes its licence, locked dependencies, example inputs, and local run instructions.</li>
+        </ol>
+        </details>
+      </section>
+    </article>
+    <section class="post-comments" id="comments" aria-label="Discussion" data-comments>
+      <div class="comments-heading">
+        <button draggable="false" type="button" class="quiet-button" data-comments-refresh hidden>Refresh</button>
+      </div>
+      <div class="comments-list" data-comments-list></div>
+      <button draggable="false" type="button" class="quiet-button" data-comments-more hidden>Earlier comments</button>
+      <form class="comment-form" data-comment-form>
+        <label class="sr-only" for="comment-text">Your comment</label>
+        <textarea id="comment-text" name="comment" rows="4" maxlength="5000" placeholder="Add to the discussion…" required></textarea>
+        <div class="form-trap" aria-hidden="true"><label for="comment-website">Website</label><input id="comment-website" name="website" tabindex="-1" autocomplete="off"></div>
+        <div data-comment-challenge></div>
+        <div class="form-actions">
+          <span class="form-note" data-comment-identity hidden></span>
+          <button draggable="false" type="submit" class="form-submit" disabled>Post</button>
+        </div>
+      </form>
+      <p class="form-status" data-comments-status role="status"></p>
+      <details class="comment-identity-tools" data-identity-tools hidden>
+        <summary draggable="false">Use your identity on another device</summary>
+        <p class="form-note">Save an encrypted identity file and restore it in another browser. Keep the file and its passphrase private.</p>
+        <div class="identity-actions">
+          <button draggable="false" type="button" class="quiet-button" data-identity-save>Save identity</button>
+          <button draggable="false" type="button" class="quiet-button" data-identity-restore>Restore identity</button>
+        </div>
+      </details>
+      <noscript><p class="form-note">JavaScript is needed to load and post comments.</p></noscript>
+      <dialog class="site-dialog" data-comment-name-dialog aria-labelledby="comment-name-title">
+        <button draggable="false" type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <h2 id="comment-name-title">What should I call you?</h2>
+        <p class="form-note">Choose a display name for your comments. No email or account signup.</p>
+        <form data-comment-name-form>
+          <label for="comment-name">Display name</label>
+          <input id="comment-name" name="displayName" autocomplete="nickname" maxlength="40" required>
+          <button draggable="false" type="submit" class="form-submit">Post comment</button>
+        </form>
+      </dialog>
+      <dialog class="site-dialog" data-identity-dialog aria-labelledby="identity-title">
+        <button draggable="false" type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <h2 id="identity-title">Your commenting identity</h2>
+        <form data-identity-form>
+          <div data-identity-file-field hidden>
+            <label for="identity-file">Saved identity file</label>
+            <input id="identity-file" type="file" accept="application/json,.json">
+          </div>
+          <label for="identity-passphrase">Passphrase</label>
+          <input id="identity-passphrase" type="password" minlength="12" maxlength="200" autocomplete="new-password" required>
+          <p class="form-note" data-identity-help>Use at least 12 characters. You’ll need this passphrase to restore the file.</p>
+          <button draggable="false" type="submit" class="form-submit" data-identity-confirm>Save identity</button>
+          <p class="form-status" data-identity-status role="status"></p>
+        </form>
+      </dialog>
+      <script type="application/json" id="comments-config">{"endpoint":"https://rapid-fog-462d.julius-stoerk.workers.dev","turnstileSiteKey":"0x4AAAAAAFLP0eNtJsW_8Au1","sectionId":"post-chargewise"}</script>
+    </section>
+
+
+    <nav class="post-pager" aria-label="More posts">
+      <a draggable="false" href="post-ai-tipping.html?nav=fe6093f0"><span class="eyebrow">Previous post</span><span class="post-pager-title">When Do AI Outputs Tip?</span></a>
+    </nav>
+  </main>
+  <footer class="content">
+    <span>© 2026 Julius Störk</span>
+    <span class="footer-links"><a draggable="false" href="blog.html?nav=fe6093f0">All posts</a> · <a draggable="false" href="index.html?nav=fe6093f0#contact">Contact</a></span>
+  </footer>
+  <script defer src="theme.js?v=e512a566"></script>
+  <script defer src="navigation.js?v=82ad0181"></script>
+  <script defer src="media.js?v=3803c5ba"></script>
+  <script defer src="interactions.js?v=3cfec42c"></script>
+  <script defer src="cursor.js?v=836db8cc"></script>
+  <script defer src="portal-transitions.js?v=d4060e4b"></script>
+  <script defer src="blog.js?v=119b9d1e"></script>
+  <script defer src="references.js?v=e51071fb"></script>
+  <script defer src="comment-identity.js?v=dddce228"></script>
+  <script defer src="comments.js?v=43a43fce"></script>
+  <script defer src="post-figures.js?v=7feec9d6"></script>
+  <script>
+    window.addEventListener('load', function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://gc.zgo.at/count.js';
+      s.setAttribute('data-goatcounter', 'https://jstoerk.goatcounter.com/count');
+      document.body.appendChild(s);
+    });
+  </script>
+</body>
+</html>

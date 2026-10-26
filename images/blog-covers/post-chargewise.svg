@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="cover-art" viewBox="0 0 1200 675" role="img" aria-label="Schematic of four vans, two charging ports, and a flatter shared-power curve">
+          <defs><linearGradient id="chargingPaper" x2="1" y2="1"><stop stop-color="#e8eff4"/><stop offset="1" stop-color="#ede9dd"/></linearGradient></defs>
+          <rect width="1200" height="675" fill="url(#chargingPaper)"/>
+          <g stroke="#9aa8b6" opacity=".2"><path d="M0 135H1200M0 270H1200M0 405H1200M0 540H1200M150 0V675M330 0V675M510 0V675M690 0V675M870 0V675M1050 0V675"/></g>
+          <g fill="#eff3f3" stroke="#526c85" stroke-width="3">
+            <path d="M105 232V169H224L260 197V232Z"/><path d="M105 392V329H224L260 357V392Z"/>
+            <path d="M394 232V169H513L549 197V232Z"/><path d="M394 392V329H513L549 357V392Z"/>
+            <circle cx="137" cy="235" r="15"/><circle cx="229" cy="235" r="15"/><circle cx="137" cy="395" r="15"/><circle cx="229" cy="395" r="15"/>
+            <circle cx="426" cy="235" r="15"/><circle cx="518" cy="235" r="15"/><circle cx="426" cy="395" r="15"/><circle cx="518" cy="395" r="15"/>
+          </g>
+          <g fill="none" stroke="#477bb7" stroke-width="3"><rect x="269" y="270" width="51" height="87" rx="5"/><rect x="558" y="270" width="51" height="87" rx="5"/><path d="M295 357V487H735M583 357V487M260 202H277Q295 202 295 244V270M549 202H566Q583 202 583 244V270M260 361H269M549 361H558"/></g>
+          <g fill="none" stroke="#8a9ba9" stroke-width="2"><path d="M735 190V487H1105"/><path d="M735 240H1105M735 365H1105" stroke-dasharray="4 7"/></g>
+          <path d="M746 477V240H822V477H926V240H1027V477" fill="none" stroke="#b5894f" stroke-width="3" stroke-dasharray="7 6"/>
+          <path d="M746 477V365H1095" fill="none" stroke="#477bb7" stroke-width="5"/>
+          <g fill="#536a83" font-family="system-ui,sans-serif" font-size="19"><text x="105" y="130">Four vans · two plugs</text><text x="1130" y="247" text-anchor="end">22 kW</text><text x="1130" y="352" text-anchor="end">8.89 kW</text><text x="105" y="557">Same energy targets, a lower site peak</text></g>
+        </svg>

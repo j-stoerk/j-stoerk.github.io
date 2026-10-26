@@ -1,0 +1,20 @@
+{
+  "duration": 124,
+  "audio": false,
+  "scenes": [
+    {"id":"team","start":0,"end":8,"text":"We’re Julius Störk, Umar Khan, and Muhammad Talha Toqeer. This is ChargeWise."},
+    {"id":"inputs","start":8,"end":22,"text":"Vehicle windows, energy needs, charger ratings, and electricity prices enter through the React interface. FastAPI uses Pandas and typed models to validate the scenario and create a versioned workspace."},
+    {"id":"physics","start":22,"end":38,"text":"Each row follows one vehicle on its assigned plug. Across time, the colored cells become charging power. The planner combines charger limits, site capacity, efficiency, and battery taper to deliver the requested energy before departure."},
+    {"id":"solve","start":38,"end":52,"text":"The same roster runs through first come first served, earliest deadline first, and least laxity first. OR-Tools then prioritizes departure energy, followed by electricity and demand charges. The operator can also prioritize the lowest peak."},
+    {"id":"validate","start":52,"end":64,"text":"The allocation flows into an independent validator. It checks departure windows, plug occupancy, power limits, and delivered energy. Those results return to the dashboard as readiness, peak power, and cost."},
+    {"id":"agent","start":64,"end":82,"text":"A question takes a branch through NVIDIA Nemotron on Nebius Token Factory. The model can inspect schedules or request a change. Typed tools and the user’s approval connect those requests to the same optimizer and validator."},
+    {"id":"replan","start":82,"end":98,"text":"Now a charger becomes unavailable. Energy already delivered stays in place while future allocations move around the outage. Updated constraints pass through the optimizer and validator again, and the dashboard receives the revised plan."},
+    {"id":"capacity","start":98,"end":112,"text":"The same engine answers the sizing question for a normal day: how much shared power and how many installed plugs are needed? Here, six hours and forty-eight battery kilowatt-hours lead to an eight-point-eight-nine-kilowatt connection."},
+    {"id":"outro","start":112,"end":124,"text":"The result is one connected workflow, from roster to ready vehicles. ChargeWise helps depot managers use their electrical connection more effectively. Now, let’s use the application."}
+  ],
+  "team": [
+    {"name":"Julius Störk","links":["https://j-stoerk.github.io/","https://www.linkedin.com/in/juliusst/"]},
+    {"name":"Umar Khan","links":["https://www.linkedin.com/in/umar-khan-340627241/"]},
+    {"name":"Muhammad Talha Toqeer","links":["https://www.linkedin.com/in/muhammad-talha-toqeer-600394212/"]}
+  ]
+}

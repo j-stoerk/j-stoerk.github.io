@@ -1,0 +1,31 @@
+/* Interactive research figures inherit the portfolio's reading column and theme. */
+.post-interactive { margin: var(--space-10) 0; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); overflow: hidden; }
+.post-interactive iframe { display: block; width: 100%; border: 0; background: transparent; }
+.post-interactive figcaption { padding: 14px 20px; border-top: 1px solid var(--color-border); font-size: var(--text-xs); color: var(--color-text-muted); line-height: 1.65; }
+.post-interactive figcaption a { white-space: nowrap; }
+.post-project-links { display: flex; flex-wrap: wrap; gap: 12px 22px; align-items: center; margin: 24px 0 32px; }
+.post-project-links .btn { text-decoration: none; }
+.research-status { border-left: 2px solid var(--color-primary); padding: 6px 0 6px 18px; color: var(--color-text-muted); font-size: var(--text-sm); }
+.post-data-table { overflow-x: auto; margin: 24px 0; }
+.post-data-table table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+.post-data-table caption { text-align: left; margin-bottom: 12px; color: var(--color-text-muted); }
+.post-data-table th, .post-data-table td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--color-border); }
+.post-data-table thead th { font-weight: 500; color: var(--color-text-muted); }
+.post-data-table td { font-variant-numeric: tabular-nums; }
+.capacity-explorer { padding: 24px; }
+.capacity-explorer h3 { margin-top: 0; }
+.capacity-explorer label { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; font-size: var(--text-sm); }
+.capacity-explorer input { display: block; width: 100%; margin: 20px 0; accent-color: var(--color-primary); }
+.capacity-explorer output { font-variant-numeric: tabular-nums; color: var(--color-primary); }
+.capacity-track { position: relative; height: 18px; background: var(--color-border); margin: 28px 0 12px; }
+.capacity-track-fill { display: block; height: 100%; background: var(--color-primary); }
+.capacity-track::after { content: ''; position: absolute; left: 40.40404%; top: -7px; bottom: -7px; width: 2px; background: var(--color-text); }
+.capacity-track-labels { position: relative; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; color: var(--color-text-muted); }
+.capacity-track-labels span:nth-child(2) { position: absolute; left: 40.40404%; transform: translateX(-50%); }
+.capacity-result { min-height: 3.3em; margin: 22px 0 0; font-variant-numeric: tabular-nums; }
+.post-update { font-size: var(--text-xs); color: var(--color-text-muted); }
+@media (max-width: 620px) {
+  .capacity-explorer { padding: 20px 16px; }
+  .post-interactive figcaption { padding-inline: 16px; }
+  .post-data-table th, .post-data-table td { padding: 10px; min-width: 90px; }
+}

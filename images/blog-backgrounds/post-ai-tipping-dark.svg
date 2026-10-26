@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1800" viewBox="0 0 1000 1800" fill="none"><style>.art-ink,
+.art-ink-soft,
+.art-hair,
+.art-blue,
+.art-gold {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.art-ink {
+  stroke: rgba(196, 210, 230, .38);
+  stroke-width: 1.6;
+}
+
+.art-ink-soft {
+  stroke: rgba(196, 210, 230, .2);
+  stroke-width: 1.2;
+}
+
+/* Hairline filigree — the finest lines (tree-rings, arcs, contours). */
+.art-hair {
+  stroke: rgba(196, 210, 230, .2);
+  stroke-width: 0.6;
+}
+
+.art-blue, .art-gold {
+  stroke-width: 1.2;
+  stroke-opacity: .55;
+}
+
+.art-blue { stroke: #5a82be; }
+.art-gold { stroke: #b28945; }
+
+.art-fill-ink {
+  fill: rgba(196, 210, 230, .38);
+  stroke: none;
+}
+
+/* Stipple dots for organic growth. */
+.art-dot {
+  fill: rgba(196, 210, 230, .2);
+  stroke: none;
+}</style>
+  <path class="art-hair" d="M805 0C805 150 746 190 776 355S876 530 818 666S750 880 799 1033S873 1240 817 1414S805 1640 805 1800"/>
+  <g transform="translate(800 300)">
+    <rect class="art-ink-soft" x="-130" y="-80" width="90" height="52" rx="4"/><rect class="art-ink-soft" x="-130" y="32" width="90" height="52" rx="4"/>
+    <path class="art-hair" d="M-40 -54C-5 -54 -5 0 30 0M-40 58C-5 58 -5 0 30 0M100 0H141"/>
+    <circle class="art-ink" cx="65" cy="0" r="35"/>
+    <path class="art-ink-soft" d="M48 -13L82 -16L85 17L51 22Z"/><g class="art-blue"><circle cx="48" cy="-13" r="4"/><circle cx="82" cy="-16" r="4"/><circle cx="85" cy="17" r="4"/><circle cx="51" cy="22" r="4"/></g>
+    <path class="art-ink-soft" d="M-113 -64H-61M-113 -43H-83M-113 49H-61M-113 70H-83"/>
+  </g>
+  <g transform="translate(805 900)">
+    <rect class="art-ink" x="-104" y="-90" width="130" height="180" rx="5"/>
+    <path class="art-ink-soft" d="M-84 -62H6M-84 -36H6M-84 -10H6M-84 16H6M-84 42H6M-84 68H6"/>
+    <path class="art-hair" d="M26 -49C87 -49 64 52 112 52M26 2C83 2 65 -66 112 -66M26 55C73 55 72 5 112 5"/>
+    <g class="art-blue"><circle cx="112" cy="52" r="6"/><circle cx="112" cy="-66" r="6"/><circle cx="112" cy="5" r="6"/></g>
+  </g>
+  <g transform="translate(805 1490)">
+    <circle class="art-ink" r="87"/><circle class="art-ink-soft" r="66"/>
+    <path class="art-ink" d="M0 -55V0L38 24M0 -87V-71M87 0H71M0 87V71M-87 0H-71"/>
+    <path class="art-blue" d="M-120 124C-65 124 -40 120 -7 90S55 34 118 28"/><path class="art-gold" d="M-120 124C-30 124 29 119 118 96"/>
+  </g>
+  <g class="art-ink-soft"><circle cx="805" cy="50" r="4"/><circle cx="810" cy="625" r="4"/><circle cx="811" cy="1200" r="4"/><circle cx="805" cy="1750" r="4"/></g>
+</svg>

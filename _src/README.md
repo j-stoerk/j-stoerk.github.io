@@ -18,6 +18,15 @@ node _src/build.js
   `<!--#POST_CONTEXT-->` just below its title cover and above the article body;
   the builder inserts the sentence without repeating the technical summary used
   in blog listings.
+- Standalone research figures live in `figures/ai-tipping/`; their measured
+  plotting data is also published as CSV. `post-figures.js` sizes the embedded
+  documents and synchronises their theme. The clock is a mathematical
+  construction, separate from the measured head-intervention data.
+- `chargewise/` is the supplied static project demo, with a capacity explorer
+  and architecture film. Its downloadable ZIP contains the complete local
+  application and optimizer. The static GitHub Pages site does not run that
+  Python backend. Its HTML is edited directly rather than generated from
+  `pages/`.
 - **Post titles** use title case: capitalize major words and words of four or
   more letters; keep short articles, conjunctions, and prepositions lowercase
   unless they begin or end the title or begin a subtitle. Capitalize the main

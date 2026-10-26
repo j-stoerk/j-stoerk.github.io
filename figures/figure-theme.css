@@ -1,0 +1,19 @@
+@font-face { font-family: 'Portfolio figures'; src: url('../fonts/noto-sans-latin-wght.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
+:root { --ink: #292e35; --muted: #65707d; --line: #dce1e7; --a: #176a75; --b: #b86d39; --figure-bg: #fff; --figure-card: #f7f8fa; color-scheme: light; }
+:root[data-theme='dark'] { --ink: #e5e9ef; --muted: #b1bac6; --line: #343e4a; --a: #73bec7; --b: #e5ad7f; --figure-bg: #171c22; --figure-card: #1e252e; color-scheme: dark; }
+body { background: var(--figure-bg); color: var(--ink); font-family: 'Portfolio figures', system-ui, sans-serif; }
+main { max-width: none; padding: 24px; }
+h1 { font-size: 24px; letter-spacing: -.025em; }
+.plots, .card { background: var(--figure-card); border-color: var(--line); }
+select, button { background: var(--figure-card); border-color: var(--line); color: var(--ink); }
+svg { font-family: 'Portfolio figures', system-ui, sans-serif; fill: var(--ink); }
+code { background: var(--figure-card); color: var(--ink); }
+.legend { margin: 16px 0; }
+.plot-scroll-hint { display: none; }
+input:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--a); outline-offset: 3px; }
+@media(max-width:620px) {
+  main { padding: 20px 16px; } h1 { font-size: 21px; } .detail { overflow-wrap: anywhere; }
+  .plots { overflow-x: auto; overscroll-behavior-inline: contain; }
+  .plots svg { min-width: 680px; }
+  .plot-scroll-hint { display: block; color: var(--muted); font-size: 12px; }
+}
