@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ChargeWise Fits the Fleet to the Grid · Julius Störk</title>
-  <meta name="description" content="Building ChargeWise AI: an editable browser demo, fleet schedules, outage replanning, independent checks, and what better price forecasts actually buy." />
+  <meta name="description" content="Building ChargeWise AI: the original hosted application, fleet schedules, outage replanning, independent checks, and what better price forecasts actually buy." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-chargewise.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
@@ -59,7 +59,7 @@
       <div class="prose">
         <p>Two 11 kW chargers do not necessarily require a 22 kW grid connection. The answer depends on which vehicles are plugged in, how much energy they need, and when they leave.</p>
         <p>For the <strong>Nebius × NVIDIA hackathon</strong>, I built ChargeWise AI with <strong>Muhammad Talha Toqeer and Umar Khan</strong>. A fleet manager enters the vehicles, departure times, energy requirements, and available hardware. The planner compares schedules and works out how much shared site power the configured fleet needs. <sup class="cite">[<a href="#ref-1">1</a>]</sup></p>
-        <p>The <a href="chargewise/">browser demo</a> lets you edit the four-van roster, compare schedules, change the available connection, and replan around a charger outage. It computes those simplified schedules locally, with no account or server. The full downloadable application uses a React dashboard, FastAPI, and OR-Tools; it also runs without an inference API key. Both use synthetic data and control no physical chargers.</p>
+        <p>The <a href="chargewise/">live demo</a> runs the same application as the downloadable build: the editable React dashboard, OR-Tools planner, capacity checks and guided outage workflow. Start with <strong>Load sample</strong> and <strong>Start guided demo</strong>. It uses synthetic data and controls no physical chargers.</p>
 
         <h2>The plug stays occupied after charging ends</h2>
         <p>A van can finish charging at 09:00 and remain parked until noon. Unless someone moves it, that charger cannot serve another vehicle during those three hours. A scheduler that ignores occupancy can produce an attractive power curve that the depot cannot follow.</p>
@@ -101,9 +101,9 @@
         <p>This was an exploratory replay of old data, with unknown overlap between the evaluation period and model pretraining. Retail prices and the depot's other electrical loads were absent. Forecasts were evaluated by passing them through the physical optimizer and costing the resulting schedule against realised prices. Already published day-ahead prices should be used directly; prediction is useful only where information is still missing.</p>
 
         <h2>Try the planner</h2>
-        <p><a href="chargewise/">Open ChargeWise</a> and change a van's departure, energy request or charger availability. Switch between minimum-peak and energy-only planning, compare the greedy schedule, and inspect the resulting power curve, departure targets and bill. An afternoon outage freezes allocations before noon so the replan cannot rewrite energy already delivered.</p>
-        <p>The browser version uses a small network-flow solver with fixed plug assignments, constant power limits and 15-minute slots. It recomputes schedules and checks their energy and physical limits independently. Battery taper, forecasting and Nemotron inference remain in the full application; the browser demo makes no LLM calls. It loads without Python, an API key or a running backend.</p>
-        <details><summary>Run the full application locally</summary><p>The <a href="chargewise/downloads/ChargeWise_Test_Build.zip" download>portable build</a> adds the full dashboard, uploads, OR-Tools, taper constraints and optional assistant integration. <sup class="cite">[<a href="#ref-4">4</a>]</sup> With Python 3.11+ and <code>uv</code> installed, extract it and run:</p>
+        <p><a href="chargewise/">Open ChargeWise</a>, load the sample and start the guided demo. The original dashboard lets you edit vehicles, chargers, prices and tariffs, compare schedules, check capacity and replan around simulated outages. Already delivered energy stays frozen when replanning.</p>
+        <p>The hosted and downloadable versions use the same Python optimizer and independent schedule checks, including the battery taper envelope. The public demo uses the application's labelled local-summary assistant; it makes no paid model calls. The forecasting study above reports the separate historical-price evaluation.</p>
+        <details><summary>Run the full application locally</summary><p>The <a href="chargewise/downloads/ChargeWise_Test_Build.zip" download>portable build</a> contains the same dashboard and optimizer, with uploads, taper constraints and optional assistant integration. <sup class="cite">[<a href="#ref-4">4</a>]</sup> With Python 3.11+ and <code>uv</code> installed, extract it and run:</p>
         <pre><code>uv run --locked python scripts/run_demo.py</code></pre>
         <p>Open <code>http://127.0.0.1:8000</code>. Node.js is unnecessary because the frontend is prebuilt. Without a configured inference provider, the assistant shows a labelled local summary of computed results.</p></details>
       </div>

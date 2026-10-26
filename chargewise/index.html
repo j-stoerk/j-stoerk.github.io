@@ -1,48 +1,10 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>ChargeWise AI fleet charging demo</title>
-  <meta name="description" content="Edit a four-van fleet, compare charging schedules and replan around charger outages. A lightweight, interactive ChargeWise demo that runs entirely in your browser.">
-  <link rel="canonical" href="https://j-stoerk.github.io/chargewise/">
-  <meta property="og:title" content="ChargeWise fits the fleet to the grid"><meta property="og:type" content="website">
-  <meta property="og:description" content="Four vans, two plugs. Edit the roster and find a smaller charging peak.">
-  <meta property="og:url" content="https://j-stoerk.github.io/chargewise/"><meta property="og:image" content="https://j-stoerk.github.io/images/social-chargewise.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" href="../favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="demo.css">
-  <script type="module" src="demo.mjs"></script>
-</head>
-<body>
-<header class="top"><a class="brand" href="./" draggable="false"><img src="brand.svg" width="30" height="30" alt="" draggable="false">ChargeWise <span>AI</span></a><nav aria-label="Project"><a href="../post-chargewise.html" draggable="false">Build notes</a><a href="#architecture" draggable="false">Architecture</a><a href="https://github.com/j-stoerk/nebiusxnvidia_hackathon" draggable="false">Code &#8599;</a></nav></header>
-<main>
-  <div class="intro"><div><p class="eyebrow">The depot, before the grid upgrade</p><h1>Every van ready.<br>A smaller power peak.</h1><p>Edit the fleet. Take a charger offline. See what changes.</p></div><span class="local-badge"><span aria-hidden="true">&#9679;</span> Runs in your browser</span></div>
-  <div class="workspace">
-    <form class="settings" id="settings">
-      <div class="panel-heading"><h2>Your depot</h2><button class="text-button" type="reset">Reset</button></div>
-      <p class="small">Two fixed 11 kW plugs. A van keeps its plug until departure. All times UTC.</p>
-      <label for="objective">Planning objective</label><select id="objective"><option value="peak">Lowest peak, then energy cost</option><option value="energy">Lowest energy cost</option></select>
-      <label for="connection">Available connection <output id="connection-value" for="connection">22 kW</output></label><input type="range" id="connection" min="4" max="22" step="0.25" value="22">
-      <label for="incident">Charger availability</label><select id="incident"><option value="none">Both chargers available</option><option value="morning">CH-01 offline 06:00 to 10:00</option><option value="afternoon">CH-02 offline 16:00 to 18:00</option></select>
-      <p class="incident-note small" id="incident-note">Change an outage to trigger a replan.</p>
-      <div class="tariff-controls"><div><label for="tariff">Demand tariff <span>&euro;/kW</span></label><input id="tariff" type="number" min="0" max="100" step="0.1" value="15.2"></div><div><label for="prior">Prior peak <span>kW</span></label><input id="prior" type="number" min="0" max="100" step="0.1" value="0"></div></div>
-      <p class="small">Illustrative monthly demand tariff, applied to this partial-period example. Energy costs &euro;0.22/kWh before 16:00 and &euro;0.32 after.</p>
-      <button class="primary" id="plan" type="submit">Plan charging <span aria-hidden="true">&#8594;</span></button>
-      <p class="small" id="timing"></p>
-    </form>
-    <section class="results" aria-label="Charging results">
-      <div class="metrics"><div><span>Site peak</span><strong id="peak">&#8212;</strong><small id="peak-comparison"></small></div><div><span>Departures ready</span><strong id="ready">&#8212;</strong><small id="energy-total"></small></div><div><span>Scenario bill</span><strong id="cost">&#8212;</strong><small id="cost-breakdown"></small></div></div>
-      <div class="chart-panel"><div class="panel-heading"><h2 id="chart-title">Charging across the day</h2><div class="view-toggle" role="group" aria-label="Displayed schedule"><button type="button" aria-pressed="true" data-view="planned">Planned</button><button type="button" aria-pressed="false" data-view="greedy">Greedy</button></div></div>
-        <div class="chart-scroll" tabindex="0" role="region" aria-label="Charging schedule; scroll horizontally on small screens"><svg id="schedule" viewBox="0 0 880 320" role="img" aria-labelledby="chart-title chart-description"><desc id="chart-description">Stacked vehicle power over the day, with the available connection and greedy peak marked.</desc></svg></div>
-        <div class="chart-legend"><span class="van-0">VAN-01</span><span class="van-1">VAN-02</span><span class="van-2">VAN-03</span><span class="van-3">VAN-04</span><span class="line-key">Greedy site load</span></div>
-        <p class="mobile-hint small">Swipe the chart to see the full day. The roster below scrolls too.</p>
-      </div>
-      <div class="validation" id="validation" role="status" aria-live="polite"></div>
-      <section class="roster" aria-labelledby="roster-title"><div class="panel-heading"><h2 id="roster-title">Fleet roster</h2><span class="small">Changes apply when you plan</span></div><div class="table-scroll"><table><thead><tr><th>Van / plug</th><th>Arrival</th><th>Departure</th><th>Battery kWh</th><th>Delivered</th></tr></thead><tbody id="fleet"></tbody></table></div></section>
-    </section>
-  </div>
-  <section class="explanation"><h2 id="explanation-title">What changed?</h2><p id="explanation"></p><details><summary>What this browser demo models</summary><p>The browser solves a continuous minimum-cost flow problem in 15-minute slots, with fixed plug assignments, per-vehicle and shared power limits, 90% efficiency, departure energy targets and charger outages. A separate check recomputes energy and physical limits from the schedule. Peak minimisation uses a feasibility search, followed by energy-cost minimisation at that peak.</p><p>For the afternoon outage, the base schedule before noon is frozen. Those allocations cannot be changed by the replan. Greedy comparison charges each available van immediately, subject to the same connection and outage.</p><p>This lean version uses constant charging-power limits. It does not model state-of-charge taper, forecast electricity prices or call an LLM. The full application uses OR-Tools and includes taper, uploads, forecasting and Nemotron tool calls. All data here are synthetic; no charger is controlled. The bill includes energy and the larger of the prior and scenario peak, multiplied by the illustrative demand tariff. It is not an annual savings estimate.</p><p><a href="downloads/ChargeWise_Test_Build.zip" download draggable="false">Download the full application</a> to run <code>uv run --locked python scripts/run_demo.py</code>.</p></details></section>
-  <details class="architecture" id="architecture"><summary>Inside ChargeWise</summary><div class="pipeline"><span>Fleet &amp; hardware</span><b aria-hidden="true">&#8594;</b><span>Optimizer</span><b aria-hidden="true">&#8594;</b><span>Independent check</span><b aria-hidden="true">&#8594;</b><span>Schedule</span></div><p>The full app adds a Nemotron assistant that can inspect computed results and request an outage through typed tools. The solver computes the allocations and the validator checks them before the assistant explains the result.</p><div class="film-host" data-film></div><p class="small">Recorded synthetic architecture walkthrough. Plays only when opened.</p></details>
-  <noscript><p>This demo needs JavaScript. <a href="downloads/ChargeWise_Test_Build.zip">Download the full local application</a>, or <a href="../post-chargewise.html">read the article</a>.</p></noscript>
-</main>
-<footer><a href="../post-chargewise.html" draggable="false">Julius St&ouml;rk &middot; Muhammad Talha Toqeer &middot; Umar Khan</a><span>Nebius &times; NVIDIA hackathon &middot; <a href="../index.html#contact" draggable="false">Contact</a></span></footer>
-</body></html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ChargeWise AI</title>
+<meta name="description" content="The original ChargeWise application with its guided demo, editable fleet dashboard and OR-Tools optimizer.">
+<link rel="canonical" href="https://j-stoerk.github.io/chargewise/">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<script>location.replace("https://chargewise-wcue.onrender.com/?demo=1");</script>
+<meta http-equiv="refresh" content="0;url=https://chargewise-wcue.onrender.com/?demo=1">
+</head><body><p><a href="https://chargewise-wcue.onrender.com/?demo=1">Open the original ChargeWise application</a></p></body></html>

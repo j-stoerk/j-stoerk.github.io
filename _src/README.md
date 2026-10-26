@@ -22,16 +22,12 @@ node _src/build.js
   plotting data is also published as CSV. `post-figures.js` sizes the embedded
   documents and synchronises their theme. The clock is a mathematical
   construction, separate from the measured head-intervention data.
-- `chargewise/` is a dependency-free browser demo with an editable fleet,
-  charging schedules, minimum-peak or energy-only flow planning, outage replanning,
-  an independent allocation check, and an on-demand architecture film.
-  `planner.mjs` implements the simplified continuous network-flow model;
-  `demo.mjs` connects it to the page. There is no polling, inference call or
-  Python backend. Fixed plugs, 15-minute slots and constant power limits are
-  stated in the demo; the full downloadable Python/OR-Tools application also
-  models battery taper. Its HTML is edited directly rather than generated
-  from `pages/`. Run `node --test _src/tests/chargewise.test.mjs` for the model
-  checks, including frozen delivered history and infeasible rosters.
+- `chargewise/` opens the unchanged portable ChargeWise application on a
+  Python host, preserving its original dashboard, OR-Tools optimizer and
+  first-party simulation workspace. `_services/chargewise/` contains the
+  Docker deployment and SHA-256-verified release loader. Its `connect.py`
+  verifies a running original app before updating this entry point and
+  article text. The architecture film and local ZIP remain on Pages.
 - **Post titles** use title case: capitalize major words and words of four or
   more letters; keep short articles, conjunctions, and prepositions lowercase
   unless they begin or end the title or begin a subtitle. Capitalize the main

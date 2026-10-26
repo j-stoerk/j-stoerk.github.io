@@ -54,6 +54,7 @@ def connect(url):
         source, flags=re.S,
     )
     source = source.replace("an editable browser demo, fleet schedules", "the original hosted application, fleet schedules")
+    source = source.replace("portable build</a> adds the full dashboard, uploads, OR-Tools, taper constraints and optional assistant integration.", "portable build</a> contains the same dashboard and optimizer, with uploads, taper constraints and optional assistant integration.")
     post.write_text(source, encoding="utf-8")
     metadata = ROOT / "_src/posts.json"
     source = metadata.read_text(encoding="utf-8")
@@ -62,7 +63,7 @@ def connect(url):
     metadata.write_text(source, encoding="utf-8")
     guide = ROOT / "_src/README.md"
     source = guide.read_text(encoding="utf-8")
-    start, end = source.index("- `chargewise/` is"), source.index("- **Post titles**")
+    start, end = source.index("- `chargewise/`"), source.index("- **Post titles**")
     source = source[:start] + (
         "- `chargewise/` opens the unchanged portable ChargeWise application on a\n"
         "  Python host, preserving its original dashboard, OR-Tools optimizer and\n"

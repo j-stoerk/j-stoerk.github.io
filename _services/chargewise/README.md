@@ -10,6 +10,8 @@ license: mit
 
 # Original ChargeWise application
 
+Deployed application: https://chargewise-wcue.onrender.com/?demo=1
+
 This container runs the **unchanged 25 October portable application**, including
 its built React dashboard, FastAPI, OR-Tools, guided demo, editable inputs,
 capacity checks, uploads and replanning. It is the application launched by
@@ -61,7 +63,7 @@ Documentation: https://huggingface.co/docs/hub/spaces-sdks-docker
 Once the app is running, execute from the portfolio root:
 
 ```
-python _services/chargewise/connect.py --url https://YOUR-ACCOUNT-chargewise.hf.space
+python _services/chargewise/connect.py --url https://chargewise-wcue.onrender.com
 ```
 
 The script verifies the original application's health, then replaces the current
