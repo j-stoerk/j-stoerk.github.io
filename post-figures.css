@@ -12,20 +12,8 @@
 .post-data-table th, .post-data-table td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--color-border); }
 .post-data-table thead th { font-weight: 500; color: var(--color-text-muted); }
 .post-data-table td { font-variant-numeric: tabular-nums; }
-.capacity-explorer { padding: 24px; }
-.capacity-explorer h3 { margin-top: 0; }
-.capacity-explorer label { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; font-size: var(--text-sm); }
-.capacity-explorer input { display: block; width: 100%; margin: 20px 0; accent-color: var(--color-primary); }
-.capacity-explorer output { font-variant-numeric: tabular-nums; color: var(--color-primary); }
-.capacity-track { position: relative; height: 18px; background: var(--color-border); margin: 28px 0 12px; }
-.capacity-track-fill { display: block; height: 100%; background: var(--color-primary); }
-.capacity-track::after { content: ''; position: absolute; left: 40.40404%; top: -7px; bottom: -7px; width: 2px; background: var(--color-text); }
-.capacity-track-labels { position: relative; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; color: var(--color-text-muted); }
-.capacity-track-labels span:nth-child(2) { position: absolute; left: 40.40404%; transform: translateX(-50%); }
-.capacity-result { min-height: 3.3em; margin: 22px 0 0; font-variant-numeric: tabular-nums; }
 .post-update { font-size: var(--text-xs); color: var(--color-text-muted); }
 @media (max-width: 620px) {
-  .capacity-explorer { padding: 20px 16px; }
   .post-interactive figcaption { padding-inline: 16px; }
   .post-data-table th, .post-data-table td { padding: 10px; min-width: 90px; }
 }

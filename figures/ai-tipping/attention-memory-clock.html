@@ -29,7 +29,6 @@ code{font-size:14px;background:#edf0ef;padding:3px 6px;border-radius:4px}.note{b
 <div class="legend"><span class="a">· History A</span><span class="b">· History B</span></div>
 <p class="plot-scroll-hint">Scroll horizontally to inspect the full plot.</p><div class="plots" role="region" tabindex="0" aria-label="Plot; scroll horizontally on narrow screens"><svg id="clock-plot" viewBox="0 0 900 580" role="img" aria-label="Conditional next-answer error and cumulative first-error probability for two attention histories"></svg></div>
 <p class="detail" id="clock-detail" aria-live="polite">Move over the curves to inspect an answer step.</p>
-<p><code>F_j = (nu * F + j * beta) / (nu + j)</code></p>
 <p class="note">Exact law for the stated binary, fixed-query/prototype attention head. No positions, residual path, MLP or layer normalization. This is a mathematical construction, not a fit to Qwen. At each step, the hazard is conditional on every preceding answer being correct; cumulative risk uses the product of their survival probabilities. <a draggable="false" href="https://arxiv.org/abs/2602.14370">Johnson and Huo's starting framework</a>.</p>
 </main><script id="controller">
 (function () {

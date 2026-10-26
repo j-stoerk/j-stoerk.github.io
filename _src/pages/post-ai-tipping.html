@@ -48,7 +48,7 @@
         </svg>
       </div></div>
       <header class="post-header">
-        <p class="post-meta"><time datetime="2026-10-18">18 October 2026</time> · AI research · 10 min read</p>
+        <p class="post-meta"><time datetime="2026-10-18">18 October 2026</time> · AI research · 17 min read</p>
         <h1>When Do AI Outputs Tip?</h1>
         <p class="post-update">Updated 26 October 2026</p>
       </header>
@@ -58,10 +58,28 @@
         <p>Across sixteen matched pairs, the shift toward blue helped when blue was correct and hurt when red was correct. The two effects largely cancelled in the average error. The probe was also too unreliable to study the loss of previously reliable behaviour, so I moved to a separately qualified retrieval task. Option-order sensitivity and forgetting need different measurements.</p>
         <p>The broader project asks what a model carries into its next answer. Can a small description of its computation predict several future answers and the effect of a correction? Neil F. Johnson and Frank Y. Huo's <a href="https://arxiv.org/abs/2602.14370">Competition for attention predicts good-to-bad tipping in AI</a> gave me a starting model: competing representations can change which output dominates as a conversation develops. <sup class="cite">[<a href="#ref-1">1</a>]</sup></p>
 
+        <h2>What counts as tipping?</h2>
+        <p>A model that was wrong from the start has not lost a reliable ability. Before looking for a transition, the retrieval task has to establish that the model can answer the source question under the specified wording and decoder. The earlier option-order probe failed that purpose. The later qualification fixes a narrower setting in which an incorrect conversational history can be compared with a correct one.</p>
+        <p>There are also different events hidden inside the word <em>tipping</em>. The most likely answer can switch when two scores cross, even while both probabilities change smoothly. A sampled conversation can make a sudden first error without any abrupt change in its underlying probabilities. Persistent wrong answers, recovery after an error, and a change in factual topic are further outcomes. A first-error clock addresses only the first failure along the declared continuation.</p>
+        <p>These experiments change inference-time state with the model weights held fixed. They concern what generated history and cached computation do to later answers. They do not measure catastrophic forgetting from training on a new task, although the question of preserving some readouts while changing others connects the two problems.</p>
+
+        <h2>Which level of analysis answers the question?</h2>
+        <div class="post-data-table" role="region" tabindex="0" aria-label="Levels of analysis and the evidence each requires">
+          <table><thead><tr><th>Level</th><th>What is measured</th><th>What it can establish</th></tr></thead><tbody>
+            <tr><td>Output behaviour</td><td>Token probabilities and accepted complete answers</td><td>Whether a specified answer becomes more or less likely</td></tr>
+            <tr><td>Causal mechanism</td><td>Matched edits to messages, routing or stored values</td><td>Whether that intervention changes the measured behaviour</td></tr>
+            <tr><td>Predictive state</td><td>A state description updated through a continuation</td><td>Whether it retains the information needed for later risks</td></tr>
+            <tr><td>Correction choice</td><td>Outcomes under available repairs, including their costs</td><td>Whether extra information changes a useful decision</td></tr>
+          </tbody></table>
+        </div>
+        <p>A semantic label is often the right level for evaluating an answer, but it can hide the token-level differences that determine the next one. Conversely, a detailed attention map can show where information was read without establishing that the final answer changed. Following the computation from an internal edit through the vocabulary distribution to accepted answer sequences connects those levels.</p>
+        <p>The full cache contains much more information than a single risk score, but retaining everything gives little explanation of what matters. The aim is a smaller state whose update and predictions remain valid for a stated family of questions and interventions. Its adequacy depends on the target: predicting the next error, predicting its timing, and choosing a correction can require different information.</p>
+
         <h2>Swapping one head's message</h2>
         <p>Qwen2.5-0.5B-Instruct read a source fact and answered a factual question. I kept an incorrect earlier answer in the visible conversation, then replaced one attention head's internal message with the message from a matched conversation containing the correct earlier answer.</p>
         <p>On <strong>sixteen held-out prompts</strong>, mean error probability fell from <strong>3.65% to 1.33%</strong>. The selected head was layer 16, head 7, using zero-based indexing; selection used separate discovery prompts. These probabilities came from a decoder restricted to two answer tokens. They are conditional model probabilities, not error frequencies from sampled conversations. <sup class="cite">[<a href="#ref-2">2</a>]</sup></p>
         <p>The message has two components worth separating: the values carrying information and the attention weights deciding how to combine them. Replacing only the value content, while keeping the recipient's attention weights, reduced mean error to <strong>1.26%</strong>. Replacing only the attention weights gave <strong>3.70%</strong>. Content transfer reproduced the average rescue in this experiment; routing transfer did not.</p>
+        <p>The matched donor makes this a causal test of a specific internal replacement. Separating content from routing narrows the explanation further: a change in the weighted message can come from different information being available, different weights on that information, or both. The comparison tests those replacements while keeping the other component fixed.</p>
       </div>
       <figure class="post-interactive">
         <iframe src="figures/ai-tipping/head-content-vs-routing.html" title="Measured attention-head interventions across sixteen held-out prompts" width="900" height="950" loading="lazy" data-autoheight></iframe>
@@ -69,6 +87,7 @@
       </figure>
       <div class="prose">
         <p>The location of the edit also matters. In this cached decoder, temporarily patching the final layer's attention output can change the current logits without changing stored keys or values. If the same next token is forced in both runs, their later computations receive the same cache. An edit to stored values can persist because later queries can read those values again.</p>
+        <p>The rescue does not establish that this head is the sole natural cause of the error. A donor replacement may introduce a message the recipient would not normally produce, and other heads or downstream operations can compensate for it. The held-out prompts reduce the risk of reporting only the prompts used to choose the head; they do not establish transfer to another model, an unrestricted conversation, or a different intervention. The prompt-level plot also matters because an average can conceal opposite effects across source colours and wording.</p>
 
         <h2>An attention mass for the response clock</h2>
         <p>My work on continual learning and physical modelling keeps running into a related problem: a variable can describe the present accurately while omitting information needed to update it. The fixed-prototype binary attention model gives a small example.</p>
@@ -84,15 +103,23 @@
         <figcaption><strong>Mathematical construction.</strong> Change the two attention masses while holding the current margin fixed. Both histories begin at the same risk; their conditional hazards and cumulative error probabilities can diverge. <a href="figures/ai-tipping/attention-memory-clock.html" target="_blank" rel="noopener">Open figure ↗</a></figcaption>
       </figure>
       <div class="prose">
+        <p>The extra mass variable explains why a current risk score can be insufficient even when it is measured exactly. Repeating every item in a history can preserve its weighted average while increasing the mass already present. One new output then moves that average less. In the construction, the current margin describes where the system is; the mass describes its resistance to the next update.</p>
+        <p>For a negative initial margin and a positive limiting margin, a greedy answer switches when accumulated updates carry the margin through zero. Increasing the initial mass delays that crossing. At nonzero decoder temperature there is no single guaranteed failure time: an error can occur before the crossing or a correct answer after it. The cumulative curve integrates those conditional risks. Its survival product does not assume independent errors.</p>
+        <p>The restriction to the <em>first</em> error makes the state update unusually simple. Before that event, every generated answer belongs to the correct prototype. Once an incorrect answer occurs, future queries and stored contributions can change. Predicting recovery or total errors then requires additional response information. Two histories can agree on every first-error probability and still differ after that first error.</p>
+        <p>The clock also suggests a test that can fail. With a fixed temperature, the first three conditional hazards can identify a nonconstant candidate clock; the remaining horizons then test its predictions. Fitting each horizon separately would not test the update law. Near-constant hazards make parameter estimates unstable, and agreement would still leave open whether several neural mechanisms can produce the same curve.</p>
+
         <h2>The time of a correction</h2>
         <p>Timing matters in the measured model too. In one recorded history, re-encoding an earlier correct “Red” as “red” before a two-answer continuation improved net success by <strong>3.31–3.70 percentage points</strong>. Applying the corresponding normalisation only after a later accepted “Red” answer had a small negative effect on whole-continuation success.</p>
         <p>That comparison was calculated post hoc from measured conditional probabilities. It shows why a correction needs a position in the sequence as well as a description of what it changes.</p>
         <p>“red”, “Red”, and a longer sentence can express the same answer but leave different token histories. Semantic correctness sums the probabilities of accepted complete sequences. A ranking of one representative vector need not rank that sum.</p>
         <p>For the later experiments I defined <strong>twelve accepted answer forms</strong>, included their end-of-answer tokens, and retained the original vocabulary normalisation. Unmeasured branches kept explicit probability bounds. Those ranges describe the contribution missing branches could make; they are not sampling confidence intervals.</p>
+        <p>A two-token decoder deliberately removes much of that complexity. Renormalising over red and blue measures preference <em>conditional on producing one of those tokens</em>. It does not count the possibility of another word, a longer answer or an unfinished response. That makes it useful for a controlled intervention comparison, but its error percentages cannot be read as unrestricted chat failure rates.</p>
+        <p>Likewise, a correction that preserves meaning can change later behaviour through its exact spelling and tokenisation. Measuring only semantic correctness at the time of the edit would miss that difference. Measuring a single next-token probability could miss a change elsewhere in the completed answer. The answer contract and evaluation horizon therefore belong in the experiment specification.</p>
 
         <h2>Accurate prediction, a difficult baseline</h2>
         <p>A 64-number description of a structured value-cache edit, together with reference computation retained from the decoder, predicted <strong>296 future conditional vocabulary distributions</strong>. The largest total-variation discrepancy was about \(1.4\times10^{-9}\). That prediction still required the original nonlinear downstream operations: the 64 numbers describe only the edit. The CPU decoder read trained BF16 weights and computed in float64.</p>
         <p>A state-dependent correction policy improved two-answer success by roughly <strong>0.052–0.070 percentage points</strong> over retaining the edited cache. A simpler rule, given the current complete-answer probability, chose the same correction in every tested state. Accurate prediction had not yet demonstrated a decision advantage from remembering the intervention.</p>
+        <p>Prediction accuracy and decision value are separate tests. If two states have different future risks but the same best available action, distinguishing them does not improve that choice. Conversely, a small risk difference can matter when a repair has a cost close to its expected benefit. The action set, fee, horizon and failure loss determine which state differences are useful. This motivation is related to <a href="https://arxiv.org/abs/2011.03506">value equivalence in model-based reinforcement learning</a>, where a model is judged by the planning quantities it preserves. <sup class="cite">[<a href="#ref-5">5</a>]</sup></p>
 
         <h2>Holding the current answers fixed</h2>
         <p>The next test changes cached state while preserving declared current readouts. A content vector is distributed across <strong>32 cached positions</strong>. Three current queries across seven reader heads impose <strong>21 scalar constraints</strong> on that position profile. The remaining freedom can suppress current head-message changes while retaining a response at later public queries.</p>
@@ -107,6 +134,13 @@
         <p>Checks of the accepted spellings separately also found very little redistribution. Internally different states now agree on the measured current behaviour to high precision. <strong>The future semantic-error comparison is unfinished.</strong> A later head's nonzero response alone does not establish a later change in semantic correctness.</p>
         <p>The observation used by a controller therefore needs to be specified. A head message, a vocabulary distribution, and the meaning of a complete answer preserve different information. Nick Cammarata's Goodfire essay, <a href="https://already-clean.goodfire.com/">Neural Networks Are Already Clean</a>, argues for examining native mechanisms with their inputs and downstream readers. Its broader claims are a working hypothesis; following the actual downstream computation is useful for these experiments. <sup class="cite">[<a href="#ref-4">4</a>]</sup></p>
         <p>The next comparison gives one controller the edit description and others the matched initial readouts. It also includes a controller allowed to measure risk later and react then. If that reactive controller catches up, retaining internal state would need to justify its value through observation cost, latency, or an intervention window that closes before the next measurement. I have not established that advantage yet.</p>
+        <p>The position-profile construction provides a way to ask that question without merely comparing two visibly different prompts. Current readers impose linear constraints on how a value edit is distributed across cached positions. A direction left unobserved by those readers may become visible to a different query later. Passing the linear constraints is only the construction step; checking the actual vocabulary and complete-answer probabilities after rounding is what tests whether the intended matching survived the rest of the network.</p>
+        <p>Current matching has a precise scope. Agreement on three queries does not imply agreement on every question a controller could ask, and a later internal response does not by itself establish a semantic failure. A useful follow-up has to fix the observation interface before evaluation, test later complete answers, and compare correction outcomes on fresh histories. Otherwise the observer can keep acquiring measurements until the claimed hidden difference is no longer hidden.</p>
+
+        <h2>What would make the extra state useful?</h2>
+        <p>The strongest result would be a pair of states that a declared observer cannot distinguish, yet for which the available repairs have different best choices. That would show a limitation of the observer for this decision, rather than merely another difference inside the network. If one repair is best in both states, the observer may remain adequate despite predicting their risks imperfectly.</p>
+        <p>A state-aware controller should therefore be compared with keeping the cache, always applying the repair, a rule using the current complete-answer risk, and a controller allowed to measure again later. They need the same repair options and the same accounting for measurement and intervention costs. Any gain also has to survive new prompts, new histories and changes in the allowed edits.</p>
+        <p>The practical motivation is to correct a conversation before an error becomes expensive. These experiments establish a local causal rescue and a mathematical example of missing temporal information. The matched-readout experiment is an attempt to find the corresponding decision problem in a trained model. Whether its extra state provides useful advance warning remains the question being tested.</p>
       </div>
       <section class="post-references" aria-label="References">
         <h2>References and experiment materials</h2>
@@ -115,12 +149,13 @@
           <li id="ref-2">Störk, J. <a href="figures/ai-tipping/head-content-vs-routing.html">Head-content versus routing intervention figure</a> and <a href="figures/ai-tipping/head-interventions.csv" download>published plotting data</a>. Sixteen held-out prompts, three interventions, conditional two-token decoder.</li>
           <li id="ref-3">Störk, J. <a href="figures/ai-tipping/attention-memory-clock.html">Attention-memory response clock</a>. Interactive mathematical construction accompanying the fixed-prototype update law; no fitted neural-model results.</li>
           <li id="ref-4">Cammarata, N. <a href="https://already-clean.goodfire.com/">Neural Networks Are Already Clean</a>, Goodfire. Informal research essay and working hypothesis.</li>
+          <li id="ref-5">Grimm, C., Barreto, A., Singh, S. &amp; Silver, D. <a href="https://arxiv.org/abs/2011.03506">The Value Equivalence Principle for Model-Based Reinforcement Learning</a>, NeurIPS 2020. Background on preserving planning-relevant predictions.</li>
         </ol>
       </section>
     </article>
     <nav class="post-pager" aria-label="More posts">
       <a href="post-agent-training-grounds.html"><span class="eyebrow">Previous post</span><span class="post-pager-title">Gold Medals Don't Stack Batteries</span></a>
-      <a href="post-chargewise.html"><span class="eyebrow">Next post</span><span class="post-pager-title">ChargeWise: Before You Upgrade the Grid Connection</span></a>
+      <a href="post-chargewise.html"><span class="eyebrow">Next post</span><span class="post-pager-title">ChargeWise Fits the Fleet to the Grid</span></a>
     </nav>
   </main>
   <!--#FOOTER-->

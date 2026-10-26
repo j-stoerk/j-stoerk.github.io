@@ -30,15 +30,4 @@
   if (frames.length) new MutationObserver(() => documents.forEach(applyTheme))
     .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
-  const control = document.getElementById('capacity-limit');
-  if (!control) return;
-  function capacity() {
-    const power = Number(control.value), energy = power * 6 * .9;
-    document.getElementById('capacity-power').textContent = power.toFixed(2) + ' kW';
-    document.getElementById('capacity-fill').style.width = power / 22 * 100 + '%';
-    document.getElementById('capacity-result').textContent = energy < 48
-      ? `${energy.toFixed(2)} battery kWh available: ${(48 - energy).toFixed(2)} kWh short of the afternoon target.`
-      : `${energy.toFixed(2)} battery kWh available. The 48 kWh energy requirement is met; plug availability and taper still need checking in the planner.`;
-  }
-  control.addEventListener('input', capacity); capacity();
 })();
