@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: chargewise
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./_services/chargewise/Dockerfile
+    dockerContext: ./_services/chargewise
+    healthCheckPath: /api/health
+    autoDeployTrigger: "off"
+    envVars:
+      - key: PORT
+        value: "7860"
