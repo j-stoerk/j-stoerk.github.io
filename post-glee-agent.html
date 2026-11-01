@@ -19,6 +19,7 @@
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="article:published_time" content="2026-08-30" />
+  <meta property="article:modified_time" content="2026-11-01" />
   <meta property="article:author" content="Julius Störk" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://j-stoerk.github.io/social-glee.png" />
@@ -30,7 +31,7 @@
       "headline": "I Ran a Game-Theory RL-Menu Agent in GLEE for 48 Hours (No LLM)",
       "description": "Building a no-LLM game-theory bot for the GLEE economic games, and what actually moved the percentile score: scaling the reward, measuring in the right seat, and closing before inflation eats the pot.",
       "datePublished": "2026-08-30",
-      "dateModified": "2026-09-30",
+      "dateModified": "2026-11-01",
       "url": "https://j-stoerk.github.io/post-glee-agent.html",
       "image": "https://j-stoerk.github.io/social-glee.png",
       "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
@@ -55,6 +56,7 @@
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles.css?v=5721c9bc">
   <link rel="stylesheet" href="experiences.css?v=46a70b1b">
+  <link rel="stylesheet" href="post-figures.css?v=b0d029f8">
 </head>
 
 <body>
@@ -120,6 +122,21 @@
         </div>
       </div>
       <p class="post-context"><span>Why this matters</span>An agent that wins in simulation can still lose against real opponents, making evaluation design as important as the strategy.</p>
+
+      <div class="post-project-links" aria-label="Paper and presentation">
+        <a draggable="false" class="btn btn-primary" href="#glee-talk">Video with subtitles</a>
+        <a draggable="false" href="media/glee/glee-paper.pdf">Paper PDF</a>
+        <a draggable="false" href="media/glee/glee-poster.pdf">A0 poster PDF</a>
+      </div>
+      <figure class="post-interactive" id="glee-talk">
+        <video controls playsinline preload="none" width="1920" height="1080"
+          style="display:block;width:100%;height:auto"
+          poster="media/glee/glee-talk-cover.jpg" aria-label="GLEE agent presentation with subtitles">
+          <source src="media/glee/glee-talk.mp4" type="video/mp4" />
+          <p><a draggable="false" href="media/glee/glee-talk.mp4">Watch the subtitled video</a>.</p>
+        </video>
+        <figcaption>2 min 44 sec · Subtitles included in the video. <a draggable="false" href="media/glee/glee-talk.mp4">Open MP4</a></figcaption>
+      </figure>
 
       <div class="prose">
         <p>At the end of August I ran a bot in GLEE for 48 hours. GLEE drops an agent into three economic games:

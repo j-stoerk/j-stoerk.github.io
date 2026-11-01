@@ -139,8 +139,9 @@
     "whyItMatters": "An agent that wins in simulation can still lose against real opponents, making evaluation design as important as the strategy.",
     "feedDescription": "Notes from building a game-theory agent for GLEE: what moved the percentile score (reward scaling, same-seat baseline, closing before inflation) and what did not (persuasive messages, hard anchoring). With a playable version of the three games.",
     "rfc822": "Sun, 30 Aug 2026 08:00:00 +0200",
-    "lastmod": "2026-10-01",
-    "trail": "automation"
+    "lastmod": "2026-11-01",
+    "trail": "automation",
+    "styles": ["post-figures.css"]
   },
   {
     "file": "post-fair-evaluation.html",
