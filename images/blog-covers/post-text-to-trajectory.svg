@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" class="cover-art" viewBox="0 0 1200 675" role="img" aria-label="Schematic of a language instruction, an industrial arm and a carried object following a route over a marker">
+  <defs><linearGradient id="trajectoryPaper" x2="1" y2="1"><stop offset="0" stop-color="#e9eff4"/><stop offset="1" stop-color="#eee9dd"/></linearGradient></defs>
+  <rect width="1200" height="675" fill="url(#trajectoryPaper)"/>
+  <g stroke="#9aa8b6" opacity=".18" fill="none"><path d="M0 135H1200M0 270H1200M0 405H1200M0 540H1200M150 0V675M330 0V675M510 0V675M690 0V675M870 0V675M1050 0V675"/></g>
+  <path d="M88 122H426V268H202L164 305V268H88Z" fill="#f5f6f2" stroke="#597389" stroke-width="2"/>
+  <g stroke-linecap="round" stroke-width="9"><path d="M120 161H212M269 161H386" stroke="#7f91a1"/><path d="M120 203H204" stroke="#a35f62"/><path d="M234 203H386" stroke="#477bb7"/></g>
+  <path d="M175 532H410M221 532V477H348V532M285 477L235 362L412 290L546 370" fill="none" stroke="#526d86" stroke-width="21" stroke-linejoin="round"/>
+  <g fill="#eff2ef" stroke="#526d86" stroke-width="3"><circle cx="285" cy="477" r="21"/><circle cx="235" cy="362" r="21"/><circle cx="412" cy="290" r="21"/></g>
+  <path d="M546 370L578 400L559 427M546 370L518 401L533 427" fill="none" stroke="#526d86" stroke-width="6"/>
+  <path d="M477 520H1126" fill="none" stroke="#8e9caa" stroke-width="2"/>
+  <rect x="517" y="456" width="74" height="64" rx="3" fill="#b47477" fill-opacity=".7" stroke="#9f5e62" stroke-width="2"/>
+  <rect x="844" y="456" width="74" height="64" rx="3" fill="#608cbe" fill-opacity=".8" stroke="#477bb7" stroke-width="2"/>
+  <rect x="1023" y="456" width="74" height="64" rx="3" fill="#b47477" fill-opacity=".13" stroke="#9f5e62" stroke-width="2" stroke-dasharray="6 6"/>
+  <path d="M723 520L748 484L773 520Z" fill="#d1aa6c" fill-opacity=".55" stroke="#ad8140" stroke-width="2"/>
+  <path d="M554 438C599 389 595 340 659 307S784 261 853 290S984 329 1036 394L1060 437" fill="none" stroke="#477bb7" stroke-width="4" stroke-linecap="round"/>
+  <path d="M1042 429L1060 437L1063 417" fill="none" stroke="#477bb7" stroke-width="3"/>
+  <g fill="#eef2ee" stroke="#477bb7" stroke-width="2"><circle cx="659" cy="307" r="6"/><circle cx="853" cy="290" r="6"/></g>
+  <g fill="#596e82" font-family="system-ui,sans-serif" font-size="19"><text x="88" y="91">Instruction</text><text x="714" y="241">Required route</text><text x="803" y="568">Reference</text><text x="1009" y="568">Placement</text></g>
+</svg>

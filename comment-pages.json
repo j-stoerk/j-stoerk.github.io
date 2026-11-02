@@ -1,6 +1,7 @@
 {
   "version": 1,
   "pages": [
+    "post-text-to-trajectory",
     "post-chargewise",
     "post-ai-tipping",
     "post-agent-training-grounds",

@@ -1,5 +1,22 @@
 [
   {
+    "file": "post-text-to-trajectory.html",
+    "title": "Text to Trajectory",
+    "iso": "2026-11-01",
+    "display": "1 November 2026",
+    "category": "Robotics & language",
+    "minutes": 12,
+    "summary": "How grounding, task programs, motion planning and learned robot policies turn language into movement, with a focused evaluation proposed for Visual Components.",
+    "whyItMatters": "A robot can reach the right destination while ignoring part of the request. Reliable instruction following requires checking the whole movement.",
+    "feedDescription": "From language instructions to robot motion: grounding, checked plans, learned policies and a focused study in Visual Components.",
+    "rfc822": "Sun, 01 Nov 2026 08:00:00 +0100",
+    "lastmod": "2026-11-02",
+    "trail": "automation",
+    "styles": [
+      "text-to-trajectory.css"
+    ]
+  },
+  {
     "file": "post-chargewise.html",
     "title": "ChargeWise Fits the Fleet to the Grid",
     "iso": "2026-10-25",

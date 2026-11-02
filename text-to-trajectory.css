@@ -1,0 +1,7 @@
+.trajectory-figure { margin: var(--space-8) 0; border: 1px solid var(--color-border); border-radius: 8px; overflow: hidden; }
+.trajectory-figure > a { display: block; padding: 12px; background: #fff; }
+.trajectory-figure img { display: block; width: 100%; height: auto; }
+.trajectory-figure figcaption { padding: 12px 18px; background: var(--color-surface); color: var(--color-text-muted); font-size: var(--text-xs); line-height: 1.65; }
+.trajectory-figure figcaption a { text-underline-offset: 3px; }
+.trajectory-figure > a:focus-visible { outline: 3px solid var(--color-primary); outline-offset: -3px; }
+@media (max-width: 600px) { .trajectory-figure > a { padding: 7px; } .trajectory-figure figcaption { padding: 12px 14px; } }

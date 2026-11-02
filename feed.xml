@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://j-stoerk.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Text to Trajectory</title>
+      <link>https://j-stoerk.github.io/post-text-to-trajectory.html</link>
+      <guid isPermaLink="true">https://j-stoerk.github.io/post-text-to-trajectory.html</guid>
+      <pubDate>Sun, 01 Nov 2026 08:00:00 +0100</pubDate>
+      <description>From language instructions to robot motion: grounding, checked plans, learned policies and a focused study in Visual Components.</description>
+    </item>
+    <item>
       <title>ChargeWise Fits the Fleet to the Grid</title>
       <link>https://j-stoerk.github.io/post-chargewise.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-chargewise.html</guid>

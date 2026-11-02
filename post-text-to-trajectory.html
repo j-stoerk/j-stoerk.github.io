@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Text to Trajectory · Julius Störk</title>
+  <meta name="description" content="From language instructions to robot motion: grounding, checked plans, learned policies and a focused study in Visual Components." />
+  <link rel="canonical" href="https://j-stoerk.github.io/post-text-to-trajectory.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
+  <meta property="og:type" content="article" /><meta property="og:site_name" content="Julius Störk" />
+  <meta property="og:title" content="Text to Trajectory" /><meta property="og:description" content="From language instructions to robot motion: grounding, checked plans, learned policies and a focused study in Visual Components." />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-text-to-trajectory.html" />
+  <meta property="og:image" content="https://j-stoerk.github.io/images/social-text-to-trajectory.png" />
+  <meta property="og:image:alt" content="A robot carries an object along a specified route over a marker" />
+  <meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
+  <meta property="article:published_time" content="2026-11-01" /><meta property="article:modified_time" content="2026-11-02" />
+  <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:image" content="https://j-stoerk.github.io/images/social-text-to-trajectory.png" />
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Text to Trajectory", "description": "From language instructions to robot motion: grounding, checked plans, learned policies and a focused study in Visual Components.", "datePublished": "2026-11-01", "dateModified": "2026-11-02", "url": "https://j-stoerk.github.io/post-text-to-trajectory.html", "image": "https://j-stoerk.github.io/images/social-text-to-trajectory.png", "author": {"@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/"}}</script>
+  <meta name="theme-color" content="#fdfdfc">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Applied before first paint so the theme never flashes. -->
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('theme'); } catch (e) { }
+      if (!t) t = 'light';   // light is the standard; dark only on explicit toggle
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'dark' ? '#101214' : '#fdfdfc');
+    })();
+  </script>
+
+  <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=5721c9bc">
+  <link rel="stylesheet" href="experiences.css?v=46a70b1b">
+  <link rel="stylesheet" href="text-to-trajectory.css?v=41930fac">
+</head><body>
+  <a draggable="false" href="#main" class="skip-link">Skip to main content</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a draggable="false" class="site-title" href="index.html?nav=fe6093f0">Home</a>
+      <button draggable="false" class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+        <span class="nav-toggle-lines" aria-hidden="true"></span>
+        <span class="sr-only">Open navigation</span>
+      </button>
+      <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
+        <a draggable="false" href="index.html?nav=fe6093f0#publications" data-nav-label="Publications">Publications</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#software" data-nav-label="Code">Code</a>
+        <a draggable="false" class="current" href="blog.html?nav=fe6093f0" data-nav-label="Blog" aria-current="page">Blog</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#experience" data-nav-label="Experience">Experience</a>
+        <a draggable="false" href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#contact" data-nav-label="Contact">Contact</a>
+        <button draggable="false" class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="content">
+    <div class="page-art page-art-post" aria-hidden="true" style="--post-art-light:url('images/blog-backgrounds/post-text-to-trajectory-light.svg?v=5cd7df59');--post-art-dark:url('images/blog-backgrounds/post-text-to-trajectory-dark.svg?v=ad4e65e0')"></div>
+    <a draggable="false" class="back-link" href="blog.html?nav=fe6093f0">All posts</a>
+    <article class="post" id="text-to-trajectory">
+      <div class="post-cover media-cover"><div class="media"><svg xmlns="http://www.w3.org/2000/svg" class="cover-art" viewBox="0 0 1200 675" role="img" aria-label="Schematic of a language instruction, an industrial arm and a carried object following a route over a marker">
+  <defs><linearGradient id="trajectoryPaper" x2="1" y2="1"><stop offset="0" stop-color="#e9eff4"/><stop offset="1" stop-color="#eee9dd"/></linearGradient></defs>
+  <rect width="1200" height="675" fill="url(#trajectoryPaper)"/>
+  <g stroke="#9aa8b6" opacity=".18" fill="none"><path d="M0 135H1200M0 270H1200M0 405H1200M0 540H1200M150 0V675M330 0V675M510 0V675M690 0V675M870 0V675M1050 0V675"/></g>
+  <path d="M88 122H426V268H202L164 305V268H88Z" fill="#f5f6f2" stroke="#597389" stroke-width="2"/>
+  <g stroke-linecap="round" stroke-width="9"><path d="M120 161H212M269 161H386" stroke="#7f91a1"/><path d="M120 203H204" stroke="#a35f62"/><path d="M234 203H386" stroke="#477bb7"/></g>
+  <path d="M175 532H410M221 532V477H348V532M285 477L235 362L412 290L546 370" fill="none" stroke="#526d86" stroke-width="21" stroke-linejoin="round"/>
+  <g fill="#eff2ef" stroke="#526d86" stroke-width="3"><circle cx="285" cy="477" r="21"/><circle cx="235" cy="362" r="21"/><circle cx="412" cy="290" r="21"/></g>
+  <path d="M546 370L578 400L559 427M546 370L518 401L533 427" fill="none" stroke="#526d86" stroke-width="6"/>
+  <path d="M477 520H1126" fill="none" stroke="#8e9caa" stroke-width="2"/>
+  <rect x="517" y="456" width="74" height="64" rx="3" fill="#b47477" fill-opacity=".7" stroke="#9f5e62" stroke-width="2"/>
+  <rect x="844" y="456" width="74" height="64" rx="3" fill="#608cbe" fill-opacity=".8" stroke="#477bb7" stroke-width="2"/>
+  <rect x="1023" y="456" width="74" height="64" rx="3" fill="#b47477" fill-opacity=".13" stroke="#9f5e62" stroke-width="2" stroke-dasharray="6 6"/>
+  <path d="M723 520L748 484L773 520Z" fill="#d1aa6c" fill-opacity=".55" stroke="#ad8140" stroke-width="2"/>
+  <path d="M554 438C599 389 595 340 659 307S784 261 853 290S984 329 1036 394L1060 437" fill="none" stroke="#477bb7" stroke-width="4" stroke-linecap="round"/>
+  <path d="M1042 429L1060 437L1063 417" fill="none" stroke="#477bb7" stroke-width="3"/>
+  <g fill="#eef2ee" stroke="#477bb7" stroke-width="2"><circle cx="659" cy="307" r="6"/><circle cx="853" cy="290" r="6"/></g>
+  <g fill="#596e82" font-family="system-ui,sans-serif" font-size="19"><text x="88" y="91">Instruction</text><text x="714" y="241">Required route</text><text x="803" y="568">Reference</text><text x="1009" y="568">Placement</text></g>
+</svg>
+</div></div>
+      <header class="post-header">
+        <p class="post-meta"><time datetime="2026-11-01">1 November 2026</time> · Robotics &amp; language · 12 min read</p>
+        <h1>Text to Trajectory</h1>
+        <p class="post-update">Literature review · Updated 2 November 2026</p>
+      </header>
+      <p class="post-context"><span>Why this matters</span>A robot can reach the right destination while ignoring part of the request. Reliable instruction following requires checking the whole movement.</p>
+      <div class="prose">
+        <p>“Place the red carrier to the right of the blue carrier, passing over the marker.” A robot can reach the correct destination without a collision and still fail that instruction. The route matters as much as the endpoint.</p>
+        <p>An industrial controller needs object identities, coordinates, actions and limits. The sentence supplies some of those indirectly and leaves others unstated. Turning it into motion brings language grounding, program generation, planning and control into the same system. This review follows the interfaces between them, with Visual Components as a possible simulation backend.</p>
+        <h2>A route is part of the request</h2>
+        <p>The carrier example contains an object to move, a reference object, a spatial relation and a route requirement. “Right” also needs a coordinate frame. A gap needs units and a tolerance. “Do that again” needs a record of the last successful task and a decision about which parts should be recomputed after the scene changes.</p>
+        <p>A structured description makes these choices inspectable. Early Generalized Grounding Graphs connect language to candidate objects, places, paths and events, preserving more of the command than an object label alone. Their central problem remains current even when a neural model performs the translation. <sup class="cite">[<a draggable="false" href="#ref-1">1</a>]</sup></p>
+        <p>A task can be perfectly valid under its encoded rules while missing a requirement from the sentence. If “over the marker” disappears during translation, a downstream solver has no reason to include it. Checking meaning therefore needs access to the original request, rather than only to the generated program.</p>
+        <h2>Grounding the scene</h2>
+        <p>CLIP learns visual and textual features that make matching image–text pairs similar. This gives a perception system a useful way to search by description. Precise manipulation also needs spatial information about where an object is and how the robot can interact with it. <sup class="cite">[<a draggable="false" href="#ref-2">2</a>]</sup></p>
+        <p>CLIPort combines CLIP-based semantic features with a spatial pathway for pick-and-place prediction. The two streams help distinguish what to manipulate and where to act. The resulting affordance maps belong to a learned manipulation policy; a separate industrial planner may instead need an object identifier, a pose and explicit geometric constraints. <sup class="cite">[<a draggable="false" href="#ref-3">3</a>]</sup></p>
+      </div>
+      <figure class="trajectory-figure" id="figure-1">
+        <a draggable="false" href="media/text-to-trajectory/cliport.png" target="_blank" rel="noopener" aria-label="Open figure 1 at full size"><img draggable="false" src="media/text-to-trajectory/cliport.png" alt="CLIPort architecture with a CLIP semantic stream, a spatial RGB-D stream and dense pick-and-place features." width="1446" height="664" loading="lazy" decoding="async" /></a>
+        <figcaption><strong>Figure 1.</strong> CLIPort combines semantic features with spatial precision for manipulation. Reproduced from <a draggable="false" href="https://arxiv.org/abs/2109.12098">Shridhar, 2021</a>. <a draggable="false" href="media/text-to-trajectory/cliport.png" target="_blank" rel="noopener">Open full-size figure</a>.</figcaption>
+      </figure>
+      <div class="prose">
+        <p>Persistent scene representations help when a task extends beyond one camera image. SayPlan searches a hierarchical 3D scene graph for relevant objects and places, then combines language planning with classical path planning and simulator feedback. Collapsing irrelevant parts of the graph reduces the information the language model has to process. <sup class="cite">[<a draggable="false" href="#ref-4">4</a>]</sup></p>
+      </div>
+      <figure class="trajectory-figure" id="figure-2">
+        <a draggable="false" href="media/text-to-trajectory/sayplan.png" target="_blank" rel="noopener" aria-label="Open figure 2 at full size"><img draggable="false" src="media/text-to-trajectory/sayplan.png" alt="SayPlan searches a collapsed scene graph, expands relevant nodes and revises a task plan using simulator feedback." width="1194" height="825" loading="lazy" decoding="async" /></a>
+        <figcaption><strong>Figure 2.</strong> SayPlan exposes a compact part of a larger scene and uses execution-related feedback to revise its plan. Reproduced from <a draggable="false" href="https://arxiv.org/abs/2307.06135">Rana, 2023</a>. <a draggable="false" href="media/text-to-trajectory/sayplan.png" target="_blank" rel="noopener">Open full-size figure</a>.</figcaption>
+      </figure>
+      <div class="prose">
+        <p>Recent work on Joint-Embedding Predictive Architectures (JEPAs) asks whether separately trained modalities learn matching representations. Its alignment theorem depends on matched views of the same underlying states and other idealized assumptions. Agreement up to a rotation of feature coordinates does not establish correct object references or preservation of a requested route. Those distinctions still need task-level tests. <sup class="cite">[<a draggable="false" href="#ref-5">5</a>]</sup></p>
+        <h2>Turning a request into callable work</h2>
+        <p>SayCan chooses among available skills using both language relevance and an estimate of whether a skill can succeed. Code as Policies gives generated programs more freedom to process perception, calculate geometric quantities and call control APIs. The choice changes what must be checked. Selecting a known skill requires reliable preconditions; generated code also introduces arguments, control flow and assumptions that can be wrong. <sup class="cite">[<a draggable="false" href="#ref-6">6</a>, <a draggable="false" href="#ref-7">7</a>]</sup></p>
+        <p>NeSyRo checks generated policy code symbolically and gathers further observations when the available state is insufficient. That separates some code errors from missing knowledge about the scene. The checks remain limited by the properties represented in the symbolic model. <sup class="cite">[<a draggable="false" href="#ref-8">8</a>]</sup></p>
+        <p>Industrial integration makes the interface concrete. Syniawa and colleagues use AutomationML state descriptions and a defined skill library, translating instructions into process steps and C++ calls in simulated cabinet assembly with ROS 2 and MoveIt 2. A Visual Components implementation would need an equally explicit account of scene objects, callable skills and their inputs. The simulator name alone says little about that contract. <sup class="cite">[<a draggable="false" href="#ref-9">9</a>]</sup></p>
+        <h2>Making the movement feasible</h2>
+        <p>Task-and-motion planning connects discrete choices with continuous geometry. A requested placement may require a different grasp, a different action order or moving an obstruction first. A collision report is useful to the task planner only if it can revise one of those choices in response. <sup class="cite">[<a draggable="false" href="#ref-10">10</a>]</sup></p>
+        <p>VoxPoser translates language and visual detections into 3D preference and constraint maps that a motion planner can optimize. ReKep uses relationships between visual keypoints, expressed as functions over task stages and transitions. Both give the requested behavior a spatial representation that reaches beyond a named final pose. <sup class="cite">[<a draggable="false" href="#ref-11">11</a>, <a draggable="false" href="#ref-12">12</a>]</sup></p>
+      </div>
+      <figure class="trajectory-figure" id="figure-3">
+        <a draggable="false" href="media/text-to-trajectory/rekep.png" target="_blank" rel="noopener" aria-label="Open figure 3 at full size"><img draggable="false" src="media/text-to-trajectory/rekep.png" alt="ReKep identifies visual keypoints, generates subgoal and path constraints and solves for end-effector actions." width="1193" height="540" loading="lazy" decoding="async" /></a>
+        <figcaption><strong>Figure 3.</strong> ReKep distinguishes subgoal constraints from constraints on the movement between subgoals. Reproduced from <a draggable="false" href="https://arxiv.org/abs/2409.01652">Huang, 2024</a>. <a draggable="false" href="media/text-to-trajectory/rekep.png" target="_blank" rel="noopener">Open full-size figure</a>.</figcaption>
+      </figure>
+      <div class="prose">
+        <p>For the red carrier, a final right-of relation constrains placement. Passing over the marker constrains the carried object during transport. Checking only the gripper endpoint would leave the route untested. Even a correct route description can be infeasible with the current grasp, obstacle layout or joint limits.</p>
+        <p>A collision-free geometric path also has to be timed and tracked. cuRobo uses GPU-parallel inverse kinematics and trajectory optimization to search efficiently. cuRoboV2 adds dynamics-aware B-spline optimization with torque limits and depth-derived obstacle distance fields. These methods improve the motion computation once the goal and constraints have been supplied. <sup class="cite">[<a draggable="false" href="#ref-13">13</a>, <a draggable="false" href="#ref-14">14</a>]</sup></p>
+      </div>
+      <figure class="trajectory-figure" id="figure-4">
+        <a draggable="false" href="media/text-to-trajectory/curobo-v2.png" target="_blank" rel="noopener" aria-label="Open figure 4 at full size"><img draggable="false" src="media/text-to-trajectory/curobo-v2.png" alt="cuRoboV2 optimization loop evaluates kinematics, inverse dynamics, collisions and configuration-space bounds before updating a B-spline trajectory." width="1015" height="781" loading="lazy" decoding="async" /></a>
+        <figcaption><strong>Figure 4.</strong> cuRoboV2 includes motion constraints that a geometric path alone does not capture. Reproduced from <a draggable="false" href="https://arxiv.org/abs/2603.05493">Sundaralingam, 2026</a>. <a draggable="false" href="media/text-to-trajectory/curobo-v2.png" target="_blank" rel="noopener">Open full-size figure</a>.</figcaption>
+      </figure>
+      <div class="prose">
+        <p>The remaining assumptions matter at execution. Payload, collision geometry, contact behavior, attachment state and controller tracking determine which motions the model represents accurately. A simulator can check its own model precisely while omitting a physical effect that matters on the real cell.</p>
+        <h2>Smaller models with stronger checks</h2>
+        <p>A restricted industrial vocabulary can make compact task models practical. Ro-SLM distils instruction and operation-code knowledge into smaller models. Its 8B configuration reports 97.7% success on simple UAV tasks and 70% on complex ones. The difference between those settings is more informative than a single claim that a small model works. <sup class="cite">[<a draggable="false" href="#ref-15">15</a>]</sup></p>
+        <p>SLoSa constructs safety-aware examples with classical planners, a teacher model and formal verifiers, then combines supervised adaptation with verification-guided reinforcement learning. It evaluates formal domains, household simulators, edge hardware and a desktop arm. Those settings test different parts of the system, so their results should remain identifiable when discussing deployment. <sup class="cite">[<a draggable="false" href="#ref-16">16</a>]</sup></p>
+      </div>
+      <figure class="trajectory-figure" id="figure-5">
+        <a draggable="false" href="media/text-to-trajectory/slosa.png" target="_blank" rel="noopener" aria-label="Open figure 5 at full size"><img draggable="false" src="media/text-to-trajectory/slosa.png" alt="SLoSa builds verified planning examples, adapts student models and uses a verifier-based reward during reinforcement learning." width="1302" height="428" loading="lazy" decoding="async" /></a>
+        <figcaption><strong>Figure 5.</strong> SLoSa uses explicit constraints in data construction and model adaptation. Reproduced from <a draggable="false" href="https://arxiv.org/abs/2610.28955">Xu, 2026</a>. <a draggable="false" href="media/text-to-trajectory/slosa.png" target="_blank" rel="noopener">Open full-size figure</a>.</figcaption>
+      </figure>
+      <div class="prose">
+        <p>Checks can also guide generation directly. VOLTS gives a compact model tokens representing complete grounded actions and validates candidates during branching search. It returns valid plans for about 76% of 2,000 problems across four classical planning domains. The validator judges actions against the formal state and domain; it cannot supply a language requirement that was never encoded. <sup class="cite">[<a draggable="false" href="#ref-17">17</a>]</sup></p>
+        <p>SELP translates user constraints into temporal logic and restricts planning with the selected specification. Planner-in-the-loop formalization instead diagnoses and repairs specifications written in the Planning Domain Definition Language (PDDL). It separates parseability, solvability and agreement with reference planning outcomes, exposing errors that a syntax check would miss. <sup class="cite">[<a draggable="false" href="#ref-18">18</a>, <a draggable="false" href="#ref-19">19</a>]</sup></p>
+        <p>These mechanisms address different errors. Training can improve the first proposal, constrained decoding can reject an inapplicable action, and planner feedback can reveal a defective specification. Their costs also differ. A smaller model making several repair calls may have worse response latency than a larger model making one successful call.</p>
+        <h2>When the policy learns the movement</h2>
+        <p>Vision-language-action models assign more of perception and control to a learned policy. RT-2 represents robot actions as tokens and combines robot demonstrations with visual-language training. Diffusion Policy generates continuous action sequences through denoising and updates them over a receding horizon. Each approach needs an action representation and experience appropriate to the robot. <sup class="cite">[<a draggable="false" href="#ref-20">20</a>, <a draggable="false" href="#ref-21">21</a>]</sup></p>
+        <p>SmolVLA combines a compact visual-language backbone with an action expert and community-collected robot data. It predicts chunks of upcoming actions and separates that prediction from execution. This is a different resource problem from interpreting a sentence into a short task record, because images and actions must also be processed at the required control rate. <sup class="cite">[<a draggable="false" href="#ref-22">22</a>]</sup></p>
+      </div>
+      <figure class="trajectory-figure" id="figure-6">
+        <a draggable="false" href="media/text-to-trajectory/smolvla.png" target="_blank" rel="noopener" aria-label="Open figure 6 at full size"><img draggable="false" src="media/text-to-trajectory/smolvla.png" alt="SmolVLA combines community robot datasets, a visual-language backbone and an action expert to predict action chunks." width="1323" height="754" loading="lazy" decoding="async" /></a>
+        <figcaption><strong>Figure 6.</strong> SmolVLA learns the observation-to-action interface and separates prediction from execution. Reproduced from <a draggable="false" href="https://arxiv.org/abs/2506.01844">Shukor, 2025</a>. <a draggable="false" href="media/text-to-trajectory/smolvla.png" target="_blank" rel="noopener">Open full-size figure</a>.</figcaption>
+      </figure>
+      <div class="prose">
+        <p>Adaptation choices can be as consequential as the model name. OpenVLA-OFT combines parallel decoding, action chunking, continuous actions and a regression objective. In its LIBERO evaluation, average success rises from 76.5% to 97.1% and action-generation throughput increases by 26 times. That comparison changes the training and execution recipe, so the improvement cannot be attributed to backbone size alone. <sup class="cite">[<a draggable="false" href="#ref-23">23</a>]</sup></p>
+        <p>A learned policy and an explicit planner can also share a system. A task interpreter might select a learned grasping skill while a separate motion or collision check evaluates its proposed movement. Choosing that division requires compatible observations, action conventions and timing, rather than a parameter-count comparison between models doing different jobs.</p>
+        <h2>Testing outside the familiar scene</h2>
+        <p>The training signal determines what a system can learn. An instruction paired with a formal task trains interpretation. Camera observations paired with timed actions train behavior. MimicGen adapts object-relative demonstration segments to new configurations, generating more than 50,000 demonstrations from roughly 200 human demonstrations in its study. That expands behavioral supervision without automatically labeling every route or exclusion a person might request. <sup class="cite">[<a draggable="false" href="#ref-24">24</a>]</sup></p>
+        <p>Simulation frameworks such as Isaac Lab provide controlled observations, actuator models and parallel rollouts. For an initial interpretation test, exact simulator object state can remove perception errors. Replacing it later with camera-derived state introduces another source of uncertainty that should be evaluated separately. <sup class="cite">[<a draggable="false" href="#ref-25">25</a>]</sup></p>
+        <p>LIBERO separates variations in spatial arrangements, objects, goals and longer task sequences. LIBERO-Plus adds controlled perturbations of language, layout, camera view, robot initialization, lighting, backgrounds and sensor noise. These tests make a nominal success score much easier to interpret. A policy may handle the original task while relying on a familiar viewpoint or phrasing. <sup class="cite">[<a draggable="false" href="#ref-26">26</a>, <a draggable="false" href="#ref-27">27</a>]</sup></p>
+      </div>
+      <figure class="trajectory-figure" id="figure-7">
+        <a draggable="false" href="media/text-to-trajectory/libero-plus.png" target="_blank" rel="noopener" aria-label="Open figure 7 at full size"><img draggable="false" src="media/text-to-trajectory/libero-plus.png" alt="LIBERO-Plus varies language, layouts, viewpoints, initial robot states, backgrounds, lighting and sensor noise." width="1467" height="600" loading="lazy" decoding="async" /></a>
+        <figcaption><strong>Figure 7.</strong> LIBERO-Plus tests controlled departures from nominal evaluation conditions. Reproduced from <a draggable="false" href="https://openaccess.thecvf.com/content/CVPR2026/html/Fei_LIBERO-Plus_A_Progressive_Robustness_Benchmark_for_Visual-Language-Action_Models_CVPR_2026_paper.html">Fei, 2026</a>. <a draggable="false" href="media/text-to-trajectory/libero-plus.png" target="_blank" rel="noopener">Open full-size figure</a>.</figcaption>
+      </figure>
+      <div class="prose">
+        <p>LIBERO-Safety distinguishes physical execution risks from semantic safety assessment. Completion, collision and refusal rates need to be read together. A system that executes fewer requests may collide less without improving the movements it does attempt. RoboDojo extends evaluation across simulation and real robots, where common interfaces help expose differences in generalization, memory, precision and long-horizon execution. <sup class="cite">[<a draggable="false" href="#ref-28">28</a>, <a draggable="false" href="#ref-29">29</a>]</sup></p>
+        <h2>A focused study in Visual Components</h2>
+        <p>A useful first study can stay with one arm and a small pick-and-place vocabulary. The interpreter identifies an object, a reference, a relation and an optional route. Deterministic code computes coordinates and calls a limited skill library. Separate observations check the carried-object trace and final placement after release. This is a proposed experiment, not a demonstrated system.</p>
+        <p>Three conditions would share the same interpreter and motion backend. A <strong>single-proposal baseline</strong> gets one attempt. A <strong>bounded-repair condition</strong> can use format and feasibility diagnostics. A <strong>requirement-checking condition</strong> also compares the proposal with requirements extracted from the original sentence before the checker sees the proposal. Separate prompting can still produce correlated mistakes, so an extra-compute control should receive the same call, token and time budget without that checker.</p>
+        <p>The test cases can stay small enough to diagnose. Swap left and right, exchange object names, add a marker passage, or request an explicit gap. Then move the reference object and repeat the last successful task. A paraphrase should preserve the intended action; changing a requirement should change it. Reordering scene records or consistently renaming identifiers should also preserve the result after identities are mapped back.</p>
+        <p>Task requirements must be defined independently of the model output, with valid alternative placements and routes accepted. Ambiguous or unsupported requests should trigger clarification. A failed step ends a dependent episode, leaving its remaining steps unsuccessful. Otherwise the score can improve merely by excluding the difficult parts of a workflow.</p>
+        <p>Model adaptation deserves its own comparison. Start with the original model and the same model adapted on reviewed examples, holding the checker and motion backend fixed. Split task families before generating related scene variants or paraphrases. Error–correction examples can be tested under a matched training budget, with artificial mistakes kept distinct from failures actually made by the model.</p>
+        <p>The main outcome is <strong>whole-request success</strong>, accompanied by requirement completeness and the fraction of reported completions that omit something requested. Record object, relation, route and context errors separately. Pair completion and refusal counts with collisions, placement error and route accuracy. Median and 95th-percentile response times should include failed requests; model inference, repairs and simulated motion should remain distinguishable. Peak memory and hardware settings complete the deployment picture.</p>
+        <p>For the red carrier, success means the correct object and reference, the intended right-of relation, the marker passage, feasible movement and an observed release at the requested placement. A final coordinate alone cannot establish that the instruction was carried out.</p>
+      </div>
+      <section class="post-references" aria-label="References">
+        <h2>References</h2>
+        <ol>
+          <li id="ref-1"><a draggable="false" href="https://doi.org/10.1609/aaai.v25i1.7979">Stefanie Tellex et al. (2011). Understanding Natural Language Commands for Robotic Navigation and Mobile Manipulation. Proceedings of the AAAI Conference on Artificial Intelligence, 25(1), 1507–1514.</a></li>
+          <li id="ref-2"><a draggable="false" href="https://proceedings.mlr.press/v139/radford21a.html">Alec Radford et al. (2021). Learning Transferable Visual Models From Natural Language Supervision. International Conference on Machine Learning (ICML), PMLR 139, 8748–8763.</a></li>
+          <li id="ref-3"><a draggable="false" href="https://arxiv.org/abs/2109.12098">Mohit Shridhar et al. (2021). CLIPort: What and Where Pathways for Robotic Manipulation. Conference on Robot Learning (CoRL 2021).</a></li>
+        </ol>
+        <details class="references-more">
+          <summary draggable="false" class="references-toggle"><span class="references-show">show all 29 references</span><span class="references-hide">show fewer references</span><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></summary>
+          <ol start="4"><li id="ref-4"><a draggable="false" href="https://arxiv.org/abs/2307.06135">Krishan Rana et al. (2023). SayPlan: Grounding Large Language Models using 3D Scene Graphs for Scalable Robot Task Planning. Conference on Robot Learning (CoRL 2023).</a></li>
+          <li id="ref-5"><a draggable="false" href="https://arxiv.org/pdf/2610.39302">Randall Balestriero and Yann LeCun (2026). Proving and Improving the Platonic Representation Hypothesis with JEPAs. arXiv preprint, arXiv:2610.39302v1, 29 October 2026.</a></li>
+          <li id="ref-6"><a draggable="false" href="https://arxiv.org/abs/2204.01691">Michael Ahn et al. (2022). Do As I Can, Not As I Say: Grounding Language in Robotic Affordances. arXiv preprint.</a></li>
+          <li id="ref-7"><a draggable="false" href="https://arxiv.org/abs/2209.07753">Jacky Liang et al. (2023). Code as Policies: Language Model Programs for Embodied Control. IEEE International Conference on Robotics and Automation (ICRA).</a></li>
+          <li id="ref-8"><a draggable="false" href="https://arxiv.org/abs/2510.21302">Sanghyun Ahn et al. (2025). Towards Reliable Code-as-Policies: A Neuro-Symbolic Framework for Embodied Task Planning. arXiv preprint.</a></li>
+          <li id="ref-9"><a draggable="false" href="https://doi.org/10.3390/robotics15040079">Daniel Syniawa et al. (2026). Semi-Automated Programming of Industrial Robotic Systems Using Large Language Models and Standardized Data Model. Robotics, 15(4), Article 79.</a></li>
+          <li id="ref-10"><a draggable="false" href="https://doi.org/10.1146/annurev-control-091420-084139">Caelan Reed Garrett et al. (2021). Integrated Task and Motion Planning. Annual Review of Control, Robotics, and Autonomous Systems, 4, 379–408.</a></li>
+          <li id="ref-11"><a draggable="false" href="https://arxiv.org/abs/2307.05973">Wenlong Huang et al. (2023). VoxPoser: Composable 3D Value Maps for Robotic Manipulation with Language Models. Conference on Robot Learning (CoRL 2023).</a></li>
+          <li id="ref-12"><a draggable="false" href="https://arxiv.org/abs/2409.01652">Wenlong Huang et al. (2024). ReKep: Spatio-Temporal Reasoning of Relational Keypoint Constraints for Robotic Manipulation. Conference on Robot Learning (CoRL 2024).</a></li>
+          <li id="ref-13"><a draggable="false" href="https://arxiv.org/abs/2310.17274">Balakumar Sundaralingam et al. (2023). cuRobo: Parallelized Collision-Free Minimum-Jerk Robot Motion Generation. arXiv technical report; expanded version of the ICRA 2023 paper.</a></li>
+          <li id="ref-14"><a draggable="false" href="https://arxiv.org/abs/2603.05493">Balakumar Sundaralingam et al. (2026). cuRoboV2: Dynamics-Aware Motion Generation with Depth-Fused Distance Fields for High-DoF Robots. arXiv preprint.</a></li>
+          <li id="ref-15"><a draggable="false" href="https://doi.org/10.18653/v1/2026.findings-acl.1720">Wenhao Wang et al. (2026). Ro-SLM: Onboard Small Language Models for Robot Task Planning and Operation Code Generation. Findings of the Association for Computational Linguistics: ACL 2026, 34436–34460.</a></li>
+          <li id="ref-16"><a draggable="false" href="https://arxiv.org/abs/2610.28955">Weizhe Xu et al. (2026). SLoSa: Small, Low-Power, and Safe Foundation Models for Robotic Task Planning. arXiv preprint.</a></li>
+          <li id="ref-17"><a draggable="false" href="https://proceedings.mlr.press/v318/massad26a.html">Nicholas Massad et al. (2026). VOLTS: Validated Output through Logit Tree Search for Reliable PDDL Planning with Small Language Models. Proceedings of the 39th Canadian Conference on Artificial Intelligence, PMLR 318, 872–879.</a></li>
+          <li id="ref-18"><a draggable="false" href="https://arxiv.org/abs/2409.19471">Yi Wu et al. (2025). SELP: Generating Safe and Efficient Task Plans for Robot Agents with Large Language Models. IEEE International Conference on Robotics and Automation (ICRA).</a></li>
+          <li id="ref-19"><a draggable="false" href="https://arxiv.org/abs/2606.29700">Jiamei Jiang et al. (2026). Toward Secure and Reliable PDDL Formalization of Large Language Models with Planner-in-the-Loop Feedback. arXiv preprint.</a></li>
+          <li id="ref-20"><a draggable="false" href="https://arxiv.org/abs/2307.15818">Anthony Brohan et al. (2023b). RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control. Conference on Robot Learning (CoRL 2023).</a></li>
+          <li id="ref-21"><a draggable="false" href="https://doi.org/10.1177/02783649241273668">Cheng Chi et al. (2025). Diffusion Policy: Visuomotor Policy Learning via Action Diffusion. The International Journal of Robotics Research, 44(10–11), 1684–1704. Online publication 2024; original RSS paper 2023.</a></li>
+          <li id="ref-22"><a draggable="false" href="https://arxiv.org/abs/2506.01844">Mustafa Shukor et al. (2025). SmolVLA: A Vision-Language-Action Model for Affordable and Efficient Robotics. arXiv preprint.</a></li>
+          <li id="ref-23"><a draggable="false" href="https://arxiv.org/abs/2502.19645">Moo Jin Kim et al. (2025). Fine-Tuning Vision-Language-Action Models: Optimizing Speed and Success. arXiv preprint.</a></li>
+          <li id="ref-24"><a draggable="false" href="https://arxiv.org/abs/2310.17596">Ajay Mandlekar et al. (2023). MimicGen: A Data Generation System for Scalable Robot Learning using Human Demonstrations. Conference on Robot Learning (CoRL 2023), PMLR 229, 1820–1864.</a></li>
+          <li id="ref-25"><a draggable="false" href="https://arxiv.org/abs/2511.04831">NVIDIA (2025). Isaac Lab: A GPU-Accelerated Simulation Framework for Multi-Modal Robot Learning. arXiv preprint.</a></li>
+          <li id="ref-26"><a draggable="false" href="https://arxiv.org/abs/2306.03310">Bo Liu et al. (2023). LIBERO: Benchmarking Knowledge Transfer for Lifelong Robot Learning. Advances in Neural Information Processing Systems (NeurIPS), 36.</a></li>
+          <li id="ref-27"><a draggable="false" href="https://openaccess.thecvf.com/content/CVPR2026/html/Fei_LIBERO-Plus_A_Progressive_Robustness_Benchmark_for_Visual-Language-Action_Models_CVPR_2026_paper.html">Senyu Fei et al. (2026). LIBERO-Plus: A Progressive Robustness Benchmark for Visual-Language-Action Models. IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 38574–38583.</a></li>
+          <li id="ref-28"><a draggable="false" href="https://arxiv.org/abs/2606.23686">Rongxu Cui et al. (2026). LIBERO-Safety: A Comprehensive Benchmark for Physical and Semantic Safety in Vision-Language-Action Models. arXiv preprint.</a></li>
+          <li id="ref-29"><a draggable="false" href="https://arxiv.org/abs/2607.04434">Tianxing Chen et al. (2026). RoboDojo: A Unified Sim-and-Real Benchmark for Comprehensive Evaluation of Generalist Robot Manipulation Policies. arXiv preprint.</a></li>
+        </ol>
+        </details>
+      </section>
+    </article>
+    <section class="post-comments" id="comments" aria-label="Discussion" data-comments>
+      <div class="comments-heading">
+        <button draggable="false" type="button" class="quiet-button" data-comments-refresh hidden>Refresh</button>
+      </div>
+      <div class="comments-list" data-comments-list></div>
+      <button draggable="false" type="button" class="quiet-button" data-comments-more hidden>Earlier comments</button>
+      <form class="comment-form" data-comment-form>
+        <label class="sr-only" for="comment-text">Your comment</label>
+        <textarea id="comment-text" name="comment" rows="4" maxlength="5000" placeholder="Add to the discussion…" required></textarea>
+        <div class="form-trap" aria-hidden="true"><label for="comment-website">Website</label><input id="comment-website" name="website" tabindex="-1" autocomplete="off"></div>
+        <div data-comment-challenge></div>
+        <div class="form-actions">
+          <span class="form-note" data-comment-identity hidden></span>
+          <button draggable="false" type="submit" class="form-submit" disabled>Post</button>
+        </div>
+      </form>
+      <p class="form-status" data-comments-status role="status"></p>
+      <details class="comment-identity-tools" data-identity-tools hidden>
+        <summary draggable="false">Use your identity on another device</summary>
+        <p class="form-note">Save an encrypted identity file and restore it in another browser. Keep the file and its passphrase private.</p>
+        <div class="identity-actions">
+          <button draggable="false" type="button" class="quiet-button" data-identity-save>Save identity</button>
+          <button draggable="false" type="button" class="quiet-button" data-identity-restore>Restore identity</button>
+        </div>
+      </details>
+      <noscript><p class="form-note">JavaScript is needed to load and post comments.</p></noscript>
+      <dialog class="site-dialog" data-comment-name-dialog aria-labelledby="comment-name-title">
+        <button draggable="false" type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <h2 id="comment-name-title">What should I call you?</h2>
+        <p class="form-note">Choose a display name for your comments. No email or account signup.</p>
+        <form data-comment-name-form>
+          <label for="comment-name">Display name</label>
+          <input id="comment-name" name="displayName" autocomplete="nickname" maxlength="40" required>
+          <button draggable="false" type="submit" class="form-submit">Post comment</button>
+        </form>
+      </dialog>
+      <dialog class="site-dialog" data-identity-dialog aria-labelledby="identity-title">
+        <button draggable="false" type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <h2 id="identity-title">Your commenting identity</h2>
+        <form data-identity-form>
+          <div data-identity-file-field hidden>
+            <label for="identity-file">Saved identity file</label>
+            <input id="identity-file" type="file" accept="application/json,.json">
+          </div>
+          <label for="identity-passphrase">Passphrase</label>
+          <input id="identity-passphrase" type="password" minlength="12" maxlength="200" autocomplete="new-password" required>
+          <p class="form-note" data-identity-help>Use at least 12 characters. You’ll need this passphrase to restore the file.</p>
+          <button draggable="false" type="submit" class="form-submit" data-identity-confirm>Save identity</button>
+          <p class="form-status" data-identity-status role="status"></p>
+        </form>
+      </dialog>
+      <script type="application/json" id="comments-config">{"endpoint":"https://rapid-fog-462d.julius-stoerk.workers.dev","turnstileSiteKey":"0x4AAAAAAFLP0eNtJsW_8Au1","sectionId":"post-text-to-trajectory"}</script>
+    </section>
+
+
+    <nav class="post-pager" aria-label="More posts">
+      <a draggable="false" href="post-chargewise.html?nav=fe6093f0"><span class="eyebrow">Previous post</span><span class="post-pager-title">ChargeWise Fits the Fleet to the Grid</span></a>
+    </nav>
+  </main>
+  <footer class="content">
+    <span>© 2026 Julius Störk</span>
+    <span class="footer-links"><a draggable="false" href="blog.html?nav=fe6093f0">All posts</a> · <a draggable="false" href="index.html?nav=fe6093f0#contact">Contact</a></span>
+  </footer>
+  <script defer src="theme.js?v=e512a566"></script>
+  <script defer src="navigation.js?v=82ad0181"></script>
+  <script defer src="media.js?v=3803c5ba"></script>
+  <script defer src="interactions.js?v=3cfec42c"></script>
+  <script defer src="cursor.js?v=836db8cc"></script>
+  <script defer src="portal-transitions.js?v=d4060e4b"></script>
+  <script defer src="blog.js?v=119b9d1e"></script>
+  <script defer src="references.js?v=e51071fb"></script>
+  <script defer src="comment-identity.js?v=dddce228"></script>
+  <script defer src="comments.js?v=43a43fce"></script>
+  <script>
+    window.addEventListener('load', function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://gc.zgo.at/count.js';
+      s.setAttribute('data-goatcounter', 'https://jstoerk.goatcounter.com/count');
+      document.body.appendChild(s);
+    });
+  </script>
+</body></html>
