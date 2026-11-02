@@ -242,7 +242,10 @@ function postCover(p) {
   if (!cover) throw new Error(`${p.file}: missing cover artwork for blog tiles`);
   const target = `images/blog-covers/${p.file.replace(/\.html$/, '.svg')}`;
   fs.mkdirSync(path.dirname(path.join(ROOT, target)), { recursive: true });
-  const svg = cover[0].replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
+  let svg = cover[0];
+  if (!/^<svg\b[^>]*\sxmlns\s*=/.test(svg)) {
+    svg = svg.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
+  }
   fs.writeFileSync(path.join(ROOT, target), svg + '\n');
   return ver(target);
 }

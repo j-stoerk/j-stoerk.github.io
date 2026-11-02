@@ -99,6 +99,22 @@ def main():
     for name in PAGES:
         check_page(name)
 
+    # Covers are external images, so browsers parse them as XML rather than HTML.
+    # An inline SVG can render in a post while its exported copy is malformed.
+    for folder in ('images/blog-covers', 'images/blog-backgrounds'):
+        for name in sorted(os.listdir(folder)):
+            if not name.endswith('.svg'):
+                continue
+            path = os.path.join(folder, name)
+            try:
+                document = xml.dom.minidom.parse(path)
+                root = document.documentElement
+                if root.localName != 'svg' or root.namespaceURI != 'http://www.w3.org/2000/svg':
+                    fail(f'{path}: missing SVG root or namespace')
+                document.unlink()
+            except Exception as exc:
+                fail(f'{path}: invalid SVG XML ({exc})')
+
     for xml_file in ('feed.xml', 'sitemap.xml'):
         try:
             xml.dom.minidom.parse(xml_file)
@@ -119,7 +135,7 @@ def main():
     if failures:
         print(f'\n{len(failures)} check(s) failed across {len(PAGES)} pages')
         sys.exit(1)
-    print(f'all checks passed ({len(PAGES)} pages, feeds, sitemap, bib)')
+    print(f'all checks passed ({len(PAGES)} pages, SVG assets, feeds, sitemap, bib)')
 
 
 if __name__ == '__main__':
