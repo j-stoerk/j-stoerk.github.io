@@ -78,13 +78,13 @@
       {
         "@context": "https://schema.org",
         "@type": "ScholarlyArticle",
-        "headline": "RL-Menu Agent Learns to Fold by Seat in 27,000 GLEE Games",
+        "headline": "RL-Menu Agent Learns to Fold by Seat",
         "author": { "@id": "https://j-stoerk.github.io/#person" },
         "dateCreated": "2026",
         "creativeWorkStatus": "Accepted",
         "url": "https://openreview.net/forum?id=Wsz7IpaKsh",
         "identifier": "OpenReview:Wsz7IpaKsh",
-        "description": "NeurIPS 2026, IAB Workshop, GLEE Competition Track. A learned menu over explicit strategies reveals how the final-offer seat changes negotiation behavior.",
+        "description": "NeurIPS 2026, IAB Workshop, GLEE Competition Track. The frodo agent peaked at rank 5 with a rating of 2302.8; its learned seat distinction led to stronger distilled heuristics.",
         "about": ["Reinforcement learning", "Game theory", "Agent behavior"]
       },
       {
@@ -229,11 +229,13 @@
           <span class="publication-number" aria-hidden="true">01</span>
           <div class="publication-content">
             <div class="publication-title-row">
-              <strong>RL-Menu Agent Learns to Fold by Seat in 27,000 GLEE Games</strong>
+              <strong>RL-Menu Agent Learns to Fold by Seat</strong>
             </div>
-            <p class="muted">An agent's overall score can hide costly differences between negotiation roles. I
-              combine a learned menu of explicit strategies with analysis of approximately 27,000 live GLEE games
-              to show how control of the final offer changes when to accept, concede, or hold firm.</p>
+            <p class="muted">Developed through ten iterations, <em>frodo</em> combines a reinforcement-learned menu
+              policy with hand-coded strategies and peaked at rank 5 with a rating of 2302.8. Failed negotiations
+              often scored near the field median, favoring aggressive demands when the agent controlled the final
+              offer. The same stance from the weaker seat caused the largest measured losses. The RL layer
+              discovered this seat distinction; distilled heuristics then outperformed the learner that found it.</p>
             <div class="publication-footer">
               <span class="publication-status">NeurIPS 2026 &middot; IAB Workshop</span>
               <div class="publication-actions">
