@@ -103,7 +103,7 @@ const PAGES = {
   'index.html': {
     nav: null, home: true, extraScripts: ['cite.js', 'experiences.js', 'bio-popovers.js', 'comment-identity.js', 'contact.js', 'contact-landscape.js'],
     extraStyles: ['contact-landscape.css'],
-    footerExtra: null, lastmod: '2026-11-02', priority: '1.0',
+    footerExtra: null, lastmod: '2026-11-11', priority: '1.0',
   },
   'cv.html': {
     nav: 'cv', extraScripts: [],
@@ -113,7 +113,7 @@ const PAGES = {
   'blog.html': {
     nav: 'blog', extraScripts: ['blog-view.js'],
     footerExtra: '<a href="index.html">Home</a>',
-    lastmod: '2026-11-02', priority: '0.8',
+    lastmod: '2026-11-11', priority: '0.8',
   },
   /* Served by GitHub Pages for any missing URL; noindex, not in sitemap. */
   '404.html': {
@@ -313,6 +313,10 @@ for (const file of fs.readdirSync(pagesDir)) {
   const cfg = PAGES[file];
   if (!cfg) throw new Error(`no page config for ${file}`);
   let html = fs.readFileSync(path.join(pagesDir, file), 'utf8');
+  if (cfg.home || file === 'blog.html' || file === 'cv.html') {
+    html = html.replace(/<body([^>]*)>/, (_, attrs) => '<body' +
+      (/\bclass="/.test(attrs) ? attrs.replace('class="', 'class="ambient-page ') : attrs + ' class="ambient-page"') + '>');
+  }
   if (html.includes('<!--#BATTERY_MARKET_DATA-->')) {
     html = html.replace('<!--#BATTERY_MARKET_DATA-->', batteryMarketData)
       .replace('poster="media/battery-market-poster.jpg"', `poster="${ver('media/battery-market-poster.jpg')}"`)

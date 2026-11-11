@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting Less Wrong Without Becoming Certain · Julius Störk</title>
+  <meta name="description" content="Reading Yudkowsky's Sequences alongside Hume, with Bayesian updating, human utility functions, model uncertainty and the premises behind Roko's basilisk." />
+  <link rel="canonical" href="https://j-stoerk.github.io/post-lesswrong-hume.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
+  <meta property="og:type" content="article" /><meta property="og:site_name" content="Julius Störk" />
+  <meta property="og:title" content="Getting Less Wrong Without Becoming Certain" />
+  <meta property="og:description" content="What the Sequences get right, what Hume still asks of them, and where an optimizer's values come from." />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-lesswrong-hume.html" />
+  <meta property="og:image" content="https://j-stoerk.github.io/images/social-lesswrong-hume.png" />
+  <meta property="og:image:alt" content="A map, observations and a probability curve, drawn in blue and gold" />
+  <meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
+  <meta property="article:published_time" content="2026-11-08" /><meta property="article:modified_time" content="2026-11-11" />
+  <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:image" content="https://j-stoerk.github.io/images/social-lesswrong-hume.png" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Getting Less Wrong Without Becoming Certain","description":"A review of Yudkowsky's Sequences through Hume, Bayesian inference and the ethics of optimization.","datePublished":"2026-11-08","dateModified":"2026-11-11","url":"https://j-stoerk.github.io/post-lesswrong-hume.html","image":"https://j-stoerk.github.io/images/social-lesswrong-hume.png","author":{"@type":"Person","name":"Julius Störk","url":"https://j-stoerk.github.io/"}}</script>
+  <!--#HEAD_ASSETS-->
+</head><body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <!--#TOPBAR-->
+  <main id="main" class="content">
+    <!--#POST_BACKGROUND-->
+    <a class="back-link" href="blog.html">All posts</a>
+    <article class="post" id="lesswrong-hume">
+      <div class="post-cover media-cover"><div class="media">
+        <svg class="cover-art" viewBox="0 0 1200 675" role="img" aria-label="A contour map and observations beside two distributions of belief">
+          <defs>
+            <linearGradient id="reviewPaper" x2="1" y2="1"><stop stop-color="#eaf0f5"/><stop offset="1" stop-color="#eee9df"/></linearGradient>
+            <pattern id="reviewDots" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".65" fill="#5d7d9d" opacity=".25"/></pattern>
+          </defs>
+          <rect width="1200" height="675" fill="url(#reviewPaper)"/>
+          <rect width="1200" height="675" fill="url(#reviewDots)"/>
+          <g fill="none" stroke="#a7b2b8" stroke-width="1.5">
+            <path d="M85 408C116 237 213 159 321 204S486 157 528 257S478 479 337 468S146 548 85 408Z"/>
+            <path d="M125 393C155 270 222 209 307 243S441 209 478 280S432 437 334 426S167 492 125 393Z"/>
+            <path d="M172 379C197 296 241 265 303 282S400 259 428 309S382 393 331 387S198 438 172 379Z"/>
+          </g>
+          <path d="M112 177L429 119L505 425L188 483Z" fill="#f5f7f5" fill-opacity=".52" stroke="#607b92" stroke-width="2"/>
+          <g stroke="#7693ac" stroke-width="1" opacity=".4"><path d="M191 163L267 469M270 148L346 454M349 134L425 439M131 253L448 195M150 330L467 272M169 406L486 348"/></g>
+          <path d="M185 391L262 337L337 363L405 243" fill="none" stroke="#497cb9" stroke-width="3" stroke-dasharray="5 6"/>
+          <g fill="#497cb9"><circle cx="185" cy="391" r="5"/><circle cx="262" cy="337" r="5"/><circle cx="337" cy="363" r="5"/><circle cx="405" cy="243" r="5"/></g>
+          <path d="M565 336H626M610 324L626 336L610 348" fill="none" stroke="#74899d" stroke-width="2"/>
+          <g fill="none" stroke="#8c9cad" stroke-width="1.5"><path d="M693 472H1112M693 472V194"/></g>
+          <path d="M708 464C739 459 744 341 802 320S868 427 912 449S1006 465 1090 467" fill="none" stroke="#b08a49" stroke-width="3"/>
+          <path d="M708 467C840 466 863 463 893 440S923 247 969 236S1006 427 1039 452S1070 465 1090 466" fill="none" stroke="#497cb9" stroke-width="3"/>
+          <path d="M969 236V472" stroke="#497cb9" opacity=".35" stroke-dasharray="4 6"/>
+          <g fill="#5a7187" font-family="system-ui,sans-serif" font-size="18"><text x="178" y="540">Map and territory</text><text x="751" y="540">Evidence changes the distribution</text></g>
+        </svg>
+      </div></div>
+      <header class="post-header">
+        <p class="post-meta"><time datetime="2026-11-08">8 November 2026</time> · Philosophy &amp; inference · 13 min read</p>
+        <h1>Getting Less Wrong Without Becoming Certain</h1>
+      </header>
+      <!--#POST_CONTEXT-->
+      <div class="prose">
+        <p>The most useful question in Eliezer Yudkowsky’s <a href="https://www.lesswrong.com/w/original-sequences">Sequences</a> is what would make you change your mind. It is easy to admire that question and much harder to give an answer that puts a cherished belief at risk.</p>
+        <p>Written between 2006 and 2009, these linked essays helped establish the intellectual vocabulary of LessWrong, a community site about reasoning, decision-making and AI. They are informal, argumentative and often enjoyable. They also range from practical advice about belief revision to much larger claims about morality and intelligence. Those claims deserve separate consideration. Reading the essays does not require adopting the whole package. <sup class="cite">[<a href="#ref-1">1</a>]</sup></p>
+        <p>What interests me is the boundary between improving a model and justifying the assumptions behind it. Hume is a useful companion here, but treating him as someone the Sequences simply forgot would miss much of what they actually say.</p>
+
+        <h2>The useful part is a habit of checking</h2>
+        <p>Yudkowsky separates epistemic rationality, improving beliefs, from instrumental rationality, achieving what is valued. The map–territory distinction keeps a description of the world separate from the world itself. His definition explicitly allows uncertainty. Criticizing it for promising direct, infallible access to reality would target a position it rejects. <sup class="cite">[<a href="#ref-2">2</a>]</sup></p>
+        <p><em>Making Beliefs Pay Rent</em> asks what observations a belief leads you to expect. A scientific-sounding explanation that accommodates every possible outcome has given up an important way to be corrected. This advice is particularly useful when a technical discussion becomes a competition over who knows the right terminology. <sup class="cite">[<a href="#ref-3">3</a>]</sup></p>
+        <p>That habit also needs to turn inward. <em>Knowing About Biases Can Hurt People</em> describes how knowledge of cognitive errors can become ammunition against other people while leaving one’s own beliefs untouched. It is one of the strongest essays in the collection because it identifies a failure its own readers are especially well equipped to rationalize. <sup class="cite">[<a href="#ref-4">4</a>]</sup></p>
+
+        <h2>Hume leaves room for better predictions</h2>
+        <p>Hume’s problem of induction concerns the move from observed cases to unobserved ones. Past regularity cannot deductively establish that the next case will follow the same pattern. Defending that inference by pointing to induction’s past success uses the very inference under examination. His discussion exposes a justificatory problem; it does not demonstrate that experience is worthless or that every forecast is equally good. <sup class="cite">[<a href="#ref-5">5</a>]</sup></p>
+        <p>The claim that a 99% probability is no closer to knowledge than a 1% probability therefore goes too far. Neither guarantees truth. They nevertheless make very different predictions, support different decisions and can perform very differently against observations. Denying certainty does not erase those distinctions. Nor does being a situated observer make public comparison impossible. An agreed measurement procedure can expose a disagreement without providing a view from nowhere.</p>
+        <p>The Sequences’ rejection of absolute confidence is explicit in <em>0 And 1 Are Not Probabilities</em>. Its practical point is that assigning zero prior probability prevents ordinary Bayesian updating from recovering a possibility. The title should not be mistaken for a prohibition in probability theory, where zero and one are legitimate probabilities. <sup class="cite">[<a href="#ref-6">6</a>]</sup></p>
+        <p>Hume’s own sceptical solution turns toward the habits by which experience guides expectation. It offers no instruction to stop reasoning. A productive disagreement concerns how much justification prediction supplies, rather than whether fallible creatures are permitted to predict at all. <sup class="cite">[<a href="#ref-7">7</a>]</sup></p>
+
+        <h2>Bayes updates a model with assumptions</h2>
+        <p>For a hypothesis \(H\), evidence \(E\) and a model \(M\), Bayesian updating gives</p>
+        $$P(H\mid E,M)=\frac{P(E\mid H,M)P(H\mid M)}{P(E\mid M)}.$$
+        <p>The explicit \(M\) matters. A posterior depends on the hypotheses considered, their priors and the likelihood assigned to the observations. The equation does not invent an omitted explanation or determine whether a measurement procedure transfers to a new setting.</p>
+        <p>Consider an invented defect test with 90% sensitivity and a 5% false-positive rate. With a 1% defect prior, one positive result raises the defect probability to about 15.4%. Two conditionally independent positive tests raise it to about 76.6%. Reading the same positive report twice supplies only one observation. Multiplying its likelihood ratio twice would manufacture confidence.</p>
+      </div>
+      <figure class="belief-lab" data-belief-lab aria-labelledby="belief-lab-title">
+        <figcaption id="belief-lab-title"><strong>How much evidence is actually new?</strong> A constructed example with a fixed test, not measured manufacturing data.</figcaption>
+        <div class="belief-controls">
+          <label for="belief-prior">Prior defect probability <output id="belief-prior-value" for="belief-prior">1%</output><input id="belief-prior" type="range" min="1" max="50" value="1" /></label>
+          <label for="belief-reports">Positive reports <output id="belief-reports-value" for="belief-reports">2</output><input id="belief-reports" type="range" min="1" max="6" value="2" /></label>
+        </div>
+        <div class="belief-results" aria-label="Posterior defect probabilities">
+          <div><span>Independent tests</span><strong data-independent>76.6%</strong><div class="belief-track"><span data-independent-bar style="width:76.6%"></span></div></div>
+          <div><span>Copies of one report</span><strong data-copied>15.4%</strong><div class="belief-track"><span data-copied-bar style="width:15.4%"></span></div></div>
+        </div>
+        <p class="belief-note">The first row assumes independent test outcomes conditional on whether the defect exists. The second repeats the same information. Sensitivity is 90%; the false-positive rate is 5%.</p>
+        <noscript><p>At the defaults, two independent positive tests give 76.6%; two copies of one positive report give 15.4%.</p></noscript>
+      </figure>
+      <div class="prose">
+        <p>This is a practical weakness of long speculative arguments. Several apparently independent reasons may descend from one source or share the same untested assumption. A precise final number can hide uncertainty about the structure that produced it. Priors need not be arbitrary, but giving a prior a decimal expansion does not make its justification stronger.</p>
+        <p>Gelman and Shalizi’s account of Bayesian practice emphasizes model checking and revision alongside fitting. A useful test asks where observations disagree with data generated by the fitted model. If every available hypothesis fails in the same way, redistributing probability among them cannot repair the shared error. New hypotheses, new measurements or a different likelihood may be needed. <sup class="cite">[<a href="#ref-8">8</a>]</sup></p>
+        <p>Getting less wrong can consequently mean better calibration, better discrimination between cases, fewer failed predictions or improved decisions on fresh data. None requires certainty. The evidential case becomes weaker when feedback is distant, outcomes are poorly defined or the model can explain away every failure. That limitation applies to any forecasting culture, including one fluent in Bayesian language.</p>
+
+        <h2>A utility function needs an ethical argument</h2>
+        <p>Bayesian decision theory adds preferences to beliefs. In a simplified finite setting, the selected action maximizes expected utility over possible states,</p>
+        $$a^*=\arg\max_a\sum_s P(s\mid E,M)\,U(a,s).$$
+        <p>The probabilities describe uncertainty; \(U\) assigns value to the consequences. Decision theory can expose an inconsistency in a set of preferences or show which action follows from them. The formalism does not, by itself, establish whose preferences deserve authority. Expected-utility maximization is also broader than ethical utilitarianism. Its utility function can represent many kinds of concern, rather than only a sum of happiness. <sup class="cite">[<a href="#ref-9">9</a>]</sup></p>
+        <p>Hume’s is–ought passage asks for an explanation when an argument moves from descriptions to prescriptions. In the equation, much of that work enters through \(U\). Facts about what people presently want do not automatically settle what should be protected, which desires are distorted by coercion or how conflicts should be resolved. Naming the utility function makes those choices visible; it does not finish the ethical argument. <sup class="cite">[<a href="#ref-10">10</a>]</sup></p>
+        <p>Yudkowsky does engage with metaethics. <em>Setting Up Metaethics</em> examines the attraction and difficulties of morality as something given and morality as preference. <em>No Universally Compelling Arguments</em> rejects the expectation that an argument must persuade every possible mind. Neither text supports the simple picture of a cosmic moral theorem that any sufficiently clever machine inevitably discovers. <sup class="cite">[<a href="#ref-11">11</a>, <a href="#ref-12">12</a>]</sup></p>
+        <p>It would be equally misleading to summarize his position as whatever anyone happens to want. <em>Morality as Fixed Computation</em> discusses an optimizer that changes a person’s desires to make them easier to satisfy. The essay rejects that as a faithful realization of what people value. His naturalistic account tries to preserve the content of moral judgment, including the possibility of moral error. Whether it succeeds is a philosophical question beyond the decision rule. <sup class="cite">[<a href="#ref-13">13</a>]</sup></p>
+
+        <h2>Whose values survive reflection?</h2>
+        <p><em>Fun Theory</em> is more interesting than its name suggests. It explores why pleasure alone may leave out challenge, agency, relationships and the experience of doing something oneself. It treats a desirable future as a demanding design problem. This is a substantial corrective to the idea that rationalist ethics consists of maximizing a single obvious number. <sup class="cite">[<a href="#ref-14">14</a>]</sup></p>
+        <p>Yudkowsky’s earlier proposal of <em>coherent extrapolated volition</em> asks, roughly, what people would want with greater understanding and reflection, then seeks a coherent collective direction. It is an attempt to avoid encoding the immediate wishes of a programmer as humanity’s destination. Its open problem is how to define and carry out that extrapolation. <sup class="cite">[<a href="#ref-15">15</a>]</sup></p>
+        <p>The unresolved choices are consequential. Who is represented? Which changes count as learning and which as manipulation? What happens when informed people continue to disagree? A model of human preferences can help investigate these questions, but its designer still chooses the conditions under which those preferences are elicited and revised.</p>
+        <p>Aggregation adds another choice. Suppose a social objective is \(U_{\mathrm{social}}=\sum_i w_i U_i\). Selecting the weights and making utilities comparable across people requires justification. For an individual, replacing \(U_i\) with \(c_iU_i+d_i\), where \(c_i>0\), preserves their expected-utility ranking. In a sum across people, changing one person’s scale can change the collective decision unless the weights compensate. The arithmetic cannot choose the interpersonal scale for us.</p>
+        <p>A utility monster pushes on that aggregation problem. A hypothetical being that obtains vastly more benefit from resources would dominate a particular additive rule. Whether that is acceptable depends on the rule’s ethical justification, the interests represented and any protections it includes. Greater intelligence or power does not itself make the being’s preferences morally authoritative. The same question remains if it can rewrite everyone else’s preferences.</p>
+
+        <h2>The basilisk depends on much more than a large number</h2>
+        <p>Roko’s basilisk is a 2010 thought experiment associated with LessWrong, not a summary of the Sequences or a doctrine generally accepted by the site. Rob Bensinger’s retrospective explicitly distinguishes the original argument from the mythology around it. It is a poor basis for diagnosing an entire community. <sup class="cite">[<a href="#ref-16">16</a>]</sup></p>
+        <p>In its familiar form, a future AI threatens to punish simulated versions of people who knew about it but did not help bring it into existence. The proposed incentive relies on present decisions being linked to a future policy, despite the future system having no ordinary causal route into the past. It also needs assumptions about prediction, credible commitments, the moral status of simulations and why a present person should treat a future copy’s suffering as a threat to themselves.</p>
+        <p>These premises do the work. Ordinary expected-utility maximization alone does not entail the threat. If punishment is costly and cannot alter any earlier action, carrying it out has no obvious benefit. A different decision theory or commitment mechanism would have to explain why the policy is adopted and why the present agent responds. Adding enjoyment of torture changes the objective again; it cannot serve as an explanation of what a benevolent optimizer must do.</p>
+        <p>The resemblance to Pascal’s wager lies in enormous stakes attached to a speculative story. LessWrong’s own discussion of Pascal’s mugging examines how very large utilities can overwhelm small probabilities. Rejecting every low-probability concern would be reckless, but multiplying an unsupported story by an enormous payoff does not improve the evidence for the story. Competing threats and alternative uses of the same resources also belong in the comparison. <sup class="cite">[<a href="#ref-17">17</a>]</sup></p>
+        <p>The ethical concern is still worth keeping. An additive objective may permit serious harm to a minority for a sufficiently large benefit elsewhere. Anyone endorsing that objective owes an account of those trade-offs. The basilisk’s peculiar account of incentives is a separate argument, and a useful criticism has to say which premise it rejects.</p>
+
+        <h2>Taking AI risk seriously without treating a forecast as destiny</h2>
+        <p>The AI argument associated with this writing has a defensible core. Competence does not automatically imply benevolence, and a system may pursue a poorly specified objective in ways its designers did not intend. The orthogonality thesis concerns possible combinations of capability and goals; it does not predict which combinations a particular training process will produce. <sup class="cite">[<a href="#ref-18">18</a>]</sup></p>
+        <p>Several further claims need their own evidence. Human intelligence having a physical basis does not establish an engineering timeline. Faster computation does not by itself deliver general competence, resources or political control. A highly capable system could create severe risks without acquiring unlimited power. The strength of the safety case depends on how these possibilities interact, not on compressing them into an inevitable sequence.</p>
+        <p>Future people can matter morally without every forecast about their lives being reliable. A decision about resources combines a model of what an intervention can change with a judgment about the value of those changes. Uncertainty in both deserves attention. Useful responses include work that helps across several plausible futures, tests that can expose mistaken assumptions and opportunities to revise decisions as evidence arrives.</p>
+
+        <h2>Read the essays, then give the claims something to answer to</h2>
+        <p>I recommend the Sequences as an approachable collection of ideas to argue with. <em>Making Beliefs Pay Rent</em>, <em>Knowing About Biases Can Hurt People</em> and the opening distinctions in <em>What Do We Mean By Rationality?</em> are good places to begin. <em>Fun Theory</em> and the metaethics essays give a much fairer view of the moral project than the basilisk story does.</p>
+        <p>My reservation concerns the step from disciplined reasoning to confidence in a comprehensive worldview. A coherent argument can retain shared errors throughout its chain. Technical language can make an untested assumption harder to notice. These are risks of any ambitious philosophy, and the collection contains resources for criticizing them. <em>Science Doesn’t Trust Your Rationality</em> emphasizes procedures that can correct a reasoner who does not notice their own mistakes. <sup class="cite">[<a href="#ref-19">19</a>]</sup></p>
+        <p>Hume keeps the foundations open to examination. Bayesian methods make beliefs and decisions more explicit. Experiments, historical evidence, other people’s experience and ethical argument constrain different parts of the resulting picture. None earns an exemption from scrutiny by correcting a weakness in another.</p>
+        <p>A better reading leaves behind claims precise enough to test and commitments clear enough to contest. Which observation would change the forecast? Which assumption changes the recommended action? Whose interests were left out of the objective? Getting less wrong is valuable when answering those questions changes what happens next.</p>
+      </div>
+      <section class="post-references" aria-label="References">
+        <h2>References</h2>
+        <ol>
+          <li id="ref-1"><a href="https://www.lesswrong.com/w/original-sequences">LessWrong. Original Sequences.</a> Index of the 2006–2009 essays and their later collection.</li>
+          <li id="ref-2"><a href="https://www.lesswrong.com/posts/RcZCwxFiZzE6X7nsv/what-do-we-mean-by-rationality-1">Eliezer Yudkowsky (2009). What Do We Mean By “Rationality”?</a></li>
+          <li id="ref-3"><a href="https://www.lesswrong.com/posts/a7n8GdKiAZRX86T5A/making-beliefs-pay-rent-in-anticipated-experiences">Eliezer Yudkowsky. Making Beliefs Pay Rent (in Anticipated Experiences).</a></li>
+          <li id="ref-4"><a href="https://www.lesswrong.com/posts/AdYdLP2sRqPMoe8fb/knowing-about-biases-can-hurt-people">Eliezer Yudkowsky (2007). Knowing About Biases Can Hurt People.</a></li>
+          <li id="ref-5"><a href="https://davidhume.org/texts/e/4">David Hume (1748). An Enquiry Concerning Human Understanding, Section IV.</a> The inference from past observations to unobserved cases.</li>
+          <li id="ref-6"><a href="https://www.lesswrong.com/posts/QGkYCwyC7wTDyt3yT/0-and-1-are-not-probabilities">Eliezer Yudkowsky (2008). 0 And 1 Are Not Probabilities.</a></li>
+          <li id="ref-7"><a href="https://davidhume.org/texts/e/5">David Hume (1748). An Enquiry Concerning Human Understanding, Section V.</a> The sceptical solution and the role of custom.</li>
+          <li id="ref-8"><a href="https://sites.stat.columbia.edu/gelman/research/published/philosophy.pdf">Andrew Gelman and Cosma Rohilla Shalizi (2013). Philosophy and the Practice of Bayesian Statistics.</a> British Journal of Mathematical and Statistical Psychology, 66, 8–38. Model checking, misspecification and revision.</li>
+          <li id="ref-9"><a href="https://www.lesswrong.com/w/bayesian-decision-theory">LessWrong. Bayesian Decision Theory.</a></li>
+          <li id="ref-10"><a href="https://davidhume.org/texts/t/3/1/1">David Hume (1739–1740). A Treatise of Human Nature, 3.1.1.27.</a> The is–ought passage.</li>
+          <li id="ref-11"><a href="https://www.lesswrong.com/posts/T7tYmfD9j25uLwqYk/setting-up-metaethics">Eliezer Yudkowsky (2008). Setting Up Metaethics.</a></li>
+          <li id="ref-12"><a href="https://www.lesswrong.com/posts/PtoQdG7E8MxYJrigu/no-universally-compelling-arguments">Eliezer Yudkowsky (2008). No Universally Compelling Arguments.</a></li>
+          <li id="ref-13"><a href="https://www.lesswrong.com/posts/FnJPa8E9ZG5xiLLp5/morality-as-fixed-computation">Eliezer Yudkowsky (2008). Morality as Fixed Computation.</a></li>
+          <li id="ref-14"><a href="https://www.lesswrong.com/posts/K4aGvLnHvYgX9pZHS/the-fun-theory-sequence">Eliezer Yudkowsky (2009). The Fun Theory Sequence.</a> The guide explicitly identifies its naturalistic metaethical starting point.</li>
+          <li id="ref-15"><a href="https://intelligence.org/files/CEV.pdf">Eliezer Yudkowsky (2004). Coherent Extrapolated Volition.</a></li>
+          <li id="ref-16"><a href="https://www.lesswrong.com/posts/WBJZoeJypcNRmsdHx/a-few-misconceptions-surrounding-roko-s-basilisk">Rob Bensinger (2015). A Few Misconceptions Surrounding Roko’s Basilisk.</a></li>
+          <li id="ref-17"><a href="https://www.lesswrong.com/w/pascal-s-mugging">LessWrong. Pascal’s Mugging.</a> Tiny probabilities, very large utilities and the resulting decision-theoretic problems.</li>
+          <li id="ref-18"><a href="https://www.lesswrong.com/w/orthogonality-thesis">LessWrong. Orthogonality Thesis.</a> Possibility claims about capability and goals, rather than predictions of a particular training outcome.</li>
+          <li id="ref-19"><a href="https://www.lesswrong.com/posts/5bJyRMZzwMov5u3hW/science-doesn-t-trust-your-rationality">Eliezer Yudkowsky (2008). Science Doesn’t Trust Your Rationality.</a></li>
+        </ol>
+      </section>
+    </article>
+    <nav class="post-pager" aria-label="More posts">
+      <a href="post-text-to-trajectory.html"><span class="eyebrow">Previous post</span><span class="post-pager-title">Text to Trajectory</span></a>
+    </nav>
+  </main>
+  <!--#FOOTER-->
+  <!--#SCRIPTS-->
+</body></html>

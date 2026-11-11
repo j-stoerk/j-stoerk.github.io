@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://j-stoerk.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Getting Less Wrong Without Becoming Certain</title>
+      <link>https://j-stoerk.github.io/post-lesswrong-hume.html</link>
+      <guid isPermaLink="true">https://j-stoerk.github.io/post-lesswrong-hume.html</guid>
+      <pubDate>Sun, 08 Nov 2026 08:00:00 +0100</pubDate>
+      <description>A review of the Sequences through Hume, Bayesian inference and the ethics of optimization, with an interactive example of independent evidence versus repeated reports.</description>
+    </item>
+    <item>
       <title>Text to Trajectory</title>
       <link>https://j-stoerk.github.io/post-text-to-trajectory.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-text-to-trajectory.html</guid>

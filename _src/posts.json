@@ -1,5 +1,22 @@
 [
   {
+    "file": "post-lesswrong-hume.html",
+    "title": "Getting Less Wrong Without Becoming Certain",
+    "iso": "2026-11-08",
+    "display": "8 November 2026",
+    "category": "Philosophy & inference",
+    "minutes": 13,
+    "summary": "Reading Yudkowsky's Sequences alongside Hume, with Bayesian updating, human utility functions, model uncertainty and the premises behind Roko's basilisk.",
+    "whyItMatters": "Better predictions and better decisions still depend on assumptions about evidence and value. Making those assumptions visible helps us challenge them.",
+    "feedDescription": "A review of the Sequences through Hume, Bayesian inference and the ethics of optimization, with an interactive example of independent evidence versus repeated reports.",
+    "rfc822": "Sun, 08 Nov 2026 08:00:00 +0100",
+    "lastmod": "2026-11-11",
+    "math": true,
+    "trail": "modelling",
+    "scripts": ["lesswrong-review.js"],
+    "styles": ["lesswrong-review.css"]
+  },
+  {
     "file": "post-text-to-trajectory.html",
     "title": "Text to Trajectory",
     "iso": "2026-11-01",
@@ -10,7 +27,7 @@
     "whyItMatters": "A robot can reach the right destination while ignoring part of the request. Reliable instruction following requires checking the whole movement.",
     "feedDescription": "From language instructions to robot motion: grounding, checked plans, learned policies and a focused study in Visual Components.",
     "rfc822": "Sun, 01 Nov 2026 08:00:00 +0100",
-    "lastmod": "2026-11-02",
+    "lastmod": "2026-11-11",
     "trail": "automation",
     "styles": [
       "text-to-trajectory.css"

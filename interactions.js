@@ -85,7 +85,9 @@
         keepLinkVisible = false;
       }
 
-      if (timeline && entries.length) {
+      var experience = chapters.findIndex(function (section) { return section.id === 'experience'; });
+      var careerVisible = experience >= 0 && positions[experience].top < window.innerHeight + 150 && positions[experience].bottom > -150;
+      if (timeline && entries.length && careerVisible) {
         var rect = timeline.getBoundingClientRect();
         timeline.style.setProperty('--timeline-progress', clamp((readingLine - rect.top) / rect.height).toFixed(3));
         var activeEntry = 0;
@@ -199,18 +201,22 @@
     var animFigs = figures.filter(function (fig) {
       var lines = slice(fig.querySelectorAll(solid));
       if (!lines.length && !fig.querySelector('path[fill]:not([stroke])')) return false;
-      fig.classList.add('animate');
-      lines.forEach(function (p) {
-        var len = 0;
-        try { len = p.getTotalLength(); } catch (err) { return; }
-        if (!len) return;
-        p.style.strokeDasharray = len;
-        p.style.strokeDashoffset = len;
-        p.__len = len;
-      });
       return true;
     });
     var drawFig = function (fig) {
+      // Read lengths only when the figure is about to enter the viewport.
+      // Batch geometry reads before writes to avoid repeated initial layouts.
+      var paths = slice(fig.querySelectorAll(solid));
+      var lengths = paths.map(function (p) {
+        try { return p.getTotalLength(); } catch (err) { return 0; }
+      });
+      fig.classList.add('animate');
+      paths.forEach(function (p, i) {
+        if (!lengths[i]) return;
+        p.style.strokeDasharray = lengths[i];
+        p.style.strokeDashoffset = lengths[i];
+        p.__len = lengths[i];
+      });
       slice(fig.querySelectorAll(solid)).forEach(function (p, i) {
         if (!p.__len) return;
         p.style.transition = 'stroke-dashoffset 1.5s cubic-bezier(.65,0,.35,1) ' + (i * 220) + 'ms';

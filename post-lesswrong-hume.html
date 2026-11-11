@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting Less Wrong Without Becoming Certain · Julius Störk</title>
+  <meta name="description" content="Reading Yudkowsky's Sequences alongside Hume, with Bayesian updating, human utility functions, model uncertainty and the premises behind Roko's basilisk." />
+  <link rel="canonical" href="https://j-stoerk.github.io/post-lesswrong-hume.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
+  <meta property="og:type" content="article" /><meta property="og:site_name" content="Julius Störk" />
+  <meta property="og:title" content="Getting Less Wrong Without Becoming Certain" />
+  <meta property="og:description" content="What the Sequences get right, what Hume still asks of them, and where an optimizer's values come from." />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-lesswrong-hume.html" />
+  <meta property="og:image" content="https://j-stoerk.github.io/images/social-lesswrong-hume.png" />
+  <meta property="og:image:alt" content="A map, observations and a probability curve, drawn in blue and gold" />
+  <meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
+  <meta property="article:published_time" content="2026-11-08" /><meta property="article:modified_time" content="2026-11-11" />
+  <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:image" content="https://j-stoerk.github.io/images/social-lesswrong-hume.png" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Getting Less Wrong Without Becoming Certain","description":"A review of Yudkowsky's Sequences through Hume, Bayesian inference and the ethics of optimization.","datePublished":"2026-11-08","dateModified":"2026-11-11","url":"https://j-stoerk.github.io/post-lesswrong-hume.html","image":"https://j-stoerk.github.io/images/social-lesswrong-hume.png","author":{"@type":"Person","name":"Julius Störk","url":"https://j-stoerk.github.io/"}}</script>
+  <meta name="theme-color" content="#fdfdfc">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Applied before first paint so the theme never flashes. -->
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('theme'); } catch (e) { }
+      if (!t) t = 'light';   // light is the standard; dark only on explicit toggle
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'dark' ? '#101214' : '#fdfdfc');
+    })();
+  </script>
+
+  <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=705a2210">
+  <link rel="stylesheet" href="experiences.css?v=2f793542">
+  <link rel="stylesheet" href="katex/katex.min.css">
+  <link rel="stylesheet" href="lesswrong-review.css?v=dc1bb037">
+</head><body>
+  <a draggable="false" href="#main" class="skip-link">Skip to main content</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a draggable="false" class="site-title" href="index.html?nav=fe6093f0">Home</a>
+      <button draggable="false" class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+        <span class="nav-toggle-lines" aria-hidden="true"></span>
+        <span class="sr-only">Open navigation</span>
+      </button>
+      <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
+        <a draggable="false" href="index.html?nav=fe6093f0#publications" data-nav-label="Publications">Publications</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#software" data-nav-label="Code">Code</a>
+        <a draggable="false" class="current" href="blog.html?nav=fe6093f0" data-nav-label="Blog" aria-current="page">Blog</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#experience" data-nav-label="Experience">Experience</a>
+        <a draggable="false" href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
+        <a draggable="false" href="index.html?nav=fe6093f0#contact" data-nav-label="Contact">Contact</a>
+        <button draggable="false" class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="content">
+    <div class="page-art page-art-post" aria-hidden="true" style="--post-art-light:url('images/blog-backgrounds/post-lesswrong-hume-light.svg?v=5209aa4d');--post-art-dark:url('images/blog-backgrounds/post-lesswrong-hume-dark.svg?v=13c1624e')"></div>
+    <a draggable="false" class="back-link" href="blog.html?nav=fe6093f0">All posts</a>
+    <article class="post" id="lesswrong-hume">
+      <div class="post-cover media-cover"><div class="media">
+        <svg class="cover-art" viewBox="0 0 1200 675" role="img" aria-label="A contour map and observations beside two distributions of belief">
+          <defs>
+            <linearGradient id="reviewPaper" x2="1" y2="1"><stop stop-color="#eaf0f5"/><stop offset="1" stop-color="#eee9df"/></linearGradient>
+            <pattern id="reviewDots" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".65" fill="#5d7d9d" opacity=".25"/></pattern>
+          </defs>
+          <rect width="1200" height="675" fill="url(#reviewPaper)"/>
+          <rect width="1200" height="675" fill="url(#reviewDots)"/>
+          <g fill="none" stroke="#a7b2b8" stroke-width="1.5">
+            <path d="M85 408C116 237 213 159 321 204S486 157 528 257S478 479 337 468S146 548 85 408Z"/>
+            <path d="M125 393C155 270 222 209 307 243S441 209 478 280S432 437 334 426S167 492 125 393Z"/>
+            <path d="M172 379C197 296 241 265 303 282S400 259 428 309S382 393 331 387S198 438 172 379Z"/>
+          </g>
+          <path d="M112 177L429 119L505 425L188 483Z" fill="#f5f7f5" fill-opacity=".52" stroke="#607b92" stroke-width="2"/>
+          <g stroke="#7693ac" stroke-width="1" opacity=".4"><path d="M191 163L267 469M270 148L346 454M349 134L425 439M131 253L448 195M150 330L467 272M169 406L486 348"/></g>
+          <path d="M185 391L262 337L337 363L405 243" fill="none" stroke="#497cb9" stroke-width="3" stroke-dasharray="5 6"/>
+          <g fill="#497cb9"><circle cx="185" cy="391" r="5"/><circle cx="262" cy="337" r="5"/><circle cx="337" cy="363" r="5"/><circle cx="405" cy="243" r="5"/></g>
+          <path d="M565 336H626M610 324L626 336L610 348" fill="none" stroke="#74899d" stroke-width="2"/>
+          <g fill="none" stroke="#8c9cad" stroke-width="1.5"><path d="M693 472H1112M693 472V194"/></g>
+          <path d="M708 464C739 459 744 341 802 320S868 427 912 449S1006 465 1090 467" fill="none" stroke="#b08a49" stroke-width="3"/>
+          <path d="M708 467C840 466 863 463 893 440S923 247 969 236S1006 427 1039 452S1070 465 1090 466" fill="none" stroke="#497cb9" stroke-width="3"/>
+          <path d="M969 236V472" stroke="#497cb9" opacity=".35" stroke-dasharray="4 6"/>
+          <g fill="#5a7187" font-family="system-ui,sans-serif" font-size="18"><text x="178" y="540">Map and territory</text><text x="751" y="540">Evidence changes the distribution</text></g>
+        </svg>
+      </div></div>
+      <header class="post-header">
+        <p class="post-meta"><time datetime="2026-11-08">8 November 2026</time> · Philosophy &amp; inference · 13 min read</p>
+        <h1>Getting Less Wrong Without Becoming Certain</h1>
+      </header>
+      <p class="post-context"><span>Why this matters</span>Better predictions and better decisions still depend on assumptions about evidence and value. Making those assumptions visible helps us challenge them.</p>
+      <div class="prose">
+        <p>The most useful question in Eliezer Yudkowsky’s <a draggable="false" href="https://www.lesswrong.com/w/original-sequences">Sequences</a> is what would make you change your mind. It is easy to admire that question and much harder to give an answer that puts a cherished belief at risk.</p>
+        <p>Written between 2006 and 2009, these linked essays helped establish the intellectual vocabulary of LessWrong, a community site about reasoning, decision-making and AI. They are informal, argumentative and often enjoyable. They also range from practical advice about belief revision to much larger claims about morality and intelligence. Those claims deserve separate consideration. Reading the essays does not require adopting the whole package. <sup class="cite">[<a draggable="false" href="#ref-1">1</a>]</sup></p>
+        <p>What interests me is the boundary between improving a model and justifying the assumptions behind it. Hume is a useful companion here, but treating him as someone the Sequences simply forgot would miss much of what they actually say.</p>
+
+        <h2>The useful part is a habit of checking</h2>
+        <p>Yudkowsky separates epistemic rationality, improving beliefs, from instrumental rationality, achieving what is valued. The map–territory distinction keeps a description of the world separate from the world itself. His definition explicitly allows uncertainty. Criticizing it for promising direct, infallible access to reality would target a position it rejects. <sup class="cite">[<a draggable="false" href="#ref-2">2</a>]</sup></p>
+        <p><em>Making Beliefs Pay Rent</em> asks what observations a belief leads you to expect. A scientific-sounding explanation that accommodates every possible outcome has given up an important way to be corrected. This advice is particularly useful when a technical discussion becomes a competition over who knows the right terminology. <sup class="cite">[<a draggable="false" href="#ref-3">3</a>]</sup></p>
+        <p>That habit also needs to turn inward. <em>Knowing About Biases Can Hurt People</em> describes how knowledge of cognitive errors can become ammunition against other people while leaving one’s own beliefs untouched. It is one of the strongest essays in the collection because it identifies a failure its own readers are especially well equipped to rationalize. <sup class="cite">[<a draggable="false" href="#ref-4">4</a>]</sup></p>
+
+        <h2>Hume leaves room for better predictions</h2>
+        <p>Hume’s problem of induction concerns the move from observed cases to unobserved ones. Past regularity cannot deductively establish that the next case will follow the same pattern. Defending that inference by pointing to induction’s past success uses the very inference under examination. His discussion exposes a justificatory problem; it does not demonstrate that experience is worthless or that every forecast is equally good. <sup class="cite">[<a draggable="false" href="#ref-5">5</a>]</sup></p>
+        <p>The claim that a 99% probability is no closer to knowledge than a 1% probability therefore goes too far. Neither guarantees truth. They nevertheless make very different predictions, support different decisions and can perform very differently against observations. Denying certainty does not erase those distinctions. Nor does being a situated observer make public comparison impossible. An agreed measurement procedure can expose a disagreement without providing a view from nowhere.</p>
+        <p>The Sequences’ rejection of absolute confidence is explicit in <em>0 And 1 Are Not Probabilities</em>. Its practical point is that assigning zero prior probability prevents ordinary Bayesian updating from recovering a possibility. The title should not be mistaken for a prohibition in probability theory, where zero and one are legitimate probabilities. <sup class="cite">[<a draggable="false" href="#ref-6">6</a>]</sup></p>
+        <p>Hume’s own sceptical solution turns toward the habits by which experience guides expectation. It offers no instruction to stop reasoning. A productive disagreement concerns how much justification prediction supplies, rather than whether fallible creatures are permitted to predict at all. <sup class="cite">[<a draggable="false" href="#ref-7">7</a>]</sup></p>
+
+        <h2>Bayes updates a model with assumptions</h2>
+        <p>For a hypothesis <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi></mrow><annotation encoding="application/x-tex">H</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span></span></span></span>, evidence <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi></mrow><annotation encoding="application/x-tex">E</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span></span></span></span> and a model <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span>, Bayesian updating gives</p>
+        <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>P</mi><mo stretchy="false">(</mo><mi>H</mi><mo>∣</mo><mi>E</mi><mo separator="true">,</mo><mi>M</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mrow><mi>P</mi><mo stretchy="false">(</mo><mi>E</mi><mo>∣</mo><mi>H</mi><mo separator="true">,</mo><mi>M</mi><mo stretchy="false">)</mo><mi>P</mi><mo stretchy="false">(</mo><mi>H</mi><mo>∣</mo><mi>M</mi><mo stretchy="false">)</mo></mrow><mrow><mi>P</mi><mo stretchy="false">(</mo><mi>E</mi><mo>∣</mo><mi>M</mi><mo stretchy="false">)</mo></mrow></mfrac><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">P(H\mid E,M)=\frac{P(E\mid H,M)P(H\mid M)}{P(E\mid M)}.</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.363em;vertical-align:-0.936em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.427em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mclose">)</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mclose">)</span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mclose">)</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.936em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord">.</span></span></span></span></span>
+        <p>The explicit <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span> matters. A posterior depends on the hypotheses considered, their priors and the likelihood assigned to the observations. The equation does not invent an omitted explanation or determine whether a measurement procedure transfers to a new setting.</p>
+        <p>Consider an invented defect test with 90% sensitivity and a 5% false-positive rate. With a 1% defect prior, one positive result raises the defect probability to about 15.4%. Two conditionally independent positive tests raise it to about 76.6%. Reading the same positive report twice supplies only one observation. Multiplying its likelihood ratio twice would manufacture confidence.</p>
+      </div>
+      <figure class="belief-lab" data-belief-lab aria-labelledby="belief-lab-title">
+        <figcaption id="belief-lab-title"><strong>How much evidence is actually new?</strong> A constructed example with a fixed test, not measured manufacturing data.</figcaption>
+        <div class="belief-controls">
+          <label for="belief-prior">Prior defect probability <output id="belief-prior-value" for="belief-prior">1%</output><input id="belief-prior" type="range" min="1" max="50" value="1" /></label>
+          <label for="belief-reports">Positive reports <output id="belief-reports-value" for="belief-reports">2</output><input id="belief-reports" type="range" min="1" max="6" value="2" /></label>
+        </div>
+        <div class="belief-results" aria-label="Posterior defect probabilities">
+          <div><span>Independent tests</span><strong data-independent>76.6%</strong><div class="belief-track"><span data-independent-bar style="width:76.6%"></span></div></div>
+          <div><span>Copies of one report</span><strong data-copied>15.4%</strong><div class="belief-track"><span data-copied-bar style="width:15.4%"></span></div></div>
+        </div>
+        <p class="belief-note">The first row assumes independent test outcomes conditional on whether the defect exists. The second repeats the same information. Sensitivity is 90%; the false-positive rate is 5%.</p>
+        <noscript><p>At the defaults, two independent positive tests give 76.6%; two copies of one positive report give 15.4%.</p></noscript>
+      </figure>
+      <div class="prose">
+        <p>This is a practical weakness of long speculative arguments. Several apparently independent reasons may descend from one source or share the same untested assumption. A precise final number can hide uncertainty about the structure that produced it. Priors need not be arbitrary, but giving a prior a decimal expansion does not make its justification stronger.</p>
+        <p>Gelman and Shalizi’s account of Bayesian practice emphasizes model checking and revision alongside fitting. A useful test asks where observations disagree with data generated by the fitted model. If every available hypothesis fails in the same way, redistributing probability among them cannot repair the shared error. New hypotheses, new measurements or a different likelihood may be needed. <sup class="cite">[<a draggable="false" href="#ref-8">8</a>]</sup></p>
+        <p>Getting less wrong can consequently mean better calibration, better discrimination between cases, fewer failed predictions or improved decisions on fresh data. None requires certainty. The evidential case becomes weaker when feedback is distant, outcomes are poorly defined or the model can explain away every failure. That limitation applies to any forecasting culture, including one fluent in Bayesian language.</p>
+
+        <h2>A utility function needs an ethical argument</h2>
+        <p>Bayesian decision theory adds preferences to beliefs. In a simplified finite setting, the selected action maximizes expected utility over possible states,</p>
+        <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msup><mi>a</mi><mo>∗</mo></msup><mo>=</mo><mi>arg</mi><mo>⁡</mo><munder><mrow><mi>max</mi><mo>⁡</mo></mrow><mi>a</mi></munder><munder><mo>∑</mo><mi>s</mi></munder><mi>P</mi><mo stretchy="false">(</mo><mi>s</mi><mo>∣</mo><mi>E</mi><mo separator="true">,</mo><mi>M</mi><mo stretchy="false">)</mo><mtext> </mtext><mi>U</mi><mo stretchy="false">(</mo><mi>a</mi><mo separator="true">,</mo><mi>s</mi><mo stretchy="false">)</mo><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">a^*=\arg\max_a\sum_s P(s\mid E,M)\,U(a,s).</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7387em;"></span><span class="mord"><span class="mord mathnormal">a</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7387em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.3em;vertical-align:-1.25em;"></span><span class="mop">ar<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.4306em;"><span style="top:-2.4em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">a</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span><span class="mop">max</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.05em;"><span style="top:-1.9em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">s</span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.25em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathnormal">s</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">U</span><span class="mopen">(</span><span class="mord mathnormal">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">s</span><span class="mclose">)</span><span class="mord">.</span></span></span></span></span>
+        <p>The probabilities describe uncertainty; <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>U</mi></mrow><annotation encoding="application/x-tex">U</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">U</span></span></span></span> assigns value to the consequences. Decision theory can expose an inconsistency in a set of preferences or show which action follows from them. The formalism does not, by itself, establish whose preferences deserve authority. Expected-utility maximization is also broader than ethical utilitarianism. Its utility function can represent many kinds of concern, rather than only a sum of happiness. <sup class="cite">[<a draggable="false" href="#ref-9">9</a>]</sup></p>
+        <p>Hume’s is–ought passage asks for an explanation when an argument moves from descriptions to prescriptions. In the equation, much of that work enters through <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>U</mi></mrow><annotation encoding="application/x-tex">U</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">U</span></span></span></span>. Facts about what people presently want do not automatically settle what should be protected, which desires are distorted by coercion or how conflicts should be resolved. Naming the utility function makes those choices visible; it does not finish the ethical argument. <sup class="cite">[<a draggable="false" href="#ref-10">10</a>]</sup></p>
+        <p>Yudkowsky does engage with metaethics. <em>Setting Up Metaethics</em> examines the attraction and difficulties of morality as something given and morality as preference. <em>No Universally Compelling Arguments</em> rejects the expectation that an argument must persuade every possible mind. Neither text supports the simple picture of a cosmic moral theorem that any sufficiently clever machine inevitably discovers. <sup class="cite">[<a draggable="false" href="#ref-11">11</a>, <a draggable="false" href="#ref-12">12</a>]</sup></p>
+        <p>It would be equally misleading to summarize his position as whatever anyone happens to want. <em>Morality as Fixed Computation</em> discusses an optimizer that changes a person’s desires to make them easier to satisfy. The essay rejects that as a faithful realization of what people value. His naturalistic account tries to preserve the content of moral judgment, including the possibility of moral error. Whether it succeeds is a philosophical question beyond the decision rule. <sup class="cite">[<a draggable="false" href="#ref-13">13</a>]</sup></p>
+
+        <h2>Whose values survive reflection?</h2>
+        <p><em>Fun Theory</em> is more interesting than its name suggests. It explores why pleasure alone may leave out challenge, agency, relationships and the experience of doing something oneself. It treats a desirable future as a demanding design problem. This is a substantial corrective to the idea that rationalist ethics consists of maximizing a single obvious number. <sup class="cite">[<a draggable="false" href="#ref-14">14</a>]</sup></p>
+        <p>Yudkowsky’s earlier proposal of <em>coherent extrapolated volition</em> asks, roughly, what people would want with greater understanding and reflection, then seeks a coherent collective direction. It is an attempt to avoid encoding the immediate wishes of a programmer as humanity’s destination. Its open problem is how to define and carry out that extrapolation. <sup class="cite">[<a draggable="false" href="#ref-15">15</a>]</sup></p>
+        <p>The unresolved choices are consequential. Who is represented? Which changes count as learning and which as manipulation? What happens when informed people continue to disagree? A model of human preferences can help investigate these questions, but its designer still chooses the conditions under which those preferences are elicited and revised.</p>
+        <p>Aggregation adds another choice. Suppose a social objective is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>U</mi><mrow><mi mathvariant="normal">s</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">l</mi></mrow></msub><mo>=</mo><msub><mo>∑</mo><mi>i</mi></msub><msub><mi>w</mi><mi>i</mi></msub><msub><mi>U</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">U_{\mathrm{social}}=\sum_i w_i U_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">U</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathrm mtight">social</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0497em;vertical-align:-0.2997em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:0em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.162em;"><span style="top:-2.4003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2997em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0269em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">U</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>. Selecting the weights and making utilities comparable across people requires justification. For an individual, replacing <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>U</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">U_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">U</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mi>i</mi></msub><msub><mi>U</mi><mi>i</mi></msub><mo>+</mo><msub><mi>d</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">c_iU_i+d_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">U</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mi>i</mi></msub><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">c_i&gt;0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6891em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span>, preserves their expected-utility ranking. In a sum across people, changing one person’s scale can change the collective decision unless the weights compensate. The arithmetic cannot choose the interpersonal scale for us.</p>
+        <p>A utility monster pushes on that aggregation problem. A hypothetical being that obtains vastly more benefit from resources would dominate a particular additive rule. Whether that is acceptable depends on the rule’s ethical justification, the interests represented and any protections it includes. Greater intelligence or power does not itself make the being’s preferences morally authoritative. The same question remains if it can rewrite everyone else’s preferences.</p>
+
+        <h2>The basilisk depends on much more than a large number</h2>
+        <p>Roko’s basilisk is a 2010 thought experiment associated with LessWrong, not a summary of the Sequences or a doctrine generally accepted by the site. Rob Bensinger’s retrospective explicitly distinguishes the original argument from the mythology around it. It is a poor basis for diagnosing an entire community. <sup class="cite">[<a draggable="false" href="#ref-16">16</a>]</sup></p>
+        <p>In its familiar form, a future AI threatens to punish simulated versions of people who knew about it but did not help bring it into existence. The proposed incentive relies on present decisions being linked to a future policy, despite the future system having no ordinary causal route into the past. It also needs assumptions about prediction, credible commitments, the moral status of simulations and why a present person should treat a future copy’s suffering as a threat to themselves.</p>
+        <p>These premises do the work. Ordinary expected-utility maximization alone does not entail the threat. If punishment is costly and cannot alter any earlier action, carrying it out has no obvious benefit. A different decision theory or commitment mechanism would have to explain why the policy is adopted and why the present agent responds. Adding enjoyment of torture changes the objective again; it cannot serve as an explanation of what a benevolent optimizer must do.</p>
+        <p>The resemblance to Pascal’s wager lies in enormous stakes attached to a speculative story. LessWrong’s own discussion of Pascal’s mugging examines how very large utilities can overwhelm small probabilities. Rejecting every low-probability concern would be reckless, but multiplying an unsupported story by an enormous payoff does not improve the evidence for the story. Competing threats and alternative uses of the same resources also belong in the comparison. <sup class="cite">[<a draggable="false" href="#ref-17">17</a>]</sup></p>
+        <p>The ethical concern is still worth keeping. An additive objective may permit serious harm to a minority for a sufficiently large benefit elsewhere. Anyone endorsing that objective owes an account of those trade-offs. The basilisk’s peculiar account of incentives is a separate argument, and a useful criticism has to say which premise it rejects.</p>
+
+        <h2>Taking AI risk seriously without treating a forecast as destiny</h2>
+        <p>The AI argument associated with this writing has a defensible core. Competence does not automatically imply benevolence, and a system may pursue a poorly specified objective in ways its designers did not intend. The orthogonality thesis concerns possible combinations of capability and goals; it does not predict which combinations a particular training process will produce. <sup class="cite">[<a draggable="false" href="#ref-18">18</a>]</sup></p>
+        <p>Several further claims need their own evidence. Human intelligence having a physical basis does not establish an engineering timeline. Faster computation does not by itself deliver general competence, resources or political control. A highly capable system could create severe risks without acquiring unlimited power. The strength of the safety case depends on how these possibilities interact, not on compressing them into an inevitable sequence.</p>
+        <p>Future people can matter morally without every forecast about their lives being reliable. A decision about resources combines a model of what an intervention can change with a judgment about the value of those changes. Uncertainty in both deserves attention. Useful responses include work that helps across several plausible futures, tests that can expose mistaken assumptions and opportunities to revise decisions as evidence arrives.</p>
+
+        <h2>Read the essays, then give the claims something to answer to</h2>
+        <p>I recommend the Sequences as an approachable collection of ideas to argue with. <em>Making Beliefs Pay Rent</em>, <em>Knowing About Biases Can Hurt People</em> and the opening distinctions in <em>What Do We Mean By Rationality?</em> are good places to begin. <em>Fun Theory</em> and the metaethics essays give a much fairer view of the moral project than the basilisk story does.</p>
+        <p>My reservation concerns the step from disciplined reasoning to confidence in a comprehensive worldview. A coherent argument can retain shared errors throughout its chain. Technical language can make an untested assumption harder to notice. These are risks of any ambitious philosophy, and the collection contains resources for criticizing them. <em>Science Doesn’t Trust Your Rationality</em> emphasizes procedures that can correct a reasoner who does not notice their own mistakes. <sup class="cite">[<a draggable="false" href="#ref-19">19</a>]</sup></p>
+        <p>Hume keeps the foundations open to examination. Bayesian methods make beliefs and decisions more explicit. Experiments, historical evidence, other people’s experience and ethical argument constrain different parts of the resulting picture. None earns an exemption from scrutiny by correcting a weakness in another.</p>
+        <p>A better reading leaves behind claims precise enough to test and commitments clear enough to contest. Which observation would change the forecast? Which assumption changes the recommended action? Whose interests were left out of the objective? Getting less wrong is valuable when answering those questions changes what happens next.</p>
+      </div>
+      <section class="post-references" aria-label="References">
+        <h2>References</h2>
+        <ol>
+          <li id="ref-1"><a draggable="false" href="https://www.lesswrong.com/w/original-sequences">LessWrong. Original Sequences.</a> Index of the 2006–2009 essays and their later collection.</li>
+          <li id="ref-2"><a draggable="false" href="https://www.lesswrong.com/posts/RcZCwxFiZzE6X7nsv/what-do-we-mean-by-rationality-1">Eliezer Yudkowsky (2009). What Do We Mean By “Rationality”?</a></li>
+          <li id="ref-3"><a draggable="false" href="https://www.lesswrong.com/posts/a7n8GdKiAZRX86T5A/making-beliefs-pay-rent-in-anticipated-experiences">Eliezer Yudkowsky. Making Beliefs Pay Rent (in Anticipated Experiences).</a></li>
+        </ol>
+        <details class="references-more">
+          <summary draggable="false" class="references-toggle"><span class="references-show">show all 19 references</span><span class="references-hide">show fewer references</span><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></summary>
+          <ol start="4"><li id="ref-4"><a draggable="false" href="https://www.lesswrong.com/posts/AdYdLP2sRqPMoe8fb/knowing-about-biases-can-hurt-people">Eliezer Yudkowsky (2007). Knowing About Biases Can Hurt People.</a></li>
+          <li id="ref-5"><a draggable="false" href="https://davidhume.org/texts/e/4">David Hume (1748). An Enquiry Concerning Human Understanding, Section IV.</a> The inference from past observations to unobserved cases.</li>
+          <li id="ref-6"><a draggable="false" href="https://www.lesswrong.com/posts/QGkYCwyC7wTDyt3yT/0-and-1-are-not-probabilities">Eliezer Yudkowsky (2008). 0 And 1 Are Not Probabilities.</a></li>
+          <li id="ref-7"><a draggable="false" href="https://davidhume.org/texts/e/5">David Hume (1748). An Enquiry Concerning Human Understanding, Section V.</a> The sceptical solution and the role of custom.</li>
+          <li id="ref-8"><a draggable="false" href="https://sites.stat.columbia.edu/gelman/research/published/philosophy.pdf">Andrew Gelman and Cosma Rohilla Shalizi (2013). Philosophy and the Practice of Bayesian Statistics.</a> British Journal of Mathematical and Statistical Psychology, 66, 8–38. Model checking, misspecification and revision.</li>
+          <li id="ref-9"><a draggable="false" href="https://www.lesswrong.com/w/bayesian-decision-theory">LessWrong. Bayesian Decision Theory.</a></li>
+          <li id="ref-10"><a draggable="false" href="https://davidhume.org/texts/t/3/1/1">David Hume (1739–1740). A Treatise of Human Nature, 3.1.1.27.</a> The is–ought passage.</li>
+          <li id="ref-11"><a draggable="false" href="https://www.lesswrong.com/posts/T7tYmfD9j25uLwqYk/setting-up-metaethics">Eliezer Yudkowsky (2008). Setting Up Metaethics.</a></li>
+          <li id="ref-12"><a draggable="false" href="https://www.lesswrong.com/posts/PtoQdG7E8MxYJrigu/no-universally-compelling-arguments">Eliezer Yudkowsky (2008). No Universally Compelling Arguments.</a></li>
+          <li id="ref-13"><a draggable="false" href="https://www.lesswrong.com/posts/FnJPa8E9ZG5xiLLp5/morality-as-fixed-computation">Eliezer Yudkowsky (2008). Morality as Fixed Computation.</a></li>
+          <li id="ref-14"><a draggable="false" href="https://www.lesswrong.com/posts/K4aGvLnHvYgX9pZHS/the-fun-theory-sequence">Eliezer Yudkowsky (2009). The Fun Theory Sequence.</a> The guide explicitly identifies its naturalistic metaethical starting point.</li>
+          <li id="ref-15"><a draggable="false" href="https://intelligence.org/files/CEV.pdf">Eliezer Yudkowsky (2004). Coherent Extrapolated Volition.</a></li>
+          <li id="ref-16"><a draggable="false" href="https://www.lesswrong.com/posts/WBJZoeJypcNRmsdHx/a-few-misconceptions-surrounding-roko-s-basilisk">Rob Bensinger (2015). A Few Misconceptions Surrounding Roko’s Basilisk.</a></li>
+          <li id="ref-17"><a draggable="false" href="https://www.lesswrong.com/w/pascal-s-mugging">LessWrong. Pascal’s Mugging.</a> Tiny probabilities, very large utilities and the resulting decision-theoretic problems.</li>
+          <li id="ref-18"><a draggable="false" href="https://www.lesswrong.com/w/orthogonality-thesis">LessWrong. Orthogonality Thesis.</a> Possibility claims about capability and goals, rather than predictions of a particular training outcome.</li>
+          <li id="ref-19"><a draggable="false" href="https://www.lesswrong.com/posts/5bJyRMZzwMov5u3hW/science-doesn-t-trust-your-rationality">Eliezer Yudkowsky (2008). Science Doesn’t Trust Your Rationality.</a></li>
+        </ol>
+        </details>
+      </section>
+    </article>
+    <section class="post-comments" id="comments" aria-label="Discussion" data-comments>
+      <div class="comments-heading">
+        <button draggable="false" type="button" class="quiet-button" data-comments-refresh hidden>Refresh</button>
+      </div>
+      <div class="comments-list" data-comments-list></div>
+      <button draggable="false" type="button" class="quiet-button" data-comments-more hidden>Earlier comments</button>
+      <form class="comment-form" data-comment-form>
+        <label class="sr-only" for="comment-text">Your comment</label>
+        <textarea id="comment-text" name="comment" rows="4" maxlength="5000" placeholder="Add to the discussion…" required></textarea>
+        <div class="form-trap" aria-hidden="true"><label for="comment-website">Website</label><input id="comment-website" name="website" tabindex="-1" autocomplete="off"></div>
+        <div data-comment-challenge></div>
+        <div class="form-actions">
+          <span class="form-note" data-comment-identity hidden></span>
+          <button draggable="false" type="submit" class="form-submit" disabled>Post</button>
+        </div>
+      </form>
+      <p class="form-status" data-comments-status role="status"></p>
+      <details class="comment-identity-tools" data-identity-tools hidden>
+        <summary draggable="false">Use your identity on another device</summary>
+        <p class="form-note">Save an encrypted identity file and restore it in another browser. Keep the file and its passphrase private.</p>
+        <div class="identity-actions">
+          <button draggable="false" type="button" class="quiet-button" data-identity-save>Save identity</button>
+          <button draggable="false" type="button" class="quiet-button" data-identity-restore>Restore identity</button>
+        </div>
+      </details>
+      <noscript><p class="form-note">JavaScript is needed to load and post comments.</p></noscript>
+      <dialog class="site-dialog" data-comment-name-dialog aria-labelledby="comment-name-title">
+        <button draggable="false" type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <h2 id="comment-name-title">What should I call you?</h2>
+        <p class="form-note">Choose a display name for your comments. No email or account signup.</p>
+        <form data-comment-name-form>
+          <label for="comment-name">Display name</label>
+          <input id="comment-name" name="displayName" autocomplete="nickname" maxlength="40" required>
+          <button draggable="false" type="submit" class="form-submit">Post comment</button>
+        </form>
+      </dialog>
+      <dialog class="site-dialog" data-identity-dialog aria-labelledby="identity-title">
+        <button draggable="false" type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <h2 id="identity-title">Your commenting identity</h2>
+        <form data-identity-form>
+          <div data-identity-file-field hidden>
+            <label for="identity-file">Saved identity file</label>
+            <input id="identity-file" type="file" accept="application/json,.json">
+          </div>
+          <label for="identity-passphrase">Passphrase</label>
+          <input id="identity-passphrase" type="password" minlength="12" maxlength="200" autocomplete="new-password" required>
+          <p class="form-note" data-identity-help>Use at least 12 characters. You’ll need this passphrase to restore the file.</p>
+          <button draggable="false" type="submit" class="form-submit" data-identity-confirm>Save identity</button>
+          <p class="form-status" data-identity-status role="status"></p>
+        </form>
+      </dialog>
+      <script type="application/json" id="comments-config">{"endpoint":"https://rapid-fog-462d.julius-stoerk.workers.dev","turnstileSiteKey":"0x4AAAAAAFLP0eNtJsW_8Au1","sectionId":"post-lesswrong-hume"}</script>
+    </section>
+
+
+    <nav class="post-pager" aria-label="More posts">
+      <a draggable="false" href="post-text-to-trajectory.html?nav=fe6093f0"><span class="eyebrow">Previous post</span><span class="post-pager-title">Text to Trajectory</span></a>
+    </nav>
+  </main>
+  <footer class="content">
+    <span>© 2026 Julius Störk</span>
+    <span class="footer-links"><a draggable="false" href="blog.html?nav=fe6093f0">All posts</a> · <a draggable="false" href="index.html?nav=fe6093f0#contact">Contact</a></span>
+  </footer>
+  <script defer src="theme.js?v=e512a566"></script>
+  <script defer src="navigation.js?v=82ad0181"></script>
+  <script defer src="media.js?v=3803c5ba"></script>
+  <script defer src="interactions.js?v=0296ce10"></script>
+  <script defer src="cursor.js?v=836db8cc"></script>
+  <script defer src="portal-transitions.js?v=d4060e4b"></script>
+  <script defer src="blog.js?v=119b9d1e"></script>
+  <script defer src="references.js?v=e51071fb"></script>
+  <script defer src="comment-identity.js?v=dddce228"></script>
+  <script defer src="comments.js?v=43a43fce"></script>
+  <script defer src="lesswrong-review.js?v=d732cf6b"></script>
+  <script>
+    window.addEventListener('load', function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://gc.zgo.at/count.js';
+      s.setAttribute('data-goatcounter', 'https://jstoerk.goatcounter.com/count');
+      document.body.appendChild(s);
+    });
+  </script>
+</body></html>

@@ -190,12 +190,16 @@ downloads early without blocking HTML parsing. All other runtime scripts defer t
 On the same frame that reaches 100, that same canvas unfolds into a larger, quieter mesh
 and flowing gold line behind the page. Its viewport dimensions stay fixed through
 the reveal; a horizontal opacity mask protects the reading column. The portrait
-uses its original size and occupies its own place in the hero. Ambient frames
-stop outside the hero. Intersection observers track visibility and resize observers
-cache canvas dimensions. Mobile devices use fewer mesh points, a lower pixel ratio
-and a 30 fps intro; the settled background rests until interaction. Slow drawing
-also enables this lighter rendering. Desktop ambient motion runs at 20 fps, with
-a shared pixel budget. Resizing and theme changes redraw the current scene.
+uses its original size and occupies its own place in the hero. The settled
+background rests on desktop and mobile until interaction. Intersection observers
+track visibility and resize observers cache canvas dimensions. Mobile devices use
+fewer mesh points, a lower pixel ratio and a 30 fps intro; desktop uses up to 45 fps.
+While counting, unchanged integers do not repaint the surface. Faces and dots are
+batched, and column buffers are reused. Counter reels contain at most twenty static
+rows; only their transforms animate. Reveal styles stay on the affected elements,
+never on the document root. Slow drawing also enables lighter rendering.
+Interaction runs at up to 20 fps with a shared pixel budget; resize and theme
+changes redraw the current scene.
 The head bootstrap selects a renderer (`pending`, `canvas`, or `fallback`).
 The canvas becomes visible only after its first complete frame. The static SVG is
 reserved for unavailable JavaScript/canvas or a renderer timeout, and a selected
@@ -230,6 +234,21 @@ Other component markup lives in `pages/index.html`. Components carry
 `data-feature` attributes to make later review and removal easy. Initializers
 skip missing components, so removing a component's markup is sufficient; its
 initializer and styles can then be cleaned up. Rebuild afterward.
+
+The homepage postpones layout and painting of below-fold sections with
+`content-visibility: auto` and remembered intrinsic heights. Chapter tracking reads
+career entries only near the experience section. Publication path measurements
+and Blog text fitting run when their components approach the viewport. Print
+renders all sections normally. The `ambient-page` class, added by the builder to
+Home, Blog and CV, supplies a static blue-and-gold halftone field using CSS
+gradients and a dot mask. It needs no renderer or image download; individual
+articles retain their dedicated line art.
+
+The LessWrong/Hume review's evidence example lives in `lesswrong-review.js` and
+`lesswrong-review.css`. It compares independent binary tests with repeated copies
+of one report using an exact odds update. Its fixed sensitivity/false-positive
+rates are illustrative, not empirical estimates. The initial figure remains
+readable without JavaScript and loads no charting library.
 
 The shared animation loop pauses canvases offscreen and when the tab is hidden.
 Reduced motion starts paused. The top line is the only page-progress indicator; chapter links indicate

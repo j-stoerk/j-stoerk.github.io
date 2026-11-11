@@ -241,6 +241,41 @@ body::before {
   background: var(--color-bg);
 }
 
+/* A static halftone field: broad pools of colour and fine, quiet dots.
+   No noise filters, WebGL, animation loop or external background image. */
+.ambient-page::before {
+  background:
+    radial-gradient(ellipse at 92% 14%, color-mix(in srgb, var(--color-primary) 9%, transparent), transparent 62%),
+    radial-gradient(ellipse at 12% 82%, color-mix(in srgb, var(--color-warn) 5%, transparent), transparent 56%),
+    var(--color-bg);
+}
+.ambient-page::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--color-primary) 28%, transparent) .7px, transparent .95px);
+  background-size: 5px 5px;
+  mask-image:
+    radial-gradient(ellipse at 86% 26%, #000 0%, transparent 66%),
+    radial-gradient(ellipse at 9% 92%, #000 0%, transparent 46%);
+}
+[data-theme="dark"] .ambient-page::before {
+  background:
+    radial-gradient(ellipse at 92% 14%, color-mix(in srgb, var(--color-primary) 12%, transparent), transparent 62%),
+    radial-gradient(ellipse at 12% 82%, color-mix(in srgb, var(--color-warn) 6%, transparent), transparent 56%),
+    var(--color-bg);
+}
+.atlas-work { contain: layout paint; }
+@media (max-width: 760px) {
+  /* An opaque sticky header avoids blurring a moving full-screen canvas. */
+  .ambient-page .topbar { backdrop-filter: none; background: var(--color-bg); }
+}
+@media print {
+  .ambient-page::after { display: none; }
+}
+
 a {
   color: var(--color-primary);
   text-decoration-thickness: 1px;

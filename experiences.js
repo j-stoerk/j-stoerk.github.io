@@ -3,6 +3,9 @@
 (function () {
   'use strict';
   const root = document.documentElement;
+  // Select the compact layout before any geometry/style reads can lay out
+  // the no-JavaScript fallback with every article preview expanded.
+  root.classList.add('experiences-ready');
   const $ = (s, scope = document) => scope.querySelector(s);
   const $$ = (s, scope = document) => Array.from(scope.querySelectorAll(s));
   const clamp = (v, lo = 0, hi = 1) => Math.max(lo, Math.min(hi, v));
@@ -32,6 +35,7 @@
       if (!scene.dirty && !animating) return;
       const fps = typeof scene.maxFps === 'function' ? scene.maxFps() : scene.maxFps;
       if (!scene.dirty && now - scene.lastDraw < 1000 / fps - .5) { running = animating || running; return; }
+      if (!scene.dirty && scene.shouldDraw && !scene.shouldDraw(now)) { running = animating || running; return; }
       const rect = scene.size;
       if (!rect.width || !rect.height) return;
       const maxDpr = typeof scene.maxDpr === 'function' ? scene.maxDpr() : scene.maxDpr;
@@ -58,16 +62,16 @@
     entries.forEach(entry => { const scene = scenes.find(s => s.canvas === entry.target); if (scene) scene.visible = entry.isIntersecting; });
     wake();
   }, { rootMargin: '80px' }) : null;
-  function scene(canvas, draw, animate = () => true, maxDpr = 2, maxFps = 60, maxPixels = Infinity) {
+  function scene(canvas, draw, animate = () => true, maxDpr = 2, maxFps = 60, maxPixels = Infinity, shouldDraw = null) {
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    const entry = { canvas, ctx, draw, animate, maxDpr, maxFps, maxPixels, visible: !observer, dirty: true, time: 0, lastDraw: 0, size: canvas.getBoundingClientRect() };
+    const entry = { canvas, ctx, draw, animate, maxDpr, maxFps, maxPixels, shouldDraw, visible: !observer, dirty: true, time: 0, lastDraw: 0, size: { width: 0, height: 0 } };
     const measure = () => { entry.size = canvas.getBoundingClientRect(); entry.dirty = true; wake(false); };
     if ('ResizeObserver' in window) new ResizeObserver(entries => {
       entry.size = entries[0].contentRect; entry.dirty = true; wake(false);
     }).observe(canvas);
-    else window.addEventListener('resize', measure, { passive: true });
+    else { measure(); window.addEventListener('resize', measure, { passive: true }); }
     scenes.push(entry);
     if (observer) observer.observe(canvas);
     wake();
@@ -96,7 +100,9 @@
     const hero = $('#home'), canvas = $('#intro-canvas'), stage = $('.portfolio-atmosphere');
     if (!hero || !canvas || !stage) return;
     if (root.dataset.backgroundRenderer === 'fallback') return;
-    const visual = $('.hero-visual', stage), count = $('[data-intro-count]', stage);
+    const count = $('[data-intro-count]', stage);
+    const progressBar = $('.intro-progress', stage);
+    const revealTargets = $$('.hero-copy, .hero-portrait', hero);
     const compact = matchMedia('(max-width: 760px), (pointer: coarse)');
     let slowFrames = 0, economy = Boolean(navigator.connection?.saveData);
     const lightweight = () => compact.matches || economy;
@@ -105,6 +111,9 @@
     let pulse = -100, surfaceTime = 0, meshTime = 0, settledClockOffset = 0;
     const countDelay = .03, countDuration = 2.55, revealDuration = 1.15;
     const countAcceleration = 3, countRange = Math.expm1(countAcceleration);
+    let lastInteger = -1;
+    const counterAt = elapsed => Math.min(100, Math.floor(100 * Math.expm1(
+      countAcceleration * clamp((elapsed - countDelay) / countDuration)) / countRange));
     // Mobile browsers resize while settling their viewport; the scene already adapts.
     const dismissEvents = ['pointerdown', 'wheel', 'touchstart', 'keydown', 'focusin', 'pagehide'];
     function setPhase(phase) {
@@ -112,11 +121,12 @@
     }
     const reels = fullScreen ? $$('[data-intro-place]', stage).map(digit => {
       const place = Number(digit.dataset.introPlace), reel = $('.intro-reel', digit);
-      // Long reels roll forward through 009 -> 010 and 099 -> 100 without snapping back.
-      reel.replaceChildren(...Array.from({ length: Math.floor(100 / place) + 1 }, (_, value) => {
-        const row = document.createElement('span'); row.textContent = String(value % 10); return row;
+      // Repeated, pre-rendered digits roll through the wrap without repainting
+      // text on every tick or creating a 101-row composited layer.
+      reel.replaceChildren(...Array.from({ length: place === 100 ? 2 : 20 }, (_, i) => {
+        const row = document.createElement('span'); row.textContent = String(i % 10); return row;
       }));
-      return { place, reel };
+      return { place, reel, value: 0, animation: null };
     }) : [];
     function setCounter(value) {
       const digits = String(value).padStart(3, '0');
@@ -125,16 +135,34 @@
       // The time between successive integers shrinks with the accelerating count.
       const step = countDuration * 1000 / countAcceleration * Math.log(
         (1 + (value + 1) * countRange / 100) / (1 + value * countRange / 100));
-      visual.style.setProperty('--intro-roll-duration', `${clamp(step, 24, 160)}ms`);
-      visual.style.setProperty('--intro-progress', value / 100);
-      reels.forEach(({ place, reel }) => { reel.style.transform = `translateY(-${Math.floor(value / place)}em)`; });
+      progressBar.style.setProperty('--intro-progress', value / 100);
+      reels.forEach(digit => {
+        const next = Math.floor(value / digit.place) % 10;
+        if (digit.value === next) return;
+        digit.animation?.cancel();
+        const from = digit.value, to = next < from ? next + 10 : next;
+        digit.value = next;
+        digit.animation = digit.reel.animate([
+          { transform: `translateY(-${from}em)` }, { transform: `translateY(-${to}em)` },
+        ], { duration: clamp(step, 24, 160), easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'forwards' });
+      });
+    }
+    function setReveal(value) {
+      // A custom property on <html> invalidates styles across the whole page.
+      // Keep animated values local to the three elements that actually use them.
+      stage.style.setProperty('--intro-reveal', value);
+      revealTargets.forEach(target => {
+        target.style.opacity = value;
+        target.style.transform = `translateY(${(1 - value) * 18}px)`;
+      });
     }
     function finishIntro() {
       if (!fullScreen) return;
       settledClockOffset = meshTime - surfaceTime;
       fullScreen = false; revealing = false;
       root.classList.remove('intro-pending', 'intro-active');
-      root.style.setProperty('--intro-reveal', 1);
+      setReveal(1);
+      revealTargets.forEach(target => { target.style.removeProperty('opacity'); target.style.removeProperty('transform'); });
       clearTimeout(window.introFallback);
       setCounter(100);
       setPhase('settled');
@@ -158,7 +186,7 @@
       return;
     }
     const pointer = { x: 0, y: 0 }, eased = { x: 0, y: 0 };
-    let grids, nodes, gridColumns = 0, mask, maskWidth = 0, maskPixels = 0, maskReveal = -1;
+    let grids, gridLines, nodes, gridColumns = 0, mask, maskWidth = 0, maskPixels = 0, maskReveal = -1;
     const route = Array.from({ length: 80 }, () => ({}));
     hero.addEventListener('pointermove', event => {
       if (paused || fullScreen || event.pointerType !== 'mouse') return;
@@ -189,9 +217,9 @@
       surfaceTime = time;
       if (introStartedAt === undefined) introStartedAt = performance.now();
       const openingTime = (performance.now() - introStartedAt) / 1000;
-      const loading = clamp((openingTime - countDelay) / countDuration, 0, 1);
       // Increasing velocity lets the early digits breathe before the final rush to 100.
-      const value = Math.min(100, Math.floor(100 * Math.expm1(countAcceleration * loading) / countRange));
+      const value = counterAt(openingTime);
+      lastInteger = value;
       const progress = value / 100;
       const entrance = fullScreen ? progress : 1;
       const assembled = entrance * entrance * (3 - 2 * entrance);
@@ -200,7 +228,7 @@
       const reveal = 1 - Math.pow(1 - revealTime, 3);
       if (fullScreen) {
         setCounter(value);
-        if (revealTime > 0) root.style.setProperty('--intro-reveal', reveal);
+        if (revealTime > 0) setReveal(reveal);
         revealing = revealTime > 0;
         if (revealTime === 1) finishIntro();
       }
@@ -220,7 +248,7 @@
       const quiet = mix(1, .48, reveal);
       const cosY = Math.cos(yaw), sinY = Math.sin(yaw), cosP = Math.cos(pitch), sinP = Math.sin(pitch);
       const cosR = Math.cos(roll), sinR = Math.sin(roll);
-      const columns = lightweight() ? 19 : 29, rows = lightweight() ? 15 : 23;
+      const columns = lightweight() ? 17 : 25, rows = lightweight() ? 13 : 19;
       const age = surfaceTime - pulse;
       function project(u, v, layer = 0, gather = 1, point = {}) {
         let x = u * 185, y = v * 195;
@@ -261,34 +289,42 @@
         gridColumns = columns;
         grids = [-24, 0].map(() => Array.from({ length: rows }, () =>
           Array.from({ length: columns }, () => ({}))));
+        gridLines = grids.map(grid => Array.from({ length: columns }, (_, col) => grid.map(row => row[col])));
         nodes = grids[1].flat();
       }
       grids.forEach((grid, layer) => grid.forEach((row, r) => row.forEach((point, c) =>
         project(c / (columns - 1) * 2 - 1, r / (rows - 1) * 2 - 1, layer ? 0 : -24, assembled, point))));
       grids.forEach((grid, layer) => {
         if (layer) {
-          for (let row = 0; row < rows - 1; row++) for (let col = 0; col < columns - 1; col++) {
-            const a = grid[row][col], b = grid[row][col + 1], c = grid[row + 1][col + 1], d = grid[row + 1][col];
-            const depth = (a.z + b.z + c.z + d.z) / 4;
-            // Translucent faces share one colour, so their blend needs no depth sort.
-            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
-            ctx.lineTo(c.x, c.y); ctx.lineTo(d.x, d.y); ctx.closePath();
-            ctx.fillStyle = palette.blue;
-            ctx.globalAlpha = (.025 + (depth + 260) / 520 * .06) * assembled * quiet; ctx.fill();
+          // Three depth bands replace hundreds of individual fill operations.
+          for (let band = 0; band < 3; band++) {
+            ctx.beginPath();
+            for (let row = 0; row < rows - 1; row++) for (let col = 0; col < columns - 1; col++) {
+              const a = grid[row][col], b = grid[row][col + 1], c = grid[row + 1][col + 1], d = grid[row + 1][col];
+              const depth = (a.z + b.z + c.z + d.z) / 4;
+              if (Math.floor(clamp((depth + 260) / 520, 0, .999) * 3) !== band) continue;
+              ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+              ctx.lineTo(c.x, c.y); ctx.lineTo(d.x, d.y); ctx.closePath();
+            }
+            ctx.fillStyle = palette.blue; ctx.globalAlpha = (.035 + band * .02) * assembled * quiet; ctx.fill();
           }
         }
         grid.forEach((line, row) => stroke(line, layer ? palette.blue : palette.ink,
           (layer ? .2 + row / rows * .24 : .1) * assembled * quiet, layer ? .75 : .5));
         for (let col = 0; col < columns; col += layer ? 1 : 3) {
-          stroke(grid.map(row => row[col]), layer ? palette.blue : palette.ink, (layer ? .18 : .08) * assembled * quiet, .5);
+          stroke(gridLines[layer][col], layer ? palette.blue : palette.ink, (layer ? .18 : .08) * assembled * quiet, .5);
         }
       });
-      if (!lightweight()) nodes.sort((a, b) => a.z - b.z);
-      nodes.forEach((point, i) => {
-        ctx.beginPath(); ctx.arc(point.x, point.y, Math.max(.5, point.p * (i % 11 === 0 ? 1.6 : .65)), 0, Math.PI * 2);
-        ctx.fillStyle = i % 11 === 0 ? palette.blue : palette.ink;
-        ctx.globalAlpha = (.24 + (point.z + 250) / 500 * .4) * (.6 + .4 * assembled) * quiet; ctx.fill();
-      });
+      for (let highlight = 0; highlight < 2; highlight++) {
+        ctx.beginPath();
+        nodes.forEach((point, i) => {
+          if (Number(i % 11 === 0) !== highlight) return;
+          const radius = Math.max(.5, point.p * (highlight ? 1.6 : .65));
+          ctx.moveTo(point.x + radius, point.y); ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
+        });
+        ctx.fillStyle = highlight ? palette.blue : palette.ink;
+        ctx.globalAlpha = (highlight ? .6 : .38) * (.6 + .4 * assembled) * quiet; ctx.fill();
+      }
       // A warm path follows the structure while the material breathes beneath it.
       route.forEach((point, i) => {
         const u = i / 79 * 2 - 1;
@@ -326,9 +362,13 @@
       }
       if (fullScreen && performance.now() - drawStarted > 16 && ++slowFrames >= 4) economy = true;
     }, () => root.dataset.backgroundRenderer !== 'fallback' && (fullScreen ||
-      heroVisible && (!lightweight() || surfaceTime - pulse < 3)),
-    () => lightweight() ? 1 : 1.5, () => fullScreen ? lightweight() ? 30 : 60 : 20,
-    () => fullScreen ? 2000000 : 1200000);
+      heroVisible && (surfaceTime - pulse < 3 || Math.hypot(pointer.x - eased.x, pointer.y - eased.y) > .002)),
+    () => lightweight() ? 1 : 1.5, () => fullScreen ? lightweight() ? 30 : 45 : 20,
+    () => fullScreen ? 1600000 : 1000000, () => {
+      if (!fullScreen || introStartedAt === undefined || revealing) return true;
+      // Geometry is driven by the integer, so unchanged numbers need no repaint.
+      return counterAt((performance.now() - introStartedAt) / 1000) !== lastInteger || lastInteger === 100;
+    });
   })();
 
   // Recent notes and topic trails share the same blog explorer.
@@ -337,7 +377,9 @@
     if (!buttons.length) return;
     const stories = panels.filter(panel => panel.id !== 'atlas-latest').flatMap(panel => $$('.atlas-story', panel));
     const intros = new Map($$('.atlas-intro').map(intro => [intro, intro.textContent.trim()]));
+    let visible = false;
     function fitIntros() {
+      if (!visible) return;
       const panel = panels.find(p => p.dataset.active === 'true');
       if (!panel) return;
       $$('.atlas-story:not([hidden]) .atlas-intro', panel).forEach(intro => {
@@ -379,7 +421,11 @@
       $('#atlas-trail').textContent = $('span', button).textContent + ' / ' + $('strong', button).textContent + ' / A lucky find: ' + $('strong', pick).textContent;
       fitIntros();
     });
-    requestAnimationFrame(fitIntros);
+    if ('IntersectionObserver' in window) new IntersectionObserver(entries => {
+      visible = entries[0].isIntersecting;
+      if (visible) fitIntros();
+    }, { rootMargin: '150px' }).observe($('#atlas-work'));
+    else { visible = true; requestAnimationFrame(fitIntros); }
     document.fonts?.ready.then(fitIntros);
     window.addEventListener('resize', fitIntros, { passive: true });
     if ('ResizeObserver' in window) new ResizeObserver(fitIntros).observe($('#atlas-work'));
