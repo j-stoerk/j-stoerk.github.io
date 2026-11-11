@@ -1,6 +1,5 @@
 /* A full-width photographic contact section; the photograph stays one panorama. */
 .portfolio-page { overflow-x: clip; }
-.portfolio-page > main { padding-bottom: 0; }
 .portfolio-page .contact-landscape {
   --color-text: #f3f6fc;
   --color-text-muted: #d0dbea;
@@ -14,13 +13,11 @@
   isolation: isolate;
   width: 100vw;
   margin-inline: calc(50% - 50vw);
-  padding: clamp(64px, 7vw, 112px) 20px 0;
+  padding: clamp(64px, 7vw, 112px) 20px;
   border: 0;
   background: #111f2d;
   color: var(--color-text);
   overflow: clip;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 950px;
 }
 .contact-landscape-art, .contact-landscape-photo, .contact-photo-grid {
   position: absolute;
@@ -71,7 +68,6 @@
 }
 .contact-photo-tile.is-lit::after { opacity: .65; transition-duration: 0ms; }
 .contact-landscape-content { max-width: var(--content); min-height: 680px; margin: 0 auto; }
-.contact-landscape > footer.content { width: 100%; max-width: var(--content); margin: 48px auto 0; padding: 24px 0 32px; }
 .contact-landscape h2 { font-size: clamp(2rem, 3.5vw, 3rem); letter-spacing: -.035em; }
 .contact-landscape .contact-context { margin-top: 32px; margin-bottom: 40px; }
 .contact-landscape .contact-links { font-size: var(--text-sm); line-height: 1.9; }
@@ -91,7 +87,7 @@
   }
 }
 @media (max-width: 820px) {
-  .portfolio-page .contact-landscape { padding-top: 56px; }
+  .portfolio-page .contact-landscape { padding-block: 56px; }
   .contact-landscape-content { min-height: 0; }
   .contact-landscape .contact-message { padding-top: 40px; }
   .contact-landscape .contact-context { margin-block: 24px 32px; }
@@ -101,7 +97,7 @@
   .contact-photo-tile::after { transition: none; }
 }
 @media print {
-  .portfolio-page .contact-landscape { width: auto; margin-inline: 0; padding: 0; background: none; content-visibility: visible; contain-intrinsic-size: none; --color-text: #111; --color-text-muted: #444; --color-text-faint: #555; --color-primary: #164c96; }
+  .portfolio-page .contact-landscape { width: auto; margin-inline: 0; padding: 0; background: none; --color-text: #111; --color-text-muted: #444; --color-text-faint: #555; --color-primary: #164c96; }
   .contact-landscape-content { min-height: 0; }
   .contact-landscape-art { display: none; }
 }

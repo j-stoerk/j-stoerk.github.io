@@ -90,9 +90,6 @@ to the configured Formspree endpoint using standard HTML. `contact.js` expands
 the form beside Contact (below it on mobile) and prefills an editable name from
 the confirmed local comment identity without contacting the comments service.
 Closing the form preserves edits. Email remains available without JavaScript.
-On the homepage, the contact region and global footer share one photographic
-wrapper outside `main`, so the panorama continues to the bottom edge. Its single
-image and hover grid cover both areas; the footer remains a content-info landmark.
 
 `comment-identity.js` shares the local identity between `comments.js` and
 `contact.js`. Comment reads are anonymous; the first Post asks for a display name,
