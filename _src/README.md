@@ -12,7 +12,7 @@ Node dependencies are build-only tools for share images; pages load none of them
 
 ## Link previews
 
-Every personal page and blog post gets a 1200 × 630 baseline JPEG from the same template
+Every personal page and blog post gets a 2400 × 1260 baseline JPEG from the same template
 in `share/cards.js`: a rounded image at left, a blue divider, serif heading and
 short text on a light grid. Home, CV and the blog index use `portrait.jpg`;
 individual posts use their own inline `svg.cover-art`, without cropping away the
@@ -31,7 +31,7 @@ files remain available for older cached shares. `share/manifest.json` connects
 pages to their images. The builder aligns Open Graph, Twitter Card and article
 JSON-LD images and adds image dimensions, format and accessible descriptions.
 The image assets are metadata only and add no rendering work to the website.
-Preview metadata appears before scripts and styles. Cards have a 250 kB build
+Preview metadata appears before scripts and styles. Cards have a 550 kB build
 budget to keep messaging-app fetches lightweight. Site checks validate every
 page/card pair, metadata placement, file size and actual JPEG dimensions.
 

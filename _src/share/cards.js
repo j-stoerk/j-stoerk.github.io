@@ -9,7 +9,7 @@ const { Resvg } = require('@resvg/resvg-js');
 const jpeg = require('jpeg-js');
 const ROOT = path.join(__dirname, '../..');
 const OUT = path.join(ROOT, 'images/share');
-const WIDTH = 1200, HEIGHT = 630;
+const WIDTH = 2400, HEIGHT = 1260;
 const FONT_PATH = path.join(__dirname, 'fonts');
 const serifFile = path.join(FONT_PATH, 'SourceSerif4Display-Semibold.ttf');
 const sansFile = path.join(FONT_PATH, 'NotoSans-Regular.ttf');
@@ -59,7 +59,7 @@ function artwork(post) {
 }
 function thumbnail(source, portrait) {
   if (portrait) return { uri: 'data:image/jpeg;base64,' + source.toString('base64'), width: 322, height: 322, top: '#edf0ee', bottom: '#edf0ee' };
-  const image = new Resvg(source, { fitTo: { mode: 'width', value: 644 },
+  const image = new Resvg(source, { fitTo: { mode: 'width', value: 1288 },
     font: { loadSystemFonts: false, fontFiles: [sansFile], defaultFontFamily: 'Noto Sans', sansSerifFamily: 'Noto Sans' } }).render();
   const pixels = image.pixels;
   const colour = at => '#' + Array.from(pixels.slice(at, at + 3)).map(n => n.toString(16).padStart(2, '0')).join('');
@@ -78,7 +78,7 @@ function makeSVG(card, image) {
     if (title.length <= 4 && total <= 350 && title.every(line => measure(line, serif, size) <= width)) break;
   }
   if (size < 40) throw new Error(`${card.page}: share-card title does not fit`);
-  let top = (HEIGHT - total) / 2;
+  let top = (630 - total) / 2;
   const blocks = [];
   title.forEach(line => { blocks.push(textLine(line, serif, size, 534, top, '#1b2429')); top += step; });
   top += 20;
@@ -104,7 +104,7 @@ module.exports = function shareCards(posts) {
   fs.mkdirSync(OUT, { recursive: true });
   const portrait = fs.readFileSync(path.join(ROOT, 'portrait.jpg'));
   const personal = [
-    { page: 'index.html', slug: 'home', title: 'Julius\nStörk', description: 'AI for battery manufacturing\nVARTA · TU Braunschweig' },
+    { page: 'index.html', slug: 'home', title: 'Julius\nStörk', description: 'PhD Researcher\nVARTA · TU Braunschweig' },
     { page: 'cv.html', slug: 'cv', title: 'Julius\nStörk', description: 'Curriculum vitae\nAI for battery manufacturing' },
     { page: 'blog.html', slug: 'blog', title: 'Julius\nStörk', description: 'Research notes\nAI · batteries · robotics · philosophy' },
   ].map(card => ({ ...card, portrait: true, image: portrait, alt: `Julius Störk · ${card.description.replace(/\n/g, ' · ')}` }));
@@ -120,10 +120,10 @@ module.exports = function shareCards(posts) {
     const file = `images/share/${card.slug}-${digest}.jpg`;
     if (!fs.existsSync(path.join(ROOT, file))) {
       const svg = makeSVG(card, card.image);
-      const rendered = new Resvg(svg, { font: { loadSystemFonts: false } }).render();
+      const rendered = new Resvg(svg, { fitTo: { mode: 'width', value: WIDTH }, font: { loadSystemFonts: false } }).render();
       // A small, baseline JPEG is quick to fetch and works in older messaging clients.
-      const encoded = jpeg.encode({ data: rendered.pixels, width: WIDTH, height: HEIGHT }, 94).data;
-      if (encoded.length > 250000) throw new Error(`${card.page}: share image exceeds the 250 kB build budget`);
+      const encoded = jpeg.encode({ data: rendered.pixels, width: WIDTH, height: HEIGHT }, 96).data;
+      if (encoded.length > 550000) throw new Error(`${card.page}: share image exceeds the 550 kB build budget`);
       fs.writeFileSync(path.join(ROOT, file), encoded);
     }
     cards[card.page] = { file, type: 'image/jpeg', width: WIDTH, height: HEIGHT, alt: card.alt };

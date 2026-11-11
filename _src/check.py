@@ -126,16 +126,16 @@ def main():
         image_url = 'https://j-stoerk.github.io/' + card['file']
         for key, value in {'og:image': image_url, 'og:image:secure_url': image_url,
                            'twitter:image': image_url, 'og:image:type': card['type'],
-                           'twitter:card': 'summary_large_image', 'og:image:width': '1200',
-                           'og:image:height': '630', 'og:image:alt': card['alt'],
+                           'twitter:card': 'summary_large_image', 'og:image:width': '2400',
+                           'og:image:height': '1260', 'og:image:alt': card['alt'],
                            'twitter:image:alt': card['alt']}.items():
             if parsed.tags.get(key) != [value]:
                 fail(f'{page}: missing, duplicated or inconsistent {key}')
         try:
             with open(card['file'], 'rb') as asset:
                 data = asset.read()
-            if len(data) > 250000:
-                fail(f'{page}: share image exceeds the 250 kB build budget')
+            if len(data) > 550000:
+                fail(f'{page}: share image exceeds the 550 kB build budget')
             # Read baseline JPEG frame dimensions without extra Python dependencies.
             dimensions = None
             if data[:2] == b'\xff\xd8':
@@ -150,8 +150,8 @@ def main():
                     if length < 2 or marker == 0xda:
                         break
                     offset += length + 2
-            if dimensions != (1200, 630):
-                fail(f'{page}: share image is not a 1200 by 630 baseline JPEG')
+            if dimensions != (2400, 1260):
+                fail(f'{page}: share image is not a 2400 by 1260 baseline JPEG')
         except OSError as exc:
             fail(f'{page}: share image unavailable ({exc})')
 
