@@ -314,7 +314,7 @@ for (const file of fs.readdirSync(pagesDir)) {
   const cfg = PAGES[file];
   if (!cfg) throw new Error(`no page config for ${file}`);
   let html = fs.readFileSync(path.join(pagesDir, file), 'utf8');
-  if (cfg.home || file === 'blog.html' || file === 'cv.html') {
+  if (cfg.home || cfg.nav === 'blog' || file === 'cv.html') {
     html = html.replace(/<body([^>]*)>/, (_, attrs) => '<body' +
       (/\bclass="/.test(attrs) ? attrs.replace('class="', 'class="ambient-page ') : attrs + ' class="ambient-page"') + '>');
   }

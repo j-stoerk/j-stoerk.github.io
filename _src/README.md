@@ -246,12 +246,15 @@ The homepage postpones layout and painting of below-fold sections with
 career entries only near the experience section. Publication path measurements
 and Blog text fitting run when their components approach the viewport. Print
 renders all sections normally. The `ambient-page` class, added by the builder to
-Home, Blog and CV, supplies a blue-and-gold field of warped, dithered bands.
+Home, Blog, individual articles and CV, supplies a blue-and-gold field of warped,
+dithered bands. A second static mask protects the content column, with stronger
+texture in the outer margins and almost no dots behind reading text. Existing
+line art is subdued so it does not compete with the text or the new pattern.
 `generate-ambient-dither.js` bakes the dot occupancy and radii into one small PNG
 alpha mask at build time, using smooth wave fields and ordered Bayer thresholds.
 CSS supplies the theme colours; there is no runtime dot renderer or noise filter.
 The opening uses the same pattern behind its mesh, and individual articles retain
-their dedicated line art.
+their dedicated line art at a much lower opacity.
 
 The LessWrong/Hume review's evidence example lives in `lesswrong-review.js` and
 `lesswrong-review.css`. It compares independent binary tests with repeated copies

@@ -245,8 +245,8 @@ body::before {
    raster mask is cached; no live noise shader or dot animation is needed. */
 .ambient-page::before {
   background:
-    radial-gradient(ellipse at 92% 14%, color-mix(in srgb, var(--color-primary) 9%, transparent), transparent 62%),
-    radial-gradient(ellipse at 12% 82%, color-mix(in srgb, var(--color-warn) 5%, transparent), transparent 56%),
+    radial-gradient(ellipse at 92% 14%, color-mix(in srgb, var(--color-primary) 6%, transparent), transparent 62%),
+    radial-gradient(ellipse at 12% 82%, color-mix(in srgb, var(--color-warn) 3%, transparent), transparent 56%),
     var(--color-bg);
 }
 .ambient-page::after,
@@ -265,12 +265,27 @@ body::before {
   mask-position: center;
   mask-repeat: no-repeat;
 }
+/* Keep a quiet corridor across the actual content column. Pattern density stays
+   visible in the outer margins, while its contrast drops behind reading text. */
+.ambient-page::after {
+  opacity: .6;
+  mask-image: url('images/ambient-dither.png'), linear-gradient(90deg,
+    #000,
+    rgba(0, 0, 0, .35) max(24px, calc(50% - 560px)),
+    rgba(0, 0, 0, .04) max(32px, calc(50% - 420px)),
+    rgba(0, 0, 0, .04) min(calc(100% - 32px), calc(50% + 420px)),
+    rgba(0, 0, 0, .35) min(calc(100% - 24px), calc(50% + 560px)),
+    #000);
+  mask-size: cover, 100% 100%;
+  mask-composite: intersect;
+}
+.ambient-page .page-art { opacity: .2; }
 .intro-active .portfolio-atmosphere::after { position: absolute; z-index: 0; opacity: calc(1 - var(--intro-reveal, 0)); will-change: opacity; }
 .intro-active .hero-visual { z-index: 1; }
 [data-theme="dark"] .ambient-page::before {
   background:
-    radial-gradient(ellipse at 92% 14%, color-mix(in srgb, var(--color-primary) 12%, transparent), transparent 62%),
-    radial-gradient(ellipse at 12% 82%, color-mix(in srgb, var(--color-warn) 6%, transparent), transparent 56%),
+    radial-gradient(ellipse at 92% 14%, color-mix(in srgb, var(--color-primary) 9%, transparent), transparent 62%),
+    radial-gradient(ellipse at 12% 82%, color-mix(in srgb, var(--color-warn) 4%, transparent), transparent 56%),
     var(--color-bg);
 }
 .atlas-work { contain: layout paint; }
