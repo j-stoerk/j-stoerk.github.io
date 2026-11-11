@@ -70,6 +70,14 @@ Reference sections (`post-sources` or `post-references`) show their first three
 entries. The builder places the rest in native `details`, continuing numbering
 at four. `references.js` opens a folded reference when its citation or direct
 anchor is followed; print includes the full list. This applies to future posts too.
+
+Article prose uses justified paragraphs with automatic language-aware hyphenation
+and a naturally aligned final line. `typography.js` joins numbers and recognised
+units with nonbreaking spaces, protects closing punctuation after inline markup,
+and attaches superscript citations to their preceding text. It preserves code,
+SVG labels, TeX and attributes. Inline math with trailing punctuation is kept in
+one nonbreaking group during KaTeX rendering. Typography tests run in CI; these
+formatting rules do not substitute words or rewrite prose.
 `cursor.js` adds the theme-coloured dot and following ring on mouse devices,
 pauses drawing when it settles, and preserves native cursors in forms and dialogs.
 

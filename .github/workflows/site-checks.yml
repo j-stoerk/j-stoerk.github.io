@@ -21,6 +21,9 @@ jobs:
       - name: Test the comments Worker against SQLite (no external requests)
         run: node --test _services/comments/worker.test.mjs
 
+      - name: Test article typography
+        run: node --test _src/tests/typography.test.js
+
       - name: Fail if committed output drifted from sources
         run: |
           git add -A

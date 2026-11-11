@@ -11,6 +11,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const articleTypography = require('./typography');
 
 const SRC = __dirname;
 const ROOT = path.join(__dirname, '..');
@@ -142,8 +143,12 @@ function renderMath(html, file) {
   const opts = { output: 'htmlAndMathml', throwOnError: true };
   html = html.replace(/\$\$([\s\S]+?)\$\$/g, (m, tex) =>
     katex.renderToString(tex.trim(), { ...opts, displayMode: true }));
-  html = html.replace(/\\\((.+?)\\\)/g, (m, tex) =>
-    katex.renderToString(tex.trim(), { ...opts, displayMode: false }));
+  html = html.replace(/\\\((.+?)\\\)((?:&#8288;)?[.,;:!?…\)\]”’»])?/g, (m, tex, punctuation) => {
+    const equation = katex.renderToString(tex.trim(), { ...opts, displayMode: false });
+    // KaTeX contains atomic inline boxes: some browsers can still break before
+    // punctuation despite a word joiner. Keep the formula and its stop together.
+    return punctuation ? `<span class="inline-math-tail">${equation}${punctuation}</span>` : equation;
+  });
   return html;
 }
 
@@ -357,6 +362,7 @@ for (const file of fs.readdirSync(pagesDir)) {
     if (!html.includes('    <nav class="post-pager"')) throw new Error(`${file}: missing post pager`);
     if (comments) html = html.replace('    <nav class="post-pager"', () => comments + '\n\n    <nav class="post-pager"');
   }
+  if (cfg.nav === 'blog' && file !== 'blog.html') html = articleTypography(html);
   if (cfg.math) html = renderMath(html, file);
   // Disable native media/control dragging, even before scripts load.
   // Actual interactive drags use pointer events rather than native drag-and-drop.

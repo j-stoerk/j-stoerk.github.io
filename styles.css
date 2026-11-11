@@ -2092,6 +2092,18 @@ main section[id] {
   max-width: 68ch;
 }
 
+/* Justify article prose, leaving headings, captions and references easy to scan.
+   Language-aware hyphenation and a natural final line limit large word gaps. */
+.post .prose p,
+.post .prose li {
+  text-align: justify;
+  text-align-last: start;
+  text-wrap: pretty;
+  hyphens: auto;
+  hyphenate-limit-chars: 6 3 3;
+}
+.quantity, .inline-math-tail { white-space: nowrap; hyphens: none; }
+
 .prose h3 {
   font-size: var(--text-base);
   font-weight: 700;
