@@ -6,6 +6,7 @@ const path = require('path');
 const crypto = require('crypto');
 const fontkit = require('fontkit');
 const { Resvg } = require('@resvg/resvg-js');
+const jpeg = require('jpeg-js');
 const ROOT = path.join(__dirname, '../..');
 const OUT = path.join(ROOT, 'images/share');
 const WIDTH = 1200, HEIGHT = 630;
@@ -116,12 +117,16 @@ module.exports = function shareCards(posts) {
   const cards = {};
   for (const card of [...personal, ...articles, project]) {
     const digest = sha(Buffer.concat([Buffer.from(JSON.stringify({ ...card, image: undefined, fontHash, templateHash })), Buffer.from(card.image)])).slice(0, 16);
-    const file = `images/share/${card.slug}-${digest}.png`;
+    const file = `images/share/${card.slug}-${digest}.jpg`;
     if (!fs.existsSync(path.join(ROOT, file))) {
       const svg = makeSVG(card, card.image);
-      fs.writeFileSync(path.join(ROOT, file), new Resvg(svg, { font: { loadSystemFonts: false } }).render().asPng());
+      const rendered = new Resvg(svg, { font: { loadSystemFonts: false } }).render();
+      // A small, baseline JPEG is quick to fetch and works in older messaging clients.
+      const encoded = jpeg.encode({ data: rendered.pixels, width: WIDTH, height: HEIGHT }, 94).data;
+      if (encoded.length > 250000) throw new Error(`${card.page}: share image exceeds the 250 kB build budget`);
+      fs.writeFileSync(path.join(ROOT, file), encoded);
     }
-    cards[card.page] = { file, width: WIDTH, height: HEIGHT, alt: card.alt };
+    cards[card.page] = { file, type: 'image/jpeg', width: WIDTH, height: HEIGHT, alt: card.alt };
   }
   fs.writeFileSync(path.join(__dirname, 'manifest.json'), JSON.stringify(cards, null, 2) + '\n');
   return cards;

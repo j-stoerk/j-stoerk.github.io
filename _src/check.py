@@ -119,10 +119,13 @@ def main():
                     self.tags.setdefault(key, []).append(attrs.get('content', ''))
 
         parsed = Metadata()
-        parsed.feed(open(page, encoding='utf-8').read())
+        html = open(page, encoding='utf-8').read()
+        parsed.feed(html)
+        if html.encode('utf-8').find(b'property="og:image"') not in range(0, 4096):
+            fail(f'{page}: preview image metadata must appear in the first 4 kB')
         image_url = 'https://j-stoerk.github.io/' + card['file']
         for key, value in {'og:image': image_url, 'og:image:secure_url': image_url,
-                           'twitter:image': image_url, 'og:image:type': 'image/png',
+                           'twitter:image': image_url, 'og:image:type': card['type'],
                            'twitter:card': 'summary_large_image', 'og:image:width': '1200',
                            'og:image:height': '630', 'og:image:alt': card['alt'],
                            'twitter:image:alt': card['alt']}.items():
@@ -130,9 +133,25 @@ def main():
                 fail(f'{page}: missing, duplicated or inconsistent {key}')
         try:
             with open(card['file'], 'rb') as asset:
-                header = asset.read(24)
-            if header[:8] != b'\x89PNG\r\n\x1a\n' or struct.unpack('>II', header[16:24]) != (1200, 630):
-                fail(f'{page}: share image is not a 1200 by 630 PNG')
+                data = asset.read()
+            if len(data) > 250000:
+                fail(f'{page}: share image exceeds the 250 kB build budget')
+            # Read baseline JPEG frame dimensions without extra Python dependencies.
+            dimensions = None
+            if data[:2] == b'\xff\xd8':
+                offset = 2
+                while offset + 4 < len(data) and data[offset] == 255:
+                    marker = data[offset + 1]
+                    length = int.from_bytes(data[offset + 2:offset + 4], 'big')
+                    if marker == 0xc0 and length >= 7:
+                        height, width = struct.unpack('>HH', data[offset + 5:offset + 9])
+                        dimensions = (width, height)
+                        break
+                    if length < 2 or marker == 0xda:
+                        break
+                    offset += length + 2
+            if dimensions != (1200, 630):
+                fail(f'{page}: share image is not a 1200 by 630 baseline JPEG')
         except OSError as exc:
             fail(f'{page}: share image unavailable ({exc})')
 

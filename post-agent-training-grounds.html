@@ -2,21 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Julius Störk" />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-agent-training-grounds.html" />
+  <meta property="og:title" content="Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents" />
+  <meta property="og:description" content="An agent needs somewhere to practise, a world it can reset, and a score that rewards real work. From RL textbooks to VERA and the factory floor." />
+  <meta property="og:image" content="https://j-stoerk.github.io/images/share/post-agent-training-grounds-58ddec5d4e34eded.jpg" />
+  <meta property="og:image:secure_url" content="https://j-stoerk.github.io/images/share/post-agent-training-grounds-58ddec5d4e34eded.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents · Training environments for useful AI agents · Julius Störk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/images/share/post-agent-training-grounds-58ddec5d4e34eded.jpg" />
+  <meta name="twitter:image:alt" content="Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents · Training environments for useful AI agents · Julius Störk" />
+  <meta name="twitter:title" content="Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents" />
+  <meta name="twitter:description" content="An agent needs somewhere to practise, a world it can reset, and a score that rewards real work. From RL textbooks to VERA and the factory floor." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents · Julius Störk</title>
   <meta name="description" content="From programming medals to battery stacking: how resettable environments, verifiable rewards, and model–harness co-evolution turn agent attempts into useful learning." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-agent-training-grounds.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
-  <meta property="og:type" content="article" />
-  <meta property="og:site_name" content="Julius Störk" />
-  <meta property="og:url" content="https://j-stoerk.github.io/post-agent-training-grounds.html" />
-  <meta property="og:title" content="Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents" />
-  <meta property="og:description" content="An agent needs somewhere to practise, a world it can reset, and a score that rewards real work. From RL textbooks to VERA and the factory floor." />
   <meta property="article:published_time" content="2026-10-11" />
   <meta property="article:author" content="Julius Störk" />
   <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"BlogPosting","headline":"Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents","description":"Resettable environments, verifiable rewards, and model–harness co-evolution for useful agents.","datePublished":"2026-10-11","dateModified":"2026-10-13","url":"https://j-stoerk.github.io/post-agent-training-grounds.html","image":"https://j-stoerk.github.io/images/share/post-agent-training-grounds-afd9dfe0794fb14a.png","author":{"@type":"Person","name":"Julius Störk","url":"https://j-stoerk.github.io/"}}
+    {"@context":"https://schema.org","@type":"BlogPosting","headline":"Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents","description":"Resettable environments, verifiable rewards, and model–harness co-evolution for useful agents.","datePublished":"2026-10-11","dateModified":"2026-10-13","url":"https://j-stoerk.github.io/post-agent-training-grounds.html","image":"https://j-stoerk.github.io/images/share/post-agent-training-grounds-58ddec5d4e34eded.jpg","author":{"@type":"Person","name":"Julius Störk","url":"https://j-stoerk.github.io/"}}
   </script>
   <meta name="theme-color" content="#fdfdfc">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -37,17 +48,6 @@
   <link rel="stylesheet" href="styles.css?v=b5639ff9">
   <link rel="stylesheet" href="experiences.css?v=2f793542">
   <link rel="stylesheet" href="agent-training.css?v=a08ce038">
-  <meta property="og:image" content="https://j-stoerk.github.io/images/share/post-agent-training-grounds-afd9dfe0794fb14a.png" />
-  <meta property="og:image:secure_url" content="https://j-stoerk.github.io/images/share/post-agent-training-grounds-afd9dfe0794fb14a.png" />
-  <meta property="og:image:type" content="image/png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents · Training environments for useful AI agents · Julius Störk" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://j-stoerk.github.io/images/share/post-agent-training-grounds-afd9dfe0794fb14a.png" />
-  <meta name="twitter:image:alt" content="Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents · Training environments for useful AI agents · Julius Störk" />
-  <meta name="twitter:title" content="Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents" />
-  <meta name="twitter:description" content="An agent needs somewhere to practise, a world it can reset, and a score that rewards real work. From RL textbooks to VERA and the factory floor." />
 </head>
 <body class="ambient-page">
   <a draggable="false" href="#main" class="skip-link">Skip to main content</a>

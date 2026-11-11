@@ -66,7 +66,7 @@ function shareMetadata(html, file) {
   html = html.replace(/\s*<meta\b(?=[^>]*(?:property|name)="(?:og:image(?::[a-z_]+)?|twitter:image(?::alt)?|twitter:card|twitter:title|twitter:description)")[^>]*>/g, '');
   const extra = [
     ['property', 'og:image', url], ['property', 'og:image:secure_url', url],
-    ['property', 'og:image:type', 'image/png'], ['property', 'og:image:width', card.width],
+    ['property', 'og:image:type', card.type], ['property', 'og:image:width', card.width],
     ['property', 'og:image:height', card.height], ['property', 'og:image:alt', card.alt],
     ['name', 'twitter:card', 'summary_large_image'], ['name', 'twitter:image', url],
     ['name', 'twitter:image:alt', card.alt],
@@ -75,7 +75,12 @@ function shareMetadata(html, file) {
     const content = twitterText[key];
     if (content) extra.push(['name', `twitter:${key}`, content.replace(/&amp;/g, '&').replace(/&quot;/g, '"')]);
   }
-  return html.replace('</head>', extra.map(([kind, name, value]) => `  <meta ${kind}="${name}" content="${attribute(value)}" />`).join('\n') + '\n</head>');
+  // Keep the whole preview together, ahead of scripts, styles and JSON-LD.
+  const social = [];
+  html = html.replace(/\s*<meta\b(?=[^>]*(?:property|name)="(?:og:|twitter:)[^"]*")[^>]*>/g,
+    tag => { social.push(tag.trim()); return ''; });
+  social.push(...extra.map(([kind, name, value]) => `<meta ${kind}="${name}" content="${attribute(value)}" />`));
+  return html.replace(/(<meta\b[^>]*charset[^>]*>)/i, '$1\n  ' + social.join('\n  '));
 }
 
 /* Keep reference previews compact, retaining IDs and native list numbering.
