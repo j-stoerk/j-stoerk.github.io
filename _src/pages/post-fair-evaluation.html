@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Finding a Fair Evaluation Under Changing Representations · Julius Störk</title>
-  <meta name="description" content="Certified retention is easy for frozen features and hard once the representation moves. A bottom-up benchmark that makes adaptation necessary, and the CARG metric that measures it." />
+  <meta name="description" content="A proposed matched-input task for testing representation adaptation, with a frozen-feature ceiling, separate retention audits and resource-matched baselines." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-fair-evaluation.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
@@ -13,7 +13,7 @@
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-fair-evaluation.html" />
   <meta property="og:title" content="Finding a Fair Evaluation Under Changing Representations" />
-  <meta property="og:description" content="Certified retention under a changing representation: a bottom-up benchmark that makes adaptation necessary, and the CARG metric that measures it." />
+  <meta property="og:description" content="A proposed matched-input task for testing representation adaptation, with a frozen-feature ceiling, separate retention audits and resource-matched baselines." />
   <meta property="og:image" content="https://j-stoerk.github.io/social-fair-evaluation.png" />
   <meta property="og:image:alt" content="Two gently warped coordinate surfaces with matching points, drawn in blue and ochre ink on pale paper" />
   <meta property="og:image:width" content="1200" />
@@ -28,9 +28,9 @@
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": "Finding a Fair Evaluation Under Changing Representations",
-      "description": "Certified retention under a changing representation: a bottom-up benchmark that makes adaptation necessary, and the CARG metric that measures it.",
+      "description": "A proposed matched-input task for testing representation adaptation, with a frozen-feature ceiling, separate retention audits and resource-matched baselines.",
       "datePublished": "2026-08-23",
-      "dateModified": "2026-09-30",
+      "dateModified": "2026-11-11",
       "url": "https://j-stoerk.github.io/post-fair-evaluation.html",
       "image": "https://j-stoerk.github.io/social-fair-evaluation.png",
       "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
@@ -123,76 +123,21 @@
         <div class="cover-text">
           <p class="eyebrow"><time datetime="2026-08-23">23 August 2026</time> · Continual learning</p>
           <h1 class="post-title">Finding a Fair Evaluation Under Changing Representations</h1>
+          <p class="post-update">Updated 11 November 2026</p>
         </div>
       </div>
 
       <!--#POST_CONTEXT-->
 
       <div class="prose">
-        <p>LLMs handle well above 3&nbsp;billion prompts per day (traditional search engines handle 8.5&ndash;16&nbsp;billion
-          queries, for comparison). Those models, however, do not improve during those interactions: their weights do not
-          change meaningfully. Some information may be stored in databases, but the LLM itself forgets every interaction
-          outside context windows and related mechanisms.</p>
-        <p>Training systems that remember first requires a way to evaluate retention. This is trickier than
-          it seems.</p>
-        <p>Raw accuracy is one possible comparison. But when a frozen model already obtains perfect scores, there is no
-          incentive for adaptation. The math for frozen models is easy, and quite a bit harder for an adapting
-          representation. The unsolved problem is thus <strong>certified retention under a changing
-          representation</strong>.</p>
-
-        <h3>Why changing representations make retention hard</h3>
-        <p>Retention is easy to guarantee if you freeze the model&rsquo;s perception and only update a readout on top.
-          Then the features are constants, and the sufficient statistics are additive in the fixed coordinate system.
-          This is why frozen-feature continual learning works so well, and why most approaches inherit or rely on a fixed
-          backbone.</p>
-        <p>Let the representation move, and those assumptions fail. Sufficient statistics stop being sufficient because
-          they are expressed in stale coordinates, and updates become misaligned once the update distribution shifts.
-          Certified retention under a changing representation is therefore a fundamentally different problem.</p>
-        <p>This creates a simple but important benchmark-design challenge: how can a task make adaptation
-          actually necessary?</p>
-
-        <h3>First, make adaptation necessary</h3>
-        <p>Since strong frozen encoders win nearly everywhere against adapting representations, the first task is to
-          create a problem where adaptation is advantageous or, one step further, where frozen encoders <em>provably</em>
-          cannot succeed but the adapting representation can.</p>
-        <p>On existing benchmarks, a good encoder plus a moderately sized head exceeds the performance of most adaptive
-          systems. In that regime, any claimed benefit of adaptation can often be removed simply by strengthening the
-          frozen baseline. A benchmark that only reflects this regime will not reveal whether certified adaptive
-          retention is possible.</p>
-        <p>That led me through a lot of failed ideas.</p>
-        <ul>
-          <li><strong>High-frequency gratings</strong> above the encoder&rsquo;s sampling limit failed because the
-            frozen, strided encoder solved the problem through aliasing: high-frequency shapes became visible moir&eacute;
-            patterns.</li>
-          <li><strong>Dot positions within a patch</strong> blinded the encoder, but also blinded a from-scratch model,
-            making the task unusable.</li>
-          <li><strong>Relative phases of multiple gratings</strong> produced signals that survived only under specific
-            nonlinearities and did not generate a clean separation between a failing frozen encoder and a winning
-            adapter.</li>
-          <li><strong>Texture pairings, number of marks, and spatial layouts</strong> all looked plausible and turned out
-            to be linearly separable in the frozen feature space.</li>
-        </ul>
-        <p>The frozen encoder is surprisingly hard to trick in any way that still leaves a realistic path for a trainable
-          model.</p>
-
-        <h3>Designing the task bottom-up</h3>
-        <p>When all task-relevant information is eliminated, adaptation becomes necessary. Let&rsquo;s give each group and
-          class a label: <strong>coarse stripes for the group</strong> and <strong>fine stripes for the class</strong>.
-          The encoder gets only a blurred copy, with only the group label visible. The highest achievable accuracy is
-          therefore fixed by the grouping, which makes the representation itself testable.</p>
-        <p>The grouping can be designed around how much of the label the model is allowed to see, so that the ceiling is
-          related to the group size. Each group consists of fine classes that differ only in the fine stripes. The
-          anti-aliased channel feeding the frozen encoder removes those fine frequencies entirely, so all classes within
-          a group collapse to the same representation.</p>
-        <p>Any readout on top of that representation is therefore limited to random guessing within the group. Every
-          method, whether adaptive or not, receives the same backbone and the same bandwidth restriction. Any differences
-          downstream can therefore be attributed to the mechanisms being evaluated rather than to architectural
-          shortcuts.</p>
-
+        <p>A strong frozen encoder can make a continual-learning benchmark easy for a new readout, even when the benchmark is intended to test representation learning. Evaluating retention under changing features therefore needs a task whose labels are present in the input but missing from the frozen representation. The construction below is a proposed experiment, with no comparative results reported yet.</p>
+        <h3>Keep the information in the shared input</h3>
+        <p>Suppose each image carries coarse stripes identifying a group and fine stripes identifying a class within that group. Both frozen and adaptive models receive the identical, unblurred image. The frozen baseline keeps its encoder fixed and learns a readout; the adaptive model starts from the same encoder and may change its filters before downsampling. Architecture, data access, head capacity and training budgets must be reported separately.</p>
+        <p>If the frozen encoder maps all k classes in a balanced group to exactly the same feature vector, any classifier using only that vector is capped at 1/k accuracy within the group. For an unbalanced group the ceiling is the largest class prior. That ceiling concerns the encoder's output, not missing information in the raw image. Applying the same irreversible low-pass filter to both models' inputs would destroy the fine labels for everyone; adaptation could not recover them.</p>
         <figure class="pub-figure">
           <svg viewBox="0 0 660 300" role="img" aria-labelledby="fig-bottleneck-title">
             <title id="fig-bottleneck-title">Two classes in one group carry identical coarse (group) stripes but
-              different fine (class) stripes. The anti-aliased channel removes the fine frequencies, so both classes
+              different fine (class) stripes. The fixed encoder channel removes the fine frequencies, so both classes
               collapse to the same blurred representation, capping any readout at within-group chance.</title>
             <defs>
               <clipPath id="pA"><rect x="40" y="36" width="150" height="96" rx="6"/></clipPath>
@@ -226,10 +171,10 @@
               <path d="M198 216 C 300 216 320 150 400 150"/>
               <path d="M400 150 l -12 -6 M400 150 l -12 6"/>
             </g>
-            <text class="fig-label" x="300" y="132" text-anchor="middle">anti-aliased</text>
-            <text class="fig-label" x="300" y="146" text-anchor="middle">channel (blur)</text>
+            <text class="fig-label" x="300" y="132" text-anchor="middle">fixed encoder</text>
+            <text class="fig-label" x="300" y="146" text-anchor="middle">low-pass stage</text>
 
-            <text class="fig-label" x="470" y="92">What the encoder sees</text>
+            <text class="fig-label" x="470" y="92">Frozen encoder output</text>
             <g clip-path="url(#pO)" filter="url(#blur)">
               <rect x="466" y="98" width="158" height="36" fill="#7e96b6" fill-opacity=".55"/>
               <rect x="466" y="166" width="158" height="36" fill="#7e96b6" fill-opacity=".55"/>
@@ -238,75 +183,34 @@
             <text class="fig-label-primary" x="545" y="224" text-anchor="middle">A = B</text>
             <text class="fig-label" x="545" y="240" text-anchor="middle">within-group: chance</text>
           </svg>
-          <figcaption>Task construction and the representation bottleneck. Two classes in one group share the coarse
-            (group) stripes but differ only in the fine (class) stripes. The anti-aliased channel feeding the frozen
-            encoder strips the fine frequencies, so both classes collapse to one representation and any readout is capped
-            at within-group chance. Only a representation that is allowed to <em>change</em> can recover the fine
-            labels.</figcaption>
+          <figcaption>The frozen encoder discards the fine stripe information. Both competitors must receive the original images; an adaptive encoder must be allowed to change its filters before this bottleneck. Blurring the shared input would make the task unsolvable for both.</figcaption>
         </figure>
-
-        <h3>Measuring the accuracy&ndash;retention tradeoff</h3>
-        <p>I evaluate the task with <strong>CARG</strong>, the certified adaptive-retention gap: the best accuracy of
-          any method minus the best accuracy of any method whose retention certificate actually holds.</p>
-        <div class="equation">$$\mathrm{CARG} \;=\; \max_{m}\ \mathrm{acc}(m)\;-\;\max_{m\,:\,\mathrm{cert}(m)}\ \mathrm{acc}(m)$$</div>
-        <p>This measures the tradeoff between raw accuracy and adaptation. <em>Best accuracy of anyone</em> is the
-          unconstrained optimum: whatever method reaches the highest score on the stream, regardless of whether it can
-          justify its retention claims. <em>Best accuracy of anyone where retention holds</em> is the maximum score among
-          methods whose retention bound actually covers their behaviour on held-out checks.</p>
-        <p>A high CARG means that enforcing a correct retention certificate eliminates most of the achievable accuracy.
-          That is precisely the regime I want to expose. The point is not simply to produce a harder benchmark; it is to
-          create one where adapting the representation while retaining previous capabilities is measurable and cannot be
-          bypassed by a stronger frozen feature extractor.</p>
-
-        <h3>What happens to existing continual-learning methods?</h3>
-        <p>Parameter-space methods &mdash; Elastic Weight Consolidation (EWC), Synaptic Intelligence (SI), Learning
-          without Forgetting (LwF), Averaged Gradient Episodic Memory (A-GEM), and Gradient Projection Memory (GPM)
-          &mdash; collapse under an adapting representation, while data-replay methods perform well.</p>
-        <p>Methods that regularise or project parameter updates are built around preserving functions in a representation
-          that is assumed to remain sufficiently stable. Once the representation has to move far enough to resolve the
-          fine labels, those parameter-space constraints can no longer keep the old functions intact. Replay and
-          class-incremental schemes that retain explicit examples or proxies close to them continue to track the
-          unconstrained optimum more closely, because they can re-fit the old tasks in the new coordinates.</p>
-
-        <h3>Can replay solve the scaling problem?</h3>
-        <p>Exemplar-free settings are nevertheless necessary for scaling this approach, where storage, bandwidth, and
-          privacy costs become prohibitive at deployment scale. Common approaches store the old model parameters or old
-          raw data, and a NeurIPS&rsquo;25 paper demonstrated decent results with only 0.3% of the data size
-          <sup class="cite">[<a href="#ref-1">1</a>]</sup>. A 2026 ICLR paper argues that &ldquo;exemplar memory is no
-          longer the limiting factor&rdquo; and that simple replay baselines can outperform SOTA methods &ldquo;at a
-          fraction of the GPU cost&rdquo; <sup class="cite">[<a href="#ref-2">2</a>]</sup>.</p>
-        <p>That rules out the most straightforward way of reconciling adaptation and retention. The burden then shifts to
-          methods that summarise history into a compressed representation, embed data, or find adaptive representations of
-          the data and tasks themselves. That is exactly where certified retention under changing representations becomes
-          interesting: the challenge is remembering what mattered about those examples while the coordinate system used to
-          represent them is itself changing.</p>
-
-        <h3>Closing remarks</h3>
-        <p>This benchmark is, unfortunately, not applicable to real images or audio spectrograms, even blurred. Its
-          construction deliberately isolates a regime in which a frozen encoder is provably insufficient and an adaptive
-          one is necessary. It does this by altering what the encoder is allowed to <em>see</em> rather than relying on
-          natural variation in datasets.</p>
-        <p>That is also the point. It is not intended to be a realistic vision dataset; it is intended to establish a
-          clean experimental regime in which the usual frozen-feature advantage disappears and adaptive retention can
-          actually be tested. A certified adaptive-retention regime would greatly advance continual-learning research by
-          making adaptation mandatory and retention measurable.</p>
-        <p>The broader lesson is that fair evaluation of continual learning cannot stop at asking <em>&ldquo;how accurate
-          is the model?&rdquo;</em> Evaluation also needs to ask <em>&ldquo;how much of that accuracy survives under a valid
-          retention certificate?&rdquo;</em> and <em>&ldquo;what happens when the representation itself has to
-          change?&rdquo;</em></p>
-        <p>Once there are sufficiently strong adaptive models, the models that gain the most from changing their
-          representations are also the models for which simple retention certificates become hardest to verify.</p>
+        <p>A concrete implementation would first verify the feature collision, including aliasing checks. It would then train the same architecture from the shared initialisation to check that changing the pre-downsampling filters actually recovers the labels. An architectural possibility is not a successful training result. If that adaptive control fails, the proposed benchmark has not yet established the intended separation.</p>
+        <h3>Measure acquisition and retention separately</h3>
+        <p>For each method, report new-task accuracy, the change in old-task loss or accuracy, retained memory, update cost and variability across seeds. A strong frozen baseline remains necessary. In a task with an adapting advantage, the next question is how much of that advantage survives an explicit retention constraint.</p>
+        <p>For a declared candidate set \(\mathcal M\), define \(\mathcal R_\epsilon\) as the candidates passing a preregistered retention audit. For example, a simultaneous upper confidence bound on every old task's loss increase must be at most \(\epsilon\), with the confidence level and treatment of multiple comparisons fixed in advance. An empirical adaptation–retention gap is then</p>
+        <div class="equation">$$\mathrm{EARG}_{\mathcal M,\epsilon}=\max_{m\in\mathcal M}\widehat{\mathrm{acc}}(m)-\max_{m\in\mathcal R_\epsilon}\widehat{\mathrm{acc}}(m).$$</div>
+        <p>The gap depends on the candidate set, test distribution, tolerance and audit uncertainty. It is undefined if no candidate passes. Held-out checks provide statistical evidence on that distribution; they are not a formal retention certificate. A mathematical certificate would additionally need an explicit bound, its assumptions and a proof that they hold for the evaluated updates. Model selection and the final audit also need separate data.</p>
+        <h3>Compare the methods that address each failure</h3>
+        <p>EWC and Synaptic Intelligence regularise changes to important parameters. Learning without Forgetting uses output distillation. A-GEM projects gradients using an episodic example memory; it is itself a memory-based method. GPM stores activation-derived subspaces and projects updates against them. These mechanisms constrain different quantities and deserve separate baselines. There are no measurements here supporting a claim that all five collapse when representations adapt. <sup class="cite">[<a href="#ref-3">3</a>, <a href="#ref-4">4</a>, <a href="#ref-5">5</a>, <a href="#ref-6">6</a>, <a href="#ref-7">7</a>]</sup></p>
+        <p>Replay can re-evaluate old examples in the new representation, while distillation and stored-subspace methods preserve summaries of earlier behaviour. The relevant comparison is how each handles the same feature change at matched resource budgets. Reporting accuracy alone would hide the different storage, privacy and compute costs.</p>
+        <h3>Memory is a deployment choice</h3>
+        <p>Jung and colleagues' <em>Compact Memory for Continual Logistic Regression</em> builds a Hessian-matching summary for a fixed-feature logistic model. On Split-ImageNet, memory equivalent to 0.3% of the dataset gives about 60% accuracy versus 30% for experience replay; increasing memory to 2% gives 74%, against a 77.6% batch baseline. That is a compact stored summary, not zero memory or evidence that all end-to-end models need no exemplars. <sup class="cite">[<a href="#ref-1">1</a>]</sup></p>
+        <p>Cho and colleagues' <em>Forget Forgetting</em> instead studies abundant-memory regimes where GPU time is the tighter constraint. Its replay baselines are competitive, and Weight Space Consolidation targets the remaining plasticity problem. Replay is therefore an important practical baseline. Exemplar-free methods matter where raw-data retention, privacy, bandwidth or storage actually restrict deployment; those restrictions must be specified rather than assumed universal. <sup class="cite">[<a href="#ref-2">2</a>]</sup></p>
+        <h3>How this relates to IGFA</h3>
+        <p>My IGFA experiments use Rotated-Digits with a frozen backbone. They test interference control within a fixed feature space, the restricted setting in which the geometric argument is easiest to check. They do not evaluate retention under an adapting encoder. The proposed stripe experiment asks a harder, complementary question and still needs its adaptive control, matched method runs and held-out retention audit.</p>
       </div>
 
       <section class="post-sources">
         <h3>Sources</h3>
         <ol class="sources">
-          <li id="ref-1">NeurIPS 2025. Exemplar-free continual learning at roughly 0.3% of the data footprint.
-            <a href="https://proceedings.neurips.cc/paper_files/paper/2025/file/2cce693b68f8470d69f53b6f77fcfdcd-Paper-Conference.pdf"
-              target="_blank" rel="noopener noreferrer">proceedings.neurips.cc</a></li>
-          <li id="ref-2">ICLR 2026. &ldquo;Exemplar memory is no longer the limiting factor&rdquo;: simple replay
-            baselines that outperform SOTA at a fraction of the GPU cost.
-            <a href="https://iclr.cc/virtual/2026/poster/10008192" target="_blank" rel="noopener noreferrer">iclr.cc/virtual/2026/poster/10008192</a></li>
+          <li id="ref-1">Jung, Y., Lee, H., Chen, W., Möllenhoff, T., Li, Y., Lee, J. &amp; Khan, M. E. Compact Memory for Continual Logistic Regression, NeurIPS 2025. <a href="https://proceedings.neurips.cc/paper_files/paper/2025/file/2cce693b68f8470d69f53b6f77fcfdcd-Paper-Conference.pdf" target="_blank" rel="noopener noreferrer">Primary paper.</a></li>
+          <li id="ref-2">Cho, D., Moon, T., Chunara, R., Cho, K. &amp; Cha, S. Forget Forgetting: Continual Learning in a World of Abundant Memory, ICLR 2026. <a href="https://iclr.cc/virtual/2026/poster/10008192" target="_blank" rel="noopener noreferrer">Conference abstract.</a></li>
+          <li id="ref-3">Kirkpatrick et al. Overcoming catastrophic forgetting in neural networks. <a href="https://arxiv.org/abs/1612.00796" target="_blank" rel="noopener noreferrer">Primary paper.</a></li>
+          <li id="ref-4">Zenke, Poole &amp; Ganguli. Continual Learning Through Synaptic Intelligence. <a href="https://arxiv.org/abs/1703.04200" target="_blank" rel="noopener noreferrer">Primary paper.</a></li>
+          <li id="ref-5">Li &amp; Hoiem. Learning without Forgetting. <a href="https://arxiv.org/abs/1606.09282" target="_blank" rel="noopener noreferrer">Primary paper.</a></li>
+          <li id="ref-6">Chaudhry et al. Efficient Lifelong Learning with A-GEM. <a href="https://arxiv.org/abs/1812.00420" target="_blank" rel="noopener noreferrer">Primary paper.</a></li>
+          <li id="ref-7">Saha, Garg &amp; Roy. Gradient Projection Memory for Continual Learning. <a href="https://arxiv.org/abs/2103.09762" target="_blank" rel="noopener noreferrer">Primary paper.</a></li>
         </ol>
       </section>
     </article>

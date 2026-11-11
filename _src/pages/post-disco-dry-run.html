@@ -30,7 +30,7 @@
       "headline": "DisCo and the Case for Reusable Agent Skills",
       "description": "DisCo distills repositories and papers into reusable operating skills. Scope, ground, construct, and verify: a practical route from research knowledge to repeatable workflows.",
       "datePublished": "2026-09-20",
-      "dateModified": "2026-09-30",
+      "dateModified": "2026-11-11",
       "url": "https://j-stoerk.github.io/post-disco-dry-run.html",
       "image": "https://j-stoerk.github.io/social-disco.png",
       "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
@@ -93,6 +93,7 @@
         <div class="cover-text">
           <p class="eyebrow"><time datetime="2026-09-20">20 September 2026</time> · AI agents</p>
           <h1 class="post-title">DisCo and the Case for Reusable Agent Skills</h1>
+          <p class="post-update">Updated 11 November 2026</p>
         </div>
       </div>
 
@@ -115,24 +116,24 @@
     fit_parameters.py
     plot_ushape.py</code></pre>
         <p><code>SKILL.md</code> is the agent-facing manual: what the skill does, when it applies, which inputs it expects, how to run it, and what usually goes wrong. The references hold deeper evidence. The scripts expose procedures that the agent can call instead of reimplementing. The names above illustrate a package structure; the wrappers should point to the project's actual implementation.</p>
-        <div class="equation">$$\mathcal{G}=(\mathcal{S},\mathcal{L})$$</div>
-        <p>Here, \(\mathcal{S}\) is the set of skills and \(\mathcal{L}\) contains routing or dependency links. An entry skill points to the relevant component: data preparation, fitting, evaluation, diagnosis, or repair. The agent opens the material it needs at each step. This progressive disclosure makes a large library usable without loading every manual into the context window <sup class="cite">[<a href="#ref-1">1</a>]</sup>.</p>
+
+        <p>Skills can be linked through an index or dependency graph. An entry skill points to data preparation, fitting, evaluation, diagnosis or repair. The agent opens the material needed for the current step, keeping the rest of the library out of the active context. <sup class="cite">[<a href="#ref-1">1</a>]</sup></p>
 
         <h2>Scope, ground, construct, verify</h2>
-        <p>A repository, paper, or concrete problem supplies the anchor \(z\). Capabilities \(\mathcal{Q}\) are grounded in evidence \(\mathcal{X}\), packaged into a candidate skill graph, and verified with a construction record \(R\).</p>
-        <div class="equation">$$z \rightarrow \mathcal{Q} \rightarrow \mathcal{X} \rightarrow \widetilde{\mathcal{G}} \rightarrow (\mathcal{G},R)$$</div>
+        <p>The construction starts from a repository, paper or concrete problem. It identifies useful capabilities, grounds the instructions in source material, packages callable procedures and records what passed verification.</p>
+
         <ol>
           <li><strong>Scope.</strong> Identify the capabilities worth exposing. Starting from a repository might yield “fit a thermal closure” or “run inference.” Starting from a task such as “increase energy density while keeping adhesion above a threshold” instead reveals capability gaps.</li>
           <li><strong>Ground.</strong> Gather source code, documentation, examples, configurations, data definitions, and tests. A task-driven pass may need additional papers or operating procedures to fill gaps.</li>
           <li><strong>Construct.</strong> Turn that evidence into instructions and callable tools. Package the routines, define their inputs and outputs, and connect the resulting skills.</li>
-          <li><strong>Verify.</strong> Exercise the procedures with assertion-backed cases, small fixtures, and native examples or tests. Repair failures locally and retain unresolved gaps in the construction record \(R\).</li>
+          <li><strong>Verify.</strong> Exercise the procedures with assertion-backed cases, small fixtures, and native examples or tests. Repair failures locally and retain unresolved gaps in the construction record.</li>
         </ol>
         <p>A file that describes an experiment is only part of the job. Verification has to establish that the procedure runs and that its checks detect meaningful failures. For manufacturing, useful checks include physical bounds, conservation, approved parameter windows, and a trace from each reported output to the data and configuration that produced it <sup class="cite">[<a href="#ref-2">2</a>]</sup>.</p>
 
         <h2>Creator and Researcher share the same machinery</h2>
         <p>DisCo separates skill construction from skill use while retaining the model and execution harness.</p>
-        <div class="equation">$$\mathcal{A}_{\mathrm{res}}=(M_\theta,H,\mathcal{K})$$</div>
-        <p>\(M_\theta\) is the language model, \(H\) is the harness for planning, tools, memory, and verification, and \(\mathcal{K}\) is the operating knowledge available through skills. Creator builds and verifies that knowledge; Researcher retrieves the subset relevant to its task. Repository distillation is paid for once and reused, although source changes still require maintenance.</p>
+
+        <p>Creator and Researcher use a model, an execution harness and a library of skills. Creator builds and verifies the library; Researcher retrieves procedures for a task. Repository distillation can be reused, while changes in code, data or operating assumptions still require maintenance.</p>
         <p>This is useful when an agent repeatedly works on related problems. The workflow for a hyperparameter search can preserve the correct split, scoring convention, and recovery path across many runs. The next session can start from that procedure instead of reconstructing it from scattered notebooks.</p>
 
         <h2>DisCo on my calendering model</h2>

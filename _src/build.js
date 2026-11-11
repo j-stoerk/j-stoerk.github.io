@@ -378,10 +378,7 @@ for (const file of fs.readdirSync(pagesDir)) {
     .replace('<!--#CONTACT_ENDPOINT-->', () => community.contact.endpoint)
     .replace('<!--#COMMENT_SERVICE-->', () => attribute(community.comments.endpoint)));
   if (cfg.nav === 'blog' && file !== 'blog.html') {
-    const post = posts.find(p => p.file === file);
-    if (!post?.whyItMatters) throw new Error(`${file}: missing whyItMatters`);
-    const context = post.whyItMatters.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    html = html.replace('<!--#POST_CONTEXT-->', `<p class="post-context"><span>Why this matters</span>${context}</p>`);
+    html = html.replace(/^[ \t]*<!--#POST_CONTEXT-->[ \t]*\r?\n?/m, '');
     html = postBackground(html, file);
     html = foldReferences(html);
     const comments = community.comments.endpoint && community.comments.turnstileSiteKey ? fs.readFileSync(path.join(SRC, 'comments.html'), 'utf8')

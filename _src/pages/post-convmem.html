@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Reading ConvMem: Long-Context Reasoning as a Summary Tree · Julius Störk</title>
-  <meta name="description" content="Notes on ConvMem (arXiv:2609.10441), which replaces a sequential memory agent with a tree of question-conditioned summaries, and ideas for making the reasoning path shorter than logarithmic." />
+  <meta name="description" content="ConvMem reads a long document as a tree of question-conditioned summaries instead of a chain of memory updates, which cuts the path from a fact to the answer from linear to logarithmic. Notes on the method, results and cost, and seven ideas for a path shorter than logarithmic." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-convmem.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
@@ -13,7 +13,7 @@
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-convmem.html" />
   <meta property="og:title" content="Reading ConvMem: Long-Context Reasoning as a Summary Tree" />
-  <meta property="og:description" content="ConvMem reads a long document as a tree of summaries instead of a chain of memory updates. Notes on the method and results, and ideas for a path shorter than logarithmic." />
+  <meta property="og:description" content="ConvMem reads a long document as a tree of question-conditioned summaries instead of a chain of memory updates, which cuts the path from a fact to the answer from linear to logarithmic. Notes on the method, results and cost, and seven ideas for a path shorter than logarithmic." />
   <meta property="og:image" content="https://j-stoerk.github.io/social-convmem.png" />
   <meta property="og:image:alt" content="Overlapping text windows summarized into a tree, with one window passed straight to the top" />
   <meta property="og:image:width" content="1200" />
@@ -28,9 +28,9 @@
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": "Reading ConvMem: Long-Context Reasoning as a Summary Tree",
-      "description": "Notes on ConvMem (arXiv:2609.10441), which replaces a sequential memory agent with a tree of question-conditioned summaries, and ideas for making the reasoning path shorter than logarithmic.",
+      "description": "ConvMem reads a long document as a tree of question-conditioned summaries instead of a chain of memory updates, which cuts the path from a fact to the answer from linear to logarithmic. Notes on the method, results and cost, and seven ideas for a path shorter than logarithmic.",
       "datePublished": "2026-09-13",
-      "dateModified": "2026-09-30",
+      "dateModified": "2026-11-11",
       "url": "https://j-stoerk.github.io/post-convmem.html",
       "image": "https://j-stoerk.github.io/social-convmem.png",
       "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
@@ -94,6 +94,7 @@
         <div class="cover-text">
           <p class="eyebrow"><time datetime="2026-09-13">13 September 2026</time> · Reading notes</p>
           <h1 class="post-title">Reading ConvMem: Long-Context Reasoning as a Summary Tree</h1>
+          <p class="post-update">Updated 11 November 2026</p>
         </div>
       </div>
       <!--#POST_CONTEXT-->
@@ -195,8 +196,7 @@
           overlap, the base of the logarithm is \(S/h\) instead of \(W/h\), five times smaller.</p>
 
         <h3>Getting below logarithmic</h3>
-        <p>Assume each lossy LLM rewrite keeps a needed fact with probability \(p\), independently. A path of \(d\)
-          rewrites keeps it with probability \(p^d\).</p>
+        <p>The following table is a sensitivity calculation, not a fit to ConvMem or MemAgent. Assume each lossy rewrite independently preserves a needed fact with probability p; a path of d rewrites then preserves it with probability p<sup>d</sup>. Real mistakes can be correlated, and answer F1 is not the probability that one fact survives.</p>
         <div class="table-wrap">
           <table>
             <thead>
@@ -211,9 +211,7 @@
             </tbody>
           </table>
         </div>
-        <p>Most of the accuracy gain comes from going from linear to logarithmic. Going from 5 rewrites to 2 adds 13
-          points at \(p = 0.95\) and 3 points at \(p = 0.99\). Below logarithmic, the larger savings are in cost and
-          latency.</p>
+        <p>The toy calculation illustrates how path length could matter if p were 0.95 or 0.99. Neither value is calibrated to the benchmark. Matching MemAgent's 64.0-to-58.7 F1 ratio across roughly 108 additional steps would instead give p ≈ (58.7/64.0)<sup>1/108</sup> ≈ 0.9992, even under the implausible assumption that every F1 loss came from independent rewrite failures. The observed scores cannot identify a per-rewrite retention probability on their own.</p>
         <p>A tree in which every token passes through question-conditioned LLM calls, each reading at most \(b\)
           inputs, has depth at least \(\log_b(N/W)\). There are three ways around that bound: send less of the text
           through the model, merge without the model, or let \(b\) grow with \(N\). Each idea below uses one of
@@ -229,12 +227,7 @@
           \(S = W\) above layer 0 raises the base from \(S/h\) to \(W/h\). With \(h = 320\), the upper layers then
           shrink the text 25-fold instead of 5-fold, and a 1M-token document needs 3 layers instead of 4. The duplicate bullets that overlapping layer-0 windows produce can be removed by string
           or embedding match instead of another model call.</p>
-        <p><strong>3. Records and an exact merge.</strong> The kernel could emit records (entity, attribute, value,
-          source offset) instead of prose. Merging two record sets is a union keyed on entity and attribute. It is
-          associative and loses nothing, so the upper layers can be ordinary code. The model then touches each fact
-          twice, once to extract it and once to answer. Conflicting values stay next to each other with their source
-          offsets instead of being resolved inside an intermediate summary. This is ConvMem as MapReduce, with models
-          only in the map and final steps.</p>
+        <p><strong>3. Records and a provenance-preserving merge.</strong> The kernel could emit records with an entity, attribute, value and source offset. Union is associative and exact for those already extracted records. It does not make extraction or entity resolution exact: “Lev” and “Levni” may be a typo, an alias or different people. Keep source strings and unresolved identities rather than silently merging them, and retain conflicting values. Ordinary code can remove a class of repeated summarisation losses while a separate, fallible resolution stage handles identity.</p>
         <p><strong>4. One round per hop.</strong> ConvMem decomposes the question before reading. For "What government
           position was held by the woman who portrayed Corliss Archer in the film Kiss and Tell?", the channel for the
           government position does not know the woman is Shirley Temple, so it has to keep every government position

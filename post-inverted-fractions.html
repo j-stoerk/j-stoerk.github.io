@@ -7,7 +7,7 @@
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-inverted-fractions.html" />
   <meta property="og:title" content="I Checked 2,294 arXiv Equations for Upside-Down Fractions" />
-  <meta property="og:description" content="4.9% of display equations have a meaning-changing error. 2 of 118 errors are inverted fractions. No change between 2021 and 2026." />
+  <meta property="og:description" content="An exploratory LLM-assisted audit flags 112 of 2,294 display rows, including one strict fraction reversal. Reviewer accuracy and clipboard causation remain unmeasured." />
   <meta property="og:image" content="https://j-stoerk.github.io/images/share/post-inverted-fractions-d308dc44b0e38226.jpg" />
   <meta property="og:image:secure_url" content="https://j-stoerk.github.io/images/share/post-inverted-fractions-d308dc44b0e38226.jpg" />
   <meta property="og:image:type" content="image/jpeg" />
@@ -18,10 +18,10 @@
   <meta name="twitter:image" content="https://j-stoerk.github.io/images/share/post-inverted-fractions-d308dc44b0e38226.jpg" />
   <meta name="twitter:image:alt" content="I Checked 2,294 arXiv Equations for Upside-Down Fractions · An audit of errors in copied mathematical notation · Julius Störk" />
   <meta name="twitter:title" content="I Checked 2,294 arXiv Equations for Upside-Down Fractions" />
-  <meta name="twitter:description" content="4.9% of display equations have a meaning-changing error. 2 of 118 errors are inverted fractions. No change between 2021 and 2026." />
+  <meta name="twitter:description" content="An exploratory LLM-assisted audit flags 112 of 2,294 display rows, including one strict fraction reversal. Reviewer accuracy and clipboard causation remain unmeasured." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>I Checked 2,294 arXiv Equations for Upside-Down Fractions · Julius Störk</title>
-  <meta name="description" content="I reviewed every display equation in 60 arXiv papers and pattern-checked 200 to measure how often equations are wrong, how many of the errors are inverted fractions, and whether this changed after 2022." />
+  <meta name="description" content="An exploratory LLM-assisted audit flags 112 of 2,294 display rows, including one strict fraction reversal. Reviewer accuracy and clipboard causation remain unmeasured." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-inverted-fractions.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
@@ -33,9 +33,9 @@
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": "I Checked 2,294 arXiv Equations for Upside-Down Fractions",
-      "description": "I reviewed every display equation in 60 arXiv papers and pattern-checked 200 to measure how often equations are wrong, how many of the errors are inverted fractions, and whether this changed after 2022.",
+      "description": "An exploratory LLM-assisted audit flags 112 of 2,294 display rows, including one strict fraction reversal. Reviewer accuracy and clipboard causation remain unmeasured.",
       "datePublished": "2026-09-06",
-      "dateModified": "2026-09-30",
+      "dateModified": "2026-11-11",
       "url": "https://j-stoerk.github.io/post-inverted-fractions.html",
       "image": "https://j-stoerk.github.io/images/share/post-inverted-fractions-d308dc44b0e38226.jpg",
       "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
@@ -58,7 +58,7 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=b5639ff9">
+  <link rel="stylesheet" href="styles.css?v=e36b9f82">
   <link rel="stylesheet" href="experiences.css?v=2f793542">
   <link rel="stylesheet" href="katex/katex.min.css">
 </head>
@@ -139,14 +139,12 @@
         <div class="cover-text">
           <p class="eyebrow"><time datetime="2026-09-06">6 September 2026</time> · LLMs in science</p>
           <h1 class="post-title">I Checked 2,294 arXiv Equations for Upside-Down Fractions</h1>
+          <p class="post-update">Updated 11 November 2026</p>
         </div>
       </div>
-      <p class="post-context"><span>Why this matters</span>A copied equation can change meaning without looking wrong, so reliable scientific workflows need checks beyond fluent text.</p>
 
       <div class="prose">
-        <p>When you copy a formula from a chat window, the clipboard gets text extracted from the rendered page,
-          not the TeX. In that text, a fraction's denominator can come before its numerator. Paste it into a second
-          model and the model has to guess which part goes on top.</p>
+        <p>Some chat interfaces expose fraction text in denominator-first order when text is extracted from their rendered mathematics. Passing that flattened text to another model could cause a numerator/denominator reversal. The audit below looks for such errors in papers; it does not test whether copying from a chat caused them.</p>
         <p>Estimates of LLM use in papers so far are based on vocabulary in abstracts and body text. Up to 17.5% of
           computer science abstracts showed LLM editing by early 2024,<sup class="cite"><a draggable="false" class="ref" href="#ref-2">2</a></sup>
           at least 13.5% of 2024 biomedical abstracts,<sup class="cite"><a draggable="false" class="ref" href="#ref-3">3</a></sup>
@@ -210,9 +208,8 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
           but with only one possible reading, such as an extra closing parenthesis). The numbers below are for
           meaning-changing errors unless noted.</p>
 
-        <h3>How many equations are wrong</h3>
-        <p>112 of 2,294 reviewed display rows have a meaning-changing error. That's 4.9% (95% interval 3.5 to 6.4%,
-          bootstrapped over papers). With cosmetic errors it's 7.6%.</p>
+        <h3>Provisional equation-error flags</h3>
+        <p>The review flagged 112 of 2,294 display rows as having a meaning-changing error, or 4.9%. A paper-level bootstrap gives 3.5–6.4% conditional on those review labels. It accounts for variation between sampled papers, but not the LLM reviewer's unknown false-positive and false-negative rates. The 7.6% figure includes cosmetic flags. These are provisional audit rates rather than validated estimates of the true error prevalence.</p>
         <p>30 of the 60 papers have none. 11 papers have errors in more than 10% of their display rows. One paper's
           only display equation is wrong, and another has 5 of 9 wrong.</p>
 
@@ -253,7 +250,7 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
             <text class="text-tick" x="325" y="163" text-anchor="middle">&gt;20%</text>
             <text class="text-label-faint" x="196" y="182" text-anchor="middle">share of a paper's display equations with an error</text>
           </svg>
-          <figcaption>Share of display rows with a meaning-changing error, per paper (60 papers). Median 0.5%, mean
+          <figcaption>Share of display rows flagged with a meaning-changing error, per paper (60 papers). Median 0.5%, mean
             6.9%.</figcaption>
         </figure>
 
@@ -261,26 +258,24 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
         <div class="table-wrap">
           <table>
             <thead>
-              <tr><th>Failure mode</th><th>Errors</th><th>Share</th><th>Typical case</th></tr>
+              <tr><th>Failure mode</th><th>Flagged instances</th><th>Share</th><th>Typical case</th></tr>
             </thead>
             <tbody>
               <tr><td>Missing or extra term or factor</td><td>37</td><td>31%</td><td>a normalising 1/L that isn't there</td></tr>
               <tr><td>Wrong index or variable</td><td>34</td><td>29%</td><td>current state where the next state belongs</td></tr>
               <tr><td>Contradicts the paper's own definition</td><td>17</td><td>14%</td><td>a symbol whose definition changes halfway through</td></tr>
-              <tr><td>Other wrong operator</td><td>15</td><td>13%</td><td>sup for inf, min for max</td></tr>
+              <tr><td>Other wrong operator</td><td>16</td><td>14%</td><td>sup for inf, min for max</td></tr>
               <tr><td>Sign</td><td>9</td><td>8%</td><td>an entropy written without its minus sign</td></tr>
-              <tr><td>Inverted fraction or reciprocal</td><td>2</td><td>2%</td><td>see below</td></tr>
+              <tr><td>Numerator/denominator reversal</td><td>1</td><td>1%</td><td>see below</td></tr>
               <tr><td>Ambiguous scope</td><td>2</td><td>2%</td><td>cosh<sup>&minus;1</sup> meant as 1/cosh</td></tr>
               <tr><td>Brackets, dimensions</td><td>2</td><td>2%</td><td></td></tr>
             </tbody>
           </table>
         </div>
-        <p>2 of the 118 errors are inverted fractions, which is 1.7% (0.5 to 6.0%). Including ambiguous scope it's
-          4 of 118, or 3.4%. 974 of the reviewed rows contain a fraction, and 2 of those are inverted.</p>
+        <p>The 118 error instances include one numerator/denominator reversal, about 0.8%. It occurs in one of the 974 reviewed rows containing a fraction. A matrix inverse in place of a matrix belongs under wrong operators; an exponential-sign error and a reversed verbal definition are separate categories. Ambiguous slash scope is reported separately as well.</p>
 
-        <h3>Inversions</h3>
-        <p>The review found two. The pattern checks found one more in a paper outside the review sample, and one
-          paper has an inversion in its prose.</p>
+        <h3>Fraction reversals and other algebraic errors</h3>
+        <p>Only one of the following cases is a numerator/denominator reversal in the display-equation review. The other cases explain why the earlier, broader “inversion” count overstated this particular error type.</p>
         <p>A 2021 signal processing paper writes a matrix as <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>H</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><msub><mi>K</mi><mn>1</mn></msub><msup><mi>H</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">H^{-1}K_1H^{-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9641em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span> where its derivation requires
           <span class="inline-math-tail"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><msub><mi>K</mi><mn>1</mn></msub><mi>H</mi></mrow><annotation encoding="application/x-tex">HK_1H</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span></span></span></span>&#8288;.</span> The paper is from before ChatGPT.</p>
         <p>A 2025 federated learning paper has this envelope-theorem step:</p>
@@ -298,7 +293,7 @@ M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
           <span class="inline-math-tail"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi mathvariant="normal">/</mi><mi>cosh</mi><mo>⁡</mo><mo stretchy="false">(</mo><mn>2</mn><mi>α</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">1/\cosh(2\alpha)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1/</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">cosh</span><span class="mopen">(</span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mclose">)</span></span></span></span>&#8288;,</span> which is normally read as arcosh. A 2025 condensed matter paper has
           <span class="inline-math-tail"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>M</mi><mi>e</mi></msub><mi>ω</mi><mi mathvariant="normal">/</mi><mn>2</mn><mi mathvariant="normal">ℏ</mi></mrow><annotation encoding="application/x-tex">M_e\omega/2\hbar</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">e</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.03588em;">ω</span><span class="mord">/2ℏ</span></span></span></span>&#8288;,</span> which is only correct when read left to right, while the same paper writes
           <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi mathvariant="normal">ℏ</mi><mn>2</mn></msup><msup><mi>k</mi><mn>2</mn></msup><mi mathvariant="normal">/</mi><mn>2</mn><mi>M</mi></mrow><annotation encoding="application/x-tex">\hbar^2k^2/2M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord">ℏ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord">/2</span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span> for <span class="inline-math-tail"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi mathvariant="normal">ℏ</mi><mn>2</mn></msup><msup><mi>k</mi><mn>2</mn></msup><mi mathvariant="normal">/</mi><mo stretchy="false">(</mo><mn>2</mn><mi>M</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\hbar^2k^2/(2M)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord">ℏ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord">/</span><span class="mopen">(</span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mclose">)</span></span></span></span>&#8288;.</span></p>
-        <p>Of these papers, only the 2025 federated learning paper has chat-style characters in its source.</p>
+        <p>Of these papers, only the 2025 federated learning paper has the selected formatting markers in its source.</p>
 
         <h3>Slashes</h3>
         <p>The slash check flagged 110 slashes across the 200 papers, and I read all of them. Most are units
@@ -330,15 +325,13 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
           are from 2026.</p>
         <p>The orientation check matched 33 textbook formulas, and all were correct. No paper defined a symbol as both
           a/b and b/a.</p>
-        <p>In the review, 4 of 60 papers have an ambiguous or inverted fraction in a display equation: 6.7% (2.6 to
-          15.9%). The pattern checks on all 200 papers include inline math but only catch specific forms. They find 5
-          papers (2.5%).</p>
+        <p>The two reviewed scope ambiguities and the one genuine fraction reversal should be kept separate from matrix inverses, sign errors and prose. The pattern checks also include inline mathematics and inspect only selected formula families, so their counts cannot be pooled with the display-equation review.</p>
 
         <h3>By year</h3>
         <div class="table-wrap">
           <table>
             <thead>
-              <tr><th>Year</th><th>Reviewed rows</th><th>With error</th><th>Papers with any error</th><th>Chat fingerprint</th><th>Unicode em dash</th><th><code>&#92;(</code> math</th></tr>
+              <tr><th>Year</th><th>Reviewed rows</th><th>Flagged rows</th><th>Papers with any flag</th><th>Formatting markers</th><th>Unicode em dash</th><th><code>&#92;(</code> math</th></tr>
             </thead>
             <tbody>
               <tr><th>2021</th><td>350</td><td>4.0%</td><td>7 of 12</td><td>6 of 39</td><td>4</td><td>1</td></tr>
@@ -349,30 +342,25 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
             </tbody>
           </table>
         </div>
-        <p>The error rate varies between 2.8% and 7.6% with no direction over time. Most of the variation comes from
-          a few long papers.</p>
-        <p>The last three columns count all 40 papers per year. A paper has a chat fingerprint if its source contains
-          Unicode em dashes, U+2010, U+2011 or U+202F characters, or more than five inline formulas in
-          <code>&#92;( &#92;)</code>&#8288;. That applies to 6 of 39 papers in 2021, 17 of 40 in 2025 and 15 of 40 in
-          2026.</p>
+        <p>Flagged row rates range from 2.8% to 7.6% across the sampled years. A few long papers contribute much of that variation. With only one strict fraction reversal in the review, the sample has little power to detect a change in that error type over time.</p>
+        <p>The last three columns count all available source papers per year. The formatting-marker flag checks Unicode em dashes, U+2010, U+2011, U+202F, or more than five inline formulas in <code>&#92;( &#92;)</code>&#8288;. It is already present in 6 of 39 papers from 2021, before ChatGPT. These are ordinary typesetting choices and cannot identify whether a paper used an LLM.</p>
         <p>Typical LLM words (delve, intricate, showcasing, underscores and similar) have a median of 3.6 per 10,000
           words in 2024 and 1.5 in 2026.</p>
-        <p>The 15 reviewed papers with a chat fingerprint have a pooled error rate of 7.7% and a per-paper mean of
+        <p>The 15 reviewed papers with a formatting-marker flag have a pooled error rate of 7.7% and a per-paper mean of
           6.1%. The other 45 have 4.2% and 7.2%. The Spearman correlation between LLM word rate and error rate is
           &minus;0.03.</p>
 
         <h3>Limitations</h3>
         <ul>
-          <li>60 papers and two inversions, so the intervals are wide.</li>
-          <li>The reviewer is an LLM. The rejection pass and the second review don't replace a human referee.</li>
+          <li>60 reviewed papers and one strict numerator/denominator reversal provide little information about that error's prevalence or trend.</li>
+          <li>The reviewer is an LLM with unknown precision and recall. Repeating the review with the same model can preserve correlated mistakes; partial manual checking does not estimate either rate.</li>
           <li>Inline math was only covered by the pattern checks.</li>
           <li>I used the arXiv source, not the published version.</li>
           <li>Four categories. Theory-heavy fields probably have more equations per paper.</li>
           <li>The data doesn't show why a given equation is wrong.</li>
           <li>I'm not linking the individual papers.</li>
         </ul>
-        <p>Overall, 4.9% of display equations have a meaning-changing error, 1.7% of those errors are inverted
-          fractions, and neither number changed noticeably between 2021 and 2026.</p>
+        <p>The audit suggests that equation checking deserves attention, with 112 meaning-changing row flags requiring validation and one strict fraction reversal among them. Establishing a clipboard contribution would need a controlled copy–paste experiment across interfaces, followed by blinded human adjudication. This dataset cannot attribute an error to that mechanism or establish a historical trend.</p>
       </div>
 
       <section class="post-sources">
@@ -464,7 +452,7 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
   <script defer src="interactions.js?v=0296ce10"></script>
   <script defer src="cursor.js?v=836db8cc"></script>
   <script defer src="portal-transitions.js?v=d4060e4b"></script>
-  <script defer src="blog.js?v=119b9d1e"></script>
+  <script defer src="blog.js?v=a24a5a3c"></script>
   <script defer src="references.js?v=e51071fb"></script>
   <script defer src="comment-identity.js?v=dddce228"></script>
   <script defer src="comments.js?v=43a43fce"></script>

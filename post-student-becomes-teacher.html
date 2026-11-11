@@ -7,7 +7,7 @@
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-student-becomes-teacher.html" />
   <meta property="og:title" content="The Student Becomes the Teacher" />
-  <meta property="og:description" content="Three 2026 papers let a language model supply its own supervision: the external teacher, the ground-truth labels, and the privileged context are all replaced by the model itself. What that buys, and where it breaks." />
+  <meta property="og:description" content="Self-distillation transfers a model’s own supervision. Majority pseudo-labels can correct minority errors or reinforce systematic mistakes; flatness alone guarantees neither generalisation nor retention." />
   <meta property="og:image" content="https://j-stoerk.github.io/images/share/post-student-becomes-teacher-f0f081156e5e0c61.jpg" />
   <meta property="og:image:secure_url" content="https://j-stoerk.github.io/images/share/post-student-becomes-teacher-f0f081156e5e0c61.jpg" />
   <meta property="og:image:type" content="image/jpeg" />
@@ -18,10 +18,10 @@
   <meta name="twitter:image" content="https://j-stoerk.github.io/images/share/post-student-becomes-teacher-f0f081156e5e0c61.jpg" />
   <meta name="twitter:image:alt" content="The Student Becomes the Teacher · Language models generating their own supervision · Julius Störk" />
   <meta name="twitter:title" content="The Student Becomes the Teacher" />
-  <meta name="twitter:description" content="Three 2026 papers let a language model supply its own supervision: the external teacher, the ground-truth labels, and the privileged context are all replaced by the model itself. What that buys, and where it breaks." />
+  <meta name="twitter:description" content="Self-distillation transfers a model’s own supervision. Majority pseudo-labels can correct minority errors or reinforce systematic mistakes; flatness alone guarantees neither generalisation nor retention." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Student Becomes the Teacher · Julius Störk</title>
-  <meta name="description" content="Three 2026 papers let a language model supply its own supervision: the external teacher, the ground-truth labels, and the privileged context are all replaced by the model itself. What that buys, and where it breaks." />
+  <meta name="description" content="Self-distillation transfers a model’s own supervision. Majority pseudo-labels can correct minority errors or reinforce systematic mistakes; flatness alone guarantees neither generalisation nor retention." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-student-becomes-teacher.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
@@ -33,9 +33,9 @@
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": "The Student Becomes the Teacher",
-      "description": "Three 2026 papers let a language model supply its own supervision: the external teacher, the ground-truth labels, and the privileged context are all replaced by the model itself. What that buys, and where it breaks.",
+      "description": "Self-distillation transfers a model’s own supervision. Majority pseudo-labels can correct minority errors or reinforce systematic mistakes; flatness alone guarantees neither generalisation nor retention.",
       "datePublished": "2026-08-16",
-      "dateModified": "2026-09-30",
+      "dateModified": "2026-11-11",
       "url": "https://j-stoerk.github.io/post-student-becomes-teacher.html",
       "image": "https://j-stoerk.github.io/images/share/post-student-becomes-teacher-f0f081156e5e0c61.jpg",
       "author": {
@@ -62,7 +62,7 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=b5639ff9">
+  <link rel="stylesheet" href="styles.css?v=e36b9f82">
   <link rel="stylesheet" href="experiences.css?v=2f793542">
 </head>
 
@@ -99,11 +99,11 @@
         <div class="cover-text">
           <p class="eyebrow"><time datetime="2026-08-16">16 August 2026</time> · AI research</p>
           <h1 class="post-title">The Student Becomes the Teacher</h1>
+          <p class="post-update">Updated 11 November 2026</p>
         </div>
       </div>
       <p class="article-meta muted">Reading notes on self-distillation without labels (OPSD, U-OPSD, L-OPSD).</p>
 
-      <p class="post-context"><span>Why this matters</span>Models that teach themselves could reduce the need for labelled data, but they can also reinforce their own mistakes.</p>
 
       <div class="prose">
         <p>In battery research, a single ground-truth requires assembling a cell, cycling it for weeks, and extracting one electrochemical data point. This consumes both time and money and post-training large language models has the exact same problem. Verified reasoning traces, gold answers, and external reward models are the labels, and they are just as scarce relative to the volume of data a model could learn from. This week, both Guibin Zhang from NUS and Yijiang Li from UC San Diego pushed the question "what if the model supplies its own supervision". Short answer: the external teacher (OPSD), the ground-truth labels (U-OPSD), and now handcrafted privileged context have all been replaced by the model itself.</p>
@@ -111,7 +111,7 @@
         <p>The line of work starts with <strong>On-Policy Self-Distillation</strong> (OPSD, January 2026, <a draggable="false" href="https://arxiv.org/abs/2601.18734" target="_blank" rel="noopener noreferrer">arXiv:2601.18734</a>&#8288;). A single LLM acts as both teacher and student under different contexts. The teacher conditions on privileged information (verified reasoning traces) while the student sees only the question. Training minimizes the per-token divergence between the two distributions over the student's own rollouts, on trajectories it would actually produce.</p>
         <p><strong>Self-Distillation Fine-Tuning</strong> (SDFT) applies the same trick to demonstrations: the demonstration-conditioned model becomes its own teacher, generating on-policy training signals that, in the original experiments, preserved prior capabilities better than ordinary SFT while acquiring new skills. It was one of the papers put through the ICML 2026 open reproduction effort (<a draggable="false" href="https://huggingface.co/blog/icml-2026-open-reproductions" target="_blank" rel="noopener noreferrer">Hugging Face report</a>&#8288;), I come back to that below.</p>
         <h3>Remove or learn the supervision</h3>
-        <p><strong>U-OPSD</strong>&#8288;, On-Policy Self-Distillation without any Supervision <a draggable="false" href="https://arxiv.org/abs/2608.06296" target="_blank" rel="noopener noreferrer">arXiv:2608.06296</a> removes the last external crutch. Sample <em>k</em> rollouts, majority-vote a pseudo-solution, gate it by a self-consistency threshold, then condition the model on that pseudo-solution and distill only on the <em>disagreeing</em> completions. The model corrects itself where it is confidently wrong. An answer the model produces consistently is treated as correct, the agreement among samples is taken as evidence (in place of any external check). On Qwen3 math in non-thinking mode, U-OPSD beats supervised OPSD by up to 3.2 points and GRPO by up to 8.9 points (<a draggable="false" href="https://x.com/askalphaxiv/status/2085757874127397129" target="_blank" rel="noopener noreferrer">summary</a>&#8288;), using no labels at all.</p>
+        <p><strong>U-OPSD</strong>&#8288;, On-Policy Self-Distillation without any Supervision <a draggable="false" href="https://arxiv.org/abs/2608.06296" target="_blank" rel="noopener noreferrer">arXiv:2608.06296</a> removes the last external crutch. Sample <em>k</em> rollouts, majority-vote a pseudo-solution, gate it by a self-consistency threshold, then condition the model on that pseudo-solution and distill only on the <em>disagreeing</em> completions. The model trains disagreeing rollouts toward its majority pseudo-answer. This can repair minority mistakes when the majority is correct; a confident but wrong majority instead reinforces the error. An answer the model produces consistently is treated as correct, the agreement among samples is taken as evidence (in place of any external check). On Qwen3 math in non-thinking mode, U-OPSD beats supervised OPSD by up to 3.2 points and GRPO by up to 8.9 points (<a draggable="false" href="https://x.com/askalphaxiv/status/2085757874127397129" target="_blank" rel="noopener noreferrer">summary</a>&#8288;), using no labels at all.</p>
 
         <div class="interactive">
           <div class="widget-controls">
@@ -188,14 +188,14 @@
         <p><strong>The privilege illusion.</strong> The DAPD analysis (<a draggable="false" href="https://aiweekly.co/node/8951" target="_blank" rel="noopener noreferrer">coverage</a>&#8288;) argues that OPSD quietly teaches the student to behave as if the reference were still present at inference time. The measured consequence: gains of +5.19 points at 1.7B parameters collapse to ≤ +0.28 at 8B–32B. What works at small scale may be an artifact of scale.</p>
         <p><strong>Decoding collapse.</strong> In agentic settings, feedback-augmented self-distillation can produce trajectories that look diverse but are largely input-agnostic templates. The KL-based supervision signal becomes uninformative, and standard evaluation metrics miss it (<a draggable="false" href="https://arxiv.org/abs/2607.17558" target="_blank" rel="noopener noreferrer">arXiv:2607.17558</a>&#8288;). An exponential-moving-average teacher is a partial fix.</p>
         <p><strong>The awkward reproduction.</strong> In the ICML 2026 open reproduction challenge, at least one independent attempt found no SDFT advantage over matched SFT on a 507-example science evaluation, leaving toy-scale support only for the reduced-forgetting claim (<a draggable="false" href="https://huggingface.co/spaces/ICML-2026-agent-repro/challenge/discussions/33" target="_blank" rel="noopener noreferrer">reproduction logbooks</a>&#8288;). One reproduction is not a refutation, but it is exactly the kind of result that should be cited next to the original.</p>
-        <p>The meta-point: every failure above is an examination failure, not a teaching failure. Self-generated supervision inherits the model's blind spots, and internal consistency measures confidence, not correctness. Majority vote repairs the cases where the model is right often and wrong sometimes; it amplifies the cases where it is confidently, systematically wrong.</p>
+        <p>These failures concern both the learning signal and how it is evaluated. Self-generated supervision inherits the model's blind spots. Majority voting can reduce uncorrelated mistakes, but correlated wrong answers can become more consistent under training. An independent check or environment reward addresses a different problem from agreement among samples.</p>
         <h3>Why I care</h3>
         <p>Process–property models in electrode manufacturing have the same structure as this problem: abundant process data from coating and calendering lines, scarce and delayed electrochemical labels from cycling tests. Any method that extracts training signal from internal consistency rather than external labels is directly relevant to surrogate models that have to stay useful between cycling campaigns.</p>
         <p>The SDFT thread also connects to my continual-learning work. On-policy self-signals reduce forgetting relative to off-policy SFT, which makes them a candidate complement to structural protection mechanisms like the interference-gated approach I wrote about <a draggable="false" href="https://j-stoerk.github.io/post-geometry-of-forgetting.html" target="_blank" rel="noopener noreferrer">earlier</a>&#8288;. A speculative extension: could majority-vote pseudo-labels over process-parameter rollouts bootstrap a surrogate model during the weeks while a cycling campaign is still running? The failure modes above, especially confident systematic error, are exactly what a battery surrogate would exhibit under process drift, so the caveats transfer along with the method.</p>
         <h3>A geometric caution</h3>
-        <p>The temptation, after reading this literature, is a geometric intuition: self-distillation keeps updates KL-close to the current policy, KL-close means small parameter drift, small drift means the model stays in a flat region of its loss landscape, and flat regions retain. It is a good story.</p>
-        <p>A recent theory paper is a useful antidote. <em>Flat Minima and Generalization: Insights from Stochastic Convex Optimization</em> (<a draggable="false" href="https://arxiv.org/html/2511.03548v2" target="_blank" rel="noopener noreferrer">arXiv:2511.03548</a>&#8288;) constructs settings (in the friendliest possible regime, convex and smooth) where provably flat minima generalize trivially, and where a SAM-style algorithm converges quickly to exactly such points. It was the most-reproduced paper in the ICML 2026 challenge, with twelve independent teams verifying every claim, so this is not a fringe counterexample. Geometry is suggestive; it is never sufficient.</p>
-        <p>Models can teach themself. The student has become the teacher. It has not yet become the examiner.</p>
+        <p>Small output KL divergence on sampled prefixes does not imply small parameter drift or preservation of untested tasks. Flatness, parameter distance and functional retention are different properties. An argument connecting them needs assumptions about the data distribution, parameterisation and objective.</p>
+        <p>Schliserman, Vansover-Hager and Koren's <em>Flat Minima and Generalization: Insights from Stochastic Convex Optimization</em> constructs smooth convex examples where flat empirical minima have non-vanishing population risk, Ω(1), while sharp minima generalise optimally. It also analyses sharpness-aware algorithms. <a draggable="false" href="https://arxiv.org/abs/2511.03548" target="_blank" rel="noopener noreferrer">The result</a> is about generalisation, not retention during self-distillation. It rules out treating flatness alone as a universal guarantee; retention still needs direct old-task measurements.</p>
+        <p>Self-distillation can transfer useful behaviour without a separate teacher model. Its reliability depends on what makes the training target trustworthy, how correlated the errors are, and whether held-out tasks improve after the update.</p>
       </div>
     </article>
 
@@ -273,7 +273,7 @@
   <script defer src="interactions.js?v=0296ce10"></script>
   <script defer src="cursor.js?v=836db8cc"></script>
   <script defer src="portal-transitions.js?v=d4060e4b"></script>
-  <script defer src="blog.js?v=119b9d1e"></script>
+  <script defer src="blog.js?v=a24a5a3c"></script>
   <script defer src="references.js?v=e51071fb"></script>
   <script defer src="comment-identity.js?v=dddce228"></script>
   <script defer src="comments.js?v=43a43fce"></script>

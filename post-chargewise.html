@@ -6,7 +6,7 @@
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-chargewise.html" />
   <meta property="og:title" content="ChargeWise Fits the Fleet to the Grid" />
-  <meta property="og:description" content="Four vans need 84 kWh. Two 11 kW ports can meet their departures on an 8.89 kW shared connection in the synthetic example. Edit the fleet and compare schedules in the browser demo." />
+  <meta property="og:description" content="Building ChargeWise AI with physical charging constraints, independent schedule checks, the original hosted application, Nemotron tools, and a forecasting follow-up." />
   <meta property="og:image" content="https://j-stoerk.github.io/images/share/post-chargewise-3530186a813da9b6.jpg" />
   <meta property="og:image:secure_url" content="https://j-stoerk.github.io/images/share/post-chargewise-3530186a813da9b6.jpg" />
   <meta property="og:image:type" content="image/jpeg" />
@@ -17,14 +17,14 @@
   <meta name="twitter:image" content="https://j-stoerk.github.io/images/share/post-chargewise-3530186a813da9b6.jpg" />
   <meta name="twitter:image:alt" content="ChargeWise Fits the Fleet to the Grid · Scheduling fleet charging within grid limits · Julius Störk" />
   <meta name="twitter:title" content="ChargeWise Fits the Fleet to the Grid" />
-  <meta name="twitter:description" content="Four vans need 84 kWh. Two 11 kW ports can meet their departures on an 8.89 kW shared connection in the synthetic example. Edit the fleet and compare schedules in the browser demo." />
+  <meta name="twitter:description" content="Building ChargeWise AI with physical charging constraints, independent schedule checks, the original hosted application, Nemotron tools, and a forecasting follow-up." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ChargeWise Fits the Fleet to the Grid · Julius Störk</title>
-  <meta name="description" content="Building ChargeWise AI: the original hosted application, fleet schedules, outage replanning, independent checks, and what better price forecasts actually buy." />
+  <meta name="description" content="Building ChargeWise AI with physical charging constraints, independent schedule checks, the original hosted application, Nemotron tools, and a forecasting follow-up." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-chargewise.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
-  <meta property="article:published_time" content="2026-10-25" /><meta property="article:modified_time" content="2026-10-26" />
+  <meta property="article:published_time" content="2026-10-25" /><meta property="article:modified_time" content="2026-11-11" />
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"ChargeWise Fits the Fleet to the Grid","description":"Depot charging under physical constraints: optimization, independent checks, and a small return from better price forecasts.","datePublished":"2026-10-25","dateModified":"2026-10-26","url":"https://j-stoerk.github.io/post-chargewise.html","image":"https://j-stoerk.github.io/images/share/post-chargewise-3530186a813da9b6.jpg","author":{"@type":"Person","name":"Julius Störk","url":"https://j-stoerk.github.io/"}}</script>
   <meta name="theme-color" content="#fdfdfc">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -42,7 +42,7 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=b5639ff9">
+  <link rel="stylesheet" href="styles.css?v=e36b9f82">
   <link rel="stylesheet" href="experiences.css?v=2f793542">
   <link rel="stylesheet" href="katex/katex.min.css">
   <link rel="stylesheet" href="post-figures.css?v=b0d029f8">
@@ -92,9 +92,8 @@
       <header class="post-header">
         <p class="post-meta"><time datetime="2026-10-25">25 October 2026</time> · Energy &amp; optimization · <span class="quantity">8&#160;min</span> read</p>
         <h1>ChargeWise Fits the Fleet to the Grid</h1>
-        <p class="post-update">Updated 26 October 2026 with the forecasting follow-up</p>
+        <p class="post-update">Updated 11 November 2026</p>
       </header>
-      <p class="post-context"><span>Why this matters</span>A feasible charging schedule can reveal how much grid capacity a depot actually needs before more hardware or a larger connection is considered.</p>
       <div class="post-project-links">
         <a draggable="false" class="btn btn-primary" href="chargewise/">Open the interactive demo ↗</a>
         <a draggable="false" href="chargewise/downloads/ChargeWise_Test_Build.zip" download>Download the editable planner</a>
@@ -117,7 +116,8 @@
         <p>A lower limit cannot supply enough energy in that window. The optimizer finds a schedule attaining the bound while meeting the configured constraints. The peak is about <strong>60% lower</strong> than the greedy schedules. Both the infeasibility argument below the bound and a feasible schedule at the bound are available in this example.</p>
         <h2>Cheap electricity can set an expensive peak</h2>
         <p>If every van follows the same low-price interval, the combined load can create a new demand peak. An energy-only objective misses that part of the bill.</p>
-        <p>Under the illustrative tariff, optimization raises the energy component from about <strong>€21.47 to €24.09</strong>&#8288;. The smaller peak reduces the demand component enough that the combined scenario cost falls from <strong>€355.87 to €159.20</strong>&#8288;. These are synthetic prices and a €15.20/kW/month demand tariff applied to the example's partial billing period with a zero prior peak. They are not observed fleet savings or an annual return.</p>
+        <p>In the four-van schedule, energy cost rises from €21.47 to €24.09 while the peak falls from 22 to <span class="quantity">8.89&#160;kW</span>&#8288;. At €15.20/kW/month, those peaks imply monthly demand charges of €334.40 and €135.11 if they are the billing-period maxima. The build's €355.87 and €159.20 totals add one day of energy to those full monthly charges. They are mixed-period scenario scores, not comparable daily bills or a demonstrated 55% saving. A billing comparison needs the full month, its prior peak and all site loads.</p>
+        <p>For illustration, repeating these exact daily schedules for <span class="quantity">30&#160;days</span>&#8288;, with no other site load or earlier peak, would give about €978 for the baseline and €858 for the optimized schedule, roughly 12% lower. This calculation aligns the time bases but assumes identical days; it is not a replay of a real billing month.</p>
         <p>A previous peak changes the decision too. Once the billing period has already reached a particular demand level, pushing today's load below that level cannot reduce the established demand charge. The planner needs that history as well as the upcoming prices.</p>
 
         <h2>Nemotron requests a replan; the solver builds it</h2>
@@ -133,14 +133,14 @@
         <h2>Forecasting for the charging decision</h2>
         <p>In a follow-up run on <strong>26 October</strong>&#8288;, pretrained time-series models forecast 37 locally held-out days of historical German electricity prices from August–September 2019. Chronos-Bolt Small reduced price mean absolute error by <strong>29.2%</strong> against ridge regression. TimesFM also improved forecast accuracy.&#160;<sup class="cite">[<a draggable="false" href="#ref-3">3</a>&#8288;]</sup></p>
         <div class="post-data-table" role="region" tabindex="0" aria-label="Price forecasting and charging-cost comparison">
-          <table><caption>Four-van replay means. Scenario costs use the realised held-out prices; the optimizer plans against each forecast.</caption><thead><tr><th>Forecast</th><th>Price MAE<br>€/MWh</th><th>Energy only<br>€/scenario-day</th><th>With demand<br>€/scenario-day</th></tr></thead><tbody>
+          <table><caption>Four-van replay means. Energy uses realised held-out prices; the optimizer plans against each forecast. The last column adds a full monthly demand charge to one scenario day and must not be interpreted as a daily bill.</caption><thead><tr><th>Forecast</th><th>Price MAE<br>€/MWh</th><th>Energy only<br>€/scenario-day</th><th>Energy + monthly demand<br>mixed-period score, €</th></tr></thead><tbody>
             <tr><td>Ridge</td><td>7.042</td><td>3.3353</td><td>138.9116</td></tr>
             <tr><td>TimesFM 2.5 200M</td><td>5.720</td><td>3.3377</td><td>138.9092</td></tr>
             <tr><td>Chronos-Bolt Small 48M</td><td>4.988</td><td>3.3395</td><td>138.9095</td></tr>
             <tr><td>Perfect-price oracle</td><td>n/a</td><td>3.3141</td><td>138.9059</td></tr>
           </tbody></table>
         </div>
-        <p>The caveat: TimesFM's demand-inclusive improvement over ridge was only about <strong>€0.0025 per scenario-day</strong>&#8288;, a quarter of a euro cent. All 518 paired scenario/model/tariff solves passed independent checks and met the energy targets; ridge remained best among the forecasts for energy-only cost.</p>
+        <p>TimesFM's mean mixed-period objective is only about €0.0025 below ridge over the 37 evaluated days. No paired uncertainty interval or repeat-run analysis was reported, so this difference is too small to support a robust economic advantage. All 518 scenario/model/tariff solves passed the stated checks and met energy targets; ridge had the lowest energy-only mean among the forecasts.</p>
         <p>The models can improve prices during hours when no van is connected, or distinguish between cheap hours that the timetable makes interchangeable. A demand peak can also dominate the small differences in energy cost. Lower forecasting error therefore need not yield a useful change in the charging decision.</p>
         <p>This was an exploratory replay of old data, with unknown overlap between the evaluation period and model pretraining. Retail prices and the depot's other electrical loads were absent. Forecasts were evaluated by passing them through the physical optimizer and costing the resulting schedule against realised prices. Already published day-ahead prices should be used directly; prediction is useful only where information is still missing.</p>
 
@@ -235,7 +235,7 @@
   <script defer src="interactions.js?v=0296ce10"></script>
   <script defer src="cursor.js?v=836db8cc"></script>
   <script defer src="portal-transitions.js?v=d4060e4b"></script>
-  <script defer src="blog.js?v=119b9d1e"></script>
+  <script defer src="blog.js?v=a24a5a3c"></script>
   <script defer src="references.js?v=e51071fb"></script>
   <script defer src="comment-identity.js?v=dddce228"></script>
   <script defer src="comments.js?v=43a43fce"></script>

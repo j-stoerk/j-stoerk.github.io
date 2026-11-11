@@ -7,7 +7,7 @@
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-physical-ai.html" />
   <meta property="og:title" content="AI's Bottleneck Is Physical" />
-  <meta property="og:description" content="AI becomes useful when a physical feedback loop (power, heat, latency, sensors, data lineage, safe actuation) runs reliably." />
+  <meta property="og:description" content="Sensing, data lineage, latency and safe interventions constrain industrial AI. A bottleneck illustration and deployment examples, rather than a fitted scaling law." />
   <meta property="og:image" content="https://j-stoerk.github.io/images/share/post-physical-ai-37a3268bd6acc454.jpg" />
   <meta property="og:image:secure_url" content="https://j-stoerk.github.io/images/share/post-physical-ai-37a3268bd6acc454.jpg" />
   <meta property="og:image:type" content="image/jpeg" />
@@ -18,10 +18,10 @@
   <meta name="twitter:image" content="https://j-stoerk.github.io/images/share/post-physical-ai-37a3268bd6acc454.jpg" />
   <meta name="twitter:image:alt" content="AI's Bottleneck Is Physical · Making physical feedback loops reliable · Julius Störk" />
   <meta name="twitter:title" content="AI's Bottleneck Is Physical" />
-  <meta name="twitter:description" content="AI becomes useful when a physical feedback loop (power, heat, latency, sensors, data lineage, safe actuation) runs reliably." />
+  <meta name="twitter:description" content="Sensing, data lineage, latency and safe interventions constrain industrial AI. A bottleneck illustration and deployment examples, rather than a fitted scaling law." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI's Bottleneck Is Physical · Julius Störk</title>
-  <meta name="description" content="AI becomes useful when a physical feedback loop (power, heat, latency, sensors, data lineage, safe actuation) runs reliably." />
+  <meta name="description" content="Sensing, data lineage, latency and safe interventions constrain industrial AI. A bottleneck illustration and deployment examples, rather than a fitted scaling law." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-physical-ai.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
@@ -33,9 +33,9 @@
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": "AI's Bottleneck Is Physical",
-      "description": "AI becomes useful when a physical feedback loop (power, heat, latency, sensors, data lineage, safe actuation) runs reliably.",
+      "description": "Sensing, data lineage, latency and safe interventions constrain industrial AI. A bottleneck illustration and deployment examples, rather than a fitted scaling law.",
       "datePublished": "2026-07-19",
-      "dateModified": "2026-09-30",
+      "dateModified": "2026-11-11",
       "url": "https://j-stoerk.github.io/post-physical-ai.html",
       "image": "https://j-stoerk.github.io/images/share/post-physical-ai-37a3268bd6acc454.jpg",
       "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
@@ -58,7 +58,7 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=b5639ff9">
+  <link rel="stylesheet" href="styles.css?v=e36b9f82">
   <link rel="stylesheet" href="experiences.css?v=2f793542">
   <link rel="stylesheet" href="katex/katex.min.css">
 </head>
@@ -95,10 +95,10 @@
         <div class="cover-text">
           <p class="eyebrow"><time datetime="2026-07-19">19 July 2026</time> · AI &amp; infrastructure</p>
           <h1 class="post-title">AI's Bottleneck Is Physical</h1>
+          <p class="post-update">Updated 11 November 2026</p>
         </div>
       </div>
 
-      <p class="post-context"><span>Why this matters</span>AI can support real experiments and production only when sensing, computation, and physical action work reliably together.</p>
 
       <div class="prose">
         <p>AI is often described in terms of models, parameters, tokens and prompts, but a deployed model lives inside a
@@ -131,11 +131,10 @@
             stage limits the whole system, not just its own step.</p>
         </div>
 
-        <h3>A different scaling law</h3>
-        <p>The usual scaling law is implicit: more compute plus more data yields a more capable model. For deployment,
-          the relevant relationship is closer to a product of interfaces:</p>
+        <h3>Deployment constraints</h3>
+        <p>Deployment depends on model quality, sensing, latency, energy, hardware integration and reliability. These variables have different units and interact differently. There is no fitted scaling law in this post. The widget below uses their minimum as a deliberately simple bottleneck score; it is not a multiplicative model or a measured performance predictor.</p>
 
-        <div class="equation equation-terms"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>useful AI</mtext><mo>=</mo><mi>f</mi><mo stretchy="false">(</mo><mtext>model</mtext><mo separator="true">,</mo><mtext> data quality</mtext><mo separator="true">,</mo><mtext> latency</mtext><mo separator="true">,</mo><mtext> energy</mtext><mo separator="true">,</mo><mtext> hardware</mtext><mo separator="true">,</mo><mtext> integration</mtext><mo separator="true">,</mo><mtext> reliability</mtext><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\text{useful AI} = f(\text{model},\ \text{data quality},\ \text{latency},\ \text{energy},\ \text{hardware},\ \text{integration},\ \text{reliability})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">useful AI</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord text"><span class="mord">model</span></span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">data quality</span></span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">latency</span></span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">energy</span></span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">hardware</span></span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">integration</span></span><span class="mpunct">,</span><span class="mspace"> </span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">reliability</span></span><span class="mclose">)</span></span></span></span></span></div>
+        <div class="equation equation-terms"></div>
 
         <p>A frontier model can be extraordinarily capable yet operationally useless for a millisecond-sensitive control
           loop, a disconnected production line, or a process whose sensors cannot identify the state that matters.</p>
@@ -166,7 +165,7 @@
             </svg>
             <div class="dep-score">
               <div class="dep-score-value" id="dep-score">…</div>
-              <div class="dep-score-label">Deployable intelligence</div>
+              <div class="dep-score-label">Illustrative bottleneck score</div>
               <p class="dep-limit" id="dep-limit"></p>
             </div>
           </div>
@@ -219,10 +218,7 @@
             target="_blank" rel="noopener noreferrer">[Bitkom, 2025]</a> The status quo is modest; the trajectory is
           steep, and it is concentrated in exactly the AI-specific, high-density load that is hardest to site.</p>
 
-        <p>The question is not whether Germany has annual electricity generation. The question is whether a
-          high-density load can connect where fibre, cloud ecosystems, industrial demand, cooling options, and skilled
-          operators already exist. A site optimised for connectivity does not necessarily coincide with one optimised
-          for grid availability or waste-heat reuse.</p>
+        <p>Connecting a high-density load requires grid capacity where fibre, cloud services, cooling options, industrial customers and skilled operators are available. Annual national generation says little about that local connection constraint.</p>
 
         <h3>Sensors will close the AI loop</h3>
         <p>The data centre is only one end of the AI system. At the other end, AI encounters the world through
@@ -277,9 +273,7 @@
             href="https://www.ipms.fraunhofer.de/en/press-media/press/2025/Edge-KI-Insekt.html" target="_blank"
             rel="noopener noreferrer">[Fraunhofer IPMS, 2025]</a></p>
 
-        <p>The point is not "cloud bad, edge good." It is compute locality: send upward when global context is
-          valuable; decide locally when time, bandwidth, or resilience matters. A physically realistic AI system uses
-          models at several scales, each matched to what its layer can observe and afford.</p>
+        <p>Computation belongs near the process when latency, bandwidth or resilience is decisive. Shared infrastructure is useful when fleet-wide context or larger models justify the communication cost. A practical design assigns each workload to a suitable level.</p>
 
         <div class="table-wrap">
           <table>
@@ -323,11 +317,7 @@
           when confidence drops.</p>
 
         <h3>Causation needs intervention, and intervention must be safe</h3>
-        <p>A model cannot reliably learn the effect of changing temperature, pressure, composition, or line speed from
-          passive correlations alone. At some point it needs interventions: deliberate changes whose consequences it can
-          observe. In manufacturing, though, exploration is expensive. It can produce scrap, damage equipment, reach
-          unsafe operating states, yield unqualified product, or wait weeks for delayed electrochemical results before
-          the outcome is even known.</p>
+        <p>Observational data can identify intervention effects under assumptions such as a valid causal graph, adequate overlap and control of relevant confounding. CausalPFN learns under a simulated family of such assumptions. Passive correlations alone do not guarantee that those conditions hold on a factory line. Deliberate interventions can resolve ambiguities, but they may produce scrap, damage equipment or require weeks of downstream testing. The experiment design must therefore include physical constraints and delayed outcomes.</p>
 
         <p>This is a safe-exploration problem: how does the system choose experiments that are informative without
           violating process constraints? The tools are known, constrained Bayesian optimisation, value-of-information
@@ -357,18 +347,10 @@
           or a human is alerted. A fragile architecture simply stops producing a decision. Reliability emerges from the
           architecture surrounding the model, not from the model alone.</p>
 
-        <div class="callout">
-          <strong>The recurring pattern.</strong> Every stage in the first widget, and every axis in the second, is a
-          place where a capable model meets a physical constraint. The advantage does not go to whoever trains the
-          largest model. It goes to whoever closes the loop: trustworthy sensors, preserved data lineage, computation
-          placed where it matters, managed energy and heat, and models that fail safely.
-        </div>
 
-        <h3>Lessons learned</h3>
-        <p>AI is becoming more entangled with the physical world. The next competitive advantage
-          will not belong only to whoever trains the largest model. It will belong to those who can close the loop:
-          build trustworthy sensors, preserve data lineage, place computation where it matters, manage energy and heat,
-          maintain storage and power quality, and deploy models that fail safely.</p>
+
+        <h3>Closing the manufacturing loop</h3>
+        <p>For an electrode line, the useful evaluation combines accepted product, intervention time, energy use and failure recovery. Better sensors and data lineage make model errors easier to diagnose; local computation and bounded controllers determine whether a correction can arrive in time. These interfaces need to be measured together with predictive accuracy.</p>
 
         <p>For battery manufacturing, that is not a distant analogy. Batteries can power the distributed intelligence
           that improves battery production; manufacturing quality can determine the reliability of the storage
@@ -451,7 +433,7 @@
   <script defer src="interactions.js?v=0296ce10"></script>
   <script defer src="cursor.js?v=836db8cc"></script>
   <script defer src="portal-transitions.js?v=d4060e4b"></script>
-  <script defer src="blog.js?v=119b9d1e"></script>
+  <script defer src="blog.js?v=a24a5a3c"></script>
   <script defer src="references.js?v=e51071fb"></script>
   <script defer src="comment-identity.js?v=dddce228"></script>
   <script defer src="comments.js?v=43a43fce"></script>

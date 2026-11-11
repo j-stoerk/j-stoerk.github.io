@@ -30,7 +30,7 @@
       "headline": "How to (Not) Reinvent the Wheel With Jeff",
       "description": "Jev, Jeff, and typed decisions: shared representations, task-specific heads, calibrated probabilities, and a concrete policy for when a manufacturing model acts or requests review.",
       "datePublished": "2026-09-27",
-      "dateModified": "2026-09-30",
+      "dateModified": "2026-11-11",
       "url": "https://j-stoerk.github.io/post-jev-output-heads.html",
       "image": "https://j-stoerk.github.io/social-jeff.png",
       "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
@@ -132,13 +132,14 @@
         <div class="cover-text">
           <p class="eyebrow"><time datetime="2026-09-27">27 September 2026</time> · AI research</p>
           <h1 class="post-title">How to (Not) Reinvent the Wheel With Jeff</h1>
+          <p class="post-update">Updated 11 November 2026</p>
         </div>
       </div>
 
       <!--#POST_CONTEXT-->
 
       <div class="prose">
-        <p>There is a new model in town that does not talk. It does not write essays, explain its reasoning, or apologize for being late. It returns probabilities over things you already defined.</p>
+        <p>Jev returns probabilities over predefined decisions rather than a free-form answer. That makes its interface interesting for software that needs to branch on a result.</p>
         <p>The model is <strong>Jev</strong>, from TypeSafe AI. The company presents it as a “System One” model for fast, structured decisions. Independent open-source projects such as <strong>Jeff</strong> explore a similar interface. The idea is appealing: give software the kind of output its decision needs, instead of turning every judgment into a paragraph <sup class="cite">[<a href="#ref-1">1</a>, <a href="#ref-3">3</a>]</sup>.</p>
 
         <h2>Choice, Score, and Noul</h2>
@@ -160,7 +161,7 @@
         <p>The encoder \(f_\theta\) represents the input state \(x\). The parameters \(W_t,b_t\) define the output head for task or decision \(t\). A routing head predicts a categorical distribution; an ordinal head describes levels on a rubric; a binary head estimates the probability of a specified event.</p>
         <div class="equation">$$\hat y_{\rm choice}=\arg\max_k p_k,\qquad \hat s=\sum_{k=0}^{K-1}v_kp_k,\qquad q=\sigma(w^\top h+b)$$</div>
         <p>Here \(v_k\) is the value assigned to rubric level \(k\), and \(\sigma\) is the logistic sigmoid. The expected score retains information that is lost by selecting only the most likely level. A binary probability \(q\) can feed an anomaly or review rule.</p>
-        <p>These equations describe a concrete implementation of the design idea. Jev’s public materials establish its typed interface and parallel evaluation, but do not establish that each primitive has this particular neural head. Likewise, Noul can ask a review question without implying a separate, documented “Act/Escalate” module inside Jev.</p>
+        <p>These equations are a proposed implementation of the interface idea, not Jev's disclosed architecture. Jev's public materials specify typed requests and parallel evaluation. This post presents no manufacturing experiments; those would need task-specific labels, calibration checks and a comparison with existing classifiers or constrained-output language models.</p>
 
         <h2>Calibrated decisions need an appropriate objective</h2>
         <p>TypeSafe calls its training method <strong>Reinforcement Learning for Calibrated Decisions</strong>, or RLCD. Its stated objective is to make the probabilities useful for decisions: predictions made with similar confidence should be correct at a corresponding frequency <sup class="cite">[<a href="#ref-1">1</a>]</sup>. That is a measurable requirement. For binary outcomes \(Y\), ideal calibration means:</p>
@@ -192,7 +193,7 @@
         <h2>Jeff makes the interface inspectable</h2>
         <p>The open-source Jeff 1 from Gestalt-Lab implements Jev-style Choice, Score, and Noul requests using a LoRA adapter on Qwen3-4B-Instruct-2507. It scores candidate labels from the language model’s token probabilities, using the first token when labels are distinguishable there and sequence scoring otherwise. This is a different implementation route to a typed interface <sup class="cite">[<a href="#ref-3">3</a>]</sup>.</p>
         <p>The project publishes fact-checking evaluations and limitations, including confidently wrong judgments and weak performance when evidence is insufficient. Its results establish an inspectable starting point for that task; matching the API does not establish equivalent behavior on manufacturing data. The reusable part is the pattern: define the questions, supply representative labeled examples, fit or distill a model, and evaluate the probabilities and resulting decisions.</p>
-        <p>Jev and Jeff are reminders that every AI output does not need to be a sentence. Some outputs predict properties, some classify quality, some score risk, and some decide whether to ask for help. A common representation can support all of them. Give each decision a suitable output, then let the language model write the report.</p>
+        <p>Jev and Jeff are reminders that not every AI output needs to be a sentence. Some outputs predict properties, some classify quality, some score risk, and some decide whether to ask for help. A common representation can support all of them. Give each decision a suitable output, then let the language model write the report.</p>
       </div>
 
       <section class="post-sources"><h3>Sources</h3><ol class="sources">

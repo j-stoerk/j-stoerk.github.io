@@ -74,56 +74,56 @@
       <link>https://j-stoerk.github.io/post-inverted-fractions.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-inverted-fractions.html</guid>
       <pubDate>Sun, 06 Sep 2026 08:00:00 +0200</pubDate>
-      <description>How often are equations in arXiv papers wrong, how many of the errors are inverted fractions, and did that change after 2022? A review of 2,294 display equations in 60 papers plus pattern checks on 200.</description>
+      <description>An exploratory LLM-assisted audit flags 112 of 2,294 display rows, including one strict fraction reversal. Reviewer accuracy and clipboard causation remain unmeasured.</description>
     </item>
     <item>
       <title>I Ran a Game-Theory RL-Menu Agent in GLEE for 48 Hours (No LLM)</title>
       <link>https://j-stoerk.github.io/post-glee-agent.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-glee-agent.html</guid>
       <pubDate>Sun, 30 Aug 2026 08:00:00 +0200</pubDate>
-      <description>Notes from building a game-theory agent for GLEE: what moved the percentile score (reward scaling, same-seat baseline, closing before inflation) and what did not (persuasive messages, hard anchoring). With a playable version of the three games.</description>
+      <description>Debugging a no-LLM GLEE agent through reward normalisation, seat-matched comparisons and bargaining timing, with controlled results separated from live rankings.</description>
     </item>
     <item>
       <title>Finding a Fair Evaluation Under Changing Representations</title>
       <link>https://j-stoerk.github.io/post-fair-evaluation.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-fair-evaluation.html</guid>
       <pubDate>Sun, 23 Aug 2026 08:00:00 +0200</pubDate>
-      <description>Certified retention under a changing representation: a bottom-up stripe benchmark where a frozen encoder provably cannot win, and the CARG metric for the accuracy-retention tradeoff.</description>
+      <description>A proposed matched-input task for testing representation adaptation, with a frozen-feature ceiling, separate retention audits and resource-matched baselines.</description>
     </item>
     <item>
       <title>The Student Becomes the Teacher</title>
       <link>https://j-stoerk.github.io/post-student-becomes-teacher.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-student-becomes-teacher.html</guid>
       <pubDate>Sun, 16 Aug 2026 08:00:00 +0200</pubDate>
-      <description>On-policy self-distillation without labels: OPSD, U-OPSD's label-free majority vote, and L-OPSD's learnable privileged context, with the failure modes that come with self-supervision.</description>
+      <description>Self-distillation transfers a model’s own supervision. Majority pseudo-labels can correct minority errors or reinforce systematic mistakes; flatness alone guarantees neither generalisation nor retention.</description>
     </item>
     <item>
       <title>From Simulating Speech to Optimizing Reasoning</title>
       <link>https://j-stoerk.github.io/post-optimizing-reasoning.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-optimizing-reasoning.html</guid>
       <pubDate>Sun, 09 Aug 2026 08:00:00 +0200</pubDate>
-      <description>Reading notes: 2026 evidence that LLM reasoning is a latent computational mode only loosely coupled to the chain-of-thought text printed alongside it.</description>
+      <description>What latent steering, multiplex tokens and compressed plans establish about reasoning, with measured hint acknowledgement and task-specific limits.</description>
     </item>
     <item>
       <title>The Race to O(n)</title>
       <link>https://j-stoerk.github.io/post-race-to-on.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-race-to-on.html</guid>
       <pubDate>Sun, 02 Aug 2026 08:00:00 +0200</pubDate>
-      <description>Reading notes across the subquadratic-attention literature: pruning, learned selection, linear memory, delta-rule correction, and the impossibility proofs.</description>
+      <description>Sparse patterns, DSA indexing, recurrent memory and conditional complexity bounds, with vendor claims separated from independent architectural evidence.</description>
     </item>
     <item>
       <title>Lithium Dendrites Are Batteries' Dandelions</title>
       <link>https://j-stoerk.github.io/post-dendrites-dandelions.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-dendrites-dandelions.html</guid>
       <pubDate>Sun, 26 Jul 2026 08:00:00 +0200</pubDate>
-      <description>A first-principles model of critical current density for alkali-metal dendrites in ceramic solid electrolytes, read through the physics of a dandelion cracking pavement.</description>
+      <description>A lithium-and-sodium dendrite model linking defect geometry, fracture and electronic leakage, with an explicit sodium example and unresolved current-scale mismatch.</description>
     </item>
     <item>
       <title>AI's Bottleneck Is Physical</title>
       <link>https://j-stoerk.github.io/post-physical-ai.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-physical-ai.html</guid>
       <pubDate>Sun, 19 Jul 2026 08:00:00 +0200</pubDate>
-      <description>The next bottleneck in AI is physical: whether the loop from electricity through inference to actuation and back to sensors can run reliably, efficiently, and observably.</description>
+      <description>Sensing, data lineage, latency and safe interventions constrain industrial AI. A bottleneck illustration and deployment examples, rather than a fitted scaling law.</description>
     </item>
     <item>
       <title>Reading CausalPFN: Causal Effects as In-Context Prediction</title>
@@ -137,10 +137,10 @@
       <link>https://j-stoerk.github.io/post-geometry-of-forgetting.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-geometry-of-forgetting.html</guid>
       <pubDate>Sun, 05 Jul 2026 08:00:00 +0200</pubDate>
-      <description>Forgetting as interference energy under a task's feature covariance, and the IGFA controller.</description>
+      <description>An exact fixed-feature squared-loss calculation at stationarity, its second-order extension, and frozen-backbone IGFA results on Rotated-Digits.</description>
     </item>
     <item>
-      <title>Solving the Electrode Calendering U-Shape Puzzle</title>
+      <title>Modelling the Electrode Calendering U-Shape</title>
       <link>https://j-stoerk.github.io/post-calendering-u-shape.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-calendering-u-shape.html</guid>
       <pubDate>Sun, 28 Jun 2026 08:00:00 +0200</pubDate>

@@ -4,7 +4,7 @@
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:title" content="Text to Trajectory" />
-  <meta property="og:description" content="From language instructions to robot motion: grounding, checked plans, learned policies and a focused study in Visual Components." />
+  <meta property="og:description" content="How grounding, task programs, motion planning and learned robot policies turn language into movement, with a focused evaluation proposed for Visual Components." />
   <meta property="og:url" content="https://j-stoerk.github.io/post-text-to-trajectory.html" />
   <meta property="og:image" content="https://j-stoerk.github.io/images/share/post-text-to-trajectory-042a94b7d5fc90e2.jpg" />
   <meta property="og:image:secure_url" content="https://j-stoerk.github.io/images/share/post-text-to-trajectory-042a94b7d5fc90e2.jpg" />
@@ -16,14 +16,14 @@
   <meta name="twitter:image" content="https://j-stoerk.github.io/images/share/post-text-to-trajectory-042a94b7d5fc90e2.jpg" />
   <meta name="twitter:image:alt" content="Text to Trajectory · Grounding language in checked robot motion · Julius Störk" />
   <meta name="twitter:title" content="Text to Trajectory" />
-  <meta name="twitter:description" content="From language instructions to robot motion: grounding, checked plans, learned policies and a focused study in Visual Components." /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="twitter:description" content="How grounding, task programs, motion planning and learned robot policies turn language into movement, with a focused evaluation proposed for Visual Components." /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Text to Trajectory · Julius Störk</title>
-  <meta name="description" content="From language instructions to robot motion: grounding, checked plans, learned policies and a focused study in Visual Components." />
+  <meta name="description" content="How grounding, task programs, motion planning and learned robot policies turn language into movement, with a focused evaluation proposed for Visual Components." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-text-to-trajectory.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
   <meta property="article:published_time" content="2026-11-01" /><meta property="article:modified_time" content="2026-11-11" />
-  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Text to Trajectory", "description": "From language instructions to robot motion: grounding, checked plans, learned policies and a focused study in Visual Components.", "datePublished": "2026-11-01", "dateModified": "2026-11-11", "url": "https://j-stoerk.github.io/post-text-to-trajectory.html", "image": "https://j-stoerk.github.io/images/share/post-text-to-trajectory-042a94b7d5fc90e2.jpg", "author": {"@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/"}}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Text to Trajectory", "description": "How grounding, task programs, motion planning and learned robot policies turn language into movement, with a focused evaluation proposed for Visual Components.", "datePublished": "2026-11-01", "dateModified": "2026-11-11", "url": "https://j-stoerk.github.io/post-text-to-trajectory.html", "image": "https://j-stoerk.github.io/images/share/post-text-to-trajectory-042a94b7d5fc90e2.jpg", "author": {"@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/"}}</script>
   <meta name="theme-color" content="#fdfdfc">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
@@ -40,7 +40,7 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=b5639ff9">
+  <link rel="stylesheet" href="styles.css?v=e36b9f82">
   <link rel="stylesheet" href="experiences.css?v=2f793542">
   <link rel="stylesheet" href="text-to-trajectory.css?v=41930fac">
 </head><body class="ambient-page">
@@ -90,9 +90,8 @@
       <header class="post-header">
         <p class="post-meta"><time datetime="2026-11-01">1 November 2026</time> · Robotics &amp; language · <span class="quantity">12&#160;min</span> read</p>
         <h1>Text to Trajectory</h1>
-        <p class="post-update">Literature review · Updated 11 November 2026</p>
+        <p class="post-update">Updated 11 November 2026</p>
       </header>
-      <p class="post-context"><span>Why this matters</span>A robot can reach the right destination while ignoring part of the request. Reliable instruction following requires checking the whole movement.</p>
       <div class="prose">
         <p>“Place the red carrier to the right of the blue carrier, passing over the marker.” A robot can reach the correct destination without a collision and still fail that instruction. The route matters as much as the endpoint.</p>
         <p>An industrial controller needs object identities, coordinates, actions and limits. The sentence supplies some of those indirectly and leaves others unstated. Turning it into motion brings language grounding, program generation, planning and control into the same system. This review follows the interfaces between them, with Visual Components as a possible simulation backend.</p>
@@ -116,7 +115,7 @@
         <figcaption><strong>Figure 2.</strong> SayPlan exposes a compact part of a larger scene and uses execution-related feedback to revise its plan. Reproduced from <a draggable="false" href="https://arxiv.org/abs/2307.06135">Rana, 2023</a>&#8288;. <a draggable="false" href="media/text-to-trajectory/sayplan.png" target="_blank" rel="noopener">Open full-size figure</a>&#8288;.</figcaption>
       </figure>
       <div class="prose">
-        <p>Recent work on Joint-Embedding Predictive Architectures (JEPAs) asks whether separately trained modalities learn matching representations. Its alignment theorem depends on matched views of the same underlying states and other idealized assumptions. Agreement up to a rotation of feature coordinates does not establish correct object references or preservation of a requested route. Those distinctions still need task-level tests.&#160;<sup class="cite">[<a draggable="false" href="#ref-5">5</a>&#8288;]</sup></p>
+        <p>Work on Joint-Embedding Predictive Architectures (JEPAs) studies when separately trained modalities learn matching representations. Its alignment theorem assumes matched views of the same underlying states and additional idealisations. Object references and route requirements need a further task-level test, because a rotation between aligned feature spaces does not specify either one.&#160;<sup class="cite">[<a draggable="false" href="#ref-5">5</a>&#8288;]</sup></p>
         <h2>Turning a request into callable work</h2>
         <p>SayCan chooses among available skills using both language relevance and an estimate of whether a skill can succeed. Code as Policies gives generated programs more freedom to process perception, calculate geometric quantities and call control APIs. The choice changes what must be checked. Selecting a known skill requires reliable preconditions; generated code also introduces arguments, control flow and assumptions that can be wrong.&#160;<sup class="cite">[<a draggable="false" href="#ref-6">6</a>&#8288;, <a draggable="false" href="#ref-7">7</a>&#8288;]</sup></p>
         <p>NeSyRo checks generated policy code symbolically and gathers further observations when the available state is insufficient. That separates some code errors from missing knowledge about the scene. The checks remain limited by the properties represented in the symbolic model.&#160;<sup class="cite">[<a draggable="false" href="#ref-8">8</a>&#8288;]</sup></p>
@@ -292,7 +291,7 @@
   <script defer src="interactions.js?v=0296ce10"></script>
   <script defer src="cursor.js?v=836db8cc"></script>
   <script defer src="portal-transitions.js?v=d4060e4b"></script>
-  <script defer src="blog.js?v=119b9d1e"></script>
+  <script defer src="blog.js?v=a24a5a3c"></script>
   <script defer src="references.js?v=e51071fb"></script>
   <script defer src="comment-identity.js?v=dddce228"></script>
   <script defer src="comments.js?v=43a43fce"></script>

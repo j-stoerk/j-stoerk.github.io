@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Geometry of Forgetting in Continual Learning · Julius Störk</title>
-  <meta name="description" content="Forgetting as interference energy under a task’s feature covariance, and the IGFA controller." />
+  <meta name="description" content="An exact fixed-feature squared-loss calculation at stationarity, its second-order extension, and frozen-backbone IGFA results on Rotated-Digits." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-geometry-of-forgetting.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
@@ -13,7 +13,7 @@
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-geometry-of-forgetting.html" />
   <meta property="og:title" content="The Geometry of Forgetting in Continual Learning" />
-  <meta property="og:description" content="Forgetting as interference energy under a task’s feature covariance, and the IGFA controller." />
+  <meta property="og:description" content="An exact fixed-feature squared-loss calculation at stationarity, its second-order extension, and frozen-backbone IGFA results on Rotated-Digits." />
   <meta property="og:image" content="https://j-stoerk.github.io/social-forgetting.png" />
   <meta property="og:image:alt" content="A weight update crossing a protected task subspace" />
   <meta property="og:image:width" content="1200" />
@@ -37,9 +37,9 @@
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": "The Geometry of Forgetting in Continual Learning",
-      "description": "Forgetting as interference energy under a task's feature covariance, and the IGFA controller.",
+      "description": "An exact fixed-feature squared-loss calculation at stationarity, its second-order extension, and frozen-backbone IGFA results on Rotated-Digits.",
       "datePublished": "2026-07-05",
-      "dateModified": "2026-09-30",
+      "dateModified": "2026-11-11",
       "url": "https://j-stoerk.github.io/post-geometry-of-forgetting.html",
       "image": "https://j-stoerk.github.io/social-forgetting.png",
       "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
@@ -66,6 +66,7 @@
         <div class="cover-text">
           <p class="eyebrow"><time datetime="2026-07-05">5 July 2026</time> · Continual learning</p>
           <h1 class="post-title">The Geometry of Forgetting in Continual Learning</h1>
+          <p class="post-update">Updated 11 November 2026, including preprint references published after the original post.</p>
         </div>
       </div>
       <p class="article-meta muted">Companion note to the draft
@@ -82,31 +83,16 @@
           in directions the Fisher information marks as important. Both work. Neither says what forgetting <em>is</em>.
         </p>
 
-        <p>Forgetting is intuitively read as <strong>geometric interference</strong> between task
-          directions. Fix the features (the frozen-feature or linearised regime, a strong assumption, discussed below)
-          and let &Delta; be the weight update produced by learning Task B. The loss increase on Task A is then exactly
-          a quadratic form:</p>
+        <p>For a linear readout with frozen features and squared loss, forgetting has a simple geometric form. Let Δ be an update away from a stationary point of Task A's objective. With the loss normalisation used here, its increase is exactly</p>
 
         <div class="equation">$$F(\Delta) = \tfrac{1}{2}\, \Delta^{\top} \Sigma_A\, \Delta$$</div>
 
-        <p>Here &Sigma;<sub>A</sub> is the feature covariance of Task A. Where &Sigma;<sub>A</sub>
-          has large eigenvalues, Task A's predictions depend sharply on those coordinates, and any component of &Delta;
-          lying along them is expensive. Where &Sigma;<sub>A</sub> has an exact null space, motion is free and forgetting = zero.
-          Between those extremes, the cost of an update is set by the spectrum of &Sigma;<sub>A</sub>.</p>
+        <p>Here Σ<sub>A</sub> is the feature second-moment matrix, E[φφᵀ], or the covariance if features are centred. Squared loss makes this the constant Hessian. Without stationarity the loss change also contains ∇L<sub>A</sub>ᵀΔ, which can have either sign. In the stationary case, high-eigenvalue directions are expensive and an exact null-space direction leaves this objective unchanged.</p>
 
-        <div class="callout">
-          <strong>Where this breaks.</strong> The identity above holds when features are frozen and the loss is locally
-          quadratic. Under end-to-end training the features themselves move, &Sigma;<sub>A</sub> is no longer a constant,
-          and F becomes a first-order approximation whose error grows with the size of the update. It is a lens, not a
-          theorem about deep networks.
-        </div>
+        <p>For a smooth nonlinear network, the local expansion is ΔL<sub>A</sub> = ∇L<sub>A</sub>ᵀΔ + ½ΔᵀH<sub>A</sub>Δ + o(‖Δ‖²). It is a <em>second-order</em> approximation; the linear term vanishes only at a stationary point. A frozen-feature model with cross-entropy is not globally quadratic either. Feature drift and larger updates need to be checked against the actual old-task loss.</p>
 
         <h3>Interference-gated functional allocation (IGFA)</h3>
-        <p>If forgetting is interference, task projection in space helps visually the problem. <strong>IGFA</strong> measures
-          the alignment between a proposed update and the dominant
-          directions of earlier tasks. Below a threshold &tau; the directions are effectively independent, the update
-          passes untouched, and capacity is shared. Above it, IGFA projects the update onto the orthogonal complement of
-          the protected subspace, keeping the descent direction it can afford and discarding the rest.</p>
+        <p>IGFA uses the alignment between a proposed update and protected task directions to decide whether to share capacity or project the update. Below a threshold τ it leaves the update unchanged; above it, it removes the component in the protected subspace. This gives a concrete interference-control rule in the fixed-feature experiments, rather than a guarantee for an adapting deep encoder.</p>
 
         <p>There is no such thing as a free lunch:</p>
         <ul>
@@ -158,7 +144,7 @@
             </div>
 
             <p class="widget-note">Model: Σ<sub>A</sub> = diag(1.00, 0.05), F(θ) = λ₁cos²θ + λ₂sin²θ, normalised to
-              λ₁. The subspace has finite width, so interference does not reach exactly zero at θ = 90° (null space).
+              λ₁. The second eigenvalue is 0.05, so this example has no exact null space: even at θ = 90° a residual quadratic cost remains.
               Illustrative, not fitted to data.</p>
           </div>
 
@@ -266,7 +252,7 @@
       <nav class="post-pager" aria-label="More posts">
         <a href="post-calendering-u-shape.html">
           <span class="eyebrow">Next post</span>
-          <span class="post-pager-title">Solving the Electrode Calendering U-Shape Puzzle</span>
+          <span class="post-pager-title">Modelling the Electrode Calendering U-Shape</span>
         </a>
       </nav>
   </main>

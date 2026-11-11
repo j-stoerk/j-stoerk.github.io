@@ -7,7 +7,7 @@
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-geometry-of-forgetting.html" />
   <meta property="og:title" content="The Geometry of Forgetting in Continual Learning" />
-  <meta property="og:description" content="Forgetting as interference energy under a task’s feature covariance, and the IGFA controller." />
+  <meta property="og:description" content="An exact fixed-feature squared-loss calculation at stationarity, its second-order extension, and frozen-backbone IGFA results on Rotated-Digits." />
   <meta property="og:image" content="https://j-stoerk.github.io/images/share/post-geometry-of-forgetting-587b524e24c07565.jpg" />
   <meta property="og:image:secure_url" content="https://j-stoerk.github.io/images/share/post-geometry-of-forgetting-587b524e24c07565.jpg" />
   <meta property="og:image:type" content="image/jpeg" />
@@ -18,10 +18,10 @@
   <meta name="twitter:image" content="https://j-stoerk.github.io/images/share/post-geometry-of-forgetting-587b524e24c07565.jpg" />
   <meta name="twitter:image:alt" content="The Geometry of Forgetting in Continual Learning · Protecting old tasks when learning new ones · Julius Störk" />
   <meta name="twitter:title" content="The Geometry of Forgetting in Continual Learning" />
-  <meta name="twitter:description" content="Forgetting as interference energy under a task’s feature covariance, and the IGFA controller." />
+  <meta name="twitter:description" content="An exact fixed-feature squared-loss calculation at stationarity, its second-order extension, and frozen-backbone IGFA results on Rotated-Digits." />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Geometry of Forgetting in Continual Learning · Julius Störk</title>
-  <meta name="description" content="Forgetting as interference energy under a task’s feature covariance, and the IGFA controller." />
+  <meta name="description" content="An exact fixed-feature squared-loss calculation at stationarity, its second-order extension, and frozen-backbone IGFA results on Rotated-Digits." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-geometry-of-forgetting.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
@@ -42,9 +42,9 @@
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": "The Geometry of Forgetting in Continual Learning",
-      "description": "Forgetting as interference energy under a task's feature covariance, and the IGFA controller.",
+      "description": "An exact fixed-feature squared-loss calculation at stationarity, its second-order extension, and frozen-backbone IGFA results on Rotated-Digits.",
       "datePublished": "2026-07-05",
-      "dateModified": "2026-09-30",
+      "dateModified": "2026-11-11",
       "url": "https://j-stoerk.github.io/post-geometry-of-forgetting.html",
       "image": "https://j-stoerk.github.io/images/share/post-geometry-of-forgetting-587b524e24c07565.jpg",
       "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
@@ -67,7 +67,7 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=b5639ff9">
+  <link rel="stylesheet" href="styles.css?v=e36b9f82">
   <link rel="stylesheet" href="experiences.css?v=2f793542">
   <link rel="stylesheet" href="katex/katex.min.css">
 </head>
@@ -106,6 +106,7 @@
         <div class="cover-text">
           <p class="eyebrow"><time datetime="2026-07-05">5 July 2026</time> · Continual learning</p>
           <h1 class="post-title">The Geometry of Forgetting in Continual Learning</h1>
+          <p class="post-update">Updated 11 November 2026, including preprint references published after the original post.</p>
         </div>
       </div>
       <p class="article-meta muted">Companion note to the draft
@@ -113,7 +114,6 @@
         <a draggable="false" href="forgetting-geometry.pdf" download>Draft PDF</a>
       </p>
 
-      <p class="post-context"><span>Why this matters</span>Models that keep learning need a way to preserve useful earlier knowledge while adapting to new data.</p>
 
       <div class="prose">
         <p>When a network learns tasks in sequence it tends to suffer <strong>catastrophic forgetting</strong>&#8288;: weights
@@ -122,31 +122,16 @@
           in directions the Fisher information marks as important. Both work. Neither says what forgetting <em>is</em>&#8288;.
         </p>
 
-        <p>Forgetting is intuitively read as <strong>geometric interference</strong> between task
-          directions. Fix the features (the frozen-feature or linearised regime, a strong assumption, discussed below)
-          and let &Delta; be the weight update produced by learning Task B. The loss increase on Task A is then exactly
-          a quadratic form:</p>
+        <p>For a linear readout with frozen features and squared loss, forgetting has a simple geometric form. Let Δ be an update away from a stationary point of Task A's objective. With the loss normalisation used here, its increase is exactly</p>
 
         <div class="equation"><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>F</mi><mo stretchy="false">(</mo><mi mathvariant="normal">Δ</mi><mo stretchy="false">)</mo><mo>=</mo><mstyle displaystyle="false" scriptlevel="0"><mfrac><mn>1</mn><mn>2</mn></mfrac></mstyle><mtext> </mtext><msup><mi mathvariant="normal">Δ</mi><mi mathvariant="normal">⊤</mi></msup><msub><mi mathvariant="normal">Σ</mi><mi>A</mi></msub><mtext> </mtext><mi mathvariant="normal">Δ</mi></mrow><annotation encoding="application/x-tex">F(\Delta) = \tfrac{1}{2}\, \Delta^{\top} \Sigma_A\, \Delta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord">Δ</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.2441em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord">Δ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span></span><span class="mord"><span class="mord">Σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">Δ</span></span></span></span></span></div>
 
-        <p>Here &Sigma;<sub>A</sub> is the feature covariance of Task A. Where &Sigma;<sub>A</sub>
-          has large eigenvalues, Task A's predictions depend sharply on those coordinates, and any component of &Delta;
-          lying along them is expensive. Where &Sigma;<sub>A</sub> has an exact null space, motion is free and forgetting = zero.
-          Between those extremes, the cost of an update is set by the spectrum of &Sigma;<sub>A</sub>.</p>
+        <p>Here Σ<sub>A</sub> is the feature second-moment matrix, E[φφᵀ], or the covariance if features are centred. Squared loss makes this the constant Hessian. Without stationarity the loss change also contains ∇L<sub>A</sub>ᵀΔ, which can have either sign. In the stationary case, high-eigenvalue directions are expensive and an exact null-space direction leaves this objective unchanged.</p>
 
-        <div class="callout">
-          <strong>Where this breaks.</strong> The identity above holds when features are frozen and the loss is locally
-          quadratic. Under end-to-end training the features themselves move, &Sigma;<sub>A</sub> is no longer a constant,
-          and F becomes a first-order approximation whose error grows with the size of the update. It is a lens, not a
-          theorem about deep networks.
-        </div>
+        <p>For a smooth nonlinear network, the local expansion is ΔL<sub>A</sub> = ∇L<sub>A</sub>ᵀΔ + ½ΔᵀH<sub>A</sub>Δ + o(‖Δ‖²). It is a <em>second-order</em> approximation; the linear term vanishes only at a stationary point. A frozen-feature model with cross-entropy is not globally quadratic either. Feature drift and larger updates need to be checked against the actual old-task loss.</p>
 
         <h3>Interference-gated functional allocation (IGFA)</h3>
-        <p>If forgetting is interference, task projection in space helps visually the problem. <strong>IGFA</strong> measures
-          the alignment between a proposed update and the dominant
-          directions of earlier tasks. Below a threshold &tau; the directions are effectively independent, the update
-          passes untouched, and capacity is shared. Above it, IGFA projects the update onto the orthogonal complement of
-          the protected subspace, keeping the descent direction it can afford and discarding the rest.</p>
+        <p>IGFA uses the alignment between a proposed update and protected task directions to decide whether to share capacity or project the update. Below a threshold τ it leaves the update unchanged; above it, it removes the component in the protected subspace. This gives a concrete interference-control rule in the fixed-feature experiments, rather than a guarantee for an adapting deep encoder.</p>
 
         <p>There is no such thing as a free lunch:</p>
         <ul>
@@ -198,7 +183,7 @@
             </div>
 
             <p class="widget-note">Model: Σ<sub>A</sub> = diag(1.00, 0.05), F(θ) = λ₁cos²θ + λ₂sin²θ, normalised to
-              λ₁. The subspace has finite width, so interference does not reach exactly zero at θ = 90° (null space).
+              λ₁. The second eigenvalue is 0.05, so this example has no exact null space: even at θ = 90° a residual quadratic cost remains.
               Illustrative, not fitted to data.</p>
           </div>
 
@@ -361,7 +346,7 @@
     <nav class="post-pager" aria-label="More posts">
         <a draggable="false" href="post-calendering-u-shape.html?nav=fe6093f0">
           <span class="eyebrow">Next post</span>
-          <span class="post-pager-title">Solving the Electrode Calendering U-Shape Puzzle</span>
+          <span class="post-pager-title">Modelling the Electrode Calendering U-Shape</span>
         </a>
       </nav>
   </main>
@@ -377,7 +362,7 @@
   <script defer src="interactions.js?v=0296ce10"></script>
   <script defer src="cursor.js?v=836db8cc"></script>
   <script defer src="portal-transitions.js?v=d4060e4b"></script>
-  <script defer src="blog.js?v=119b9d1e"></script>
+  <script defer src="blog.js?v=a24a5a3c"></script>
   <script defer src="references.js?v=e51071fb"></script>
   <script defer src="comment-identity.js?v=dddce228"></script>
   <script defer src="comments.js?v=43a43fce"></script>

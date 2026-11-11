@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>When Do AI Outputs Tip? · Julius Störk</title>
-  <meta name="description" content="Attention-head interventions, an exact response-clock construction, and experiments on what a language model carries from one answer into the next." />
+  <meta name="description" content="One attention head tested across sixteen held-out Qwen2.5-0.5B prompts, a mathematical response clock, and cache edits that hold current answers fixed." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-ai-tipping.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
@@ -12,12 +12,12 @@
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-ai-tipping.html" />
   <meta property="og:title" content="When Do AI Outputs Tip?" />
-  <meta property="og:description" content="The current answer can hide large changes in a model's internal computation. Two interactive figures separate measured head interventions from a mathematical error clock." />
+  <meta property="og:description" content="One attention head tested across sixteen held-out Qwen2.5-0.5B prompts, a mathematical response clock, and cache edits that hold current answers fixed." />
   <meta property="og:image" content="https://j-stoerk.github.io/images/social-ai-tipping.png" />
   <meta property="og:image:alt" content="Schematic of an attention-head intervention and histories sharing an initial readout" />
   <meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
   <meta property="article:published_time" content="2026-10-18" />
-  <meta property="article:modified_time" content="2026-10-26" />
+  <meta property="article:modified_time" content="2026-11-11" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://j-stoerk.github.io/images/social-ai-tipping.png" />
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"When Do AI Outputs Tip?","description":"Attention-head interventions, response clocks, and the state carried between language-model answers.","datePublished":"2026-10-18","dateModified":"2026-10-26","url":"https://j-stoerk.github.io/post-ai-tipping.html","image":"https://j-stoerk.github.io/images/social-ai-tipping.png","author":{"@type":"Person","name":"Julius Störk","url":"https://j-stoerk.github.io/"}}</script>
@@ -50,7 +50,7 @@
       <header class="post-header">
         <p class="post-meta"><time datetime="2026-10-18">18 October 2026</time> · AI research · 17 min read</p>
         <h1>When Do AI Outputs Tip?</h1>
-        <p class="post-update">Updated 26 October 2026</p>
+        <p class="post-update">Updated 11 November 2026</p>
       </header>
       <!--#POST_CONTEXT-->
       <div class="prose">
@@ -93,7 +93,7 @@
         <p>My work on continual learning and physical modelling keeps running into a related problem: a variable can describe the present accurately while omitting information needed to update it. The fixed-prototype binary attention model gives a small example.</p>
         <p>Let \(F\) be the current score margin for the incorrect answer, so its probability is \(\sigma(F/\tau)\), where \(\tau\) is the decoder temperature. The margin fixes the next-answer probability. The effective attention mass \(\nu\) controls how strongly another correct output changes that margin. After \(j\) additional correct outputs,</p>
         $$F_j = \frac{\nu F + j\beta}{\nu + j}.$$
-        <p>Here \(\nu\) measures existing attention weight in units of one additional correct output. The fixed output prototypes determine the limiting margin \(\beta\). With \(\nu=4\), the next correct output receives one fifth of the updated attention mass. With \(\nu=40\), it receives one forty-first.</p>
+        <p>Here \(\nu\) measures existing attention mass in units of one additional correct output. The limiting margin \(\beta\) describes the future readout induced by the correct-output prototype. The construction deliberately permits \(\beta>0\): a token can be correct when emitted yet add a key/value contribution that favours the wrong answer later. That destabilising feedback is an assumption of this example, not a general property of correct answers. With \(\nu=4\), one more correct output receives one fifth of the updated mass; with \(\nu=40\), one forty-first.</p>
         <p>Two histories can therefore start with the same error probability and evolve differently. At future answer \(j+1\), the hazard is conditional on the preceding answers being correct. Multiplying the survival probabilities gives the chance of a first error within \(H\) answers:</p>
         $$\Pr(T\leq H)=1-\prod_{j=0}^{H-1}\left[1-\sigma\left(F_j/\tau\right)\right].$$
         <p>This is an exact construction for the stated simplified head, with fixed prototypes and no positions, residual path, MLP, or layer normalisation. It is not a fitted law for Qwen. The neural experiments still have to establish which parts survive the additional computation.</p>
@@ -117,7 +117,7 @@
         <p>Likewise, a correction that preserves meaning can change later behaviour through its exact spelling and tokenisation. Measuring only semantic correctness at the time of the edit would miss that difference. Measuring a single next-token probability could miss a change elsewhere in the completed answer. The answer contract and evaluation horizon therefore belong in the experiment specification.</p>
 
         <h2>Accurate prediction, a difficult baseline</h2>
-        <p>A 64-number description of a structured value-cache edit, together with reference computation retained from the decoder, predicted <strong>296 future conditional vocabulary distributions</strong>. The largest total-variation discrepancy was about \(1.4\times10^{-9}\). That prediction still required the original nonlinear downstream operations: the 64 numbers describe only the edit. The CPU decoder read trained BF16 weights and computed in float64.</p>
+        <p>A 64-number description of a structured value-cache edit, combined with reference computation retained from the decoder, reconstructed 296 conditional vocabulary distributions with a largest total-variation discrepancy of about \(1.4\times10^{-9}\). This is a numerical consistency check of a linear edit representation followed by the original nonlinear downstream computation. It is not held-out forecasting performance or evidence of a compact autonomous predictor. The CPU decoder read trained BF16 weights and computed in float64.</p>
         <p>A state-dependent correction policy improved two-answer success by roughly <strong>0.052–0.070 percentage points</strong> over retaining the edited cache. A simpler rule, given the current complete-answer probability, chose the same correction in every tested state. Accurate prediction had not yet demonstrated a decision advantage from remembering the intervention.</p>
         <p>Prediction accuracy and decision value are separate tests. If two states have different future risks but the same best available action, distinguishing them does not improve that choice. Conversely, a small risk difference can matter when a repair has a cost close to its expected benefit. The action set, fee, horizon and failure loss determine which state differences are useful. This motivation is related to <a href="https://arxiv.org/abs/2011.03506">value equivalence in model-based reinforcement learning</a>, where a model is judged by the planning quantities it preserves. <sup class="cite">[<a href="#ref-5">5</a>]</sup></p>
 

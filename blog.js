@@ -573,9 +573,10 @@
     function d2x(pct) { return 45 + pct / 110 * 240; }
     function d2Update() {
       var J = parseInt(ddJ.value, 10), teN = parseInt(ddTe.value, 10) / 100;
-      var Jsub = 30 + 40 * (1 - teN);
+      var Jsub = 30; // Fixed material threshold; electron leakage affects growth time.
+      var te = Math.pow(10, -8 + 4 * teN);
       document.getElementById('dd-J-val').textContent = J + '%';
-      document.getElementById('dd-te-val').textContent = teN.toFixed(2);
+      document.getElementById('dd-te-val').textContent = te.toExponential(1);
       var xs = d2x(Jsub), xc = d2x(100);
       var st = document.getElementById('dd2-stable'); st.setAttribute('width', Math.max(0, xs - 45));
       var su = document.getElementById('dd2-sub'); su.setAttribute('x', xs); su.setAttribute('width', Math.max(0, xc - xs));
@@ -585,10 +586,10 @@
       var regime = document.getElementById('dd-regime'), tau = document.getElementById('dd-tau');
       if (J >= 100) {
         regime.textContent = 'Catastrophic'; regime.style.color = 'var(--color-danger)';
-        tau.textContent = '≈ seconds';
+        tau.textContent = 'Beyond fracture threshold';
       } else if (J >= Jsub) {
-        var th = 300 / (teN * J);
-        if (th > 48) { regime.textContent = 'Suppressed'; regime.style.color = 'var(--color-ok)'; tau.textContent = '> 2 days'; }
+        var th = 10 * (1e-6 / te) / (50 * J / 100);
+        if (th > 48) { regime.textContent = 'Slow subcritical growth'; regime.style.color = 'var(--color-warn)'; tau.textContent = (th / 24).toFixed(1) + ' days'; }
         else {
           regime.textContent = 'Subcritical growth'; regime.style.color = 'var(--color-warn)';
           tau.textContent = th < 1 ? Math.round(th * 60) + ' min' : th.toFixed(1) + ' h';
@@ -720,46 +721,6 @@
     rrCap.addEventListener('input', r1Update);
     r1Update();
   }
-
-  /* R2, effort vs faithfulness */
-  var rrEff = document.getElementById('rr-eff');
-  if (rrEff) {
-    var rrFr = document.getElementById('rr-fr');
-    function r2x(e) { return 44 + e / 100 * 244; }
-    function r2y(v) { return 170 - v * 154; }
-    var r2grid = document.getElementById('rr2-grid');
-    [0.25, 0.5, 0.75, 1.0].forEach(function (v) {
-      var y = r2y(v);
-      svel(r2grid, 'line', { x1: 44, y1: y, x2: 288, y2: y, stroke: 'var(--color-divider)', 'stroke-width': 1 });
-      svel(r2grid, 'text', { x: 41, y: y + 3, 'text-anchor': 'end', 'class': 'text-tick' }).textContent = Math.round(v * 100) + '%';
-    });
-    document.getElementById('rr2-ceil').setAttribute('y1', r2y(0.2));
-    document.getElementById('rr2-ceil').setAttribute('y2', r2y(0.2));
-    var rr2svg = document.getElementById('svg-rr2');
-    function rr2dot(c) { return svel(rr2svg, 'circle', { r: 4, fill: c, stroke: 'var(--color-bg)', 'stroke-width': 1.5 }); }
-    var rr2da = rr2dot('var(--color-primary)'), rr2df = rr2dot('var(--color-danger)');
-    function acc2(e) { return 0.5 + 0.4 * (1 - Math.exp(-e / 28)); }
-    function faith2(e, r) { return r ? 0.4 + 0.42 * (1 - Math.exp(-e / 30)) : 0.12 + 0.08 * (1 - Math.exp(-e / 22)); }
-    function r2Update() {
-      var e = parseInt(rrEff.value, 10), r = rrFr.checked;
-      function pathOf(fn) { var d = 'M'; for (var x = 0; x <= 100; x += 2) d += (x === 0 ? '' : ' L') + r2x(x).toFixed(1) + ' ' + r2y(fn(x)).toFixed(1); return d; }
-      document.getElementById('rr2-acc').setAttribute('d', pathOf(acc2));
-      document.getElementById('rr2-faith').setAttribute('d', pathOf(function (x) { return faith2(x, r); }));
-      var mk = document.getElementById('rr2-mark'); mk.setAttribute('x1', r2x(e)); mk.setAttribute('x2', r2x(e));
-      rr2da.setAttribute('cx', r2x(e)); rr2da.setAttribute('cy', r2y(acc2(e)));
-      rr2df.setAttribute('cx', r2x(e)); rr2df.setAttribute('cy', r2y(faith2(e, r)));
-      var LV = ['Light', 'Low', 'Medium', 'High', 'Heavy', 'Ultra'];
-      document.getElementById('rr-eff-val').textContent = LV[Math.min(5, Math.floor(e / 17))];
-      document.getElementById('rr-acc2').textContent = Math.round(acc2(e) * 100) + '%';
-      var f = document.getElementById('rr-faith');
-      f.textContent = Math.round(faith2(e, r) * 100) + '%';
-      f.style.color = faith2(e, r) < 0.25 ? 'var(--color-danger)' : 'var(--color-ok)';
-    }
-    rrEff.addEventListener('input', r2Update);
-    rrFr.addEventListener('change', r2Update);
-    r2Update();
-  }
-
 
   /* ============================================================
      post-student-becomes-teacher widgets

@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>I Ran a Game-Theory RL-Menu Agent in GLEE for 48 Hours (No LLM) · Julius Störk</title>
-  <meta name="description" content="Building a no-LLM game-theory bot for the GLEE economic games, and what actually moved the percentile score: scaling the reward, measuring in the right seat, and closing before inflation eats the pot." />
+  <meta name="description" content="Debugging a no-LLM GLEE agent through reward normalisation, seat-matched comparisons and bargaining timing, with controlled results separated from live rankings." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-glee-agent.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
@@ -13,13 +13,13 @@
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-glee-agent.html" />
   <meta property="og:title" content="I Ran a Game-Theory RL-Menu Agent in GLEE for 48 Hours (No LLM)" />
-  <meta property="og:description" content="Building a no-LLM game-theory bot for the GLEE economic games, and what moved the percentile score versus what did not." />
+  <meta property="og:description" content="Debugging a no-LLM GLEE agent through reward normalisation, seat-matched comparisons and bargaining timing, with controlled results separated from live rankings." />
   <meta property="og:image" content="https://j-stoerk.github.io/social-glee.png" />
   <meta property="og:image:alt" content="A pot shrinking round by round, split near fifty-fifty" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="article:published_time" content="2026-08-30" />
-  <meta property="article:modified_time" content="2026-11-01" />
+  <meta property="article:modified_time" content="2026-11-11" />
   <meta property="article:author" content="Julius Störk" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://j-stoerk.github.io/social-glee.png" />
@@ -29,9 +29,9 @@
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": "I Ran a Game-Theory RL-Menu Agent in GLEE for 48 Hours (No LLM)",
-      "description": "Building a no-LLM game-theory bot for the GLEE economic games, and what actually moved the percentile score: scaling the reward, measuring in the right seat, and closing before inflation eats the pot.",
+      "description": "Debugging a no-LLM GLEE agent through reward normalisation, seat-matched comparisons and bargaining timing, with controlled results separated from live rankings.",
       "datePublished": "2026-08-30",
-      "dateModified": "2026-11-01",
+      "dateModified": "2026-11-11",
       "url": "https://j-stoerk.github.io/post-glee-agent.html",
       "image": "https://j-stoerk.github.io/social-glee.png",
       "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
@@ -84,6 +84,7 @@
         <div class="cover-text">
           <p class="eyebrow"><time datetime="2026-08-30">30 August 2026</time> · AI agents</p>
           <h1 class="post-title">I Ran a Game-Theory RL-Menu Agent in GLEE for 48 Hours (No LLM)</h1>
+          <p class="post-update">Updated 11 November 2026</p>
         </div>
       </div>
       <!--#POST_CONTEXT-->
@@ -143,8 +144,7 @@
           offline. Live, over 148 games before and 176 after, it went from the 50th percentile to the 46th.</p>
         <p>The synthetic opponents conceded 0.20 to 0.60 of the gap per round; the live median was 0.02. Ten to
           thirty times slower. My offline field was simply too polite.</p>
-        <p>Part of me still wonders whether 176 games is enough to say anything at all. Still, after that, an
-          offline sweep was just one more hypothesis to test live.</p>
+        <p>The 148-before/176-after comparison is small, unpaired and taken from a changing field. It does not isolate the change's effect. After that result, an offline sweep became a candidate for live testing rather than evidence of a leaderboard gain.</p>
 
         <h3>The inflation bug</h3>
         <p>Once every agent logged each game in full, bargaining had one clearly dominant leak. Against a patient
@@ -157,17 +157,13 @@
 
         <p>The levers I was most confident about did the least. Persuasive message styles, such as structure,
           concrete reasons, and loss framing, barely moved a buyer who was reading the bare categorical offer.</p>
-        <p>The explanation is probably simple. The top 50 agents on the leaderboard contained no LLMs. They were
-          all hand-crafted, and likely used very little speech at all. There was nobody home to persuade.</p>
+        <p>The leaderboard's top 50 reportedly used hand-crafted agents, but their composition does not establish which opponents this agent actually faced or whether they parsed its messages. The local tests found little benefit from the message styles tried. Establishing the reason would need opponent-level logs and matched message ablations.</p>
         <p>Hard anchoring dragged the opponent's threshold down, but not far enough to pay for the rounds it cost.
           And an opponent talking about its own patience was almost always a tell. Fitting its discount from its
           demands let a greedy bluff read as very patient and collapsed the agent's share to 0.09.</p>
         <p>The discount fit only moves downward now. I'd like to have a principled story for that beyond
           &ldquo;a bluff broke it,&rdquo; but I don't.</p>
-        <p>The agent finished around rank 14. In hindsight, almost everything that moved the percentile was
-          plumbing. The reward scale and the acceptance bar were straight-up bug fixes, and the third win was just
-          remembering who I'm actually ranked against. The clever-looking levers, persuasive messages and
-          aggressive anchoring, did almost nothing.</p>
+        <p>The agent finished around rank 14. Reward normalisation separated the arms more clearly, and the acceptance correction improved the reported controlled bargaining comparison. The post does not contain live percentile deltas isolating those fixes, so they cannot be credited with a quantified leaderboard gain. The available observations point to reward scaling, deal timing and the correct comparison seat as useful debugging targets.</p>
         <p>My guess is the top of the leaderboard was mostly about timing. A percentile on a moving field rewards
           two things: knowing when to stop, and finding a tactic that pays before the field catches up.</p>
         <p>Stonewalling in bargaining is the clearest case. While most agents still conceded, an agent that simply

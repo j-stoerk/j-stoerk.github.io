@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Reading CausalPFN: Causal Effects as In-Context Prediction · Julius Störk</title>
-  <meta name="description" content="Notes on CausalPFN (NeurIPS 2025): one transformer, trained on simulated identifiable causal worlds, that estimates treatment effects in-context." />
+  <meta name="description" content="A NeurIPS 2025 paper trains one transformer on simulated, identifiable causal worlds; new observational data goes in as context, treatment-effect posteriors come out. What holds it up, and where it breaks." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-causalpfn.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
@@ -13,7 +13,7 @@
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-causalpfn.html" />
   <meta property="og:title" content="Reading CausalPFN: Causal Effects as In-Context Prediction" />
-  <meta property="og:description" content="Notes on a NeurIPS 2025 paper that treats causal effect estimation as in-context prediction, and what that would mean for manufacturing data." />
+  <meta property="og:description" content="A NeurIPS 2025 paper trains one transformer on simulated, identifiable causal worlds; new observational data goes in as context, treatment-effect posteriors come out. What holds it up, and where it breaks." />
   <meta property="og:image" content="https://j-stoerk.github.io/social-causalpfn.png" />
   <meta property="og:image:alt" content="A wide prior density narrowing to a concentrated posterior at the true treatment effect" />
   <meta property="og:image:width" content="1200" />
@@ -28,9 +28,9 @@
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": "Reading CausalPFN: Causal Effects as In-Context Prediction",
-      "description": "Notes on CausalPFN (NeurIPS 2025): one transformer, trained on simulated identifiable causal worlds, that estimates treatment effects in-context.",
+      "description": "A NeurIPS 2025 paper trains one transformer on simulated, identifiable causal worlds; new observational data goes in as context, treatment-effect posteriors come out. What holds it up, and where it breaks.",
       "datePublished": "2026-07-12",
-      "dateModified": "2026-09-30",
+      "dateModified": "2026-11-11",
       "url": "https://j-stoerk.github.io/post-causalpfn.html",
       "image": "https://j-stoerk.github.io/social-causalpfn.png",
       "author": { "@type": "Person", "name": "Julius Störk", "url": "https://j-stoerk.github.io/" }
@@ -55,6 +55,7 @@
         <div class="cover-text">
           <p class="eyebrow"><time datetime="2026-07-12">12 July 2026</time> · Reading notes</p>
           <h1 class="post-title">Reading CausalPFN: Causal Effects as In-Context Prediction</h1>
+          <p class="post-update">Updated 11 November 2026</p>
         </div>
       </div>
       <p class="article-meta muted">Notes on Balazadeh, Kamkari, et al.,
@@ -99,7 +100,7 @@
             <p class="widget-title">Interactive · Posterior concentration</p>
             <p class="widget-description">Grow the context: with an identifiable prior that covers the true DGP, the
               posterior for the effect narrows around the truth. Move the DGP outside the prior and the interval stays
-              narrow but lands in the wrong place: confidently wrong. Calibration widens it until it covers again.</p>
+              narrow but lands in the wrong place: confidently wrong. Validation-based temperature scaling can widen the interval; coverage outside the training prior is not guaranteed.</p>
 
             <div class="control-group">
               <div class="slider-label">
@@ -131,7 +132,7 @@
 
             <p class="widget-note">Schematic: the curves illustrate the behaviour described by Proposition 1 and
               Figure 7 of the paper (concentration under an identifiable prior; overconfidence out of distribution;
-              coverage restored by temperature scaling). They are not the trained model.</p>
+              temperature scaling can improve coverage on the evaluated distributions). They are not the trained model.</p>
           </div>
 
           <div class="widget-visual">
@@ -152,7 +153,7 @@
           </div>
         </div>
 
-        <h3>What the evidence supports</h3>
+        <h3>Benchmark results and prior coverage</h3>
         <p>On the standard benchmarks (100 IHDP realizations, 10 ACIC 2016 realizations, 200 Lalonde CPS/PSID
           realizations, 310 tasks in total), CausalPFN attains the best average rank for heterogeneous effects, 2.30 ±
           0.10 against 3.57 for the next method, and the best mean PEHE on IHDP at 0.58 ± 0.07 (Table 1). It is also
@@ -164,8 +165,7 @@
           normalized Qini (0.952) on 50k-row subsamples, but performance drops when run on the full million-row
           tables; the authors attribute this to the context-length limits of PFN-style transformers. And calibration
           holds only in distribution: on DGPs outside the training prior the credible intervals become overconfident
-          (Figure 7). The proposed fix is temperature scaling tuned on observational coverage, which restores
-          calibration or makes it conservative. The widget above mimics both failure and fix.</p>
+          (Figure 7). The proposed fix is temperature scaling tuned on observational coverage, which improves calibration on the tested distributions. It cannot establish the absence of hidden confounders or guarantee calibration under every shift. The widget above mimics both failure and fix.</p>
 
         <div class="callout">
           Every training world satisfies <b>ignorability</b>, so

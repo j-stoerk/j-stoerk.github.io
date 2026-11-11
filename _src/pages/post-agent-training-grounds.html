@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents · Julius Störk</title>
-  <meta name="description" content="From programming medals to battery stacking: how resettable environments, verifiable rewards, and model–harness co-evolution turn agent attempts into useful learning." />
+  <meta name="description" content="From programming medals to battery stacking: verifiable environments, six 2026 agent and robotics projects, and practical tests for learning rewards, recovery, and resets." />
   <link rel="canonical" href="https://j-stoerk.github.io/post-agent-training-grounds.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
@@ -12,7 +12,7 @@
   <meta property="og:site_name" content="Julius Störk" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-agent-training-grounds.html" />
   <meta property="og:title" content="Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents" />
-  <meta property="og:description" content="An agent needs somewhere to practise, a world it can reset, and a score that rewards real work. From RL textbooks to VERA and the factory floor." />
+  <meta property="og:description" content="From programming medals to battery stacking: verifiable environments, six 2026 agent and robotics projects, and practical tests for learning rewards, recovery, and resets." />
   <meta property="og:image" content="https://j-stoerk.github.io/social-agent-training-grounds.png" />
   <meta property="og:image:alt" content="A programming trophy connected through a practice environment to a battery stacking machine" />
   <meta property="og:image:width" content="1200" />
@@ -56,13 +56,14 @@
         <div class="cover-text">
           <p class="eyebrow"><time datetime="2026-10-11">11 October 2026</time> · Agents &amp; learning</p>
           <h1 class="post-title">Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents</h1>
+          <p class="post-update">Updated 11 November 2026</p>
         </div>
       </div>
       <!--#POST_CONTEXT-->
       <div class="prose">
         <p>The promise behind AI, and especially recursive self-improvement, is a system that learns from its own attempts: a programmer that becomes a better programmer, a researcher that builds better experiments, eventually a generalist that can carry a job through to completion. Where does the measuring stick hang now?</p>
         <p>In competitive programming, remarkably high. At the 2025 ICPC World Finals, OpenAI's system solved all <strong>12 problems</strong>; Google DeepMind's Gemini Deep Think solved <strong>10 of 12</strong>, reaching gold-medal level. OpenAI used a separate Local Judge experiment with the same problems and test data. University teams had three students sharing one computer, no internet access, limited reference notes, and five hours. <sup class="cite">[<a href="#ref-1">1</a>, <a href="#ref-2">2</a>]</sup> NVIDIA then reported <strong>535.4 out of 600</strong> on the IOI 2026 problems for a competition-specific Nemotron-3-Ultra-CC system with iterative feedback, above the top human score of 498.27. <sup class="cite">[<a href="#ref-3">3</a>]</sup></p>
-        <p>Research mathematics is moving at a neck-breaking pace. What took humanity centuries is now condensed into hour-long sessions by agents bringing long-standing “lighthouse” problems down like dominoes. OpenAI's <a href="https://github.com/openai/math" target="_blank" rel="noopener noreferrer">math repository</a> collects model-produced manuscripts and proof artifacts; the reported procedure used an average of three hours of thinking compute per result. <sup class="cite">[<a href="#ref-4">4</a>]</sup></p>
+        <p>Model-assisted mathematics now includes research manuscripts and proof artifacts, collected in OpenAI's public repository. Its reported runs used an average of three hours of thinking compute per result. The tasks have different histories, and the runtime excludes the human work behind the questions, model development and subsequent proof checking. <sup class="cite">[<a href="#ref-4">4</a>]</sup></p>
         <p>Coding and mathematics are useful, but you can't have a nontrivial automorphism for dinner, and a programming medal doesn't align an electrode stack (yet).</p>
 
         <h2>A factory gives feedback very differently</h2>

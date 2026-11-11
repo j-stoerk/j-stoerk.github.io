@@ -58,6 +58,12 @@ class BalanceChecker(HTMLParser):
 
 def check_page(name):
     html = open(name, encoding='utf-8').read()
+    if re.search(r'[\x00-\x08\x0b\x0c\x0e-\x1f]', html):
+        fail(f'{name}: unexpected control character in generated content')
+    ids = re.findall(r'\bid="([^"]+)"', html)
+    for target in set(re.findall(r'href="#(ref-[^"]+)"', html)):
+        if ids.count(target) != 1:
+            fail(f'{name}: citation target {target} is missing or duplicated')
 
     checker = BalanceChecker()
     checker.feed(html)

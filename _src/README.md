@@ -43,10 +43,9 @@ page/card pair, metadata placement, file size and actual JPEG dimensions.
 - `posts.json` — one entry per blog post. Drives the blog listing, the
   home-page cards, `feed.xml`, and `sitemap.xml`. To publish a post: add its
   source page in `pages/`, add an entry here, run the build.
-- Each post needs a `whyItMatters` sentence in plain language. Place
-  `<!--#POST_CONTEXT-->` just below its title cover and above the article body;
-  the builder inserts the sentence without repeating the technical summary used
-  in blog listings.
+- Start posts with their substantive introduction. The legacy
+  `<!--#POST_CONTEXT-->` marker is stripped during the build; a generic introductory
+  box is no longer repeated on every article.
 - Standalone research figures live in `figures/ai-tipping/`; their measured
   plotting data is also published as CSV. `post-figures.js` sizes the embedded
   documents and synchronises their theme. The clock is a mathematical
