@@ -35,7 +35,6 @@
       if (!scene.dirty && !animating) return;
       const fps = typeof scene.maxFps === 'function' ? scene.maxFps() : scene.maxFps;
       if (!scene.dirty && now - scene.lastDraw < 1000 / fps - .5) { running = animating || running; return; }
-      if (!scene.dirty && scene.shouldDraw && !scene.shouldDraw(now)) { running = animating || running; return; }
       const rect = scene.size;
       if (!rect.width || !rect.height) return;
       const maxDpr = typeof scene.maxDpr === 'function' ? scene.maxDpr() : scene.maxDpr;
@@ -62,11 +61,11 @@
     entries.forEach(entry => { const scene = scenes.find(s => s.canvas === entry.target); if (scene) scene.visible = entry.isIntersecting; });
     wake();
   }, { rootMargin: '80px' }) : null;
-  function scene(canvas, draw, animate = () => true, maxDpr = 2, maxFps = 60, maxPixels = Infinity, shouldDraw = null) {
+  function scene(canvas, draw, animate = () => true, maxDpr = 2, maxFps = 60, maxPixels = Infinity, context = null) {
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = context || canvas.getContext('2d');
     if (!ctx) return;
-    const entry = { canvas, ctx, draw, animate, maxDpr, maxFps, maxPixels, shouldDraw, visible: !observer, dirty: true, time: 0, lastDraw: 0, size: { width: 0, height: 0 } };
+    const entry = { canvas, ctx, draw, animate, maxDpr, maxFps, maxPixels, visible: !observer, dirty: true, time: 0, lastDraw: 0, size: { width: 0, height: 0 } };
     const measure = () => { entry.size = canvas.getBoundingClientRect(); entry.dirty = true; wake(false); };
     if ('ResizeObserver' in window) new ResizeObserver(entries => {
       entry.size = entries[0].contentRect; entry.dirty = true; wake(false);
@@ -95,9 +94,143 @@
   window.addEventListener('resize', wake, { passive: true });
   new MutationObserver(() => { readPalette(); wake(); }).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
 
+  /* Batch the opening's faces, wire strokes and circular points on the GPU.
+     This small adapter preserves the same geometry and the Canvas 2D fallback;
+     the browser receives two draw calls instead of repainting a large bitmap. */
+  function meshContext(original) {
+    const canvas = document.createElement('canvas');
+    for (const { name, value } of original.attributes) canvas.setAttribute(name, value);
+    const options = { alpha: true, premultipliedAlpha: true, antialias: true,
+      depth: false, stencil: false, powerPreference: 'low-power', failIfMajorPerformanceCaveat: true };
+    const gl = canvas.getContext('webgl', options);
+    if (!gl) return null;
+    const release = () => gl.getExtension('WEBGL_lose_context')?.loseContext();
+    const info = gl.getExtension('WEBGL_debug_renderer_info');
+    const device = gl.getParameter(info ? info.UNMASKED_RENDERER_WEBGL : gl.RENDERER);
+    if (/swiftshader|llvmpipe|software/i.test(device)) { release(); return null; }
+    const program = gl.createProgram();
+    function shader(type, source) {
+      const result = gl.createShader(type);
+      gl.shaderSource(result, source); gl.compileShader(result);
+      if (!gl.getShaderParameter(result, gl.COMPILE_STATUS)) throw new Error('mesh shader');
+      gl.attachShader(program, result); gl.deleteShader(result);
+    }
+    try {
+      shader(gl.VERTEX_SHADER, `
+        attribute vec2 position; attribute vec4 colour; attribute float diameter;
+        uniform vec2 resolution; uniform float pixelRatio; varying vec4 ink;
+        void main() {
+          gl_Position=vec4(position/resolution*vec2(2.,-2.)+vec2(-1.,1.),0.,1.);
+          gl_PointSize=diameter*pixelRatio; ink=colour;
+        }`);
+      shader(gl.FRAGMENT_SHADER, `
+        precision mediump float;
+        uniform float reveal; uniform float viewportWidth; uniform float points;
+        varying vec4 ink;
+        void main() {
+          float x=gl_FragCoord.x/viewportWidth;
+          float fade=x<.4?mix(.04,.07,x/.4):x<.66?mix(.07,.3,(x-.4)/.26):mix(.3,.85,(x-.66)/.34);
+          float a=ink.a*mix(1.,fade,reveal);
+          if(points>.5) a*=1.-smoothstep(.72,1.,length(gl_PointCoord*2.-1.));
+          gl_FragColor=vec4(ink.rgb*a,a);
+        }`);
+      gl.linkProgram(program);
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error('mesh program');
+    } catch (_) {
+      gl.deleteProgram(program);
+      // Keep the original canvas available for 2D if GPU setup fails.
+      release(); return null;
+    }
+    gl.useProgram(program); gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+    const uniforms = Object.fromEntries(['resolution', 'pixelRatio', 'reveal', 'viewportWidth', 'points']
+      .map(name => [name, gl.getUniformLocation(program, name)]));
+    const buffer = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    for (const [name, size, offset] of [['position', 2, 0], ['colour', 4, 8], ['diameter', 1, 24]]) {
+      const location = gl.getAttribLocation(program, name);
+      gl.enableVertexAttribArray(location); gl.vertexAttribPointer(location, size, gl.FLOAT, false, 28, offset);
+    }
+    let triangles = new Float32Array(65536), points = new Float32Array(8192);
+    let triangleCount = 0, pointCount = 0, ratio = 1;
+    const path = [], starts = [], circles = [], colours = new Map();
+    const ctx = { canvas, gpu: true, gl, globalAlpha: 1, lineWidth: 1, fillStyle: '#000000', strokeStyle: '#000000', reveal: 0 };
+    function colour(value) {
+      if (!colours.has(value)) {
+        let parts;
+        if (/^#[a-f0-9]{6}$/i.test(value)) parts = [1, 3, 5].map(at => parseInt(value.slice(at, at + 2), 16) / 255);
+        else if (/^#[a-f0-9]{3}$/i.test(value)) parts = [1, 2, 3].map(at => parseInt(value[at] + value[at], 16) / 255);
+        else parts = (value.match(/[\d.]+/g) || ['0', '0', '0']).slice(0, 3).map(n => Number(n) / 255);
+        colours.set(value, parts);
+      }
+      return colours.get(value);
+    }
+    function vertex(isPoint, x, y, ink, diameter = 1) {
+      let target = isPoint ? points : triangles;
+      const at = isPoint ? pointCount : triangleCount;
+      if (at + 7 > target.length) {
+        const larger = new Float32Array(target.length * 2); larger.set(target);
+        if (isPoint) points = target = larger; else triangles = target = larger;
+      }
+      target[at] = x; target[at + 1] = y;
+      target[at + 2] = ink[0]; target[at + 3] = ink[1]; target[at + 4] = ink[2];
+      target[at + 5] = ctx.globalAlpha; target[at + 6] = diameter;
+      if (isPoint) pointCount += 7; else triangleCount += 7;
+    }
+    ctx.setTransform = dpr => { ratio = dpr; };
+    ctx.clearRect = () => {
+      triangleCount = pointCount = 0;
+      gl.viewport(0, 0, canvas.width, canvas.height); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+    };
+    ctx.save = () => {};
+    ctx.restore = () => {
+      gl.uniform2f(uniforms.resolution, canvas.width / ratio, canvas.height / ratio);
+      gl.uniform1f(uniforms.pixelRatio, ratio); gl.uniform1f(uniforms.reveal, ctx.reveal);
+      gl.uniform1f(uniforms.viewportWidth, canvas.width);
+      for (const [array, count, primitive, round] of [[triangles, triangleCount, gl.TRIANGLES, 0], [points, pointCount, gl.POINTS, 1]]) {
+        if (!count) continue;
+        gl.uniform1f(uniforms.points, round);
+        gl.bufferData(gl.ARRAY_BUFFER, array.subarray(0, count), gl.DYNAMIC_DRAW);
+        gl.drawArrays(primitive, 0, count / 7);
+      }
+    };
+    ctx.beginPath = () => { path.length = starts.length = circles.length = 0; };
+    ctx.moveTo = (x, y) => { starts.push(path.length); path.push(x, y); };
+    ctx.lineTo = (x, y) => path.push(x, y);
+    ctx.closePath = () => {};
+    ctx.arc = (x, y, radius) => circles.push(x, y, radius);
+    ctx.fill = () => {
+      const ink = colour(ctx.fillStyle);
+      for (let s = 0; s < starts.length; s++) {
+        const from = starts[s], end = starts[s + 1] ?? path.length;
+        for (let at = from + 2; at + 2 < end; at += 2) {
+          vertex(false, path[from], path[from + 1], ink);
+          vertex(false, path[at], path[at + 1], ink);
+          vertex(false, path[at + 2], path[at + 3], ink);
+        }
+      }
+      for (let at = 0; at < circles.length; at += 3) vertex(true, circles[at], circles[at + 1], ink, circles[at + 2] * 2);
+    };
+    ctx.stroke = () => {
+      const ink = colour(ctx.strokeStyle);
+      for (let s = 0; s < starts.length; s++) {
+        const end = starts[s + 1] ?? path.length;
+        for (let at = starts[s]; at + 3 < end; at += 2) {
+          const ax = path[at], ay = path[at + 1], bx = path[at + 2], by = path[at + 3];
+          const distance = Math.hypot(bx - ax, by - ay);
+          if (!distance) continue;
+          const dx = -(by - ay) / distance * ctx.lineWidth / 2, dy = (bx - ax) / distance * ctx.lineWidth / 2;
+          vertex(false, ax + dx, ay + dy, ink); vertex(false, ax - dx, ay - dy, ink); vertex(false, bx + dx, by + dy, ink);
+          vertex(false, bx + dx, by + dy, ink); vertex(false, ax - dx, ay - dy, ink); vertex(false, bx - dx, by - dy, ink);
+        }
+      }
+    };
+    original.replaceWith(canvas);
+    return ctx;
+  }
+
   // The opening surface unfolds into the page's background without changing canvases.
   (function introduction() {
-    const hero = $('#home'), canvas = $('#intro-canvas'), stage = $('.portfolio-atmosphere');
+    const hero = $('#home'), stage = $('.portfolio-atmosphere');
+    let canvas = $('#intro-canvas');
     if (!hero || !canvas || !stage) return;
     if (root.dataset.backgroundRenderer === 'fallback') return;
     const count = $('[data-intro-count]', stage);
@@ -111,9 +244,10 @@
     let pulse = -100, surfaceTime = 0, meshTime = 0, settledClockOffset = 0;
     const countDelay = .03, countDuration = 2.55, revealDuration = 1.15;
     const countAcceleration = 3, countRange = Math.expm1(countAcceleration);
-    let lastInteger = -1;
-    const counterAt = elapsed => Math.min(100, Math.floor(100 * Math.expm1(
-      countAcceleration * clamp((elapsed - countDelay) / countDuration)) / countRange));
+    const counterAt = elapsed => {
+      const progress = clamp((elapsed - countDelay) / countDuration);
+      return progress === 1 ? 100 : 100 * Math.expm1(countAcceleration * progress) / countRange;
+    };
     // Mobile browsers resize while settling their viewport; the scene already adapts.
     const dismissEvents = ['pointerdown', 'wheel', 'touchstart', 'keydown', 'focusin', 'pagehide'];
     function setPhase(phase) {
@@ -126,25 +260,18 @@
       reel.replaceChildren(...Array.from({ length: place === 100 ? 2 : 20 }, (_, i) => {
         const row = document.createElement('span'); row.textContent = String(i % 10); return row;
       }));
-      return { place, reel, value: 0, animation: null };
+      return { place, reel };
     }) : [];
     function setCounter(value) {
-      const digits = String(value).padStart(3, '0');
-      if (count.textContent === digits) return;
-      count.textContent = digits;
-      // The time between successive integers shrinks with the accelerating count.
-      const step = countDuration * 1000 / countAcceleration * Math.log(
-        (1 + (value + 1) * countRange / 100) / (1 + value * countRange / 100));
+      const digits = String(Math.floor(value)).padStart(3, '0');
+      if (count.textContent !== digits) count.textContent = digits;
       progressBar.style.setProperty('--intro-progress', value / 100);
-      reels.forEach(digit => {
-        const next = Math.floor(value / digit.place) % 10;
-        if (digit.value === next) return;
-        digit.animation?.cancel();
-        const from = digit.value, to = next < from ? next + 10 : next;
-        digit.value = next;
-        digit.animation = digit.reel.animate([
-          { transform: `translateY(-${from}em)` }, { transform: `translateY(-${to}em)` },
-        ], { duration: clamp(step, 24, 160), easing: 'cubic-bezier(.2,.7,.3,1)', fill: 'forwards' });
+      reels.forEach(({ place, reel }) => {
+        // One continuous odometer position replaces overlapping/cancelled digit
+        // animations. Carries roll only during the last unit of the lower place.
+        const digit = Math.floor(value / place) % 10;
+        const carry = clamp(value % place - (place - 1));
+        reel.style.transform = `translateY(-${digit + carry}em)`;
       });
     }
     function setReveal(value) {
@@ -178,13 +305,20 @@
       dismissEvents.forEach(event => window.addEventListener(event, finishIntro, { passive: true }));
       reduced.addEventListener('change', () => { if (reduced.matches) finishIntro(); });
     }
-    if (!canvas.getContext('2d')) {
+    let renderer;
+    try { renderer = meshContext(canvas) || canvas.getContext('2d'); } catch (_) { renderer = canvas.getContext('2d'); }
+    if (renderer?.canvas && renderer.gpu) canvas = renderer.canvas;
+    if (!renderer) {
       root.dataset.backgroundRenderer = 'fallback';
       finishIntro();
       clearTimeout(window.introFallback);
       setPhase('settled');
       return;
     }
+    canvas.addEventListener('webglcontextlost', event => {
+      event.preventDefault(); root.dataset.backgroundRenderer = 'fallback'; finishIntro();
+      clearTimeout(window.introFallback); setPhase('settled');
+    });
     const pointer = { x: 0, y: 0 }, eased = { x: 0, y: 0 };
     let grids, gridLines, nodes, gridColumns = 0, mask, maskWidth = 0, maskPixels = 0, maskReveal = -1;
     const route = Array.from({ length: 80 }, () => ({}));
@@ -219,7 +353,6 @@
       const openingTime = (performance.now() - introStartedAt) / 1000;
       // Increasing velocity lets the early digits breathe before the final rush to 100.
       const value = counterAt(openingTime);
-      lastInteger = value;
       const progress = value / 100;
       const entrance = fullScreen ? progress : 1;
       const assembled = entrance * entrance * (3 - 2 * entrance);
@@ -233,7 +366,8 @@
         if (revealTime === 1) finishIntro();
       }
       setPhase(fullScreen ? revealing ? 'revealing' : 'forming' : 'settled');
-      // During the count, surface formation and its motion follow the same integer.
+      // The same continuous progress drives the counter and the surface. Rounding
+      // is only for the readable number, never for the animation's geometry.
       time = fullScreen ? progress * 4.5 : time + settledClockOffset;
       meshTime = time;
       if (fullScreen || heroVisible) {
@@ -248,7 +382,7 @@
       const quiet = mix(1, .48, reveal);
       const cosY = Math.cos(yaw), sinY = Math.sin(yaw), cosP = Math.cos(pitch), sinP = Math.sin(pitch);
       const cosR = Math.cos(roll), sinR = Math.sin(roll);
-      const columns = lightweight() ? 17 : 25, rows = lightweight() ? 13 : 19;
+      const columns = economy ? 13 : lightweight() ? 17 : 25, rows = economy ? 11 : lightweight() ? 13 : 19;
       const age = surfaceTime - pulse;
       function project(u, v, layer = 0, gather = 1, point = {}) {
         let x = u * 185, y = v * 195;
@@ -277,7 +411,7 @@
         ctx.strokeStyle = colour; ctx.globalAlpha = alpha; ctx.lineWidth = lineWidth; ctx.stroke();
       }
       // Grounded, quiet lighting rather than a neon or photographic backdrop.
-      if (reveal < 1 && assembled > 0) {
+      if (!ctx.gpu && reveal < 1 && assembled > 0) {
         const shadow = ctx.createRadialGradient(cx, height * .74, 0, cx, height * .74, width * .34);
         shadow.addColorStop(0, palette.grid); shadow.addColorStop(1, 'transparent');
         ctx.save(); ctx.translate(0, height * .74); ctx.scale(1, .18);
@@ -343,7 +477,8 @@
       }
       ctx.globalAlpha = 1;
       // Protect the reading column while keeping the larger mesh clear at the page edge.
-      if (reveal > 0) {
+      if (ctx.gpu) ctx.reveal = reveal;
+      else if (reveal > 0) {
         if (maskWidth !== width || maskPixels !== canvas.width || maskReveal !== reveal) {
           maskWidth = width; maskPixels = canvas.width; maskReveal = reveal;
           mask = ctx.createLinearGradient(0, 0, width, 0);
@@ -360,15 +495,13 @@
         root.dataset.backgroundRenderer = 'canvas';
         if (!fullScreen) clearTimeout(window.introFallback);
       }
-      if (fullScreen && performance.now() - drawStarted > 16 && ++slowFrames >= 4) economy = true;
+      if (fullScreen && (performance.now() - drawStarted > 14 || dt > .029) && ++slowFrames >= 5) economy = true;
     }, () => root.dataset.backgroundRenderer !== 'fallback' && (fullScreen ||
       heroVisible && (surfaceTime - pulse < 3 || Math.hypot(pointer.x - eased.x, pointer.y - eased.y) > .002)),
-    () => lightweight() ? 1 : 1.5, () => fullScreen ? lightweight() ? 30 : 45 : 20,
-    () => fullScreen ? 1600000 : 1000000, () => {
-      if (!fullScreen || introStartedAt === undefined || revealing) return true;
-      // Geometry is driven by the integer, so unchanged numbers need no repaint.
-      return counterAt((performance.now() - introStartedAt) / 1000) !== lastInteger || lastInteger === 100;
-    });
+    // Match the display's animation-frame cadence during the intro. A fractional
+    // cap (e.g. 45 on 60 Hz) creates uneven frame intervals even on a fast device.
+    () => economy ? .85 : lightweight() ? 1 : 1.5, () => fullScreen ? Infinity : 20,
+    () => renderer.gpu ? fullScreen ? 1600000 : 1000000 : 700000, renderer);
   })();
 
   // Recent notes and topic trails share the same blog explorer.

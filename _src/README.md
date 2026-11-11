@@ -184,8 +184,8 @@ The first homepage visit in a tab session without a fragment, or an explicit
 homepage reload, starts the surface at full screen with rolling digits counting from
 000 to 100 and a compact progress bar. The count accelerates with an exponential curve
 and follows elapsed real time so slower rendering cannot extend the opening.
-The surface assembles and moves with the displayed integer, and digit transitions
-shorten as the counter accelerates. The renderer is deferred in the head so it
+The surface and odometer follow the same continuous accelerating progress.
+The renderer is deferred in the head so it
 downloads early without blocking HTML parsing. All other runtime scripts defer too.
 On the same frame that reaches 100, that same canvas unfolds into a larger, quieter mesh
 and flowing gold line behind the page. Its viewport dimensions stay fixed through
@@ -193,10 +193,16 @@ the reveal; a horizontal opacity mask protects the reading column. The portrait
 uses its original size and occupies its own place in the hero. The settled
 background rests on desktop and mobile until interaction. Intersection observers
 track visibility and resize observers cache canvas dimensions. Mobile devices use
-fewer mesh points, a lower pixel ratio and a 30 fps intro; desktop uses up to 45 fps.
-While counting, unchanged integers do not repaint the surface. Faces and dots are
-batched, and column buffers are reused. Counter reels contain at most twenty static
-rows; only their transforms animate. Reveal styles stay on the affected elements,
+fewer mesh points and a lower pixel ratio. The intro follows the display's native
+animation-frame cadence; continuous counter progress drives the geometry before
+rounding the displayed number. Faces and dots are batched, and column buffers are
+reused. On hardware-accelerated WebGL, a small batched renderer submits faces,
+wire strokes and points in two draw calls, with the reading-column fade in its
+fragment shader. Software WebGL and unavailable GPU contexts use the lightweight
+2D renderer instead; context loss restores the static surface. Counter reels
+contain at most twenty static rows; their transforms follow
+one continuous odometer position, without cancelling/restarting animations on each
+integer. Reveal styles stay on the affected elements,
 never on the document root. Slow drawing also enables lighter rendering.
 Interaction runs at up to 20 fps with a shared pixel budget; resize and theme
 changes redraw the current scene.
@@ -240,9 +246,12 @@ The homepage postpones layout and painting of below-fold sections with
 career entries only near the experience section. Publication path measurements
 and Blog text fitting run when their components approach the viewport. Print
 renders all sections normally. The `ambient-page` class, added by the builder to
-Home, Blog and CV, supplies a static blue-and-gold halftone field using CSS
-gradients and a dot mask. It needs no renderer or image download; individual
-articles retain their dedicated line art.
+Home, Blog and CV, supplies a blue-and-gold field of warped, dithered bands.
+`generate-ambient-dither.js` bakes the dot occupancy and radii into one small PNG
+alpha mask at build time, using smooth wave fields and ordered Bayer thresholds.
+CSS supplies the theme colours; there is no runtime dot renderer or noise filter.
+The opening uses the same pattern behind its mesh, and individual articles retain
+their dedicated line art.
 
 The LessWrong/Hume review's evidence example lives in `lesswrong-review.js` and
 `lesswrong-review.css`. It compares independent binary tests with repeated copies
