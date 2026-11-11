@@ -1,0 +1,146 @@
+{
+  "index.html": {
+    "file": "images/share/home-98f46dee958c69d7.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "Julius Störk · AI for battery manufacturing · VARTA · TU Braunschweig"
+  },
+  "cv.html": {
+    "file": "images/share/cv-7399c2a2ebe5ca49.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "Julius Störk · Curriculum vitae · AI for battery manufacturing"
+  },
+  "blog.html": {
+    "file": "images/share/blog-8bc9b7d605c458cd.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "Julius Störk · Research notes · AI · batteries · robotics · philosophy"
+  },
+  "post-lesswrong-hume.html": {
+    "file": "images/share/post-lesswrong-hume-e7ae758edec4970e.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "Getting Less Wrong Without Becoming Certain · Bayesian inference, Hume and human values · Julius Störk"
+  },
+  "post-text-to-trajectory.html": {
+    "file": "images/share/post-text-to-trajectory-b6323229c0f47307.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "Text to Trajectory · Grounding language in checked robot motion · Julius Störk"
+  },
+  "post-chargewise.html": {
+    "file": "images/share/post-chargewise-518ff7f19d204815.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "ChargeWise Fits the Fleet to the Grid · Scheduling fleet charging within grid limits · Julius Störk"
+  },
+  "post-ai-tipping.html": {
+    "file": "images/share/post-ai-tipping-55c0d98d406d58b8.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "When Do AI Outputs Tip? · Attention interventions and hidden model state · Julius Störk"
+  },
+  "post-agent-training-grounds.html": {
+    "file": "images/share/post-agent-training-grounds-afd9dfe0794fb14a.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents · Training environments for useful AI agents · Julius Störk"
+  },
+  "post-battery-price-war.html": {
+    "file": "images/share/post-battery-price-war-83d181fa011f9137.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "Price Wars: East vs. West Battery Production and the SynBatt Response · Factory ramp-up, regional costs and the SynBatt response · Julius Störk"
+  },
+  "post-jev-output-heads.html": {
+    "file": "images/share/post-jev-output-heads-3057f15c230ff49e.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "How to (Not) Reinvent the Wheel With Jeff · Shared representations and task-specific decisions · Julius Störk"
+  },
+  "post-disco-dry-run.html": {
+    "file": "images/share/post-disco-dry-run-9dea14f4c732d7a2.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "DisCo and the Case for Reusable Agent Skills · Turning research knowledge into reusable agent skills · Julius Störk"
+  },
+  "post-convmem.html": {
+    "file": "images/share/post-convmem-cf3359aa334039bd.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "Reading ConvMem: Long-Context Reasoning as a Summary Tree · Long-context reasoning through a tree of summaries · Julius Störk"
+  },
+  "post-inverted-fractions.html": {
+    "file": "images/share/post-inverted-fractions-b98ba1d487e5c556.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "I Checked 2,294 arXiv Equations for Upside-Down Fractions · An audit of errors in copied mathematical notation · Julius Störk"
+  },
+  "post-glee-agent.html": {
+    "file": "images/share/post-glee-agent-bab82346585b3019.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "I Ran a Game-Theory RL-Menu Agent in GLEE for 48 Hours (No LLM) · Learning when to demand and when to fold · Julius Störk"
+  },
+  "post-fair-evaluation.html": {
+    "file": "images/share/post-fair-evaluation-b18cb69f532b54e2.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "Finding a Fair Evaluation Under Changing Representations · Evaluating retention when representations change · Julius Störk"
+  },
+  "post-student-becomes-teacher.html": {
+    "file": "images/share/post-student-becomes-teacher-bb26295171d953de.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "The Student Becomes the Teacher · Language models generating their own supervision · Julius Störk"
+  },
+  "post-optimizing-reasoning.html": {
+    "file": "images/share/post-optimizing-reasoning-b50c0d746357a553.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "From Simulating Speech to Optimizing Reasoning · Latent reasoning beyond chain-of-thought text · Julius Störk"
+  },
+  "post-race-to-on.html": {
+    "file": "images/share/post-race-to-on-9ef459331fed4aa9.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "The Race to O(n) · The trade-offs behind subquadratic attention · Julius Störk"
+  },
+  "post-dendrites-dandelions.html": {
+    "file": "images/share/post-dendrites-dandelions-9c7d6e4652b6705b.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "Lithium Dendrites Are Batteries' Dandelions · How lithium exploits cracks in solid electrolytes · Julius Störk"
+  },
+  "post-physical-ai.html": {
+    "file": "images/share/post-physical-ai-341ede22944b6398.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "AI's Bottleneck Is Physical · Making physical feedback loops reliable · Julius Störk"
+  },
+  "post-causalpfn.html": {
+    "file": "images/share/post-causalpfn-4742ad3e78bcc001.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "Reading CausalPFN: Causal Effects as In-Context Prediction · Treatment-effect posteriors from in-context prediction · Julius Störk"
+  },
+  "post-geometry-of-forgetting.html": {
+    "file": "images/share/post-geometry-of-forgetting-2194fc02b01ab265.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "The Geometry of Forgetting in Continual Learning · Protecting old tasks when learning new ones · Julius Störk"
+  },
+  "post-calendering-u-shape.html": {
+    "file": "images/share/post-calendering-u-shape-efc80f299acfe737.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "Solving the Electrode Calendering U-Shape Puzzle · How particle reorientation changes heat transport · Julius Störk"
+  },
+  "chargewise/index.html": {
+    "file": "images/share/chargewise-079ad00930c77501.png",
+    "width": 1200,
+    "height": 630,
+    "alt": "ChargeWise AI · fleet charging within grid limits · Julius Störk"
+  }
+}

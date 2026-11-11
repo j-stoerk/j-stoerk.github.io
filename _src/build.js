@@ -1,5 +1,5 @@
 /* Static site builder for j-stoerk.github.io.
-   Zero dependencies. Run: node _src/build.js
+   Install build-only share-card tools with npm ci. Run: node _src/build.js
    Sources live in _src/pages; shared chrome (head assets, topbar, footer,
    scripts) is injected here so a change lands on every page at once.
    posts.json drives the blog listing, the home-page cards, feed.xml, and
@@ -31,6 +31,7 @@ function ver(file) {
 
 const posts = JSON.parse(fs.readFileSync(path.join(SRC, 'posts.json'), 'utf8'))
   .sort((a, b) => (a.iso < b.iso ? 1 : -1));
+const shareCards = require('./share/cards')(posts);
 const community = JSON.parse(fs.readFileSync(path.join(SRC, 'community.json'), 'utf8'));
 if (community.comments.endpoint && !/^https:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(community.comments.endpoint)) {
   throw new Error('community.json: comments.endpoint must be an HTTPS origin without a trailing slash');
@@ -50,6 +51,31 @@ function publicConfig(id, value) {
 }
 function attribute(value) {
   return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function shareMetadata(html, file) {
+  const card = shareCards[file];
+  if (!card) return html;
+  const oldImage = html.match(/<meta\b[^>]*property="og:image"[^>]*content="([^"]+)"/)?.[1];
+  const url = SITE + '/' + card.file;
+  const twitterText = Object.fromEntries(['title', 'description'].map(key => [key,
+    html.match(new RegExp(`<meta\\b[^>]*name="twitter:${key}"[^>]*content="([^"]+)"`))?.[1] ||
+    html.match(new RegExp(`<meta\\b[^>]*property="og:${key}"[^>]*content="([^"]+)"`))?.[1]]));
+  // Keep JSON-LD article images aligned; a Person's portrait remains its portrait.
+  if (oldImage) html = html.split(oldImage).join(url);
+  html = html.replace(/\s*<meta\b(?=[^>]*(?:property|name)="(?:og:image(?::[a-z_]+)?|twitter:image(?::alt)?|twitter:card|twitter:title|twitter:description)")[^>]*>/g, '');
+  const extra = [
+    ['property', 'og:image', url], ['property', 'og:image:secure_url', url],
+    ['property', 'og:image:type', 'image/png'], ['property', 'og:image:width', card.width],
+    ['property', 'og:image:height', card.height], ['property', 'og:image:alt', card.alt],
+    ['name', 'twitter:card', 'summary_large_image'], ['name', 'twitter:image', url],
+    ['name', 'twitter:image:alt', card.alt],
+  ];
+  for (const key of ['title', 'description']) {
+    const content = twitterText[key];
+    if (content) extra.push(['name', `twitter:${key}`, content.replace(/&amp;/g, '&').replace(/&quot;/g, '"')]);
+  }
+  return html.replace('</head>', extra.map(([kind, name, value]) => `  <meta ${kind}="${name}" content="${attribute(value)}" />`).join('\n') + '\n</head>');
 }
 
 /* Keep reference previews compact, retaining IDs and native list numbering.
@@ -372,9 +398,23 @@ for (const file of fs.readdirSync(pagesDir)) {
   html = html.replace(/href="([^":?#]+\.html)(#[^"]*)?"/g,
     (_, page, hash = '') => `href="${page}?nav=${NAV_VERSION}${hash}"`);
   if (/<!--#/.test(html)) throw new Error(`${file}: unresolved marker`);
+  html = shareMetadata(html, file);
   fs.writeFileSync(path.join(ROOT, file), html);
   console.log('built', file);
 }
+
+// The project entry point is a plain redirect, but link unfurlers can still read
+// its server-delivered metadata before any JavaScript navigation takes place.
+const projectFile = 'chargewise/index.html';
+let project = fs.readFileSync(path.join(ROOT, projectFile), 'utf8');
+if (!project.includes('property="og:title"')) project = project.replace('</head>', `
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Julius Störk">
+<meta property="og:title" content="ChargeWise AI">
+<meta property="og:description" content="Fleet charging within grid limits. Explore the original hosted demo.">
+<meta property="og:url" content="${SITE}/chargewise/">
+</head>`);
+fs.writeFileSync(path.join(ROOT, projectFile), shareMetadata(project, projectFile));
 
 /* ---------- feed.xml ---------- */
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');

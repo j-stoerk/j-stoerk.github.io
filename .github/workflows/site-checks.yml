@@ -15,6 +15,9 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install build-only share-card tools
+        run: npm ci
+
       - name: Rebuild site from _src
         run: node _src/build.js
 

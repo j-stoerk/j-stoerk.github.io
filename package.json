@@ -1,0 +1,12 @@
+{
+  "name": "julius-stoerk-portfolio",
+  "private": true,
+  "scripts": {
+    "build": "node _src/build.js",
+    "test:typography": "node --test _src/tests/typography.test.js"
+  },
+  "devDependencies": {
+    "@resvg/resvg-js": "2.6.2",
+    "fontkit": "2.0.4"
+  }
+}

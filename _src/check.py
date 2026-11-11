@@ -8,6 +8,7 @@ separately in CI via `node _src/build.js && git diff`.
 import json
 import os
 import re
+import struct
 import sys
 import xml.dom.minidom
 from html.parser import HTMLParser
@@ -98,6 +99,42 @@ def check_page(name):
 def main():
     for name in PAGES:
         check_page(name)
+
+    # Every public page/card pair must agree before link unfurlers see it.
+    cards = json.load(open('_src/share/manifest.json', encoding='utf-8'))
+    posts = json.load(open('_src/posts.json', encoding='utf-8'))
+    expected = {'index.html', 'cv.html', 'blog.html', 'chargewise/index.html'} | {p['file'] for p in posts}
+    if set(cards) != expected:
+        fail('share-card manifest does not cover all personal pages, posts and the demo')
+    for page, card in cards.items():
+        class Metadata(HTMLParser):
+            def __init__(self):
+                super().__init__(convert_charrefs=True)
+                self.tags = {}
+
+            def handle_starttag(self, tag, attrs):
+                if tag == 'meta':
+                    attrs = dict(attrs)
+                    key = attrs.get('property', attrs.get('name'))
+                    self.tags.setdefault(key, []).append(attrs.get('content', ''))
+
+        parsed = Metadata()
+        parsed.feed(open(page, encoding='utf-8').read())
+        image_url = 'https://j-stoerk.github.io/' + card['file']
+        for key, value in {'og:image': image_url, 'og:image:secure_url': image_url,
+                           'twitter:image': image_url, 'og:image:type': 'image/png',
+                           'twitter:card': 'summary_large_image', 'og:image:width': '1200',
+                           'og:image:height': '630', 'og:image:alt': card['alt'],
+                           'twitter:image:alt': card['alt']}.items():
+            if parsed.tags.get(key) != [value]:
+                fail(f'{page}: missing, duplicated or inconsistent {key}')
+        try:
+            with open(card['file'], 'rb') as asset:
+                header = asset.read(24)
+            if header[:8] != b'\x89PNG\r\n\x1a\n' or struct.unpack('>II', header[16:24]) != (1200, 630):
+                fail(f'{page}: share image is not a 1200 by 630 PNG')
+        except OSError as exc:
+            fail(f'{page}: share image unavailable ({exc})')
 
     # Covers are external images, so browsers parse them as XML rather than HTML.
     # An inline SVG can render in a post while its exported copy is malformed.

@@ -3,8 +3,35 @@
 The HTML files at the repo root are **generated**. Edit here, then rebuild:
 
 ```
+npm ci
 node _src/build.js
 ```
+
+`npm ci` is needed once after cloning (and when the lockfile changes). The two
+Node dependencies are build-only tools for share images; pages load neither.
+
+## Link previews
+
+Every personal page and blog post gets a 1200 × 630 PNG from the same template
+in `share/cards.js`: a rounded image at left, a blue divider, serif heading and
+short text on a light grid. Home, CV and the blog index use `portrait.jpg`;
+individual posts use their own inline `svg.cover-art`, without cropping away the
+illustration. ChargeWise's static entry point also gets a project card.
+
+`share/descriptions.json` supplies short article blurbs. New posts automatically
+receive a card from `posts.json` and their cover; the category is the fallback
+until a short blurb is added. Titles wrap using real font metrics and shrink to
+fit, rather than being truncated. Bundled, openly licensed fonts in `share/fonts`
+are used only at build time, and text is converted to vector outlines before
+rasterizing, so the build needs no installed system fonts or browser.
+
+Generated images live in `images/share/`. Their filenames include a hash of the
+content and template, giving revised previews fresh URLs. Existing generated
+files remain available for older cached shares. `share/manifest.json` connects
+pages to their images. The builder aligns Open Graph, Twitter Card and article
+JSON-LD images and adds image dimensions, format and accessible descriptions.
+The image assets are metadata only and add no rendering work to the website.
+Site checks validate every page/card pair and the actual PNG dimensions.
 
 - `pages/*.html` — page sources. Shared chrome is injected at the markers
   `<!--#HEAD_ASSETS-->`, `<!--#TOPBAR-->`, `<!--#FOOTER-->`, `<!--#SCRIPTS-->`;

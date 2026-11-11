@@ -1,0 +1,22 @@
+{
+  "post-lesswrong-hume.html": "Bayesian inference, Hume and human values",
+  "post-text-to-trajectory.html": "Grounding language in checked robot motion",
+  "post-chargewise.html": "Scheduling fleet charging within grid limits",
+  "post-ai-tipping.html": "Attention interventions and hidden model state",
+  "post-agent-training-grounds.html": "Training environments for useful AI agents",
+  "post-battery-price-war.html": "Factory ramp-up, regional costs and the SynBatt response",
+  "post-jev-output-heads.html": "Shared representations and task-specific decisions",
+  "post-disco-dry-run.html": "Turning research knowledge into reusable agent skills",
+  "post-convmem.html": "Long-context reasoning through a tree of summaries",
+  "post-inverted-fractions.html": "An audit of errors in copied mathematical notation",
+  "post-glee-agent.html": "Learning when to demand and when to fold",
+  "post-fair-evaluation.html": "Evaluating retention when representations change",
+  "post-student-becomes-teacher.html": "Language models generating their own supervision",
+  "post-optimizing-reasoning.html": "Latent reasoning beyond chain-of-thought text",
+  "post-race-to-on.html": "The trade-offs behind subquadratic attention",
+  "post-dendrites-dandelions.html": "How lithium exploits cracks in solid electrolytes",
+  "post-physical-ai.html": "Making physical feedback loops reliable",
+  "post-causalpfn.html": "Treatment-effect posteriors from in-context prediction",
+  "post-geometry-of-forgetting.html": "Protecting old tasks when learning new ones",
+  "post-calendering-u-shape.html": "How particle reorientation changes heat transport"
+}
