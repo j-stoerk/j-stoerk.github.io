@@ -22,3 +22,7 @@ test('punctuation and superscript citations keep their preceding context', () =>
   assert.ok(result.includes('</sup>&#8288;.'));
   assert.ok(result.includes('\\(x\\)&#8288;.'));
 });
+test('HTML examples inside scripts and preformatted blocks are not rewritten', () => {
+  const source = '<script>const example = "<p>10 ms</p>";</script><pre>&lt;p&gt;10 ms&lt;/p&gt;</pre>';
+  assert.equal(typography(source), source);
+});
