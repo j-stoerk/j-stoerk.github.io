@@ -62,7 +62,7 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=c628febd">
+  <link rel="stylesheet" href="styles.css?v=17e32f46">
   <link rel="stylesheet" href="experiences.css?v=488ecf3d">
 </head>
 
@@ -113,10 +113,16 @@
       <p class="article-meta muted">Reading notes on self-distillation without labels (OPSD, U-OPSD, L-OPSD).</p>
 
 <section class="post-listen" aria-label="Listen to this article">
-    <button draggable="false" class="outline-action listen-button" type="button" data-listen aria-controls="narration-player" aria-expanded="false" hidden><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 3 11 7-11 7V3Z"/></svg><span data-listen-label>Listen</span><small>9 min</small><small class="listen-ai-badge">AI</small></button>
-    <div class="listen-controls" id="narration-player" hidden><div class="listen-player-top"><span class="listen-voice">AI narration</span><label class="listen-speed">Speed <select data-listen-speed aria-label="Narration speed"><option value="1">1×</option><option value="1.1">1.1×</option><option value="1.2">1.2×</option><option value="1.3">1.3×</option><option value="1.5">1.5×</option></select></label></div><audio controls preload="none" data-narration-src="https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-student-becomes-teacher-ee652fe448d1a31b.mp3" aria-label="AI narration of The Student Becomes the Teacher"></audio></div>
-    <span class="listen-status" data-listen-status role="status"></span>
-    <noscript><audio controls preload="none" src="https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-student-becomes-teacher-ee652fe448d1a31b.mp3" aria-label="Article narration"></audio></noscript>
+    <div class="outline-action listen-bar" data-listen-bar role="group" aria-label="Article narration controls" hidden>
+      <button draggable="false" class="listen-button" type="button" data-listen aria-controls="article-narration" aria-pressed="false"><svg class="listen-play-icon" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 3 11 7-11 7V3Z"/></svg><svg class="listen-pause-icon" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" fill="currentColor"><path d="M5 3h3v14H5zm7 0h3v14h-3z"/></svg><span data-listen-label>Listen</span><small class="listen-duration" data-listen-duration>9 min</small></button>
+      <div class="listen-transport" data-listen-transport hidden><span class="listen-time" data-listen-time aria-hidden="true">0:00 / 8:09</span><input type="range" class="listen-seek" min="0" max="490" value="0" step="1" data-listen-seek aria-label="Seek through article narration" disabled></div>
+      <button draggable="false" class="listen-mute" type="button" data-listen-mute aria-label="Mute narration" aria-pressed="false" hidden><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h3l4-4v14l-4-4H3z"/><path class="listen-volume-on" d="M13 6q5 4 0 8"/><path class="listen-volume-off" d="m13 8 4 4m0-4-4 4"/></svg></button>
+      <label class="listen-speed" data-listen-speed-control hidden><span class="sr-only">Playback speed</span><select data-listen-speed aria-label="Narration speed"><option value="1">1×</option><option value="1.1">1.1×</option><option value="1.2">1.2×</option><option value="1.3">1.3×</option><option value="1.5">1.5×</option></select></label>
+      <span class="listen-ai-badge" title="AI-generated narration">AI</span>
+    </div>
+    <audio id="article-narration" preload="none" data-narration-src="https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-student-becomes-teacher-ee652fe448d1a31b.mp3" data-narration-seconds="489.77" aria-label="AI narration of The Student Becomes the Teacher" hidden></audio>
+    <span class="listen-status sr-only" data-listen-status role="status"></span>
+    <noscript><audio controls preload="none" src="https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-student-becomes-teacher-ee652fe448d1a31b.mp3" aria-label="AI-generated article narration"></audio></noscript>
   </section>
       <div class="prose">
         <p>In battery research, a single ground-truth requires assembling a cell, cycling it for weeks, and extracting one electrochemical data point. This consumes both time and money and post-training large language models has the exact same problem. Verified reasoning traces, gold answers, and external reward models are the labels, and they are just as scarce relative to the volume of data a model could learn from. This week, both Guibin Zhang from NUS and Yijiang Li from UC San Diego pushed the question "what if the model supplies its own supervision". Short answer: the external teacher (OPSD), the ground-truth labels (U-OPSD), and now handcrafted privileged context have all been replaced by the model itself.</p>
@@ -286,10 +292,10 @@
   <script defer src="interactions.js?v=65fdfd93"></script>
   <script defer src="cursor.js?v=836db8cc"></script>
   <script defer src="portal-transitions.js?v=d4060e4b"></script>
-  <script defer src="search.js?v=38d6c5d6" data-search-index="search-index.json?v=03cb82f8"></script>
+  <script defer src="search.js?v=38d6c5d6" data-search-index="search-index.json?v=e192c8b1"></script>
   <script defer src="blog.js?v=a24a5a3c"></script>
   <script defer src="references.js?v=e51071fb"></script>
-  <script defer src="listen.js?v=fbd6f2fb"></script>
+  <script defer src="listen.js?v=8438113f"></script>
   <script defer src="comment-identity.js?v=dddce228"></script>
   <script defer src="comments.js?v=43a43fce"></script>
   <script>

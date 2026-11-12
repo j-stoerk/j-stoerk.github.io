@@ -124,7 +124,8 @@ paragraphs remain intact.
 The full career timeline and its animation live on Experience; home uses four
 compact links. Search and theme use the same icon-button treatment.
 The Experience rail is fixed in the wide-screen gutter, sticky within the layout
-on tablets, and a compact sticky strip on mobile. `metrics.js` animates only an
+on tablets, and a compact sticky strip on mobile. Scale-up's `data-min-active-scroll`
+extends its active range without adding blank space to the timeline. `metrics.js` animates only an
 empty aria-hidden overlay with CSS-generated digits. Do not overwrite `.num`
 text: its final value must remain readable to agents, assistive technology and
 visitors without JavaScript throughout the animation. Reduced motion skips it.
@@ -136,9 +137,10 @@ posts page has no second archive action below the list.
 
 `contact.html` opens directly with a visible form, including without JavaScript.
 Its contact details and the homepage section share `_src/contact.html`. The
-homepage keeps its inline open/close behaviour; the dedicated page keeps the
-form open. Header and footer Contact links open the dedicated page, while older
-homepage fragment links still work.
+homepage message link opens Contact, whose form stays open. Header and footer
+Contact links also open that page. Older homepage fragment links still open its
+inline form. Both photos share their full-width frame, responsive minimum height
+and padding. The dedicated page omits the message-link prompt.
 
 Each post's Listen control streams a pre-generated MP3. Kokoro-82M v1.0 with
 the `af_heart` voice generates the audio on standard Ubuntu GitHub Actions
@@ -148,9 +150,10 @@ Apache-2.0 licensed; the ONNX runtime wrapper is MIT licensed. Sources:
 [voices](https://huggingface.co/hexgrad/Kokoro-82M/blob/main/VOICES.md),
 [kokoro-onnx](https://github.com/thewh1teagle/kokoro-onnx).
 
-After activation, the Listen button gives way to a single native-audio panel
-with its AI label and speed selector inside the same surface. Audio remains
-unrequested until activation; native controls provide seeking and play/pause.
+The narration player stays in one rounded outline: play/pause, elapsed/total
+time, a keyboard-accessible seek slider, mute, speed and an AI badge. It uses
+ordinary hidden HTML audio with no initial request and no animation loop.
+Native audio controls remain the no-JavaScript fallback.
 
 The Blog narration workflow automatically processes new or changed narrative
 text, stores immutable, hashed MP3s in the `blog-narration` release, then commits

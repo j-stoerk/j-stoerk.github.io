@@ -15,9 +15,19 @@
     document.body.style.setProperty('--career-nav-height', navHeight + 'px');
     var offset = innerWidth <= 760 ? navHeight + 24 : Math.min(120, innerHeight * .18);
     var readingLine = header.bottom + offset;
-    var selected = 0;
-    entries.forEach(function (entry, index) { if (entry.getBoundingClientRect().top <= readingLine) selected = index; });
-    if (scrollY + innerHeight >= document.documentElement.scrollHeight - 2) selected = entries.length - 1;
+    var selected = 0, maxScroll = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+    var positions = entries.map(function (entry) { return entry.getBoundingClientRect(); });
+    var starts = positions.map(function (position) { return position.top + scrollY - readingLine; });
+    starts[starts.length - 1] = Math.min(starts[starts.length - 1], maxScroll);
+    // A short penultimate entry otherwise gets squeezed out by a tall viewport.
+    // Expand its reading range without adding empty space to the actual timeline.
+    for (var index = entries.length - 2; index > 0; index--) {
+      var minimum = Number(entries[index].dataset.minActiveScroll || 0);
+      if (!minimum) continue;
+      var earliest = starts[index - 1] + Math.min(140, positions[index - 1].height * .35);
+      starts[index] = Math.max(earliest, Math.min(starts[index], starts[index + 1] - Math.min(minimum, innerHeight * .5)));
+    }
+    starts.forEach(function (start, index) { if (scrollY >= start - 1) selected = index; });
     var bounds = timeline.getBoundingClientRect();
     timeline.style.setProperty('--timeline-progress', Math.max(0, Math.min(1, (readingLine - bounds.top) / bounds.height)).toFixed(3));
     if (active === selected) return;

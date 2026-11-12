@@ -39,11 +39,18 @@ function listenControl(file) {
   const entry = narrations[file];
   if (!entry || entry.sha256 !== narrationText.get(file)?.sha256) return '';
   if (!/^https:\/\/github\.com\/j-stoerk\/j-stoerk\.github\.io\/releases\/download\/blog-narration\/post-[a-z0-9-]+-[a-f0-9]{16}\.mp3$/.test(entry.url)) throw new Error('Invalid narration URL: ' + file);
+  const duration = Math.floor(entry.seconds / 60) + ':' + String(Math.floor(entry.seconds % 60)).padStart(2, '0');
   return `<section class="post-listen" aria-label="Listen to this article">
-    <button class="outline-action listen-button" type="button" data-listen aria-controls="narration-player" aria-expanded="false" hidden><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 3 11 7-11 7V3Z"/></svg><span data-listen-label>Listen</span><small>${Math.ceil(entry.seconds / 60)} min</small><small class="listen-ai-badge">AI</small></button>
-    <div class="listen-controls" id="narration-player" hidden><div class="listen-player-top"><span class="listen-voice">AI narration</span><label class="listen-speed">Speed <select data-listen-speed aria-label="Narration speed"><option value="1">1×</option><option value="1.1">1.1×</option><option value="1.2">1.2×</option><option value="1.3">1.3×</option><option value="1.5">1.5×</option></select></label></div><audio controls preload="none" data-narration-src="${attribute(entry.url)}" aria-label="AI narration of ${attribute(narrationText.get(file).title)}"></audio></div>
-    <span class="listen-status" data-listen-status role="status"></span>
-    <noscript><audio controls preload="none" src="${attribute(entry.url)}" aria-label="Article narration"></audio></noscript>
+    <div class="outline-action listen-bar" data-listen-bar role="group" aria-label="Article narration controls" hidden>
+      <button class="listen-button" type="button" data-listen aria-controls="article-narration" aria-pressed="false"><svg class="listen-play-icon" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 3 11 7-11 7V3Z"/></svg><svg class="listen-pause-icon" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" fill="currentColor"><path d="M5 3h3v14H5zm7 0h3v14h-3z"/></svg><span data-listen-label>Listen</span><small class="listen-duration" data-listen-duration>${Math.ceil(entry.seconds / 60)} min</small></button>
+      <div class="listen-transport" data-listen-transport hidden><span class="listen-time" data-listen-time aria-hidden="true">0:00 / ${duration}</span><input type="range" class="listen-seek" min="0" max="${Math.ceil(entry.seconds)}" value="0" step="1" data-listen-seek aria-label="Seek through article narration" disabled></div>
+      <button class="listen-mute" type="button" data-listen-mute aria-label="Mute narration" aria-pressed="false" hidden><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h3l4-4v14l-4-4H3z"/><path class="listen-volume-on" d="M13 6q5 4 0 8"/><path class="listen-volume-off" d="m13 8 4 4m0-4-4 4"/></svg></button>
+      <label class="listen-speed" data-listen-speed-control hidden><span class="sr-only">Playback speed</span><select data-listen-speed aria-label="Narration speed"><option value="1">1×</option><option value="1.1">1.1×</option><option value="1.2">1.2×</option><option value="1.3">1.3×</option><option value="1.5">1.5×</option></select></label>
+      <span class="listen-ai-badge" title="AI-generated narration">AI</span>
+    </div>
+    <audio id="article-narration" preload="none" data-narration-src="${attribute(entry.url)}" data-narration-seconds="${entry.seconds}" aria-label="AI narration of ${attribute(narrationText.get(file).title)}" hidden></audio>
+    <span class="listen-status sr-only" data-listen-status role="status"></span>
+    <noscript><audio controls preload="none" src="${attribute(entry.url)}" aria-label="AI-generated article narration"></audio></noscript>
   </section>`;
 }
 const community = JSON.parse(fs.readFileSync(path.join(SRC, 'community.json'), 'utf8'));
@@ -67,6 +74,7 @@ function contactSection(dedicated) {
   let html = fs.readFileSync(path.join(SRC, 'contact.html'), 'utf8');
   if (dedicated) {
     html = html.replace(/^[ \t]*<h2>Contact<\/h2>[ \t]*\r?\n?/m, '');
+    html = html.replace(/^[ \t]*<p class="contact-route">[\s\S]*?<\/p>\s*/m, '');
     const start = html.indexOf('      <div class="contact-context">');
     const end = html.indexOf('      <div class="contact-compose">');
     if (start < 0 || end < start) throw new Error('Contact section structure changed');
