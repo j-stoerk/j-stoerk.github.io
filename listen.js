@@ -17,7 +17,8 @@
     if (!loaded) { audio.src = audio.dataset.narrationSrc; loaded = true; }
     if (!audio.paused) { audio.pause(); return; }
     status.textContent = 'Loading narration…';
-    audio.play().then(function () { status.textContent = ''; }).catch(function () {
+    audio.play().then(function () { status.textContent = ''; }).catch(function (failure) {
+      if (failure.name === 'AbortError') return;
       status.textContent = 'The audio could not start. Please try Listen again or use the player controls.';
       paint();
     });
