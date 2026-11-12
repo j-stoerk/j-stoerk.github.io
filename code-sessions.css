@@ -16,10 +16,16 @@
 .session-scroll:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 5px; border-radius: 2px; }
 .session-transcript { position: relative; padding-bottom: 10px; }
 .session-command { display: grid; grid-template-columns: 14px minmax(0, 1fr); gap: 8px; margin: 16px 0 10px; }
-.session-command > span { color: var(--color-primary); }
-.session-command code { display: block; padding: 0; border: 0; background: none; color: var(--color-text); font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
-.session-log { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 14px; padding-block: 2px; }
-.session-stage { color: var(--color-primary); }
+.session-command > span, .session-repl-prompt, .session-idle { color: var(--color-primary); }
+.session-command code, .session-source code { display: block; padding: 0; border: 0; background: none; color: var(--color-text); font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
+.session-source { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 8px; }
+.session-log { display: block; white-space: pre-wrap; overflow-wrap: anywhere; }
+.session-log + .session-command { margin-top: 20px; }
+.session-idle { margin-top: 14px; }
+.session-caret { display: inline-block; width: 7px; height: 12px; vertical-align: -2px; background: currentColor; opacity: .5; }
+.syntax-keyword { color: var(--color-primary); }
+.syntax-string, .syntax-number { color: var(--color-warn); }
+.syntax-comment { color: var(--color-text-muted); }
 .session-result { display: flex; align-items: center; gap: 22px; margin-top: 26px; padding-top: 18px; color: var(--color-primary); font-size: 11px; }
 .session-result svg { flex: 0 0 160px; }
 .session-footer { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 21px 30px; border-top: 0; }
@@ -31,7 +37,7 @@
 .code-console[data-ready] .code-session { border-top: 0; }
 .code-console button:focus-visible, .session-footer a:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; border-radius: 3px; }
 .code-session.is-playing [data-session-step]:not(.is-shown), .code-session.is-playing .session-result { visibility: hidden; }
-.code-session.is-playing .session-command.is-shown code { animation: session-type var(--type-duration, .3s) steps(32, end) both; }
+.code-session.is-playing .session-command.is-shown code, .code-session.is-playing .session-source.is-shown code { animation: session-type var(--type-duration, .3s) steps(32, end) both; }
 @keyframes session-type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0); } }
 @media (max-width: 600px) {
   .console-chrome { padding-inline: 16px; }
@@ -39,7 +45,7 @@
   .console-tabs button { align-items: flex-start; flex-direction: column; gap: 5px; font-size: 11px; }
   .session-terminal { padding: 24px 16px 20px; font-size: 11px; }
   .session-scroll { height: 320px; }
-  .session-log { grid-template-columns: 64px minmax(0, 1fr); gap: 10px; padding-block: 3px; }
+  .session-source { grid-template-columns: 24px minmax(0, 1fr); gap: 6px; }
   .session-result { gap: 12px; min-height: 58px; }
   .session-result svg { flex-basis: 88px; width: 88px; }
   .session-footer { align-items: flex-start; flex-direction: column; gap: 8px; padding: 20px 16px 14px; }

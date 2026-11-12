@@ -147,9 +147,14 @@ inline form. Both photos share their full-width frame, responsive minimum height
 and padding. The dedicated page omits the message-link prompt.
 Code previews and full project blocks include verified primary dependencies in
 `.project-stack`; keep these separate from each project's problem description.
-The homepage uses `_src/code-sessions.html` for three illustrative terminal
-walkthroughs. Commands come from the project READMEs; the lines below them describe
-the workflows rather than claim a live run. `code-sessions.js` adds keyboard tabs
+The homepage uses `_src/code-sessions.html` for three Python terminal replays.
+Their snippets and outputs were checked by executing project code: the thermal
+closure, inverse porosity and JAX gradient; T2T's simulator demo, 63 regression
+tests and published-policy summary; and ChargeWise's optimizer on its synthetic
+four-van fixture. Keep outputs paired with the code that produced them. The
+replays show captured results with compressed timing; Python runs during content
+preparation, not in the visitor's browser. Syntax colors are static HTML spans,
+without a highlighting library. `code-sessions.js` adds keyboard tabs
 and a short replay on first view. Each transcript has per-line `data-delay`
 timings: commands type at their own `data-type` speed, routine output arrives in
 bursts, and results pause longer. One event-driven timer reveals incoming lines
