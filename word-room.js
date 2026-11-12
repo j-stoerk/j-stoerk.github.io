@@ -21,8 +21,9 @@
         var intervals = [[0, width]];
         if (avoid) {
           var distance = y < top ? top - y : (y > top + lineHeight ? y - top - lineHeight : 0);
-          if (distance < padding) {
-            var extent = Math.sqrt(padding * padding - distance * distance);
+          var extent = distance < padding ? Math.sqrt(padding * padding - distance * distance) : 0;
+          if (top < y + radius + 26 && top + lineHeight > y + radius - 2) extent = Math.max(extent, 68);
+          if (extent > 0) {
             intervals = [[0, Math.max(0, x - extent)], [Math.min(width, x + extent), width]];
           }
         }
@@ -51,11 +52,11 @@
       measure.font = style.fontWeight + ' ' + style.fontSize + ' ' + style.fontFamily;
       space = measure.measureText(' ').width;
       paragraphs.forEach(function (paragraph) { paragraph.widths = paragraph.words.map(function (word) { return measure.measureText(word).width; }); });
-      height = flow(false).height + Math.ceil(Math.PI * Math.pow(radius + 16, 2) / width / lineHeight) * lineHeight + lineHeight * 2;
+      height = flow(false).height + Math.ceil((Math.PI * Math.pow(radius + 16, 2) + 120 * 28) / width / lineHeight) * lineHeight + lineHeight * 2;
     }
     if (home || x === undefined) { x = width - radius - 12; y = radius + 24; }
     x = clamp(x, radius, width - radius);
-    y = clamp(y, radius, height - radius);
+    y = clamp(y, radius, height - radius - 30);
     var result = flow(true);
     result.paragraphs.forEach(function (paragraph, index) {
       var fragment = document.createDocumentFragment();

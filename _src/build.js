@@ -40,9 +40,9 @@ function listenControl(file) {
   if (!entry || entry.sha256 !== narrationText.get(file)?.sha256) return '';
   if (!/^https:\/\/github\.com\/j-stoerk\/j-stoerk\.github\.io\/releases\/download\/blog-narration\/post-[a-z0-9-]+-[a-f0-9]{16}\.mp3$/.test(entry.url)) throw new Error('Invalid narration URL: ' + file);
   return `<section class="post-listen" aria-label="Listen to this article">
-    <button class="outline-action listen-button" type="button" data-listen aria-controls="narration-player" aria-expanded="false" hidden><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 3 11 7-11 7V3Z"/></svg><span data-listen-label>Listen</span><small>${Math.ceil(entry.seconds / 60)} min</small></button>
-    <div class="listen-controls" id="narration-player" hidden><audio controls preload="none" data-narration-src="${attribute(entry.url)}" aria-label="Narration of ${attribute(narrationText.get(file).title)}"></audio><label class="listen-speed">Speed <select data-listen-speed aria-label="Narration speed"><option value="1">1×</option><option value="1.1">1.1×</option><option value="1.2">1.2×</option><option value="1.3">1.3×</option><option value="1.5">1.5×</option></select></label></div>
-    <span class="listen-status" data-listen-status role="status"></span><span class="listen-credit">AI narration · title and article text</span>
+    <button class="outline-action listen-button" type="button" data-listen aria-controls="narration-player" aria-expanded="false" hidden><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 3 11 7-11 7V3Z"/></svg><span data-listen-label>Listen</span><small>${Math.ceil(entry.seconds / 60)} min</small><small class="listen-ai-badge">AI</small></button>
+    <div class="listen-controls" id="narration-player" hidden><div class="listen-player-top"><span class="listen-voice">AI narration</span><label class="listen-speed">Speed <select data-listen-speed aria-label="Narration speed"><option value="1">1×</option><option value="1.1">1.1×</option><option value="1.2">1.2×</option><option value="1.3">1.3×</option><option value="1.5">1.5×</option></select></label></div><audio controls preload="none" data-narration-src="${attribute(entry.url)}" aria-label="AI narration of ${attribute(narrationText.get(file).title)}"></audio></div>
+    <span class="listen-status" data-listen-status role="status"></span>
     <noscript><audio controls preload="none" src="${attribute(entry.url)}" aria-label="Article narration"></audio></noscript>
   </section>`;
 }
@@ -62,6 +62,17 @@ if (!/^https:\/\/formspree\.io\/f\/[a-z0-9]+$/i.test(community.contact.endpoint)
 }
 function publicConfig(id, value) {
   return `<script type="application/json" id="${id}">${JSON.stringify(value).replace(/</g, '\\u003c')}</script>`;
+}
+function contactSection(dedicated) {
+  let html = fs.readFileSync(path.join(SRC, 'contact.html'), 'utf8');
+  if (dedicated) {
+    html = html.replace(/^[ \t]*<h2>Contact<\/h2>[ \t]*\r?\n?/m, '');
+    const start = html.indexOf('      <div class="contact-context">');
+    const end = html.indexOf('      <div class="contact-compose">');
+    if (start < 0 || end < start) throw new Error('Contact section structure changed');
+    html = html.slice(0, start) + html.slice(end);
+  }
+  return html;
 }
 function attribute(value) {
   return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -172,7 +183,12 @@ const PAGES = {
     lastmod: '2026-11-12', priority: '0.9',
   },
   'experience.html': {
-    nav: 'experience', extraScripts: ['experiences.js', 'career.js'], footerExtra: null,
+    nav: 'experience', extraScripts: ['experiences.js', 'career.js', 'metrics.js'], footerExtra: null,
+    lastmod: '2026-11-12', priority: '0.8',
+  },
+  'contact.html': {
+    nav: 'contact', extraScripts: ['comment-identity.js', 'contact.js', 'contact-landscape.js'],
+    extraStyles: ['contact-landscape.css'], footerExtra: null,
     lastmod: '2026-11-12', priority: '0.8',
   },
   'search.html': {
@@ -192,7 +208,7 @@ for (let page = 1; page <= archiveCount; page++) {
   PAGES[archiveFile(page)] = { nav: 'blog', source: 'blog.html', archivePage: page,
     extraScripts: ['blog-view.js'], footerExtra: null, lastmod: '2026-11-12', priority: '0.6' };
 }
-for (const file of ['publications.html', 'code.html', 'search.html', 'experience.html']) shareCards[file] = { ...shareCards['index.html'] };
+for (const file of ['publications.html', 'code.html', 'search.html', 'experience.html', 'contact.html']) shareCards[file] = { ...shareCards['index.html'] };
 for (let page = 1; page <= archiveCount; page++) shareCards[archiveFile(page)] = { ...shareCards['blog.html'] };
 fs.writeFileSync(path.join(SRC, 'share/manifest.json'), JSON.stringify(shareCards, null, 2) + '\n');
 for (const p of posts) {
@@ -249,7 +265,7 @@ const NAV_ITEMS = [
   ['blog', 'Blog', 'blog.html'],
   ['experience', 'Experience', 'experience.html'],
   ['cv', 'CV', 'cv.html'],
-  ['contact', 'Contact', '#contact'],
+  ['contact', 'Contact', 'contact.html'],
 ];
 // Refresh cached documents whenever the shared navigation changes.
 const NAV_VERSION = crypto.createHash('md5').update(JSON.stringify(NAV_ITEMS)).digest('hex').slice(0, 8);
@@ -288,7 +304,7 @@ ${links}
 }
 
 function footer(cfg) {
-  const contact = cfg.home ? '#contact' : 'index.html#contact';
+  const contact = cfg.nav === 'contact' ? '#contact' : 'contact.html';
   const extra = `\n    <span class="footer-links">${cfg.footerExtra ? cfg.footerExtra + ' · ' : ''}<a href="${contact}">Contact</a></span>`;
   return `  <footer class="content">
     <span>© 2026 Julius Störk</span>${extra}
@@ -382,7 +398,7 @@ ${items.map(p => postEntry(p, true, 6)).join('\n')}
     </div>`;
 }
 function blogPagination(cfg) {
-  if (!cfg.archivePage) return `<div class="blog-archive-link"><a class="outline-action" href="blog-archive.html">View all posts <span aria-hidden="true">↗</span></a><p class="muted">${posts.length} posts in the archive</p></div>`;
+  if (!cfg.archivePage) return '';
   const page = cfg.archivePage;
   return `<nav class="archive-pagination" aria-label="Blog archive pages">
     ${page > 1 ? `<a rel="prev" href="${archiveFile(page - 1)}">← Newer</a>` : '<span></span>'}
@@ -428,7 +444,8 @@ projectMatches.forEach((match, i) => {
   const title = source.match(/<h3>([\s\S]*?)<\/h3>|<strong>([\s\S]*?)<\/strong>/);
   searchDocs.push({ url: 'code.html#' + match[1], title: plainText(title?.[1] || title?.[2] || 'Project'), kind: 'Code', summary: plainText(source.match(/<p\b[^>]*>[\s\S]*?<\/p>/)?.[0] || ''), text: plainText(source) });
 });
-for (const [url, title, summary] of [['index.html#home', 'Julius Störk', 'PhD researcher at VARTA and TU Braunschweig, working on AI for battery manufacturing.'], ['cv.html', 'Curriculum vitae', 'Research experience, education, manufacturing and laboratory work.'], ['index.html#contact', 'Contact', 'Collaborations, shared data and experimental setups.']]) {
+searchDocs.push({ url: 'contact.html', title: 'Contact', kind: 'Profile', summary: 'Collaborations, shared data and experimental setups.', text: plainText(contactSection(true)) });
+for (const [url, title, summary] of [['index.html#home', 'Julius Störk', 'PhD researcher at VARTA and TU Braunschweig, working on AI for battery manufacturing.'], ['cv.html', 'Curriculum vitae', 'Research experience, education, manufacturing and laboratory work.']]) {
   const source = fs.readFileSync(path.join(SRC, 'pages', url.split('#')[0]), 'utf8');
   searchDocs.push({ url, title, kind: 'Profile', summary, text: plainText(source.slice(source.indexOf('<main'))) });
 }
@@ -460,8 +477,10 @@ for (const [file, cfg] of Object.entries(PAGES)) {
     .replace('  <!--#FOOTER-->', footer(cfg))
     .replace('  <!--#SCRIPTS-->', scripts(cfg))
     .replace('<!--#POST_LIST-->', () => postList(cfg.archivePage ? posts.slice((cfg.archivePage - 1) * ARCHIVE_SIZE, cfg.archivePage * ARCHIVE_SIZE) : posts.slice(0, 4)))
-    .replace('<!--#BLOG_PAGINATION-->', () => blogPagination(cfg))
-    .replace(/^[ \t]*<!--#BLOG_ARCHIVE_TOP-->[ \t]*$/m, () => cfg.archivePage ? '<p class="archive-top-link"><a href="blog.html">← Recent posts</a></p>' : '')
+    .replace(/^[ \t]*<!--#BLOG_PAGINATION-->[ \t]*$/m, () => blogPagination(cfg))
+    .replace('<!--#BLOG_TOOLBAR_LINK-->', () => cfg.archivePage
+      ? '<a class="archive-top-link" href="blog.html">← Recent posts</a>'
+      : `<div class="blog-archive-link"><a class="outline-action" href="blog-archive.html">all posts <span aria-hidden="true">↗</span></a><span class="muted">${posts.length} posts in the archive</span></div>`)
     .replace('<!--#PUBLICATION_RECORDS-->', () => fs.readFileSync(path.join(SRC, 'publications.html'), 'utf8'))
     .replace('<!--#SOFTWARE_RECORDS-->', () => fs.readFileSync(path.join(SRC, 'software.html'), 'utf8'))
     .replace('<!--#EXPERIENCE_RECORDS-->', () => experienceSource);
@@ -472,13 +491,18 @@ for (const [file, cfg] of Object.entries(PAGES)) {
       .replace('<title>Blog · Julius Störk</title>', `<title>Blog archive · Page ${cfg.archivePage} · Julius Störk</title>`);
   }
   html = html.replace('<!--#BIO_POPOVERS-->', () => fs.readFileSync(path.join(SRC, 'bio-popovers.html'), 'utf8'));
+  html = html.replace('<!--#CONTACT_SECTION-->', () => contactSection(file === 'contact.html'));
   html = html.replace('<!--#RESEARCH_ATLAS-->', () => fs.readFileSync(path.join(SRC, 'research-atlas.html'), 'utf8'));
   html = html.replace('data-feature="research-atlas"', `data-feature="research-atlas" data-post-library="${ver('blog-library.json')}"`);
   html = html.replace('<!--#BLOG_LATEST-->', () => BLOG_LATEST);
   html = html.replace('<!--#BLOG_TRAILS-->', () => BLOG_TRAILS);
-  html = html.replace('<!--#CONTACT_FORM-->', () => fs.readFileSync(path.join(SRC, 'contact-form.html'), 'utf8')
+  html = html.replace('<!--#CONTACT_FORM-->', () => {
+    const form = fs.readFileSync(path.join(SRC, 'contact-form.html'), 'utf8')
     .replace('<!--#CONTACT_ENDPOINT-->', () => community.contact.endpoint)
-    .replace('<!--#COMMENT_SERVICE-->', () => attribute(community.comments.endpoint)));
+    .replace('<!--#COMMENT_SERVICE-->', () => attribute(community.comments.endpoint));
+    return file === 'contact.html' ? form.replace(' hidden>', '>')
+      .replace(/\s*<button\b[^>]*data-message-close[^>]*>[\s\S]*?<\/button>/, '') : form;
+  });
   if (file.startsWith('post-')) {
     html = html.replace(/^[ \t]*<!--#POST_CONTEXT-->[ \t]*\r?\n?/m, () => listenControl(file));
     html = postBackground(html, file);

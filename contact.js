@@ -3,6 +3,7 @@
   'use strict';
   const panel = document.getElementById('contact-message');
   if (!panel) return;
+  const dedicated = document.body.classList.contains('contact-page');
   const links = [...document.querySelectorAll('[data-open-message], a[href="#contact"]')];
   const section = document.getElementById('contact');
   links.forEach(link => {
@@ -49,7 +50,7 @@
   }));
   window.addEventListener('hashchange', () => { if (location.hash === '#contact') open(); });
   // Cross-page Contact links arrive at the section with the form already open.
-  if (location.hash === '#contact') {
+  if (location.hash === '#contact' || dedicated) {
     open(false);
     // Initial fragment navigation can reset focus after deferred scripts run.
     window.addEventListener('pageshow', () => requestAnimationFrame(() => {
@@ -59,8 +60,8 @@
       }
     }), { once: true });
   }
-  panel.querySelector('[data-message-close]').addEventListener('click', close);
+  panel.querySelector('[data-message-close]')?.addEventListener('click', close);
   panel.addEventListener('keydown', event => {
-    if (event.key === 'Escape') { event.preventDefault(); close(); }
+    if (event.key === 'Escape' && !dedicated) { event.preventDefault(); close(); }
   });
 })();

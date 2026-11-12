@@ -1,4 +1,6 @@
 /* Research experiences and illustrated navigation. */
+.portfolio-page main > .section h2 { font-size: clamp(1.6rem, 3vw, 2rem); font-weight: 500; line-height: 1.2; letter-spacing: -.025em; }
+.portfolio-page main > .section .section-lead { font-size: var(--text-lg); line-height: 1.6; }
 /* Let the browser postpone below-fold layout/painting. Native anchor navigation,
    focus and find-in-page still reveal a skipped section. */
 .portfolio-page main > .section { content-visibility: auto; contain-intrinsic-size: auto 850px; }
@@ -84,6 +86,47 @@ html[data-background-renderer="canvas"] .hero-static { opacity: 0; }
 .career-layout .career-timeline::before, .career-layout .career-timeline::after { left: 4px; }
 .career-layout .career-time { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; }
 .career-layout .career-body { margin: 0; padding: 12px; }
+
+/* A persistent, unboxed reading rail, matching the homepage chapter navigator. */
+.experience-page .career-layout { grid-template-columns: 190px minmax(0, 1fr); }
+.experience-page .career-sidebar { position: sticky; top: calc(var(--site-header-height, 64px) + 16px); max-height: calc(100svh - 100px); overflow-y: auto; border: 0; border-radius: 0; background: transparent; }
+.experience-page .career-scene { background: transparent; }
+.experience-page .career-scene canvas { width: 112px; height: 112px; margin: 0 auto 8px; }
+.experience-page .career-scene figcaption { gap: 4px; padding: 0 8px 16px; }
+.experience-page .career-scene strong { font-size: 14px; min-height: 48px; }
+.experience-page #career-scene-note { font-size: 11px; line-height: 1.6; min-height: 36px; }
+.career-nav-caption { color: var(--color-text-faint); font-size: 9px; line-height: 1.6; letter-spacing: .09em; text-transform: uppercase; }
+.experience-page .career-milestones { display: block; border: 0; background: transparent; }
+.career-step-list { list-style: none; padding: 0; margin: 0; max-width: none; }
+.career-step-list li { margin: 0; }
+.experience-page .career-milestones a { display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 8px 6px; border: 0; border-radius: 0 4px 4px 0; font-size: 11px; }
+.experience-page .career-milestones span { margin: 0; }
+.experience-page .career-step-number { font: 10px var(--font-mono); color: var(--color-text-faint); }
+.experience-page .career-milestones .career-step-copy { font: 11px/1.5 var(--font-body); }
+.career-step-copy small { display: block; margin-bottom: 2px; font: 9px/1.5 var(--font-mono); color: var(--color-text-faint); }
+.experience-page .career-milestones a[aria-current="step"] { background: var(--color-primary-highlight); color: var(--color-primary); }
+.experience-page .career-milestones a[aria-current="step"]::before { inset: 7px auto 7px 0; width: 2px; }
+.experience-page .career-entry { scroll-margin-top: calc(var(--site-header-height, 64px) + 24px); }
+@media (min-width: 1280px) and (min-height: 600px) {
+  .experience-page .career-layout { grid-template-columns: minmax(0, 1fr); }
+  .experience-page .career-sidebar { position: fixed; top: 50%; left: max(16px, calc((100vw - 1280px) / 2)); width: 144px; transform: translateY(-50%); z-index: 15; }
+}
+@media (max-width: 760px) {
+  .experience-page .career-layout { display: block; }
+  .experience-page .career-sidebar { display: block; position: sticky; top: var(--site-header-height, 58px); max-height: none; overflow: visible; padding-bottom: 6px; background: var(--color-bg); border-bottom: 1px solid var(--color-divider); z-index: 15; }
+  .experience-page .career-scene { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: center; }
+  .experience-page .career-scene canvas { width: 64px; height: 64px; margin: 0; }
+  .experience-page .career-scene figcaption { padding: 4px 8px; gap: 1px; }
+  .experience-page .career-scene strong { font-size: 12px; min-height: 0; }
+  .experience-page #career-scene-note { min-height: 0; }
+  .experience-page .career-milestones { border: 0; }
+  .experience-page .career-step-list { display: flex; overflow-x: auto; scrollbar-width: thin; max-width: 100%; }
+  .career-step-list li { flex: 0 0 auto; }
+  .experience-page .career-milestones a { min-width: 136px; }
+  .experience-page .career-timeline { margin-top: 24px; }
+  .experience-page .career-entry { scroll-margin-top: calc(var(--site-header-height, 58px) + var(--career-nav-height, 128px) + 16px); }
+}
+@media print { .experience-page .career-sidebar { display: none; } .experience-page .career-layout { display: block; } }
 
 /* The bio stays readable while key phrases offer a little more context. */
 .bio-term { display: inline; padding: 0; color: inherit; font: inherit; line-height: inherit; text-align: inherit; text-decoration: underline; text-decoration-style: dotted; text-decoration-color: var(--color-primary); text-decoration-thickness: 1px; text-underline-offset: .2em; border-radius: 2px; }

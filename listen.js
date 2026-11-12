@@ -14,11 +14,13 @@
   }
   button.addEventListener('click', function () {
     controls.hidden = false; button.setAttribute('aria-expanded', 'true');
+    button.hidden = true; audio.focus({ preventScroll: true });
     if (!loaded) { audio.src = audio.dataset.narrationSrc; loaded = true; }
     if (!audio.paused) { audio.pause(); return; }
     status.textContent = 'Loading narration…';
     audio.play().then(function () { status.textContent = ''; }).catch(function (failure) {
       if (failure.name === 'AbortError') return;
+      button.hidden = false;
       status.textContent = 'The audio could not start. Please try Listen again or use the player controls.';
       paint();
     });
@@ -28,7 +30,7 @@
   audio.addEventListener('pause', function () { if (!audio.error) status.textContent = ''; paint(); });
   audio.addEventListener('ended', function () { started = false; paint(); });
   audio.addEventListener('waiting', function () { if (!audio.paused) status.textContent = 'Buffering…'; });
-  audio.addEventListener('error', function () { status.textContent = 'The narration could not load. Please try again.'; loaded = false; paint(); });
+  audio.addEventListener('error', function () { status.textContent = 'The narration could not load. Please try again.'; loaded = false; started = false; button.hidden = false; controls.hidden = true; button.setAttribute('aria-expanded', 'false'); paint(); });
   document.addEventListener('play', function (event) {
     if (event.target !== audio) { audio.pause(); return; }
     document.querySelectorAll('audio, video').forEach(function (other) { if (other !== audio) other.pause(); });

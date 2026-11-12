@@ -105,12 +105,12 @@ Header search is shared across generated pages. `search-index.json` includes
 article text, individual publications/projects and profile/CV content. `search.js`
 fetches it only on a query, ranks local results and uses native dialog focus.
 `search.html?q=...` provides a bookmarkable search view. Header destinations
-Publications, Code and Experience are dedicated documents; local chapter links remain local.
+Publications, Code, Experience and Contact are dedicated documents; local chapter links remain local.
 
 Publications, Code, Blog (including archives), Experience and CV share the
 `collection-page`, `page-head`, `page-heading` and `page-actions` styles. Collection
 downloads and repository links live in that header, with one copy of each action.
-All five pages use the ambient dotted background and the same Contact footer.
+The collection pages use the ambient dotted background and the same Contact footer.
 Home highlights one publication beside two smaller records and presents code as
 three illustrated project links. The publication artwork remains unlinked.
 
@@ -118,11 +118,27 @@ The draggable wireframe on Code uses `word-room.js` to wrap a single selectable
 copy of the prose into line fragments on both sides of a circular exclusion.
 Cached word widths keep it movable across all three paragraphs. Layout and
 drawing run on input, resize and theme changes, with no idle animation or
-third-party library. Without JavaScript, the original paragraphs remain intact.
+third-party library. The globe's moving caption has its own text exclusion, so
+neither the globe nor its caption covers prose. Without JavaScript, the original
+paragraphs remain intact.
 The full career timeline and its animation live on Experience; home uses four
 compact links. Search and theme use the same icon-button treatment.
-Experience figures stay at their real values; the intro's odometer uses CSS
-generated digits so decorative reels do not leak digit strings into page text.
+The Experience rail is fixed in the wide-screen gutter, sticky within the layout
+on tablets, and a compact sticky strip on mobile. `metrics.js` animates only an
+empty aria-hidden overlay with CSS-generated digits. Do not overwrite `.num`
+text: its final value must remain readable to agents, assistive technology and
+visitors without JavaScript throughout the animation. Reduced motion skips it.
+The intro's odometer also uses CSS-generated digits so decorative reels do not
+leak digit strings into page text.
+
+The Blog archive link/count and List/Tiles controls share one toolbar. The recent
+posts page has no second archive action below the list.
+
+`contact.html` opens directly with a visible form, including without JavaScript.
+Its contact details and the homepage section share `_src/contact.html`. The
+homepage keeps its inline open/close behaviour; the dedicated page keeps the
+form open. Header and footer Contact links open the dedicated page, while older
+homepage fragment links still work.
 
 Each post's Listen control streams a pre-generated MP3. Kokoro-82M v1.0 with
 the `af_heart` voice generates the audio on standard Ubuntu GitHub Actions
@@ -131,6 +147,10 @@ Apache-2.0 licensed; the ONNX runtime wrapper is MIT licensed. Sources:
 [Kokoro](https://huggingface.co/hexgrad/Kokoro-82M),
 [voices](https://huggingface.co/hexgrad/Kokoro-82M/blob/main/VOICES.md),
 [kokoro-onnx](https://github.com/thewh1teagle/kokoro-onnx).
+
+After activation, the Listen button gives way to a single native-audio panel
+with its AI label and speed selector inside the same surface. Audio remains
+unrequested until activation; native controls provide seeking and play/pause.
 
 The Blog narration workflow automatically processes new or changed narrative
 text, stores immutable, hashed MP3s in the `blog-narration` release, then commits

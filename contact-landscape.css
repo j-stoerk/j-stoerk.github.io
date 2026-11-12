@@ -1,6 +1,6 @@
 /* A full-width photographic contact section; the photograph stays one panorama. */
-.portfolio-page { overflow-x: clip; }
-.portfolio-page .contact-landscape {
+:is(.portfolio-page, .contact-page) { overflow-x: clip; }
+:is(.portfolio-page, .contact-page) .contact-landscape {
   --color-text: #f3f6fc;
   --color-text-muted: #d0dbea;
   --color-text-faint: #adbed3;
@@ -78,6 +78,9 @@
 .contact-landscape .form-submit { color: #0d2340; background: #b5d2ff; border-color: #b5d2ff; }
 .contact-landscape .form-submit:hover { background: #d5e5ff; border-color: #d5e5ff; }
 .contact-landscape .message-close { color: var(--color-text-muted); }
+.contact-page .contact-landscape-content { min-height: 0; }
+.contact-page .contact-message { padding-top: 0; }
+@media (max-width: 760px) { .contact-page .contact-message { order: -1; } }
 @media (min-width: 1280px) and (min-height: 600px) {
   .chapter-nav:has(a[href="#contact"][aria-current="location"]) {
     --color-text-muted: #cdd8e7;
@@ -87,7 +90,7 @@
   }
 }
 @media (max-width: 820px) {
-  .portfolio-page .contact-landscape { padding-block: 56px; }
+  :is(.portfolio-page, .contact-page) .contact-landscape { padding-block: 56px; }
   .contact-landscape-content { min-height: 0; }
   .contact-landscape .contact-message { padding-top: 40px; }
   .contact-landscape .contact-context { margin-block: 24px 32px; }
@@ -97,7 +100,7 @@
   .contact-photo-tile::after { transition: none; }
 }
 @media print {
-  .portfolio-page .contact-landscape { width: auto; margin-inline: 0; padding: 0; background: none; --color-text: #111; --color-text-muted: #444; --color-text-faint: #555; --color-primary: #164c96; }
+  :is(.portfolio-page, .contact-page) .contact-landscape { width: auto; margin-inline: 0; padding: 0; background: none; --color-text: #111; --color-text-muted: #444; --color-text-faint: #555; --color-primary: #164c96; }
   .contact-landscape-content { min-height: 0; }
   .contact-landscape-art { display: none; }
 }
