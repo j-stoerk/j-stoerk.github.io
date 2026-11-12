@@ -150,9 +150,13 @@ Code previews and full project blocks include verified primary dependencies in
 The homepage uses `_src/code-sessions.html` for three illustrative terminal
 walkthroughs. Commands come from the project READMEs; the lines below them describe
 the workflows rather than claim a live run. `code-sessions.js` adds keyboard tabs
-and one three-second CSS replay on first view. No animation player or polling is
-loaded. Reduced motion leaves everything static; without JavaScript all three
-sessions remain readable. Keep the terminal's stack labels with each project.
+and a short replay on first view. Each transcript has per-line `data-delay`
+timings: commands type at their own `data-type` speed, routine output arrives in
+bursts, and results pause longer. One event-driven timer reveals incoming lines
+and scrolls only the transcript. Manual scrolling stops auto-follow. No animation
+player, polling or frame loop is loaded. Reduced motion leaves everything static;
+without JavaScript all three transcripts remain scrollable. Keep the terminal's
+stack labels with each project and preserve the documented scope of demo results.
 
 Each post's Listen control streams a pre-generated MP3. Kokoro-82M v1.0 with
 the `af_heart` voice generates the audio on standard Ubuntu GitHub Actions

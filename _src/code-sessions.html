@@ -7,42 +7,122 @@
   </div>
   <article class="code-session" id="session-thermal" aria-label="Electrode thermal model session">
     <div class="session-terminal" aria-label="Illustrative notebook workflow">
+      <div class="session-scroll" tabindex="0" aria-label="Electrode modelling session transcript"><div class="session-transcript">
       <p class="session-directory">julius@lab <span>~/zehner-electrode-thermal</span></p>
-      <div class="session-command"><span aria-hidden="true">$</span><code>jupyter nbconvert --to notebook --execute --inplace Electrode.ipynb</code></div>
-      <ol class="session-output">
-        <li><span class="session-stage">input</span><span>Composition, porosity, calendering states</span></li>
-        <li><span class="session-stage">model</span><span>Particle contacts + graphite reorientation</span></li>
-        <li><span class="session-stage">compare</span><span>Predicted vs. measured conductivity</span></li>
-        <li><span class="session-stage">inspect</span><span>Residuals, uncertainty, transfer between recipes</span></li>
-      </ol>
+        <div class="session-command" data-session-step data-delay="0" data-type="460"><span aria-hidden="true">$</span><code>jupyter nbconvert --to notebook --execute --inplace Electrode.ipynb</code></div>
+        <div class="session-log" data-session-step data-delay="530"><span class="session-stage">notebook</span><span>Electrode.ipynb</span></div>
+        <div class="session-log" data-session-step data-delay="20"><span class="session-stage">data</span><span>Gandert et al. · 27 calendering states</span></div>
+        <div class="session-log" data-session-step data-delay="24"><span class="session-stage">family</span><span>NMC811</span></div>
+        <div class="session-log" data-session-step data-delay="24"><span class="session-stage">family</span><span>NMC622</span></div>
+        <div class="session-log" data-session-step data-delay="24"><span class="session-stage">family</span><span>Graphite</span></div>
+        <div class="session-log" data-session-step data-delay="24"><span class="session-stage">inputs</span><span>Composition · porosity · gas conditions</span></div>
+        <div class="session-log" data-session-step data-delay="24"><span class="session-stage">target</span><span>Effective thermal conductivity</span></div>
+        <div class="session-log" data-session-step data-delay="100"><span class="session-stage">closure</span><span>Knudsen-extended packed-bed model</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">gas</span><span>Pore-scale conduction correction</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">contact</span><span>Static-contact reference</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">compare</span><span>Conductivity across calendering states</span></div>
+        <div class="session-log" data-session-step data-delay="260"><span class="session-stage">fit</span><span>Compression-dependent contact fraction</span></div>
+        <div class="session-log" data-session-step data-delay="32"><span class="session-stage">fit</span><span>Parameters calibrated by composition</span></div>
+        <div class="session-log" data-session-step data-delay="32"><span class="session-stage">inspect</span><span>Graphite reorientation + contact evolution</span></div>
+        <div class="session-log" data-session-step data-delay="32"><span class="session-stage">split</span><span>All-sheet calibration; transfer checked separately</span></div>
+        <div class="session-command" data-session-step data-delay="240" data-type="380"><span aria-hidden="true">$</span><code>jupyter nbconvert --to notebook --execute --inplace Summary.ipynb</code></div>
+        <div class="session-log" data-session-step data-delay="460"><span class="session-stage">method</span><span>Symbolic regression</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">check</span><span>Additive structure and closure coefficient</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">method</span><span>Gaussian-process residual model</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">check</span><span>Conformal uncertainty intervals</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">method</span><span>Differentiable JAX multiphysics</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">check</span><span>Closure sensitivities</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">method</span><span>Inverse PINN</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">compare</span><span>Parameter recovery vs. least-squares shooting</span></div>
+        <div class="session-log" data-session-step data-delay="220"><span class="session-stage">limits</span><span>High temperature · copper · wide d/D</span></div>
+        <div class="session-log" data-session-step data-delay="30"><span class="session-stage">inspect</span><span>Validity edges shared across methods</span></div>
+        <div class="session-log" data-session-step data-delay="220"><span class="session-stage">report</span><span>All-27-sheet calibration MAPE</span></div>
+        <div class="session-log" data-session-step data-delay="45"><span class="session-stage">baseline</span><span>31.1%</span></div>
+        <div class="session-log" data-session-step data-delay="45"><span class="session-stage">fitted</span><span>4.5%</span></div>
+        <div class="session-log" data-session-step data-delay="360"><span class="session-stage">transfer</span><span>Check recipe changes separately</span></div>
+        <div class="session-log" data-session-step data-delay="160"><span class="session-stage">artifacts</span><span>Executed notebooks · figures · residuals</span></div>
+      </div></div>
       <div class="session-result"><svg viewBox="0 0 200 42" width="160" height="34" aria-hidden="true" fill="none"><path d="M1 36h198" stroke="currentColor" opacity=".15"/><path d="M8 6c25 0 30 29 80 29s65-29 104-29" stroke="currentColor" stroke-width="1.7"/><path d="M8 13c35 0 43 16 80 16s72-17 104-17" stroke="currentColor" stroke-dasharray="3 4" opacity=".45"/></svg><span>Process → structure → heat transport</span></div>
     </div>
     <footer class="session-footer"><div><h3>Electrode thermal model</h3><p>Calibrate a physical closure and check where it transfers.</p><span class="project-stack">Python · JAX · SciPy</span></div><a href="code.html#project-thermal">Explore the model <span aria-hidden="true">↗</span></a></footer>
   </article>
   <article class="code-session" id="session-t2t" aria-label="Text to Trajectory session">
     <div class="session-terminal" aria-label="Illustrative robot demo workflow">
+      <div class="session-scroll" tabindex="0" aria-label="Robot instruction session transcript"><div class="session-transcript">
       <p class="session-directory">julius@lab <span>~/T2T</span></p>
-      <div class="session-command"><span aria-hidden="true">$</span><code>python run.py demo</code></div>
-      <ol class="session-output">
-        <li><span class="session-stage">scene</span><span>KUKA iiwa cell in MuJoCo</span></li>
-        <li><span class="session-stage">task</span><span>Supplied goals, object references, spatial relations</span></li>
-        <li><span class="session-stage">check</span><span>Geometry, motion and observed placement</span></li>
-        <li><span class="session-stage">repeat</span><span>Move the reference object; resolve the goal again</span></li>
-      </ol>
+        <div class="session-command" data-session-step data-delay="0" data-type="300"><span aria-hidden="true">$</span><code>python run.py demo</code></div>
+        <div class="session-log" data-session-step data-delay="360"><span class="session-stage">load</span><span>Checksum-verified robot XML</span></div>
+        <div class="session-log" data-session-step data-delay="20"><span class="session-stage">scene</span><span>KUKA iiwa · MuJoCo</span></div>
+        <div class="session-log" data-session-step data-delay="20"><span class="session-stage">objects</span><span>Targets + reference objects</span></div>
+        <div class="session-log" data-session-step data-delay="20"><span class="session-stage">units</span><span>World coordinates · millimetres</span></div>
+        <div class="session-log" data-session-step data-delay="20"><span class="session-stage">demo</span><span>Three supplied goals, without a language model</span></div>
+        <div class="session-log" data-session-step data-delay="130"><span class="session-stage">goal</span><span>Resolve the target and its reference</span></div>
+        <div class="session-log" data-session-step data-delay="25"><span class="session-stage">plan</span><span>Check geometry before motion</span></div>
+        <div class="session-log" data-session-step data-delay="25"><span class="session-stage">execute</span><span>Move the robot in simulation</span></div>
+        <div class="session-log" data-session-step data-delay="25"><span class="session-stage">inspect</span><span>Compare placement with the requested relation</span></div>
+        <div class="session-log" data-session-step data-delay="200"><span class="session-stage">follow-up</span><span>Move the reference object</span></div>
+        <div class="session-log" data-session-step data-delay="25"><span class="session-stage">resolve</span><span>Compute the relative target again</span></div>
+        <div class="session-log" data-session-step data-delay="25"><span class="session-stage">repeat</span><span>Execute against the updated scene</span></div>
+        <div class="session-command" data-session-step data-delay="230" data-type="480"><span aria-hidden="true">$</span><code>python run.py run --method checked &quot;Place the red cube right of the blue cube over the can.&quot;</code></div>
+        <div class="session-log" data-session-step data-delay="560"><span class="session-stage">models</span><span>Qwen3 via Ollama</span></div>
+        <div class="session-log" data-session-step data-delay="24"><span class="session-stage">request</span><span>Red cube · right of blue cube · over the can</span></div>
+        <div class="session-log" data-session-step data-delay="24"><span class="session-stage">ground</span><span>Object identity and reference</span></div>
+        <div class="session-log" data-session-step data-delay="24"><span class="session-stage">propose</span><span>Structured goal from the instruction</span></div>
+        <div class="session-log" data-session-step data-delay="180"><span class="session-stage">meaning</span><span>Separate check of the requested relations</span></div>
+        <div class="session-log" data-session-step data-delay="24"><span class="session-stage">geometry</span><span>Check the proposed movement</span></div>
+        <div class="session-log" data-session-step data-delay="24"><span class="session-stage">execute</span><span>Run in the simulated cell</span></div>
+        <div class="session-log" data-session-step data-delay="24"><span class="session-stage">inspect</span><span>Requested relation vs. observed placement</span></div>
+        <div class="session-command" data-session-step data-delay="200" data-type="280"><span aria-hidden="true">$</span><code>python run.py policies</code></div>
+        <div class="session-log" data-session-step data-delay="340"><span class="session-stage">load</span><span>published_results.json</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">records</span><span>2,000 Boolean outcomes · five checkpoints</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">pairing</span><span>Same tasks and numbered reset states</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">suite</span><span>pi0.5 · OpenVLA-OFT · TurboVLA</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">suite</span><span>OpenVLA · SmolVLA</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">compare</span><span>Paired confidence intervals</span></div>
+        <div class="session-log" data-session-step data-delay="240"><span class="session-stage">report</span><span>Suite scores and checkpoint identities</span></div>
+        <div class="session-log" data-session-step data-delay="180"><span class="session-stage">scope</span><span>LIBERO benchmark; separate from the KUKA study</span></div>
+      </div></div>
       <div class="session-result"><svg viewBox="0 0 200 42" width="160" height="34" aria-hidden="true" fill="none" stroke="currentColor"><path d="M4 34h192" opacity=".15"/><path d="M10 33V23l30-16 44 17 35-15" stroke-width="1.7"/><circle cx="40" cy="7" r="3"/><circle cx="84" cy="24" r="3"/><path d="M127 9q38 0 38 24h22" stroke-dasharray="3 4" opacity=".55"/><path d="M177 23h12v10h-12z"/></svg><span>Instruction → goal → checked movement</span></div>
     </div>
     <footer class="session-footer"><div><h3>Text to Trajectory</h3><p>Keep spatial requirements intact through robot execution.</p><span class="project-stack">Python · MuJoCo · NumPy / SciPy</span></div><a href="code.html#project-t2t">Explore T2T <span aria-hidden="true">↗</span></a></footer>
   </article>
   <article class="code-session" id="session-chargewise" aria-label="ChargeWise session">
     <div class="session-terminal" aria-label="Illustrative charging demo workflow">
+      <div class="session-scroll" tabindex="0" aria-label="Fleet charging session transcript"><div class="session-transcript">
       <p class="session-directory">julius@lab <span>~/chargewise</span></p>
-      <div class="session-command"><span aria-hidden="true">$</span><code>uv run --locked python scripts/run_demo.py</code></div>
-      <ol class="session-output">
-        <li><span class="session-stage">load</span><span>Fleet, chargers, prices and departure targets</span></li>
-        <li><span class="session-stage">solve</span><span>OR-Tools schedule within shared site power</span></li>
-        <li><span class="session-stage">check</span><span>Plug occupancy, energy delivery, vehicle limits</span></li>
-        <li><span class="session-stage">replan</span><span>Change a price or take a charger offline</span></li>
-      </ol>
+        <div class="session-command" data-session-step data-delay="0" data-type="380"><span aria-hidden="true">$</span><code>uv run --locked python scripts/run_demo.py</code></div>
+        <div class="session-log" data-session-step data-delay="440"><span class="session-stage">backend</span><span>FastAPI</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">frontend</span><span>React</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">solver</span><span>OR-Tools</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">mode</span><span>Key-free demo · local computed summaries</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">open</span><span>http://127.0.0.1:8000</span></div>
+        <div class="session-command" data-session-step data-delay="120" data-type="160"><span aria-hidden="true">›</span><code>Load sample</code></div>
+        <div class="session-log" data-session-step data-delay="230"><span class="session-stage">sample</span><span>Four vans · two fixed 11 kW plugs</span></div>
+        <div class="session-log" data-session-step data-delay="20"><span class="session-stage">energy</span><span>84 kWh requested · 90% efficiency</span></div>
+        <div class="session-log" data-session-step data-delay="20"><span class="session-stage">bind</span><span>Keep each vehicle on its assigned plug</span></div>
+        <div class="session-log" data-session-step data-delay="20"><span class="session-stage">targets</span><span>Departure times + target state of charge</span></div>
+        <div class="session-command" data-session-step data-delay="140" data-type="180"><span aria-hidden="true">›</span><code>Optimize</code></div>
+        <div class="session-log" data-session-step data-delay="260"><span class="session-stage">compare</span><span>Same vehicles, hardware and energy targets</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">FCFS</span><span>22 kW peak</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">EDF</span><span>22 kW peak</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">LLF</span><span>22 kW peak</span></div>
+        <div class="session-log" data-session-step data-delay="220"><span class="session-stage">OR-Tools</span><span>8.89 kW peak</span></div>
+        <div class="session-log" data-session-step data-delay="100"><span class="session-stage">check</span><span>Independent allocation checks</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">check</span><span>Vehicle limits + compatibility</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">check</span><span>Plug occupancy + availability</span></div>
+        <div class="session-log" data-session-step data-delay="18"><span class="session-stage">check</span><span>Energy delivery + shared site power</span></div>
+        <div class="session-command" data-session-step data-delay="180" data-type="260"><span aria-hidden="true">›</span><code>CH-01 unavailable 08:00–12:00 UTC</code></div>
+        <div class="session-log" data-session-step data-delay="330"><span class="session-stage">event</span><span>Charger outage</span></div>
+        <div class="session-log" data-session-step data-delay="22"><span class="session-stage">replan</span><span>Keep the departure-energy targets</span></div>
+        <div class="session-log" data-session-step data-delay="220"><span class="session-stage">peak</span><span>10 kW for the sample outage</span></div>
+        <div class="session-log" data-session-step data-delay="20"><span class="session-stage">verify</span><span>Check the revised allocation</span></div>
+        <div class="session-command" data-session-step data-delay="180" data-type="240"><span aria-hidden="true">›</span><code>Increase afternoon prices</code></div>
+        <div class="session-log" data-session-step data-delay="300"><span class="session-stage">update</span><span>Recompute the schedule and cost</span></div>
+        <div class="session-log" data-session-step data-delay="20"><span class="session-stage">replay</span><span>Deliver the same event again</span></div>
+        <div class="session-log" data-session-step data-delay="20"><span class="session-stage">version</span><span>Duplicate delivery leaves the plan unchanged</span></div>
+        <div class="session-log" data-session-step data-delay="200"><span class="session-stage">capacity</span><span>Inspect the independent capacity proof</span></div>
+        <div class="session-log" data-session-step data-delay="100"><span class="session-stage">scope</span><span>Synthetic sample, editable in the live demo</span></div>
+      </div></div>
       <div class="session-result"><svg viewBox="0 0 200 42" width="160" height="34" aria-hidden="true" fill="none" stroke="currentColor"><path d="M4 36h192" opacity=".15"/><path d="M8 36V23h37V10h42v13h43V10h60v26" stroke-width="1.7"/><path d="M8 5h182" stroke-dasharray="3 4" opacity=".45"/></svg><span>Departure targets, within the grid limit</span></div>
     </div>
     <footer class="session-footer"><div><h3>ChargeWise</h3><p>Fit a fleet's charging needs to the available power.</p><span class="project-stack">Python · OR-Tools · FastAPI · React</span></div><a href="chargewise/index.html">Try the live demo <span aria-hidden="true">↗</span></a></footer>

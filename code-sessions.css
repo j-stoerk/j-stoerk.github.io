@@ -12,11 +12,13 @@
 .session-terminal { padding: 28px 30px 22px; color: var(--color-text); font: 12px/1.8 var(--font-mono); background: linear-gradient(115deg, color-mix(in srgb, var(--color-primary-highlight) 28%, var(--color-surface)), var(--color-surface) 65%); }
 .session-directory { margin: 0 0 8px; font: inherit; color: var(--color-text-muted); }
 .session-directory span { color: var(--color-primary); }
-.session-command { display: grid; grid-template-columns: 14px minmax(0, 1fr); gap: 8px; min-height: 46px; margin-bottom: 22px; }
+.session-scroll { height: 300px; overflow: auto; overscroll-behavior: contain; overflow-anchor: none; scrollbar-width: thin; scrollbar-color: var(--color-border) transparent; }
+.session-scroll:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 5px; border-radius: 2px; }
+.session-transcript { position: relative; padding-bottom: 10px; }
+.session-command { display: grid; grid-template-columns: 14px minmax(0, 1fr); gap: 8px; margin: 16px 0 10px; }
 .session-command > span { color: var(--color-primary); }
 .session-command code { display: block; padding: 0; border: 0; background: none; color: var(--color-text); font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
-.session-output { display: grid; gap: 12px; margin: 0; padding: 0; max-width: none; list-style: none; }
-.session-output li { display: grid; grid-template-columns: 66px minmax(0, 1fr); gap: 16px; margin: 0; }
+.session-log { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 14px; padding-block: 2px; }
 .session-stage { color: var(--color-primary); }
 .session-result { display: flex; align-items: center; gap: 22px; margin-top: 26px; padding-top: 18px; color: var(--color-primary); font-size: 11px; }
 .session-result svg { flex: 0 0 160px; }
@@ -28,22 +30,16 @@
 .code-console [hidden] { display: none !important; }
 .code-console[data-ready] .code-session { border-top: 0; }
 .code-console button:focus-visible, .session-footer a:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; border-radius: 3px; }
-.code-session.is-playing .session-command code { animation: session-type .8s steps(32, end) both; }
-.code-session.is-playing .session-output li, .code-session.is-playing .session-result { animation: session-line .28s ease-out both; }
-.code-session.is-playing .session-output li:nth-child(1) { animation-delay: .9s; }
-.code-session.is-playing .session-output li:nth-child(2) { animation-delay: 1.3s; }
-.code-session.is-playing .session-output li:nth-child(3) { animation-delay: 1.7s; }
-.code-session.is-playing .session-output li:nth-child(4) { animation-delay: 2.1s; }
-.code-session.is-playing .session-result { animation-delay: 2.55s; }
+.code-session.is-playing [data-session-step]:not(.is-shown), .code-session.is-playing .session-result { visibility: hidden; }
+.code-session.is-playing .session-command.is-shown code { animation: session-type var(--type-duration, .3s) steps(32, end) both; }
 @keyframes session-type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0); } }
-@keyframes session-line { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 600px) {
   .console-chrome { padding-inline: 16px; }
   .console-tabs { padding-inline: 16px; gap: 12px; }
   .console-tabs button { align-items: flex-start; flex-direction: column; gap: 5px; font-size: 11px; }
   .session-terminal { padding: 24px 16px 20px; font-size: 11px; }
-  .session-command { min-height: 60px; }
-  .session-output li { grid-template-columns: 52px minmax(0, 1fr); gap: 10px; min-height: 40px; }
+  .session-scroll { height: 320px; }
+  .session-log { grid-template-columns: 64px minmax(0, 1fr); gap: 10px; padding-block: 3px; }
   .session-result { gap: 12px; min-height: 58px; }
   .session-result svg { flex-basis: 88px; width: 88px; }
   .session-footer { align-items: flex-start; flex-direction: column; gap: 8px; padding: 20px 16px 14px; }
@@ -51,3 +47,4 @@
 }
 @media (prefers-reduced-motion: reduce) { .code-session.is-playing * { animation: none !important; } }
 @media print { .console-tabs, .console-replay { display: none !important; } .code-console .code-session[hidden] { display: block !important; } }
+@media print { .session-scroll { height: auto; overflow: visible; } .code-session.is-playing [data-session-step], .code-session.is-playing .session-result { visibility: visible; } }
