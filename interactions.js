@@ -1,5 +1,5 @@
 /* Scroll interactions: live nav scrollspy, a contained parallax on feature
-   media, count-up metrics, and self-drawing publication charts. Content is
+   media and self-drawing publication charts. Content is
    shown directly — there is no reveal-on-scroll and no image wipe. All of it
    degrades to fully-visible static content under prefers-reduced-motion. */
 (function () {
@@ -152,47 +152,6 @@
       draw();
     }
   }
-
-  /* ---- count-up numbers ---- */
-  /* Impact metrics count up when their stat block scrolls into view. */
-  (function () {
-    var nums = slice(document.querySelectorAll('.exp-stats .num[data-to]'));
-    if (!nums.length) return;
-    var dec = function (el) { return parseInt(el.getAttribute('data-dec') || '0', 10); };
-    var fmt = function (v, d) { return (v < 0 ? '−' : '') + Math.abs(v).toFixed(d); };
-    var run = function (el) {
-      if (el.getAttribute('data-ran')) return;
-      el.setAttribute('data-ran', '1');
-      var to = parseFloat(el.getAttribute('data-to'));
-      var d = dec(el);
-      if (isNaN(to)) return;
-      if (reduce) { el.textContent = fmt(to, d); return; }
-      var dur = 950, t0 = null;
-      var tick = function (ts) {
-        if (t0 === null) t0 = ts;
-        var p = Math.min(1, (ts - t0) / dur);
-        el.textContent = fmt(to * (1 - Math.pow(1 - p, 3)), d);
-        if (p < 1) requestAnimationFrame(tick);
-        else el.textContent = fmt(to, d);
-      };
-      requestAnimationFrame(tick);
-    };
-    if (!reduce) nums.forEach(function (el) { el.textContent = fmt(0, dec(el)); });
-    var runIn = function (scope) {
-      slice(scope.querySelectorAll('.num[data-to]')).forEach(run);
-    };
-    var figs = slice(document.querySelectorAll('.exp-stats'));
-    if (hasIO && !reduce) {
-      var no = new IntersectionObserver(function (entries) {
-        entries.forEach(function (e) {
-          if (e.isIntersecting) { runIn(e.target); no.unobserve(e.target); }
-        });
-      }, { threshold: 0.35 });
-      figs.forEach(function (f) { no.observe(f); });
-    } else {
-      figs.forEach(runIn);
-    }
-  })();
 
   /* ---- self-drawing publication charts ---- */
   if (!reduce) {

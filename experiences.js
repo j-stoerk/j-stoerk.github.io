@@ -258,13 +258,13 @@
       // Repeated, pre-rendered digits roll through the wrap without repainting
       // text on every tick or creating a 101-row composited layer.
       reel.replaceChildren(...Array.from({ length: place === 100 ? 2 : 20 }, (_, i) => {
-        const row = document.createElement('span'); row.textContent = String(i % 10); return row;
+        const row = document.createElement('span'); row.dataset.digit = String(i % 10); return row;
       }));
       return { place, reel };
     }) : [];
     function setCounter(value) {
       const digits = String(Math.floor(value)).padStart(3, '0');
-      if (count.textContent !== digits) count.textContent = digits;
+      if (count.dataset.value !== digits) count.dataset.value = digits;
       progressBar.style.setProperty('--intro-progress', value / 100);
       reels.forEach(({ place, reel }) => {
         // One continuous odometer position replaces overlapping/cancelled digit
@@ -508,7 +508,6 @@
   (function atlas() {
     const buttons = $$('[data-topic]'), panels = $$('.atlas-panel');
     if (!buttons.length) return;
-    const stories = panels.filter(panel => panel.id !== 'atlas-latest').flatMap(panel => $$('.atlas-story', panel));
     const intros = new Map($$('.atlas-intro').map(intro => [intro, intro.textContent.trim()]));
     let visible = false;
     function fitIntros() {
@@ -542,10 +541,30 @@
       fitIntros();
     }
     buttons.forEach(button => button.addEventListener('click', () => select(button)));
-    $('[data-atlas-surprise]')?.addEventListener('click', () => {
-      const pool = stories.filter(story => story.dataset.post !== lastPick);
+    let library;
+    $('[data-atlas-surprise]')?.addEventListener('click', async event => {
+      const trigger = event.currentTarget;
+      trigger.disabled = true;
+      try {
+      if (!library) {
+        const response = await fetch($('[data-post-library]').dataset.postLibrary);
+        if (!response.ok) throw new Error('library');
+        library = await response.json();
+      }
+      const pool = library.filter(post => post.file !== lastPick);
       if (!pool.length) return;
-      const pick = pool[Math.floor(Math.random() * pool.length)], panel = pick.closest('.atlas-panel');
+      const post = pool[Math.floor(Math.random() * pool.length)], panel = $('#atlas-' + post.trail);
+      let pick = $$('.atlas-story', panel).find(story => story.dataset.post === post.file);
+      if (!pick) {
+        pick = document.createElement('a'); pick.className = 'atlas-story'; pick.href = post.file; pick.dataset.post = post.file; pick.dataset.preview = 'false';
+        const art = document.createElement('img'); art.src = post.cover; art.alt = ''; art.width = 1200; art.height = 675;
+        const copy = document.createElement('span'); copy.className = 'atlas-story-copy';
+        for (const [tag, text, className] of [['small', post.display + ' · ' + post.category, ''], ['strong', post.title, ''], ['span', post.summary, 'atlas-intro'], ['em', 'Read the notes ↗', '']]) {
+          const element = document.createElement(tag); element.textContent = text; element.className = className; copy.appendChild(element);
+          if (className) intros.set(element, text);
+        }
+        pick.append(art, copy); panel.appendChild(pick);
+      }
       const button = buttons.find(b => b.getAttribute('aria-controls') === panel.id);
       select(button);
       lastPick = pick.dataset.post;
@@ -553,6 +572,8 @@
       $$('.atlas-story', panel).forEach(story => { story.hidden = story !== pick; });
       $('#atlas-trail').textContent = $('span', button).textContent + ' / ' + $('strong', button).textContent + ' / A lucky find: ' + $('strong', pick).textContent;
       fitIntros();
+      } catch (_) { $('#atlas-trail').textContent = 'Could not load a random note. Try a topic or browse the archive.'; }
+      finally { trigger.disabled = false; }
     });
     if ('IntersectionObserver' in window) new IntersectionObserver(entries => {
       visible = entries[0].isIntersecting;

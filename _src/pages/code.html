@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Code · Julius Störk</title>
+  <meta name="description" content="Research software by Julius Störk for continual learning, electrode transport, robot instruction following, lab automation and fleet charging." />
+  <link rel="canonical" href="https://j-stoerk.github.io/code.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Code · Julius Störk" />
+  <meta property="og:description" content="Research software by Julius Störk for continual learning, electrode transport, robot instruction following, lab automation and fleet charging." />
+  <meta property="og:url" content="https://j-stoerk.github.io/code.html" />
+  <!--#HEAD_ASSETS-->
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <!--#TOPBAR-->
+  <main id="main" class="content collection-page">
+    <header class="page-head"><p class="eyebrow">Open research</p><h1>Code</h1><p class="lead">From research code to autonomous agents.</p></header>
+    <section class="code-story" aria-label="How I work">
+      <div class="word-room" data-word-room>
+        <div class="word-world" data-word-world><canvas width="320" height="320" tabindex="0" role="img" aria-label="Draggable wireframe globe. Drag or use arrow keys to move it and reflow the text."></canvas><span class="world-hint" aria-hidden="true">drag the globe · words make room</span></div>
+        <p>These projects grew out of work on electrode production, electrochemical measurements and continual learning. I keep the models alongside data-loading routines, plots and checks so that a reported result can be traced back to its inputs.</p>
+        <p>The forgetting code examines how new updates affect earlier tasks. The thermal model connects calendering and electrode structure to heat transport. HELAO connects pumps and a robot to electrochemical measurements. More recent projects take language instructions into a simulated robot cell, or fit vehicle charging into the power available at a depot.</p>
+        <p>Each repository has a different starting point: a notebook, a simulated scene, an instrument configuration or an editable application. The project notes below identify the inputs and checks worth inspecting first. For comparisons, the data split, task order and configuration belong with the final score. For a new material or machine, those assumptions need to be checked again.</p>
+      </div>
+      <button class="quiet-button world-reset" type="button" data-world-reset hidden>Reset globe</button>
+    </section>
+    <nav class="collection-jump" aria-label="Project categories"><a href="#project-forgetting">Learning</a><a href="#project-thermal">Materials</a><a href="#project-t2t">Robotics</a><a href="#project-chargewise">Energy</a><a href="#project-helao">Lab automation</a></nav>
+    <!--#SOFTWARE_RECORDS-->
+    <section class="section"><h2>Reproducing a result</h2><div class="reproduction-grid"><div><h3>1. Fix the case</h3><p>Use the repository's documented example and dependencies. Record the data version, units, task order and configuration.</p></div><div><h3>2. Run the checks</h3><p>Inspect constraints, intermediate artifacts and validation output alongside the final score or prediction.</p></div><div><h3>3. Change one assumption</h3><p>Try a held-out case or a different operating condition, then check which conclusion still holds.</p></div></div><p>For a concrete collaboration, <a href="index.html#contact">send a short description of your setup</a> and the outcome you need to measure.</p></section>
+
+  </main>
+  <!--#FOOTER-->
+  <!--#SCRIPTS-->
+</body>
+</html>

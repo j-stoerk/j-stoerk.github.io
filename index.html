@@ -130,10 +130,10 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=e36b9f82">
-  <link rel="stylesheet" href="experiences.css?v=2f793542">
+  <link rel="stylesheet" href="styles.css?v=6dc564fa">
+  <link rel="stylesheet" href="experiences.css?v=5f949ed2">
   <link rel="stylesheet" href="contact-landscape.css?v=a50ed8c1">
-  <script defer fetchpriority="high" src="experiences.js?v=681d99c6"></script>
+  <script defer fetchpriority="high" src="experiences.js?v=9375e192"></script>
   <script>
     (function () {
       const root = document.documentElement;
@@ -173,16 +173,24 @@
         <span class="sr-only">Open navigation</span>
       </button>
       <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
-        <a draggable="false" href="#publications" data-nav-label="Publications">Publications</a>
-        <a draggable="false" href="#software" data-nav-label="Code">Code</a>
-        <a draggable="false" href="blog.html?nav=fe6093f0" data-nav-label="Blog">Blog</a>
+        <a draggable="false" href="publications.html?nav=90caa69d" data-nav-label="Publications">Publications</a>
+        <a draggable="false" href="code.html?nav=90caa69d" data-nav-label="Code">Code</a>
+        <a draggable="false" href="blog.html?nav=90caa69d" data-nav-label="Blog">Blog</a>
         <a draggable="false" href="#experience" data-nav-label="Experience">Experience</a>
-        <a draggable="false" href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
+        <a draggable="false" href="cv.html?nav=90caa69d" data-nav-label="CV">CV</a>
         <a draggable="false" href="#contact" data-nav-label="Contact">Contact</a>
-        <button draggable="false" class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
       </nav>
+      <div class="header-actions">
+        <a draggable="false" class="header-search" href="search.html?nav=90caa69d" data-search-open aria-label="Search website" title="Search (/ or Ctrl+K)"><svg viewBox="0 0 24 24" width="21" height="21" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg><span class="search-label">Search</span></a>
+        <button draggable="false" class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+      </div>
     </div>
   </header>
+  <dialog class="search-dialog" data-search-dialog aria-labelledby="search-dialog-title">
+    <div class="search-dialog-head"><h2 id="search-dialog-title">Search the website</h2><button draggable="false" class="search-close" type="button" data-search-close aria-label="Close search"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
+    <form class="search-form" action="search.html" method="get" data-site-search><label class="sr-only" for="dialog-search">Search papers, projects and posts</label><input id="dialog-search" name="q" type="search" autocomplete="off" placeholder="Papers, projects, ideas…" data-search-input><p class="search-status" data-search-status role="status">Type to search papers, projects and posts.</p><div class="search-results" data-search-results></div></form>
+    <p class="search-help">Esc to close <span> / or Ctrl+K to search</span></p>
+  </dialog>
 
   <div class="portfolio-atmosphere" aria-hidden="true" data-feature="intro-background">
     <div class="hero-visual">
@@ -191,10 +199,10 @@
       <div class="intro-readout">
         <span class="intro-signature">Julius Störk<br><small>Process / structure / learning</small></span>
         <span class="intro-count">
-          <span class="sr-only" data-intro-count>000</span>
-          <span class="intro-digit" data-intro-place="100"><span class="intro-reel"><span>0</span></span></span>
-          <span class="intro-digit" data-intro-place="10"><span class="intro-reel"><span>0</span></span></span>
-          <span class="intro-digit" data-intro-place="1"><span class="intro-reel"><span>0</span></span></span>
+          <span class="sr-only" data-intro-count></span>
+          <span class="intro-digit" data-intro-place="100"><span class="intro-reel"></span></span>
+          <span class="intro-digit" data-intro-place="10"><span class="intro-reel"></span></span>
+          <span class="intro-digit" data-intro-place="1"><span class="intro-reel"></span></span>
         </span>
       </div>
       <div class="intro-progress"></div>
@@ -221,7 +229,7 @@
         <p class="eyebrow hero-kicker">Doctoral researcher</p>
         <div class="hero-identity">
           <h1>Julius Störk</h1>
-          <a draggable="false" class="orcid-link" href="https://orcid.org/0009-0006-3519-0950" target="_blank" rel="me noopener noreferrer" aria-label="Julius Störk on ORCID">ORCID &#8599;</a>
+          <a draggable="false" class="orcid-link" href="https://orcid.org/0009-0006-3519-0950" target="_blank" rel="me noopener noreferrer" aria-label="Julius Störk on ORCID" title="ORCID"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="currentColor"/><g fill="var(--color-bg)"><circle cx="6.8" cy="6.5" r="1"/><path d="M6 9h1.6v9H6zM10 6h4a6 6 0 0 1 0 12h-4V6Zm1.7 1.6v8.8H14a4.4 4.4 0 0 0 0-8.8h-2.3Z"/></g></svg></a>
         </div>
         <p class="lead"><button draggable="false" class="bio-term" type="button" disabled data-bio-topic="ai" aria-controls="bio-popover" aria-expanded="false">Artificial intelligence</button> for <button draggable="false" class="bio-term" type="button" disabled data-bio-topic="manufacturing" aria-controls="bio-popover" aria-expanded="false">battery manufacturing</button>. I develop machine-learning methods that
           connect <button draggable="false" class="bio-term" type="button" disabled data-bio-topic="data" aria-controls="bio-popover" aria-expanded="false">process data</button>, <button draggable="false" class="bio-term" type="button" disabled data-bio-topic="physics" aria-controls="bio-popover" aria-expanded="false">physical models</button>, and <button draggable="false" class="bio-term" type="button" disabled data-bio-topic="performance" aria-controls="bio-popover" aria-expanded="false">electrochemical performance</button>. At VARTA and TU Braunschweig, my work
@@ -238,28 +246,28 @@
         </div>
         <nav class="start-here" aria-label="Start here">
           <span>Start here</span>
-          <a draggable="false" href="#publications">Publications</a>
-          <a draggable="false" href="#software">Code</a>
+          <a draggable="false" href="publications.html?nav=90caa69d">Publications</a>
+          <a draggable="false" href="code.html?nav=90caa69d">Code</a>
           <a draggable="false" href="#writing">Blog</a>
-          <a draggable="false" href="cv.html?nav=fe6093f0">CV</a>
+          <a draggable="false" href="cv.html?nav=90caa69d">CV</a>
         </nav>
       </div>
       <div class="hero-bio-rail">
         <picture class="hero-portrait">
           <source type="image/webp" srcset="portrait-176.webp 1x, portrait-352.webp 2x">
-          <img draggable="false" class="portrait-img" src="portrait.jpg" alt="Portrait of Julius Störk" width="176" height="176"
+          <img draggable="false" class="portrait-img" src="portrait.jpg" alt="Julius Störk" width="176" height="176"
             fetchpriority="high">
         </picture>
           <aside class="bio-popover" id="bio-popover" hidden role="region" aria-label="Bio explanation" tabindex="-1">
     <div id="bio-popover-body"></div>
-    <button draggable="false" class="bio-close" type="button" aria-label="Close explanation">&#215;</button>
+    <button draggable="false" class="bio-close" type="button" aria-label="Close explanation"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m5 5 10 10M15 5 5 15"/></svg></button>
   </aside>
 
   <template id="bio-explanations">
     <div data-bio-card="ai" data-title="Artificial intelligence">
       <img draggable="false" src="images/blog-covers/post-jev-output-heads.svg" alt="" width="1200" height="675">
       <p>I use machine learning to turn measurements into predictions that support experimental and manufacturing decisions.</p>
-      <a draggable="false" href="#software">Explore the research software &#8599;</a>
+      <a draggable="false" href="code.html?nav=90caa69d">Explore the research software &#8599;</a>
     </div>
     <div data-bio-card="manufacturing" data-title="Battery manufacturing">
       <img draggable="false" src="images/bio/battery-manufacturing.svg" alt="" width="600" height="338">
@@ -269,17 +277,17 @@
     <div data-bio-card="data" data-title="Process data">
       <img draggable="false" src="images/blog-covers/post-causalpfn.svg" alt="" width="1200" height="675">
       <p>Measurements become useful when they can be traced to a material, a process state, and an outcome. That context helps a model support decisions on the line.</p>
-      <a draggable="false" href="post-jev-output-heads.html?nav=fe6093f0">From measurements to decisions &#8599;</a>
+      <a draggable="false" href="post-jev-output-heads.html?nav=90caa69d">From measurements to decisions &#8599;</a>
     </div>
     <div data-bio-card="physics" data-title="Physical models">
       <img draggable="false" src="images/blog-covers/post-calendering-u-shape.svg" alt="" width="1200" height="675">
       <p>Physical models give learning methods useful constraints: transport paths, particle contacts, and how those structures change under processing.</p>
-      <a draggable="false" href="post-calendering-u-shape.html?nav=fe6093f0">Explore the thermal model &#8599;</a>
+      <a draggable="false" href="post-calendering-u-shape.html?nav=90caa69d">Explore the thermal model &#8599;</a>
     </div>
     <div data-bio-card="performance" data-title="Electrochemical performance">
       <img draggable="false" src="images/bio/electrochemical-performance.svg" alt="" width="600" height="338">
       <p>Cycling and impedance data reveal how a cell responds. I use that response to connect manufacturing history with electrochemical behaviour.</p>
-      <a draggable="false" href="cv.html?nav=fe6093f0">Explore the experimental background &#8599;</a>
+      <a draggable="false" href="cv.html?nav=90caa69d">Explore the experimental background &#8599;</a>
     </div>
     <div data-bio-card="electrodes" data-title="Electrode development">
       <img draggable="false" src="images/bio/electrode-development.svg" alt="" width="600" height="338">
@@ -289,12 +297,12 @@
     <div data-bio-card="learning" data-title="Continual learning">
       <img draggable="false" src="images/blog-covers/post-geometry-of-forgetting.svg" alt="" width="600" height="338">
       <p>A manufacturing model needs to adapt as conditions change while preserving useful knowledge from earlier data.</p>
-      <a draggable="false" href="post-geometry-of-forgetting.html?nav=fe6093f0">Explore the geometry of forgetting &#8599;</a>
+      <a draggable="false" href="post-geometry-of-forgetting.html?nav=90caa69d">Explore the geometry of forgetting &#8599;</a>
     </div>
     <div data-bio-card="modelling" data-title="Process–property modelling">
       <img draggable="false" src="images/blog-covers/post-calendering-u-shape.svg" alt="" width="1200" height="675">
       <p>I connect processing conditions to the structure they create and the properties that follow, rather than modelling each step in isolation.</p>
-      <a draggable="false" href="post-calendering-u-shape.html?nav=fe6093f0">Follow the process–property connection &#8599;</a>
+      <a draggable="false" href="post-calendering-u-shape.html?nav=90caa69d">Follow the process–property connection &#8599;</a>
     </div>
   </template>
 
@@ -302,262 +310,32 @@
     </section>
 
     <section class="section" id="publications">
-      <div class="section-head">
-        <h2>Publications</h2>
-        <a draggable="false" class="link-more outline-action" href="publications.bib" download><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v10m-4-4 4 4 4-4 M3 13v4h14v-4"/></svg><span>all entries (.bib)</span></a>
-      </div>
-      <p class="section-lead">Research papers, code, and reproducible results.</p>
-      <div class="publication-index">
-        <article class="publication-record" id="publication-glee">
-          <span class="publication-number" aria-hidden="true">01</span>
-          <div class="publication-content">
-            <div class="publication-title-row">
-              <strong>RL-Menu Agent Learns to Fold by Seat</strong>
-            </div>
-            <p class="muted">Developed through ten iterations, <em>frodo</em> combines a reinforcement-learned menu
-              policy with hand-coded strategies and peaked at rank 5 with a rating of 2302.8. Failed negotiations
-              often scored near the field median, favoring aggressive demands when the agent controlled the final
-              offer. The same stance from the weaker seat caused the largest measured losses. The RL layer
-              discovered this seat distinction; distilled heuristics then outperformed the learner that found it.</p>
-            <div class="publication-footer">
-              <span class="publication-status">NeurIPS 2026 &middot; IAB Workshop</span>
-              <div class="publication-actions">
-                <a draggable="false" class="publication-link" href="https://openreview.net/forum?id=Wsz7IpaKsh" target="_blank"
-                  rel="noopener noreferrer">OpenReview</a>
-                <a draggable="false" class="publication-link" href="media/glee/glee-paper.pdf">PDF</a>
-                <a draggable="false" class="publication-link" href="media/glee/glee-poster.pdf">Poster</a>
-                <a draggable="false" class="publication-link" href="media/glee/glee-talk.mp4">Video</a>
-                <a draggable="false" class="publication-link" href="post-glee-agent.html?nav=fe6093f0">Explore the article</a>
-              </div>
-              <details class="bibtex publication-details">
-                <summary draggable="false">Details &amp; BibTeX</summary>
-                <div class="publication-extra">
-                  <div class="authors">Julius Störk · Technische Universität Braunschweig; VARTA Microbattery GmbH · 2026</div>
-                  <div class="pub-tags"><span class="tag">GLEE Competition Track</span></div>
-                  <a draggable="false" class="publication-link" href="media/glee/glee-paper.pdf" download>Download PDF</a>
-                </div>
-                <div class="bibtex-panel">
-                  <button draggable="false" class="bibtex-copy" type="button">Copy</button>
-                  <pre><code>@inproceedings{stoerk2026glee,
-  title = {{RL-Menu Agent Learns to Fold by Seat in 27,000 GLEE Games}},
-  author = {St{\"o}rk, Julius},
-  booktitle = {NeurIPS 2026, Interpreting Agent Behavior (IAB) Workshop, GLEE Competition Track},
-  year = {2026},
-  url = {https://openreview.net/forum?id=Wsz7IpaKsh}
-}</code></pre>
-                </div>
-              </details>
-            </div>
-          </div>
-        </article>
-
-        <article class="publication-record">
-          <span class="publication-number" aria-hidden="true">02</span>
-          <div class="publication-content">
-          <div class="publication-title-row">
-            <strong>Interference and retention in continual learning</strong>
-          </div>
-          <p class="muted">Learning a new task can overwrite a model's earlier knowledge. I model this forgetting as
-            weight-interference energy under a task's feature covariance and derive a replay-free controller (IGFA)
-            that protects earlier tasks while sharing capacity where directions do not conflict.</p>
-          <figure class="pub-figure" data-paper="forgetting">
-            <svg viewBox="0 0 320 88" role="img" aria-labelledby="fig-igfa-title">
-              <title id="fig-igfa-title">Bar chart. Forgetting on a 410-million-parameter model, indexed to the naive
-                fine-tuning baseline at 100. With the IGFA gate the index falls to 64, a 36 percent reduction.</title>
-              <line class="fig-axis" x1="112" y1="12" x2="112" y2="82" />
-              <text class="fig-label" x="104" y="30.5" text-anchor="end">Naive fine-tuning</text>
-              <path d="M112,18 H268 Q272,18 272,22 V32 Q272,36 268,36 H112 Z" fill="var(--color-text-faint)" />
-              <text class="fig-label" x="278" y="30.5">100</text>
-              <text class="fig-label" x="104" y="70.5" text-anchor="end">With IGFA gate</text>
-              <path d="M112,58 H210.4 Q214.4,58 214.4,62 V72 Q214.4,76 210.4,76 H112 Z" fill="var(--color-primary)" />
-              <text class="fig-label" x="220.4" y="70.5">64 <tspan class="fig-label-primary">(−36%)</tspan></text>
-            </svg>
-            <figcaption>Forgetting on a 410M-parameter model, indexed to the naive fine-tuning baseline (= 100). The
-              replay-free IGFA gate removes 36% of forgetting.</figcaption>
-          </figure>
-          <div class="publication-footer">
-            <span class="publication-status">Preprint &middot; 2026</span>
-            <div class="publication-actions">
-              <a draggable="false" class="publication-link" href="https://arxiv.org/abs/2607.09202" target="_blank"
-              rel="noopener noreferrer">arXiv</a>
-              <a draggable="false" class="publication-link" href="https://github.com/j-stoerk/geometry-of-forgetting" target="_blank"
-              rel="noopener noreferrer">Code &amp; data</a>
-              <a draggable="false" class="publication-link" href="forgetting-geometry.pdf">PDF</a>
-              <a draggable="false" class="publication-link" href="post-geometry-of-forgetting.html?nav=fe6093f0">Explore the article</a>
-            </div>
-          <details class="bibtex publication-details">
-            <summary draggable="false">Details &amp; BibTeX</summary>
-            <div class="publication-extra">
-          <div class="authors">Julius Störk · VARTA Microbattery GmbH; Institute for Particle Technology (iPAT), TU Braunschweig · 2026</div>
-          <div class="pub-tags">
-            <span class="tag">cs.LG</span>
-            <span class="tag">cs.AI</span>
-          </div>
-              <a draggable="false" class="publication-link" href="forgetting-geometry.pdf" download>Download PDF</a>
-            </div>
-            <div class="bibtex-panel">
-              <button draggable="false" class="bibtex-copy" type="button">Copy</button>
-              <pre><code>@misc{stoerk2026interference,
-  title         = {Interference and Retention in Continual Learning},
-  author        = {St{\"o}rk, Julius},
-  year          = {2026},
-  eprint        = {2607.09202},
-  archivePrefix = {arXiv},
-  primaryClass  = {cs.LG},
-  doi           = {10.48550/arXiv.2607.09202},
-  url           = {https://arxiv.org/abs/2607.09202}
-}</code></pre>
-            </div>
-          </details>
-          </div>
-          </div>
-        </article>
-
-        <article class="publication-record">
-          <span class="publication-number" aria-hidden="true">03</span>
-          <div class="publication-content">
-          <div class="publication-title-row">
-            <strong>Capturing the calendering U-shape in lithium-ion electrode thermal conductivity</strong>
-          </div>
-          <p class="muted">Porosity-only and static-contact models miss the conductivity dip during calendering. I
-            develop a differentiable Zehner–Bauer–Schlünder closure that captures this dip and tests whether
-            contact-network growth or particle reorientation dominates through-plane thermal transport.</p>
-          <figure class="pub-figure" data-paper="calendering">
-            <svg viewBox="0 0 360 162" role="img" aria-labelledby="fig-ushape-title">
-              <title id="fig-ushape-title">Line chart of through-plane thermal conductivity versus compaction for three
-                closure families. Porosity-only and static-contact closures rise monotonically; the calendering-aware
-                ZBS closure first dips to a minimum near 18 percent compaction, then rises.</title>
-              <line class="fig-grid" x1="51.75" y1="108.88" x2="344.25" y2="108.88" />
-              <line class="fig-grid" x1="51.75" y1="77.08" x2="344.25" y2="77.08" />
-              <line class="fig-grid" x1="51.75" y1="45.36" x2="344.25" y2="45.36" />
-              <line class="fig-grid" x1="51.75" y1="13.64" x2="344.25" y2="13.64" />
-              <line class="fig-axis" x1="51.75" y1="13.64" x2="51.75" y2="127.89" />
-              <line class="fig-axis" x1="51.75" y1="127.89" x2="344.25" y2="127.89" />
-              <text class="text-tick" x="51.75" y="142.85" text-anchor="middle">0%</text>
-              <text class="text-tick" x="149.29" y="142.85" text-anchor="middle">20%</text>
-              <text class="text-tick" x="246.71" y="142.85" text-anchor="middle">40%</text>
-              <text class="text-tick" x="344.25" y="142.85" text-anchor="middle">60%</text>
-              <text class="text-label-faint" x="198" y="159.05" text-anchor="middle">Compaction Π</text>
-              <text class="text-tick" x="45" y="111.44" text-anchor="end">0.5</text>
-              <text class="text-tick" x="45" y="79.63" text-anchor="end">1.0</text>
-              <text class="text-tick" x="45" y="47.92" text-anchor="end">1.5</text>
-              <text class="text-tick" x="45" y="16.2" text-anchor="end">2.0</text>
-              <text class="text-label-faint" x="13.5" y="70.76" text-anchor="middle" transform="rotate(-90 13.5 70.76)">λ<tspan baseline-shift="sub" font-size="70%">eff</tspan> (W/mK)</text>
-              <path fill="none" stroke="var(--color-text-faint)" stroke-width="1.5" stroke-dasharray="4"
-                d="M 51.75 102.49 L 57.38 101.12 L 63 99.84 L 68.62 98.48 L 74.25 97.11 L 79.88 95.76 L 85.5 94.48 L 91.12 93.11 L 96.75 91.74 L 102.38 90.38 L 108 89.1 L 113.62 87.73 L 119.25 86.38 L 124.88 85.09 L 130.5 83.72 L 136.12 82.37 L 141.75 81 L 147.38 79.72 L 153 78.36 L 158.62 76.99 L 164.25 75.62 L 169.88 74.34 L 175.5 72.99 L 181.12 71.62 L 186.75 70.26 L 192.38 68.98 L 198 67.61 L 203.62 66.24 L 209.25 64.89 L 214.88 63.61 L 220.5 62.24 L 226.12 60.88 L 231.75 59.51 L 237.38 58.23 L 243 56.88 L 248.62 55.51 L 254.25 54.14 L 259.88 52.86 L 265.5 51.5 L 271.12 50.13 L 276.75 48.78 L 282.38 47.5 L 288 46.13 L 293.62 44.76 L 299.25 43.4 L 304.88 42.12 L 310.5 40.75 L 316.12 39.4 L 321.75 38.03 L 327.38 36.74 L 333 35.39 L 338.62 34.02 L 344.25 32.65" />
-              <text class="fig-label" x="168.75" y="68.22" text-anchor="middle">Porosity-only</text>
-              <path fill="none" stroke="var(--color-text-muted)" stroke-width="1.5" stroke-dasharray="2"
-                d="M 51.75 102.49 L 57.38 102.49 L 63 102.4 L 68.62 102.24 L 74.25 101.97 L 79.88 101.72 L 85.5 101.38 L 91.12 101.04 L 96.75 100.53 L 102.38 100.01 L 108 99.42 L 113.62 98.82 L 119.25 98.14 L 124.88 97.38 L 130.5 96.52 L 136.12 95.67 L 141.75 94.73 L 147.38 93.71 L 153 92.59 L 158.62 91.49 L 164.25 90.29 L 169.88 89.01 L 175.5 87.73 L 181.12 86.38 L 186.75 84.92 L 192.38 83.47 L 198 81.85 L 203.62 80.23 L 209.25 78.61 L 214.88 76.82 L 220.5 75.04 L 226.12 73.15 L 231.75 71.28 L 237.38 69.23 L 243 67.19 L 248.62 65.14 L 254.25 62.93 L 259.88 60.71 L 265.5 58.41 L 271.12 56.1 L 276.75 53.71 L 282.38 51.24 L 288 48.69 L 293.62 46.04 L 299.25 43.4 L 304.88 40.68 L 310.5 37.94 L 316.12 35.12 L 321.75 32.22 L 327.38 29.25 L 333 26.17 L 338.62 23.11 L 344.25 19.96" />
-              <text class="fig-label" x="256.5" y="80.15" text-anchor="middle">Static contact</text>
-              <path fill="none" stroke="var(--color-primary)" stroke-width="2.5" stroke-linecap="round"
-                d="M 51.75 102.49 L 57.38 103.08 L 63 103.68 L 68.62 104.28 L 74.25 104.87 L 79.88 105.48 L 85.5 105.98 L 91.12 106.49 L 96.75 107.01 L 102.38 107.44 L 108 107.77 L 113.62 108.11 L 119.25 108.45 L 124.88 108.63 L 130.5 108.79 L 136.12 108.88 L 141.75 108.97 L 147.38 108.88 L 153 108.72 L 158.62 108.54 L 164.25 108.2 L 169.88 107.77 L 175.5 107.26 L 181.12 106.67 L 186.75 105.9 L 192.38 105.05 L 198 104.11 L 203.62 103 L 209.25 101.72 L 214.88 100.35 L 220.5 98.91 L 226.12 97.2 L 231.75 95.4 L 237.38 93.44 L 243 91.32 L 248.62 89.01 L 254.25 86.54 L 259.88 83.9 L 265.5 81.09 L 271.12 78.1 L 276.75 74.95 L 282.38 71.53 L 288 67.95 L 293.62 64.12 L 299.25 60.12 L 304.88 55.93 L 310.5 51.5 L 316.12 46.8 L 321.75 41.94 L 327.38 36.83 L 333 31.46 L 338.62 25.83 L 344.25 19.96" />
-              <circle cx="140.74" cy="108.97" r="3.5" fill="var(--color-primary)" stroke="var(--color-bg)" stroke-width="1.5" />
-              <text class="fig-label-primary" x="160" y="121.93">Calendering-aware ZBS</text>
-            </svg>
-            <figcaption>Schematic closures: only calendering-aware ZBS captures the dip then rise. Across 27 fitted states,
-              MAPE falls from 31.1% to 4.5%.</figcaption>
-          </figure>
-          <div class="publication-footer">
-            <span class="publication-status">Preprint &middot; 2026</span>
-            <div class="publication-actions">
-              <a draggable="false" class="publication-link" href="https://arxiv.org/abs/2607.11521" target="_blank"
-              rel="noopener noreferrer">arXiv</a>
-              <a draggable="false" class="publication-link" href="https://github.com/j-stoerk/zehner-electrode-thermal" target="_blank"
-              rel="noopener noreferrer">Code &amp; data</a>
-              <a draggable="false" class="publication-link" href="zehner-closure.pdf">PDF</a>
-              <a draggable="false" class="publication-link" href="post-calendering-u-shape.html?nav=fe6093f0">Explore the article</a>
-            </div>
-          <details class="bibtex publication-details">
-            <summary draggable="false">Details &amp; BibTeX</summary>
-            <div class="publication-extra">
-          <div class="authors">Julius Störk · VARTA Microbattery GmbH; Institute for Particle Technology (iPAT), TU Braunschweig · 2026</div>
-          <div class="pub-tags">
-            <span class="tag">cond-mat.mtrl-sci</span>
-            <span class="tag">physics.chem-ph</span>
-          </div>
-              <a draggable="false" class="publication-link" href="zehner-closure.pdf" download>Download PDF</a>
-            </div>
-            <div class="bibtex-panel">
-              <button draggable="false" class="bibtex-copy" type="button">Copy</button>
-              <pre><code>@misc{stoerk2026calendering,
-  title         = {Capturing the Calendering U-Shape in Lithium-Ion
-                   Electrode Thermal Conductivity},
-  author        = {St{\"o}rk, Julius},
-  year          = {2026},
-  eprint        = {2607.11521},
-  archivePrefix = {arXiv},
-  primaryClass  = {cond-mat.mtrl-sci},
-  doi           = {10.48550/arXiv.2607.11521},
-  url           = {https://arxiv.org/abs/2607.11521}
-}</code></pre>
-            </div>
-          </details>
-          </div>
-          </div>
-        </article>
+      <div class="section-head"><h2>Publications</h2><a draggable="false" class="outline-action" href="publications.html?nav=90caa69d">View publications <span aria-hidden="true">↗</span></a></div>
+      <p class="section-lead">Continual learning, electrode transport and decision-making agents.</p>
+      <div class="collection-previews">
+        <a draggable="false" class="collection-preview" href="publications.html?nav=90caa69d#publication-glee"><small>NeurIPS 2026 · IAB Workshop</small><h3>RL-Menu Agent Learns to Fold by Seat</h3><p>How the scoring rule and bargaining position shaped a game-playing agent.</p><span aria-hidden="true">↗</span></a>
+        <a draggable="false" class="collection-preview" href="publications.html?nav=90caa69d#publication-forgetting"><small>Continual learning · preprint</small><h3>Interference and retention</h3><p>A geometric account of forgetting, with experiments in a fixed feature space.</p><span aria-hidden="true">↗</span></a>
+        <a draggable="false" class="collection-preview" href="publications.html?nav=90caa69d#publication-calendering"><small>Electrode modelling · preprint</small><h3>Capturing the calendering U-shape</h3><p>A process-dependent thermal closure calibrated across graphite and NMC electrodes.</p><span aria-hidden="true">↗</span></a>
       </div>
     </section>
 
     <section class="section" id="software">
-      <div class="section-head">
-        <h2>Code</h2>
-        <a draggable="false" class="link-more outline-action" href="https://github.com/j-stoerk" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 6-4 4 4 4 m8-8 4 4-4 4 M12 3 8 17"/></svg><span>all repositories</span></a>
-      </div>
+      <div class="section-head"><h2>Code</h2><a draggable="false" class="outline-action" href="code.html?nav=90caa69d">Explore the projects <span aria-hidden="true">↗</span></a></div>
       <p class="section-lead">From research code to autonomous agents.</p>
-      <div class="pub-list">
-        <div class="item software-project">
-          <a draggable="false" class="software-art" href="post-geometry-of-forgetting.html?nav=fe6093f0" aria-label="Read the research behind geometry-of-forgetting"><img draggable="false" src="images/blog-covers/post-geometry-of-forgetting.svg" alt="Task covariance contours and an update split into protected and free directions" width="1200" height="675" loading="lazy"><span>Task geometry &middot; paper &amp; code &#8599;</span></a>
-          <div class="software-copy">
-          <strong><a draggable="false" href="https://github.com/j-stoerk/geometry-of-forgetting" target="_blank"
-              rel="noopener noreferrer">geometry-of-forgetting</a></strong>
-          <p class="muted">Diagnosing forgetting requires tracing how updates interfere with earlier tasks. My research
-            code provides interference-attribution analysis and Colab pipelines for continual pretraining and LoRA
-            fine-tuning, with the working notes and negative results that shaped the paper.</p>
-          <div class="pub-tags"><span class="tag">Python</span><span class="tag">paper code</span></div>
-          </div>
-        </div>
-        <div class="item software-project">
-          <a draggable="false" class="software-art" href="post-calendering-u-shape.html?nav=fe6093f0" aria-label="Read the research behind zehner-electrode-thermal"><img draggable="false" src="images/blog-covers/post-calendering-u-shape.svg" alt="Electrode particles and the calendering-dependent thermal response" width="1200" height="675" loading="lazy"><span>Process &rarr; property &middot; paper &amp; code &#8599;</span></a>
-          <div class="software-copy">
-          <strong><a draggable="false" href="https://github.com/j-stoerk/zehner-electrode-thermal" target="_blank"
-              rel="noopener noreferrer">zehner-electrode-thermal</a></strong>
-          <p class="muted">Predicting electrode thermal conductivity requires accounting for structural changes during
-            calendering. My notebooks calibrate and validate the closure against electrode data and compare it with
-            ML, PINN, and multiphysics approaches.</p>
-          <div class="pub-tags"><span class="tag">Jupyter</span><span class="tag">paper code</span></div>
-          </div>
-        </div>
-        <div class="item software-project">
-          <figure class="software-art"><svg viewBox="0 0 320 210" role="img" aria-label="Schematic of a scanning droplet cell: fluid supply, probe, and a patterned sample"><defs><linearGradient id="cell-shade" x2="0" y2="1"><stop stop-color="#e5eef5"/><stop offset="1" stop-color="#c3d7e8"/></linearGradient></defs><defs><linearGradient id="helao-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#eef1f5"/><stop offset="60%" stop-color="#ecebe2"/><stop offset="100%" stop-color="#e4dccb"/></linearGradient><radialGradient id="helao-glow"><stop stop-color="#5a82be" stop-opacity=".2"/><stop offset="1" stop-color="#5a82be" stop-opacity="0"/></radialGradient></defs><rect width="320" height="210" fill="url(#helao-bg)"/><ellipse cx="85" cy="78" rx="125" ry="110" fill="url(#helao-glow)"/><path d="M47 43h43v60H47z M58 30v13m19-13v13M90 74h55q14 0 14 14v17" fill="none" stroke="#597389" stroke-width="3"/><path d="M135 111v39l24 17 25-17v-39" fill="url(#cell-shade)" stroke="#486d8e" stroke-width="2"/><path d="M147 95h24v45l-12 18-12-18z" fill="#397da9"/><path d="M75 172l138-24 58 28-138 25z" fill="#d4dde2" stroke="#7691a4"/><g fill="#66879e"><ellipse cx="125" cy="174" rx="8" ry="3"/><ellipse cx="153" cy="169" rx="8" ry="3"/><ellipse cx="182" cy="164" rx="8" ry="3"/><ellipse cx="154" cy="186" rx="8" ry="3"/><ellipse cx="183" cy="180" rx="8" ry="3"/><ellipse cx="211" cy="175" rx="8" ry="3"/></g><ellipse cx="159" cy="163" rx="12" ry="5" fill="#d3a15b"/><path d="M215 107h47m-7-6 7 6-7 6" fill="none" stroke="#597389" stroke-width="2"/><g font-family="sans-serif" font-size="11" fill="#435a6d"><text x="43" y="23">FLUID</text><text x="203" y="96">SCAN</text><text x="202" y="201">SAMPLE</text></g></svg><figcaption>Instrument control &middot; scanning droplet cell</figcaption></figure>
-          <div class="software-copy">
-          <strong><a draggable="false" href="https://github.com/j-stoerk/HELAO" target="_blank"
-              rel="noopener noreferrer">HELAO</a></strong>
-          <p class="muted">Manual electrochemical screening limits throughput and repeatability. I developed pump and
-            robot control for a scanning droplet cell during my M.Sc. to automate measurement sequences.</p>
-          <div class="pub-tags"><span class="tag">Python</span><span class="tag">lab automation</span></div>
-          </div>
-        </div>
-        <div class="item software-project">
-          <figure class="software-art"><svg viewBox="0 0 320 210" role="img" aria-label="Illustrative grid-world observation and action trace for a game-playing agent"><defs><linearGradient id="arc-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#eef1f5"/><stop offset="60%" stop-color="#ecebe2"/><stop offset="100%" stop-color="#e4dccb"/></linearGradient><radialGradient id="arc-glow"><stop stop-color="#5a82be" stop-opacity=".2"/><stop offset="1" stop-color="#5a82be" stop-opacity="0"/></radialGradient></defs><rect width="320" height="210" fill="url(#arc-bg)"/><ellipse cx="85" cy="78" rx="125" ry="110" fill="url(#arc-glow)"/><g stroke="#9baabc" stroke-width="1"><path d="M31 28h140v140H31z M59 28v140m28-140v140m28-140v140m28-140v140M31 56h140M31 84h140M31 112h140M31 140h140" fill="#e9edf1"/></g><g fill="#5a82be"><path d="M32 29h26v26H32zM60 29h26v26H60zM144 85h26v26h-26zM116 113h26v26h-26zM116 141h26v26h-26z"/></g><path d="M45 98h56v56h56" fill="none" stroke="#a9762c" stroke-width="3"/><circle cx="45" cy="98" r="8" fill="#a9762c"/><path d="m150 148 7 6-7 6" fill="none" stroke="#a9762c" stroke-width="3"/><g font-family="sans-serif" font-size="12"><text x="195" y="60" fill="#33465e">Observe</text><text x="195" y="99" fill="#a9762c">Act</text><text x="195" y="138" fill="#33465e">Evaluate</text><text x="31" y="192" fill="#597389" font-size="10">ILLUSTRATIVE AGENT LOOP</text></g><path d="M200 68v14m0 25v14" stroke="#678499"/></svg><figcaption>Agent experiments &middot; observation to action</figcaption></figure>
-          <div class="software-copy">
-          <strong><a draggable="false" href="https://github.com/j-stoerk/arc-autoresearch" target="_blank"
-              rel="noopener noreferrer">arc-autoresearch</a></strong>
-          <p class="muted">Game-playing agents need to infer unfamiliar rules from observations and feedback. My
-            ARC-AGI-3 experiments combine a Python agent with per-game diagnostics and analysis notebooks to investigate
-            where its decisions succeed or fail.</p>
-          <div class="pub-tags"><span class="tag">Python</span><span class="tag">agents</span></div>
-          </div>
-        </div>
+      <div class="collection-previews">
+        <a draggable="false" class="collection-preview" href="code.html?nav=90caa69d#project-thermal"><small>Materials · modelling</small><h3>Electrode thermal model</h3><p>Calibrating transport models and checking what the data can identify.</p><span aria-hidden="true">↗</span></a>
+        <a draggable="false" class="collection-preview" href="code.html?nav=90caa69d#project-t2t"><small>Robotics · language</small><h3>Text to Trajectory</h3><p>Turning instructions into robot tasks with explicit execution checks.</p><span aria-hidden="true">↗</span></a>
+        <a draggable="false" class="collection-preview" href="code.html?nav=90caa69d#project-chargewise"><small>Energy · optimization</small><h3>ChargeWise</h3><p>Meeting fleet departure targets within charger and grid constraints.</p><span aria-hidden="true">↗</span></a>
       </div>
     </section>
 
     <section class="section" id="writing">
       <div class="section-head">
         <h2>Blog</h2>
-        <a draggable="false" class="link-more outline-action" href="blog.html?nav=fe6093f0"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5C7 2 3 3 2 4v12c3-2 6-2 8 0 2-2 5-2 8 0V4c-1-1-5-2-8 1z M10 5v11"/></svg><span>all posts</span></a>
+        <a draggable="false" class="link-more outline-action" href="blog-archive.html?nav=90caa69d"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5C7 2 3 3 2 4v12c3-2 6-2 8 0 2-2 5-2 8 0V4c-1-1-5-2-8 1z M10 5v11"/></svg><span>View all posts</span></a>
       </div>
 
-            <section class="research-explorer blog-explorer" data-feature="research-atlas" aria-labelledby="atlas-heading">
+            <section class="research-explorer blog-explorer" data-feature="research-atlas" data-post-library="blog-library.json?v=20823571" aria-labelledby="atlas-heading">
         <div class="atlas-heading">
           <p class="section-lead" id="atlas-heading">Pick a rabbit hole.</p>
           <button draggable="false" class="atlas-surprise outline-action" type="button" data-atlas-surprise aria-controls="atlas-work"><span aria-hidden="true">&#10536;</span> surprise me</button>
@@ -573,36 +351,24 @@
           <div class="atlas-work" id="atlas-work">
             <p class="atlas-trail" id="atlas-trail" role="status">Latest / Fresh from the notebook</p>
             <div class="atlas-panel" id="atlas-latest" data-active="true" role="region" aria-label="Latest blog posts">
-              <a draggable="false" class="atlas-story" data-post="post-lesswrong-hume.html" data-preview="true" href="post-lesswrong-hume.html?nav=fe6093f0"><img draggable="false" src="images/blog-covers/post-lesswrong-hume.svg?v=a41ba67c" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>8 November 2026 &middot; Philosophy & inference</small><strong>Getting Less Wrong Without Becoming Certain</strong><span class="atlas-intro">Reading Yudkowsky's Sequences alongside Hume, with Bayesian updating, human utility functions, model uncertainty and the premises behind Roko's basilisk.</span><em>Read the notes &#8599;</em></span></a>
-              <a draggable="false" class="atlas-story" data-post="post-text-to-trajectory.html" data-preview="true" href="post-text-to-trajectory.html?nav=fe6093f0"><img draggable="false" src="images/blog-covers/post-text-to-trajectory.svg?v=4042d2b5" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>1 November 2026 &middot; Robotics & language</small><strong>Text to Trajectory</strong><span class="atlas-intro">How grounding, task programs, motion planning and learned robot policies turn language into movement, with a focused evaluation proposed for Visual Components.</span><em>Read the notes &#8599;</em></span></a>
+              <a draggable="false" class="atlas-story" data-post="post-lesswrong-hume.html" data-preview="true" href="post-lesswrong-hume.html?nav=90caa69d"><img draggable="false" src="images/blog-covers/post-lesswrong-hume.svg?v=a41ba67c" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>8 November 2026 &middot; Philosophy & inference</small><strong>Getting Less Wrong Without Becoming Certain</strong><span class="atlas-intro">Reading Yudkowsky's Sequences alongside Hume, with Bayesian updating, human utility functions, model uncertainty and the premises behind Roko's basilisk.</span><em>Read the notes &#8599;</em></span></a>
+              <a draggable="false" class="atlas-story" data-post="post-text-to-trajectory.html" data-preview="true" href="post-text-to-trajectory.html?nav=90caa69d"><img draggable="false" src="images/blog-covers/post-text-to-trajectory.svg?v=4042d2b5" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>1 November 2026 &middot; Robotics & language</small><strong>Text to Trajectory</strong><span class="atlas-intro">How grounding, task programs, motion planning and learned robot policies turn language into movement, with a focused evaluation proposed for Visual Components.</span><em>Read the notes &#8599;</em></span></a>
             </div>
             <div class="atlas-panel" id="atlas-materials" role="region" aria-label="Materials blog posts">
-              <a draggable="false" class="atlas-story" data-post="post-battery-price-war.html" data-preview="true" href="post-battery-price-war.html?nav=fe6093f0"><img draggable="false" src="images/blog-covers/post-battery-price-war.svg?v=918c6a41" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>4 October 2026 &middot; Battery manufacturing</small><strong>Price Wars: East vs. West Battery Production and the SynBatt Response</strong><span class="atlas-intro">One animated timeline of manufacturers and factory plans. Grouped company cases connect funding, ramp-up, and customer demand, alongside twenty price-gap mechanisms and the SynBatt response.</span><em>Read the notes &#8599;</em></span></a>
-              <a draggable="false" class="atlas-story" data-post="post-dendrites-dandelions.html" data-preview="true" href="post-dendrites-dandelions.html?nav=fe6093f0"><img draggable="false" src="images/blog-covers/post-dendrites-dandelions.svg?v=f1c1979a" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>26 July 2026 &middot; Materials</small><strong>Lithium Dendrites Are Batteries' Dandelions</strong><span class="atlas-intro">A lithium-and-sodium dendrite model linking defect geometry, fracture and electronic leakage, with an explicit sodium example and unresolved current-scale mismatch.</span><em>Read the notes &#8599;</em></span></a>
-              <a draggable="false" class="atlas-story" data-post="post-calendering-u-shape.html" data-preview="false" hidden href="post-calendering-u-shape.html?nav=fe6093f0"><img draggable="false" src="images/blog-covers/post-calendering-u-shape.svg?v=e364a052" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>28 June 2026 &middot; Electrode manufacturing</small><strong>Modelling the Electrode Calendering U-Shape</strong><span class="atlas-intro">A process-dependent contact closure fits 27 graphite and NMC calendering states. Reorientation is a plausible graphite mechanism that thermal data alone cannot isolate.</span><em>Read the notes &#8599;</em></span></a>
+              <a draggable="false" class="atlas-story" data-post="post-battery-price-war.html" data-preview="true" href="post-battery-price-war.html?nav=90caa69d"><img draggable="false" src="images/blog-covers/post-battery-price-war.svg?v=918c6a41" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>4 October 2026 &middot; Battery manufacturing</small><strong>Price Wars: East vs. West Battery Production and the SynBatt Response</strong><span class="atlas-intro">One animated timeline of manufacturers and factory plans. Grouped company cases connect funding, ramp-up, and customer demand, alongside twenty price-gap mechanisms and the SynBatt response.</span><em>Read the notes &#8599;</em></span></a>
+              <a draggable="false" class="atlas-story" data-post="post-dendrites-dandelions.html" data-preview="true" href="post-dendrites-dandelions.html?nav=90caa69d"><img draggable="false" src="images/blog-covers/post-dendrites-dandelions.svg?v=f1c1979a" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>26 July 2026 &middot; Materials</small><strong>Lithium Dendrites Are Batteries' Dandelions</strong><span class="atlas-intro">A lithium-and-sodium dendrite model linking defect geometry, fracture and electronic leakage, with an explicit sodium example and unresolved current-scale mismatch.</span><em>Read the notes &#8599;</em></span></a>
             </div>
             <div class="atlas-panel" id="atlas-learning" role="region" aria-label="Learning blog posts">
-              <a draggable="false" class="atlas-story" data-post="post-ai-tipping.html" data-preview="true" href="post-ai-tipping.html?nav=fe6093f0"><img draggable="false" src="images/blog-covers/post-ai-tipping.svg?v=d870f69a" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>18 October 2026 &middot; AI research</small><strong>When Do AI Outputs Tip?</strong><span class="atlas-intro">One attention head tested across sixteen held-out Qwen2.5-0.5B prompts, a mathematical response clock, and cache edits that hold current answers fixed.</span><em>Read the notes &#8599;</em></span></a>
-              <a draggable="false" class="atlas-story" data-post="post-convmem.html" data-preview="true" href="post-convmem.html?nav=fe6093f0"><img draggable="false" src="images/blog-covers/post-convmem.svg?v=fb92a247" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>13 September 2026 &middot; Reading notes</small><strong>Reading ConvMem: Long-Context Reasoning as a Summary Tree</strong><span class="atlas-intro">ConvMem reads a long document as a tree of question-conditioned summaries instead of a chain of memory updates, which cuts the path from a fact to the answer from linear to logarithmic. Notes on the method, results and cost, and seven ideas for a path shorter than logarithmic.</span><em>Read the notes &#8599;</em></span></a>
-              <a draggable="false" class="atlas-story" data-post="post-fair-evaluation.html" data-preview="false" hidden href="post-fair-evaluation.html?nav=fe6093f0"><img draggable="false" src="images/blog-covers/post-fair-evaluation.svg?v=5ddc365c" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>23 August 2026 &middot; Continual learning</small><strong>Finding a Fair Evaluation Under Changing Representations</strong><span class="atlas-intro">A proposed matched-input task for testing representation adaptation, with a frozen-feature ceiling, separate retention audits and resource-matched baselines.</span><em>Read the notes &#8599;</em></span></a>
-              <a draggable="false" class="atlas-story" data-post="post-student-becomes-teacher.html" data-preview="false" hidden href="post-student-becomes-teacher.html?nav=fe6093f0"><img draggable="false" src="images/blog-covers/post-student-becomes-teacher.svg?v=f245b6b6" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>16 August 2026 &middot; AI research</small><strong>The Student Becomes the Teacher</strong><span class="atlas-intro">Self-distillation transfers a model’s own supervision. Majority pseudo-labels can correct minority errors or reinforce systematic mistakes; flatness alone guarantees neither generalisation nor retention.</span><em>Read the notes &#8599;</em></span></a>
-              <a draggable="false" class="atlas-story" data-post="post-optimizing-reasoning.html" data-preview="false" hidden href="post-optimizing-reasoning.html?nav=fe6093f0"><img draggable="false" src="images/blog-covers/post-optimizing-reasoning.svg?v=100a6d42" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>9 August 2026 &middot; AI research</small><strong>From Simulating Speech to Optimizing Reasoning</strong><span class="atlas-intro">What latent steering, multiplex tokens and compressed plans establish about reasoning, with measured hint acknowledgement and task-specific limits.</span><em>Read the notes &#8599;</em></span></a>
-              <a draggable="false" class="atlas-story" data-post="post-race-to-on.html" data-preview="false" hidden href="post-race-to-on.html?nav=fe6093f0"><img draggable="false" src="images/blog-covers/post-race-to-on.svg?v=12e09f08" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>2 August 2026 &middot; ML systems</small><strong>The Race to O(n)</strong><span class="atlas-intro">Sparse patterns, DSA indexing, recurrent memory and conditional complexity bounds, with vendor claims separated from independent architectural evidence.</span><em>Read the notes &#8599;</em></span></a>
-              <a draggable="false" class="atlas-story" data-post="post-geometry-of-forgetting.html" data-preview="false" hidden href="post-geometry-of-forgetting.html?nav=fe6093f0"><img draggable="false" src="images/blog-covers/post-geometry-of-forgetting.svg?v=fedac32e" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>5 July 2026 &middot; Continual learning</small><strong>The Geometry of Forgetting in Continual Learning</strong><span class="atlas-intro">An exact fixed-feature squared-loss calculation at stationarity, its second-order extension, and frozen-backbone IGFA results on Rotated-Digits.</span><em>Read the notes &#8599;</em></span></a>
+              <a draggable="false" class="atlas-story" data-post="post-ai-tipping.html" data-preview="true" href="post-ai-tipping.html?nav=90caa69d"><img draggable="false" src="images/blog-covers/post-ai-tipping.svg?v=d870f69a" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>18 October 2026 &middot; AI research</small><strong>When Do AI Outputs Tip?</strong><span class="atlas-intro">One attention head tested across sixteen held-out Qwen2.5-0.5B prompts, a mathematical response clock, and cache edits that hold current answers fixed.</span><em>Read the notes &#8599;</em></span></a>
+              <a draggable="false" class="atlas-story" data-post="post-convmem.html" data-preview="true" href="post-convmem.html?nav=90caa69d"><img draggable="false" src="images/blog-covers/post-convmem.svg?v=fb92a247" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>13 September 2026 &middot; Reading notes</small><strong>Reading ConvMem: Long-Context Reasoning as a Summary Tree</strong><span class="atlas-intro">ConvMem reads a long document as a tree of question-conditioned summaries instead of a chain of memory updates, which cuts the path from a fact to the answer from linear to logarithmic. Notes on the method, results and cost, and seven ideas for a path shorter than logarithmic.</span><em>Read the notes &#8599;</em></span></a>
             </div>
             <div class="atlas-panel" id="atlas-modelling" role="region" aria-label="Modelling blog posts">
-              <a draggable="false" class="atlas-story" data-post="post-lesswrong-hume.html" data-preview="true" href="post-lesswrong-hume.html?nav=fe6093f0"><img draggable="false" src="images/blog-covers/post-lesswrong-hume.svg?v=a41ba67c" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>8 November 2026 &middot; Philosophy & inference</small><strong>Getting Less Wrong Without Becoming Certain</strong><span class="atlas-intro">Reading Yudkowsky's Sequences alongside Hume, with Bayesian updating, human utility functions, model uncertainty and the premises behind Roko's basilisk.</span><em>Read the notes &#8599;</em></span></a>
-              <a draggable="false" class="atlas-story" data-post="post-jev-output-heads.html" data-preview="true" href="post-jev-output-heads.html?nav=fe6093f0"><img draggable="false" src="images/blog-covers/post-jev-output-heads.svg?v=bf052a21" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>27 September 2026 &middot; AI research</small><strong>How to (Not) Reinvent the Wheel With Jeff</strong><span class="atlas-intro">Jev, Jeff, and typed decisions: shared representations, task-specific heads, calibrated probabilities, and a concrete policy for when a manufacturing model acts or requests review.</span><em>Read the notes &#8599;</em></span></a>
-              <a draggable="false" class="atlas-story" data-post="post-inverted-fractions.html" data-preview="false" hidden href="post-inverted-fractions.html?nav=fe6093f0"><img draggable="false" src="images/blog-covers/post-inverted-fractions.svg?v=d0aa9b8a" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>6 September 2026 &middot; LLMs in science</small><strong>I Checked 2,294 arXiv Equations for Upside-Down Fractions</strong><span class="atlas-intro">An exploratory LLM-assisted audit flags 112 of 2,294 display rows, including one strict fraction reversal. Reviewer accuracy and clipboard causation remain unmeasured.</span><em>Read the notes &#8599;</em></span></a>
-              <a draggable="false" class="atlas-story" data-post="post-causalpfn.html" data-preview="false" hidden href="post-causalpfn.html?nav=fe6093f0"><img draggable="false" src="images/blog-covers/post-causalpfn.svg?v=3128ae45" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>12 July 2026 &middot; Reading notes</small><strong>Reading CausalPFN: Causal Effects as In-Context Prediction</strong><span class="atlas-intro">A NeurIPS 2025 paper trains one transformer on simulated, identifiable causal worlds; new observational data goes in as context, treatment-effect posteriors come out. What holds it up, and where it breaks.</span><em>Read the notes &#8599;</em></span></a>
+              <a draggable="false" class="atlas-story" data-post="post-lesswrong-hume.html" data-preview="true" href="post-lesswrong-hume.html?nav=90caa69d"><img draggable="false" src="images/blog-covers/post-lesswrong-hume.svg?v=a41ba67c" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>8 November 2026 &middot; Philosophy & inference</small><strong>Getting Less Wrong Without Becoming Certain</strong><span class="atlas-intro">Reading Yudkowsky's Sequences alongside Hume, with Bayesian updating, human utility functions, model uncertainty and the premises behind Roko's basilisk.</span><em>Read the notes &#8599;</em></span></a>
+              <a draggable="false" class="atlas-story" data-post="post-jev-output-heads.html" data-preview="true" href="post-jev-output-heads.html?nav=90caa69d"><img draggable="false" src="images/blog-covers/post-jev-output-heads.svg?v=bf052a21" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>27 September 2026 &middot; AI research</small><strong>How to (Not) Reinvent the Wheel With Jeff</strong><span class="atlas-intro">Jev, Jeff, and typed decisions: shared representations, task-specific heads, calibrated probabilities, and a concrete policy for when a manufacturing model acts or requests review.</span><em>Read the notes &#8599;</em></span></a>
             </div>
             <div class="atlas-panel" id="atlas-automation" role="region" aria-label="Automation blog posts">
-              <a draggable="false" class="atlas-story" data-post="post-text-to-trajectory.html" data-preview="true" href="post-text-to-trajectory.html?nav=fe6093f0"><img draggable="false" src="images/blog-covers/post-text-to-trajectory.svg?v=4042d2b5" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>1 November 2026 &middot; Robotics & language</small><strong>Text to Trajectory</strong><span class="atlas-intro">How grounding, task programs, motion planning and learned robot policies turn language into movement, with a focused evaluation proposed for Visual Components.</span><em>Read the notes &#8599;</em></span></a>
-              <a draggable="false" class="atlas-story" data-post="post-chargewise.html" data-preview="true" href="post-chargewise.html?nav=fe6093f0"><img draggable="false" src="images/blog-covers/post-chargewise.svg?v=6f5b5440" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>25 October 2026 &middot; Energy & optimization</small><strong>ChargeWise Fits the Fleet to the Grid</strong><span class="atlas-intro">Building ChargeWise AI with physical charging constraints, independent schedule checks, the original hosted application, Nemotron tools, and a forecasting follow-up.</span><em>Read the notes &#8599;</em></span></a>
-              <a draggable="false" class="atlas-story" data-post="post-agent-training-grounds.html" data-preview="false" hidden href="post-agent-training-grounds.html?nav=fe6093f0"><img draggable="false" src="images/blog-covers/post-agent-training-grounds.svg?v=e0ddbda4" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>11 October 2026 &middot; Agents & learning</small><strong>Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents</strong><span class="atlas-intro">From programming medals to battery stacking: verifiable environments, six 2026 agent and robotics projects, and practical tests for learning rewards, recovery, and resets.</span><em>Read the notes &#8599;</em></span></a>
-              <a draggable="false" class="atlas-story" data-post="post-disco-dry-run.html" data-preview="false" hidden href="post-disco-dry-run.html?nav=fe6093f0"><img draggable="false" src="images/blog-covers/post-disco-dry-run.svg?v=d0e51de4" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>20 September 2026 &middot; AI agents</small><strong>DisCo and the Case for Reusable Agent Skills</strong><span class="atlas-intro">DisCo distills repositories and papers into reusable operating skills. Scope, ground, construct, and verify: a practical route from research knowledge to repeatable workflows.</span><em>Read the notes &#8599;</em></span></a>
-              <a draggable="false" class="atlas-story" data-post="post-glee-agent.html" data-preview="false" hidden href="post-glee-agent.html?nav=fe6093f0"><img draggable="false" src="images/blog-covers/post-glee-agent.svg?v=7f127ae4" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>30 August 2026 &middot; AI agents</small><strong>I Ran a Game-Theory RL-Menu Agent in GLEE for 48 Hours (No LLM)</strong><span class="atlas-intro">Debugging a no-LLM GLEE agent through reward normalisation, seat-matched comparisons and bargaining timing, with controlled results separated from live rankings.</span><em>Read the notes &#8599;</em></span></a>
-              <a draggable="false" class="atlas-story" data-post="post-physical-ai.html" data-preview="false" hidden href="post-physical-ai.html?nav=fe6093f0"><img draggable="false" src="images/blog-covers/post-physical-ai.svg?v=0f8ba499" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>19 July 2026 &middot; AI & infrastructure</small><strong>AI's Bottleneck Is Physical</strong><span class="atlas-intro">Sensing, data lineage, latency and safe interventions constrain industrial AI. A bottleneck illustration and deployment examples, rather than a fitted scaling law.</span><em>Read the notes &#8599;</em></span></a>
+              <a draggable="false" class="atlas-story" data-post="post-text-to-trajectory.html" data-preview="true" href="post-text-to-trajectory.html?nav=90caa69d"><img draggable="false" src="images/blog-covers/post-text-to-trajectory.svg?v=4042d2b5" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>1 November 2026 &middot; Robotics & language</small><strong>Text to Trajectory</strong><span class="atlas-intro">How grounding, task programs, motion planning and learned robot policies turn language into movement, with a focused evaluation proposed for Visual Components.</span><em>Read the notes &#8599;</em></span></a>
+              <a draggable="false" class="atlas-story" data-post="post-chargewise.html" data-preview="true" href="post-chargewise.html?nav=90caa69d"><img draggable="false" src="images/blog-covers/post-chargewise.svg?v=6f5b5440" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>25 October 2026 &middot; Energy & optimization</small><strong>ChargeWise Fits the Fleet to the Grid</strong><span class="atlas-intro">Building ChargeWise AI with physical charging constraints, independent schedule checks, the original hosted application, Nemotron tools, and a forecasting follow-up.</span><em>Read the notes &#8599;</em></span></a>
             </div>
           </div>
         </div>
@@ -613,7 +379,7 @@
     <section class="section" id="experience">
       <div class="section-head">
         <h2>Selected experience</h2>
-        <a draggable="false" class="link-more outline-action" href="cv.html?nav=fe6093f0"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2h7l3 3v13H5z M12 2v4h4 M8 10h5 M8 13h5"/></svg><span>full CV</span></a>
+        <a draggable="false" class="link-more outline-action" href="cv.html?nav=90caa69d"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2h7l3 3v13H5z M12 2v4h4 M8 10h5 M8 13h5"/></svg><span>full CV</span></a>
       </div>
       <p class="section-lead">From cathode chemistry and fuel-cell production to electrode manufacturing and continual learning.</p>
       <div class="career-layout">
@@ -637,9 +403,9 @@
             <p class="career-place">VARTA Microbattery · TU Braunschweig</p>
             <p>I develop and qualify coating, calendering, and semi-dry processing routes for lithium-ion electrodes.</p>
             <div class="exp-stats" role="list" aria-label="Impact">
-              <div role="listitem"><strong><span class="num" data-to="3">3</span> kg h<sup>−1</sup></strong><span>Semi-dry processing across chemistries</span></div>
-              <div role="listitem"><strong><span class="num" data-to="6.9" data-dec="1">6.9</span>×</strong><span>Lower model error across 27 calendering states</span></div>
-              <div role="listitem"><strong><span class="num" data-to="36">36</span>%</strong><span>Retention improvement on a 410M-parameter model</span></div>
+              <div role="listitem"><strong><span class="num">3</span> kg h<sup>−1</sup></strong><span>Semi-dry processing across chemistries</span></div>
+              <div role="listitem"><strong><span class="num">6.9</span>×</strong><span>Lower model error across 27 calendering states</span></div>
+              <div role="listitem"><strong><span class="num">36</span>%</strong><span>Retention improvement on a 410M-parameter model</span></div>
             </div>
           </div>
         </article>
@@ -650,8 +416,8 @@
             <p class="career-place">Technical University of Munich</p>
             <p>I synthesised and screened catalyst pairs for sequential epoxidation and CO₂ fixation within one framework.</p>
             <div class="exp-stats" role="list" aria-label="Impact">
-              <div role="listitem"><strong><span class="num" data-to="99">99</span>%</strong><span>Conversion of PO to propylene carbonate</span></div>
-              <div role="listitem"><strong><span class="num" data-to="2">2</span>×</strong><span>Yield improvement via metalation</span></div>
+              <div role="listitem"><strong><span class="num">99</span>%</strong><span>Conversion of PO to propylene carbonate</span></div>
+              <div role="listitem"><strong><span class="num">2</span>×</strong><span>Yield improvement via metalation</span></div>
               <div role="listitem"><strong>Sequential</strong><span>Epoxidation and CO₂ fixation in one framework</span></div>
             </div>
           </div>
@@ -663,7 +429,7 @@
             <p class="career-place">Robert Bosch GmbH</p>
             <p>I scaled ceramic paste processing from laboratory batches toward mass-production volumes.</p>
             <div class="exp-stats" role="list" aria-label="Impact">
-              <div role="listitem"><strong>0.5 → <span class="num" data-to="50">50</span> L/h</strong><span>Scaled ceramic paste from lab to MP</span></div>
+              <div role="listitem"><strong>0.5 → <span class="num">50</span> L/h</strong><span>Scaled ceramic paste from lab to MP</span></div>
               <div role="listitem"><strong>Reformulated</strong><span>Adapted paste chemistry for scale</span></div>
               <div role="listitem"><strong>Screen-print</strong><span>Ensured downstream processability</span></div>
             </div>
@@ -677,7 +443,7 @@
             <p>I established precursor routes for NCA and NMC and investigated lower-temperature lithiation strategies.</p>
             <div class="exp-stats" role="list" aria-label="Impact">
               <div role="listitem"><strong>Precursor screen</strong><span>Systematically screened NCA &amp; NMC calcination routes</span></div>
-              <div role="listitem"><strong><span class="num" data-to="30">30</span>%</strong><span>Lower calcination temperature</span></div>
+              <div role="listitem"><strong><span class="num">30</span>%</strong><span>Lower calcination temperature</span></div>
               <div role="listitem"><strong>In-situ XRD</strong><span>Validated phase formation during synthesis</span></div>
             </div>
           </div>
@@ -729,14 +495,7 @@
           <p class="section-lead">I’d be happy to collaborate, share data, or discuss experimental results. If you’re
             interested, feel free to email me with a short description of your setup and what you’re trying to achieve.</p>
           <p class="contact-route">Leave me a message <a draggable="false" href="mailto:julius.stoerk@gmail.com" data-open-message aria-controls="contact-message" aria-expanded="false">here</a>.</p>
-          <p class="contact-links">
-            <a draggable="false" href="mailto:julius.stoerk@gmail.com">julius.stoerk@gmail.com</a><br>
-            <a draggable="false" href="https://www.linkedin.com/in/juliusst/" target="_blank"
-              rel="noopener noreferrer">linkedin.com/in/juliusst</a><br>
-            <a draggable="false" href="https://github.com/j-stoerk" target="_blank" rel="noopener noreferrer">github.com/j-stoerk</a><br>
-            <a draggable="false" href="https://orcid.org/0009-0006-3519-0950" target="_blank" rel="noopener noreferrer">orcid.org/0009-0006-3519-0950</a><br>
-            <a draggable="false" href="https://scholar.google.com/citations?user=sWLYub0AAAAJ&amp;hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a>
-          </p>
+          <div class="contact-links"><a draggable="false" href="mailto:julius.stoerk@gmail.com">julius.stoerk@gmail.com</a><div class="social-icons"><a draggable="false" class="social-icon" href="https://github.com/j-stoerk" target="_blank" rel="me noopener noreferrer" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="currentColor"><path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.56.1.76-.24.76-.54v-2.07c-3.09.67-3.74-1.31-3.74-1.31-.51-1.28-1.24-1.62-1.24-1.62-1.01-.69.08-.68.08-.68 1.12.08 1.7 1.15 1.7 1.15.99 1.7 2.59 1.21 3.22.92.1-.72.39-1.21.7-1.49-2.47-.28-5.06-1.24-5.06-5.49 0-1.21.43-2.2 1.14-2.97-.12-.28-.5-1.41.11-2.94 0 0 .93-.3 3.05 1.14A10.6 10.6 0 0 1 12 6.25c.94 0 1.88.13 2.76.37 2.12-1.44 3.05-1.14 3.05-1.14.61 1.53.23 2.66.11 2.94.71.77 1.14 1.76 1.14 2.97 0 4.26-2.59 5.2-5.07 5.48.4.35.75 1.02.75 2.06v3.06c0 .3.2.65.77.54A11.1 11.1 0 0 0 12 .9Z"/></svg></a><a draggable="false" class="social-icon" href="https://www.linkedin.com/in/juliusst/" target="_blank" rel="me noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M5.2 3a2.2 2.2 0 1 1 0 4.4 2.2 2.2 0 0 1 0-4.4ZM3.4 9h3.7v12H3.4V9Zm6 0h3.5v1.6h.1c.5-.9 1.7-1.9 3.5-1.9 3.8 0 4.5 2.4 4.5 5.5V21h-3.7v-6c0-1.4 0-3.2-2-3.2s-2.3 1.5-2.3 3.1V21H9.4V9Z"/></svg></a><a draggable="false" class="social-icon" href="https://orcid.org/0009-0006-3519-0950" target="_blank" rel="me noopener noreferrer" aria-label="ORCID" title="ORCID"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="currentColor"/><g fill="var(--color-bg)"><circle cx="6.8" cy="6.5" r="1"/><path d="M6 9h1.6v9H6zM10 6h4a6 6 0 0 1 0 12h-4V6Zm1.7 1.6v8.8H14a4.4 4.4 0 0 0 0-8.8h-2.3Z"/></g></svg></a><a draggable="false" class="social-icon" href="https://scholar.google.com/citations?user=sWLYub0AAAAJ&amp;hl=en" target="_blank" rel="me noopener noreferrer" aria-label="Google Scholar" title="Google Scholar"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m2 8 10-5 10 5-10 5L2 8Zm4 3v6c4 3 8 3 12 0v-6M22 8v10"/></svg></a></div></div>
         </div>
           <aside class="contact-message" id="contact-message" aria-label="Send a private message" data-comment-service="https://rapid-fog-462d.julius-stoerk.workers.dev" hidden>
     <button draggable="false" type="button" class="message-close" data-message-close aria-label="Close message form">×</button>
@@ -766,9 +525,10 @@
   <script defer src="theme.js?v=e512a566"></script>
   <script defer src="navigation.js?v=82ad0181"></script>
   <script defer src="media.js?v=3803c5ba"></script>
-  <script defer src="interactions.js?v=0296ce10"></script>
+  <script defer src="interactions.js?v=65fdfd93"></script>
   <script defer src="cursor.js?v=836db8cc"></script>
   <script defer src="portal-transitions.js?v=d4060e4b"></script>
+  <script defer src="search.js?v=38d6c5d6" data-search-index="search-index.json?v=ef660091"></script>
   <script defer src="cite.js?v=382b33f5"></script>
   <script defer src="bio-popovers.js?v=852f18fa"></script>
   <script defer src="comment-identity.js?v=dddce228"></script>

@@ -1,0 +1,128 @@
+name: Blog narration
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '_src/pages/post-*.html'
+      - '_src/posts.json'
+      - '_src/audio/narration.py'
+      - '_src/audio/requirements.txt'
+      - '.github/workflows/blog-narration.yml'
+
+concurrency:
+  group: blog-narration
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      pages: ${{ steps.pending.outputs.pages }}
+      work: ${{ steps.pending.outputs.work }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - id: pending
+        run: |
+          pages=$(python _src/audio/pending.py)
+          echo "pages=$pages" >> "$GITHUB_OUTPUT"
+          if [ "$pages" = '[]' ]; then echo 'work=false' >> "$GITHUB_OUTPUT"; else echo 'work=true' >> "$GITHUB_OUTPUT"; fi
+      - name: Prepare audio release
+        if: steps.pending.outputs.work == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view blog-narration >/dev/null 2>&1 || gh release create blog-narration --draft --title 'Blog narration' --notes 'Article title and narrative text, generated with the open Kokoro model and af_heart voice. Captions, widgets, code blocks and references are excluded.'
+
+  synthesize:
+    needs: prepare
+    if: needs.prepare.outputs.work == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        page: ${{ fromJSON(needs.prepare.outputs.pages) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: _src/audio/requirements.txt
+      - run: pip install -r _src/audio/requirements.txt
+      - uses: actions/cache@v4
+        with:
+          path: .audio-model
+          key: kokoro-onnx-v1-int8-voices-v1
+      - name: Fetch open model
+        run: |
+          mkdir -p .audio-model
+          test -f .audio-model/kokoro-v1.0.int8.onnx || curl --fail --location --retry 2 https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.int8.onnx -o .audio-model/kokoro-v1.0.int8.onnx
+          test -f .audio-model/voices-v1.0.bin || curl --fail --location --retry 2 https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/voices-v1.0.bin -o .audio-model/voices-v1.0.bin
+      - name: Generate narration
+        env:
+          ARTICLE_PAGE: ${{ matrix.page }}
+        run: python _src/audio/narration.py --generate --page "$ARTICLE_PAGE" --model .audio-model/kokoro-v1.0.int8.onnx --voices .audio-model/voices-v1.0.bin --threads 2 --output .audio-output
+      - name: Publish audio asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload blog-narration .audio-output/*.mp3 --clobber
+      - uses: actions/upload-artifact@v4
+        with:
+          name: narration-${{ matrix.page }}
+          path: .audio-output/manifest.json
+          retention-days: 1
+
+  publish:
+    needs: [prepare, synthesize]
+    if: needs.prepare.outputs.work == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: narration-*
+          path: .audio-metadata
+      - run: python _src/audio/publish.py .audio-metadata
+      - run: npm ci
+      - run: node _src/build.js
+      - run: python _src/check.py
+      - name: Make narration available
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release edit blog-narration --draft=false --prerelease --latest=false
+      - name: Commit generated players and metadata
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add _src/audio/manifest.json '*.html'
+          git diff --cached --quiet || git commit -m 'Publish updated blog narrations'
+          git push
+      - name: Rebuild GitHub Pages after the bot commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api --method POST "repos/$GITHUB_REPOSITORY/pages/builds"

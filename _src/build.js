@@ -11,6 +11,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const { execFileSync } = require('child_process');
 const articleTypography = require('./typography');
 
 const SRC = __dirname;
@@ -32,6 +33,19 @@ function ver(file) {
 const posts = JSON.parse(fs.readFileSync(path.join(SRC, 'posts.json'), 'utf8'))
   .sort((a, b) => (a.iso < b.iso ? 1 : -1));
 const shareCards = require('./share/cards')(posts);
+const narrations = JSON.parse(fs.readFileSync(path.join(SRC, 'audio/manifest.json'), 'utf8'));
+const narrationText = new Map(JSON.parse(execFileSync(process.env.PYTHON || 'python', [path.join(SRC, 'audio/narration.py'), '--extract'], { encoding: 'utf8', maxBuffer: 16 * 1024 * 1024 })).map(p => [p.page, p]));
+function listenControl(file) {
+  const entry = narrations[file];
+  if (!entry || entry.sha256 !== narrationText.get(file)?.sha256) return '';
+  if (!/^https:\/\/github\.com\/j-stoerk\/j-stoerk\.github\.io\/releases\/download\/blog-narration\/post-[a-z0-9-]+-[a-f0-9]{16}\.mp3$/.test(entry.url)) throw new Error('Invalid narration URL: ' + file);
+  return `<section class="post-listen" aria-label="Listen to this article">
+    <button class="outline-action listen-button" type="button" data-listen aria-controls="narration-player" aria-expanded="false" hidden><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 3 11 7-11 7V3Z"/></svg><span data-listen-label>Listen</span><small>${Math.ceil(entry.seconds / 60)} min</small></button>
+    <div class="listen-controls" id="narration-player" hidden><audio controls preload="none" data-narration-src="${attribute(entry.url)}" aria-label="Narration of ${attribute(narrationText.get(file).title)}"></audio><label class="listen-speed">Speed <select data-listen-speed aria-label="Narration speed"><option value="1">1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="1.75">1.75×</option><option value="2">2×</option></select></label></div>
+    <span class="listen-status" data-listen-status role="status"></span><span class="listen-credit">AI narration · title and article text</span>
+    <noscript><audio controls preload="none" src="${attribute(entry.url)}" aria-label="Article narration"></audio></noscript>
+  </section>`;
+}
 const community = JSON.parse(fs.readFileSync(path.join(SRC, 'community.json'), 'utf8'));
 if (community.comments.endpoint && !/^https:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(community.comments.endpoint)) {
   throw new Error('community.json: comments.endpoint must be an HTTPS origin without a trailing slash');
@@ -136,7 +150,7 @@ const PAGES = {
   'index.html': {
     nav: null, home: true, extraScripts: ['cite.js', 'experiences.js', 'bio-popovers.js', 'comment-identity.js', 'contact.js', 'contact-landscape.js'],
     extraStyles: ['contact-landscape.css'],
-    footerExtra: null, lastmod: '2026-11-11', priority: '1.0',
+    footerExtra: null, lastmod: '2026-11-12', priority: '1.0',
   },
   'cv.html': {
     nav: 'cv', extraScripts: [],
@@ -146,18 +160,40 @@ const PAGES = {
   'blog.html': {
     nav: 'blog', extraScripts: ['blog-view.js'],
     footerExtra: '<a href="index.html">Home</a>',
-    lastmod: '2026-11-11', priority: '0.8',
+    lastmod: '2026-11-12', priority: '0.8',
   },
   /* Served by GitHub Pages for any missing URL; noindex, not in sitemap. */
+  'publications.html': {
+    nav: 'publications', extraScripts: ['cite.js'], footerExtra: null,
+    lastmod: '2026-11-12', priority: '0.9',
+  },
+  'code.html': {
+    nav: 'software', extraScripts: ['word-room.js'], footerExtra: null,
+    lastmod: '2026-11-12', priority: '0.9',
+  },
+  'search.html': {
+    nav: null, extraScripts: [], footerExtra: null,
+    lastmod: '2026-11-12', priority: '0.4',
+  },
   '404.html': {
     nav: null, extraScripts: [],
     footerExtra: '<a href="index.html">Home</a>',
     lastmod: null, priority: null,
   },
 };
+const ARCHIVE_SIZE = 6;
+const archiveCount = Math.ceil(posts.length / ARCHIVE_SIZE);
+const archiveFile = page => page === 1 ? 'blog-archive.html' : `blog-archive-${page}.html`;
+for (let page = 1; page <= archiveCount; page++) {
+  PAGES[archiveFile(page)] = { nav: 'blog', source: 'blog.html', archivePage: page,
+    extraScripts: ['blog-view.js'], footerExtra: null, lastmod: '2026-11-12', priority: '0.6' };
+}
+for (const file of ['publications.html', 'code.html', 'search.html']) shareCards[file] = { ...shareCards['index.html'] };
+for (let page = 1; page <= archiveCount; page++) shareCards[archiveFile(page)] = { ...shareCards['blog.html'] };
+fs.writeFileSync(path.join(SRC, 'share/manifest.json'), JSON.stringify(shareCards, null, 2) + '\n');
 for (const p of posts) {
   PAGES[p.file] = {
-    nav: 'blog', extraScripts: ['blog.js', 'references.js', 'comment-identity.js', 'comments.js', ...(p.scripts || [])],
+    nav: 'blog', extraScripts: ['blog.js', 'references.js', 'listen.js', 'comment-identity.js', 'comments.js', ...(p.scripts || [])],
     extraStyles: p.styles || [],
     footerExtra: '<a href="blog.html">All posts</a>',
     lastmod: p.lastmod, priority: '0.7', math: !!p.math,
@@ -204,8 +240,8 @@ const HEAD_ASSETS = `  <meta name="theme-color" content="#fdfdfc">
   <link rel="stylesheet" href="${ver('experiences.css')}">`;
 
 const NAV_ITEMS = [
-  ['publications', 'Publications', '#publications'],
-  ['software', 'Code', '#software'],
+  ['publications', 'Publications', 'publications.html'],
+  ['software', 'Code', 'code.html'],
   ['blog', 'Blog', 'blog.html'],
   ['experience', 'Experience', '#experience'],
   ['cv', 'CV', 'cv.html'],
@@ -233,10 +269,18 @@ function topbar(cfg) {
       </button>
       <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
 ${links}
-        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
       </nav>
+      <div class="header-actions">
+        <a class="header-search" href="search.html" data-search-open aria-label="Search website" title="Search (/ or Ctrl+K)"><svg viewBox="0 0 24 24" width="21" height="21" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg><span class="search-label">Search</span></a>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+      </div>
     </div>
-  </header>`;
+  </header>
+  <dialog class="search-dialog" data-search-dialog aria-labelledby="search-dialog-title">
+    <div class="search-dialog-head"><h2 id="search-dialog-title">Search the website</h2><button class="search-close" type="button" data-search-close aria-label="Close search"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
+    <form class="search-form" action="search.html" method="get" data-site-search><label class="sr-only" for="dialog-search">Search papers, projects and posts</label><input id="dialog-search" name="q" type="search" autocomplete="off" placeholder="Papers, projects, ideas…" data-search-input><p class="search-status" data-search-status role="status">Type to search papers, projects and posts.</p><div class="search-results" data-search-results></div></form>
+    <p class="search-help">Esc to close <span> / or Ctrl+K to search</span></p>
+  </dialog>`;
 }
 
 function footer(cfg) {
@@ -259,6 +303,7 @@ function scripts(cfg) {
   <script defer src="${ver('interactions.js')}"></script>
   <script defer src="${ver('cursor.js')}"></script>
   <script defer src="${ver('portal-transitions.js')}"></script>
+  <script defer src="${ver('search.js')}" data-search-index="${ver('search-index.json')}"></script>
 ${extras ? extras + '\n' : ''}  <script>
     window.addEventListener('load', function () {
       var s = document.createElement('script');
@@ -327,9 +372,20 @@ ${pad}  <span class="journal-arrow" aria-hidden="true">↗</span>
 ${pad}</article>`;
 }
 
-const POST_LIST = `<div id="blog-posts" class="journal-index journal-index-page" data-blog-view="tiles">
-${posts.map((p) => postEntry(p, true, 6)).join('\n')}
+function postList(items) {
+  return `<div id="blog-posts" class="journal-index journal-index-page" data-blog-view="tiles">
+${items.map(p => postEntry(p, true, 6)).join('\n')}
     </div>`;
+}
+function blogPagination(cfg) {
+  if (!cfg.archivePage) return `<div class="blog-archive-link"><a class="outline-action" href="blog-archive.html">View all posts <span aria-hidden="true">↗</span></a><p class="muted">${posts.length} posts in the archive</p></div>`;
+  const page = cfg.archivePage;
+  return `<nav class="archive-pagination" aria-label="Blog archive pages">
+    ${page > 1 ? `<a rel="prev" href="${archiveFile(page - 1)}">← Newer</a>` : '<span></span>'}
+    <div>${Array.from({ length: archiveCount }, (_, i) => `<a href="${archiveFile(i + 1)}"${page === i + 1 ? ' aria-current="page"' : ''} aria-label="Page ${i + 1}">${i + 1}</a>`).join('')}</div>
+    ${page < archiveCount ? `<a rel="next" href="${archiveFile(page + 1)}">Older →</a>` : '<span></span>'}
+  </nav>`;
+}
 
 function trailStory(p, preview = true) {
   return `<a class="atlas-story" data-post="${p.file}" data-preview="${preview}"${preview ? '' : ' hidden'} href="${p.file}"><img src="${postCover(p)}" alt="" width="1200" height="675" loading="lazy"><span class="atlas-story-copy"><small>${p.display} &middot; ${p.category}</small><strong>${p.title}</strong><span class="atlas-intro">${p.summary}</span><em>Read the notes &#8599;</em></span></a>`;
@@ -340,17 +396,45 @@ for (const p of posts) {
   if (!TRAILS[p.trail]) throw new Error(`${p.file}: missing or invalid blog trail`);
 }
 const BLOG_TRAILS = Object.entries(TRAILS).map(([trail, label]) =>
-  `<div class="atlas-panel" id="atlas-${trail}" role="region" aria-label="${label} blog posts">\n              ${posts.filter(p => p.trail === trail).map((p, i) => trailStory(p, i < 2)).join('\n              ')}\n            </div>`
+  `<div class="atlas-panel" id="atlas-${trail}" role="region" aria-label="${label} blog posts">\n              ${posts.filter(p => p.trail === trail).slice(0, 2).map(p => trailStory(p)).join('\n              ')}\n            </div>`
 ).join('\n            ');
 
 /* ---------- build pages ---------- */
+function plainText(value) {
+  return value.replace(/<(?:script|style|svg|pre)\b[\s\S]*?<\/(?:script|style|svg|pre)>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ').replace(/&(?:amp|lt|gt|quot|nbsp);/g, entity => ({'&amp;':'&','&lt;':'<','&gt;':'>','&quot;':'"','&nbsp;':' '})[entity])
+    .replace(/\s+/g, ' ').trim();
+}
+const searchDocs = posts.map(p => {
+  const source = fs.readFileSync(path.join(SRC, 'pages', p.file), 'utf8');
+  const body = source.slice(source.indexOf('<article')).split('<section class="post-sources">')[0];
+  return { url: p.file, title: p.title, kind: 'Blog', summary: p.summary, text: plainText(body) };
+});
+const publicationsSource = fs.readFileSync(path.join(SRC, 'publications.html'), 'utf8');
+for (const match of publicationsSource.matchAll(/<article\b[^>]*id="([^"]+)"[\s\S]*?<\/article>/g)) {
+  const source = match[0], title = source.match(/<strong>([\s\S]*?)<\/strong>/)?.[1];
+  searchDocs.push({ url: 'publications.html#' + match[1], title: plainText(title || 'Publication'), kind: 'Publication', summary: plainText(source.match(/<p\b[^>]*>[\s\S]*?<\/p>/)?.[0] || ''), text: plainText(source) });
+}
+const softwareSource = fs.readFileSync(path.join(SRC, 'software.html'), 'utf8');
+const projectMatches = [...softwareSource.matchAll(/<div class="item software-project" id="([^"]+)"/g)];
+projectMatches.forEach((match, i) => {
+  const source = softwareSource.slice(match.index, projectMatches[i + 1]?.index || softwareSource.length);
+  const title = source.match(/<h3>([\s\S]*?)<\/h3>|<strong>([\s\S]*?)<\/strong>/);
+  searchDocs.push({ url: 'code.html#' + match[1], title: plainText(title?.[1] || title?.[2] || 'Project'), kind: 'Code', summary: plainText(source.match(/<p\b[^>]*>[\s\S]*?<\/p>/)?.[0] || ''), text: plainText(source) });
+});
+for (const [url, title, summary] of [['index.html#home', 'Julius Störk', 'PhD researcher at VARTA and TU Braunschweig, working on AI for battery manufacturing.'], ['cv.html', 'Curriculum vitae', 'Research experience, education, manufacturing and laboratory work.'], ['index.html#contact', 'Contact', 'Collaborations, shared data and experimental setups.']]) {
+  const source = fs.readFileSync(path.join(SRC, 'pages', url.split('#')[0]), 'utf8');
+  searchDocs.push({ url, title, kind: 'Profile', summary, text: plainText(source.slice(source.indexOf('<main'))) });
+}
+fs.writeFileSync(path.join(ROOT, 'search-index.json'), JSON.stringify(searchDocs) + '\n');
+fs.writeFileSync(path.join(ROOT, 'blog-library.json'), JSON.stringify(posts.map(p => ({ file: p.file, title: p.title, summary: p.summary, trail: p.trail, display: p.display, category: p.category, cover: postCover(p) }))) + '\n');
 const pagesDir = path.join(SRC, 'pages');
-for (const file of fs.readdirSync(pagesDir)) {
-  if (!file.endsWith('.html')) continue;
-  const cfg = PAGES[file];
-  if (!cfg) throw new Error(`no page config for ${file}`);
-  let html = fs.readFileSync(path.join(pagesDir, file), 'utf8');
-  if (cfg.home || cfg.nav === 'blog' || file === 'cv.html') {
+for (const source of fs.readdirSync(pagesDir).filter(f => f.endsWith('.html'))) {
+  if (!PAGES[source]) throw new Error(`no page config for ${source}`);
+}
+for (const [file, cfg] of Object.entries(PAGES)) {
+  let html = fs.readFileSync(path.join(pagesDir, cfg.source || file), 'utf8');
+  if (file !== '404.html') {
     html = html.replace(/<body([^>]*)>/, (_, attrs) => '<body' +
       (/\bclass="/.test(attrs) ? attrs.replace('class="', 'class="ambient-page ') : attrs + ' class="ambient-page"') + '>');
   }
@@ -369,16 +453,27 @@ for (const file of fs.readdirSync(pagesDir)) {
     .replace('  <!--#TOPBAR-->', topbar(cfg))
     .replace('  <!--#FOOTER-->', footer(cfg))
     .replace('  <!--#SCRIPTS-->', scripts(cfg))
-    .replace('<!--#POST_LIST-->', POST_LIST);
+    .replace('<!--#POST_LIST-->', () => postList(cfg.archivePage ? posts.slice((cfg.archivePage - 1) * ARCHIVE_SIZE, cfg.archivePage * ARCHIVE_SIZE) : posts.slice(0, 4)))
+    .replace('<!--#BLOG_PAGINATION-->', () => blogPagination(cfg))
+    .replace('<!--#BLOG_ARCHIVE_TOP-->', () => `<p class="archive-top-link"><a href="${cfg.archivePage ? 'blog.html' : 'blog-archive.html'}">${cfg.archivePage ? '← Recent posts' : `View all ${posts.length} posts ↗`}</a></p>`)
+    .replace('<!--#PUBLICATION_RECORDS-->', () => fs.readFileSync(path.join(SRC, 'publications.html'), 'utf8'))
+    .replace('<!--#SOFTWARE_RECORDS-->', () => fs.readFileSync(path.join(SRC, 'software.html'), 'utf8'));
+  if (cfg.archivePage) {
+    html = html.replace('<h1>Blog</h1>', `<h1>Blog archive</h1>`)
+      .replace('Working notes on continual learning and electrode manufacturing.</p>', `All ${posts.length} posts · page ${cfg.archivePage} of ${archiveCount}.</p>`)
+      .replaceAll('https://j-stoerk.github.io/blog.html', SITE + '/' + file)
+      .replace('<title>Blog · Julius Störk</title>', `<title>Blog archive · Page ${cfg.archivePage} · Julius Störk</title>`);
+  }
   html = html.replace('<!--#BIO_POPOVERS-->', () => fs.readFileSync(path.join(SRC, 'bio-popovers.html'), 'utf8'));
   html = html.replace('<!--#RESEARCH_ATLAS-->', () => fs.readFileSync(path.join(SRC, 'research-atlas.html'), 'utf8'));
+  html = html.replace('data-feature="research-atlas"', `data-feature="research-atlas" data-post-library="${ver('blog-library.json')}"`);
   html = html.replace('<!--#BLOG_LATEST-->', () => BLOG_LATEST);
   html = html.replace('<!--#BLOG_TRAILS-->', () => BLOG_TRAILS);
   html = html.replace('<!--#CONTACT_FORM-->', () => fs.readFileSync(path.join(SRC, 'contact-form.html'), 'utf8')
     .replace('<!--#CONTACT_ENDPOINT-->', () => community.contact.endpoint)
     .replace('<!--#COMMENT_SERVICE-->', () => attribute(community.comments.endpoint)));
-  if (cfg.nav === 'blog' && file !== 'blog.html') {
-    html = html.replace(/^[ \t]*<!--#POST_CONTEXT-->[ \t]*\r?\n?/m, '');
+  if (file.startsWith('post-')) {
+    html = html.replace(/^[ \t]*<!--#POST_CONTEXT-->[ \t]*\r?\n?/m, () => listenControl(file));
     html = postBackground(html, file);
     html = foldReferences(html);
     const comments = community.comments.endpoint && community.comments.turnstileSiteKey ? fs.readFileSync(path.join(SRC, 'comments.html'), 'utf8')
@@ -390,7 +485,7 @@ for (const file of fs.readdirSync(pagesDir)) {
     if (!html.includes('    <nav class="post-pager"')) throw new Error(`${file}: missing post pager`);
     if (comments) html = html.replace('    <nav class="post-pager"', () => comments + '\n\n    <nav class="post-pager"');
   }
-  if (cfg.nav === 'blog' && file !== 'blog.html') html = articleTypography(html);
+  if (file.startsWith('post-')) html = articleTypography(html);
   if (cfg.math) html = renderMath(html, file);
   // Disable native media/control dragging, even before scripts load.
   // Actual interactive drags use pointer events rather than native drag-and-drop.
@@ -442,7 +537,7 @@ ${feedItems}
 console.log('built feed.xml');
 
 /* ---------- sitemap.xml ---------- */
-const order = ['index.html', 'cv.html', 'blog.html', ...posts.map((p) => p.file)];
+const order = Object.keys(PAGES).filter(file => PAGES[file].priority);
 const urls = order.map((f) => {
   const cfg = PAGES[f];
   const loc = f === 'index.html' ? `${SITE}/` : `${SITE}/${f}`;
@@ -460,12 +555,12 @@ ${urls}
 console.log('built sitemap.xml');
 
 /* ---------- publications.bib ----------
-   Extracted from the BibTeX blocks in the built index page, so the
+   Extracted from the BibTeX blocks in the built Publications page, so the
    download can never drift from what the site shows. */
-const indexHtml = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+const indexHtml = fs.readFileSync(path.join(ROOT, 'publications.html'), 'utf8');
 const bibEntries = [...indexHtml.matchAll(/<pre><code>(@[\s\S]*?)<\/code><\/pre>/g)]
   .map((m) => m[1].trim());
-if (bibEntries.length === 0) throw new Error('no BibTeX entries found in index.html');
+if (bibEntries.length === 0) throw new Error('no BibTeX entries found in publications.html');
 fs.writeFileSync(path.join(ROOT, 'publications.bib'),
   `% Publications · Julius Störk · https://j-stoerk.github.io/
 % Generated by _src/build.js; do not edit by hand.

@@ -16,9 +16,8 @@ from html.parser import HTMLParser
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 
-PAGES = sorted(
-    f for f in os.listdir(os.path.join(ROOT, '_src', 'pages')) if f.endswith('.html')
-)
+PAGES = sorted({f for f in os.listdir(os.path.join(ROOT, '_src', 'pages')) if f.endswith('.html')}
+               | {f for f in os.listdir(ROOT) if re.fullmatch(r'blog-archive(?:-\d+)?\.html', f)})
 
 VOID = {
     'meta', 'link', 'img', 'br', 'hr', 'input', 'source', 'base',
@@ -109,7 +108,7 @@ def main():
     # Every public page/card pair must agree before link unfurlers see it.
     cards = json.load(open('_src/share/manifest.json', encoding='utf-8'))
     posts = json.load(open('_src/posts.json', encoding='utf-8'))
-    expected = {'index.html', 'cv.html', 'blog.html', 'chargewise/index.html'} | {p['file'] for p in posts}
+    expected = (set(PAGES) - {'404.html'}) | {'chargewise/index.html'}
     if set(cards) != expected:
         fail('share-card manifest does not cover all personal pages, posts and the demo')
     for page, card in cards.items():

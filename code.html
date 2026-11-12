@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Code · Julius Störk" />
+  <meta property="og:description" content="Research software by Julius Störk for continual learning, electrode transport, robot instruction following, lab automation and fleet charging." />
+  <meta property="og:url" content="https://j-stoerk.github.io/code.html" />
+  <meta property="og:image" content="https://j-stoerk.github.io/images/share/home-78a4e49f211913eb.jpg" />
+  <meta property="og:image:secure_url" content="https://j-stoerk.github.io/images/share/home-78a4e49f211913eb.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="2400" />
+  <meta property="og:image:height" content="1260" />
+  <meta property="og:image:alt" content="Julius Störk · PhD Researcher · VARTA · TU Braunschweig" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/images/share/home-78a4e49f211913eb.jpg" />
+  <meta name="twitter:image:alt" content="Julius Störk · PhD Researcher · VARTA · TU Braunschweig" />
+  <meta name="twitter:title" content="Code · Julius Störk" />
+  <meta name="twitter:description" content="Research software by Julius Störk for continual learning, electrode transport, robot instruction following, lab automation and fleet charging." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Code · Julius Störk</title>
+  <meta name="description" content="Research software by Julius Störk for continual learning, electrode transport, robot instruction following, lab automation and fleet charging." />
+  <link rel="canonical" href="https://j-stoerk.github.io/code.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#fdfdfc">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Applied before first paint so the theme never flashes. -->
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('theme'); } catch (e) { }
+      if (!t) t = 'light';   // light is the standard; dark only on explicit toggle
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'dark' ? '#101214' : '#fdfdfc');
+    })();
+  </script>
+
+  <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=6dc564fa">
+  <link rel="stylesheet" href="experiences.css?v=5f949ed2">
+</head>
+<body class="ambient-page">
+  <a draggable="false" href="#main" class="skip-link">Skip to main content</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a draggable="false" class="site-title" href="index.html?nav=90caa69d">Home</a>
+      <button draggable="false" class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+        <span class="nav-toggle-lines" aria-hidden="true"></span>
+        <span class="sr-only">Open navigation</span>
+      </button>
+      <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
+        <a draggable="false" href="publications.html?nav=90caa69d" data-nav-label="Publications">Publications</a>
+        <a draggable="false" class="current" href="code.html?nav=90caa69d" data-nav-label="Code" aria-current="page">Code</a>
+        <a draggable="false" href="blog.html?nav=90caa69d" data-nav-label="Blog">Blog</a>
+        <a draggable="false" href="index.html?nav=90caa69d#experience" data-nav-label="Experience">Experience</a>
+        <a draggable="false" href="cv.html?nav=90caa69d" data-nav-label="CV">CV</a>
+        <a draggable="false" href="index.html?nav=90caa69d#contact" data-nav-label="Contact">Contact</a>
+      </nav>
+      <div class="header-actions">
+        <a draggable="false" class="header-search" href="search.html?nav=90caa69d" data-search-open aria-label="Search website" title="Search (/ or Ctrl+K)"><svg viewBox="0 0 24 24" width="21" height="21" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg><span class="search-label">Search</span></a>
+        <button draggable="false" class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+      </div>
+    </div>
+  </header>
+  <dialog class="search-dialog" data-search-dialog aria-labelledby="search-dialog-title">
+    <div class="search-dialog-head"><h2 id="search-dialog-title">Search the website</h2><button draggable="false" class="search-close" type="button" data-search-close aria-label="Close search"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
+    <form class="search-form" action="search.html" method="get" data-site-search><label class="sr-only" for="dialog-search">Search papers, projects and posts</label><input id="dialog-search" name="q" type="search" autocomplete="off" placeholder="Papers, projects, ideas…" data-search-input><p class="search-status" data-search-status role="status">Type to search papers, projects and posts.</p><div class="search-results" data-search-results></div></form>
+    <p class="search-help">Esc to close <span> / or Ctrl+K to search</span></p>
+  </dialog>
+  <main id="main" class="content collection-page">
+    <header class="page-head"><p class="eyebrow">Open research</p><h1>Code</h1><p class="lead">From research code to autonomous agents.</p></header>
+    <section class="code-story" aria-label="How I work">
+      <div class="word-room" data-word-room>
+        <div class="word-world" data-word-world><canvas width="320" height="320" tabindex="0" role="img" aria-label="Draggable wireframe globe. Drag or use arrow keys to move it and reflow the text."></canvas><span class="world-hint" aria-hidden="true">drag the globe · words make room</span></div>
+        <p>These projects grew out of work on electrode production, electrochemical measurements and continual learning. I keep the models alongside data-loading routines, plots and checks so that a reported result can be traced back to its inputs.</p>
+        <p>The forgetting code examines how new updates affect earlier tasks. The thermal model connects calendering and electrode structure to heat transport. HELAO connects pumps and a robot to electrochemical measurements. More recent projects take language instructions into a simulated robot cell, or fit vehicle charging into the power available at a depot.</p>
+        <p>Each repository has a different starting point: a notebook, a simulated scene, an instrument configuration or an editable application. The project notes below identify the inputs and checks worth inspecting first. For comparisons, the data split, task order and configuration belong with the final score. For a new material or machine, those assumptions need to be checked again.</p>
+      </div>
+      <button draggable="false" class="quiet-button world-reset" type="button" data-world-reset hidden>Reset globe</button>
+    </section>
+    <nav class="collection-jump" aria-label="Project categories"><a draggable="false" href="#project-forgetting">Learning</a><a draggable="false" href="#project-thermal">Materials</a><a draggable="false" href="#project-t2t">Robotics</a><a draggable="false" href="#project-chargewise">Energy</a><a draggable="false" href="#project-helao">Lab automation</a></nav>
+        <section class="section" id="software">
+      <div class="section-head">
+        <h2>Research software</h2>
+        <a draggable="false" class="link-more outline-action" href="https://github.com/j-stoerk" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 6-4 4 4 4 m8-8 4 4-4 4 M12 3 8 17"/></svg><span>all repositories</span></a>
+      </div>
+      
+      <div class="pub-list">
+        <div class="item software-project" id="project-forgetting">
+          <a draggable="false" class="software-art" href="post-geometry-of-forgetting.html?nav=90caa69d" aria-label="Read the research behind geometry-of-forgetting"><img draggable="false" src="images/blog-covers/post-geometry-of-forgetting.svg" alt="Task covariance contours and an update split into protected and free directions" width="1200" height="675" loading="lazy"><span>Task geometry &middot; paper &amp; code &#8599;</span></a>
+          <div class="software-copy">
+          <strong><a draggable="false" href="https://github.com/j-stoerk/geometry-of-forgetting" target="_blank"
+              rel="noopener noreferrer">geometry-of-forgetting</a></strong>
+          <p class="muted">Diagnosing forgetting requires tracing how updates interfere with earlier tasks. My research
+            code provides interference-attribution analysis and Colab pipelines for continual pretraining and LoRA
+            fine-tuning, with the working notes and negative results that shaped the paper.</p>
+          <div class="pub-tags"><span class="tag">Python</span><span class="tag">paper code</span></div><dl class="project-notes"><div><dt>Training setup</dt><dd>Frozen-feature experiments, continual-pretraining and LoRA analysis notebooks.</dd></div><div><dt>Check</dt><dd>Task order, random seeds and old-task performance alongside new-task accuracy.</dd></div></dl>
+          </div>
+        </div>
+        <div class="item software-project" id="project-thermal">
+          <a draggable="false" class="software-art" href="post-calendering-u-shape.html?nav=90caa69d" aria-label="Read the research behind zehner-electrode-thermal"><img draggable="false" src="images/blog-covers/post-calendering-u-shape.svg" alt="Electrode particles and the calendering-dependent thermal response" width="1200" height="675" loading="lazy"><span>Process &rarr; property &middot; paper &amp; code &#8599;</span></a>
+          <div class="software-copy">
+          <strong><a draggable="false" href="https://github.com/j-stoerk/zehner-electrode-thermal" target="_blank"
+              rel="noopener noreferrer">zehner-electrode-thermal</a></strong>
+          <p class="muted">Predicting electrode thermal conductivity requires accounting for structural changes during
+            calendering. My notebooks calibrate and validate the closure against electrode data and compare it with
+            ML, PINN, and multiphysics approaches.</p>
+          <div class="pub-tags"><span class="tag">Jupyter</span><span class="tag">paper code</span></div><dl class="project-notes"><div><dt>Inputs</dt><dd>Electrode composition, porosity, gas conditions and measured calendering states.</dd></div><div><dt>Check</dt><dd>Calibration against the stated measurement target. Contact evolution and graphite reorientation can remain difficult to distinguish.</dd></div></dl>
+          </div>
+        </div>
+        <div class="item software-project" id="project-helao">
+          <figure class="software-art"><svg viewBox="0 0 320 210" role="img" aria-label="Schematic of a scanning droplet cell: fluid supply, probe, and a patterned sample"><defs><linearGradient id="cell-shade" x2="0" y2="1"><stop stop-color="#e5eef5"/><stop offset="1" stop-color="#c3d7e8"/></linearGradient></defs><defs><linearGradient id="helao-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#eef1f5"/><stop offset="60%" stop-color="#ecebe2"/><stop offset="100%" stop-color="#e4dccb"/></linearGradient><radialGradient id="helao-glow"><stop stop-color="#5a82be" stop-opacity=".2"/><stop offset="1" stop-color="#5a82be" stop-opacity="0"/></radialGradient></defs><rect width="320" height="210" fill="url(#helao-bg)"/><ellipse cx="85" cy="78" rx="125" ry="110" fill="url(#helao-glow)"/><path d="M47 43h43v60H47z M58 30v13m19-13v13M90 74h55q14 0 14 14v17" fill="none" stroke="#597389" stroke-width="3"/><path d="M135 111v39l24 17 25-17v-39" fill="url(#cell-shade)" stroke="#486d8e" stroke-width="2"/><path d="M147 95h24v45l-12 18-12-18z" fill="#397da9"/><path d="M75 172l138-24 58 28-138 25z" fill="#d4dde2" stroke="#7691a4"/><g fill="#66879e"><ellipse cx="125" cy="174" rx="8" ry="3"/><ellipse cx="153" cy="169" rx="8" ry="3"/><ellipse cx="182" cy="164" rx="8" ry="3"/><ellipse cx="154" cy="186" rx="8" ry="3"/><ellipse cx="183" cy="180" rx="8" ry="3"/><ellipse cx="211" cy="175" rx="8" ry="3"/></g><ellipse cx="159" cy="163" rx="12" ry="5" fill="#d3a15b"/><path d="M215 107h47m-7-6 7 6-7 6" fill="none" stroke="#597389" stroke-width="2"/><g font-family="sans-serif" font-size="11" fill="#435a6d"><text x="43" y="23">FLUID</text><text x="203" y="96">SCAN</text><text x="202" y="201">SAMPLE</text></g></svg><figcaption>Instrument control &middot; scanning droplet cell</figcaption></figure>
+          <div class="software-copy">
+          <strong><a draggable="false" href="https://github.com/j-stoerk/HELAO" target="_blank"
+              rel="noopener noreferrer">HELAO</a></strong>
+          <p class="muted">Manual electrochemical screening limits throughput and repeatability. I developed pump and
+            robot control for a scanning droplet cell during my M.Sc. to automate measurement sequences.</p>
+          <div class="pub-tags"><span class="tag">Python</span><span class="tag">lab automation</span></div><dl class="project-notes"><div><dt>Hardware context</dt><dd>Pump and robot adapters for an electrochemical scanning droplet cell.</dd></div><div><dt>Check</dt><dd>Instrument configuration and operating procedures before adapting the control code to another laboratory.</dd></div></dl>
+          </div>
+        </div>
+        <div class="item software-project" id="project-arc">
+          <figure class="software-art"><svg viewBox="0 0 320 210" role="img" aria-label="Illustrative grid-world observation and action trace for a game-playing agent"><defs><linearGradient id="arc-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#eef1f5"/><stop offset="60%" stop-color="#ecebe2"/><stop offset="100%" stop-color="#e4dccb"/></linearGradient><radialGradient id="arc-glow"><stop stop-color="#5a82be" stop-opacity=".2"/><stop offset="1" stop-color="#5a82be" stop-opacity="0"/></radialGradient></defs><rect width="320" height="210" fill="url(#arc-bg)"/><ellipse cx="85" cy="78" rx="125" ry="110" fill="url(#arc-glow)"/><g stroke="#9baabc" stroke-width="1"><path d="M31 28h140v140H31z M59 28v140m28-140v140m28-140v140m28-140v140M31 56h140M31 84h140M31 112h140M31 140h140" fill="#e9edf1"/></g><g fill="#5a82be"><path d="M32 29h26v26H32zM60 29h26v26H60zM144 85h26v26h-26zM116 113h26v26h-26zM116 141h26v26h-26z"/></g><path d="M45 98h56v56h56" fill="none" stroke="#a9762c" stroke-width="3"/><circle cx="45" cy="98" r="8" fill="#a9762c"/><path d="m150 148 7 6-7 6" fill="none" stroke="#a9762c" stroke-width="3"/><g font-family="sans-serif" font-size="12"><text x="195" y="60" fill="#33465e">Observe</text><text x="195" y="99" fill="#a9762c">Act</text><text x="195" y="138" fill="#33465e">Evaluate</text><text x="31" y="192" fill="#597389" font-size="10">ILLUSTRATIVE AGENT LOOP</text></g><path d="M200 68v14m0 25v14" stroke="#678499"/></svg><figcaption>Agent experiments &middot; observation to action</figcaption></figure>
+          <div class="software-copy">
+          <strong><a draggable="false" href="https://github.com/j-stoerk/arc-autoresearch" target="_blank"
+              rel="noopener noreferrer">arc-autoresearch</a></strong>
+          <p class="muted">Game-playing agents need to infer unfamiliar rules from observations and feedback. My
+            ARC-AGI-3 experiments combine a Python agent with per-game diagnostics and analysis notebooks to investigate
+            where its decisions succeed or fail.</p>
+          <div class="pub-tags"><span class="tag">Python</span><span class="tag">agents</span></div><dl class="project-notes"><div><dt>Experiment loop</dt><dd>Game observations, bounded actions and per-game diagnostics.</dd></div><div><dt>Check</dt><dd>Performance on each game and failure case; successful runs do not establish general game-playing ability.</dd></div></dl>
+          </div>
+        </div>
+        <div class="item software-project" id="project-t2t">
+          <a draggable="false" class="software-art" href="post-text-to-trajectory.html?nav=90caa69d"><img draggable="false" src="images/blog-covers/post-text-to-trajectory.svg" alt="Language instructions connected to robot motion" width="1200" height="675" loading="lazy"></a>
+          <div class="software-copy"><h3>Text to Trajectory</h3><p>Natural-language instructions can lose a spatial constraint on the way to a final pose. T2T connects grounding, route requirements and observed execution in a MuJoCo KUKA iiwa cell.</p><dl class="project-notes"><div><dt>Work with</dt><dd>Task instructions, object references and a simulated robot cell.</dd></div><div><dt>Inspect</dt><dd>The task representation, the planned movement and the execution checks together.</dd></div></dl><div class="project-links"><a draggable="false" class="outline-action" href="https://github.com/j-stoerk/T2T" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a draggable="false" href="post-text-to-trajectory.html?nav=90caa69d">Read the technical review ↗</a></div></div>
+        </div>
+        <div class="item software-project" id="project-chargewise">
+          <a draggable="false" class="software-art" href="post-chargewise.html?nav=90caa69d"><img draggable="false" src="images/blog-covers/post-chargewise.svg" alt="Fleet charging schedules within a grid power limit" width="1200" height="675" loading="lazy"></a>
+          <div class="software-copy"><h3>ChargeWise</h3><p>A fleet can have enough installed charging power and still need a better schedule. ChargeWise meets departure-energy targets while checking plug occupancy, compatibility, vehicle limits and shared site power.</p><dl class="project-notes"><div><dt>Work with</dt><dd>Editable vehicles, chargers, prices, tariffs and simulated outages.</dd></div><div><dt>Inspect</dt><dd>An OR-Tools schedule and independent allocation checks. The public demo uses synthetic data and a local-summary assistant.</dd></div></dl><div class="project-links"><a draggable="false" class="outline-action" href="chargewise/index.html?nav=90caa69d">Try the live demo ↗</a><a draggable="false" href="https://github.com/j-stoerk/nebiusxnvidia_hackathon" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a draggable="false" href="post-chargewise.html?nav=90caa69d">Methods and billing assumptions ↗</a></div></div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section"><h2>Reproducing a result</h2><div class="reproduction-grid"><div><h3>1. Fix the case</h3><p>Use the repository's documented example and dependencies. Record the data version, units, task order and configuration.</p></div><div><h3>2. Run the checks</h3><p>Inspect constraints, intermediate artifacts and validation output alongside the final score or prediction.</p></div><div><h3>3. Change one assumption</h3><p>Try a held-out case or a different operating condition, then check which conclusion still holds.</p></div></div><p>For a concrete collaboration, <a draggable="false" href="index.html?nav=90caa69d#contact">send a short description of your setup</a> and the outcome you need to measure.</p></section>
+
+  </main>
+  <footer class="content">
+    <span>© 2026 Julius Störk</span>
+    <span class="footer-links"><a draggable="false" href="index.html?nav=90caa69d#contact">Contact</a></span>
+  </footer>
+  <script defer src="theme.js?v=e512a566"></script>
+  <script defer src="navigation.js?v=82ad0181"></script>
+  <script defer src="media.js?v=3803c5ba"></script>
+  <script defer src="interactions.js?v=65fdfd93"></script>
+  <script defer src="cursor.js?v=836db8cc"></script>
+  <script defer src="portal-transitions.js?v=d4060e4b"></script>
+  <script defer src="search.js?v=38d6c5d6" data-search-index="search-index.json?v=ef660091"></script>
+  <script defer src="word-room.js?v=aac6d565"></script>
+  <script>
+    window.addEventListener('load', function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://gc.zgo.at/count.js';
+      s.setAttribute('data-goatcounter', 'https://jstoerk.goatcounter.com/count');
+      document.body.appendChild(s);
+    });
+  </script>
+</body>
+</html>

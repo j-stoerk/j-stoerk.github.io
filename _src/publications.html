@@ -1,0 +1,197 @@
+    <section class="section" id="publications">
+      <div class="section-head">
+        <h2>Research papers</h2>
+        <a class="link-more outline-action" href="publications.bib" download><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v10m-4-4 4 4 4-4 M3 13v4h14v-4"/></svg><span>all entries (.bib)</span></a>
+      </div>
+      <p class="section-lead">Research papers, code, and reproducible results.</p>
+      <div class="publication-index">
+        <article class="publication-record" id="publication-glee">
+          <span class="publication-number" aria-hidden="true">01</span>
+          <div class="publication-content">
+            <div class="publication-title-row">
+              <strong>RL-Menu Agent Learns to Fold by Seat</strong>
+            </div>
+            <p class="muted">Developed through ten iterations, <em>frodo</em> combines a reinforcement-learned menu
+              policy with hand-coded strategies and peaked at rank 5 with a rating of 2302.8. Failed negotiations
+              often scored near the field median, favoring aggressive demands when the agent controlled the final
+              offer. The same stance from the weaker seat caused the largest measured losses. The RL layer
+              discovered this seat distinction; distilled heuristics then outperformed the learner that found it.</p>
+            <dl class="project-notes"><div><dt>Question</dt><dd>Which bargaining decisions improve the payoff percentile against a changing field?</dd></div><div><dt>Approach</dt><dd>A reinforcement-learned menu selects among hand-coded strategy primitives. Seat-aware heuristics are distilled from controlled comparisons.</dd></div><div><dt>Evidence and scope</dt><dd>GLEE competition runs and game-specific ablations. Peak rank and rating describe a particular live field, rather than general agent competence.</dd></div></dl><div class="publication-footer">
+              <span class="publication-status">NeurIPS 2026 &middot; IAB Workshop</span>
+              <div class="publication-actions">
+                <a class="publication-link" href="https://openreview.net/forum?id=Wsz7IpaKsh" target="_blank"
+                  rel="noopener noreferrer">OpenReview</a>
+                <a class="publication-link" href="media/glee/glee-paper.pdf">PDF</a>
+                <a class="publication-link" href="media/glee/glee-poster.pdf">Poster</a>
+                <a class="publication-link" href="media/glee/glee-talk.mp4">Video</a>
+                <a class="publication-link" href="post-glee-agent.html">Explore the article</a>
+              </div>
+              <details class="bibtex publication-details">
+                <summary>Details &amp; BibTeX</summary>
+                <div class="publication-extra">
+                  <div class="authors">Julius Störk · Technische Universität Braunschweig; VARTA Microbattery GmbH · 2026</div>
+                  <div class="pub-tags"><span class="tag">GLEE Competition Track</span></div>
+                  <a class="publication-link" href="media/glee/glee-paper.pdf" download>Download PDF</a>
+                </div>
+                <div class="bibtex-panel">
+                  <button class="bibtex-copy" type="button">Copy</button>
+                  <pre><code>@inproceedings{stoerk2026glee,
+  title = {{RL-Menu Agent Learns to Fold by Seat in 27,000 GLEE Games}},
+  author = {St{\"o}rk, Julius},
+  booktitle = {NeurIPS 2026, Interpreting Agent Behavior (IAB) Workshop, GLEE Competition Track},
+  year = {2026},
+  url = {https://openreview.net/forum?id=Wsz7IpaKsh}
+}</code></pre>
+                </div>
+              </details>
+            </div>
+          </div>
+        </article>
+
+        <article class="publication-record" id="publication-forgetting">
+          <span class="publication-number" aria-hidden="true">02</span>
+          <div class="publication-content">
+          <div class="publication-title-row">
+            <strong>Interference and retention in continual learning</strong>
+          </div>
+          <p class="muted">Learning a new task can overwrite a model's earlier knowledge. I model this forgetting as
+            weight-interference energy under a task's feature covariance and derive a replay-free controller (IGFA)
+            that protects earlier tasks while sharing capacity where directions do not conflict.</p>
+          <figure class="pub-figure" data-paper="forgetting">
+            <svg viewBox="0 0 320 88" role="img" aria-labelledby="fig-igfa-title">
+              <title id="fig-igfa-title">Bar chart. Forgetting on a 410-million-parameter model, indexed to the naive
+                fine-tuning baseline at 100. With the IGFA gate the index falls to 64, a 36 percent reduction.</title>
+              <line class="fig-axis" x1="112" y1="12" x2="112" y2="82" />
+              <text class="fig-label" x="104" y="30.5" text-anchor="end">Naive fine-tuning</text>
+              <path d="M112,18 H268 Q272,18 272,22 V32 Q272,36 268,36 H112 Z" fill="var(--color-text-faint)" />
+              <text class="fig-label" x="278" y="30.5">100</text>
+              <text class="fig-label" x="104" y="70.5" text-anchor="end">With IGFA gate</text>
+              <path d="M112,58 H210.4 Q214.4,58 214.4,62 V72 Q214.4,76 210.4,76 H112 Z" fill="var(--color-primary)" />
+              <text class="fig-label" x="220.4" y="70.5">64 <tspan class="fig-label-primary">(−36%)</tspan></text>
+            </svg>
+            <figcaption>Forgetting on a 410M-parameter model, indexed to the naive fine-tuning baseline (= 100). The
+              replay-free IGFA gate removes 36% of forgetting.</figcaption>
+          </figure>
+          <dl class="project-notes"><div><dt>Question</dt><dd>Which directions of a new update damage an earlier task, and how much learning remains after protecting them?</dd></div><div><dt>Approach</dt><dd>Interference-gated functional allocation shares or projects updates according to their alignment with protected task directions.</dd></div><div><dt>Evidence and scope</dt><dd>Rotated-Digits with a frozen backbone and five seeds. The exact quadratic argument assumes squared loss and stationarity; adapting encoders require a separate evaluation.</dd></div></dl><div class="publication-footer">
+            <span class="publication-status">Preprint &middot; 2026</span>
+            <div class="publication-actions">
+              <a class="publication-link" href="https://arxiv.org/abs/2607.09202" target="_blank"
+              rel="noopener noreferrer">arXiv</a>
+              <a class="publication-link" href="https://github.com/j-stoerk/geometry-of-forgetting" target="_blank"
+              rel="noopener noreferrer">Code &amp; data</a>
+              <a class="publication-link" href="forgetting-geometry.pdf">PDF</a>
+              <a class="publication-link" href="post-geometry-of-forgetting.html">Explore the article</a>
+            </div>
+          <details class="bibtex publication-details">
+            <summary>Details &amp; BibTeX</summary>
+            <div class="publication-extra">
+          <div class="authors">Julius Störk · VARTA Microbattery GmbH; Institute for Particle Technology (iPAT), TU Braunschweig · 2026</div>
+          <div class="pub-tags">
+            <span class="tag">cs.LG</span>
+            <span class="tag">cs.AI</span>
+          </div>
+              <a class="publication-link" href="forgetting-geometry.pdf" download>Download PDF</a>
+            </div>
+            <div class="bibtex-panel">
+              <button class="bibtex-copy" type="button">Copy</button>
+              <pre><code>@misc{stoerk2026interference,
+  title         = {Interference and Retention in Continual Learning},
+  author        = {St{\"o}rk, Julius},
+  year          = {2026},
+  eprint        = {2607.09202},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG},
+  doi           = {10.48550/arXiv.2607.09202},
+  url           = {https://arxiv.org/abs/2607.09202}
+}</code></pre>
+            </div>
+          </details>
+          </div>
+          </div>
+        </article>
+
+        <article class="publication-record" id="publication-calendering">
+          <span class="publication-number" aria-hidden="true">03</span>
+          <div class="publication-content">
+          <div class="publication-title-row">
+            <strong>Capturing the calendering U-shape in lithium-ion electrode thermal conductivity</strong>
+          </div>
+          <p class="muted">Porosity-only and static-contact models miss the conductivity dip during calendering. I
+            develop a differentiable Zehner–Bauer–Schlünder closure that captures this dip and tests whether
+            contact-network growth or particle reorientation dominates through-plane thermal transport.</p>
+          <figure class="pub-figure" data-paper="calendering">
+            <svg viewBox="0 0 360 162" role="img" aria-labelledby="fig-ushape-title">
+              <title id="fig-ushape-title">Line chart of through-plane thermal conductivity versus compaction for three
+                closure families. Porosity-only and static-contact closures rise monotonically; the calendering-aware
+                ZBS closure first dips to a minimum near 18 percent compaction, then rises.</title>
+              <line class="fig-grid" x1="51.75" y1="108.88" x2="344.25" y2="108.88" />
+              <line class="fig-grid" x1="51.75" y1="77.08" x2="344.25" y2="77.08" />
+              <line class="fig-grid" x1="51.75" y1="45.36" x2="344.25" y2="45.36" />
+              <line class="fig-grid" x1="51.75" y1="13.64" x2="344.25" y2="13.64" />
+              <line class="fig-axis" x1="51.75" y1="13.64" x2="51.75" y2="127.89" />
+              <line class="fig-axis" x1="51.75" y1="127.89" x2="344.25" y2="127.89" />
+              <text class="text-tick" x="51.75" y="142.85" text-anchor="middle">0%</text>
+              <text class="text-tick" x="149.29" y="142.85" text-anchor="middle">20%</text>
+              <text class="text-tick" x="246.71" y="142.85" text-anchor="middle">40%</text>
+              <text class="text-tick" x="344.25" y="142.85" text-anchor="middle">60%</text>
+              <text class="text-label-faint" x="198" y="159.05" text-anchor="middle">Compaction Π</text>
+              <text class="text-tick" x="45" y="111.44" text-anchor="end">0.5</text>
+              <text class="text-tick" x="45" y="79.63" text-anchor="end">1.0</text>
+              <text class="text-tick" x="45" y="47.92" text-anchor="end">1.5</text>
+              <text class="text-tick" x="45" y="16.2" text-anchor="end">2.0</text>
+              <text class="text-label-faint" x="13.5" y="70.76" text-anchor="middle" transform="rotate(-90 13.5 70.76)">λ<tspan baseline-shift="sub" font-size="70%">eff</tspan> (W/mK)</text>
+              <path fill="none" stroke="var(--color-text-faint)" stroke-width="1.5" stroke-dasharray="4"
+                d="M 51.75 102.49 L 57.38 101.12 L 63 99.84 L 68.62 98.48 L 74.25 97.11 L 79.88 95.76 L 85.5 94.48 L 91.12 93.11 L 96.75 91.74 L 102.38 90.38 L 108 89.1 L 113.62 87.73 L 119.25 86.38 L 124.88 85.09 L 130.5 83.72 L 136.12 82.37 L 141.75 81 L 147.38 79.72 L 153 78.36 L 158.62 76.99 L 164.25 75.62 L 169.88 74.34 L 175.5 72.99 L 181.12 71.62 L 186.75 70.26 L 192.38 68.98 L 198 67.61 L 203.62 66.24 L 209.25 64.89 L 214.88 63.61 L 220.5 62.24 L 226.12 60.88 L 231.75 59.51 L 237.38 58.23 L 243 56.88 L 248.62 55.51 L 254.25 54.14 L 259.88 52.86 L 265.5 51.5 L 271.12 50.13 L 276.75 48.78 L 282.38 47.5 L 288 46.13 L 293.62 44.76 L 299.25 43.4 L 304.88 42.12 L 310.5 40.75 L 316.12 39.4 L 321.75 38.03 L 327.38 36.74 L 333 35.39 L 338.62 34.02 L 344.25 32.65" />
+              <text class="fig-label" x="168.75" y="68.22" text-anchor="middle">Porosity-only</text>
+              <path fill="none" stroke="var(--color-text-muted)" stroke-width="1.5" stroke-dasharray="2"
+                d="M 51.75 102.49 L 57.38 102.49 L 63 102.4 L 68.62 102.24 L 74.25 101.97 L 79.88 101.72 L 85.5 101.38 L 91.12 101.04 L 96.75 100.53 L 102.38 100.01 L 108 99.42 L 113.62 98.82 L 119.25 98.14 L 124.88 97.38 L 130.5 96.52 L 136.12 95.67 L 141.75 94.73 L 147.38 93.71 L 153 92.59 L 158.62 91.49 L 164.25 90.29 L 169.88 89.01 L 175.5 87.73 L 181.12 86.38 L 186.75 84.92 L 192.38 83.47 L 198 81.85 L 203.62 80.23 L 209.25 78.61 L 214.88 76.82 L 220.5 75.04 L 226.12 73.15 L 231.75 71.28 L 237.38 69.23 L 243 67.19 L 248.62 65.14 L 254.25 62.93 L 259.88 60.71 L 265.5 58.41 L 271.12 56.1 L 276.75 53.71 L 282.38 51.24 L 288 48.69 L 293.62 46.04 L 299.25 43.4 L 304.88 40.68 L 310.5 37.94 L 316.12 35.12 L 321.75 32.22 L 327.38 29.25 L 333 26.17 L 338.62 23.11 L 344.25 19.96" />
+              <text class="fig-label" x="256.5" y="80.15" text-anchor="middle">Static contact</text>
+              <path fill="none" stroke="var(--color-primary)" stroke-width="2.5" stroke-linecap="round"
+                d="M 51.75 102.49 L 57.38 103.08 L 63 103.68 L 68.62 104.28 L 74.25 104.87 L 79.88 105.48 L 85.5 105.98 L 91.12 106.49 L 96.75 107.01 L 102.38 107.44 L 108 107.77 L 113.62 108.11 L 119.25 108.45 L 124.88 108.63 L 130.5 108.79 L 136.12 108.88 L 141.75 108.97 L 147.38 108.88 L 153 108.72 L 158.62 108.54 L 164.25 108.2 L 169.88 107.77 L 175.5 107.26 L 181.12 106.67 L 186.75 105.9 L 192.38 105.05 L 198 104.11 L 203.62 103 L 209.25 101.72 L 214.88 100.35 L 220.5 98.91 L 226.12 97.2 L 231.75 95.4 L 237.38 93.44 L 243 91.32 L 248.62 89.01 L 254.25 86.54 L 259.88 83.9 L 265.5 81.09 L 271.12 78.1 L 276.75 74.95 L 282.38 71.53 L 288 67.95 L 293.62 64.12 L 299.25 60.12 L 304.88 55.93 L 310.5 51.5 L 316.12 46.8 L 321.75 41.94 L 327.38 36.83 L 333 31.46 L 338.62 25.83 L 344.25 19.96" />
+              <circle cx="140.74" cy="108.97" r="3.5" fill="var(--color-primary)" stroke="var(--color-bg)" stroke-width="1.5" />
+              <text class="fig-label-primary" x="160" y="121.93">Calendering-aware ZBS</text>
+            </svg>
+            <figcaption>Schematic closures: only calendering-aware ZBS captures the dip then rise. Across 27 fitted states,
+              MAPE falls from 31.1% to 4.5%.</figcaption>
+          </figure>
+          <dl class="project-notes"><div><dt>Question</dt><dd>Why can electrode conductivity fall during early calendering before recovering at greater compaction?</dd></div><div><dt>Approach</dt><dd>A process-dependent contact term extends a Knudsen-corrected Zehner–Bauer–Schlünder closure. Graphite reorientation is examined as a competing mechanism.</dd></div><div><dt>Evidence and scope</dt><dd>27 states in four graphite and NMC families: 4.5% in-sample MAPE and 7.8% leave-one-state-out error. Conductivity alone does not identify the separate shares of contact evolution and reorientation.</dd></div></dl><div class="publication-footer">
+            <span class="publication-status">Preprint &middot; 2026</span>
+            <div class="publication-actions">
+              <a class="publication-link" href="https://arxiv.org/abs/2607.11521" target="_blank"
+              rel="noopener noreferrer">arXiv</a>
+              <a class="publication-link" href="https://github.com/j-stoerk/zehner-electrode-thermal" target="_blank"
+              rel="noopener noreferrer">Code &amp; data</a>
+              <a class="publication-link" href="zehner-closure.pdf">PDF</a>
+              <a class="publication-link" href="post-calendering-u-shape.html">Explore the article</a>
+            </div>
+          <details class="bibtex publication-details">
+            <summary>Details &amp; BibTeX</summary>
+            <div class="publication-extra">
+          <div class="authors">Julius Störk · VARTA Microbattery GmbH; Institute for Particle Technology (iPAT), TU Braunschweig · 2026</div>
+          <div class="pub-tags">
+            <span class="tag">cond-mat.mtrl-sci</span>
+            <span class="tag">physics.chem-ph</span>
+          </div>
+              <a class="publication-link" href="zehner-closure.pdf" download>Download PDF</a>
+            </div>
+            <div class="bibtex-panel">
+              <button class="bibtex-copy" type="button">Copy</button>
+              <pre><code>@misc{stoerk2026calendering,
+  title         = {Capturing the Calendering U-Shape in Lithium-Ion
+                   Electrode Thermal Conductivity},
+  author        = {St{\"o}rk, Julius},
+  year          = {2026},
+  eprint        = {2607.11521},
+  archivePrefix = {arXiv},
+  primaryClass  = {cond-mat.mtrl-sci},
+  doi           = {10.48550/arXiv.2607.11521},
+  url           = {https://arxiv.org/abs/2607.11521}
+}</code></pre>
+            </div>
+          </details>
+          </div>
+          </div>
+        </article>
+      </div>
+    </section>
+

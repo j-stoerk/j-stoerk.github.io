@@ -24,6 +24,7 @@
 .intro-signature { min-width: 0; font-size: 18px; line-height: 1.5; text-align: right; }
 .intro-signature small { font-family: var(--font-mono); font-size: 10px; color: var(--color-text-muted); }
 .intro-count { display: flex; order: -1; flex-shrink: 0; font-family: var(--font-body); font-size: clamp(80px, 10vw, 144px); font-weight: 400; font-variant-numeric: tabular-nums; line-height: 1; letter-spacing: -.055em; }
+.intro-reel > span::before { content: attr(data-digit); }
 .intro-digit { display: block; width: .62em; height: 1em; overflow: hidden; contain: strict; }
 .intro-reel { display: block; }
 .intro-pending .intro-reel { will-change: transform; }

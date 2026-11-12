@@ -27,6 +27,9 @@ jobs:
       - name: Test article typography
         run: node --test _src/tests/typography.test.js
 
+      - name: Test narration text boundaries
+        run: python3 -m unittest discover -s _src/tests -p test_narration.py
+
       - name: Fail if committed output drifted from sources
         run: |
           git add -A

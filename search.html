@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Search · Julius Störk" />
+  <meta property="og:description" content="Search Julius Störk’s publications, research software and blog." />
+  <meta property="og:url" content="https://j-stoerk.github.io/search.html" />
+  <meta property="og:image" content="https://j-stoerk.github.io/images/share/home-78a4e49f211913eb.jpg" />
+  <meta property="og:image:secure_url" content="https://j-stoerk.github.io/images/share/home-78a4e49f211913eb.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="2400" />
+  <meta property="og:image:height" content="1260" />
+  <meta property="og:image:alt" content="Julius Störk · PhD Researcher · VARTA · TU Braunschweig" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/images/share/home-78a4e49f211913eb.jpg" />
+  <meta name="twitter:image:alt" content="Julius Störk · PhD Researcher · VARTA · TU Braunschweig" />
+  <meta name="twitter:title" content="Search · Julius Störk" />
+  <meta name="twitter:description" content="Search Julius Störk’s publications, research software and blog." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search · Julius Störk</title>
+  <meta name="description" content="Search Julius Störk’s publications, research software and blog." />
+  <link rel="canonical" href="https://j-stoerk.github.io/search.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <meta name="theme-color" content="#fdfdfc">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Applied before first paint so the theme never flashes. -->
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('theme'); } catch (e) { }
+      if (!t) t = 'light';   // light is the standard; dark only on explicit toggle
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'dark' ? '#101214' : '#fdfdfc');
+    })();
+  </script>
+
+  <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=6dc564fa">
+  <link rel="stylesheet" href="experiences.css?v=5f949ed2">
+</head>
+<body class="ambient-page">
+  <a draggable="false" href="#main" class="skip-link">Skip to main content</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a draggable="false" class="site-title" href="index.html?nav=90caa69d">Home</a>
+      <button draggable="false" class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+        <span class="nav-toggle-lines" aria-hidden="true"></span>
+        <span class="sr-only">Open navigation</span>
+      </button>
+      <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
+        <a draggable="false" href="publications.html?nav=90caa69d" data-nav-label="Publications">Publications</a>
+        <a draggable="false" href="code.html?nav=90caa69d" data-nav-label="Code">Code</a>
+        <a draggable="false" href="blog.html?nav=90caa69d" data-nav-label="Blog">Blog</a>
+        <a draggable="false" href="index.html?nav=90caa69d#experience" data-nav-label="Experience">Experience</a>
+        <a draggable="false" href="cv.html?nav=90caa69d" data-nav-label="CV">CV</a>
+        <a draggable="false" href="index.html?nav=90caa69d#contact" data-nav-label="Contact">Contact</a>
+      </nav>
+      <div class="header-actions">
+        <a draggable="false" class="header-search" href="search.html?nav=90caa69d" data-search-open aria-label="Search website" title="Search (/ or Ctrl+K)"><svg viewBox="0 0 24 24" width="21" height="21" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg><span class="search-label">Search</span></a>
+        <button draggable="false" class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+      </div>
+    </div>
+  </header>
+  <dialog class="search-dialog" data-search-dialog aria-labelledby="search-dialog-title">
+    <div class="search-dialog-head"><h2 id="search-dialog-title">Search the website</h2><button draggable="false" class="search-close" type="button" data-search-close aria-label="Close search"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
+    <form class="search-form" action="search.html" method="get" data-site-search><label class="sr-only" for="dialog-search">Search papers, projects and posts</label><input id="dialog-search" name="q" type="search" autocomplete="off" placeholder="Papers, projects, ideas…" data-search-input><p class="search-status" data-search-status role="status">Type to search papers, projects and posts.</p><div class="search-results" data-search-results></div></form>
+    <p class="search-help">Esc to close <span> / or Ctrl+K to search</span></p>
+  </dialog>
+  <main id="main" class="content collection-page">
+    <header class="page-head"><h1>Search</h1><p class="lead">Find a paper, project or note.</p></header>
+    <form class="search-form" action="search.html" method="get" data-site-search><label for="page-search">Search the website</label><div class="search-field"><input id="page-search" type="search" name="q" autocomplete="off" placeholder="Continual learning, calendering, agents…" data-search-input><button draggable="false" class="btn btn-primary" type="submit">Search</button></div><p class="search-status" data-search-status role="status"></p><div class="search-results" data-search-results></div></form>
+    <noscript><p>Interactive search needs JavaScript. Browse <a draggable="false" href="publications.html?nav=90caa69d">publications</a>, <a draggable="false" href="code.html?nav=90caa69d">code</a> or the <a draggable="false" href="blog-archive.html?nav=90caa69d">blog archive</a>.</p></noscript>
+
+  </main>
+  <footer class="content">
+    <span>© 2026 Julius Störk</span>
+    <span class="footer-links"><a draggable="false" href="index.html?nav=90caa69d#contact">Contact</a></span>
+  </footer>
+  <script defer src="theme.js?v=e512a566"></script>
+  <script defer src="navigation.js?v=82ad0181"></script>
+  <script defer src="media.js?v=3803c5ba"></script>
+  <script defer src="interactions.js?v=65fdfd93"></script>
+  <script defer src="cursor.js?v=836db8cc"></script>
+  <script defer src="portal-transitions.js?v=d4060e4b"></script>
+  <script defer src="search.js?v=38d6c5d6" data-search-index="search-index.json?v=ef660091"></script>
+  <script>
+    window.addEventListener('load', function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://gc.zgo.at/count.js';
+      s.setAttribute('data-goatcounter', 'https://jstoerk.goatcounter.com/count');
+      document.body.appendChild(s);
+    });
+  </script>
+</body>
+</html>

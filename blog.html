@@ -53,8 +53,8 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=e36b9f82">
-  <link rel="stylesheet" href="experiences.css?v=2f793542">
+  <link rel="stylesheet" href="styles.css?v=6dc564fa">
+  <link rel="stylesheet" href="experiences.css?v=5f949ed2">
 </head>
 
 <body class="ambient-page">
@@ -62,62 +62,41 @@
 
   <header class="topbar">
     <div class="topbar-inner">
-      <a draggable="false" class="site-title" href="index.html?nav=fe6093f0">Home</a>
+      <a draggable="false" class="site-title" href="index.html?nav=90caa69d">Home</a>
       <button draggable="false" class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
         <span class="nav-toggle-lines" aria-hidden="true"></span>
         <span class="sr-only">Open navigation</span>
       </button>
       <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
-        <a draggable="false" href="index.html?nav=fe6093f0#publications" data-nav-label="Publications">Publications</a>
-        <a draggable="false" href="index.html?nav=fe6093f0#software" data-nav-label="Code">Code</a>
-        <a draggable="false" class="current" href="blog.html?nav=fe6093f0" data-nav-label="Blog" aria-current="page">Blog</a>
-        <a draggable="false" href="index.html?nav=fe6093f0#experience" data-nav-label="Experience">Experience</a>
-        <a draggable="false" href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
-        <a draggable="false" href="index.html?nav=fe6093f0#contact" data-nav-label="Contact">Contact</a>
-        <button draggable="false" class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+        <a draggable="false" href="publications.html?nav=90caa69d" data-nav-label="Publications">Publications</a>
+        <a draggable="false" href="code.html?nav=90caa69d" data-nav-label="Code">Code</a>
+        <a draggable="false" class="current" href="blog.html?nav=90caa69d" data-nav-label="Blog" aria-current="page">Blog</a>
+        <a draggable="false" href="index.html?nav=90caa69d#experience" data-nav-label="Experience">Experience</a>
+        <a draggable="false" href="cv.html?nav=90caa69d" data-nav-label="CV">CV</a>
+        <a draggable="false" href="index.html?nav=90caa69d#contact" data-nav-label="Contact">Contact</a>
       </nav>
+      <div class="header-actions">
+        <a draggable="false" class="header-search" href="search.html?nav=90caa69d" data-search-open aria-label="Search website" title="Search (/ or Ctrl+K)"><svg viewBox="0 0 24 24" width="21" height="21" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg><span class="search-label">Search</span></a>
+        <button draggable="false" class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+      </div>
     </div>
   </header>
+  <dialog class="search-dialog" data-search-dialog aria-labelledby="search-dialog-title">
+    <div class="search-dialog-head"><h2 id="search-dialog-title">Search the website</h2><button draggable="false" class="search-close" type="button" data-search-close aria-label="Close search"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
+    <form class="search-form" action="search.html" method="get" data-site-search><label class="sr-only" for="dialog-search">Search papers, projects and posts</label><input id="dialog-search" name="q" type="search" autocomplete="off" placeholder="Papers, projects, ideas…" data-search-input><p class="search-status" data-search-status role="status">Type to search papers, projects and posts.</p><div class="search-results" data-search-results></div></form>
+    <p class="search-help">Esc to close <span> / or Ctrl+K to search</span></p>
+  </dialog>
 
   <main id="main" class="content">
 
-    <div class="page-art" aria-hidden="true">
-      <svg viewBox="0 0 1000 5200" preserveAspectRatio="none" fill="none">
-        <g class="art-wash">
-          <g transform="translate(-165,20)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#5a82be" opacity="0.11"/></g>
-          <g transform="translate(-20,580)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#8bbf6e" opacity="0.14"/></g>
-          <g transform="translate(-166,1140)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#7a8a9a" opacity="0.11"/></g>
-          <g transform="translate(-77,1700)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#e0a94a" opacity="0.14"/></g>
-          <g transform="translate(-215,2260)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#c85a46" opacity="0.11"/></g>
-          <g transform="translate(-75,2820)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#5a82be" opacity="0.14"/></g>
-          <g transform="translate(-197,3380)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#8bbf6e" opacity="0.11"/></g>
-          <g transform="translate(-27,3940)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#7a8a9a" opacity="0.14"/></g>
-          <g transform="translate(-210,4500)"><path d="M700 130 C 880 70 960 200 900 340 C 850 470 700 460 640 360 C 590 280 620 190 700 130 Z" fill="#e0a94a" opacity="0.11"/></g>
-        </g>
-        <path class="art-ink" d="M720 5180 C 660 4900 780 4650 725 4380 C 665 4120 775 3880 720 3620 C 665 3360 785 3120 725 2860 C 675 2620 775 2380 720 2120 C 675 1880 775 1650 720 1400 C 685 1180 760 960 720 730 C 705 540 730 340 720 150"/>
-        <path class="art-ink-soft" d="M733 5180 C 673 4900 793 4650 738 4380 C 678 4120 788 3880 733 3620 C 678 3360 798 3120 738 2860 C 688 2620 788 2380 733 2120 C 688 1880 788 1650 733 1400 C 698 1180 773 960 733 730 C 718 540 743 340 733 150"/>
-        <g transform="translate(690,1105)"><path class="art-ink" d="M-60 40 L 60 -80 L 90 -50 L -30 70 Z"/><path class="art-fill-ink" d="M-60 40 L -30 70 L -48 74 Z"/><path class="art-ink" d="M60 -80 L 92 -112"/><path class="art-ink-soft" d="M120 -18 h 190 M120 22 h 190 M120 62 h 140"/></g>
-        <g transform="translate(690,2075)"><circle class="art-ink" cx="-120" cy="-40" r="10"/><circle class="art-ink" cx="0" cy="-90" r="10"/><circle class="art-ink" cx="0" cy="20" r="10"/><circle class="art-ink" cx="130" cy="-40" r="10"/><circle class="art-ink" cx="130" cy="70" r="10"/><path class="art-ink-soft" d="M-120 -40 L0 -90 M-120 -40 L0 20 M0 -90 L130 -40 M0 20 L130 -40 M0 20 L130 70"/><path class="art-ink" d="M-150 190 q 30 -50 60 0 t 60 0 t 60 0 t 60 0 t 60 0"/></g>
-        <g transform="translate(690,3045)"><path class="art-ink" d="M-140 -120 V 60 H 170"/><path class="art-ink" d="M-120 -78 C -60 62 -12 92 20 72 C 62 44 112 -58 152 -108"/><rect x="60" y="120" width="22" height="90" fill="#5a82be" fill-opacity=".28"/><rect x="92" y="90" width="22" height="120" fill="#e0a94a" fill-opacity=".28"/><rect x="124" y="140" width="22" height="70" fill="#c85a46" fill-opacity=".25"/><path class="art-ink" d="M60 120 v 90 M92 90 v 120 M124 140 v 70"/></g>
-        <g transform="translate(690,4015)"><circle class="art-ink" r="60"/><circle class="art-ink-soft" r="90"/><path class="art-ink-soft" d="M0 0 L-90 -116 M0 0 L58 -128 M0 0 L146 -40 M0 0 L-146 -26 M0 0 L0 -146"/><g transform="translate(120,40)"><circle class="art-ink" r="24"/><circle class="art-fill-ink" cy="-7" r="6"/><path class="art-ink" d="M-13 6 C -9 18 9 18 13 6"/></g></g>
-        <g class="art-ink-soft">
-          <path d="M745 1105 C 720 1105 710 1105 730 1105"/>
-          <path d="M745 2075 C 720 2075 710 2075 730 2075"/>
-          <path d="M745 3045 C 720 3045 710 3045 730 3045"/>
-          <path d="M745 4015 C 720 4015 710 4015 730 4015"/>
-        </g>
-        <path class="art-ink" d="M720 5180 C 660 5080 560 5050 470 5075 M720 5180 C 790 5080 900 5055 960 5085 M720 5180 C 720 5100 720 5060 720 5030 M470 5075 C 430 5090 410 5125 420 5155 M960 5085 C 900 5100 880 5135 892 5162"/>
-      </svg>
-    </div>
-    <a draggable="false" class="back-link" href="index.html?nav=fe6093f0">Back to home</a>
+    <a draggable="false" class="back-link" href="index.html?nav=90caa69d">Back to home</a>
 
     <header class="page-head">
       <h1>Blog</h1>
       <p class="lead">Working notes on continual learning and electrode manufacturing.</p>
-      <p class="blog-about">I write about materials, machine learning, modelling, and automation, from visual
-        explanations to technical working notes. New posts appear as ideas and experiments develop.</p>
     </header>
 
+    <p class="archive-top-link"><a draggable="false" href="blog-archive.html?nav=90caa69d">View all 20 posts ↗</a></p>
     <div class="blog-view-controls" role="group" aria-label="Blog layout" hidden>
       <span class="blog-view-label">View</span>
       <button draggable="false" type="button" data-blog-view-button="list" aria-controls="blog-posts" aria-pressed="false">
@@ -133,137 +112,43 @@
       <article class="journal-entry">
         <div class="journal-thumbnail"><img draggable="false" src="images/blog-covers/post-lesswrong-hume.svg?v=a41ba67c" alt="" width="1200" height="675" loading="lazy" decoding="async"><time class="journal-image-date" datetime="2026-11-08">8 November 2026</time></div>
         <div class="journal-meta"><time datetime="2026-11-08">8 November 2026</time><span>Philosophy & inference · 13 min</span></div>
-        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-lesswrong-hume.html?nav=fe6093f0">Getting Less Wrong Without Becoming Certain</a></h3><p>Reading Yudkowsky's Sequences alongside Hume, with Bayesian updating, human utility functions, model uncertainty and the premises behind Roko's basilisk.</p></div>
+        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-lesswrong-hume.html?nav=90caa69d">Getting Less Wrong Without Becoming Certain</a></h3><p>Reading Yudkowsky's Sequences alongside Hume, with Bayesian updating, human utility functions, model uncertainty and the premises behind Roko's basilisk.</p></div>
         <span class="journal-arrow" aria-hidden="true">↗</span>
       </article>
       <article class="journal-entry">
         <div class="journal-thumbnail"><img draggable="false" src="images/blog-covers/post-text-to-trajectory.svg?v=4042d2b5" alt="" width="1200" height="675" loading="lazy" decoding="async"><time class="journal-image-date" datetime="2026-11-01">1 November 2026</time></div>
         <div class="journal-meta"><time datetime="2026-11-01">1 November 2026</time><span>Robotics & language · 15 min</span></div>
-        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-text-to-trajectory.html?nav=fe6093f0">Text to Trajectory</a></h3><p>How grounding, task programs, motion planning and learned robot policies turn language into movement, with a focused evaluation proposed for Visual Components.</p></div>
+        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-text-to-trajectory.html?nav=90caa69d">Text to Trajectory</a></h3><p>How grounding, task programs, motion planning and learned robot policies turn language into movement, with a focused evaluation proposed for Visual Components.</p></div>
         <span class="journal-arrow" aria-hidden="true">↗</span>
       </article>
       <article class="journal-entry">
         <div class="journal-thumbnail"><img draggable="false" src="images/blog-covers/post-chargewise.svg?v=6f5b5440" alt="" width="1200" height="675" loading="lazy" decoding="async"><time class="journal-image-date" datetime="2026-10-25">25 October 2026</time></div>
         <div class="journal-meta"><time datetime="2026-10-25">25 October 2026</time><span>Energy & optimization · 7 min</span></div>
-        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-chargewise.html?nav=fe6093f0">ChargeWise Fits the Fleet to the Grid</a></h3><p>Building ChargeWise AI with physical charging constraints, independent schedule checks, the original hosted application, Nemotron tools, and a forecasting follow-up.</p></div>
+        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-chargewise.html?nav=90caa69d">ChargeWise Fits the Fleet to the Grid</a></h3><p>Building ChargeWise AI with physical charging constraints, independent schedule checks, the original hosted application, Nemotron tools, and a forecasting follow-up.</p></div>
         <span class="journal-arrow" aria-hidden="true">↗</span>
       </article>
       <article class="journal-entry">
         <div class="journal-thumbnail"><img draggable="false" src="images/blog-covers/post-ai-tipping.svg?v=d870f69a" alt="" width="1200" height="675" loading="lazy" decoding="async"><time class="journal-image-date" datetime="2026-10-18">18 October 2026</time></div>
         <div class="journal-meta"><time datetime="2026-10-18">18 October 2026</time><span>AI research · 15 min</span></div>
-        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-ai-tipping.html?nav=fe6093f0">When Do AI Outputs Tip?</a></h3><p>One attention head tested across sixteen held-out Qwen2.5-0.5B prompts, a mathematical response clock, and cache edits that hold current answers fixed.</p></div>
-        <span class="journal-arrow" aria-hidden="true">↗</span>
-      </article>
-      <article class="journal-entry">
-        <div class="journal-thumbnail"><img draggable="false" src="images/blog-covers/post-agent-training-grounds.svg?v=e0ddbda4" alt="" width="1200" height="675" loading="lazy" decoding="async"><time class="journal-image-date" datetime="2026-10-11">11 October 2026</time></div>
-        <div class="journal-meta"><time datetime="2026-10-11">11 October 2026</time><span>Agents & learning · 14 min</span></div>
-        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-agent-training-grounds.html?nav=fe6093f0">Gold Medals Don't Stack Batteries: Building Training Grounds for AI Agents</a></h3><p>From programming medals to battery stacking: verifiable environments, six 2026 agent and robotics projects, and practical tests for learning rewards, recovery, and resets.</p></div>
-        <span class="journal-arrow" aria-hidden="true">↗</span>
-      </article>
-      <article class="journal-entry">
-        <div class="journal-thumbnail"><img draggable="false" src="images/blog-covers/post-battery-price-war.svg?v=918c6a41" alt="" width="1200" height="675" loading="lazy" decoding="async"><time class="journal-image-date" datetime="2026-10-04">4 October 2026</time></div>
-        <div class="journal-meta"><time datetime="2026-10-04">4 October 2026</time><span>Battery manufacturing · 29 min</span></div>
-        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-battery-price-war.html?nav=fe6093f0">Price Wars: East vs. West Battery Production and the SynBatt Response</a></h3><p>One animated timeline of manufacturers and factory plans. Grouped company cases connect funding, ramp-up, and customer demand, alongside twenty price-gap mechanisms and the SynBatt response.</p></div>
-        <span class="journal-arrow" aria-hidden="true">↗</span>
-      </article>
-      <article class="journal-entry">
-        <div class="journal-thumbnail"><img draggable="false" src="images/blog-covers/post-jev-output-heads.svg?v=bf052a21" alt="" width="1200" height="675" loading="lazy" decoding="async"><time class="journal-image-date" datetime="2026-09-27">27 September 2026</time></div>
-        <div class="journal-meta"><time datetime="2026-09-27">27 September 2026</time><span>AI research · 6 min</span></div>
-        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-jev-output-heads.html?nav=fe6093f0">How to (Not) Reinvent the Wheel With Jeff</a></h3><p>Jev, Jeff, and typed decisions: shared representations, task-specific heads, calibrated probabilities, and a concrete policy for when a manufacturing model acts or requests review.</p></div>
-        <span class="journal-arrow" aria-hidden="true">↗</span>
-      </article>
-      <article class="journal-entry">
-        <div class="journal-thumbnail"><img draggable="false" src="images/blog-covers/post-disco-dry-run.svg?v=d0e51de4" alt="" width="1200" height="675" loading="lazy" decoding="async"><time class="journal-image-date" datetime="2026-09-20">20 September 2026</time></div>
-        <div class="journal-meta"><time datetime="2026-09-20">20 September 2026</time><span>AI agents · 7 min</span></div>
-        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-disco-dry-run.html?nav=fe6093f0">DisCo and the Case for Reusable Agent Skills</a></h3><p>DisCo distills repositories and papers into reusable operating skills. Scope, ground, construct, and verify: a practical route from research knowledge to repeatable workflows.</p></div>
-        <span class="journal-arrow" aria-hidden="true">↗</span>
-      </article>
-      <article class="journal-entry">
-        <div class="journal-thumbnail"><img draggable="false" src="images/blog-covers/post-convmem.svg?v=fb92a247" alt="" width="1200" height="675" loading="lazy" decoding="async"><time class="journal-image-date" datetime="2026-09-13">13 September 2026</time></div>
-        <div class="journal-meta"><time datetime="2026-09-13">13 September 2026</time><span>Reading notes · 9 min</span></div>
-        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-convmem.html?nav=fe6093f0">Reading ConvMem: Long-Context Reasoning as a Summary Tree</a></h3><p>ConvMem reads a long document as a tree of question-conditioned summaries instead of a chain of memory updates, which cuts the path from a fact to the answer from linear to logarithmic. Notes on the method, results and cost, and seven ideas for a path shorter than logarithmic.</p></div>
-        <span class="journal-arrow" aria-hidden="true">↗</span>
-      </article>
-      <article class="journal-entry">
-        <div class="journal-thumbnail"><img draggable="false" src="images/blog-covers/post-inverted-fractions.svg?v=d0aa9b8a" alt="" width="1200" height="675" loading="lazy" decoding="async"><time class="journal-image-date" datetime="2026-09-06">6 September 2026</time></div>
-        <div class="journal-meta"><time datetime="2026-09-06">6 September 2026</time><span>LLMs in science · 9 min</span></div>
-        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-inverted-fractions.html?nav=fe6093f0">I Checked 2,294 arXiv Equations for Upside-Down Fractions</a></h3><p>An exploratory LLM-assisted audit flags 112 of 2,294 display rows, including one strict fraction reversal. Reviewer accuracy and clipboard causation remain unmeasured.</p></div>
-        <span class="journal-arrow" aria-hidden="true">↗</span>
-      </article>
-      <article class="journal-entry">
-        <div class="journal-thumbnail"><img draggable="false" src="images/blog-covers/post-glee-agent.svg?v=7f127ae4" alt="" width="1200" height="675" loading="lazy" decoding="async"><time class="journal-image-date" datetime="2026-08-30">30 August 2026</time></div>
-        <div class="journal-meta"><time datetime="2026-08-30">30 August 2026</time><span>AI agents · 5 min</span></div>
-        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-glee-agent.html?nav=fe6093f0">I Ran a Game-Theory RL-Menu Agent in GLEE for 48 Hours (No LLM)</a></h3><p>Debugging a no-LLM GLEE agent through reward normalisation, seat-matched comparisons and bargaining timing, with controlled results separated from live rankings.</p></div>
-        <span class="journal-arrow" aria-hidden="true">↗</span>
-      </article>
-      <article class="journal-entry">
-        <div class="journal-thumbnail"><img draggable="false" src="images/blog-covers/post-fair-evaluation.svg?v=5ddc365c" alt="" width="1200" height="675" loading="lazy" decoding="async"><time class="journal-image-date" datetime="2026-08-23">23 August 2026</time></div>
-        <div class="journal-meta"><time datetime="2026-08-23">23 August 2026</time><span>Continual learning · 4 min</span></div>
-        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-fair-evaluation.html?nav=fe6093f0">Finding a Fair Evaluation Under Changing Representations</a></h3><p>A proposed matched-input task for testing representation adaptation, with a frozen-feature ceiling, separate retention audits and resource-matched baselines.</p></div>
-        <span class="journal-arrow" aria-hidden="true">↗</span>
-      </article>
-      <article class="journal-entry">
-        <div class="journal-thumbnail"><img draggable="false" src="images/blog-covers/post-student-becomes-teacher.svg?v=f245b6b6" alt="" width="1200" height="675" loading="lazy" decoding="async"><time class="journal-image-date" datetime="2026-08-16">16 August 2026</time></div>
-        <div class="journal-meta"><time datetime="2026-08-16">16 August 2026</time><span>AI research · 7 min</span></div>
-        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-student-becomes-teacher.html?nav=fe6093f0">The Student Becomes the Teacher</a></h3><p>Self-distillation transfers a model’s own supervision. Majority pseudo-labels can correct minority errors or reinforce systematic mistakes; flatness alone guarantees neither generalisation nor retention.</p></div>
-        <span class="journal-arrow" aria-hidden="true">↗</span>
-      </article>
-      <article class="journal-entry">
-        <div class="journal-thumbnail"><img draggable="false" src="images/blog-covers/post-optimizing-reasoning.svg?v=100a6d42" alt="" width="1200" height="675" loading="lazy" decoding="async"><time class="journal-image-date" datetime="2026-08-09">9 August 2026</time></div>
-        <div class="journal-meta"><time datetime="2026-08-09">9 August 2026</time><span>AI research · 6 min</span></div>
-        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-optimizing-reasoning.html?nav=fe6093f0">From Simulating Speech to Optimizing Reasoning</a></h3><p>What latent steering, multiplex tokens and compressed plans establish about reasoning, with measured hint acknowledgement and task-specific limits.</p></div>
-        <span class="journal-arrow" aria-hidden="true">↗</span>
-      </article>
-      <article class="journal-entry">
-        <div class="journal-thumbnail"><img draggable="false" src="images/blog-covers/post-race-to-on.svg?v=12e09f08" alt="" width="1200" height="675" loading="lazy" decoding="async"><time class="journal-image-date" datetime="2026-08-02">2 August 2026</time></div>
-        <div class="journal-meta"><time datetime="2026-08-02">2 August 2026</time><span>ML systems · 12 min</span></div>
-        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-race-to-on.html?nav=fe6093f0">The Race to O(n)</a></h3><p>Sparse patterns, DSA indexing, recurrent memory and conditional complexity bounds, with vendor claims separated from independent architectural evidence.</p></div>
-        <span class="journal-arrow" aria-hidden="true">↗</span>
-      </article>
-      <article class="journal-entry">
-        <div class="journal-thumbnail"><img draggable="false" src="images/blog-covers/post-dendrites-dandelions.svg?v=f1c1979a" alt="" width="1200" height="675" loading="lazy" decoding="async"><time class="journal-image-date" datetime="2026-07-26">26 July 2026</time></div>
-        <div class="journal-meta"><time datetime="2026-07-26">26 July 2026</time><span>Materials · 5 min</span></div>
-        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-dendrites-dandelions.html?nav=fe6093f0">Lithium Dendrites Are Batteries' Dandelions</a></h3><p>A lithium-and-sodium dendrite model linking defect geometry, fracture and electronic leakage, with an explicit sodium example and unresolved current-scale mismatch.</p></div>
-        <span class="journal-arrow" aria-hidden="true">↗</span>
-      </article>
-      <article class="journal-entry">
-        <div class="journal-thumbnail"><img draggable="false" src="images/blog-covers/post-physical-ai.svg?v=0f8ba499" alt="" width="1200" height="675" loading="lazy" decoding="async"><time class="journal-image-date" datetime="2026-07-19">19 July 2026</time></div>
-        <div class="journal-meta"><time datetime="2026-07-19">19 July 2026</time><span>AI & infrastructure · 12 min</span></div>
-        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-physical-ai.html?nav=fe6093f0">AI's Bottleneck Is Physical</a></h3><p>Sensing, data lineage, latency and safe interventions constrain industrial AI. A bottleneck illustration and deployment examples, rather than a fitted scaling law.</p></div>
-        <span class="journal-arrow" aria-hidden="true">↗</span>
-      </article>
-      <article class="journal-entry">
-        <div class="journal-thumbnail"><img draggable="false" src="images/blog-covers/post-causalpfn.svg?v=3128ae45" alt="" width="1200" height="675" loading="lazy" decoding="async"><time class="journal-image-date" datetime="2026-07-12">12 July 2026</time></div>
-        <div class="journal-meta"><time datetime="2026-07-12">12 July 2026</time><span>Reading notes · 5 min</span></div>
-        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-causalpfn.html?nav=fe6093f0">Reading CausalPFN: Causal Effects as In-Context Prediction</a></h3><p>A NeurIPS 2025 paper trains one transformer on simulated, identifiable causal worlds; new observational data goes in as context, treatment-effect posteriors come out. What holds it up, and where it breaks.</p></div>
-        <span class="journal-arrow" aria-hidden="true">↗</span>
-      </article>
-      <article class="journal-entry">
-        <div class="journal-thumbnail"><img draggable="false" src="images/blog-covers/post-geometry-of-forgetting.svg?v=fedac32e" alt="" width="1200" height="675" loading="lazy" decoding="async"><time class="journal-image-date" datetime="2026-07-05">5 July 2026</time></div>
-        <div class="journal-meta"><time datetime="2026-07-05">5 July 2026</time><span>Continual learning · 4 min</span></div>
-        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-geometry-of-forgetting.html?nav=fe6093f0">The Geometry of Forgetting in Continual Learning</a></h3><p>An exact fixed-feature squared-loss calculation at stationarity, its second-order extension, and frozen-backbone IGFA results on Rotated-Digits.</p></div>
-        <span class="journal-arrow" aria-hidden="true">↗</span>
-      </article>
-      <article class="journal-entry">
-        <div class="journal-thumbnail"><img draggable="false" src="images/blog-covers/post-calendering-u-shape.svg?v=e364a052" alt="" width="1200" height="675" loading="lazy" decoding="async"><time class="journal-image-date" datetime="2026-06-28">28 June 2026</time></div>
-        <div class="journal-meta"><time datetime="2026-06-28">28 June 2026</time><span>Electrode manufacturing · 3 min</span></div>
-        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-calendering-u-shape.html?nav=fe6093f0">Modelling the Electrode Calendering U-Shape</a></h3><p>A process-dependent contact closure fits 27 graphite and NMC calendering states. Reorientation is a plausible graphite mechanism that thermal data alone cannot isolate.</p></div>
+        <div class="journal-copy"><h3><a draggable="false" class="card-link" href="post-ai-tipping.html?nav=90caa69d">When Do AI Outputs Tip?</a></h3><p>One attention head tested across sixteen held-out Qwen2.5-0.5B prompts, a mathematical response clock, and cache edits that hold current answers fixed.</p></div>
         <span class="journal-arrow" aria-hidden="true">↗</span>
       </article>
     </div>
+    <div class="blog-archive-link"><a draggable="false" class="outline-action" href="blog-archive.html?nav=90caa69d">View all posts <span aria-hidden="true">↗</span></a><p class="muted">20 posts in the archive</p></div>
   </main>
 
   <footer class="content">
     <span>© 2026 Julius Störk</span>
-    <span class="footer-links"><a draggable="false" href="index.html?nav=fe6093f0">Home</a> · <a draggable="false" href="index.html?nav=fe6093f0#contact">Contact</a></span>
+    <span class="footer-links"><a draggable="false" href="index.html?nav=90caa69d">Home</a> · <a draggable="false" href="index.html?nav=90caa69d#contact">Contact</a></span>
   </footer>
 
   <script defer src="theme.js?v=e512a566"></script>
   <script defer src="navigation.js?v=82ad0181"></script>
   <script defer src="media.js?v=3803c5ba"></script>
-  <script defer src="interactions.js?v=0296ce10"></script>
+  <script defer src="interactions.js?v=65fdfd93"></script>
   <script defer src="cursor.js?v=836db8cc"></script>
   <script defer src="portal-transitions.js?v=d4060e4b"></script>
+  <script defer src="search.js?v=38d6c5d6" data-search-index="search-index.json?v=ef660091"></script>
   <script defer src="blog-view.js?v=e9c23f0b"></script>
   <script>
     window.addEventListener('load', function () {

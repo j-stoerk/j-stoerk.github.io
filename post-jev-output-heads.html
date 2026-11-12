@@ -58,8 +58,8 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=e36b9f82">
-  <link rel="stylesheet" href="experiences.css?v=2f793542">
+  <link rel="stylesheet" href="styles.css?v=6dc564fa">
+  <link rel="stylesheet" href="experiences.css?v=5f949ed2">
   <link rel="stylesheet" href="katex/katex.min.css">
 </head>
 
@@ -68,26 +68,34 @@
 
   <header class="topbar">
     <div class="topbar-inner">
-      <a draggable="false" class="site-title" href="index.html?nav=fe6093f0">Home</a>
+      <a draggable="false" class="site-title" href="index.html?nav=90caa69d">Home</a>
       <button draggable="false" class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
         <span class="nav-toggle-lines" aria-hidden="true"></span>
         <span class="sr-only">Open navigation</span>
       </button>
       <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
-        <a draggable="false" href="index.html?nav=fe6093f0#publications" data-nav-label="Publications">Publications</a>
-        <a draggable="false" href="index.html?nav=fe6093f0#software" data-nav-label="Code">Code</a>
-        <a draggable="false" class="current" href="blog.html?nav=fe6093f0" data-nav-label="Blog" aria-current="page">Blog</a>
-        <a draggable="false" href="index.html?nav=fe6093f0#experience" data-nav-label="Experience">Experience</a>
-        <a draggable="false" href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
-        <a draggable="false" href="index.html?nav=fe6093f0#contact" data-nav-label="Contact">Contact</a>
-        <button draggable="false" class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+        <a draggable="false" href="publications.html?nav=90caa69d" data-nav-label="Publications">Publications</a>
+        <a draggable="false" href="code.html?nav=90caa69d" data-nav-label="Code">Code</a>
+        <a draggable="false" class="current" href="blog.html?nav=90caa69d" data-nav-label="Blog" aria-current="page">Blog</a>
+        <a draggable="false" href="index.html?nav=90caa69d#experience" data-nav-label="Experience">Experience</a>
+        <a draggable="false" href="cv.html?nav=90caa69d" data-nav-label="CV">CV</a>
+        <a draggable="false" href="index.html?nav=90caa69d#contact" data-nav-label="Contact">Contact</a>
       </nav>
+      <div class="header-actions">
+        <a draggable="false" class="header-search" href="search.html?nav=90caa69d" data-search-open aria-label="Search website" title="Search (/ or Ctrl+K)"><svg viewBox="0 0 24 24" width="21" height="21" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg><span class="search-label">Search</span></a>
+        <button draggable="false" class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+      </div>
     </div>
   </header>
+  <dialog class="search-dialog" data-search-dialog aria-labelledby="search-dialog-title">
+    <div class="search-dialog-head"><h2 id="search-dialog-title">Search the website</h2><button draggable="false" class="search-close" type="button" data-search-close aria-label="Close search"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
+    <form class="search-form" action="search.html" method="get" data-site-search><label class="sr-only" for="dialog-search">Search papers, projects and posts</label><input id="dialog-search" name="q" type="search" autocomplete="off" placeholder="Papers, projects, ideas…" data-search-input><p class="search-status" data-search-status role="status">Type to search papers, projects and posts.</p><div class="search-results" data-search-results></div></form>
+    <p class="search-help">Esc to close <span> / or Ctrl+K to search</span></p>
+  </dialog>
 
   <main id="main" class="content">
     <div class="page-art page-art-post" aria-hidden="true" style="--post-art-light:url('images/blog-backgrounds/post-jev-output-heads-light.svg?v=8257e78b');--post-art-dark:url('images/blog-backgrounds/post-jev-output-heads-dark.svg?v=6b116cca')"></div>
-    <a draggable="false" class="back-link" href="blog.html?nav=fe6093f0">All posts</a>
+    <a draggable="false" class="back-link" href="blog.html?nav=90caa69d">All posts</a>
     <article class="post" id="jev-output-heads">
       <div class="post-cover media-cover">
         <div class="media">
@@ -213,7 +221,7 @@
         <h2>The bridge to continual learning</h2>
         <p>In multi-head task-incremental learning, each task has its own classification head while the network shares a feature extractor. Labels from different tasks do not have to compete in a single softmax. A study by Lanzillotta, Meier, and Hofmann finds Neural Collapse structure within task heads, with variable alignment and scaling across tasks&#160;<sup class="cite">[<a draggable="false" href="#ref-4">4</a>&#8288;]</sup>&#8288;.</p>
         <p>There is a useful analogy here. Continual learning separates heads by task; a manufacturing model can separate outputs by decision semantics. A quality class, a conductivity estimate, and a review probability carry different meanings and error costs. Each can have its own loss, validation set, and calibration procedure while drawing on common process features.</p>
-        <p>Shared features still create interference. Updating the encoder for one objective can move the representation used by every other head. That connects directly to my <a draggable="false" href="post-geometry-of-forgetting.html?nav=fe6093f0">IGFA work</a>&#8288;: separate outputs help organize tasks, while retention under a changing representation remains a problem that the training procedure must address.</p>
+        <p>Shared features still create interference. Updating the encoder for one objective can move the representation used by every other head. That connects directly to my <a draggable="false" href="post-geometry-of-forgetting.html?nav=90caa69d">IGFA work</a>&#8288;: separate outputs help organize tasks, while retention under a changing representation remains a problem that the training procedure must address.</p>
 
         <h2>A process controller with several outputs</h2>
         <p>Battery manufacturing already lives in a world of multiple tasks and outputs: coating experiment design, calendering settings, impedance analysis, cycling prediction, and drift detection. The labels include pass/fail, risk levels, continuous properties, and decisions about whether to trust a prediction.</p>
@@ -243,7 +251,7 @@
         <details class="references-more">
           <summary draggable="false" class="references-toggle"><span class="references-show">show all 5 references</span><span class="references-hide">show fewer references</span><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></summary>
           <ol class="sources" start="4"><li id="ref-4">Lanzillotta, G., Meier, D., and Hofmann, T. <a draggable="false" href="https://arxiv.org/abs/2512.07400v2" target="_blank" rel="noopener noreferrer">Heads Collapse, Features Stay: Why Replay Needs Big Buffers</a>&#8288;, 2026.</li>
-        <li>Störk, J. <a draggable="false" href="post-geometry-of-forgetting.html?nav=fe6093f0">The Geometry of Forgetting in Continual Learning</a> and <a draggable="false" href="post-calendering-u-shape.html?nav=fe6093f0">the calendering U-shape</a>&#8288;.</li>
+        <li>Störk, J. <a draggable="false" href="post-geometry-of-forgetting.html?nav=90caa69d">The Geometry of Forgetting in Continual Learning</a> and <a draggable="false" href="post-calendering-u-shape.html?nav=90caa69d">the calendering U-shape</a>&#8288;.</li>
       </ol>
         </details></section>
 
@@ -305,11 +313,11 @@
 
 
     <nav class="post-pager" aria-label="More posts">
-      <a draggable="false" href="post-battery-price-war.html?nav=fe6093f0">
+      <a draggable="false" href="post-battery-price-war.html?nav=90caa69d">
         <span class="eyebrow">Newer post</span>
         <span class="post-pager-title">Price Wars: East vs. West Battery Production and the SynBatt Response</span>
       </a>
-      <a draggable="false" href="post-disco-dry-run.html?nav=fe6093f0">
+      <a draggable="false" href="post-disco-dry-run.html?nav=90caa69d">
         <span class="eyebrow">Next post</span>
         <span class="post-pager-title">DisCo and the Case for Reusable Agent Skills</span>
       </a>
@@ -318,17 +326,19 @@
 
   <footer class="content">
     <span>© 2026 Julius Störk</span>
-    <span class="footer-links"><a draggable="false" href="blog.html?nav=fe6093f0">All posts</a> · <a draggable="false" href="index.html?nav=fe6093f0#contact">Contact</a></span>
+    <span class="footer-links"><a draggable="false" href="blog.html?nav=90caa69d">All posts</a> · <a draggable="false" href="index.html?nav=90caa69d#contact">Contact</a></span>
   </footer>
 
   <script defer src="theme.js?v=e512a566"></script>
   <script defer src="navigation.js?v=82ad0181"></script>
   <script defer src="media.js?v=3803c5ba"></script>
-  <script defer src="interactions.js?v=0296ce10"></script>
+  <script defer src="interactions.js?v=65fdfd93"></script>
   <script defer src="cursor.js?v=836db8cc"></script>
   <script defer src="portal-transitions.js?v=d4060e4b"></script>
+  <script defer src="search.js?v=38d6c5d6" data-search-index="search-index.json?v=ef660091"></script>
   <script defer src="blog.js?v=a24a5a3c"></script>
   <script defer src="references.js?v=e51071fb"></script>
+  <script defer src="listen.js?v=a525d007"></script>
   <script defer src="comment-identity.js?v=dddce228"></script>
   <script defer src="comments.js?v=43a43fce"></script>
   <script>

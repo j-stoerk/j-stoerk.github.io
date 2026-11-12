@@ -58,8 +58,8 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=e36b9f82">
-  <link rel="stylesheet" href="experiences.css?v=2f793542">
+  <link rel="stylesheet" href="styles.css?v=6dc564fa">
+  <link rel="stylesheet" href="experiences.css?v=5f949ed2">
   <link rel="stylesheet" href="katex/katex.min.css">
 </head>
 
@@ -68,27 +68,35 @@
 
   <header class="topbar">
     <div class="topbar-inner">
-      <a draggable="false" class="site-title" href="index.html?nav=fe6093f0">Home</a>
+      <a draggable="false" class="site-title" href="index.html?nav=90caa69d">Home</a>
       <button draggable="false" class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
         <span class="nav-toggle-lines" aria-hidden="true"></span>
         <span class="sr-only">Open navigation</span>
       </button>
       <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
-        <a draggable="false" href="index.html?nav=fe6093f0#publications" data-nav-label="Publications">Publications</a>
-        <a draggable="false" href="index.html?nav=fe6093f0#software" data-nav-label="Code">Code</a>
-        <a draggable="false" class="current" href="blog.html?nav=fe6093f0" data-nav-label="Blog" aria-current="page">Blog</a>
-        <a draggable="false" href="index.html?nav=fe6093f0#experience" data-nav-label="Experience">Experience</a>
-        <a draggable="false" href="cv.html?nav=fe6093f0" data-nav-label="CV">CV</a>
-        <a draggable="false" href="index.html?nav=fe6093f0#contact" data-nav-label="Contact">Contact</a>
-        <button draggable="false" class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+        <a draggable="false" href="publications.html?nav=90caa69d" data-nav-label="Publications">Publications</a>
+        <a draggable="false" href="code.html?nav=90caa69d" data-nav-label="Code">Code</a>
+        <a draggable="false" class="current" href="blog.html?nav=90caa69d" data-nav-label="Blog" aria-current="page">Blog</a>
+        <a draggable="false" href="index.html?nav=90caa69d#experience" data-nav-label="Experience">Experience</a>
+        <a draggable="false" href="cv.html?nav=90caa69d" data-nav-label="CV">CV</a>
+        <a draggable="false" href="index.html?nav=90caa69d#contact" data-nav-label="Contact">Contact</a>
       </nav>
+      <div class="header-actions">
+        <a draggable="false" class="header-search" href="search.html?nav=90caa69d" data-search-open aria-label="Search website" title="Search (/ or Ctrl+K)"><svg viewBox="0 0 24 24" width="21" height="21" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg><span class="search-label">Search</span></a>
+        <button draggable="false" class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+      </div>
     </div>
   </header>
+  <dialog class="search-dialog" data-search-dialog aria-labelledby="search-dialog-title">
+    <div class="search-dialog-head"><h2 id="search-dialog-title">Search the website</h2><button draggable="false" class="search-close" type="button" data-search-close aria-label="Close search"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
+    <form class="search-form" action="search.html" method="get" data-site-search><label class="sr-only" for="dialog-search">Search papers, projects and posts</label><input id="dialog-search" name="q" type="search" autocomplete="off" placeholder="Papers, projects, ideas…" data-search-input><p class="search-status" data-search-status role="status">Type to search papers, projects and posts.</p><div class="search-results" data-search-results></div></form>
+    <p class="search-help">Esc to close <span> / or Ctrl+K to search</span></p>
+  </dialog>
 
   <main id="main" class="content">
 
     <div class="page-art page-art-post" aria-hidden="true" style="--post-art-light:url('images/blog-backgrounds/post-inverted-fractions-light.svg?v=c27c226f');--post-art-dark:url('images/blog-backgrounds/post-inverted-fractions-dark.svg?v=b62c56a9')"></div>
-    <a draggable="false" class="back-link" href="blog.html?nav=fe6093f0">All posts</a>
+    <a draggable="false" class="back-link" href="blog.html?nav=90caa69d">All posts</a>
     <article class="post" id="inverted-fractions">
       <div class="post-cover media-cover">
         <div class="media">
@@ -434,7 +442,7 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
 
 
     <nav class="post-pager" aria-label="More posts">
-      <a draggable="false" href="post-glee-agent.html?nav=fe6093f0">
+      <a draggable="false" href="post-glee-agent.html?nav=90caa69d">
         <span class="eyebrow">Next post</span>
         <span class="post-pager-title">I Ran a Game-Theory RL-Menu Agent in GLEE for 48 Hours (No LLM)</span>
       </a>
@@ -443,17 +451,19 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
 
   <footer class="content">
     <span>© 2026 Julius Störk</span>
-    <span class="footer-links"><a draggable="false" href="blog.html?nav=fe6093f0">All posts</a> · <a draggable="false" href="index.html?nav=fe6093f0#contact">Contact</a></span>
+    <span class="footer-links"><a draggable="false" href="blog.html?nav=90caa69d">All posts</a> · <a draggable="false" href="index.html?nav=90caa69d#contact">Contact</a></span>
   </footer>
 
   <script defer src="theme.js?v=e512a566"></script>
   <script defer src="navigation.js?v=82ad0181"></script>
   <script defer src="media.js?v=3803c5ba"></script>
-  <script defer src="interactions.js?v=0296ce10"></script>
+  <script defer src="interactions.js?v=65fdfd93"></script>
   <script defer src="cursor.js?v=836db8cc"></script>
   <script defer src="portal-transitions.js?v=d4060e4b"></script>
+  <script defer src="search.js?v=38d6c5d6" data-search-index="search-index.json?v=ef660091"></script>
   <script defer src="blog.js?v=a24a5a3c"></script>
   <script defer src="references.js?v=e51071fb"></script>
+  <script defer src="listen.js?v=a525d007"></script>
   <script defer src="comment-identity.js?v=dddce228"></script>
   <script defer src="comments.js?v=43a43fce"></script>
   <script>

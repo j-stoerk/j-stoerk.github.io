@@ -69,7 +69,9 @@ page/card pair, metadata placement, file size and actual JPEG dimensions.
 - Optional `"scripts"` and `"styles"` arrays on a post entry load that article's
   root-level assets with the normal content hashes.
 - **publications.bib** is regenerated from the BibTeX blocks in the built
-  index page — update a citation there and the .bib follows.
+  Publications page. Edit `publications.html` in this source directory;
+  it supplies the detailed paper records. `software.html` supplies the Code
+  page's project records. The homepage keeps brief collection previews.
 - Page-level config (nav highlight, extra scripts, footer links, sitemap
   lastmod) lives in the `PAGES` object in `build.js`. Bump `lastmod` when a
   page's content changes.
@@ -93,6 +95,23 @@ artwork at its original proportions for the full article height, including when
 content expands or JavaScript is unavailable. A horizontal mask softens artwork
 under the reading column. Edit the dedicated SVGs rather than the generated assets.
 `blog-view.js` switches between the list and tiles and remembers the selection.
+The default Blog page contains the four most recent posts. `build.js` generates
+`blog-archive.html`, `blog-archive-2.html`, etc. from the same template, with six
+posts per page and ordinary pagination links that work without JavaScript.
+The homepage topic previews contain two posts per topic; `blog-library.json`
+is fetched only for “surprise me”, so it still samples the complete library.
+
+Header search is shared across generated pages. `search-index.json` includes
+article text, individual publications/projects and profile/CV content. `search.js`
+fetches it only on a query, ranks local results and uses native dialog focus.
+`search.html?q=...` provides a bookmarkable search view. Header destinations
+Publications and Code are dedicated documents; local chapter links remain local.
+
+The draggable wireframe on Code uses `word-room.js` and native CSS
+`shape-outside`. The prose remains one selectable HTML copy. Drawing runs on
+input, resize and theme changes, with no idle animation or third-party library.
+Experience figures stay at their real values; the intro's odometer uses CSS
+generated digits so decorative reels do not leak digit strings into page text.
 
 Reference sections (`post-sources` or `post-references`) show their first three
 entries. The builder places the rest in native `details`, continuing numbering
