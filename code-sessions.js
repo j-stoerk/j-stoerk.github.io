@@ -47,7 +47,7 @@
     panel.tabIndex = 0;
   });
   console.querySelector('.console-tabs').hidden = false;
-  console.querySelector('.console-controls').hidden = false;
+  console.querySelector('[data-session-replay]').hidden = false;
   console.dataset.ready = '';
   select(0, false);
   console.querySelector('[data-session-replay]').addEventListener('click', play);

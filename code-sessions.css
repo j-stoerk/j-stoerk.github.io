@@ -1,8 +1,8 @@
 /* Homepage terminal sessions, with ordinary HTML as the static fallback. */
 .code-console { overflow: hidden; border: 1px solid var(--color-border); border-radius: 16px; background: var(--color-surface); }
-.console-chrome { display: flex; align-items: center; gap: 10px; min-height: 49px; padding: 10px 22px; border-bottom: 1px solid var(--color-divider); color: var(--color-text-muted); font: 11px/1.5 var(--font-mono); }
+.console-chrome { display: flex; align-items: center; gap: 10px; min-height: 49px; padding: 4px 22px; border-bottom: 1px solid var(--color-divider); color: var(--color-text-muted); font: 11px/1.5 var(--font-mono); }
 .console-mark { color: var(--color-primary); font-weight: 600; }
-.console-caption { margin-left: auto; font: 11px/1.5 var(--font-body); }
+.console-replay { display: flex; align-items: center; gap: 7px; min-height: 40px; margin-left: auto; color: var(--color-primary); font: 11px/1.5 var(--font-body); }
 .console-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 0 22px; gap: 22px; background: color-mix(in srgb, var(--color-primary-highlight) 28%, var(--color-surface)); border-bottom: 1px solid var(--color-divider); }
 .console-tabs button { display: flex; align-items: center; justify-content: flex-start; gap: 8px; position: relative; padding: 16px 0; min-height: 52px; color: var(--color-text-muted); text-align: left; font: 13px/1.4 var(--font-body); }
 .console-tabs button > span { font: 10px/1 var(--font-mono); opacity: .65; }
@@ -18,15 +18,13 @@
 .session-output { display: grid; gap: 12px; margin: 0; padding: 0; max-width: none; list-style: none; }
 .session-output li { display: grid; grid-template-columns: 66px minmax(0, 1fr); gap: 16px; margin: 0; }
 .session-stage { color: var(--color-primary); }
-.session-result { display: flex; align-items: center; gap: 22px; margin-top: 26px; padding-top: 18px; border-top: 1px dashed var(--color-divider); color: var(--color-primary); font-size: 11px; }
+.session-result { display: flex; align-items: center; gap: 22px; margin-top: 26px; padding-top: 18px; color: var(--color-primary); font-size: 11px; }
 .session-result svg { flex: 0 0 160px; }
-.session-footer { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 21px 30px; border-top: 1px solid var(--color-divider); }
+.session-footer { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 21px 30px; border-top: 0; }
 .session-footer h3 { margin: 0 0 5px; color: var(--color-text); font-size: var(--text-base); font-weight: 500; }
 .session-footer p { margin: 0; font-size: 13px; color: var(--color-text-muted); }
 .session-footer .project-stack { margin: 9px 0 0; font-size: 11px; }
 .session-footer > a { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; flex-shrink: 0; font-size: 13px; text-decoration: none; }
-.console-controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 6px 22px; border-top: 1px solid var(--color-divider); color: var(--color-text-muted); font-size: 10px; }
-.console-controls button { display: flex; align-items: center; gap: 7px; min-height: 40px; color: var(--color-primary); font: 11px/1.5 var(--font-body); }
 .code-console [hidden] { display: none !important; }
 .code-console[data-ready] .code-session { border-top: 0; }
 .code-console button:focus-visible, .session-footer a:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; border-radius: 3px; }
@@ -50,8 +48,6 @@
   .session-result svg { flex-basis: 88px; width: 88px; }
   .session-footer { align-items: flex-start; flex-direction: column; gap: 8px; padding: 20px 16px 14px; }
   .session-footer > a { font-size: 12px; }
-  .console-controls { padding-inline: 16px; }
-  .console-controls > span { max-width: 190px; }
 }
 @media (prefers-reduced-motion: reduce) { .code-session.is-playing * { animation: none !important; } }
-@media print { .console-tabs, .console-controls { display: none !important; } .code-console .code-session[hidden] { display: block !important; } }
+@media print { .console-tabs, .console-replay { display: none !important; } .code-console .code-session[hidden] { display: block !important; } }
