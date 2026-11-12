@@ -43,7 +43,7 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=6dc564fa">
+  <link rel="stylesheet" href="styles.css?v=808e8404">
   <link rel="stylesheet" href="experiences.css?v=5f949ed2">
   <link rel="stylesheet" href="katex/katex.min.css">
   <link rel="stylesheet" href="post-figures.css?v=b0d029f8">
@@ -52,21 +52,21 @@
   <a draggable="false" href="#main" class="skip-link">Skip to main content</a>
   <header class="topbar">
     <div class="topbar-inner">
-      <a draggable="false" class="site-title" href="index.html?nav=90caa69d">Home</a>
+      <a draggable="false" class="site-title" href="index.html?nav=ff60cca0">Home</a>
       <button draggable="false" class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
         <span class="nav-toggle-lines" aria-hidden="true"></span>
         <span class="sr-only">Open navigation</span>
       </button>
       <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
-        <a draggable="false" href="publications.html?nav=90caa69d" data-nav-label="Publications">Publications</a>
-        <a draggable="false" href="code.html?nav=90caa69d" data-nav-label="Code">Code</a>
-        <a draggable="false" class="current" href="blog.html?nav=90caa69d" data-nav-label="Blog" aria-current="page">Blog</a>
-        <a draggable="false" href="index.html?nav=90caa69d#experience" data-nav-label="Experience">Experience</a>
-        <a draggable="false" href="cv.html?nav=90caa69d" data-nav-label="CV">CV</a>
-        <a draggable="false" href="index.html?nav=90caa69d#contact" data-nav-label="Contact">Contact</a>
+        <a draggable="false" href="publications.html?nav=ff60cca0" data-nav-label="Publications">Publications</a>
+        <a draggable="false" href="code.html?nav=ff60cca0" data-nav-label="Code">Code</a>
+        <a draggable="false" class="current" href="blog.html?nav=ff60cca0" data-nav-label="Blog" aria-current="page">Blog</a>
+        <a draggable="false" href="experience.html?nav=ff60cca0" data-nav-label="Experience">Experience</a>
+        <a draggable="false" href="cv.html?nav=ff60cca0" data-nav-label="CV">CV</a>
+        <a draggable="false" href="index.html?nav=ff60cca0#contact" data-nav-label="Contact">Contact</a>
       </nav>
       <div class="header-actions">
-        <a draggable="false" class="header-search" href="search.html?nav=90caa69d" data-search-open aria-label="Search website" title="Search (/ or Ctrl+K)"><svg viewBox="0 0 24 24" width="21" height="21" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg><span class="search-label">Search</span></a>
+        <a draggable="false" class="header-search theme-toggle" href="search.html?nav=ff60cca0" data-search-open aria-label="Search website" title="Search (/ or Ctrl+K)"><svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg></a>
         <button draggable="false" class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
       </div>
     </div>
@@ -78,7 +78,7 @@
   </dialog>
   <main id="main" class="content">
     <div class="page-art page-art-post" aria-hidden="true" style="--post-art-light:url('images/blog-backgrounds/post-ai-tipping-light.svg?v=33963ded');--post-art-dark:url('images/blog-backgrounds/post-ai-tipping-dark.svg?v=ffeb5115')"></div>
-    <a draggable="false" class="back-link" href="blog.html?nav=90caa69d">All posts</a>
+    <a draggable="false" class="back-link" href="blog.html?nav=ff60cca0">All posts</a>
     <article class="post" id="ai-tipping">
       <div class="post-cover media-cover"><div class="media">
         <svg class="cover-art" viewBox="0 0 1200 675" role="img" aria-label="Schematic of a patched attention head and two histories with the same initial readout">
@@ -137,7 +137,7 @@
       </div>
       <figure class="post-interactive">
         <iframe src="figures/ai-tipping/head-content-vs-routing.html" title="Measured attention-head interventions across sixteen held-out prompts" width="900" height="950" loading="lazy" data-autoheight></iframe>
-        <figcaption>Measured probabilities. Compare all three interventions, then filter by source colour and wording. Each line is one prompt. <a draggable="false" href="figures/ai-tipping/head-content-vs-routing.html?nav=90caa69d" target="_blank" rel="noopener">Open figure ↗</a> · <a draggable="false" href="figures/ai-tipping/head-interventions.csv" download>Download data</a></figcaption>
+        <figcaption>Measured probabilities. Compare all three interventions, then filter by source colour and wording. Each line is one prompt. <a draggable="false" href="figures/ai-tipping/head-content-vs-routing.html?nav=ff60cca0" target="_blank" rel="noopener">Open figure ↗</a> · <a draggable="false" href="figures/ai-tipping/head-interventions.csv" download>Download data</a></figcaption>
       </figure>
       <div class="prose">
         <p>The location of the edit also matters. In this cached decoder, temporarily patching the final layer's attention output can change the current logits without changing stored keys or values. If the same next token is forced in both runs, their later computations receive the same cache. An edit to stored values can persist because later queries can read those values again.</p>
@@ -154,7 +154,7 @@
       </div>
       <figure class="post-interactive">
         <iframe src="figures/ai-tipping/attention-memory-clock.html" title="Mathematical construction: equal current error probabilities with different future error clocks" width="900" height="1120" loading="lazy" data-autoheight></iframe>
-        <figcaption><strong>Mathematical construction.</strong> Change the two attention masses while holding the current margin fixed. Both histories begin at the same risk; their conditional hazards and cumulative error probabilities can diverge. <a draggable="false" href="figures/ai-tipping/attention-memory-clock.html?nav=90caa69d" target="_blank" rel="noopener">Open figure ↗</a></figcaption>
+        <figcaption><strong>Mathematical construction.</strong> Change the two attention masses while holding the current margin fixed. Both histories begin at the same risk; their conditional hazards and cumulative error probabilities can diverge. <a draggable="false" href="figures/ai-tipping/attention-memory-clock.html?nav=ff60cca0" target="_blank" rel="noopener">Open figure ↗</a></figcaption>
       </figure>
       <div class="prose">
         <p>The extra mass variable explains why a current risk score can be insufficient even when it is measured exactly. Repeating every item in a history can preserve its weighted average while increasing the mass already present. One new output then moves that average less. In the construction, the current margin describes where the system is; the mass describes its resistance to the next update.</p>
@@ -200,8 +200,8 @@
         <h2>References and experiment materials</h2>
         <ol>
           <li id="ref-1">Johnson, N. F. &amp; Huo, F. Y. <a draggable="false" href="https://arxiv.org/abs/2602.14370">Competition for attention predicts good-to-bad tipping in AI</a>&#8288;, 2026, preprint. Starting framework; the experiments and clock extension described here are separate work.</li>
-          <li id="ref-2">Störk, J. <a draggable="false" href="figures/ai-tipping/head-content-vs-routing.html?nav=90caa69d">Head-content versus routing intervention figure</a> and <a draggable="false" href="figures/ai-tipping/head-interventions.csv" download>published plotting data</a>&#8288;. Sixteen held-out prompts, three interventions, conditional two-token decoder.</li>
-          <li id="ref-3">Störk, J. <a draggable="false" href="figures/ai-tipping/attention-memory-clock.html?nav=90caa69d">Attention-memory response clock</a>&#8288;. Interactive mathematical construction accompanying the fixed-prototype update law; no fitted neural-model results.</li>
+          <li id="ref-2">Störk, J. <a draggable="false" href="figures/ai-tipping/head-content-vs-routing.html?nav=ff60cca0">Head-content versus routing intervention figure</a> and <a draggable="false" href="figures/ai-tipping/head-interventions.csv" download>published plotting data</a>&#8288;. Sixteen held-out prompts, three interventions, conditional two-token decoder.</li>
+          <li id="ref-3">Störk, J. <a draggable="false" href="figures/ai-tipping/attention-memory-clock.html?nav=ff60cca0">Attention-memory response clock</a>&#8288;. Interactive mathematical construction accompanying the fixed-prototype update law; no fitted neural-model results.</li>
         </ol>
         <details class="references-more">
           <summary draggable="false" class="references-toggle"><span class="references-show">show all 5 references</span><span class="references-hide">show fewer references</span><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></summary>
@@ -267,13 +267,13 @@
 
 
     <nav class="post-pager" aria-label="More posts">
-      <a draggable="false" href="post-agent-training-grounds.html?nav=90caa69d"><span class="eyebrow">Previous post</span><span class="post-pager-title">Gold Medals Don't Stack Batteries</span></a>
-      <a draggable="false" href="post-chargewise.html?nav=90caa69d"><span class="eyebrow">Next post</span><span class="post-pager-title">ChargeWise Fits the Fleet to the Grid</span></a>
+      <a draggable="false" href="post-agent-training-grounds.html?nav=ff60cca0"><span class="eyebrow">Previous post</span><span class="post-pager-title">Gold Medals Don't Stack Batteries</span></a>
+      <a draggable="false" href="post-chargewise.html?nav=ff60cca0"><span class="eyebrow">Next post</span><span class="post-pager-title">ChargeWise Fits the Fleet to the Grid</span></a>
     </nav>
   </main>
   <footer class="content">
     <span>© 2026 Julius Störk</span>
-    <span class="footer-links"><a draggable="false" href="blog.html?nav=90caa69d">All posts</a> · <a draggable="false" href="index.html?nav=90caa69d#contact">Contact</a></span>
+    <span class="footer-links"><a draggable="false" href="blog.html?nav=ff60cca0">All posts</a> · <a draggable="false" href="index.html?nav=ff60cca0#contact">Contact</a></span>
   </footer>
   <script defer src="theme.js?v=e512a566"></script>
   <script defer src="navigation.js?v=82ad0181"></script>
@@ -281,7 +281,7 @@
   <script defer src="interactions.js?v=65fdfd93"></script>
   <script defer src="cursor.js?v=836db8cc"></script>
   <script defer src="portal-transitions.js?v=d4060e4b"></script>
-  <script defer src="search.js?v=38d6c5d6" data-search-index="search-index.json?v=ef660091"></script>
+  <script defer src="search.js?v=38d6c5d6" data-search-index="search-index.json?v=31627699"></script>
   <script defer src="blog.js?v=a24a5a3c"></script>
   <script defer src="references.js?v=e51071fb"></script>
   <script defer src="listen.js?v=395f8ca9"></script>

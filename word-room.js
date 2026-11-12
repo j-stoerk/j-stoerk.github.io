@@ -1,27 +1,83 @@
-/* Native text wraps around a movable exclusion circle. Drawing idles at rest. */
+/* One selectable copy of the prose, wrapped on both sides of a movable globe.
+   Word widths are cached; layout and drawing run only on input or resize. */
 (function () {
   'use strict';
   var room = document.querySelector('[data-word-room]');
   if (!room) return;
   var world = room.querySelector('[data-word-world]'), canvas = world.querySelector('canvas');
-  var ctx = canvas.getContext('2d'), reset = document.querySelector('[data-world-reset]');
+  var ctx = canvas.getContext('2d'), measure = document.createElement('canvas').getContext('2d');
   if (!ctx) return;
-  var x, y, radius, width, dragging, last, rotation = -.35, scheduled = false;
+  var paragraphs = Array.from(room.querySelectorAll('p')).map(function (element) {
+    return { element: element, words: element.textContent.trim().split(/\s+/) };
+  });
+  var x, y, radius, width, height, lineHeight, space, dragging, last, fontKey;
+  var rotation = -.35, scheduled = false;
   function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+  function flow(avoid) {
+    var top = 0, layouts = [], padding = radius + 16;
+    paragraphs.forEach(function (paragraph) {
+      var first = top, index = 0, parts = [];
+      while (index < paragraph.words.length) {
+        var intervals = [[0, width]];
+        if (avoid) {
+          var distance = y < top ? top - y : (y > top + lineHeight ? y - top - lineHeight : 0);
+          if (distance < padding) {
+            var extent = Math.sqrt(padding * padding - distance * distance);
+            intervals = [[0, Math.max(0, x - extent)], [Math.min(width, x + extent), width]];
+          }
+        }
+        intervals.forEach(function (interval) {
+          var begin = index, used = 0, available = interval[1] - interval[0];
+          while (index < paragraph.words.length) {
+            var next = paragraph.widths[index] + (index > begin ? space : 0);
+            if (used + next > available && !(begin === index && available >= width - 1)) break;
+            used += next; index++;
+          }
+          if (index > begin) parts.push({ left: interval[0], top: top - first, text: paragraph.words.slice(begin, index).join(' ') + (index < paragraph.words.length ? ' ' : '') });
+        });
+        top += lineHeight;
+      }
+      layouts.push({ height: top - first, parts: parts });
+      top += 22;
+    });
+    return { height: top - 22, paragraphs: layouts };
+  }
   function layout(home) {
-    width = room.clientWidth; radius = width < 600 ? 64 : 104;
-    if (home || x === undefined) { x = width - radius - 12; y = width < 600 ? 80 : 140; }
-    x = clamp(x, Math.max(radius, width * .46), width - radius);
-    y = clamp(y, radius, 340 - radius);
+    var nextWidth = room.clientWidth, style = getComputedStyle(paragraphs[0].element);
+    var key = [nextWidth, style.fontFamily, style.fontSize, style.fontWeight, style.lineHeight].join('|');
+    width = nextWidth; radius = width < 600 ? 64 : 104;
+    if (fontKey !== key) {
+      fontKey = key; lineHeight = parseFloat(style.lineHeight);
+      measure.font = style.fontWeight + ' ' + style.fontSize + ' ' + style.fontFamily;
+      space = measure.measureText(' ').width;
+      paragraphs.forEach(function (paragraph) { paragraph.widths = paragraph.words.map(function (word) { return measure.measureText(word).width; }); });
+      height = flow(false).height + Math.ceil(Math.PI * Math.pow(radius + 16, 2) / width / lineHeight) * lineHeight + lineHeight * 2;
+    }
+    if (home || x === undefined) { x = width - radius - 12; y = radius + 24; }
+    x = clamp(x, radius, width - radius);
+    y = clamp(y, radius, height - radius);
+    var result = flow(true);
+    result.paragraphs.forEach(function (paragraph, index) {
+      var fragment = document.createDocumentFragment();
+      paragraph.parts.forEach(function (part) {
+        var span = document.createElement('span'); span.className = 'word-line'; span.textContent = part.text;
+        span.style.left = part.left + 'px'; span.style.top = part.top + 'px'; fragment.appendChild(span);
+      });
+      paragraphs[index].element.replaceChildren(fragment);
+      paragraphs[index].element.style.height = paragraph.height + 'px';
+    });
+    room.dataset.ready = '';
+    room.style.minHeight = Math.max(height, result.height) + 'px';
     room.style.setProperty('--world-radius', radius + 'px');
-    room.style.setProperty('--world-space', (width - x + radius) + 'px');
-    room.style.setProperty('--world-top', (y - radius) + 'px');
+    world.style.transform = 'translate(' + (x - radius) + 'px,' + (y - radius) + 'px)';
     canvas.style.width = canvas.style.height = (2 * radius) + 'px';
     draw();
   }
   function draw() {
     var size = radius * 2, dpr = Math.min(devicePixelRatio || 1, 2);
-    canvas.width = canvas.height = Math.round(size * dpr); ctx.scale(dpr, dpr);
+    var pixels = Math.round(size * dpr);
+    if (canvas.width !== pixels || canvas.height !== pixels) canvas.width = canvas.height = pixels;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     var ink = getComputedStyle(room).getPropertyValue('--color-primary').trim(), r = radius - 10;
     ctx.clearRect(0, 0, size, size); ctx.translate(radius, radius);
     function project(lat, lon) { var a = lon + rotation, c = Math.cos(lat); return [r * c * Math.sin(a), r * Math.sin(lat), c * Math.cos(a)]; }
@@ -65,8 +121,8 @@
     var deltas = { ArrowLeft: [-16,0], ArrowRight: [16,0], ArrowUp: [0,-16], ArrowDown: [0,16] }, d = deltas[event.key];
     if (!d) return; event.preventDefault(); x += d[0]; y += d[1]; rotation += d[0] * .008; schedule();
   });
-  reset.hidden = false; reset.addEventListener('click', function () { layout(true); });
-  new ResizeObserver(function () { schedule(); }).observe(room);
+  new ResizeObserver(function (entries) { if (Math.abs(entries[0].contentRect.width - width) > .5) schedule(); }).observe(room);
   new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   layout(true);
+  if (document.fonts) document.fonts.ready.then(function () { fontKey = null; schedule(); });
 })();

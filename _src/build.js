@@ -171,6 +171,10 @@ const PAGES = {
     nav: 'software', extraScripts: ['word-room.js'], footerExtra: null,
     lastmod: '2026-11-12', priority: '0.9',
   },
+  'experience.html': {
+    nav: 'experience', extraScripts: ['experiences.js', 'career.js'], footerExtra: null,
+    lastmod: '2026-11-12', priority: '0.8',
+  },
   'search.html': {
     nav: null, extraScripts: [], footerExtra: null,
     lastmod: '2026-11-12', priority: '0.4',
@@ -188,7 +192,7 @@ for (let page = 1; page <= archiveCount; page++) {
   PAGES[archiveFile(page)] = { nav: 'blog', source: 'blog.html', archivePage: page,
     extraScripts: ['blog-view.js'], footerExtra: null, lastmod: '2026-11-12', priority: '0.6' };
 }
-for (const file of ['publications.html', 'code.html', 'search.html']) shareCards[file] = { ...shareCards['index.html'] };
+for (const file of ['publications.html', 'code.html', 'search.html', 'experience.html']) shareCards[file] = { ...shareCards['index.html'] };
 for (let page = 1; page <= archiveCount; page++) shareCards[archiveFile(page)] = { ...shareCards['blog.html'] };
 fs.writeFileSync(path.join(SRC, 'share/manifest.json'), JSON.stringify(shareCards, null, 2) + '\n');
 for (const p of posts) {
@@ -243,7 +247,7 @@ const NAV_ITEMS = [
   ['publications', 'Publications', 'publications.html'],
   ['software', 'Code', 'code.html'],
   ['blog', 'Blog', 'blog.html'],
-  ['experience', 'Experience', '#experience'],
+  ['experience', 'Experience', 'experience.html'],
   ['cv', 'CV', 'cv.html'],
   ['contact', 'Contact', '#contact'],
 ];
@@ -271,7 +275,7 @@ function topbar(cfg) {
 ${links}
       </nav>
       <div class="header-actions">
-        <a class="header-search" href="search.html" data-search-open aria-label="Search website" title="Search (/ or Ctrl+K)"><svg viewBox="0 0 24 24" width="21" height="21" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg><span class="search-label">Search</span></a>
+        <a class="header-search theme-toggle" href="search.html" data-search-open aria-label="Search website" title="Search (/ or Ctrl+K)"><svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg></a>
         <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
       </div>
     </div>
@@ -416,6 +420,8 @@ for (const match of publicationsSource.matchAll(/<article\b[^>]*id="([^"]+)"[\s\
   searchDocs.push({ url: 'publications.html#' + match[1], title: plainText(title || 'Publication'), kind: 'Publication', summary: plainText(source.match(/<p\b[^>]*>[\s\S]*?<\/p>/)?.[0] || ''), text: plainText(source) });
 }
 const softwareSource = fs.readFileSync(path.join(SRC, 'software.html'), 'utf8');
+const experienceSource = fs.readFileSync(path.join(SRC, 'experience.html'), 'utf8');
+searchDocs.push({ url: 'experience.html', title: 'Research and industry experience', kind: 'Profile', summary: 'Electrode engineering at VARTA and TU Braunschweig, catalysis at TUM, process scale-up at Bosch and cathode materials at MPI and BASF.', text: plainText(experienceSource) });
 const projectMatches = [...softwareSource.matchAll(/<div class="item software-project" id="([^"]+)"/g)];
 projectMatches.forEach((match, i) => {
   const source = softwareSource.slice(match.index, projectMatches[i + 1]?.index || softwareSource.length);
@@ -455,9 +461,10 @@ for (const [file, cfg] of Object.entries(PAGES)) {
     .replace('  <!--#SCRIPTS-->', scripts(cfg))
     .replace('<!--#POST_LIST-->', () => postList(cfg.archivePage ? posts.slice((cfg.archivePage - 1) * ARCHIVE_SIZE, cfg.archivePage * ARCHIVE_SIZE) : posts.slice(0, 4)))
     .replace('<!--#BLOG_PAGINATION-->', () => blogPagination(cfg))
-    .replace('<!--#BLOG_ARCHIVE_TOP-->', () => `<p class="archive-top-link"><a href="${cfg.archivePage ? 'blog.html' : 'blog-archive.html'}">${cfg.archivePage ? '← Recent posts' : `View all ${posts.length} posts ↗`}</a></p>`)
+    .replace(/^[ \t]*<!--#BLOG_ARCHIVE_TOP-->[ \t]*$/m, () => cfg.archivePage ? '<p class="archive-top-link"><a href="blog.html">← Recent posts</a></p>' : '')
     .replace('<!--#PUBLICATION_RECORDS-->', () => fs.readFileSync(path.join(SRC, 'publications.html'), 'utf8'))
-    .replace('<!--#SOFTWARE_RECORDS-->', () => fs.readFileSync(path.join(SRC, 'software.html'), 'utf8'));
+    .replace('<!--#SOFTWARE_RECORDS-->', () => fs.readFileSync(path.join(SRC, 'software.html'), 'utf8'))
+    .replace('<!--#EXPERIENCE_RECORDS-->', () => experienceSource);
   if (cfg.archivePage) {
     html = html.replace('<h1>Blog</h1>', `<h1>Blog archive</h1>`)
       .replace('Working notes on continual learning and electrode manufacturing.</p>', `All ${posts.length} posts · page ${cfg.archivePage} of ${archiveCount}.</p>`)

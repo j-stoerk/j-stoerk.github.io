@@ -105,11 +105,15 @@ Header search is shared across generated pages. `search-index.json` includes
 article text, individual publications/projects and profile/CV content. `search.js`
 fetches it only on a query, ranks local results and uses native dialog focus.
 `search.html?q=...` provides a bookmarkable search view. Header destinations
-Publications and Code are dedicated documents; local chapter links remain local.
+Publications, Code and Experience are dedicated documents; local chapter links remain local.
 
-The draggable wireframe on Code uses `word-room.js` and native CSS
-`shape-outside`. The prose remains one selectable HTML copy. Drawing runs on
-input, resize and theme changes, with no idle animation or third-party library.
+The draggable wireframe on Code uses `word-room.js` to wrap a single selectable
+copy of the prose into line fragments on both sides of a circular exclusion.
+Cached word widths keep it movable across all three paragraphs. Layout and
+drawing run on input, resize and theme changes, with no idle animation or
+third-party library. Without JavaScript, the original paragraphs remain intact.
+The full career timeline and its animation live on Experience; home uses four
+compact links. Search and theme use the same icon-button treatment.
 Experience figures stay at their real values; the intro's odometer uses CSS
 generated digits so decorative reels do not leak digit strings into page text.
 
