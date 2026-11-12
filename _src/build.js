@@ -154,12 +154,12 @@ const PAGES = {
   },
   'cv.html': {
     nav: 'cv', extraScripts: [],
-    footerExtra: '<a href="index.html">Home</a>',
-    lastmod: '2026-10-13', priority: '0.8',
+    footerExtra: null,
+    lastmod: '2026-11-12', priority: '0.8',
   },
   'blog.html': {
     nav: 'blog', extraScripts: ['blog-view.js'],
-    footerExtra: '<a href="index.html">Home</a>',
+    footerExtra: null,
     lastmod: '2026-11-12', priority: '0.8',
   },
   /* Served by GitHub Pages for any missing URL; noindex, not in sitemap. */

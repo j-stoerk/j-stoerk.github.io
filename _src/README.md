@@ -107,6 +107,13 @@ fetches it only on a query, ranks local results and uses native dialog focus.
 `search.html?q=...` provides a bookmarkable search view. Header destinations
 Publications, Code and Experience are dedicated documents; local chapter links remain local.
 
+Publications, Code, Blog (including archives), Experience and CV share the
+`collection-page`, `page-head`, `page-heading` and `page-actions` styles. Collection
+downloads and repository links live in that header, with one copy of each action.
+All five pages use the ambient dotted background and the same Contact footer.
+Home highlights one publication beside two smaller records and presents code as
+three illustrated project links. The publication artwork remains unlinked.
+
 The draggable wireframe on Code uses `word-room.js` to wrap a single selectable
 copy of the prose into line fragments on both sides of a circular exclusion.
 Cached word widths keep it movable across all three paragraphs. Layout and

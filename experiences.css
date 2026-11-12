@@ -2,7 +2,9 @@
 /* Let the browser postpone below-fold layout/painting. Native anchor navigation,
    focus and find-in-page still reveal a skipped section. */
 .portfolio-page main > .section { content-visibility: auto; contain-intrinsic-size: auto 850px; }
-.portfolio-page #publications { contain-intrinsic-size: auto 1500px; }
+.portfolio-page #publications { contain-intrinsic-size: auto 650px; }
+.portfolio-page #software { contain-intrinsic-size: auto 600px; }
+.portfolio-page #experience { contain-intrinsic-size: auto 550px; }
 @media print {
   .portfolio-page main > .section { content-visibility: visible; contain-intrinsic-size: none; }
 }
