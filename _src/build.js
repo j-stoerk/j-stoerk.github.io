@@ -72,15 +72,17 @@ function publicConfig(id, value) {
 }
 function contactSection(dedicated) {
   let html = fs.readFileSync(path.join(SRC, 'contact.html'), 'utf8');
+  let copy = fs.readFileSync(path.join(SRC, 'contact-copy.html'), 'utf8');
   if (dedicated) {
     html = html.replace(/^[ \t]*<h2>Contact<\/h2>[ \t]*\r?\n?/m, '');
-    html = html.replace(/^[ \t]*<p class="contact-route">[\s\S]*?<\/p>\s*/m, '');
+    copy = copy.replace(/^[ \t]*<p class="contact-route">[\s\S]*?<\/p>\s*/m, '');
     const start = html.indexOf('      <div class="contact-context">');
     const end = html.indexOf('      <div class="contact-compose">');
     if (start < 0 || end < start) throw new Error('Contact section structure changed');
     html = html.slice(0, start) + html.slice(end);
+    return '<div class="contact-page-intro">' + copy + '</div>\n' + html.replace(/^[ \t]*<!--#CONTACT_COPY-->[ \t]*\r?\n?/m, '');
   }
-  return html;
+  return html.replace('<!--#CONTACT_COPY-->', copy);
 }
 function attribute(value) {
   return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');

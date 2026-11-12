@@ -446,6 +446,8 @@ button {
 .project-preview .preview-copy { padding: 0 44px 0 0; }
 .project-preview h3 { position: static; margin: 5px 0; }
 .project-preview:hover h3 { color: var(--color-primary); }
+.project-stack { display: block; margin: 6px 0 12px; color: var(--color-text-muted); font-size: 12px; line-height: 1.6; }
+.project-preview .project-stack { margin: 6px 0; font-size: 11px; }
 .project-preview h3 span { display: grid; place-items: center; top: 50%; right: 0; transform: translateY(-50%); width: 28px; height: 28px; border: 1px solid var(--color-border); border-radius: 50%; transition: background .2s, border-color .2s; }
 .project-preview:hover h3 span { background: var(--color-primary-highlight); border-color: var(--color-primary); }
 .preview-guide { opacity: .13; stroke-width: 1; }
@@ -525,9 +527,9 @@ button {
 .word-world canvas { width: 208px; height: 208px; border-radius: 50%; cursor: grab; touch-action: none; }
 .word-world canvas.is-dragging { cursor: grabbing; }
 .world-caption { position: absolute; top: calc(100% + 4px); left: calc(50% - 60px); width: 120px; font: 10px/16px var(--font-mono); text-align: center; color: var(--color-text-muted); pointer-events: none; white-space: nowrap; }
-.num[data-counting] { position: relative; display: inline-block; color: transparent; }
-.metric-count-visual { position: absolute; top: 0; left: 0; color: var(--count-ink); pointer-events: none; }
-.metric-count-visual::after { content: attr(data-value); }
+.num.metric-rise { display: inline-block; animation: metric-rise .6s ease-out both; }
+@keyframes metric-rise { from { transform: translateY(4px); } to { transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .num.metric-rise { animation: none; } }
 .post-listen { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 18px 0 30px; }
 .post-listen [hidden] { display: none !important; }
 .listen-bar.outline-action { display: inline-flex; flex-wrap: nowrap; align-items: center; gap: 8px; min-height: 44px; max-width: 100%; padding: 0 9px 0 0; border-radius: 999px; background: var(--color-surface); }

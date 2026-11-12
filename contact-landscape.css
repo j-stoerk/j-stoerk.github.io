@@ -79,10 +79,14 @@
 .contact-landscape .form-submit { color: #0d2340; background: #b5d2ff; border-color: #b5d2ff; }
 .contact-landscape .form-submit:hover { background: #d5e5ff; border-color: #d5e5ff; }
 .contact-landscape .message-close { color: var(--color-text-muted); }
-.contact-page .contact-landscape .contact-message { padding-top: 0; }
+.contact-page-intro { margin-bottom: 28px; }
+.contact-page-intro .section-lead { max-width: none; margin: 0 0 20px; font-size: var(--text-base); line-height: 1.8; }
+.contact-page .contact-compose { display: block; }
+.contact-page .contact-landscape .contact-message { width: 100%; padding: 0; border: 0; }
+.contact-page .contact-message textarea { min-height: 320px; line-height: 1.7; }
+.contact-response { display: block; }
 .contact-page .form-field-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .contact-page .collection-page > .contact-landscape { padding-block: var(--contact-padding); }
-@media (max-width: 760px) { .contact-page .contact-message { order: -1; } }
 @media (min-width: 1280px) and (min-height: 600px) {
   .chapter-nav:has(a[href="#contact"][aria-current="location"]) {
     --color-text-muted: #cdd8e7;

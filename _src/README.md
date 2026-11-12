@@ -125,10 +125,10 @@ The full career timeline and its animation live on Experience; home uses four
 compact links. Search and theme use the same icon-button treatment.
 The Experience rail is fixed in the wide-screen gutter, sticky within the layout
 on tablets, and a compact sticky strip on mobile. Scale-up's `data-min-active-scroll`
-extends its active range without adding blank space to the timeline. `metrics.js` animates only an
-empty aria-hidden overlay with CSS-generated digits. Do not overwrite `.num`
-text: its final value must remain readable to agents, assistive technology and
-visitors without JavaScript throughout the animation. Reduced motion skips it.
+extends its active range without adding blank space to the timeline. `metrics.js`
+gently lifts the final numbers into place without counting through temporary values.
+Each `.num` is a semantic `data` element with matching text and value. Keep the
+actual achievements visible throughout; reduced motion skips the animation.
 The intro's odometer also uses CSS-generated digits so decorative reels do not
 leak digit strings into page text.
 
@@ -136,11 +136,17 @@ The Blog archive link/count and List/Tiles controls share one toolbar. The recen
 posts page has no second archive action below the list.
 
 `contact.html` opens directly with a visible form, including without JavaScript.
-Its contact details and the homepage section share `_src/contact.html`. The
+Its contact details and the homepage section share `_src/contact.html` and
+`_src/contact-copy.html`. The dedicated page puts the invitation above the photo
+so the form can span the normal content width. Its message field shows twelve
+lines, preserves line breaks and resizes vertically. The reply-time note says
+"I usually reply within a week." The
 homepage message link opens Contact, whose form stays open. Header and footer
 Contact links also open that page. Older homepage fragment links still open its
 inline form. Both photos share their full-width frame, responsive minimum height
 and padding. The dedicated page omits the message-link prompt.
+Code previews and full project blocks include verified primary dependencies in
+`.project-stack`; keep these separate from each project's problem description.
 
 Each post's Listen control streams a pre-generated MP3. Kokoro-82M v1.0 with
 the `af_heart` voice generates the audio on standard Ubuntu GitHub Actions
