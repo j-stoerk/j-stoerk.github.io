@@ -411,8 +411,6 @@ button {
 .social-icons { display: flex; gap: 10px; margin-top: 15px; align-items: center; }
 .social-icon { display: inline-grid; place-items: center; width: 42px; height: 42px; border: 1px solid var(--color-border); border-radius: 50%; color: var(--color-text-muted); background: var(--color-surface); transition: color .15s, border-color .15s; }
 .social-icon:hover { color: var(--color-primary); border-color: var(--color-primary); }
-.social-orcid { color: #fff; background: #1256b8; border-color: #4e85cf; }
-.social-orcid:hover { color: #fff; background: #0e4494; border-color: #4e85cf; }
 .orcid-link svg { vertical-align: middle; }
 
 /* Short collection previews on home; fuller records on their own pages. */
@@ -838,8 +836,8 @@ p {
 }
 
 .portrait-img {
-  width: 176px;
-  height: 176px;
+  width: 256px;
+  height: 256px;
   object-fit: cover;
   object-position: 50% 50%;
   border-radius: 50%;
@@ -2195,6 +2193,13 @@ main section[id] {
   max-width: 68ch;
 }
 
+/* Article text shares the cover's full content column. */
+.post .prose p,
+.post .prose ul,
+.post .prose ol {
+  max-width: none;
+}
+
 /* Justify article prose, leaving headings, captions and references easy to scan.
    Language-aware hyphenation and a natural final line limit large word gaps. */
 .post .prose p,
@@ -2858,8 +2863,8 @@ footer {
   }
 
   .portrait-img {
-    width: 132px;
-    height: 132px;
+    width: 176px;
+    height: 176px;
   }
 
   .theme-toggle {
