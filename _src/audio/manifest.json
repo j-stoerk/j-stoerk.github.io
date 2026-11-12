@@ -17,6 +17,15 @@
     "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-ai-tipping-a59a0dbbf84688ef.mp3",
     "voice": "af_heart"
   },
+  "post-battery-price-war.html": {
+    "bytes": 18832671,
+    "engine": "Kokoro-82M v1.0",
+    "file": "post-battery-price-war-5e107a2ed8bb4bcd.mp3",
+    "seconds": 2353.98,
+    "sha256": "5e107a2ed8bb4bcddaf212ec148dde8ed80a766290618758f759a6de1c327e34",
+    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-battery-price-war-5e107a2ed8bb4bcd.mp3",
+    "voice": "af_heart"
+  },
   "post-calendering-u-shape.html": {
     "bytes": 1579141,
     "engine": "Kokoro-82M v1.0",
@@ -33,6 +42,15 @@
     "seconds": 344.6,
     "sha256": "83fbaef5a30c60cde8a1971e07bc17eb7112c5d634274d22080405851f9d0473",
     "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-causalpfn-83fbaef5a30c60cd.mp3",
+    "voice": "af_heart"
+  },
+  "post-chargewise.html": {
+    "bytes": 4145791,
+    "engine": "Kokoro-82M v1.0",
+    "file": "post-chargewise-ca1f3dae7a87765c.mp3",
+    "seconds": 518.12,
+    "sha256": "ca1f3dae7a87765ca6eafd8a45680a54940062511adeeb1a246e82cfcc91fba6",
+    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-chargewise-ca1f3dae7a87765c.mp3",
     "voice": "af_heart"
   },
   "post-convmem.html": {
