@@ -169,8 +169,8 @@ function batteryMarketData() {
 /* ---------- page configuration ---------- */
 const PAGES = {
   'index.html': {
-    nav: null, home: true, extraScripts: ['cite.js', 'experiences.js', 'bio-popovers.js', 'comment-identity.js', 'contact.js', 'contact-landscape.js'],
-    extraStyles: ['contact-landscape.css'],
+    nav: null, home: true, extraScripts: ['cite.js', 'experiences.js', 'bio-popovers.js', 'comment-identity.js', 'contact.js', 'contact-landscape.js', 'code-sessions.js'],
+    extraStyles: ['contact-landscape.css', 'code-sessions.css'],
     footerExtra: null, lastmod: '2026-11-12', priority: '1.0',
   },
   'cv.html': {
@@ -502,6 +502,7 @@ for (const [file, cfg] of Object.entries(PAGES)) {
   }
   html = html.replace('<!--#BIO_POPOVERS-->', () => fs.readFileSync(path.join(SRC, 'bio-popovers.html'), 'utf8'));
   html = html.replace('<!--#CONTACT_SECTION-->', () => contactSection(file === 'contact.html'));
+  html = html.replace('<!--#CODE_SESSIONS-->', () => fs.readFileSync(path.join(SRC, 'code-sessions.html'), 'utf8'));
   html = html.replace('<!--#RESEARCH_ATLAS-->', () => fs.readFileSync(path.join(SRC, 'research-atlas.html'), 'utf8'));
   html = html.replace('data-feature="research-atlas"', `data-feature="research-atlas" data-post-library="${ver('blog-library.json')}"`);
   html = html.replace('<!--#BLOG_LATEST-->', () => BLOG_LATEST);

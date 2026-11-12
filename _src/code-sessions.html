@@ -1,0 +1,51 @@
+<div class="code-console" data-code-console>
+  <div class="console-chrome"><span class="console-mark" aria-hidden="true">&gt;_</span><span>~/research</span><span class="console-caption">illustrative sessions</span></div>
+  <div class="console-tabs" role="tablist" aria-label="Explore a project session" hidden>
+    <button type="button" role="tab" id="session-tab-thermal" aria-controls="session-thermal" aria-selected="true"><span aria-hidden="true">01</span>Electrode models</button>
+    <button type="button" role="tab" id="session-tab-t2t" aria-controls="session-t2t" aria-selected="false" tabindex="-1"><span aria-hidden="true">02</span>Robot instructions</button>
+    <button type="button" role="tab" id="session-tab-chargewise" aria-controls="session-chargewise" aria-selected="false" tabindex="-1"><span aria-hidden="true">03</span>Fleet charging</button>
+  </div>
+  <article class="code-session" id="session-thermal" aria-label="Electrode thermal model session">
+    <div class="session-terminal" aria-label="Illustrative notebook workflow">
+      <p class="session-directory">julius@lab <span>~/zehner-electrode-thermal</span></p>
+      <div class="session-command"><span aria-hidden="true">$</span><code>jupyter nbconvert --to notebook --execute --inplace Electrode.ipynb</code></div>
+      <ol class="session-output">
+        <li><span class="session-stage">input</span><span>Composition, porosity, calendering states</span></li>
+        <li><span class="session-stage">model</span><span>Particle contacts + graphite reorientation</span></li>
+        <li><span class="session-stage">compare</span><span>Predicted vs. measured conductivity</span></li>
+        <li><span class="session-stage">inspect</span><span>Residuals, uncertainty, transfer between recipes</span></li>
+      </ol>
+      <div class="session-result"><svg viewBox="0 0 200 42" width="160" height="34" aria-hidden="true" fill="none"><path d="M1 36h198" stroke="currentColor" opacity=".15"/><path d="M8 6c25 0 30 29 80 29s65-29 104-29" stroke="currentColor" stroke-width="1.7"/><path d="M8 13c35 0 43 16 80 16s72-17 104-17" stroke="currentColor" stroke-dasharray="3 4" opacity=".45"/></svg><span>Process → structure → heat transport</span></div>
+    </div>
+    <footer class="session-footer"><div><h3>Electrode thermal model</h3><p>Calibrate a physical closure and check where it transfers.</p><span class="project-stack">Python · JAX · SciPy</span></div><a href="code.html#project-thermal">Explore the model <span aria-hidden="true">↗</span></a></footer>
+  </article>
+  <article class="code-session" id="session-t2t" aria-label="Text to Trajectory session">
+    <div class="session-terminal" aria-label="Illustrative robot demo workflow">
+      <p class="session-directory">julius@lab <span>~/T2T</span></p>
+      <div class="session-command"><span aria-hidden="true">$</span><code>python run.py demo</code></div>
+      <ol class="session-output">
+        <li><span class="session-stage">scene</span><span>KUKA iiwa cell in MuJoCo</span></li>
+        <li><span class="session-stage">task</span><span>Supplied goals, object references, spatial relations</span></li>
+        <li><span class="session-stage">check</span><span>Geometry, motion and observed placement</span></li>
+        <li><span class="session-stage">repeat</span><span>Move the reference object; resolve the goal again</span></li>
+      </ol>
+      <div class="session-result"><svg viewBox="0 0 200 42" width="160" height="34" aria-hidden="true" fill="none" stroke="currentColor"><path d="M4 34h192" opacity=".15"/><path d="M10 33V23l30-16 44 17 35-15" stroke-width="1.7"/><circle cx="40" cy="7" r="3"/><circle cx="84" cy="24" r="3"/><path d="M127 9q38 0 38 24h22" stroke-dasharray="3 4" opacity=".55"/><path d="M177 23h12v10h-12z"/></svg><span>Instruction → goal → checked movement</span></div>
+    </div>
+    <footer class="session-footer"><div><h3>Text to Trajectory</h3><p>Keep spatial requirements intact through robot execution.</p><span class="project-stack">Python · MuJoCo · NumPy / SciPy</span></div><a href="code.html#project-t2t">Explore T2T <span aria-hidden="true">↗</span></a></footer>
+  </article>
+  <article class="code-session" id="session-chargewise" aria-label="ChargeWise session">
+    <div class="session-terminal" aria-label="Illustrative charging demo workflow">
+      <p class="session-directory">julius@lab <span>~/chargewise</span></p>
+      <div class="session-command"><span aria-hidden="true">$</span><code>uv run --locked python scripts/run_demo.py</code></div>
+      <ol class="session-output">
+        <li><span class="session-stage">load</span><span>Fleet, chargers, prices and departure targets</span></li>
+        <li><span class="session-stage">solve</span><span>OR-Tools schedule within shared site power</span></li>
+        <li><span class="session-stage">check</span><span>Plug occupancy, energy delivery, vehicle limits</span></li>
+        <li><span class="session-stage">replan</span><span>Change a price or take a charger offline</span></li>
+      </ol>
+      <div class="session-result"><svg viewBox="0 0 200 42" width="160" height="34" aria-hidden="true" fill="none" stroke="currentColor"><path d="M4 36h192" opacity=".15"/><path d="M8 36V23h37V10h42v13h43V10h60v26" stroke-width="1.7"/><path d="M8 5h182" stroke-dasharray="3 4" opacity=".45"/></svg><span>Departure targets, within the grid limit</span></div>
+    </div>
+    <footer class="session-footer"><div><h3>ChargeWise</h3><p>Fit a fleet's charging needs to the available power.</p><span class="project-stack">Python · OR-Tools · FastAPI · React</span></div><a href="chargewise/index.html">Try the live demo <span aria-hidden="true">↗</span></a></footer>
+  </article>
+  <div class="console-controls" hidden><span>Repository commands · illustrative workflow output</span><button type="button" data-session-replay aria-label="Replay selected project session"><svg viewBox="0 0 20 20" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7a6 6 0 1 1 0 6M4 3v4h4"/></svg>Replay</button></div>
+</div>

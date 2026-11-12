@@ -527,6 +527,7 @@ button {
 .word-world canvas { width: 208px; height: 208px; border-radius: 50%; cursor: grab; touch-action: none; }
 .word-world canvas.is-dragging { cursor: grabbing; }
 .world-caption { position: absolute; top: calc(100% + 4px); left: calc(50% - 60px); width: 120px; font: 10px/16px var(--font-mono); text-align: center; color: var(--color-text-muted); pointer-events: none; white-space: nowrap; }
+.world-caption em { color: var(--color-primary); font-style: italic; }
 .num.metric-rise { display: inline-block; animation: metric-rise .6s ease-out both; }
 @keyframes metric-rise { from { transform: translateY(4px); } to { transform: translateY(0); } }
 @media (prefers-reduced-motion: reduce) { .num.metric-rise { animation: none; } }

@@ -130,9 +130,10 @@
   </script>
 
   <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=a283669a">
+  <link rel="stylesheet" href="styles.css?v=e8e60989">
   <link rel="stylesheet" href="experiences.css?v=488ecf3d">
   <link rel="stylesheet" href="contact-landscape.css?v=bd01df01">
+  <link rel="stylesheet" href="code-sessions.css?v=0f289505">
   <script defer fetchpriority="high" src="experiences.js?v=9375e192"></script>
   <script>
     (function () {
@@ -321,11 +322,58 @@
     <section class="section home-showcase" id="software">
       <div class="section-head"><h2>Code</h2><a draggable="false" class="outline-action" href="code.html?nav=6a198bf7">Explore the projects <span aria-hidden="true">↗</span></a></div>
       <p class="section-lead">From research code to autonomous agents.</p>
-      <div class="collection-previews project-previews">
-        <a draggable="false" class="collection-preview project-preview" href="code.html?nav=6a198bf7#project-thermal"><div class="preview-art" aria-hidden="true"><svg viewBox="0 0 320 130" fill="none" stroke="currentColor" stroke-width="1.5"><path class="preview-guide" d="M40 24v82h242M80 106V24M160 106V24M240 106V24M40 65h242"/><path d="M48 35c35 0 40 58 102 58s73-57 126-57" stroke-width="2"/><circle cx="108" cy="77" r="3"/><circle cx="151" cy="93" r="3"/><circle cx="222" cy="60" r="3"/><path class="preview-accent" d="M48 46c35 0 48 37 103 37s75-35 125-35" stroke-dasharray="4 5"/></svg></div><div class="preview-copy"><small>Materials · modelling</small><h3>Electrode thermal model<span aria-hidden="true">↗</span></h3><span class="project-stack">Python · JAX · SciPy</span><p>Calibrating transport models and checking what the data can identify.</p></div></a>
-        <a draggable="false" class="collection-preview project-preview" href="code.html?nav=6a198bf7#project-t2t"><div class="preview-art" aria-hidden="true"><svg viewBox="0 0 320 130" fill="none" stroke="currentColor" stroke-width="1.5"><path class="preview-guide" d="M34 103h252M54 25v78M104 25v78M154 25v78M204 25v78M254 25v78"/><path d="M89 102V85l31-34 47 16 34-34" stroke-width="3"/><circle cx="120" cy="51" r="5"/><circle cx="167" cy="67" r="5"/><path d="m195 28 14 11m-3-15 10 10-8 8"/><path class="preview-accent" d="M220 49q37 10 37 37H185" stroke-dasharray="4 5"/><path d="M178 89h28v13h-28z"/></svg></div><div class="preview-copy"><small>Robotics · language</small><h3>Text to Trajectory<span aria-hidden="true">↗</span></h3><span class="project-stack">Python · MuJoCo</span><p>Turning instructions into robot tasks with explicit execution checks.</p></div></a>
-        <a draggable="false" class="collection-preview project-preview" href="code.html?nav=6a198bf7#project-chargewise"><div class="preview-art" aria-hidden="true"><svg viewBox="0 0 320 130" fill="none" stroke="currentColor" stroke-width="1.5"><path class="preview-guide" d="M40 24v82h242M40 65h242M80 24v82M130 24v82M180 24v82M230 24v82"/><path d="M46 103V76h47V54h59v22h58V54h66v49" stroke-width="2"/><path class="preview-accent" d="M45 38h235" stroke-dasharray="4 5"/><path d="m147 25-9 16h10l-6 15"/></svg></div><div class="preview-copy"><small>Energy · optimization</small><h3>ChargeWise<span aria-hidden="true">↗</span></h3><span class="project-stack">Python · OR-Tools · React</span><p>Meeting fleet departure targets within charger and grid constraints.</p></div></a>
-      </div>
+      <div class="code-console" data-code-console>
+  <div class="console-chrome"><span class="console-mark" aria-hidden="true">&gt;_</span><span>~/research</span><span class="console-caption">illustrative sessions</span></div>
+  <div class="console-tabs" role="tablist" aria-label="Explore a project session" hidden>
+    <button draggable="false" type="button" role="tab" id="session-tab-thermal" aria-controls="session-thermal" aria-selected="true"><span aria-hidden="true">01</span>Electrode models</button>
+    <button draggable="false" type="button" role="tab" id="session-tab-t2t" aria-controls="session-t2t" aria-selected="false" tabindex="-1"><span aria-hidden="true">02</span>Robot instructions</button>
+    <button draggable="false" type="button" role="tab" id="session-tab-chargewise" aria-controls="session-chargewise" aria-selected="false" tabindex="-1"><span aria-hidden="true">03</span>Fleet charging</button>
+  </div>
+  <article class="code-session" id="session-thermal" aria-label="Electrode thermal model session">
+    <div class="session-terminal" aria-label="Illustrative notebook workflow">
+      <p class="session-directory">julius@lab <span>~/zehner-electrode-thermal</span></p>
+      <div class="session-command"><span aria-hidden="true">$</span><code>jupyter nbconvert --to notebook --execute --inplace Electrode.ipynb</code></div>
+      <ol class="session-output">
+        <li><span class="session-stage">input</span><span>Composition, porosity, calendering states</span></li>
+        <li><span class="session-stage">model</span><span>Particle contacts + graphite reorientation</span></li>
+        <li><span class="session-stage">compare</span><span>Predicted vs. measured conductivity</span></li>
+        <li><span class="session-stage">inspect</span><span>Residuals, uncertainty, transfer between recipes</span></li>
+      </ol>
+      <div class="session-result"><svg viewBox="0 0 200 42" width="160" height="34" aria-hidden="true" fill="none"><path d="M1 36h198" stroke="currentColor" opacity=".15"/><path d="M8 6c25 0 30 29 80 29s65-29 104-29" stroke="currentColor" stroke-width="1.7"/><path d="M8 13c35 0 43 16 80 16s72-17 104-17" stroke="currentColor" stroke-dasharray="3 4" opacity=".45"/></svg><span>Process → structure → heat transport</span></div>
+    </div>
+    <footer class="session-footer"><div><h3>Electrode thermal model</h3><p>Calibrate a physical closure and check where it transfers.</p><span class="project-stack">Python · JAX · SciPy</span></div><a draggable="false" href="code.html?nav=6a198bf7#project-thermal">Explore the model <span aria-hidden="true">↗</span></a></footer>
+  </article>
+  <article class="code-session" id="session-t2t" aria-label="Text to Trajectory session">
+    <div class="session-terminal" aria-label="Illustrative robot demo workflow">
+      <p class="session-directory">julius@lab <span>~/T2T</span></p>
+      <div class="session-command"><span aria-hidden="true">$</span><code>python run.py demo</code></div>
+      <ol class="session-output">
+        <li><span class="session-stage">scene</span><span>KUKA iiwa cell in MuJoCo</span></li>
+        <li><span class="session-stage">task</span><span>Supplied goals, object references, spatial relations</span></li>
+        <li><span class="session-stage">check</span><span>Geometry, motion and observed placement</span></li>
+        <li><span class="session-stage">repeat</span><span>Move the reference object; resolve the goal again</span></li>
+      </ol>
+      <div class="session-result"><svg viewBox="0 0 200 42" width="160" height="34" aria-hidden="true" fill="none" stroke="currentColor"><path d="M4 34h192" opacity=".15"/><path d="M10 33V23l30-16 44 17 35-15" stroke-width="1.7"/><circle cx="40" cy="7" r="3"/><circle cx="84" cy="24" r="3"/><path d="M127 9q38 0 38 24h22" stroke-dasharray="3 4" opacity=".55"/><path d="M177 23h12v10h-12z"/></svg><span>Instruction → goal → checked movement</span></div>
+    </div>
+    <footer class="session-footer"><div><h3>Text to Trajectory</h3><p>Keep spatial requirements intact through robot execution.</p><span class="project-stack">Python · MuJoCo · NumPy / SciPy</span></div><a draggable="false" href="code.html?nav=6a198bf7#project-t2t">Explore T2T <span aria-hidden="true">↗</span></a></footer>
+  </article>
+  <article class="code-session" id="session-chargewise" aria-label="ChargeWise session">
+    <div class="session-terminal" aria-label="Illustrative charging demo workflow">
+      <p class="session-directory">julius@lab <span>~/chargewise</span></p>
+      <div class="session-command"><span aria-hidden="true">$</span><code>uv run --locked python scripts/run_demo.py</code></div>
+      <ol class="session-output">
+        <li><span class="session-stage">load</span><span>Fleet, chargers, prices and departure targets</span></li>
+        <li><span class="session-stage">solve</span><span>OR-Tools schedule within shared site power</span></li>
+        <li><span class="session-stage">check</span><span>Plug occupancy, energy delivery, vehicle limits</span></li>
+        <li><span class="session-stage">replan</span><span>Change a price or take a charger offline</span></li>
+      </ol>
+      <div class="session-result"><svg viewBox="0 0 200 42" width="160" height="34" aria-hidden="true" fill="none" stroke="currentColor"><path d="M4 36h192" opacity=".15"/><path d="M8 36V23h37V10h42v13h43V10h60v26" stroke-width="1.7"/><path d="M8 5h182" stroke-dasharray="3 4" opacity=".45"/></svg><span>Departure targets, within the grid limit</span></div>
+    </div>
+    <footer class="session-footer"><div><h3>ChargeWise</h3><p>Fit a fleet's charging needs to the available power.</p><span class="project-stack">Python · OR-Tools · FastAPI · React</span></div><a draggable="false" href="chargewise/index.html?nav=6a198bf7">Try the live demo <span aria-hidden="true">↗</span></a></footer>
+  </article>
+  <div class="console-controls" hidden><span>Repository commands · illustrative workflow output</span><button draggable="false" type="button" data-session-replay aria-label="Replay selected project session"><svg viewBox="0 0 20 20" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 7a6 6 0 1 1 0 6M4 3v4h4"/></svg>Replay</button></div>
+</div>
+
     </section>
 
     <section class="section" id="writing">
@@ -463,12 +511,13 @@
   <script defer src="interactions.js?v=65fdfd93"></script>
   <script defer src="cursor.js?v=836db8cc"></script>
   <script defer src="portal-transitions.js?v=d4060e4b"></script>
-  <script defer src="search.js?v=38d6c5d6" data-search-index="search-index.json?v=48f00bf0"></script>
+  <script defer src="search.js?v=38d6c5d6" data-search-index="search-index.json?v=56713d53"></script>
   <script defer src="cite.js?v=382b33f5"></script>
   <script defer src="bio-popovers.js?v=852f18fa"></script>
   <script defer src="comment-identity.js?v=dddce228"></script>
   <script defer src="contact.js?v=934fa38e"></script>
   <script defer src="contact-landscape.js?v=08457f4d"></script>
+  <script defer src="code-sessions.js?v=dfca0f3d"></script>
   <script>
     window.addEventListener('load', function () {
       var s = document.createElement('script');

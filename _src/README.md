@@ -147,6 +147,12 @@ inline form. Both photos share their full-width frame, responsive minimum height
 and padding. The dedicated page omits the message-link prompt.
 Code previews and full project blocks include verified primary dependencies in
 `.project-stack`; keep these separate from each project's problem description.
+The homepage uses `_src/code-sessions.html` for three illustrative terminal
+walkthroughs. Commands come from the project READMEs; the lines below them describe
+the workflows rather than claim a live run. `code-sessions.js` adds keyboard tabs
+and one three-second CSS replay on first view. No animation player or polling is
+loaded. Reduced motion leaves everything static; without JavaScript all three
+sessions remain readable. Keep the terminal's stack labels with each project.
 
 Each post's Listen control streams a pre-generated MP3. Kokoro-82M v1.0 with
 the `af_heart` voice generates the audio on standard Ubuntu GitHub Actions
