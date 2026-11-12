@@ -184,7 +184,12 @@
         </div>
       </div>
 
-
+<section class="post-listen" aria-label="Listen to this article">
+    <button draggable="false" class="outline-action listen-button" type="button" data-listen aria-controls="narration-player" aria-expanded="false" hidden><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 3 11 7-11 7V3Z"/></svg><span data-listen-label>Listen</span><small>9 min</small></button>
+    <div class="listen-controls" id="narration-player" hidden><audio controls preload="none" data-narration-src="https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-jev-output-heads-f0a2854c3181cb83.mp3" aria-label="Narration of How to (Not) Reinvent the Wheel With Jeff"></audio><label class="listen-speed">Speed <select data-listen-speed aria-label="Narration speed"><option value="1">1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="1.75">1.75×</option><option value="2">2×</option></select></label></div>
+    <span class="listen-status" data-listen-status role="status"></span><span class="listen-credit">AI narration · title and article text</span>
+    <noscript><audio controls preload="none" src="https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-jev-output-heads-f0a2854c3181cb83.mp3" aria-label="Article narration"></audio></noscript>
+  </section>
       <div class="prose">
         <p>Jev returns probabilities over predefined decisions rather than a free-form answer. That makes its interface interesting for software that needs to branch on a result.</p>
         <p>The model is <strong>Jev</strong>&#8288;, from TypeSafe AI. The company presents it as a “System One” model for fast, structured decisions. Independent open-source projects such as <strong>Jeff</strong> explore a similar interface. The idea is appealing: give software the kind of output its decision needs, instead of turning every judgment into a paragraph&#160;<sup class="cite">[<a draggable="false" href="#ref-1">1</a>&#8288;, <a draggable="false" href="#ref-3">3</a>&#8288;]</sup>&#8288;.</p>
@@ -338,7 +343,7 @@
   <script defer src="search.js?v=38d6c5d6" data-search-index="search-index.json?v=ef660091"></script>
   <script defer src="blog.js?v=a24a5a3c"></script>
   <script defer src="references.js?v=e51071fb"></script>
-  <script defer src="listen.js?v=a525d007"></script>
+  <script defer src="listen.js?v=395f8ca9"></script>
   <script defer src="comment-identity.js?v=dddce228"></script>
   <script defer src="comments.js?v=43a43fce"></script>
   <script>

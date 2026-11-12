@@ -24,7 +24,7 @@
   });
   section.querySelector('[data-listen-speed]').addEventListener('change', function (event) { audio.playbackRate = Number(event.target.value); });
   audio.addEventListener('playing', function () { started = true; status.textContent = ''; paint(); });
-  audio.addEventListener('pause', paint);
+  audio.addEventListener('pause', function () { if (!audio.error) status.textContent = ''; paint(); });
   audio.addEventListener('ended', function () { started = false; paint(); });
   audio.addEventListener('waiting', function () { if (!audio.paused) status.textContent = 'Buffering…'; });
   audio.addEventListener('error', function () { status.textContent = 'The narration could not load. Please try again.'; loaded = false; paint(); });

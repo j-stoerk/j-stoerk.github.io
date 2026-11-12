@@ -19,7 +19,7 @@ SKIP_TAGS = {'script','style','svg','figure','figcaption','iframe','table','pre'
              'button','select','template','nav','audio','video','canvas','dialog'}
 SKIP_CLASSES = {'interactive','post-sources','post-references','article-meta',
                 'post-context','post-update','post-resources','metric-display',
-                'post-data-table','table-wrap','equation','cite'}
+                'post-data-table','table-wrap','equation','cite','battery-data'}
 BLOCKS = {'p','h2','h3','h4','li','dt','dd'}
 
 class ArticleText(HTMLParser):
@@ -75,6 +75,7 @@ def spoken_math(value):
 def clean(value):
     value = re.sub(r'\$\$[\s\S]*?\$\$', '', value)
     value = re.sub(r'\\\((.*?)\\\)',lambda m:spoken_math(m[1]),value)
+    value = re.sub(r'http://(?:127\.0\.0\.1|localhost)(?::\d+)?(?:/[^\s]*)?', 'the local demo address', value)
     value = re.sub(r'https?://\S+','',value)
     value = re.sub(r'\[(?:\d+[,\s–-]*)+\]','',value)
     value = re.sub(r'€\s*([\d,.]+)', r'\1 euros', value)
@@ -125,13 +126,15 @@ def generate(posts,args):
             entry=json.loads(metadata.read_text(encoding='utf-8'));manifest[post['page']]=entry
             print('cached',slug,flush=True);continue
         started=time.perf_counter();wav=target.with_suffix('.wav')
+        print('narrating',slug,len(post['paragraphs']),'paragraphs',len(post['text'].split()),'words',flush=True)
         # Keep sentence order and paragraph pauses; never accumulate hours of PCM in RAM.
         with sf.SoundFile(wav,'w',samplerate=24000,channels=1,subtype='PCM_16') as audio:
-            for paragraph in post['paragraphs']:
+            for number,paragraph in enumerate(post['paragraphs'],1):
                 audio.write(np.zeros(5000,dtype=np.float32))
                 samples,rate=model.create(paragraph,voice=VOICE,speed=1.0,lang='en-us')
                 if rate!=24000:raise ValueError('Unexpected sample rate')
                 audio.write(samples)
+                if number%10==0:print(slug,'paragraph',number,'of',len(post['paragraphs']),flush=True)
         duration=sf.info(wav).duration
         subprocess.run([imageio_ffmpeg.get_ffmpeg_exe(),'-nostdin','-y','-loglevel','error','-i',str(wav),'-ac','1','-ar','24000','-codec:a','libmp3lame','-b:a','64k','-metadata','title='+post['title'],'-metadata','artist=AI narration · Kokoro',str(target)],check=True)
         wav.unlink()

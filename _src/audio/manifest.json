@@ -1,1 +1,164 @@
-{}
+{
+  "post-agent-training-grounds.html": {
+    "bytes": 7061924,
+    "engine": "Kokoro-82M v1.0",
+    "file": "post-agent-training-grounds-be395ee6fd816f75.mp3",
+    "seconds": 882.63,
+    "sha256": "be395ee6fd816f7574108a14c6a0a5bbf7643911f748e345b28c71081293d7d8",
+    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-agent-training-grounds-be395ee6fd816f75.mp3",
+    "voice": "af_heart"
+  },
+  "post-ai-tipping.html": {
+    "bytes": 8299313,
+    "engine": "Kokoro-82M v1.0",
+    "file": "post-ai-tipping-a59a0dbbf84688ef.mp3",
+    "seconds": 1037.32,
+    "sha256": "a59a0dbbf84688ef16e17e5a266bbb4e80a26b22ac79839d8e6fc5986215ff00",
+    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-ai-tipping-a59a0dbbf84688ef.mp3",
+    "voice": "af_heart"
+  },
+  "post-calendering-u-shape.html": {
+    "bytes": 1579141,
+    "engine": "Kokoro-82M v1.0",
+    "file": "post-calendering-u-shape-4175db7545e69c3c.mp3",
+    "seconds": 197.28,
+    "sha256": "4175db7545e69c3c81095a2b4b6b7d2758e6b91985e10de3da37d838a8446eb0",
+    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-calendering-u-shape-4175db7545e69c3c.mp3",
+    "voice": "af_heart"
+  },
+  "post-causalpfn.html": {
+    "bytes": 2757652,
+    "engine": "Kokoro-82M v1.0",
+    "file": "post-causalpfn-83fbaef5a30c60cd.mp3",
+    "seconds": 344.6,
+    "sha256": "83fbaef5a30c60cde8a1971e07bc17eb7112c5d634274d22080405851f9d0473",
+    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-causalpfn-83fbaef5a30c60cd.mp3",
+    "voice": "af_heart"
+  },
+  "post-convmem.html": {
+    "bytes": 5183571,
+    "engine": "Kokoro-82M v1.0",
+    "file": "post-convmem-5db95534a8b5fef3.mp3",
+    "seconds": 647.84,
+    "sha256": "5db95534a8b5fef340b1fefbdf0c9a898eff532e17c8c03664ed62e3678a788c",
+    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-convmem-5db95534a8b5fef3.mp3",
+    "voice": "af_heart"
+  },
+  "post-dendrites-dandelions.html": {
+    "bytes": 2148997,
+    "engine": "Kokoro-82M v1.0",
+    "file": "post-dendrites-dandelions-3c143ba042df9441.mp3",
+    "seconds": 268.53,
+    "sha256": "3c143ba042df94416aa10e7bad61a91d0bb9334919ae5180d1df6dd8235efe2f",
+    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-dendrites-dandelions-3c143ba042df9441.mp3",
+    "voice": "af_heart"
+  },
+  "post-disco-dry-run.html": {
+    "bytes": 4549382,
+    "engine": "Kokoro-82M v1.0",
+    "file": "post-disco-dry-run-3419bfdc1be812a3.mp3",
+    "seconds": 568.56,
+    "sha256": "3419bfdc1be812a3c3000d86dfb64d5eb40b9ac795fd8c936f3aeade778765fc",
+    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-disco-dry-run-3419bfdc1be812a3.mp3",
+    "voice": "af_heart"
+  },
+  "post-fair-evaluation.html": {
+    "bytes": 2699666,
+    "engine": "Kokoro-82M v1.0",
+    "file": "post-fair-evaluation-342f4b7d869e130d.mp3",
+    "seconds": 337.36,
+    "sha256": "342f4b7d869e130d1969447add07002afad0b5ecc7437b609b6c821f6ed3426c",
+    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-fair-evaluation-342f4b7d869e130d.mp3",
+    "voice": "af_heart"
+  },
+  "post-geometry-of-forgetting.html": {
+    "bytes": 1620618,
+    "engine": "Kokoro-82M v1.0",
+    "file": "post-geometry-of-forgetting-19426e294539f472.mp3",
+    "seconds": 202.47,
+    "sha256": "19426e294539f4725ead0956ee98e43ce952539fb651f2bc27afcfe27504073f",
+    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-geometry-of-forgetting-19426e294539f472.mp3",
+    "voice": "af_heart"
+  },
+  "post-glee-agent.html": {
+    "bytes": 3090009,
+    "engine": "Kokoro-82M v1.0",
+    "file": "post-glee-agent-55b6e76f056da638.mp3",
+    "seconds": 386.15,
+    "sha256": "55b6e76f056da6381efbc6944518bee21f0d030ae33d9ecada98bdccd9566734",
+    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-glee-agent-55b6e76f056da638.mp3",
+    "voice": "af_heart"
+  },
+  "post-inverted-fractions.html": {
+    "bytes": 5524755,
+    "engine": "Kokoro-82M v1.0",
+    "file": "post-inverted-fractions-0ace339b5cd49986.mp3",
+    "seconds": 690.48,
+    "sha256": "0ace339b5cd4998695042b567949f47d7627f013ea2de8d2aae5a84897105147",
+    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-inverted-fractions-0ace339b5cd49986.mp3",
+    "voice": "af_heart"
+  },
+  "post-jev-output-heads.html": {
+    "bytes": 3989123,
+    "engine": "Kokoro-82M v1.0",
+    "file": "post-jev-output-heads-f0a2854c3181cb83.mp3",
+    "seconds": 498.53,
+    "sha256": "f0a2854c3181cb83e11f6e01252b0f590605af8542e89ff4fb0f6c11cb796f5c",
+    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-jev-output-heads-f0a2854c3181cb83.mp3",
+    "voice": "af_heart"
+  },
+  "post-lesswrong-hume.html": {
+    "bytes": 7310725,
+    "engine": "Kokoro-82M v1.0",
+    "file": "post-lesswrong-hume-ff42dc4702477489.mp3",
+    "seconds": 913.75,
+    "sha256": "ff42dc47024774898ec7c34dd6944a4ee7444304a11f319025e0d5c4f28032d6",
+    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-lesswrong-hume-ff42dc4702477489.mp3",
+    "voice": "af_heart"
+  },
+  "post-optimizing-reasoning.html": {
+    "bytes": 3328840,
+    "engine": "Kokoro-82M v1.0",
+    "file": "post-optimizing-reasoning-e11dcf27af277ca6.mp3",
+    "seconds": 416.0,
+    "sha256": "e11dcf27af277ca6c7d4c41c945aa296720aee05a12968f81044141718afd400",
+    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-optimizing-reasoning-e11dcf27af277ca6.mp3",
+    "voice": "af_heart"
+  },
+  "post-physical-ai.html": {
+    "bytes": 7512501,
+    "engine": "Kokoro-82M v1.0",
+    "file": "post-physical-ai-ad9e49008a180c13.mp3",
+    "seconds": 938.97,
+    "sha256": "ad9e49008a180c132cbe1c72f1b23339cb2aaf74301019f5ddd0d2c4e49f0bd9",
+    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-physical-ai-ad9e49008a180c13.mp3",
+    "voice": "af_heart"
+  },
+  "post-race-to-on.html": {
+    "bytes": 6684970,
+    "engine": "Kokoro-82M v1.0",
+    "file": "post-race-to-on-f4d03ef18b4baf41.mp3",
+    "seconds": 835.52,
+    "sha256": "f4d03ef18b4baf41734cbd232a6b37548e31c62d0204026328d6e7e31dd5b55f",
+    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-race-to-on-f4d03ef18b4baf41.mp3",
+    "voice": "af_heart"
+  },
+  "post-student-becomes-teacher.html": {
+    "bytes": 3918841,
+    "engine": "Kokoro-82M v1.0",
+    "file": "post-student-becomes-teacher-ee652fe448d1a31b.mp3",
+    "seconds": 489.77,
+    "sha256": "ee652fe448d1a31bae780d65ecbc4f73ea28de7b40f2b853c3a7aa91197ef2a3",
+    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-student-becomes-teacher-ee652fe448d1a31b.mp3",
+    "voice": "af_heart"
+  },
+  "post-text-to-trajectory.html": {
+    "bytes": 7367148,
+    "engine": "Kokoro-82M v1.0",
+    "file": "post-text-to-trajectory-d911b69420b3897b.mp3",
+    "seconds": 920.8,
+    "sha256": "d911b69420b3897b7cad04bd4a997073cdcf296fd4d698b0393b213ab49a7205",
+    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-text-to-trajectory-d911b69420b3897b.mp3",
+    "voice": "af_heart"
+  }
+}

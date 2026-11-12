@@ -113,6 +113,28 @@ input, resize and theme changes, with no idle animation or third-party library.
 Experience figures stay at their real values; the intro's odometer uses CSS
 generated digits so decorative reels do not leak digit strings into page text.
 
+Each post's Listen control streams a pre-generated MP3. Kokoro-82M v1.0 with
+the `af_heart` voice generates the audio on standard Ubuntu GitHub Actions
+runners, which are free for this public repository. The model weights are
+Apache-2.0 licensed; the ONNX runtime wrapper is MIT licensed. Sources:
+[Kokoro](https://huggingface.co/hexgrad/Kokoro-82M),
+[voices](https://huggingface.co/hexgrad/Kokoro-82M/blob/main/VOICES.md),
+[kokoro-onnx](https://github.com/thewh1teagle/kokoro-onnx).
+
+The Blog narration workflow automatically processes new or changed narrative
+text, stores immutable, hashed MP3s in the `blog-narration` release, then commits
+the manifest and rebuilt players. It can also be run manually from Actions.
+Only the metadata lives in Git; neither audio files nor model weights enlarge
+the site checkout. Audio and the speech model are never loaded on page entry.
+
+`audio/narration.py` extracts the title and paragraphs, headings and lists inside
+`.prose`. It skips figures, captions, references, citation markers, widgets,
+tables, code blocks and display equations. Inline notation gets basic spoken
+normalisation. Tests cover those boundaries and multi-section articles. The
+builder checks the spoken-text hash and omits an outdated recording until the
+workflow regenerates it. Bump the extractor's `VERSION` when changing the engine
+or voice settings so existing audio is regenerated as well.
+
 Reference sections (`post-sources` or `post-references`) show their first three
 entries. The builder places the rest in native `details`, continuing numbering
 at four. `references.js` opens a folded reference when its citation or direct
