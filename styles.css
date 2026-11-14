@@ -519,6 +519,7 @@ button {
 
 /* Single-copy prose wraps on both sides of the globe, across every paragraph. */
 .word-room { position: relative; display: flow-root; margin-top: 24px; }
+.code-page { overflow-x: clip; }
 .word-room p { font-size: var(--text-lg); line-height: 1.85; margin: 0 0 22px; }
 .word-room[data-ready] p { position: relative; }
 .word-room[data-ready] > p { z-index: 1; }
@@ -526,7 +527,7 @@ button {
 .word-line { position: absolute; white-space: pre; }
 .word-world { display: none; }
 .word-room[data-ready] .word-world { display: block; position: absolute; left: 0; top: 0; width: calc(2 * var(--world-radius)); height: calc(2 * var(--world-radius)); z-index: 2; }
-.word-world canvas { width: 208px; height: 208px; border-radius: 50%; cursor: grab; touch-action: none; image-rendering: pixelated; }
+.word-world canvas { width: 208px; height: 208px; border-radius: 50%; cursor: grab; touch-action: none; }
 .word-world canvas.is-dragging { cursor: grabbing; }
 .world-caption { position: absolute; top: calc(100% + 4px); left: calc(50% - 60px); width: 120px; font: 10px/16px var(--font-mono); text-align: center; color: var(--color-text-muted); pointer-events: none; white-space: nowrap; }
 .world-caption em { color: var(--color-primary); font-style: italic; }

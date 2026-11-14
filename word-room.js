@@ -12,9 +12,9 @@
   });
   var x, y, radius, width, height, lineHeight, space, dragging, last, fontKey;
   var sky = document.createElement('canvas'); sky.className = 'word-sky'; sky.setAttribute('aria-hidden', 'true'); room.prepend(sky);
-  var scene = new window.PortfolioOrbit(canvas, sky, schedule);
+  var scene = new window.PortfolioOrbit(canvas, sky);
   var rotation = -.15, phase = 0, travel = 0, reveal = 0, holes = [], solar, scheduled = false;
-  function state() { return { x:x, y:y, radius:radius, width:width, height:height, rotation:rotation, phase:phase, reveal:reveal }; }
+  function state() { return { x:x, y:y, radius:radius, width:width, height:height, skyWidth:Math.max(width,window.innerWidth), rotation:rotation, phase:phase, travel:travel, reveal:reveal }; }
   function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
   function flow(avoid) {
     var top = 0, layouts = [];
@@ -87,6 +87,8 @@
     world.style.transform = 'translate(' + (x - radius) + 'px,' + (y - radius) + 'px)';
     canvas.style.width = canvas.style.height = (2 * radius) + 'px';
     sky.style.height = height + 'px';
+    sky.style.width = Math.max(width,window.innerWidth) + 'px';
+    sky.style.left = (width-Math.max(width,window.innerWidth))/2 + 'px';
     draw();
   }
   function draw() { if(radius) scene.draw(state(),holes); }

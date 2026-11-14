@@ -114,21 +114,19 @@ The collection pages use the ambient dotted background and the same Contact foot
 Home highlights one publication beside two smaller records and presents code as
 three terminal sessions. The publication artwork remains unlinked.
 
-The draggable pixel Earth on Code uses `word-room.js` to wrap a single selectable
+The draggable schematic Earth on Code uses `word-room.js` to wrap a single selectable
 copy of the prose into line fragments on both sides of a circular exclusion.
 Cached word widths keep it movable across all three paragraphs. Layout and
 drawing run on input, resize and theme changes, with no idle animation or
 third-party library. The globe's moving caption has its own text exclusion, so
 neither the globe nor its caption covers prose. Without JavaScript, the original
-paragraphs remain intact. `earth-orbit.js` paints a 96-pixel globe from the small
-committed `images/code-earth-map.png` texture, including country boundaries,
-oceans, polar ice and directional shading. The optional Pillow generator
-`generate-code-earth.py` uses the existing public-domain Natural Earth files;
-it is not a build dependency. Drag distance reveals the Sun and eight planets
-in a stylized orbital scene, with perspective-compressed outer distances. Drag
-position sets Earth's projected orbit and movement changes the viewing phase.
-The Sun has its own text exclusion; stars, paths and labels are cleared beneath
-every text fragment. There is no idle animation, network map service or 3D engine.
+paragraphs remain intact. `earth-orbit.js` draws thin wireframes without textures
+or image requests. Its heliocentric geometry projects world coordinates relative
+to Earth's orbital position and a moving camera. The Sun has no fixed screen
+position; unclamped planets can enter and leave the full-width view as dragging
+changes the orbital phase and widens the view. The Sun has its own text exclusion; stars, paths and
+labels are cleared beneath every text fragment. No idle animation or 3D engine
+is loaded. The blue italic caption continues to move with Earth.
 The full career timeline and its animation live on Experience; home uses four
 compact links. Search and theme use the same icon-button treatment.
 The Experience rail is fixed in the wide-screen gutter, sticky within the layout
