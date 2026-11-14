@@ -7,6 +7,7 @@
   <meta name="description" content="Research software by Julius Störk for continual learning, electrode transport, robot instruction following, lab automation and fleet charging." />
   <link rel="canonical" href="https://j-stoerk.github.io/code.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preload" as="image" href="images/code-earth-map.png" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Code · Julius Störk" />
   <meta property="og:description" content="Research software by Julius Störk for continual learning, electrode transport, robot instruction following, lab automation and fleet charging." />
@@ -27,7 +28,7 @@
     </header>
     <section class="code-story" aria-label="How I work">
       <div class="word-room" data-word-room>
-        <div class="word-world" data-word-world><canvas width="320" height="320" tabindex="0" role="img" aria-label="Draggable wireframe globe. Drag anywhere through the introduction, or use arrow keys, to move it and reflow the text."></canvas><span class="world-caption" aria-hidden="true"><em>move</em> the world</span></div>
+        <div class="word-world" data-word-world><canvas width="320" height="320" tabindex="0" role="img" data-earth-texture="images/code-earth-map.png" aria-label="Pixel Earth with continents and oceans. Drag, or use arrow keys, to reveal the Sun and solar system while moving through the text.">A draggable pixel Earth.</canvas><span class="world-caption" aria-hidden="true"><em>move</em> the world</span></div>
         <p>These projects grew out of work on electrode production, electrochemical measurements and continual learning. I keep the models alongside data-loading routines, plots and checks so that a reported result can be traced back to its inputs.</p>
         <p>The forgetting code examines how new updates affect earlier tasks. The thermal model connects calendering and electrode structure to heat transport. HELAO connects pumps and a robot to electrochemical measurements. More recent projects take language instructions into a simulated robot cell, or fit vehicle charging into the power available at a depot.</p>
         <p>Each repository has a different starting point: a notebook, a simulated scene, an instrument configuration or an editable application. The project notes below identify the inputs and checks worth inspecting first. For comparisons, the data split, task order and configuration belong with the final score. For a new material or machine, those assumptions need to be checked again.</p>

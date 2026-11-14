@@ -189,8 +189,8 @@ const PAGES = {
     lastmod: '2026-11-12', priority: '0.9',
   },
   'code.html': {
-    nav: 'software', extraScripts: ['word-room.js'], footerExtra: null,
-    lastmod: '2026-11-12', priority: '0.9',
+    nav: 'software', extraScripts: ['earth-orbit.js', 'word-room.js'], footerExtra: null,
+    lastmod: '2026-11-14', priority: '0.9',
   },
   'experience.html': {
     nav: 'experience', extraScripts: ['experiences.js', 'career.js', 'metrics.js'], footerExtra: null,
