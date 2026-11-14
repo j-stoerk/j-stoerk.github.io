@@ -85,7 +85,10 @@
       height = flow(false).height + Math.ceil((Math.PI * Math.pow(radius + 16, 2) + Math.PI * 46 * 46 + 120 * 28) / width / lineHeight) * lineHeight + lineHeight * 2;
     }
     if (home || x === undefined) { x = width - radius - 12; y = radius + 24; }
-    x = clamp(x, radius, width - radius);
+    var viewportMargin=(Math.max(width,window.innerWidth)-width)/2;
+    var grabEdge=width<600?28:24,disc=radius-10;
+    // Let Earth cross the viewport edge, retaining a small draggable arc.
+    x = clamp(x, -viewportMargin-disc+grabEdge, width+viewportMargin+disc-grabEdge);
     y = clamp(y, radius, height - radius - 30);
     solar = scene.geometry(state()); holes = [];
     var result = flow(true);
@@ -103,6 +106,7 @@
     room.style.minHeight = Math.max(height, result.height) + 'px';
     room.style.setProperty('--world-radius', radius + 'px');
     world.style.transform = 'translate(' + (x - radius) + 'px,' + (y - radius) + 'px)';
+    world.querySelector('.world-caption').style.opacity=x<68-viewportMargin||x>width+viewportMargin-68?'0':'1';
     canvas.style.width = canvas.style.height = (2 * radius) + 'px';
     holes.push({x:x-68,y:y+radius+2,width:136,height:24});
     sky.style.height = height + 'px';

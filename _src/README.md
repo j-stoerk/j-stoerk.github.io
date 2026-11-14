@@ -127,10 +127,13 @@ once, then projected and clipped at the visible hemisphere. `earth-orbit.js`
 draws thin wireframes without raster textures. Its heliocentric geometry projects world coordinates relative
 to Earth's orbital position and a moving camera. The Sun has no fixed screen
 position; unclamped planets can enter and leave the full-width view as dragging
-changes the orbital phase and widens the view. The Sun has its own text exclusion; stars, paths and
+changes the orbital phase. Orbital spacing stays constant during long drags;
+satellite orbits are spread out too. Earth can cross the viewport edge, keeping
+a small arc visible for dragging it back. The Sun has its own text exclusion; stars, paths and
 labels are cleared beneath every text fragment. Larger planets have schematic
 moons, including Earth's Moon, the four Galilean moons and Titan. Earth's linework
-has a restrained directional gradient toward the projected Sun. After release,
+has a Sun-facing gradient and a soft daylight/shadow wash inside the disc, so
+illumination is visible in both themes without adding raster textures. After release,
 the background waits 450 ms and fades for one second as a composited CSS layer.
 Neither canvas is repainted during that fade; Earth stays visible. A final layout
 removes the hidden scene's text exclusions, then stops all drawing.

@@ -22,7 +22,17 @@
     if(!light||Math.hypot(light.x,light.y)<.001||!/^#[a-f0-9]{6}$/i.test(ink))return ink;
     var rgb=[parseInt(ink.slice(1,3),16),parseInt(ink.slice(3,5),16),parseInt(ink.slice(5,7),16)].join(',');
     var gradient=context.createLinearGradient(x-r*light.x,y-r*light.y,x+r*light.x,y+r*light.y);
-    gradient.addColorStop(0,'rgba('+rgb+',.68)');gradient.addColorStop(1,'rgba('+rgb+',.98)');return gradient;
+    gradient.addColorStop(0,'rgba('+rgb+',.3)');gradient.addColorStop(.46,'rgba('+rgb+',.64)');gradient.addColorStop(1,'rgba('+rgb+',1)');return gradient;
+  }
+  function daylight(context,r,light){
+    if(!light||Math.hypot(light.x,light.y)<.001||r<7)return;
+    var dark=document.documentElement.dataset.theme==='dark';
+    var gradient=context.createLinearGradient(-r*light.x,-r*light.y,r*light.x,r*light.y);
+    gradient.addColorStop(0,dark?'rgba(0,0,0,.42)':'rgba(28,48,77,.24)');
+    gradient.addColorStop(.48,dark?'rgba(0,0,0,.08)':'rgba(28,48,77,.09)');
+    gradient.addColorStop(1,dark?'rgba(143,184,247,.19)':'rgba(190,216,250,.025)');
+    context.save();context.beginPath();context.arc(0,0,r,0,TAU);context.clip();
+    context.globalAlpha=1;context.fillStyle=gradient;context.fillRect(-r,-r,r*2,r*2);context.restore();
   }
   function size(context, element, w, h) {
     var dpr=Math.min(devicePixelRatio||1,2),pw=Math.round(w*dpr),ph=Math.round(h*dpr);
@@ -32,6 +42,7 @@
   function sphere(context,x,y,r,rotation,ink,background,opacity,light) {
     context.save();context.translate(x,y);
     context.beginPath();context.arc(0,0,r,0,TAU);context.fillStyle=background;context.globalAlpha=.94;context.fill();
+    daylight(context,r,light);
     context.strokeStyle=illumination(context,0,0,r,ink,light);context.lineWidth=.75;context.globalAlpha=opacity*.38;
     function project(lat,lon){var a=lon+rotation,c=Math.cos(lat);return [r*c*Math.sin(a),-r*Math.sin(lat),c*Math.cos(a)];}
     function trace(points){
@@ -54,8 +65,8 @@
     this.geometry=function(state){
       // The camera follows Earth's orbital position, not a fixed page centre.
       var angle=2.3+state.phase,yaw=state.phase*.3;
-      var scale=Math.max(165,Math.min(460,state.width*.5))*(1-.12*state.reveal);
-      scale*=Math.max(.32,1/(1+Math.max(0,(state.travel||0)-100)/480));
+      // Keep a stable, spacious scene instead of shrinking it during long drags.
+      var scale=Math.max(220,Math.min(620,state.width*.67));
       var ex=Math.cos(angle),ey=Math.sin(angle),co=Math.cos(yaw),si=Math.sin(yaw);
       function project(orbit,phase){
         var dx=orbit*Math.cos(phase)-ex,dy=orbit*Math.sin(phase)-ey;
@@ -68,12 +79,12 @@
       var planets=BODIES.map(function(body){
         var p=project(body.orbit,body.phase+state.phase*body.speed);
         var moons=(body.moons||[]).map(function(moon){
-          var a=moon.phase+state.phase*moon.speed,d=moon.d*bodyScale;
+          var a=moon.phase+state.phase*moon.speed,d=moon.d*bodyScale*1.7;
           return {name:moon.name,x:p.x+Math.cos(a)*d,y:p.y+Math.sin(a)*d*.5,r:moon.r*bodyScale,d:d};
         });
         return {name:body.name,x:p.x,y:p.y,r:body.r*bodyScale,orbit:body.orbit,rings:body.rings,moons:moons};
       });
-      var moonAngle=.45+state.phase*2.1,moonOrbit=state.radius+34;
+      var moonAngle=.45+state.phase*2.1,moonOrbit=state.radius+80;
       var earthMoon={name:'Moon',x:state.x+Math.cos(moonAngle)*moonOrbit,y:state.y-Math.sin(moonAngle)*moonOrbit*.63,r:(state.width<600?5:7)*state.reveal};
       return {sun:sun,planets:planets,project:project,earthMoon:earthMoon,moonOrbit:moonOrbit};
     };
@@ -100,7 +111,8 @@
         });space.setLineDash([]);
         geometry.planets.forEach(function(body){
           // Leave bodies outside the view; they enter naturally as the camera moves.
-          if(body.x<-offset-120||body.x>state.width+offset+120||body.y<-120||body.y>state.height+120)return;
+          var reach=body.moons.reduce(function(r,moon){return Math.max(r,moon.d+moon.r);},body.r*(body.rings?2:1))+12;
+          if(body.x<-offset-reach||body.x>state.width+offset+reach||body.y<-reach||body.y>state.height+reach)return;
           if(body.moons.length){
             var outer=body.moons[body.moons.length-1].d;
             space.strokeStyle=ink;space.globalAlpha=reveal*.13;space.lineWidth=.65;
