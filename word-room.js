@@ -13,6 +13,7 @@
   var x, y, radius, width, height, lineHeight, space, dragging, last, fontKey;
   var sky = document.createElement('canvas'); sky.className = 'word-sky'; sky.setAttribute('aria-hidden', 'true'); room.prepend(sky);
   var scene = new window.PortfolioOrbit(canvas, sky);
+  var pageLight=window.PortfolioPageLight?new window.PortfolioPageLight():null,lightOrigin;
   var rotation = -.15, phase = 0, travel = 0, reveal = 0, holes = [], solar, scheduled = false;
   var visibility=1,restTimer=0,fadeTimer=0,reduced=matchMedia('(prefers-reduced-motion: reduce)');
   function state() { return { x:x, y:y, radius:radius, width:width, height:height, skyWidth:Math.max(width,window.innerWidth), rotation:rotation, phase:phase, travel:travel, reveal:reveal, visibility:visibility }; }
@@ -20,15 +21,17 @@
   function wake(){
     stopFade();visibility=1;
     sky.style.transition='none';sky.style.opacity='1';
+    if(pageLight)pageLight.show();
     var progress=clamp(travel/150,0,1);reveal=progress*progress*(3-2*progress);schedule();
   }
-  function sleep(){stopFade();visibility=0;reveal=0;sky.style.transition='none';sky.style.opacity='0';schedule();}
+  function sleep(){stopFade();visibility=0;reveal=0;sky.style.transition='none';sky.style.opacity='0';if(pageLight)pageLight.clear();schedule();}
   function rest(){
     stopFade();
     restTimer=setTimeout(function(){
       if(reduced.matches){sleep();return;}
       // Fade the existing canvas as one composited layer, without repainting it.
       sky.style.transition='opacity 1s ease';sky.style.opacity='0';
+      if(pageLight)pageLight.fade();
       fadeTimer=setTimeout(sleep,1000);
     },450);
   }
@@ -74,6 +77,7 @@
     return { height: top - 22, paragraphs: layouts };
   }
   function layout(home) {
+    var bounds=room.getBoundingClientRect();lightOrigin={x:bounds.left+window.scrollX,y:bounds.top+window.scrollY};
     var nextWidth = room.clientWidth, style = getComputedStyle(paragraphs[0].element);
     var key = [nextWidth, style.fontFamily, style.fontSize, style.fontWeight, style.lineHeight].join('|');
     width = nextWidth; radius = width < 600 ? 64 : 104;
@@ -114,7 +118,11 @@
     sky.style.left = (width-Math.max(width,window.innerWidth))/2 + 'px';
     draw();
   }
-  function draw() { if(radius) scene.draw(state(),holes); }
+  function draw() {
+    if(!radius)return;
+    scene.draw(state(),holes);
+    if(pageLight&&solar&&lightOrigin)pageLight.update({x:lightOrigin.x+solar.sun.x,y:lightOrigin.y+solar.sun.y},reveal*visibility);
+  }
   function move(dx,dy) {
     x+=dx;y+=dy;rotation+=dx*.011;phase+=dx*.007-dy*.0035;travel+=Math.hypot(dx,dy);
     var progress=clamp(travel/150,0,1);reveal=progress*progress*(3-2*progress);schedule();

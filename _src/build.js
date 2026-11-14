@@ -189,7 +189,7 @@ const PAGES = {
     lastmod: '2026-11-12', priority: '0.9',
   },
   'code.html': {
-    nav: 'software', extraScripts: ['earth-coastlines.js', 'earth-orbit.js', 'word-room.js'], footerExtra: null,
+    nav: 'software', extraScripts: ['earth-coastlines.js', 'earth-orbit.js', 'solar-page-light.js', 'word-room.js'], footerExtra: null,
     lastmod: '2026-11-14', priority: '0.9',
   },
   'experience.html': {

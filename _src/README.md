@@ -133,9 +133,15 @@ a small arc visible for dragging it back. The Sun has its own text exclusion; st
 labels are cleared beneath every text fragment. Larger planets have schematic
 moons, including Earth's Moon, the four Galilean moons and Titan. Earth's linework
 has a Sun-facing gradient and a soft daylight/shadow wash inside the disc, so
-illumination is visible in both themes without adding raster textures. After release,
-the background waits 450 ms and fades for one second as a composited CSS layer.
-Neither canvas is repainted during that fade; Earth stays visible. A final layout
+illumination is visible in both themes without adding raster textures.
+`solar-page-light.js` also projects the Sun into viewport coordinates and lights
+the entire page, including its header and project cards. A small canvas (144 px
+on its longest side) supplies the composited light/shadow field, avoiding page
+filters or a large lighting texture. Scroll follows the Sun's page position.
+The user's saved theme stays unchanged. The page lighting fades with the scene.
+After release, the scene and page lighting wait 450 ms and fade for one second
+as composited CSS layers. Fading itself does not repaint the canvases; Earth
+stays visible. A final layout
 removes the hidden scene's text exclusions, then stops all drawing.
 Reduced motion skips the transition. New input cancels the fade immediately.
 There is no permanent animation loop or 3D engine. The blue italic caption
