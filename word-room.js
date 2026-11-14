@@ -14,7 +14,24 @@
   var sky = document.createElement('canvas'); sky.className = 'word-sky'; sky.setAttribute('aria-hidden', 'true'); room.prepend(sky);
   var scene = new window.PortfolioOrbit(canvas, sky);
   var rotation = -.15, phase = 0, travel = 0, reveal = 0, holes = [], solar, scheduled = false;
-  function state() { return { x:x, y:y, radius:radius, width:width, height:height, skyWidth:Math.max(width,window.innerWidth), rotation:rotation, phase:phase, travel:travel, reveal:reveal }; }
+  var visibility=1,restTimer=0,fadeTimer=0,reduced=matchMedia('(prefers-reduced-motion: reduce)');
+  function state() { return { x:x, y:y, radius:radius, width:width, height:height, skyWidth:Math.max(width,window.innerWidth), rotation:rotation, phase:phase, travel:travel, reveal:reveal, visibility:visibility }; }
+  function stopFade(){clearTimeout(restTimer);clearTimeout(fadeTimer);}
+  function wake(){
+    stopFade();visibility=1;
+    sky.style.transition='none';sky.style.opacity='1';
+    var progress=clamp(travel/150,0,1);reveal=progress*progress*(3-2*progress);schedule();
+  }
+  function sleep(){stopFade();visibility=0;reveal=0;sky.style.transition='none';sky.style.opacity='0';schedule();}
+  function rest(){
+    stopFade();
+    restTimer=setTimeout(function(){
+      if(reduced.matches){sleep();return;}
+      // Fade the existing canvas as one composited layer, without repainting it.
+      sky.style.transition='opacity 1s ease';sky.style.opacity='0';
+      fadeTimer=setTimeout(sleep,1000);
+    },450);
+  }
   function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
   function flow(avoid) {
     var top = 0, layouts = [];
@@ -25,6 +42,7 @@
         if (avoid) {
           var exclusions = [{ x:x, y:y, r:radius, pad:16, caption:68 }];
           if (solar && solar.sun.r > 1) exclusions.push({ x:solar.sun.x, y:solar.sun.y, r:solar.sun.r, pad:12, caption:26 });
+          if (solar && solar.earthMoon.r > 1) exclusions.push({ x:solar.earthMoon.x, y:solar.earthMoon.y, r:solar.earthMoon.r, pad:10, caption:0 });
           exclusions.forEach(function (circle) {
             var limit=circle.r+circle.pad;
             var distance=circle.y<top?top-circle.y:(circle.y>top+lineHeight?circle.y-top-lineHeight:0);
@@ -86,6 +104,7 @@
     room.style.setProperty('--world-radius', radius + 'px');
     world.style.transform = 'translate(' + (x - radius) + 'px,' + (y - radius) + 'px)';
     canvas.style.width = canvas.style.height = (2 * radius) + 'px';
+    holes.push({x:x-68,y:y+radius+2,width:136,height:24});
     sky.style.height = height + 'px';
     sky.style.width = Math.max(width,window.innerWidth) + 'px';
     sky.style.left = (width-Math.max(width,window.innerWidth))/2 + 'px';
@@ -93,12 +112,13 @@
   }
   function draw() { if(radius) scene.draw(state(),holes); }
   function move(dx,dy) {
-    x+=dx;y+=dy;rotation+=dx*.008;phase+=dx*.004-dy*.002;travel+=Math.hypot(dx,dy);
+    x+=dx;y+=dy;rotation+=dx*.011;phase+=dx*.007-dy*.0035;travel+=Math.hypot(dx,dy);
     var progress=clamp(travel/150,0,1);reveal=progress*progress*(3-2*progress);schedule();
   }
   function schedule() { if (scheduled) return; scheduled = true; requestAnimationFrame(function () { scheduled = false; layout(false); }); }
   canvas.addEventListener('pointerdown', function (event) {
     if (event.button) return;
+    wake();
     dragging = event.pointerId; last = [event.clientX, event.clientY]; canvas.setPointerCapture(event.pointerId); canvas.classList.add('is-dragging');
   });
   canvas.addEventListener('pointermove', function (event) {
@@ -106,14 +126,16 @@
     var dx = event.clientX - last[0], dy = event.clientY - last[1];
     last = [event.clientX, event.clientY]; move(dx,dy);
   });
-  function release() { dragging = undefined; canvas.classList.remove('is-dragging'); }
+  function release() { if(dragging===undefined)return;dragging = undefined; canvas.classList.remove('is-dragging'); rest(); }
   canvas.addEventListener('pointerup', release); canvas.addEventListener('pointercancel', release); canvas.addEventListener('lostpointercapture', release);
   canvas.addEventListener('keydown', function (event) {
     var deltas = { ArrowLeft: [-16,0], ArrowRight: [16,0], ArrowUp: [0,-16], ArrowDown: [0,16] }, d = deltas[event.key];
-    if (!d) return; event.preventDefault(); move(d[0],d[1]);
+    if (!d) return; event.preventDefault(); wake();move(d[0],d[1]);rest();
   });
   new ResizeObserver(function (entries) { if (Math.abs(entries[0].contentRect.width - width) > .5) schedule(); }).observe(room);
-  new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  new MutationObserver(function(){draw();}).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  document.addEventListener('visibilitychange',function(){if(document.hidden)sleep();});
+  reduced.addEventListener('change',function(){if(reduced.matches)sleep();});
   layout(true);
   if (document.fonts) document.fonts.ready.then(function () { fontKey = null; schedule(); });
 })();
