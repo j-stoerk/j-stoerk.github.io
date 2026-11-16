@@ -11,6 +11,7 @@ import re
 import struct
 import sys
 import xml.dom.minidom
+from html import unescape
 from html.parser import HTMLParser
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -190,8 +191,13 @@ def main():
     if not os.path.isfile('google0d8fecbb46855755.html'):
         fail('Google site-verification file is missing (Search Console breaks)')
 
-    if not open('publications.bib', encoding='utf-8').read().count('@') >= 2:
+    bibliography = open('publications.bib', encoding='utf-8').read()
+    if not bibliography.count('@') >= 2:
         fail('publications.bib has fewer entries than expected')
+    publication_page = open('publications.html', encoding='utf-8').read()
+    for entry in re.findall(r'<pre><code>(@[\s\S]*?)</code></pre>', publication_page):
+        if unescape(entry).strip() not in bibliography:
+            fail('publications.bib differs from the readable BibTeX on the Publications page')
 
     if failures:
         print(f'\n{len(failures)} check(s) failed across {len(PAGES)} pages')

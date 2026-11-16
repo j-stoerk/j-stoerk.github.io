@@ -601,7 +601,8 @@ console.log('built sitemap.xml');
    download can never drift from what the site shows. */
 const indexHtml = fs.readFileSync(path.join(ROOT, 'publications.html'), 'utf8');
 const bibEntries = [...indexHtml.matchAll(/<pre><code>(@[\s\S]*?)<\/code><\/pre>/g)]
-  .map((m) => m[1].trim());
+  .map((m) => m[1].trim().replace(/&(?:amp|lt|gt|quot|apos);/g,
+    entity => ({'&amp;':'&', '&lt;':'<', '&gt;':'>', '&quot;':'"', '&apos;':"'"})[entity]));
 if (bibEntries.length === 0) throw new Error('no BibTeX entries found in publications.html');
 fs.writeFileSync(path.join(ROOT, 'publications.bib'),
   `% Publications · Julius Störk · https://j-stoerk.github.io/
