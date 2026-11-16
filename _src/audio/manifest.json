@@ -153,12 +153,12 @@
     "voice": "af_heart"
   },
   "post-physiology-9b.html": {
-    "bytes": 11513415,
+    "bytes": 4761927,
     "engine": "Kokoro-82M v1.0",
-    "file": "post-physiology-9b-6df59759a28355d5.mp3",
-    "seconds": 1439.08,
-    "sha256": "6df59759a28355d536596b092a5add3d7e4dab6a2ceb804051461b3a12d6168a",
-    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-physiology-9b-6df59759a28355d5.mp3",
+    "file": "post-physiology-9b-5a3c9aedbd3c3350.mp3",
+    "seconds": 595.13,
+    "sha256": "5a3c9aedbd3c335048f7fa24d78d6de11e6e76c5fa35e09609b3a3bd2a7d818d",
+    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-physiology-9b-5a3c9aedbd3c3350.mp3",
     "voice": "af_heart"
   },
   "post-race-to-on.html": {
