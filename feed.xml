@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://j-stoerk.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Stress-testing a 9B Model on Human Physiology</title>
+      <link>https://j-stoerk.github.io/post-physiology-9b.html</link>
+      <guid isPermaLink="true">https://j-stoerk.github.io/post-physiology-9b.html</guid>
+      <pubDate>Sun, 15 Nov 2026 08:00:00 +0100</pubDate>
+      <description>Testing a small biological model against its general-purpose base, with reproducible simulations and an inspectable three-filter research pipeline.</description>
+    </item>
+    <item>
       <title>Getting Less Wrong Without Becoming Certain</title>
       <link>https://j-stoerk.github.io/post-lesswrong-hume.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-lesswrong-hume.html</guid>

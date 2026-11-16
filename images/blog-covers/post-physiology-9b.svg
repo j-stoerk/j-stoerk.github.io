@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="cover-art" viewBox="0 0 1200 675" role="img" aria-label="Measurements enter a small biological model; exposure, causality and missing-data checks screen its proposals">
+          <defs><linearGradient id="physPaper" x2="1" y2="1"><stop stop-color="#eaf0f5"/><stop offset="1" stop-color="#eee9df"/></linearGradient><pattern id="physGrid" width="45" height="45" patternUnits="userSpaceOnUse"><path d="M45 0H0V45" fill="none" stroke="#98a9b8" stroke-opacity=".13"/></pattern></defs>
+          <rect width="1200" height="675" fill="url(#physPaper)"/><rect width="1200" height="675" fill="url(#physGrid)"/>
+          <g fill="none" stroke="#6d859a" stroke-width="2">
+            <path d="M85 168H330V486H85Z"/><path d="M111 420H300M111 420V210" opacity=".5"/>
+            <path d="M116 384L137 361L158 375L179 259L200 312L221 236L242 280L263 216L289 260" stroke="#497cb9" stroke-width="3"/>
+            <path d="M116 403L137 399L158 350L179 362L200 290L221 339L242 312L263 365L289 322" stroke="#b08a49" stroke-width="3"/>
+            <path d="M330 326H432M417 316L432 326L417 336"/>
+            <rect x="448" y="237" width="190" height="180" rx="18"/>
+            <path d="M473 263H613V392H473Z" stroke-opacity=".3"/><path d="M480 237V210M511 237V210M543 237V210M575 237V210M606 237V210M480 417V444M511 417V444M543 417V444M575 417V444M606 417V444M448 268H421M448 300H421M448 332H421M448 364H421M638 268H665M638 300H665M638 332H665M638 364H665"/>
+            <path d="M671 326H725M710 316L725 326L710 336"/>
+            <rect x="753" y="170" width="340" height="104" rx="12"/><rect x="753" y="291" width="340" height="104" rx="12"/><rect x="753" y="412" width="340" height="104" rx="12"/>
+            <path d="M782 241L803 208L824 241M787 234H819" stroke="#497cb9"/><path d="M782 343H819M802 325L820 343L802 361" stroke="#b08a49"/><circle cx="802" cy="464" r="18"/><path d="M795 464H809M802 457V471"/>
+          </g>
+          <g fill="#3b5267" font-family="system-ui,sans-serif"><text x="108" y="195" font-size="18">Measured biology</text><text x="543" y="339" text-anchor="middle" font-size="32">9B</text><text x="850" y="230" font-size="23">Exposure</text><text x="850" y="351" font-size="23">Causality</text><text x="850" y="472" font-size="23">Missing data</text><text x="87" y="553" font-size="18">A convincing answer still has to pass the experiment.</text></g>
+        </svg>

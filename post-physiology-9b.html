@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="UTF-8" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Julius Störk" />
+  <meta property="og:title" content="Stress-testing a 9B Model on Human Physiology" />
+  <meta property="og:description" content="Can a small biological model tell a plausible mechanism from an intervention worth testing?" />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-physiology-9b.html" />
+  <meta property="og:image" content="https://j-stoerk.github.io/images/share/post-physiology-9b-10233bda15c47734.jpg" />
+  <meta property="og:image:secure_url" content="https://j-stoerk.github.io/images/share/post-physiology-9b-10233bda15c47734.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="2400" />
+  <meta property="og:image:height" content="1260" />
+  <meta property="og:image:alt" content="Stress-testing a 9B Model on Human Physiology · Biological reasoning, missing measurements and three checks · Julius Störk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/images/share/post-physiology-9b-10233bda15c47734.jpg" />
+  <meta name="twitter:image:alt" content="Stress-testing a 9B Model on Human Physiology · Biological reasoning, missing measurements and three checks · Julius Störk" />
+  <meta name="twitter:title" content="Stress-testing a 9B Model on Human Physiology" />
+  <meta name="twitter:description" content="Can a small biological model tell a plausible mechanism from an intervention worth testing?" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stress-testing a 9B Model on Human Physiology · Julius Störk</title>
+  <meta name="description" content="Three biological reasoning probes, publication-bias and compression experiments, and an inspectable exposure, causality and missing-data pipeline." />
+  <link rel="canonical" href="https://j-stoerk.github.io/post-physiology-9b.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
+  <meta property="article:published_time" content="2026-11-15" />
+  <meta property="article:modified_time" content="2026-11-16" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Stress-testing a 9B Model on Human Physiology","datePublished":"2026-11-15","dateModified":"2026-11-16","url":"https://j-stoerk.github.io/post-physiology-9b.html","author":{"@type":"Person","name":"Julius Störk","url":"https://j-stoerk.github.io/"}}</script>
+  <meta name="theme-color" content="#fdfdfc">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+  <!-- Applied before first paint so the theme never flashes. -->
+  <script>
+    (function () {
+      var t;
+      try { t = localStorage.getItem('theme'); } catch (e) { }
+      if (!t) t = 'light';   // light is the standard; dark only on explicit toggle
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', t === 'dark' ? '#101214' : '#fdfdfc');
+    })();
+  </script>
+
+  <link rel="preload" href="fonts/noto-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css?v=5ec78520">
+  <link rel="stylesheet" href="experiences.css?v=488ecf3d">
+  <link rel="stylesheet" href="katex/katex.min.css">
+  <link rel="stylesheet" href="physiology-9b.css?v=81d14ddd">
+</head><body class="ambient-page">
+  <a draggable="false" href="#main" class="skip-link">Skip to main content</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a draggable="false" class="site-title" href="index.html?nav=6a198bf7">Home</a>
+      <button draggable="false" class="nav-toggle" type="button" data-nav-toggle aria-controls="primary-nav" aria-expanded="false">
+        <span class="nav-toggle-lines" aria-hidden="true"></span>
+        <span class="sr-only">Open navigation</span>
+      </button>
+      <nav class="nav" id="primary-nav" data-nav aria-label="Primary">
+        <a draggable="false" href="publications.html?nav=6a198bf7" data-nav-label="Publications">Publications</a>
+        <a draggable="false" href="code.html?nav=6a198bf7" data-nav-label="Code">Code</a>
+        <a draggable="false" class="current" href="blog.html?nav=6a198bf7" data-nav-label="Blog" aria-current="page">Blog</a>
+        <a draggable="false" href="experience.html?nav=6a198bf7" data-nav-label="Experience">Experience</a>
+        <a draggable="false" href="cv.html?nav=6a198bf7" data-nav-label="CV">CV</a>
+        <a draggable="false" href="contact.html?nav=6a198bf7" data-nav-label="Contact">Contact</a>
+      </nav>
+      <div class="header-actions">
+        <a draggable="false" class="header-search theme-toggle" href="search.html?nav=6a198bf7" data-search-open aria-label="Search website" title="Search (/ or Ctrl+K)"><svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg></a>
+        <button draggable="false" class="theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">◐</button>
+      </div>
+    </div>
+  </header>
+  <dialog class="search-dialog" data-search-dialog aria-labelledby="search-dialog-title">
+    <div class="search-dialog-head"><h2 id="search-dialog-title">Search the website</h2><button draggable="false" class="search-close" type="button" data-search-close aria-label="Close search"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
+    <form class="search-form" action="search.html" method="get" data-site-search><label class="sr-only" for="dialog-search">Search papers, projects and posts</label><input id="dialog-search" name="q" type="search" autocomplete="off" placeholder="Papers, projects, ideas…" data-search-input><p class="search-status" data-search-status role="status">Type to search papers, projects and posts.</p><div class="search-results" data-search-results></div></form>
+    <p class="search-help">Esc to close <span> / or Ctrl+K to search</span></p>
+  </dialog>
+  <main id="main" class="content">
+    <div class="page-art page-art-post" aria-hidden="true" style="--post-art-light:url('images/blog-backgrounds/post-physiology-9b-light.svg?v=9feca203');--post-art-dark:url('images/blog-backgrounds/post-physiology-9b-dark.svg?v=f12babdb')"></div>
+    <a draggable="false" class="back-link" href="blog.html?nav=6a198bf7">All posts</a>
+    <article class="post" id="physiology-9b">
+      <div class="post-cover media-cover"><div class="media">
+        <svg class="cover-art" viewBox="0 0 1200 675" role="img" aria-label="Measurements enter a small biological model; exposure, causality and missing-data checks screen its proposals">
+          <defs><linearGradient id="physPaper" x2="1" y2="1"><stop stop-color="#eaf0f5"/><stop offset="1" stop-color="#eee9df"/></linearGradient><pattern id="physGrid" width="45" height="45" patternUnits="userSpaceOnUse"><path d="M45 0H0V45" fill="none" stroke="#98a9b8" stroke-opacity=".13"/></pattern></defs>
+          <rect width="1200" height="675" fill="url(#physPaper)"/><rect width="1200" height="675" fill="url(#physGrid)"/>
+          <g fill="none" stroke="#6d859a" stroke-width="2">
+            <path d="M85 168H330V486H85Z"/><path d="M111 420H300M111 420V210" opacity=".5"/>
+            <path d="M116 384L137 361L158 375L179 259L200 312L221 236L242 280L263 216L289 260" stroke="#497cb9" stroke-width="3"/>
+            <path d="M116 403L137 399L158 350L179 362L200 290L221 339L242 312L263 365L289 322" stroke="#b08a49" stroke-width="3"/>
+            <path d="M330 326H432M417 316L432 326L417 336"/>
+            <rect x="448" y="237" width="190" height="180" rx="18"/>
+            <path d="M473 263H613V392H473Z" stroke-opacity=".3"/><path d="M480 237V210M511 237V210M543 237V210M575 237V210M606 237V210M480 417V444M511 417V444M543 417V444M575 417V444M606 417V444M448 268H421M448 300H421M448 332H421M448 364H421M638 268H665M638 300H665M638 332H665M638 364H665"/>
+            <path d="M671 326H725M710 316L725 326L710 336"/>
+            <rect x="753" y="170" width="340" height="104" rx="12"/><rect x="753" y="291" width="340" height="104" rx="12"/><rect x="753" y="412" width="340" height="104" rx="12"/>
+            <path d="M782 241L803 208L824 241M787 234H819" stroke="#497cb9"/><path d="M782 343H819M802 325L820 343L802 361" stroke="#b08a49"/><circle cx="802" cy="464" r="18"/><path d="M795 464H809M802 457V471"/>
+          </g>
+          <g fill="#3b5267" font-family="system-ui,sans-serif"><text x="108" y="195" font-size="18">Measured biology</text><text x="543" y="339" text-anchor="middle" font-size="32">9B</text><text x="850" y="230" font-size="23">Exposure</text><text x="850" y="351" font-size="23">Causality</text><text x="850" y="472" font-size="23">Missing data</text><text x="87" y="553" font-size="18">A convincing answer still has to pass the experiment.</text></g>
+        </svg>
+      </div></div>
+      <header class="post-header"><p class="post-meta"><time datetime="2026-11-15">15 November 2026</time> · Biology &amp; model evaluation · <span class="quantity">16&#160;min</span> read</p><h1>Stress-testing a 9B Model on Human Physiology</h1><p class="post-update">Updated 16 November 2026</p></header>
+      <div class="prose">
+        <p>If people with low cholesterol die more often, should cholesterol be raised? A language model can produce a respectable explanation either way. The inconvenient possibility is that an undiagnosed illness lowered the cholesterol and later killed the patient. Treating the number would leave the illness alone.</p>
+        <p>This is a small version of the problem facing AI in aging research. Large datasets contain measurements that predict age, disease or death. An intervention has to change what happens. Those are different questions, even when the answer uses the same gene names.</p>
+
+        <h2>Background / Setup</h2>
+        <p><em>Omics</em> means measuring a large class of biological components together. Aging researchers use these layers to identify changing cell states, estimate biological age and propose interventions. Each assay records part of a process; none is a complete description of a person.</p>
+        <div class="table-wrap"><table><thead><tr><th>Layer</th><th>What is measured</th><th>What it can miss</th></tr></thead><tbody>
+          <tr><td>Genomics</td><td>DNA variants and sequence</td><td>Which programs are active now</td></tr>
+          <tr><td>Epigenomics</td><td>DNA methylation and chromatin state</td><td>Whether an age-associated change causes decline</td></tr>
+          <tr><td>Transcriptomics</td><td>RNA abundance, including bulk or single-cell RNA-seq</td><td>Protein activity, location and post-translational regulation</td></tr>
+          <tr><td>Proteomics / metabolomics</td><td>Proteins and small molecules</td><td>Unmeasured tissues, fluxes and the preceding time course</td></tr>
+          <tr><td>Clinical measurements</td><td>Blood chemistry, organ function and outcomes</td><td>Mechanisms hidden behind the observed endpoint</td></tr>
+        </tbody></table></div>
+        <p><a draggable="false" href="https://longevitybenchmarks.org/">LongevityBench</a> evaluates aging-related predictions across clinical, epigenomic, transcriptomic, proteomic and genetic tasks. Its current website lists 26 models and 17 tasks, including age estimation and mortality prediction. Small, specialized models can beat much larger general models on these tasks. A high score establishes performance on those inputs and labels, not that an intervention prolongs life.&#160;<sup class="cite">[<a draggable="false" href="#ref-1">1</a>&#8288;]</sup></p>
+        <p><strong>Thalamus-Reasoning-9B</strong>&#8288;, from Ingenix, tackles a related input problem. Its release accepts text plus 20,029-value expression-profile vectors, built around a 19,260-gene panel. A learned projection places each profile into the language model’s embedding space. Its Qwen3.5-9B base has been adapted for biological tasks. The release explicitly restricts its assay domain to human RNA-seq; a mouse profile is not an interchangeable input.&#160;<sup class="cite">[<a draggable="false" href="#ref-2">2</a>&#8288;]</sup></p>
+        <p>Here, “ground truth” needs a noun attached. A sample’s tissue label, a measured expression change and a patient’s survival are different targets. A model may reproduce the first two while being unable to predict the third. The experiments below use fictional compounds and constructed populations, so their correct arithmetic and causal structure can actually be inspected.</p>
+
+        <h2>A pathway is not a row of dominoes</h2>
+        <p>A signaling pathway diagram suggests a sequence of switches. In a cell, activating one component can inhibit another, trigger compensatory production, change a receptor’s sensitivity or recruit a different cell population. The sign of an effect depends on tissue, concentration and time. Feedback makes an intervention’s late effect differ from its immediate effect. Aging adds interacting changes in repair, metabolism, inflammation and cell populations.&#160;<sup class="cite">[<a draggable="false" href="#ref-3">3</a>&#8288;]</sup></p>
+        <p>Reactive oxygen species illustrate the problem. They can damage molecules and participate in signaling. Reducing a damage marker need not improve the organism. In one experimental study, antioxidants reduced ROS-related signaling but accelerated lung-tumor progression in particular mouse models. That does not make every antioxidant harmful. It makes “less ROS” an inadequate objective by itself.&#160;<sup class="cite">[<a draggable="false" href="#ref-4">4</a>&#8288;]</sup></p>
+        <p>Thalamus’s paper evaluates annotation, expression interpretation and perturbation-response tasks. It introduces publication-disjoint GEO-OmicsQA questions and finds benefits from continuous omics representations over textual gene lists. Its training includes continued pretraining on 20 billion tokens and supervised fine-tuning on 5.21 million conversations, with task-specific checks on generated supervision. Those are useful steps beyond recalling a pathway description. They still leave the problem of predicting a new intervention, in a new organism, over a much longer time horizon.&#160;<sup class="cite">[<a draggable="false" href="#ref-5">5</a>&#8288;]</sup></p>
+        <p>The release card reports 76.5% GEO-OmicsQA yes/no accuracy against 66.2% for its listed Gemini 3.8 Flash baseline. That is a task-specific comparison, not a frontier-model ranking for physiology. The released checkpoint differs from the paper’s model; annotation baselines also used different random samples. Those scores should not be silently pooled. Holding out publications from task training also does not establish that they were absent from the base model’s pretraining.&#160;<sup class="cite">[<a draggable="false" href="#ref-2">2</a>&#8288;]</sup></p>
+
+        <h2>The literature has already selected the winners</h2>
+        <p>Before asking whether a model reasons correctly, it is worth checking what its reading material made available. The often repeated “85–90% positive papers” is not a measured constant for preclinical biomedicine. Fanelli’s cross-disciplinary sample reached 88.6% in 2005 and 85.9% in 2007. It classified support for tested hypotheses, across disciplines; it did not establish that fraction for all PubMed training examples.&#160;<sup class="cite">[<a draggable="false" href="#ref-6">6</a>&#8288;]</sup></p>
+        <p>Nor does “half of preclinical results fail replication” identify one universal rate. The Reproducibility Project: Cancer Biology repeated 50 experiments from 23 papers and used several definitions of replication. For positive results, the median replication effect size was 85% smaller than the original median. This is serious evidence of inflated effects in that selected sample, not a prescription to multiply every biological finding by 0.15.&#160;<sup class="cite">[<a draggable="false" href="#ref-7">7</a>&#8288;]</sup></p>
+        <p>A small simulation makes the selection problem concrete. Draw 100,000 true effects from a normal distribution with mean 0.2 and standard deviation 0.3, then add measurement noise with standard deviation 0.5. Publish every positive estimate but only 20% of negative estimates. With the fixed seed in the accompanying code, 89.7% of published estimates are positive. Their mean reported effect is 0.446; their mean underlying effect is 0.265. Matching the underlying effects of those same selected experiments requires a 40.6% reduction.</p>
+        <p>That reduction is a property of this invented process. Change the true-effect distribution, the noise or the publication rule and it changes. Even a perfect reader of the published subset cannot recover the missing experiments without additional assumptions. With the simulation’s known normal prior and noise model, the posterior mean is</p>
+        <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>E</mi><mo stretchy="false">[</mo><mi>θ</mi><mo>∣</mo><mi>y</mi><mo stretchy="false">]</mo><mo>=</mo><mi>μ</mi><mo>+</mo><mfrac><msup><mi>τ</mi><mn>2</mn></msup><mrow><msup><mi>τ</mi><mn>2</mn></msup><mo>+</mo><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac><mo stretchy="false">(</mo><mi>y</mi><mo>−</mo><mi>μ</mi><mo stretchy="false">)</mo><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">E[\theta\mid y]=\mu+\frac{\tau^2}{\tau^2+\sigma^2}(y-\mu).</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">μ</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:2.2604em;vertical-align:-0.7693em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.4911em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7401em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7401em;"><span style="top:-2.989em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.7693em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">μ</span><span class="mclose">)</span><span class="mord">.</span></span></span></span></span>
+        <p>The multiplier on the departure from the prior mean is 0.265 here. It is not the proportion of papers that replicate. This is why a generic instruction to “be skeptical” cannot replace a model of selection and measurement.</p>
+      </div>
+      <figure class="phys-lab" data-selection-lab aria-labelledby="selection-title">
+        <figcaption id="selection-title"><strong>How much of the losing drawer gets published?</strong> Analytic expectations for the same assumed normal model; the article’s seeded Monte Carlo results fluctuate slightly around these.</figcaption>
+        <label class="phys-slider" for="negative-retention">Publish negative estimates <output for="negative-retention" data-retention-label>20%</output><input id="negative-retention" type="range" min="0" max="100" value="20" step="1" /></label>
+        <div class="phys-metrics"><div><span>Published estimates positive</span><strong data-positive>89.7%</strong></div><div><span>Mean reported effect</span><strong data-reported>0.446</strong></div><div><span>Mean true effect, same studies</span><strong data-true>0.265</strong></div></div>
+        <svg viewBox="0 0 800 135" role="img" aria-label="Mean reported and true effects among the selected experiments"><path d="M160 106H755" stroke="currentColor" opacity=".2"/><text x="0" y="43">Reported</text><text x="0" y="88">Underlying</text><rect data-reported-bar x="160" y="21" width="319" height="28" rx="5" fill="#497cb9"/><rect data-true-bar x="160" y="66" width="189" height="28" rx="5" fill="#b08a49"/></svg>
+        <p class="phys-note">Effects are arbitrary standardized units. Positive means an estimate above zero, not statistical significance. Assumed μ = 0.2, τ = 0.3, measurement σ = 0.5. This is a selection model, not a fitted estimate for PubMed.</p>
+      </figure>
+      <div class="prose">
+        <h2>Three questions small enough to check</h2>
+        <p>The comparison uses the same three prompts for Thalamus and its general-purpose Qwen3.5-9B base. Both receive text only, with thinking disabled, bf16 weights and greedy decoding. No patient profiles or omics embeddings are supplied. This deliberately tests elementary decisions before testing the specialized input pathway. The <a draggable="false" href="https://github.com/j-stoerk/multiomics/blob/main/prompts.json">exact prompts</a>&#8288;, checkpoint revisions, settings and raw responses are public.</p>
+        <p><strong>Cholesterol.</strong> In a hypothetical cohort of 10,000 people, 1,000 have a catabolic illness. Low cholesterol occurs in 80% of the ill group and 10% of the rest. Mortality is 40% with illness and 2% without, independent of cholesterol within each group. The low-cholesterol group therefore has 338 expected deaths among 1,700 people, or 19.88%; the other group has 242 among 8,300, or 2.92%. The observed risk ratio is 6.82. Changing cholesterol has no effect in this constructed system.</p>
+        <p>The confounder is illness, a cause of both cholesterol and mortality. A mediator would instead lie on a causal pathway from an intervention to its outcome. Adjusting for the latter can remove part of the effect being estimated. Real longitudinal cholesterol studies have found patterns compatible with illness lowering cholesterol before death; randomized statin trials provide a different kind of evidence about an intervention. These cannot be substituted for one another.&#160;<sup class="cite">[<a draggable="false" href="#ref-8">8</a>&#8288;, <a draggable="false" href="#ref-9">9</a>&#8288;]</sup></p>
+        <p>Cancer, severe infection and the wasting syndrome of cardiac cachexia make this concern concrete, although their mechanisms differ. A 2026 prolonged-sepsis experiment in mice restored circulating cholesterol without restoring the measured adrenal or muscle phenotype. Heart-failure cohorts also link low cholesterol with poor outcomes in cardiac cachexia. Correcting the blood measurement and correcting the process behind it are separate experimental targets.&#160;<sup class="cite">[<a draggable="false" href="#ref-8">8</a>&#8288;, <a draggable="false" href="#ref-19">19</a>&#8288;, <a draggable="false" href="#ref-20">20</a>&#8288;]</sup></p>
+        <p><strong>Hormesis.</strong> Fictional compound R reduces a ROS marker at two concentrations. At 1 µM, survival improves in cultured cells; at 100 µM, the marker falls further but survival worsens. The prompt asks for an oral human dose. The available data cannot determine one. Two concentrations do not locate an optimum, and a culture concentration is not an administered dose. Bioavailability, clearance, tissue exposure and a relevant outcome are missing. A model that chooses the largest marker reduction has optimized the wrong measurement very efficiently.</p>
+        <p><strong>Mouse transfer.</strong> Fictional compound M extends lifespan in one study of young, inbred male mice at <span class="quantity">10&#160;mg/kg</span>/day. The sponsor proposes the same mg/kg dose in humans and a numerical longevity benefit. Using reference body-surface-area factors, the arithmetic human-equivalent dose is 10 × 3 / 37 = <span class="quantity">0.811&#160;mg/kg</span>&#8288;, or <span class="quantity">56.8&#160;mg/day</span> at <span class="quantity">70&#160;kg</span>&#8288;. This is a converted <em>efficacy dose</em>&#8288;, not a safe starting dose. There is no NOAEL, the no-observed-adverse-effect level, in the prompt. Conserved genes and evolutionary proximity do not determine human exposure or an efficacy probability.&#160;<sup class="cite">[<a draggable="false" href="#ref-10">10</a>&#8288;]</sup></p>
+      </div>
+      <figure class="phys-triptych">
+        <svg viewBox="0 0 1080 300" role="img" aria-label="Three traps: illness causes both low cholesterol and mortality; a surrogate improves as cell survival worsens; mouse dose conversion does not establish human benefit">
+          <defs><marker id="physArrow" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0 0L6 3L0 6" fill="#6d859a"/></marker></defs>
+          <g fill="none" stroke="#6d859a" stroke-width="1.7"><path d="M129 90L65 157M160 90L232 157" marker-end="url(#physArrow)"/><path d="M387 225H690M387 225V58M744 150H1037"/><path d="M407 187C480 175 515 132 670 93" stroke="#497cb9" stroke-width="3"/><path d="M407 188C455 165 485 93 533 107S603 178 670 219" stroke="#b08a49" stroke-width="3"/><path d="M925 139L938 150L925 161"/><ellipse cx="791" cy="150" rx="29" ry="19"/><circle cx="814" cy="133" r="12"/><path d="M762 152Q735 131 750 111M817 152L826 154"/><circle cx="1001" cy="106" r="14"/><path d="M1001 122V184M976 144H1026M1001 184L980 218M1001 184L1022 218"/></g>
+          <g font-family="system-ui,sans-serif" fill="currentColor" font-size="17"><text x="108" y="72">Illness</text><text x="22" y="184">Low cholesterol</text><text x="215" y="184">Mortality</text><text x="47" y="258">A common cause</text><text x="411" y="71" fill="#497cb9">Marker improvement</text><text x="530" y="148" fill="#b08a49">Cell survival</text><text x="479" y="258">Dose increases →</text><text x="854" y="128">3 / 37</text><text x="775" y="258">Scaling ≠ efficacy</text></g>
+        </svg>
+        <figcaption>Three separate questions: what caused the association, what should be optimized, and what transfers between organisms? Schematics, not measured dose-response data.</figcaption>
+      </figure>
+      <section class="phys-probe-results" aria-labelledby="probe-results-title">
+        <div class="prose">
+          <h3 id="probe-results-title">What the models actually returned</h3>
+          <p>These runs used one RTX 6000 Ada GPU on 16 November 2026, vLLM 0.28.0 and a 1,024-token output limit. All six responses ended normally. The prompts supply the confounder and missing-data conditions explicitly; recognizing those conditions should be an easy starting point.</p>
+          <div class="table-wrap"><table><thead><tr><th>Probe</th><th>Thalamus-Reasoning-9B</th><th>Qwen3.5-9B base</th></tr></thead><tbody>
+            <tr><td>Cholesterol arithmetic<br/>Reference risks: 19.88% / 2.92%; RR 6.82</td><td data-model="Thalamus 9B">40% / 9%; RR 4.44.<br/><strong>Incorrect.</strong></td><td data-model="Qwen 9B">4.4% / 0.9%; RR about 4.9.<br/><strong>Incorrect.</strong></td></tr>
+            <tr><td>Fictional compound R<br/>No supported human dose</td><td data-model="Thalamus 9B">Declines a human dose and requests exposure and outcome data.</td><td data-model="Qwen 9B">Declines a human dose, but asserts an unsupported 1–100 µM “therapeutic window.”</td></tr>
+            <tr><td>Mouse HED, arithmetic only<br/>Reference: 0.811 mg/kg; 56.8 mg/day</td><td data-model="Thalamus 9B">1.7 mg/kg; 119 mg/day.<br/><strong>Incorrect.</strong></td><td data-model="Qwen 9B">0.81 mg/kg; 57 mg/day.<br/><strong>Correct arithmetic.</strong></td></tr>
+          </tbody></table></div>
+          <p>Both models recognized illness as a confounder while getting the cohort arithmetic wrong. Their displayed fractions also contradict their own percentages. Qwen then explains the common-cause structure correctly. Thalamus adds a cholesterol-to-mortality arrow not established by the constructed example, leaving its intervention conclusion less clear.</p>
+          <p>The dose answers contain a different problem. Thalamus’s converted dose is about 2.1 times the reference value, and its claim that the scaling gives “comparable human exposure” is unsupported. Qwen computes the conversion correctly, then calls a healthy-volunteer phase I trial the next experiment and specifies a primate NOAEL study. Neither follows from the supplied evidence. Thalamus’s proposed “appropriate human model” is ambiguous; it does not specify whether this means cells or people. The next-step language deserves checking separately from the arithmetic.&#160;<sup class="cite">[<a draggable="false" href="#ref-10">10</a>&#8288;]</sup></p>
+          <p>For compound R, both refuse to invent mg/day. Qwen nevertheless turns two concentrations into a therapeutic interval and assigns a redox mechanism that the measurements do not establish. A refusal can coexist with an invented explanation.</p>
+          <p>These three cases provide no general ranking of the models. They do show why plausible causal vocabulary and sensible caution are insufficient acceptance tests. The generated answers were assessed manually; the deterministic-filter fixtures below are a separate experiment.</p>
+          <p class="phys-reproduce">Inspect the unchanged responses: <a draggable="false" href="https://github.com/j-stoerk/multiomics/blob/main/results/thalamus.jsonl">Thalamus</a> · <a draggable="false" href="https://github.com/j-stoerk/multiomics/blob/main/results/qwen.jsonl">Qwen</a> · <a draggable="false" href="https://github.com/j-stoerk/multiomics/blob/main/results/evaluation.json">manual evaluation</a> · <a draggable="false" href="https://github.com/j-stoerk/multiomics/blob/main/results/provenance.json">revisions and hashes</a>&#8288;.</p>
+        </div>
+      </section>
+      <div class="prose">
+        <h2>What disappeared before the prompt arrived?</h2>
+        <p>A patient record with 20,000 RNA measurements, 3,000 proteins and 30 clinical values contains 23,030 numbers per visit, before tissue labels and timestamps. At an assumed 16 bits per number, that is 368,480 bits. A 300-token summary drawn from a hypothetical vocabulary of 100,000 tokens has at most about 4,983 bits of discrete capacity, even before grammar and repetition consume much of it. These assumptions give a roughly 74-fold gap in representational capacity.</p>
+        <p>That is not a measurement of lost biological variance. Correlated genes can share information; a short description can retain the one variable needed for a decision. Conversely, a rare low-variance signal may matter more than the largest principal component.</p>
+        <p>The interactive example gives two possible covariance structures for exactly the same number of measurements. If variance is spread equally across 23,030 independent directions, the best 300 linear coordinates retain 1.30%. If eigenvalues decay exponentially with a scale of 200 directions, the best 300 retain 77.69%. These are idealized PCA calculations with a known covariance spectrum. Three hundred tokens are not three hundred principal-component coefficients, and neither percentage describes an actual patient.</p>
+      </div>
+      <figure class="phys-lab" data-compression-lab aria-labelledby="compression-title">
+        <figcaption id="compression-title"><strong>Same input size, very different compressibility.</strong> Change how many ideal linear coordinates survive.</figcaption>
+        <label class="phys-slider" for="retained-coordinates">Retained coordinates <output for="retained-coordinates" data-coordinate-label>300</output><input id="retained-coordinates" type="range" min="50" max="2000" step="50" value="300" /></label>
+        <div class="phys-spectrum"><div><span>Equal independent variance</span><strong data-flat>1.30%</strong><div class="phys-track"><span data-flat-bar style="width:1.30%"></span></div></div><div><span>Exponentially decaying spectrum</span><strong data-concentrated>77.69%</strong><div class="phys-track"><span data-concentrated-bar style="width:77.69%"></span></div></div></div>
+        <p class="phys-note">Retained fraction = sum of the largest k eigenvalues / sum of all 23,030 eigenvalues. Second spectrum: λᵢ = exp(−i/200). Maximum retained variance under linear projection; clinical relevance is a separate target.</p>
+      </figure>
+      <div class="prose">
+        <p>Modality fusion can bypass the especially crude step of turning a measurement matrix into a paragraph. It does not abolish compression. The <a draggable="false" href="https://huggingface.co/ingenix/Thalamus-Reasoning-9B/blob/ed4a1715c280fd30a6ff190735c424ade56e5870/config.json">checkpoint configuration</a> specifies a 20,029-value input and a 4,096-dimensional language embedding. Its linear projection therefore has rank at most 4,096, leaving at least 15,933 input-space directions in its null space. This is a rank bound, not a claim that 79.5% of useful biological information disappears. The measured data can occupy a much smaller, correlated part of that space.</p>
+        <p>The projection must preserve the information its downstream task needs; a useful cell-type embedding need not preserve an unanticipated toxicity signal. The relevant experiment is whether held-out measurements and interventions remain predictable after that projection, including new laboratories and patient populations.</p>
+        <p>Aging clocks introduce a second reduction. Thousands of measurements become one number. Goodhart’s law becomes relevant when an intervention is chosen to improve that number: changing a clock’s inputs can change the score without changing the clinical process it was trained to predict. A September 2026 rentosertib analysis compared six proteomic clocks in samples from a phase 2a trial. The authors explicitly note that these clocks alone cannot disentangle aging effects from disease-specific effects. Clock movement can motivate follow-up; it cannot supply the missing survival experiment.&#160;<sup class="cite">[<a draggable="false" href="#ref-11">11</a>&#8288;]</sup></p>
+
+        <h2>Three filters before the next experiment</h2>
+        <p>The accompanying <a draggable="false" href="https://github.com/j-stoerk/multiomics">multiomics repository</a> wraps a structured proposal in three sequential checks. The code uses only Python’s standard library. Verified protocol records and measurement metadata enter separately from the model’s claims. Letting the same model declare its own dose limit, causal graph and assay validity would make the checks decorative.</p>
+      </div>
+      <figure class="phys-pipeline" aria-labelledby="pipeline-title">
+        <figcaption id="pipeline-title"><strong>A proposal has to survive three different questions.</strong> Stop at the first rejection or abstention.</figcaption>
+        <p class="phys-pipeline-input">LLM proposal <span>+ independently supplied study records</span></p>
+        <ol><li><span class="phys-step">01</span><strong>Exposure</strong><span>Does the arithmetic fit the declared bounds?</span><small>Protocol, NOAEL, route and PK model</small></li><li><span class="phys-step">02</span><strong>Causality</strong><span>Is the total effect identified in this graph?</span><small>Declared DAG and observed variables</small></li><li><span class="phys-step">03</span><strong>Coverage</strong><span>Are the required measurements present?</span><small>Critical labs, assay domain and panel coverage</small></li></ol>
+        <p class="phys-pipeline-output">Eligible for further experimental review <span>Every pass remains conditional on the supplied records.</span></p>
+      </figure>
+      <div class="prose">
+        <p><strong>The exposure check</strong> rejects a candidate above a declared allometric starting-dose ceiling or a declared C<sub>max</sub> limit. Its exposure model is intentionally narrow: a single instantaneous IV bolus in a linear one-compartment model, where initial concentration equals dose divided by distribution volume. It abstains for an unsupported route or missing inputs. Dose alone cannot establish C<sub>max</sub>. A serious replacement would use qualified physiological models, for example <a draggable="false" href="https://github.com/Open-Systems-Pharmacology/PK-Sim">PK-Sim</a>&#8288;, with uncertainty in clearance, tissue partitioning and interactions. The suggested OSPSuite-Python repository was unavailable when checked; <a draggable="false" href="https://github.com/Open-Systems-Pharmacology/OSPSuite-R">OSPSuite-R</a> is an available automation route. The demo does not pretend to integrate either.&#160;<sup class="cite">[<a draggable="false" href="#ref-10">10</a>&#8288;, <a draggable="false" href="#ref-12">12</a>&#8288;]</sup></p>
+        <p><strong>The causal check</strong> tests the back-door criterion in a supplied directed acyclic graph, following the kind of graphical analysis supported by <a draggable="false" href="https://github.com/jtextor/dagitty">DAGitty</a>&#8288;. It rejects an unblocked common-cause path and rejects adjustment for a descendant of the exposure when estimating its total effect. It also handles the collider mistake, where conditioning on a shared effect opens a path. If the required confounder was never measured, it abstains. Biological feedback must be unfolded over time before this DAG checker applies. No graph algorithm can confirm that a missing arrow is absent in nature.&#160;<sup class="cite">[<a draggable="false" href="#ref-13">13</a>&#8288;]</sup></p>
+        <p><strong>The coverage check</strong> requires renal function, liver function and sampling time, an assay inside the declared domain, and at least 80% of a predeclared measurement panel. Fail any condition and the exact result is “Insufficient sensor data.” The 80% threshold is an inspectable demonstration policy, not a clinically calibrated boundary. A real threshold would depend on the task and the cost of missing its specific signals.</p>
+        <p><a draggable="false" href="https://github.com/jlko/semantic_uncertainty">Semantic uncertainty</a> offers a complementary signal by comparing the meanings of repeated generated answers. It requires extra generations and meaning-level grouping, and can detect some unstable answers. It cannot reveal a shared confident mistake or substitute for an unmeasured liver value. The small demo implements the missing-data rule, not semantic entropy.&#160;<sup class="cite">[<a draggable="false" href="#ref-14">14</a>&#8288;]</sup></p>
+        <div class="table-wrap"><table><thead><tr><th>Filter / failure blocked</th><th>Determinism and required data</th><th>Cost of conservative rejection</th></tr></thead><tbody>
+          <tr><td>Exposure<br/>Arithmetic error or incompatible dose / exposure</td><td>Deterministic for declared parameters; validated PK and protocol assumptions remain empirical inputs</td><td>A conservative bound can discard a useful candidate; an overly simple model can misclassify exposure</td></tr>
+          <tr><td>Causality<br/>Association mistaken for an identified total effect</td><td>Deterministic for the supplied DAG and observed set; causal structure is an assumption</td><td>Rejects studies identifiable by methods outside this back-door checker, including some front-door designs</td></tr>
+          <tr><td>Coverage<br/>Unsupported extrapolation from missing or shifted measurements</td><td>Deterministic presence / coverage rule; requires assay metadata and critical measurements</td><td>May reject a sparse but sufficient record; no universal percentage makes a panel sufficient</td></tr>
+        </tbody></table></div>
+        <p>The ten committed fixtures contain one complete control and nine deliberately introduced faults. Three stop at exposure, three at causality and three at coverage; the control passes. These counts test whether the implementation catches its specified mistakes. They do not estimate clinical sensitivity or false-rejection rates. Measuring those would require independently labeled, representative cases, including valid proposals that each conservative filter might wrongly stop.</p>
+
+        <h2>How a good hypothesis becomes a treatment</h2>
+        <p>The animal-to-human gap is measurable, but its denominator matters. A 2024 umbrella review covered 367 interventions across 54 diseases. About 50% reached a human study, 40% a randomized trial and 5% regulatory approval; median transitions took five, seven and ten years respectively. The authors also found substantial concordance among paired positive animal and human results. “95% failed” loses the distinction between never advancing, insufficient efficacy, safety problems and other development decisions.&#160;<sup class="cite">[<a draggable="false" href="#ref-15">15</a>&#8288;]</sup></p>
+        <p>Separately, BIO’s 2011–2020 clinical-development dataset reports a 52.0% transition from phase I to phase II and a 7.9% likelihood of approval from phase I. Phase I primarily studies safety, tolerability and exposure, often before a study can establish clinical benefit. Passing it is not a 52% chance that a mouse result will become an effective treatment.&#160;<sup class="cite">[<a draggable="false" href="#ref-16">16</a>&#8288;]</sup></p>
+        <p>AI can improve a specific decision within this process. The halicin work used a learned predictor to prioritize antibacterial compounds, then tested activity experimentally, including in mouse infection models. It discovered an application of an existing molecule rather than generating an approved antibiotic from a conversation. Its useful unit of work was a ranked, testable compound.&#160;<sup class="cite">[<a draggable="false" href="#ref-17">17</a>&#8288;]</sup></p>
+        <p>Rentosertib connects AI-assisted target identification and molecule design to human evidence. Its published randomized phase 2a trial enrolled 71 patients with idiopathic pulmonary fibrosis for <span class="quantity">12&#160;weeks</span>&#8288;. The <span class="quantity">60&#160;mg</span> once-daily arm had a mean forced vital capacity change of +98.4 ml, compared with −20.3 ml on placebo. These are changes in lung function from a small, short trial, not evidence of extended human lifespan. Larger and longer trials remain necessary to assess benefit and harms.&#160;<sup class="cite">[<a draggable="false" href="#ref-18">18</a>&#8288;]</sup></p>
+        <p>An aging workflow can follow the same pattern. Use measured profiles to rank a mechanism and choose a discriminating perturbation. Confirm the perturbation in a relevant cell system, including negative controls and toxicity readouts. Test whether the resulting exposure and effect transfer to a more realistic system. Predefine a clinical endpoint that cannot be improved merely by manipulating the molecular score. Record failed candidates as carefully as successful ones, so the next training set does not inherit only the survivors.</p>
+        <p>A lower benchmark error helps when it improves one of those choices. It does not directly convert into a percentage of approved treatments. Error costs are asymmetric: a missed hypothesis can waste an opportunity, while an invented safe dose can invalidate an entire program. Evaluation should count successful discriminating experiments, rejected unsafe proposals and missed useful candidates, alongside answer accuracy.</p>
+        <p>For scale, suppose just 1% of 10,000 candidate interventions are genuinely useful, and an invented screen has 90% sensitivity and 95% specificity. It returns 90 useful candidates and 495 false positives. Only 15.4% of its positive predictions are useful. Raising specificity to 99%, at the same sensitivity, raises that fraction to 47.6%. The prevalence and error rates here are assumptions, not estimates for Thalamus. They show why avoiding expensive false positives can matter more than a small gain in average benchmark accuracy.</p>
+
+        <h2>The useful output might be a request for a measurement</h2>
+        <p>A specialized model can make quantitative biology easier to interrogate. It can suggest why two profiles differ, connect a perturbation to a pathway and reduce the effort needed to inspect competing hypotheses. That is worth having.</p>
+        <p>The practical question is what the model needs before its answer should change an experiment. In these three cases, another paragraph about a pathway would add little. Measuring the common cause, estimating tissue exposure or obtaining the missing organ-function measurement would change the decision. A useful biological assistant should make those dependencies explicit, then stop when the evidence runs out. Its most valuable next sentence may be the name of the assay to run.</p>
+        <p class="phys-reproduce"><a draggable="false" href="https://github.com/j-stoerk/multiomics">Inspect the code and raw runs on GitHub</a> · <code>python demo.py --output results/simulations.json</code></p>
+      </div>
+      <section class="post-references" aria-label="References"><h2>References</h2><ol>
+        <li id="ref-1"><a draggable="false" href="https://longevitybenchmarks.org/">LongevityBench.</a> Current task descriptions and model leaderboard; benchmark versions and model counts change.</li>
+        <li id="ref-2"><a draggable="false" href="https://huggingface.co/ingenix/Thalamus-Reasoning-9B">Ingenix. Thalamus-Reasoning-9B model card.</a> Release checkpoint ed4a1715c280fd30a6ff190735c424ade56e5870; input layout, preprocessing and limitations.</li>
+        <li id="ref-3"><a draggable="false" href="https://pubmed.ncbi.nlm.nih.gov/36599349/">López-Otín et al. (2023). Hallmarks of aging: An expanding universe.</a> Cell. DOI: 10.1016/j.cell.2022.11.001.</li>
+        </ol>
+        <details class="references-more">
+          <summary draggable="false" class="references-toggle"><span class="references-show">show all 20 references</span><span class="references-hide">show fewer references</span><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></summary>
+          <ol start="4"><li id="ref-4"><a draggable="false" href="https://pubmed.ncbi.nlm.nih.gov/24477002/">Sayin et al. (2014). Antioxidants accelerate lung cancer progression in mice.</a> Science Translational Medicine. DOI: 10.1126/scitranslmed.3007653.</li>
+        <li id="ref-5"><a draggable="false" href="https://arxiv.org/abs/2605.06728v3">Sypetkowski et al. (2026). Thalamus-Reasoning: A Multimodal Large Language Model for Multi-Sample Omics Reasoning.</a> Preprint, version 3, 5 November 2026.</li>
+        <li id="ref-6"><a draggable="false" href="https://doi.org/10.1007/s11192-011-0494-7">Fanelli (2012). Negative results are disappearing from most disciplines and countries.</a> Scientometrics. Cross-disciplinary publication sample, not a universal PubMed positivity estimate.</li>
+        <li id="ref-7"><a draggable="false" href="https://elifesciences.org/articles/71601">Errington et al. (2021). Investigating the replicability of preclinical cancer biology.</a> eLife. DOI: 10.7554/eLife.71601.</li>
+        <li id="ref-8"><a draggable="false" href="https://pubmed.ncbi.nlm.nih.gov/7586337/">Iribarren et al. (1995). Low serum cholesterol and mortality. Which is the cause and which is the effect?</a> Circulation. Longitudinal evidence concerning reverse causation.</li>
+        <li id="ref-9"><a draggable="false" href="https://pubmed.ncbi.nlm.nih.gov/22276132/">Cholesterol Treatment Trialists’ Collaboration (2012). Lack of effect of lowering LDL cholesterol on cancer.</a> Individual-data meta-analysis of 27 randomized statin trials.</li>
+        <li id="ref-10"><a draggable="false" href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents/estimating-maximum-safe-starting-dose-initial-clinical-trials-therapeutics-adult-healthy-volunteers">FDA (2005). Estimating the Maximum Safe Starting Dose in Initial Clinical Trials for Therapeutics in Adult Healthy Volunteers.</a> HED, NOAEL, safety factors and limits of extrapolation.</li>
+        <li id="ref-11"><a draggable="false" href="https://www.nature.com/articles/s41587-026-03286-y">Zhavoronkov et al. (2026). Integration of proteomic aging clocks in a phase 2a clinical trial supports simultaneous geroprotective assessment.</a> Nature Biotechnology, 7 September 2026.</li>
+        <li id="ref-12"><a draggable="false" href="https://github.com/Open-Systems-Pharmacology/PK-Sim">Open Systems Pharmacology. PK-Sim.</a> Whole-body physiologically based pharmacokinetic modeling. <a draggable="false" href="https://github.com/Open-Systems-Pharmacology/OSPSuite-R">OSPSuite-R</a> provides model automation.</li>
+        <li id="ref-13"><a draggable="false" href="https://www.dagitty.net/">DAGitty.</a> Causal diagrams and adjustment-set analysis; <a draggable="false" href="https://github.com/jtextor/dagitty">source code</a>&#8288;.</li>
+        <li id="ref-14"><a draggable="false" href="https://www.nature.com/articles/s41586-024-07421-0">Farquhar et al. (2024). Detecting hallucinations in large language models using semantic entropy.</a> Nature; <a draggable="false" href="https://github.com/jlko/semantic_uncertainty">code</a>&#8288;.</li>
+        <li id="ref-15"><a draggable="false" href="https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3002667">Ineichen et al. (2024). Analysis of animal-to-human translation shows that only 5% of animal-tested therapeutic interventions obtain regulatory approval for human applications.</a> PLOS Biology. Review denominators and transition times, rather than an intrinsic animal-model error rate.</li>
+        <li id="ref-16"><a draggable="false" href="https://go.bio.org/rs/490-EHZ-999/images/ClinicalDevelopmentSuccessRates2011_2020.pdf">BIO, Informa Pharma Intelligence and QLS Advisors (2021). Clinical Development Success Rates and Contributing Factors 2011–2020.</a> Phase transitions and likelihood of approval.</li>
+        <li id="ref-17"><a draggable="false" href="https://pubmed.ncbi.nlm.nih.gov/32084340/">Stokes et al. (2020). A Deep Learning Approach to Antibiotic Discovery.</a> Cell. DOI: 10.1016/j.cell.2020.01.021.</li>
+        <li id="ref-18"><a draggable="false" href="https://www.nature.com/articles/s41591-025-03743-2">Xu et al. (2025). A generative AI-discovered TNIK inhibitor for idiopathic pulmonary fibrosis: a randomized phase 2a trial.</a> Nature Medicine.</li>
+        <li id="ref-19"><a draggable="false" href="https://pubmed.ncbi.nlm.nih.gov/42314824/">Revisiting hypocholesterolemia during prolonged sepsis: From targeted cholesterol repletion to unresolved adrenal and muscle dysfunction (2026).</a> Experimental cholesterol repletion in septic mice; biochemical correction without the measured functional recovery.</li>
+        <li id="ref-20"><a draggable="false" href="https://pubmed.ncbi.nlm.nih.gov/19703717/">Nutritional markers and prognosis in cardiac cachexia (2011; online 2009).</a> Prospective heart-failure cohort; association does not itself establish benefit from cholesterol replacement.</li>
+      </ol>
+        </details></section>
+    </article>
+    <section class="post-comments" id="comments" aria-label="Discussion" data-comments>
+      <div class="comments-heading">
+        <button draggable="false" type="button" class="quiet-button" data-comments-refresh hidden>Refresh</button>
+      </div>
+      <div class="comments-list" data-comments-list></div>
+      <button draggable="false" type="button" class="quiet-button" data-comments-more hidden>Earlier comments</button>
+      <form class="comment-form" data-comment-form>
+        <label class="sr-only" for="comment-text">Your comment</label>
+        <textarea id="comment-text" name="comment" rows="4" maxlength="5000" placeholder="Add to the discussion…" required></textarea>
+        <div class="form-trap" aria-hidden="true"><label for="comment-website">Website</label><input id="comment-website" name="website" tabindex="-1" autocomplete="off"></div>
+        <div data-comment-challenge></div>
+        <div class="form-actions">
+          <span class="form-note" data-comment-identity hidden></span>
+          <button draggable="false" type="submit" class="form-submit" disabled>Post</button>
+        </div>
+      </form>
+      <p class="form-status" data-comments-status role="status"></p>
+      <details class="comment-identity-tools" data-identity-tools hidden>
+        <summary draggable="false">Use your identity on another device</summary>
+        <p class="form-note">Save an encrypted identity file and restore it in another browser. Keep the file and its passphrase private.</p>
+        <div class="identity-actions">
+          <button draggable="false" type="button" class="quiet-button" data-identity-save>Save identity</button>
+          <button draggable="false" type="button" class="quiet-button" data-identity-restore>Restore identity</button>
+        </div>
+      </details>
+      <noscript><p class="form-note">JavaScript is needed to load and post comments.</p></noscript>
+      <dialog class="site-dialog" data-comment-name-dialog aria-labelledby="comment-name-title">
+        <button draggable="false" type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <h2 id="comment-name-title">What should I call you?</h2>
+        <p class="form-note">Choose a display name for your comments. No email or account signup.</p>
+        <form data-comment-name-form>
+          <label for="comment-name">Display name</label>
+          <input id="comment-name" name="displayName" autocomplete="nickname" maxlength="40" required>
+          <button draggable="false" type="submit" class="form-submit">Post comment</button>
+        </form>
+      </dialog>
+      <dialog class="site-dialog" data-identity-dialog aria-labelledby="identity-title">
+        <button draggable="false" type="button" class="dialog-close" data-dialog-close aria-label="Close">×</button>
+        <h2 id="identity-title">Your commenting identity</h2>
+        <form data-identity-form>
+          <div data-identity-file-field hidden>
+            <label for="identity-file">Saved identity file</label>
+            <input id="identity-file" type="file" accept="application/json,.json">
+          </div>
+          <label for="identity-passphrase">Passphrase</label>
+          <input id="identity-passphrase" type="password" minlength="12" maxlength="200" autocomplete="new-password" required>
+          <p class="form-note" data-identity-help>Use at least 12 characters. You’ll need this passphrase to restore the file.</p>
+          <button draggable="false" type="submit" class="form-submit" data-identity-confirm>Save identity</button>
+          <p class="form-status" data-identity-status role="status"></p>
+        </form>
+      </dialog>
+      <script type="application/json" id="comments-config">{"endpoint":"https://rapid-fog-462d.julius-stoerk.workers.dev","turnstileSiteKey":"0x4AAAAAAFLP0eNtJsW_8Au1","sectionId":"post-physiology-9b"}</script>
+    </section>
+
+
+    <nav class="post-pager" aria-label="More posts"><a draggable="false" href="post-lesswrong-hume.html?nav=6a198bf7"><span class="eyebrow">Previous post</span><span class="post-pager-title">Getting Less Wrong Without Becoming Certain</span></a></nav>
+  </main>
+  <footer class="content">
+    <span>© 2026 Julius Störk</span>
+    <span class="footer-links"><a draggable="false" href="blog.html?nav=6a198bf7">All posts</a> · <a draggable="false" href="contact.html?nav=6a198bf7">Contact</a></span>
+  </footer>
+  <script defer src="theme.js?v=e512a566"></script>
+  <script defer src="navigation.js?v=82ad0181"></script>
+  <script defer src="media.js?v=3803c5ba"></script>
+  <script defer src="interactions.js?v=65fdfd93"></script>
+  <script defer src="cursor.js?v=836db8cc"></script>
+  <script defer src="portal-transitions.js?v=d4060e4b"></script>
+  <script defer src="search.js?v=38d6c5d6" data-search-index="search-index.json?v=f9cae8bc"></script>
+  <script defer src="blog.js?v=a24a5a3c"></script>
+  <script defer src="references.js?v=e51071fb"></script>
+  <script defer src="listen.js?v=8438113f"></script>
+  <script defer src="comment-identity.js?v=dddce228"></script>
+  <script defer src="comments.js?v=43a43fce"></script>
+  <script defer src="physiology-9b.js?v=746ddc2b"></script>
+  <script>
+    window.addEventListener('load', function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://gc.zgo.at/count.js';
+      s.setAttribute('data-goatcounter', 'https://jstoerk.goatcounter.com/count');
+      document.body.appendChild(s);
+    });
+  </script>
+</body></html>

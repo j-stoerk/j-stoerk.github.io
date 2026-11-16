@@ -1,0 +1,30 @@
+.phys-lab,.phys-pipeline,.phys-triptych{margin:2rem 0;padding:clamp(1.1rem,3vw,2rem);border:1px solid var(--color-border);border-radius:16px;background:var(--color-surface);}
+.phys-lab figcaption,.phys-pipeline figcaption{margin:0 0 1.5rem;font-size:.95rem;line-height:1.6;}
+.phys-lab figcaption strong,.phys-pipeline figcaption strong{display:block;color:var(--color-text);font-weight:600;}
+.phys-slider{display:grid;grid-template-columns:1fr auto;gap:.8rem;align-items:center;font-size:.9rem;}
+.phys-slider input{grid-column:1/-1;width:100%;accent-color:var(--color-primary);cursor:pointer;}
+.phys-slider output{font-variant-numeric:tabular-nums;color:var(--color-primary);font-weight:600;}
+.phys-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.3rem;margin:1.5rem 0;}
+.phys-metrics span,.phys-spectrum span{display:block;color:var(--color-text-muted);font-size:.83rem;}
+.phys-metrics strong{display:block;margin-top:.3rem;font-size:clamp(1.25rem,3vw,1.9rem);font-weight:500;font-variant-numeric:tabular-nums;}
+.phys-lab svg,.phys-triptych svg{display:block;width:100%;height:auto;overflow:visible;}
+.phys-lab svg text{fill:var(--color-text-muted);font-family:inherit;font-size:18px;}
+.phys-note,.phys-triptych figcaption{font-size:.8rem;line-height:1.6;color:var(--color-text-muted);margin:1rem 0 0;}
+.phys-spectrum{display:grid;gap:1.3rem;margin:1.5rem 0;}
+.phys-spectrum>div{display:grid;grid-template-columns:1fr auto;gap:.5rem;}
+.phys-spectrum strong{font-weight:500;font-variant-numeric:tabular-nums;}
+.phys-track{grid-column:1/-1;height:9px;border-radius:6px;background:color-mix(in srgb,var(--color-primary) 10%,transparent);overflow:hidden;}
+.phys-track span{height:100%;background:#497cb9;border-radius:6px;}
+.phys-spectrum>div+div .phys-track span{background:#b08a49;}
+.phys-pipeline-input,.phys-pipeline-output{margin:0;text-align:center;font-size:.95rem;font-weight:500;}
+.phys-pipeline-input span,.phys-pipeline-output span{display:block;margin-top:.35rem;color:var(--color-text-muted);font-size:.8rem;font-weight:400;}
+.phys-pipeline ol{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));list-style:none;padding:0;margin:1.5rem 0;gap:1rem;}
+.phys-pipeline li{position:relative;padding:1rem;border:1px solid var(--color-border);border-radius:10px;display:flex;flex-direction:column;gap:.55rem;}
+.phys-pipeline li:not(:last-child)::after{content:'→';position:absolute;right:-.9rem;top:45%;color:var(--color-primary);z-index:1;}
+.phys-pipeline li strong{font-weight:600;}.phys-step{color:var(--color-primary);font-size:.8rem;font-variant-numeric:tabular-nums;}
+.phys-pipeline li>span:not(.phys-step){font-size:.88rem;line-height:1.5;}.phys-pipeline small{font-size:.75rem;line-height:1.5;color:var(--color-text-muted);}
+.phys-probe-results{margin:2rem 0;padding:1.25rem;border-block:1px solid var(--color-border);}
+.phys-probe-results h3{margin-top:1.5rem;}
+.phys-reproduce{font-size:.9rem;}.phys-reproduce code{white-space:normal;overflow-wrap:anywhere;}
+@media(max-width:600px){.phys-metrics{grid-template-columns:1fr;gap:.8rem}.phys-metrics>div{display:flex;justify-content:space-between;gap:1rem;align-items:baseline}.phys-metrics strong{font-size:1.4rem}.phys-pipeline ol{grid-template-columns:1fr}.phys-pipeline li:not(:last-child)::after{content:'↓';right:50%;top:auto;bottom:-1rem}.phys-triptych{padding:.7rem}.phys-triptych svg{min-width:650px}.phys-triptych{overflow-x:auto}}
+@media(max-width:600px){.phys-probe-results .table-wrap{overflow:hidden}.phys-probe-results table,.phys-probe-results tbody{display:block}.phys-probe-results thead{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.phys-probe-results tbody tr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.phys-probe-results td:first-child{grid-column:1/-1;background:var(--color-surface-2);font-weight:500}.phys-probe-results td[data-model]{padding:.85rem .7rem;overflow-wrap:anywhere}.phys-probe-results td[data-model]::before{content:attr(data-model);display:block;color:var(--color-primary);font-size:.75rem;margin-bottom:.5rem;font-weight:600}.phys-probe-results td:nth-child(2){border-right:1px solid var(--color-border)}}

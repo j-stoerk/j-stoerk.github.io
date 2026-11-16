@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1800" viewBox="0 0 1000 1800" fill="none">
+  <path class="art-hair" d="M800 0C800 180 855 210 810 420S760 640 810 850S850 1060 810 1270S780 1570 810 1800"/>
+  <g transform="translate(805 290)"><path class="art-ink-soft" d="M-110 90H112M-110 90V-100"/><path class="art-blue" d="M-103 62L-80 30L-57 51L-34 -65L-11 7L12 -90L35 -26L58 -55L81 -13L104 -37"/><path class="art-gold" d="M-103 77L-80 70L-57 33L-34 49L-11 -22L12 29L35 6L58 59L81 18L104 38"/></g>
+  <g transform="translate(805 900)"><path class="art-ink" d="M-12 -66L-86 36M12 -66L86 36"/><circle class="art-ink-soft" cy="-80" r="25"/><circle class="art-blue" cx="-90" cy="65" r="30"/><circle class="art-gold" cx="90" cy="65" r="30"/><path class="art-hair" d="M-55 65H55" stroke-dasharray="4 8"/></g>
+  <g transform="translate(805 1480)"><rect class="art-ink-soft" x="-95" y="-110" width="190" height="70" rx="9"/><rect class="art-blue" x="-95" y="-15" width="190" height="70" rx="9"/><rect class="art-gold" x="-95" y="80" width="190" height="70" rx="9"/><path class="art-hair" d="M0 -40V-15M0 55V80"/><path class="art-ink" d="M-58 -75L-46 -63L-25 -88M-58 20L-46 32L-25 7M-58 115L-46 127L-25 102"/></g>
+</svg>
