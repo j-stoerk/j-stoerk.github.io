@@ -7,7 +7,7 @@
     "credit": "Kasturi Mitra / Cell Image Library",
     "license": "Public domain (as stated on the source record)",
     "description": "Human Saos-2 osteosarcoma cells immunostained for TOM20 (green) and DLP1 (red); a single confocal section from a synchronized cell population.",
-    "processing": "Original JPEG download, unchanged; displayed as illustrative microscopy, not evidence from the model probes."
+    "processing": "Original JPEG download, unchanged; used in the article and the overlapping cover composition."
   },
   "mouse-3t3-mitochondria.jpg": {
     "source": "https://www.cellimagelibrary.org/images/2",
@@ -17,6 +17,16 @@
     "credit": "Linda Parysek and Trudy Aebig / Cell Image Library",
     "license": "Public domain (as stated on the source record)",
     "description": "Mouse 3T3 fibroblasts, with mitochondria labeled using an antibody to hsp70 and intermediate filaments using an antibody to vimentin, eight hours after release from serum starvation.",
-    "processing": "Original JPEG download, unchanged; the cover fits the complete field into its frame without cropping or recoloring."
+    "processing": "Original JPEG download, unchanged; the cover uses overlapping framed images without recoloring."
+  },
+  "mouse-muscle-mitochondria-tem.jpg": {
+    "source": "https://www.cellimagelibrary.org/images/353",
+    "download": "https://www.cellimagelibrary.org/download/web_jpeg/image/353",
+    "accession": "CIL:353",
+    "doi": "10.7295/W9CIL353",
+    "credit": "Hanna Osinska / Cell Image Library",
+    "license": "Public domain (as stated on the source record)",
+    "description": "Thin-section transmission electron microscopy of mitochondria in wild-type mouse gastrocnemius skeletal muscle, stained with uranyl acetate and imaged at 80 kV.",
+    "processing": "Original JPEG download, unchanged; fitted into the front frame of the overlapping cover composition."
   }
 }

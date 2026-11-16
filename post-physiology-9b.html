@@ -6,14 +6,14 @@
   <meta property="og:title" content="Stress-testing a 9B Model on Human Physiology" />
   <meta property="og:description" content="Can a small biological model tell a plausible mechanism from an intervention worth testing?" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-physiology-9b.html" />
-  <meta property="og:image" content="https://j-stoerk.github.io/images/share/post-physiology-9b-88e571867bece9e6.jpg" />
-  <meta property="og:image:secure_url" content="https://j-stoerk.github.io/images/share/post-physiology-9b-88e571867bece9e6.jpg" />
+  <meta property="og:image" content="https://j-stoerk.github.io/images/share/post-physiology-9b-fb77c14445a19316.jpg" />
+  <meta property="og:image:secure_url" content="https://j-stoerk.github.io/images/share/post-physiology-9b-fb77c14445a19316.jpg" />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="2400" />
   <meta property="og:image:height" content="1260" />
   <meta property="og:image:alt" content="Stress-testing a 9B Model on Human Physiology · Biological reasoning, missing measurements and three checks · Julius Störk" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://j-stoerk.github.io/images/share/post-physiology-9b-88e571867bece9e6.jpg" />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/images/share/post-physiology-9b-fb77c14445a19316.jpg" />
   <meta name="twitter:image:alt" content="Stress-testing a 9B Model on Human Physiology · Biological reasoning, missing measurements and three checks · Julius Störk" />
   <meta name="twitter:title" content="Stress-testing a 9B Model on Human Physiology" />
   <meta name="twitter:description" content="Can a small biological model tell a plausible mechanism from an intervention worth testing?" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -76,15 +76,21 @@
     <a draggable="false" class="back-link" href="blog.html?nav=6a198bf7">All posts</a>
     <article class="post" id="physiology-9b">
       <div class="post-cover media-cover"><div class="media">
-        <svg class="cover-art" viewBox="0 0 1200 675" role="img" aria-label="Mouse-cell microscopy connected to a 9B biological model and independent exposure, causality and missing-data checks">
+        <svg class="cover-art" viewBox="0 0 1200 675" role="img" aria-label="Three overlapping microscopy images of cells and mitochondria beside a 9B biological model and exposure, causality and missing-data checks">
           <defs>
             <linearGradient id="physCoverPaper" x2="1" y2="1"><stop stop-color="#eaf0f5"/><stop offset="1" stop-color="#eee9df"/></linearGradient>
             <pattern id="physCoverGrid" width="45" height="45" patternUnits="userSpaceOnUse"><path d="M45 0H0V45" fill="none" stroke="#98a9b8" stroke-opacity=".13"/></pattern>
           </defs>
           <rect width="1200" height="675" fill="url(#physCoverPaper)"/>
           <rect width="1200" height="675" fill="url(#physCoverGrid)"/>
-          <rect x="64" y="178" width="376" height="320" rx="12" fill="#f4f5f1" stroke="#9baab6" stroke-width="1.5"/>
-          <image href="images/biology/mouse-3t3-mitochondria.jpg" x="76" y="190" width="352" height="279" preserveAspectRatio="xMidYMid meet"/>
+          <g stroke="#9baab6" stroke-width="1.5" fill="#f4f5f1">
+            <rect x="64" y="140" width="286" height="240" rx="9"/>
+            <image href="images/biology/mouse-3t3-mitochondria.jpg" x="74" y="150" width="266" height="211" preserveAspectRatio="xMidYMid meet"/>
+            <rect x="126" y="248" width="252" height="252" rx="9"/>
+            <image href="images/biology/human-saos2-mitochondria.jpg" x="136" y="258" width="232" height="232" preserveAspectRatio="xMidYMid meet"/>
+            <rect x="202" y="364" width="232" height="270" rx="9"/>
+            <image href="images/biology/mouse-muscle-mitochondria-tem.jpg" x="212" y="374" width="212" height="250" preserveAspectRatio="xMidYMid meet"/>
+          </g>
           <g fill="none" stroke="#6d859a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
             <path d="M456 342H486M479 337L486 342L479 347"/>
             <path d="M716 342H746M739 337L746 342L739 347"/>
@@ -99,8 +105,7 @@
             <circle cx="820" cy="458" r="17"/><path d="M814 458H826M820 452V464"/>
           </g>
           <g fill="#3b5267" font-family="system-ui,sans-serif">
-            <text x="64" y="148" font-size="19">Measured biology</text>
-            <text x="252" y="488" text-anchor="middle" font-size="13" fill="#71808b">Mouse fibroblasts · CIL:2</text>
+            <text x="64" y="110" font-size="19">Measured biology</text>
             <text x="598" y="354" text-anchor="middle" font-size="34">9B</text>
             <text x="598" y="474" text-anchor="middle" font-size="17" fill="#71808b">Biological model</text>
             <text x="866" y="226" font-size="23">Exposure</text>
@@ -109,20 +114,9 @@
           </g>
         </svg>
       </div></div>
-      <p class="phys-cover-credit">Mouse 3T3 fibroblasts: mitochondria and intermediate filaments. <a draggable="false" href="https://www.cellimagelibrary.org/images/2">Linda Parysek &amp; Trudy Aebig / Cell Image Library, CIL:2</a>&#8288;. Public domain; original image, uncropped.</p>
-      <header class="post-header"><p class="post-meta"><time datetime="2026-11-15">15 November 2026</time> · Biology &amp; model evaluation · <span class="quantity">8&#160;min</span> read</p><h1>Stress-testing a 9B Model on Human Physiology</h1><p class="post-update">Updated 16 November 2026</p></header>
-<section class="post-listen" aria-label="Listen to this article">
-    <div class="outline-action listen-bar" data-listen-bar role="group" aria-label="Article narration controls" hidden>
-      <button draggable="false" class="listen-button" type="button" data-listen aria-controls="article-narration" aria-pressed="false"><svg class="listen-play-icon" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 3 11 7-11 7V3Z"/></svg><svg class="listen-pause-icon" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" fill="currentColor"><path d="M5 3h3v14H5zm7 0h3v14h-3z"/></svg><span data-listen-label>Listen</span><small class="listen-duration" data-listen-duration>10 min</small></button>
-      <div class="listen-transport" data-listen-transport hidden><span class="listen-time" data-listen-time aria-hidden="true">0:00 / 9:55</span><input type="range" class="listen-seek" min="0" max="596" value="0" step="1" data-listen-seek aria-label="Seek through article narration" disabled></div>
-      <button draggable="false" class="listen-mute" type="button" data-listen-mute aria-label="Mute narration" aria-pressed="false" hidden><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h3l4-4v14l-4-4H3z"/><path class="listen-volume-on" d="M13 6q5 4 0 8"/><path class="listen-volume-off" d="m13 8 4 4m0-4-4 4"/></svg></button>
-      <label class="listen-speed" data-listen-speed-control hidden><span class="sr-only">Playback speed</span><select data-listen-speed aria-label="Narration speed"><option value="1">1×</option><option value="1.1">1.1×</option><option value="1.2">1.2×</option><option value="1.3">1.3×</option><option value="1.5">1.5×</option></select></label>
-      <span class="listen-ai-badge" title="AI-generated narration">AI</span>
-    </div>
-    <audio id="article-narration" preload="none" data-narration-src="https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-physiology-9b-5a3c9aedbd3c3350.mp3" data-narration-seconds="595.13" aria-label="AI narration of Stress-testing a 9B Model on Human Physiology" hidden></audio>
-    <span class="listen-status sr-only" data-listen-status role="status"></span>
-    <noscript><audio controls preload="none" src="https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-physiology-9b-5a3c9aedbd3c3350.mp3" aria-label="AI-generated article narration"></audio></noscript>
-  </section>      <div class="prose">
+      <p class="phys-cover-credit">Top to bottom: <a draggable="false" href="https://www.cellimagelibrary.org/images/2">mouse fibroblasts, Linda Parysek &amp; Trudy Aebig</a>&#8288;; <a draggable="false" href="https://www.cellimagelibrary.org/images/9068">human Saos-2 cells, Kasturi Mitra</a>&#8288;; <a draggable="false" href="https://www.cellimagelibrary.org/images/353">mouse muscle mitochondria, Hanna Osinska</a>&#8288;. Cell Image Library, public domain.</p>
+      <header class="post-header"><p class="post-meta"><time datetime="2026-11-15">15 November 2026</time> · Biology &amp; model evaluation · <span class="quantity">11&#160;min</span> read</p><h1>Stress-testing a 9B Model on Human Physiology</h1><p class="post-update">Updated 16 November 2026</p></header>
+      <div class="prose">
         <p>If people with low cholesterol die more often, should cholesterol be raised? A language model can produce a respectable explanation either way. The inconvenient possibility is that an undiagnosed illness lowered the cholesterol and later killed the patient. Treating the number would leave the illness alone.</p>
         <p>This is a small version of the problem facing AI in aging research. Large datasets contain measurements that predict age, disease or death. An intervention has to change what happens. Those are different questions, even when the answer uses the same gene names.</p>
 
@@ -136,13 +130,14 @@
           <tr><td>Clinical measurements</td><td>Blood chemistry, organ function and outcomes</td><td>Mechanisms hidden behind the observed endpoint</td></tr>
         </tbody></table></div>
         <p><em>LongevityBench</em> tests whether models can make aging-related predictions from these kinds of measurements. A model might estimate age from a blood profile or recognize a cell state from gene expression. Predicting those labels is useful. Choosing an intervention that improves someone’s health is a further problem.&#160;<sup class="cite">[<a draggable="false" href="#ref-1">1</a>&#8288;]</sup></p>
-        <p>Ingenix’s <strong>Thalamus-Reasoning-9B</strong> can take measured RNA-expression profiles alongside a question. Its training connects those profiles to biological explanations and prediction tasks. The released model’s assay support is human RNA-seq; mouse measurements cannot simply be substituted.&#160;<sup class="cite">[<a draggable="false" href="#ref-2">2</a>&#8288;, <a draggable="false" href="#ref-3">3</a>&#8288;]</sup></p>
+        <p>Ingenix’s <strong>Thalamus-Reasoning-9B</strong> can take measured RNA-expression profiles alongside a question. Its training connects those profiles to biological explanations and prediction tasks. The authors report gains over general-purpose models on specific omics questions. That is the attraction of a smaller specialist: access to measurements a text-only model would otherwise receive as somebody’s summary. The released model supports human RNA-seq; mouse measurements cannot simply be substituted.&#160;<sup class="cite">[<a draggable="false" href="#ref-2">2</a>&#8288;, <a draggable="false" href="#ref-3">3</a>&#8288;]</sup></p>
+        <p>The cover moves from fluorescent cell networks to an electron micrograph of mitochondrial membranes. Each image reveals something the others do not measure. In the human cells below, TOM20 staining traces mitochondria while DLP1 appears in red. An RNA profile can help explain how the cell reached this state, but does not directly show where those proteins ended up.</p>
         <p>Before trying its specialized input, I wanted to check something simpler. Could it keep a plausible biological explanation attached to the numbers in the question?</p>
       </div>
 
       <figure class="phys-micrograph">
         <img draggable="false" src="images/biology/human-saos2-mitochondria.jpg" width="512" height="512" loading="lazy" decoding="async" alt="Confocal image of human Saos-2 cells with a green mitochondrial network and red DLP1 staining" />
-        <figcaption><strong>Protein localization in human cells.</strong> Human Saos-2 osteosarcoma cells, stained for the mitochondrial protein TOM20 (green) and DLP1 (red). An RNA profile does not directly record this spatial arrangement. Image: <a draggable="false" href="https://www.cellimagelibrary.org/images/9068">Kasturi Mitra / Cell Image Library, CIL:9068</a>&#8288;, public domain. This is an illustrative dataset, separate from the model tests.</figcaption>
+        <figcaption>Human Saos-2 osteosarcoma cells, with TOM20 in green and DLP1 in red. Confocal microscopy by <a draggable="false" href="https://www.cellimagelibrary.org/images/9068">Kasturi Mitra / Cell Image Library, CIL:9068</a>&#8288;. Public domain.</figcaption>
       </figure>
 
       <div class="prose">
@@ -150,7 +145,7 @@
         <p>I gave Thalamus and its general-purpose Qwen3.5-9B base the same three short prompts. Both ran with thinking disabled and greedy decoding. These were text-only tests with fictional compounds, not patient records. The prompts explicitly supplied the confounder and missing-data conditions. All six answers finished within the output limit. <a draggable="false" href="https://github.com/j-stoerk/multiomics">The exact prompts, checkpoints and unchanged responses are public.</a></p>
 
         <p><strong>Cholesterol.</strong> The first prompt describes an invented population where illness makes low cholesterol more common and also increases mortality. Within the ill and healthy groups, cholesterol makes no difference to mortality. In the pooled data, low cholesterol is associated with higher mortality.</p>
-        <p>This is a confounder: a common cause of the measurement and the outcome. It resembles a real difficulty with observational cholesterol studies, where disease can lower cholesterol before death. Raising the measurement would not necessarily treat the disease.&#160;<sup class="cite">[<a draggable="false" href="#ref-4">4</a>&#8288;]</sup></p>
+        <p>Illness is a common cause of the measurement and the outcome. Cancer can lower cholesterol before diagnosis; low cholesterol also accompanies severe infection and the wasting associated with advanced heart failure. Inflammation, altered liver metabolism and poor nutrition complicate the interpretation. Raising the measurement would not necessarily treat the disease.&#160;<sup class="cite">[<a draggable="false" href="#ref-4">4</a>&#8288;, <a draggable="false" href="#ref-5">5</a>&#8288;, <a draggable="false" href="#ref-6">6</a>&#8288;]</sup></p>
         <p>Both models named illness as a confounder. Both calculated the mortality risks incorrectly, with fractions that contradict their own percentages. The epidemiology was more fluent than the division.</p>
 
         <p><strong>Less oxidative stress.</strong> The second prompt gives a fictional compound that reduces a reactive-oxygen-species marker. At the lower tested concentration, cell survival improves. At the higher concentration, the marker falls further but survival gets worse. The sponsor asks for an oral human dose that maximizes longevity.</p>
@@ -158,7 +153,7 @@
         <p>The Greek <a draggable="false" href="https://logeion.uchicago.edu/%CF%86%CE%AC%CF%81%CE%BC%CE%B1%CE%BA%CE%BF%CE%BD"><em>pharmakon</em></a> <span class="word-caption" lang="grc">(φάρμακον)</span> could mean a remedy or a poison. The distinction requires rather more than choosing the optimistic translation.</p>
 
         <p><strong>Longer-lived mice.</strong> The third prompt gives a lifespan benefit in one study of young, inbred male mice and asks what it means for humans. A supplied body-surface-area conversion makes one part straightforward. Thalamus’s converted dose was about twice the correct value; Qwen got it right.</p>
-        <p>The conversion cannot establish a safe starting dose or a human longevity benefit. The mouse dose produced an effect; the prompt supplied no established no-observed-adverse-effect level, or NOAEL. Qwen acknowledged this, then proposed a healthy-volunteer trial and specified primate toxicology. The prompt did not establish either as the appropriate next step. Thalamus’s proposed “appropriate human model” was ambiguous and could have meant cells rather than people.&#160;<sup class="cite">[<a draggable="false" href="#ref-5">5</a>&#8288;]</sup></p>
+        <p>The conversion cannot establish a safe starting dose or a human longevity benefit. The mouse dose produced an effect; the prompt supplied no established no-observed-adverse-effect level, or NOAEL. Qwen acknowledged this, then proposed a healthy-volunteer trial and specified primate toxicology. The prompt did not establish either as the appropriate next step. Thalamus’s proposed “appropriate human model” was ambiguous and could have meant cells rather than people.&#160;<sup class="cite">[<a draggable="false" href="#ref-7">7</a>&#8288;]</sup></p>
       </div>
 
       <section class="phys-probe-results" aria-label="Results of the three model probes">
@@ -170,32 +165,42 @@
       </section>
 
       <div class="prose">
-        <p>These three text-only tests cannot establish a general model ranking. They show that recognizing a scientific concern does not reliably constrain the rest of an answer. Both arithmetic and experimental recommendations still need checking.</p>
+        <p>Both models recognized the main scientific concern in each prompt. The mistakes came afterward, in arithmetic and recommendations that their own cautions should have ruled out. A paragraph about uncertainty is cheap. Letting it change the proposed experiment takes more discipline.</p>
 
         <h2>From labels to interventions</h2>
-        <p>Biological pathways contain feedback and compensation. Activating a pathway can trigger its inhibitor, change a receptor’s sensitivity or shift another cell population. The effect can reverse with dose, tissue or time. Aging changes the starting conditions as well.&#160;<sup class="cite">[<a draggable="false" href="#ref-6">6</a>&#8288;]</sup></p>
-        <p>Reactive oxygen species can damage molecules and carry signals. In particular mouse cancer models, antioxidant treatment reduced ROS-related signaling while accelerating tumor growth. The effects depend on the compound, dose and disease model. A lower ROS marker alone cannot establish benefit.&#160;<sup class="cite">[<a draggable="false" href="#ref-7">7</a>&#8288;]</sup></p>
-        <p>The microscope image above shows spatial information that RNA-expression profiles do not directly measure. Protein location, activity and surrounding cell types can all affect an intervention’s outcome. Summarizing an experiment in prose can also omit magnitudes, variability and timing.</p>
-        <p>Thalamus’s continuous omics input avoids converting every measurement into text. Its learned representation still has to retain the signals needed for the intended decision, including toxicity. Cell-type annotation and treatment-response prediction require separate validation.&#160;<sup class="cite">[<a draggable="false" href="#ref-3">3</a>&#8288;]</sup></p>
+        <p>A pathway diagram’s activating and inhibiting arrows describe local effects under particular conditions. Connect enough of them and the system acquires feedback. Activating a pathway can trigger its inhibitor, change a receptor’s sensitivity or shift another cell population. A short protective response can become damaging when sustained. Aging changes the starting conditions as well.&#160;<sup class="cite">[<a draggable="false" href="#ref-8">8</a>&#8288;]</sup></p>
+        <p>Reactive oxygen species can damage molecules and carry signals. In particular mouse cancer models, antioxidant treatment reduced ROS-related signaling while accelerating tumor growth. The effects depend on the compound, dose and disease model. A lower ROS marker alone cannot establish benefit.&#160;<sup class="cite">[<a draggable="false" href="#ref-9">9</a>&#8288;]</sup></p>
+        <p>This is where a good benchmark answer can stop being useful. A cell-state label may be correct while the proposed intervention changes a marker without improving function. Biological ground truth has to match the question. Gene expression is ground truth for an expression assay; a blinded survival or organ-function experiment answers a different question.</p>
+
+        <h2>The mouse has already done its part</h2>
+        <p>Evolution conserves many pathways, but not every drug exposure, immune response or disease model. Laboratory mice also differ from patients in age, genetic diversity, diet and accumulated illness. A treatment tested before a disease develops can fail when given after diagnosis. Scaling the dose by body surface area addresses none of those differences.</p>
+        <p>In a 2024 review spanning 367 interventions, about 5% reached regulatory approval. That denominator includes programs stopped for development and commercial reasons as well as biological failures. Better experimental design helps: the US Interventions Testing Program tests longevity candidates in genetically heterogeneous male and female mice at three sites.&#160;<sup class="cite">[<a draggable="false" href="#ref-10">10</a>&#8288;, <a draggable="false" href="#ref-11">11</a>&#8288;]</sup></p>
+        <p>Phase I then asks primarily about safety, dose and what the body does to the drug. It does not establish that people live longer. In BIO’s 2011–2020 development cohort, about half of phase I programs advanced to phase II. Passing the first human study is expensive evidence, but evidence for a fairly specific claim.&#160;<sup class="cite">[<a draggable="false" href="#ref-12">12</a>&#8288;, <a draggable="false" href="#ref-13">13</a>&#8288;]</sup></p>
+
+        <h2>Keeping the measurements attached</h2>
+        <p>A bulk RNA profile can change because each cell changes its expression, because the mixture contains different cells, or both. RNA abundance also leaves protein activity, localization and metabolic flux partly unobserved. The mitochondrial images make the spatial problem visible; combining RNA, protein measurements and imaging can resolve some of it.</p>
+        <p>Compressing those measurements into a short clinical summary discards details before the language model starts. Passing continuous profiles, as Thalamus does, avoids that particular bottleneck. Its encoder still compresses them. Neither the gene count nor the number of summary tokens tells us how much information relevant to toxicity survived.&#160;<sup class="cite">[<a draggable="false" href="#ref-3">3</a>&#8288;]</sup></p>
+        <p>A useful test would keep the question fixed and swap the measured profile for one whose reference answer differs. Compare the full input with text alone and with the mismatched profile, holding out donors and laboratories. If the answer barely changes when the biology changes, the model may be answering from its reading rather than its measurements. Gene identifiers, normalization, tissue, sampling time and assay batch belong with that evaluation.</p>
 
         <h2>Bias in the training evidence</h2>
-        <p>Published findings are a selected sample of experiments. Positive results are more likely to become visible; independent replications can find much smaller effects. Neither a publication rate nor a replication rate supplies a universal correction for reported benefits.&#160;<sup class="cite">[<a draggable="false" href="#ref-8">8</a>&#8288;, <a draggable="false" href="#ref-9">9</a>&#8288;]</sup></p>
-        <p>The repository includes a selection simulation showing how preferential publication of positive estimates inflates visible effects. The required correction depends on the noise and selection rule. This is separate from the errors observed in the three prompts. Reading the visible literature alone does not recover unpublished results.</p>
+        <p>Published findings are a selected sample of experiments. Positive results are more likely to become visible; independent replications can find much smaller effects. Neither a publication rate nor a replication rate supplies a universal correction for reported benefits.&#160;<sup class="cite">[<a draggable="false" href="#ref-14">14</a>&#8288;, <a draggable="false" href="#ref-15">15</a>&#8288;]</sup></p>
+        <p>The repository includes a small simulation in which preferential publication inflates visible effects even though the underlying experiments are unbiased. The correction depends on the noise and selection rule; multiplying every reported benefit by a universal discount would merely add a new assumption. A perfect reader of published papers would still be reading a selected library.</p>
 
         <h2>Checks before experimental review</h2>
         <p>The accompanying <a draggable="false" href="https://github.com/j-stoerk/multiomics/blob/main/demo.py">self-contained Python demo</a> puts three checks between a structured proposal and further experimental review. Protocol records and measurement metadata enter separately from the model’s claims.</p>
         <ol class="phys-checklist">
-          <li><strong>Check exposure.</strong> Calculate the dose conversion independently and compare the proposal with declared exposure bounds. Estimating plasma concentration requires route-specific pharmacokinetic inputs. If those inputs or a compatible model are missing, abstain. <a draggable="false" href="https://github.com/Open-Systems-Pharmacology/PK-Sim">PK-Sim</a> provides physiological modeling beyond the demo’s simple calculation.&#160;<sup class="cite">[<a draggable="false" href="#ref-5">5</a>&#8288;, <a draggable="false" href="#ref-10">10</a>&#8288;]</sup></li>
-          <li><strong>Check the causal claim.</strong> Specify the assumed graph and distinguish a common cause from a mediator on the pathway being studied. The demo tests an adjustment set against that graph. <a draggable="false" href="https://www.dagitty.net/">DAGitty</a> supports more extensive graphical analysis. The graph’s correctness remains an empirical question; feedback needs a time-indexed graph.&#160;<sup class="cite">[<a draggable="false" href="#ref-11">11</a>&#8288;]</sup></li>
+          <li><strong>Check exposure.</strong> Calculate the dose conversion independently and compare the proposal with declared exposure bounds. Estimating plasma concentration requires route-specific pharmacokinetic inputs. If those inputs or a compatible model are missing, abstain. <a draggable="false" href="https://github.com/Open-Systems-Pharmacology/PK-Sim">PK-Sim</a> provides physiological modeling beyond the demo’s simple calculation.&#160;<sup class="cite">[<a draggable="false" href="#ref-7">7</a>&#8288;, <a draggable="false" href="#ref-16">16</a>&#8288;]</sup></li>
+          <li><strong>Check the causal claim.</strong> Specify the assumed graph and distinguish a common cause from a mediator on the pathway being studied. The demo tests an adjustment set against that graph. <a draggable="false" href="https://www.dagitty.net/">DAGitty</a> supports more extensive graphical analysis. The graph’s correctness remains an empirical question; feedback needs a time-indexed graph.&#160;<sup class="cite">[<a draggable="false" href="#ref-17">17</a>&#8288;]</sup></li>
           <li><strong>Check what was measured.</strong> Require the critical organ-function measurements, sampling time and assay coverage declared by the policy. Missing required inputs produce “Insufficient sensor data.” The demo makes its threshold explicit; a real study would have to validate that choice for its task.</li>
         </ol>
-        <p>The checks are deterministic for fixed inputs, but depend on those inputs being appropriate. Conservative bounds can discard useful candidates. A limited graph checker can reject a study identifiable by another method. A measurement policy can demand data irrelevant to the particular decision. The committed fixtures test specified failures; they do not measure clinical safety or false-rejection rates.</p>
-        <p><a draggable="false" href="https://github.com/jlko/semantic_uncertainty">Semantic uncertainty</a> adds a different check by comparing the meanings of repeated answers. It can detect disagreement, but a shared mistake can remain consistent across generations. It cannot replace a missing measurement.&#160;<sup class="cite">[<a draggable="false" href="#ref-12">12</a>&#8288;]</sup></p>
+        <p>Each filter catches a different failure and has a different price. Exposure calculations need pharmacokinetic inputs; conservative bounds can discard useful candidates. The graph check needs a defensible causal model and can miss valid designs outside its supported rules. The abstention policy needs assay metadata and can demand unnecessary measurements. The repository’s fixtures make those decisions inspectable; estimating how often useful proposals are rejected requires a separate evaluation set.</p>
+        <p><a draggable="false" href="https://github.com/jlko/semantic_uncertainty">Semantic uncertainty</a> adds a different check by comparing the meanings of repeated answers. It can detect disagreement, but a shared mistake can remain consistent across generations. It cannot replace a missing measurement.&#160;<sup class="cite">[<a draggable="false" href="#ref-18">18</a>&#8288;]</sup></p>
 
         <h2>The next experiment</h2>
-        <p>The halicin study used a learned predictor to prioritize an existing molecule, then tested its antibacterial activity experimentally. Rentosertib connects AI-assisted target identification and molecule design to a randomized phase 2a trial in lung disease. These projects tested computational proposals in biological systems.&#160;<sup class="cite">[<a draggable="false" href="#ref-13">13</a>&#8288;, <a draggable="false" href="#ref-14">14</a>&#8288;]</sup></p>
-        <p>Changes in an aging-clock score likewise require validation against health outcomes. A recent analysis of proteomic clocks in the rentosertib trial notes that the clocks alone cannot separate aging effects from disease-specific effects.&#160;<sup class="cite">[<a draggable="false" href="#ref-15">15</a>&#8288;]</sup></p>
-        <p>In these three tests, the missing evidence concerns confounding, exposure and toxicity. The next experiment should address the relevant gap. A biological assistant can help by specifying the hypothesis, the evidence supporting it and the measurement that would change the decision.</p>
+        <p>The halicin study used a learned predictor to prioritize an existing molecule, then measured antibacterial activity in cultures and mouse infection models. Rentosertib connects AI-assisted target identification and molecule design to a randomized phase 2a trial in idiopathic pulmonary fibrosis, with a lung-function signal in the highest-dose group. Neither project jumped from a convincing explanation to a treatment.&#160;<sup class="cite">[<a draggable="false" href="#ref-19">19</a>&#8288;, <a draggable="false" href="#ref-20">20</a>&#8288;]</sup></p>
+        <p>Changes in an aging-clock score likewise require validation against health outcomes. A recent analysis of proteomic clocks in the rentosertib trial notes that the clocks alone cannot separate aging effects from disease-specific effects.&#160;<sup class="cite">[<a draggable="false" href="#ref-21">21</a>&#8288;]</sup></p>
+        <p>For a new candidate, the useful sequence is concrete. Confirm target engagement with an independent assay, measure exposure and toxicity, then test whether the relevant function improves in a model that resembles the intended patients. Randomization and blinding matter because a persuasive mechanism can persuade the experimenter too. Model evaluation should count useful candidates recovered, harmful proposals admitted and promising ones rejected, alongside the cost of checking them.</p>
+        <p>In the three prompts, the missing evidence concerns confounding, exposure and toxicity. A good assistant should identify the next measurement that could overturn its recommendation, and make the arithmetic reproducible. If the cholesterol number improves while the patient gets worse, the number was never the objective.</p>
         <p class="phys-reproduce"><a draggable="false" href="https://github.com/j-stoerk/multiomics">Code, exact prompts and raw responses on GitHub</a></p>
       </div>
       <section class="post-references" aria-label="References"><h2>References</h2><ol>
@@ -204,19 +209,25 @@
         <li id="ref-3"><a draggable="false" href="https://arxiv.org/abs/2605.06728v3">Sypetkowski et al. (2026). Thalamus-Reasoning: A Multimodal Large Language Model for Multi-Sample Omics Reasoning.</a> Preprint, version 3, 5 November 2026.</li>
         </ol>
         <details class="references-more">
-          <summary draggable="false" class="references-toggle"><span class="references-show">show all 15 references</span><span class="references-hide">show fewer references</span><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></summary>
+          <summary draggable="false" class="references-toggle"><span class="references-show">show all 21 references</span><span class="references-hide">show fewer references</span><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></summary>
           <ol start="4"><li id="ref-4"><a draggable="false" href="https://pubmed.ncbi.nlm.nih.gov/7586337/">Iribarren et al. (1995). Low serum cholesterol and mortality. Which is the cause and which is the effect?</a> Circulation. Longitudinal evidence concerning reverse causation.</li>
-        <li id="ref-5"><a draggable="false" href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents/estimating-maximum-safe-starting-dose-initial-clinical-trials-therapeutics-adult-healthy-volunteers">FDA (2005). Estimating the Maximum Safe Starting Dose in Initial Clinical Trials for Therapeutics in Adult Healthy Volunteers.</a> HED, NOAEL, safety factors and limits of extrapolation.</li>
-        <li id="ref-6"><a draggable="false" href="https://pubmed.ncbi.nlm.nih.gov/36599349/">López-Otín et al. (2023). Hallmarks of aging: An expanding universe.</a> Cell. DOI: 10.1016/j.cell.2022.11.001.</li>
-        <li id="ref-7"><a draggable="false" href="https://pubmed.ncbi.nlm.nih.gov/24477002/">Sayin et al. (2014). Antioxidants accelerate lung cancer progression in mice.</a> Science Translational Medicine. DOI: 10.1126/scitranslmed.3007653.</li>
-        <li id="ref-8"><a draggable="false" href="https://doi.org/10.1007/s11192-011-0494-7">Fanelli (2012). Negative results are disappearing from most disciplines and countries.</a> Scientometrics. Cross-disciplinary publication sample, not a universal PubMed positivity estimate.</li>
-        <li id="ref-9"><a draggable="false" href="https://elifesciences.org/articles/71601">Errington et al. (2021). Investigating the replicability of preclinical cancer biology.</a> eLife. DOI: 10.7554/eLife.71601.</li>
-        <li id="ref-10"><a draggable="false" href="https://github.com/Open-Systems-Pharmacology/PK-Sim">Open Systems Pharmacology. PK-Sim.</a> Whole-body physiologically based pharmacokinetic modeling. <a draggable="false" href="https://github.com/Open-Systems-Pharmacology/OSPSuite-R">OSPSuite-R</a> provides model automation.</li>
-        <li id="ref-11"><a draggable="false" href="https://www.dagitty.net/">DAGitty.</a> Causal diagrams and adjustment-set analysis; <a draggable="false" href="https://github.com/jtextor/dagitty">source code</a>&#8288;.</li>
-        <li id="ref-12"><a draggable="false" href="https://www.nature.com/articles/s41586-024-07421-0">Farquhar et al. (2024). Detecting hallucinations in large language models using semantic entropy.</a> Nature; <a draggable="false" href="https://github.com/jlko/semantic_uncertainty">code</a>&#8288;.</li>
-        <li id="ref-13"><a draggable="false" href="https://pubmed.ncbi.nlm.nih.gov/32084340/">Stokes et al. (2020). A Deep Learning Approach to Antibiotic Discovery.</a> Cell. DOI: 10.1016/j.cell.2020.01.021.</li>
-        <li id="ref-14"><a draggable="false" href="https://www.nature.com/articles/s41591-025-03743-2">Xu et al. (2025). A generative AI-discovered TNIK inhibitor for idiopathic pulmonary fibrosis: a randomized phase 2a trial.</a> Nature Medicine.</li>
-        <li id="ref-15"><a draggable="false" href="https://www.nature.com/articles/s41587-026-03286-y">Zhavoronkov et al. (2026). Integration of proteomic aging clocks in a phase 2a clinical trial supports simultaneous geroprotective assessment.</a> Nature Biotechnology, 7 September 2026.</li>
+        <li id="ref-5"><a draggable="false" href="https://pubmed.ncbi.nlm.nih.gov/42314824/">De Bruyn et al. (2026). Revisiting hypocholesterolemia during prolonged sepsis: From targeted cholesterol repletion to unresolved adrenal and muscle dysfunction.</a> Cholesterol repletion and adrenal and muscle function in a mouse sepsis model.</li>
+        <li id="ref-6"><a draggable="false" href="https://pubmed.ncbi.nlm.nih.gov/19703717/">Araújo et al. (2011). Nutritional markers and prognosis in cardiac cachexia.</a> International Journal of Cardiology.</li>
+        <li id="ref-7"><a draggable="false" href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents/estimating-maximum-safe-starting-dose-initial-clinical-trials-therapeutics-adult-healthy-volunteers">FDA (2005). Estimating the Maximum Safe Starting Dose in Initial Clinical Trials for Therapeutics in Adult Healthy Volunteers.</a> HED, NOAEL, safety factors and limits of extrapolation.</li>
+        <li id="ref-8"><a draggable="false" href="https://pubmed.ncbi.nlm.nih.gov/36599349/">López-Otín et al. (2023). Hallmarks of aging: An expanding universe.</a> Cell. DOI: 10.1016/j.cell.2022.11.001.</li>
+        <li id="ref-9"><a draggable="false" href="https://pubmed.ncbi.nlm.nih.gov/24477002/">Sayin et al. (2014). Antioxidants accelerate lung cancer progression in mice.</a> Science Translational Medicine. DOI: 10.1126/scitranslmed.3007653.</li>
+        <li id="ref-10"><a draggable="false" href="https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3002667">Ineichen et al. (2024). Analysis of animal-to-human translation.</a> PLOS Biology. Umbrella review of therapeutic development across 54 diseases.</li>
+        <li id="ref-11"><a draggable="false" href="https://www.nia.nih.gov/research/dab/interventions-testing-program-itp/">National Institute on Aging. Interventions Testing Program.</a> Multisite testing of interventions in genetically heterogeneous mice.</li>
+        <li id="ref-12"><a draggable="false" href="https://www.fda.gov/patients/drug-development-process/step-3-clinical-research">FDA. Step 3: Clinical Research.</a> Purposes and design of the clinical trial phases.</li>
+        <li id="ref-13"><a draggable="false" href="https://go.bio.org/rs/490-EHZ-999/images/ClinicalDevelopmentSuccessRates2011_2020.pdf">BIO, Informa Pharma Intelligence &amp; QLS Advisors (2021). Clinical Development Success Rates and Contributing Factors 2011–2020.</a> Phase-transition analysis.</li>
+        <li id="ref-14"><a draggable="false" href="https://doi.org/10.1007/s11192-011-0494-7">Fanelli (2012). Negative results are disappearing from most disciplines and countries.</a> Scientometrics. Cross-disciplinary publication sample, not a universal PubMed positivity estimate.</li>
+        <li id="ref-15"><a draggable="false" href="https://elifesciences.org/articles/71601">Errington et al. (2021). Investigating the replicability of preclinical cancer biology.</a> eLife. DOI: 10.7554/eLife.71601.</li>
+        <li id="ref-16"><a draggable="false" href="https://github.com/Open-Systems-Pharmacology/PK-Sim">Open Systems Pharmacology. PK-Sim.</a> Whole-body physiologically based pharmacokinetic modeling. <a draggable="false" href="https://github.com/Open-Systems-Pharmacology/OSPSuite-R">OSPSuite-R</a> provides model automation.</li>
+        <li id="ref-17"><a draggable="false" href="https://www.dagitty.net/">DAGitty.</a> Causal diagrams and adjustment-set analysis; <a draggable="false" href="https://github.com/jtextor/dagitty">source code</a>&#8288;.</li>
+        <li id="ref-18"><a draggable="false" href="https://www.nature.com/articles/s41586-024-07421-0">Farquhar et al. (2024). Detecting hallucinations in large language models using semantic entropy.</a> Nature; <a draggable="false" href="https://github.com/jlko/semantic_uncertainty">code</a>&#8288;.</li>
+        <li id="ref-19"><a draggable="false" href="https://pubmed.ncbi.nlm.nih.gov/32084340/">Stokes et al. (2020). A Deep Learning Approach to Antibiotic Discovery.</a> Cell. DOI: 10.1016/j.cell.2020.01.021.</li>
+        <li id="ref-20"><a draggable="false" href="https://www.nature.com/articles/s41591-025-03743-2">Xu et al. (2025). A generative AI-discovered TNIK inhibitor for idiopathic pulmonary fibrosis: a randomized phase 2a trial.</a> Nature Medicine.</li>
+        <li id="ref-21"><a draggable="false" href="https://www.nature.com/articles/s41587-026-03286-y">Zhavoronkov et al. (2026). Integration of proteomic aging clocks in a phase 2a clinical trial supports simultaneous geroprotective assessment.</a> Nature Biotechnology, 7 September 2026.</li>
       </ol>
         </details></section>
     </article>
@@ -287,7 +298,7 @@
   <script defer src="interactions.js?v=65fdfd93"></script>
   <script defer src="cursor.js?v=836db8cc"></script>
   <script defer src="portal-transitions.js?v=d4060e4b"></script>
-  <script defer src="search.js?v=38d6c5d6" data-search-index="search-index.json?v=de468bba"></script>
+  <script defer src="search.js?v=38d6c5d6" data-search-index="search-index.json?v=756a7f54"></script>
   <script defer src="blog.js?v=a24a5a3c"></script>
   <script defer src="references.js?v=e51071fb"></script>
   <script defer src="listen.js?v=8438113f"></script>
