@@ -1,0 +1,22 @@
+{
+  "human-saos2-mitochondria.jpg": {
+    "source": "https://www.cellimagelibrary.org/images/9068",
+    "download": "https://www.cellimagelibrary.org/download/web_jpeg/image/9068",
+    "accession": "CIL:9068",
+    "doi": "10.7295/W9CIL9068",
+    "credit": "Kasturi Mitra / Cell Image Library",
+    "license": "Public domain (as stated on the source record)",
+    "description": "Human Saos-2 osteosarcoma cells immunostained for TOM20 (green) and DLP1 (red); a single confocal section from a synchronized cell population.",
+    "processing": "Original JPEG download, unchanged; displayed as illustrative microscopy, not evidence from the model probes."
+  },
+  "mouse-3t3-mitochondria.jpg": {
+    "source": "https://www.cellimagelibrary.org/images/2",
+    "download": "https://www.cellimagelibrary.org/download/web_jpeg/image/2",
+    "accession": "CIL:2",
+    "doi": "10.7295/W9CIL2",
+    "credit": "Linda Parysek and Trudy Aebig / Cell Image Library",
+    "license": "Public domain (as stated on the source record)",
+    "description": "Mouse 3T3 fibroblasts, with mitochondria labeled using an antibody to hsp70 and intermediate filaments using an antibody to vimentin, eight hours after release from serum starvation.",
+    "processing": "Original JPEG download, unchanged; the cover fits the complete field into its frame without cropping or recoloring."
+  }
+}

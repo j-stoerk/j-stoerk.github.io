@@ -13,6 +13,7 @@ const path = require('path');
 const crypto = require('crypto');
 const { execFileSync } = require('child_process');
 const articleTypography = require('./typography');
+const inlineCoverImages = require('./cover-images');
 
 const SRC = __dirname;
 const ROOT = path.join(__dirname, '..');
@@ -226,7 +227,7 @@ for (const p of posts) {
     nav: 'blog', extraScripts: ['blog.js', 'references.js', 'listen.js', 'comment-identity.js', 'comments.js', ...(p.scripts || [])],
     extraStyles: p.styles || [],
     footerExtra: '<a href="blog.html">All posts</a>',
-    lastmod: p.lastmod, priority: '0.7', math: !!p.math,
+    lastmod: p.lastmod, priority: '0.7', math: !!p.math, lineArt: p.lineArt !== false,
   };
 }
 
@@ -358,7 +359,7 @@ function postCover(p) {
   if (!/^<svg\b[^>]*\sxmlns\s*=/.test(svg)) {
     svg = svg.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
   }
-  fs.writeFileSync(path.join(ROOT, target), svg + '\n');
+  fs.writeFileSync(path.join(ROOT, target), inlineCoverImages(svg, ROOT) + '\n');
   return ver(target);
 }
 
@@ -516,7 +517,7 @@ for (const [file, cfg] of Object.entries(PAGES)) {
   });
   if (file.startsWith('post-')) {
     html = html.replace(/^[ \t]*<!--#POST_CONTEXT-->[ \t]*\r?\n?/m, () => listenControl(file));
-    html = postBackground(html, file);
+    if (cfg.lineArt) html = postBackground(html, file);
     html = foldReferences(html);
     const comments = community.comments.endpoint && community.comments.turnstileSiteKey ? fs.readFileSync(path.join(SRC, 'comments.html'), 'utf8')
       .replace('<!--#COMMENTS_CONFIG-->', () => publicConfig('comments-config', {

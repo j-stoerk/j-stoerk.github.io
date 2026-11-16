@@ -7,6 +7,7 @@ const crypto = require('crypto');
 const fontkit = require('fontkit');
 const { Resvg } = require('@resvg/resvg-js');
 const jpeg = require('jpeg-js');
+const inlineCoverImages = require('../cover-images');
 const ROOT = path.join(__dirname, '../..');
 const OUT = path.join(ROOT, 'images/share');
 const WIDTH = 2400, HEIGHT = 1260;
@@ -55,7 +56,7 @@ function artwork(post) {
   let svg = html.match(/<svg\b[^>]*class="cover-art"[\s\S]*?<\/svg>/)?.[0];
   if (!svg) throw new Error(`${post.file}: missing share-card artwork`);
   if (!/^<svg\b[^>]*\sxmlns=/.test(svg)) svg = svg.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
-  return svg;
+  return inlineCoverImages(svg, ROOT);
 }
 function thumbnail(source, portrait) {
   if (portrait) return { uri: 'data:image/jpeg;base64,' + source.toString('base64'), width: 322, height: 322, top: '#edf0ee', bottom: '#edf0ee' };

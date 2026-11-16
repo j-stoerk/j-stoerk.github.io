@@ -2,18 +2,19 @@
   {
     "file": "post-physiology-9b.html",
     "title": "Stress-testing a 9B Model on Human Physiology",
+    "lineArt": false,
     "iso": "2026-11-15",
     "display": "15 November 2026",
     "category": "Biology & model evaluation",
-    "minutes": 16,
-    "summary": "Three biological reasoning probes, publication-selection and compression experiments, and deterministic checks for exposure, causality and missing measurements.",
-    "feedDescription": "Testing a small biological model against its general-purpose base, with reproducible simulations and an inspectable three-filter research pipeline.",
+    "minutes": 8,
+    "summary": "Three small tests of biological reasoning, real cell microscopy, and the checks needed before a model’s suggestion becomes an experiment.",
+    "feedDescription": "What Thalamus and Qwen got wrong about cholesterol, dose and mouse-to-human transfer, and what an experimental workflow should check next.",
     "rfc822": "Sun, 15 Nov 2026 08:00:00 +0100",
     "lastmod": "2026-11-16",
-    "math": true,
     "trail": "modelling",
-    "scripts": ["physiology-9b.js"],
-    "styles": ["physiology-9b.css"]
+    "styles": [
+      "physiology-9b.css"
+    ]
   },
   {
     "file": "post-lesswrong-hume.html",
