@@ -6,14 +6,14 @@
   <meta property="og:title" content="Stress-testing a 9B Model on Human Physiology" />
   <meta property="og:description" content="Can a small biological model tell a plausible mechanism from an intervention worth testing?" />
   <meta property="og:url" content="https://j-stoerk.github.io/post-physiology-9b.html" />
-  <meta property="og:image" content="https://j-stoerk.github.io/images/share/post-physiology-9b-6f162aada7693dfc.jpg" />
-  <meta property="og:image:secure_url" content="https://j-stoerk.github.io/images/share/post-physiology-9b-6f162aada7693dfc.jpg" />
+  <meta property="og:image" content="https://j-stoerk.github.io/images/share/post-physiology-9b-88e571867bece9e6.jpg" />
+  <meta property="og:image:secure_url" content="https://j-stoerk.github.io/images/share/post-physiology-9b-88e571867bece9e6.jpg" />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="2400" />
   <meta property="og:image:height" content="1260" />
   <meta property="og:image:alt" content="Stress-testing a 9B Model on Human Physiology · Biological reasoning, missing measurements and three checks · Julius Störk" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://j-stoerk.github.io/images/share/post-physiology-9b-6f162aada7693dfc.jpg" />
+  <meta name="twitter:image" content="https://j-stoerk.github.io/images/share/post-physiology-9b-88e571867bece9e6.jpg" />
   <meta name="twitter:image:alt" content="Stress-testing a 9B Model on Human Physiology · Biological reasoning, missing measurements and three checks · Julius Störk" />
   <meta name="twitter:title" content="Stress-testing a 9B Model on Human Physiology" />
   <meta name="twitter:description" content="Can a small biological model tell a plausible mechanism from an intervention worth testing?" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -76,8 +76,37 @@
     <a draggable="false" class="back-link" href="blog.html?nav=6a198bf7">All posts</a>
     <article class="post" id="physiology-9b">
       <div class="post-cover media-cover"><div class="media">
-        <svg class="cover-art" viewBox="0 0 1300 1030" style="background:#080b06" role="img" aria-label="Fluorescence microscopy of mouse 3T3 fibroblasts showing mitochondria and intermediate filaments">
-          <image href="images/biology/mouse-3t3-mitochondria.jpg" width="1300" height="1030" preserveAspectRatio="xMidYMid meet"/>
+        <svg class="cover-art" viewBox="0 0 1200 675" role="img" aria-label="Mouse-cell microscopy connected to a 9B biological model and independent exposure, causality and missing-data checks">
+          <defs>
+            <linearGradient id="physCoverPaper" x2="1" y2="1"><stop stop-color="#eaf0f5"/><stop offset="1" stop-color="#eee9df"/></linearGradient>
+            <pattern id="physCoverGrid" width="45" height="45" patternUnits="userSpaceOnUse"><path d="M45 0H0V45" fill="none" stroke="#98a9b8" stroke-opacity=".13"/></pattern>
+          </defs>
+          <rect width="1200" height="675" fill="url(#physCoverPaper)"/>
+          <rect width="1200" height="675" fill="url(#physCoverGrid)"/>
+          <rect x="64" y="178" width="376" height="320" rx="12" fill="#f4f5f1" stroke="#9baab6" stroke-width="1.5"/>
+          <image href="images/biology/mouse-3t3-mitochondria.jpg" x="76" y="190" width="352" height="279" preserveAspectRatio="xMidYMid meet"/>
+          <g fill="none" stroke="#6d859a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M456 342H486M479 337L486 342L479 347"/>
+            <path d="M716 342H746M739 337L746 342L739 347"/>
+            <rect x="516" y="260" width="164" height="164" rx="15" fill="#edf1f3" fill-opacity=".65"/>
+            <rect x="538" y="282" width="120" height="120" rx="3" stroke-opacity=".3"/>
+            <path d="M540 260V242M569 260V242M598 260V242M627 260V242M656 260V242M540 424V442M569 424V442M598 424V442M627 424V442M656 424V442M516 285H498M516 314H498M516 370H498M516 399H498M680 285H698M680 314H698M680 370H698M680 399H698"/>
+            <rect x="776" y="169" width="350" height="98" rx="11"/>
+            <rect x="776" y="289" width="350" height="98" rx="11"/>
+            <rect x="776" y="409" width="350" height="98" rx="11"/>
+            <path d="M801 235L820 202L839 235M807 225H833" stroke="#497cb9"/>
+            <path d="M803 338H839M827 328L839 338L827 348" stroke="#b08a49"/>
+            <circle cx="820" cy="458" r="17"/><path d="M814 458H826M820 452V464"/>
+          </g>
+          <g fill="#3b5267" font-family="system-ui,sans-serif">
+            <text x="64" y="148" font-size="19">Measured biology</text>
+            <text x="252" y="488" text-anchor="middle" font-size="13" fill="#71808b">Mouse fibroblasts · CIL:2</text>
+            <text x="598" y="354" text-anchor="middle" font-size="34">9B</text>
+            <text x="598" y="474" text-anchor="middle" font-size="17" fill="#71808b">Biological model</text>
+            <text x="866" y="226" font-size="23">Exposure</text>
+            <text x="866" y="346" font-size="23">Causality</text>
+            <text x="866" y="466" font-size="23">Missing data</text>
+          </g>
         </svg>
       </div></div>
       <p class="phys-cover-credit">Mouse 3T3 fibroblasts: mitochondria and intermediate filaments. <a draggable="false" href="https://www.cellimagelibrary.org/images/2">Linda Parysek &amp; Trudy Aebig / Cell Image Library, CIL:2</a>&#8288;. Public domain; original image, uncropped.</p>
