@@ -17,6 +17,15 @@
     "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-ai-tipping-a59a0dbbf84688ef.mp3",
     "voice": "af_heart"
   },
+  "post-backbone-move.html": {
+    "bytes": 5759166,
+    "engine": "Kokoro-82M v1.0",
+    "file": "post-backbone-move-e94727e5a5465665.mp3",
+    "seconds": 719.79,
+    "sha256": "e94727e5a546566559cc1592dbcbcba556c2acddc40ae91dbd51bee90f66ea4e",
+    "url": "https://github.com/j-stoerk/j-stoerk.github.io/releases/download/blog-narration/post-backbone-move-e94727e5a5465665.mp3",
+    "voice": "af_heart"
+  },
   "post-battery-price-war.html": {
     "bytes": 18832671,
     "engine": "Kokoro-82M v1.0",
