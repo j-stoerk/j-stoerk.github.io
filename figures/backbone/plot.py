@@ -73,4 +73,7 @@ for ax, scenario, title in zip(axes, ['rescale', 'contact'], ['Rescale an existi
 axes[1].legend(frameon=False, fontsize=10)
 fig.savefig(HERE / 'learning-curves.svg', metadata={'Date': None, 'Description': 'Median and 10th–90th percentile RMSE across 100 paired noise realizations.'})
 plt.close(fig)
+for name in ['contact-fit.svg', 'learning-curves.svg']:
+    target = HERE / name
+    target.write_text('\n'.join(line.rstrip() for line in target.read_text(encoding='utf8').splitlines()) + '\n', encoding='utf8', newline='\n')
 print('Rendered contact-fit.svg and learning-curves.svg')
