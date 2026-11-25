@@ -1,0 +1,36 @@
+{
+  "rescale": {
+    "narrow": {
+      "oracleRmse": 5.147145959292594e-16,
+      "medianRmseAt96": 0.0026438923875055846
+    },
+    "nonlinear": {
+      "oracleRmse": 3.4743094222693677e-16,
+      "medianRmseAt96": 0.004944235499423111
+    },
+    "expanded": {
+      "oracleRmse": 1.7879472974933647e-16,
+      "medianRmseAt96": 0.0041445023085436294
+    }
+  },
+  "contact": {
+    "narrow": {
+      "oracleRmse": 0.1168328013688399,
+      "medianRmseAt96": 0.11692609490566153
+    },
+    "nonlinear": {
+      "oracleRmse": 0.037516650031352475,
+      "medianRmseAt96": 0.03824612264666939
+    },
+    "expanded": {
+      "oracleRmse": 6.635447229659839e-16,
+      "medianRmseAt96": 0.006142128548663712
+    }
+  },
+  "hiddenState": {
+    "normal": 1.1433385022966998,
+    "damaged": 0.7759804532288684,
+    "bestSharedPrediction": 0.959659477762784,
+    "rmseLowerBoundEqualFrequency": 0.18367902453391566
+  }
+}

@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://j-stoerk.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>When Does the Backbone Have to Move?</title>
+      <link>https://j-stoerk.github.io/post-backbone-move.html</link>
+      <guid isPermaLink="true">https://j-stoerk.github.io/post-backbone-move.html</guid>
+      <pubDate>Sun, 22 Nov 2026 08:00:00 +0100</pubDate>
+      <description>General pretraining makes adaptation cheaper, but when is a frozen representation enough? A synthetic electrode experiment separates a linear-head floor from missing information.</description>
+    </item>
+    <item>
       <title>Stress-testing a 9B Model on Human Physiology</title>
       <link>https://j-stoerk.github.io/post-physiology-9b.html</link>
       <guid isPermaLink="true">https://j-stoerk.github.io/post-physiology-9b.html</guid>

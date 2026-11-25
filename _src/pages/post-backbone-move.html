@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>When Does the Backbone Have to Move? · Julius Störk</title>
+  <meta name="description" content="When a frozen representation is enough for a new electrode recipe, when a linear head hits an error floor, and what to change next. With a reproducible conductivity experiment." />
+  <link rel="canonical" href="https://j-stoerk.github.io/post-backbone-move.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="alternate" type="application/rss+xml" title="Julius Störk · Research notes" href="feed.xml" />
+  <meta property="og:type" content="article" /><meta property="og:site_name" content="Julius Störk" />
+  <meta property="og:title" content="When Does the Backbone Have to Move?" />
+  <meta property="og:description" content="A new recipe, a frozen model, and the point where another calibration batch stops helping." />
+  <meta property="og:url" content="https://j-stoerk.github.io/post-backbone-move.html" />
+  <meta property="article:published_time" content="2026-11-22" /><meta property="article:modified_time" content="2026-11-25" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"When Does the Backbone Have to Move?","datePublished":"2026-11-22","dateModified":"2026-11-25","url":"https://j-stoerk.github.io/post-backbone-move.html","author":{"@type":"Person","name":"Julius Störk","url":"https://j-stoerk.github.io/"}}</script>
+  <!--#HEAD_ASSETS-->
+</head><body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <!--#TOPBAR-->
+  <main id="main" class="content">
+    <a class="back-link" href="blog.html">All posts</a>
+    <article class="post" id="backbone-move">
+      <div class="post-cover media-cover"><div class="media">
+        <svg class="cover-art" viewBox="0 0 1200 675" role="img" aria-label="Electrode calendering feeds a bank of fixed features, with a missing contact feature completing a U-shaped conductivity prediction">
+          <defs>
+            <linearGradient id="backbonePaper" x2="1" y2="1"><stop stop-color="#eaf0f5"/><stop offset="1" stop-color="#eee8dc"/></linearGradient>
+            <pattern id="backboneGrid" width="45" height="45" patternUnits="userSpaceOnUse"><path d="M45 0H0V45" fill="none" stroke="#8fa2b3" stroke-opacity=".13"/></pattern>
+          </defs>
+          <rect width="1200" height="675" fill="url(#backbonePaper)"/><rect width="1200" height="675" fill="url(#backboneGrid)"/>
+          <g fill="none" stroke="#5b7892" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="190" cy="262" r="57"/><circle cx="190" cy="390" r="57"/>
+            <circle cx="190" cy="262" r="10"/><circle cx="190" cy="390" r="10"/>
+            <path d="M74 320H160L235 323H344M74 332H160L235 329H344"/>
+            <path d="M135 244A58 58 0 0 1 215 211M209 204L215 211L206 214M135 409A58 58 0 0 0 215 441M209 448L215 441L206 438" stroke-opacity=".5"/>
+            <path d="M365 326H414M405 318L414 326L405 334"/>
+            <rect x="445" y="170" width="250" height="310" rx="12" fill="#f5f6f3" fill-opacity=".55"/>
+            <path d="M473 258H665M473 342H665" stroke-opacity=".2"/>
+            <path d="M474 235C532 233 596 218 661 191" stroke="#487fbd"/>
+            <path d="M474 300C541 299 600 286 661 274" stroke="#487fbd"/>
+            <rect x="461" y="354" width="218" height="107" rx="7" stroke="#b48b43" stroke-dasharray="5 6"/>
+            <path d="M475 377C535 451 591 451 662 376" stroke="#b48b43"/>
+            <path d="M717 326H765M756 318L765 326L756 334"/>
+            <path d="M797 194V464H1115" stroke-opacity=".65"/>
+            <path d="M814 363C899 347 1002 302 1101 238" stroke="#487fbd" stroke-dasharray="6 7"/>
+            <path d="M814 264C850 267 873 393 947 392S1055 290 1101 229" stroke="#b48b43" stroke-width="3"/>
+          </g>
+          <g font-family="system-ui,sans-serif" fill="#405b73">
+            <text x="100" y="526" font-size="20">A changed process</text>
+            <text x="570" y="526" text-anchor="middle" font-size="20">A missing feature?</text>
+            <text x="956" y="526" text-anchor="middle" font-size="20">A new readout?</text>
+            <text x="570" y="141" text-anchor="middle" font-size="16" fill="#718393">Frozen representation</text>
+            <text x="956" y="161" text-anchor="middle" font-size="16" fill="#718393">Conductivity vs. compression</text>
+          </g>
+        </svg>
+      </div></div>
+      <header class="post-header"><p class="post-meta"><time datetime="2026-11-22">22 November 2026</time> · Representations &amp; process modeling · 11 min read</p><h1>When Does the Backbone Have to Move?</h1><p class="post-update">Updated 25 November 2026</p></header>
+      <!--#POST_CONTEXT-->
+      <div class="prose">
+        <p>A battery line changes recipe. The new electrodes need a few measurements, the model needs an update, and the old recipe is still running next door. Improving one prediction at the expense of the other would be an awkward definition of progress.</p>
+        <p>Freezing the model’s backbone is an attractive arrangement. Keep the part that turns process records into features, fit a small output head for the new recipe, and leave the old heads alone. With only a few dozen measured electrodes, it is also easier to estimate a handful of coefficients than millions of weights.</p>
+        <p>That arrangement works until the useful information is in the wrong place. Sometimes the head needs different weights. Sometimes it needs a different shape. Sometimes the backbone has discarded the distinction the decision depends on. Another batch of labels helps with the first problem and can leave the last one entirely untouched.</p>
+
+        <h2>A skill can be prepared before it is taught</h2>
+        <p>Marosi and Antal’s <a href="https://arxiv.org/abs/2611.24844">General progress substitutes for specific training data in language models</a> gives this question an interesting starting point. They train models while withholding supervision for selected skills, then measure how quickly those skills are acquired when the training signal returns. The experiments cover chess, Othello, molecular strings, bracket matching and web text. <sup class="cite">[<a href="#ref-1">1</a>]</sup></p>
+        <p>In the main experiment, called <em>target thinning</em>, the model still reads every input token. Only selected next-token targets stop contributing to the loss. A reply to check can therefore remain in the text even when the model is never directly rewarded for predicting it. The comparison matches progress on the remaining material, measured by its prediction loss, rather than simply matching training steps.</p>
+      </div>
+      <figure class="backbone-method">
+        <svg viewBox="0 0 900 320" role="img" aria-labelledby="thinning-title thinning-desc">
+          <title id="thinning-title">Keep the sequence, remove selected teaching signals</title>
+          <desc id="thinning-desc">All four input positions reach the model. In the loss row the selected skill position is masked during pretraining, then restored for adaptation.</desc>
+          <g fill="var(--color-surface-2)" stroke="var(--color-border)" stroke-width="1.2">
+            <rect x="170" y="37" width="130" height="52" rx="7"/><rect x="317" y="37" width="130" height="52" rx="7"/><rect x="464" y="37" width="130" height="52" rx="7"/><rect x="611" y="37" width="130" height="52" rx="7"/>
+            <rect x="170" y="115" width="571" height="48" rx="7"/>
+          </g>
+          <g fill="none" stroke="var(--color-primary)" stroke-width="1.6"><path d="M235 89V115M382 89V115M529 89V115M676 89V115M235 163V195M382 163V195M529 163V195M676 163V195"/></g>
+          <g fill="var(--color-primary-highlight)"><rect x="170" y="195" width="130" height="48" rx="7"/><rect x="317" y="195" width="130" height="48" rx="7"/><rect x="611" y="195" width="130" height="48" rx="7"/></g>
+          <rect x="464" y="195" width="130" height="48" rx="7" fill="none" stroke="var(--color-warn)" stroke-dasharray="5 5"/>
+          <g fill="var(--color-text)" font-family="inherit" font-size="17" text-anchor="middle">
+            <text x="235" y="69">Context</text><text x="382" y="69">Context</text><text x="529" y="69">Skill target</text><text x="676" y="69">Context</text>
+            <text x="455" y="145">The model reads the whole sequence</text>
+            <text x="235" y="225">Learn</text><text x="382" y="225">Learn</text><text x="529" y="225">Masked</text><text x="676" y="225">Learn</text>
+          </g>
+          <g fill="var(--color-text-muted)" font-family="inherit" font-size="16"><text x="36" y="69">Input</text><text x="36" y="225">Loss</text><text x="170" y="286">Later, restore the masked targets and measure the adaptation cost.</text></g>
+        </svg>
+        <figcaption>Removing a teaching signal leaves other ways to learn related structure. The paper also tests whole-document filtering and chess games containing no checks.</figcaption>
+      </figure>
+      <div class="prose">
+        <p>Even the chess models trained on games containing no checks could rank legal replies to a check nearly as well as fully supervised models. Something useful had been learned from ordinary positions. When direct supervision returned, adaptation was cheap. A control with permuted move labels took 2.4–16 times as many tokens, despite being similarly difficult from initialization. The advantage was partly about relevant structure, not just having weights that had been trained for longer.</p>
+        <p>The effect also appeared with broader filtering. A 7-billion-parameter model whose Rust documents had been reduced to 3% of their usual share regained half its Rust-term accuracy gap with 2.1% of the training tokens the unfiltered reference had needed to reach that accuracy from initialization. Related programming material had supplied a useful preparation.</p>
+        <p>The authors also restricted which parameters could change. Updating one upper transformer block or rank-4/16 adapters retained much of the adaptation advantage. Those updates still alter internal representations. The finding supports starting with a small update; it does not identify an output-only head as sufficient.</p>
+
+        <h2>What the head is allowed to express</h2>
+        <p>For an electrode model, the corresponding question is whether the feature bank already contains useful descriptions of pore transport, particle contacts and compression. A head can combine existing features. It cannot invent a missing measurement by changing their weights.</p>
+        <div class="equation">$$\hat y(x)=b+w^\top\phi(x)$$</div>
+        <p>The backbone produces the features φ(x); the linear head chooses their weights w and an offset b. “Linear” describes the combination, not necessarily the physics. If the feature bank already contains a curved contact response, a linear head can produce a curved conductivity response.</p>
+        <p>A new thickness or porosity setting might therefore require little adaptation, provided the original training covered the relevant conditions. A change in binder or contact formation might require more. The names of those changes do not decide the issue. Their effect on the information and functions available to the model does.</p>
+        <p>That matters for the <a href="post-calendering-u-shape.html">calendering U-shape</a>. Through-plane thermal conductivity can fall and then recover as an electrode is compressed. A contact term that changes with compression can reproduce that behavior; graphite reorientation is another contribution worth testing. The curve alone does not determine their separate shares. <sup class="cite">[<a href="#ref-2">2</a>]</sup></p>
+        <p><strong>Crossing the minimum does not automatically mean the backbone must move.</strong> A representation trained across both sides may already describe the whole curve. A representation that only supplies a monotone trend leaves a linear head unable to turn it into a U, however patiently the head is fitted.</p>
+
+        <h2>A small test with the contact closure</h2>
+        <p>I used <a href="https://github.com/j-stoerk/zehner-electrode-thermal">zehner-electrode-thermal</a> to construct two targets along the same compression trajectory. One simply rescales the pore-transport prediction and adds an offset. The other includes the project’s compression-dependent contact term. The porosity trajectory and contact parameters come from its public thick-graphite example. These are simulated conductivity measurements with 2% Gaussian noise. <sup class="cite">[<a href="#ref-3">3</a>]</sup></p>
+        <p>The narrow representation supplies only the pore-transport prediction. It gets an affine head. A second model keeps that same scalar but uses a fourth-degree polynomial head. A third adds the contact response and its compression-weighted terms to the fixed feature bank, then fits a linear head. All fits use least squares, so optimizer tuning cannot explain the comparison.</p>
+      </div>
+      <figure class="backbone-experiment" data-backbone-experiment aria-labelledby="backbone-figure-title">
+        <h3 id="backbone-figure-title">More data, or different features?</h3>
+        <div class="backbone-controls" hidden>
+          <label>Target <select data-backbone-target><option value="contact">Contact-driven U-shape</option><option value="rescale">Rescale an existing feature</option></select></label>
+          <label class="backbone-samples">Measurements <output data-backbone-count for="backbone-sample-count">24</output><input id="backbone-sample-count" data-backbone-samples type="range" min="0" max="4" value="2" step="1" /></label>
+        </div>
+        <div class="backbone-legend" aria-label="Curve legend"><span class="backbone-truth">Target</span><span class="backbone-narrow">Linear head</span><span class="backbone-nonlinear">Polynomial head</span><span class="backbone-expanded">Expanded features</span></div>
+        <img class="backbone-fallback" src="figures/backbone/contact-fit.svg" width="1000" height="470" alt="At 24 simulated measurements, the narrow linear head misses the U-shaped conductivity target; a polynomial head improves the fit, and expanded contact features follow it closely." loading="lazy" decoding="async" />
+        <div class="backbone-charts" hidden>
+          <svg data-backbone-fit viewBox="0 0 620 420" role="img" aria-label="Conductivity against compression for the target and three fitted models"></svg>
+          <svg data-backbone-learning viewBox="0 0 620 420" role="img" aria-label="Median conductivity prediction error against number of measurements"></svg>
+        </div>
+        <p class="backbone-readout" data-backbone-readout role="status" aria-live="polite"></p>
+        <figcaption>Left: a fit from the first random seed. Right: median error over 100 noise realizations; the dot marks the selected sample count. Error is measured against the noiseless target across the full compression range. <a href="figures/backbone/learning-curves.svg">Full learning curves with 10th–90th percentile bands</a>.</figcaption>
+      </figure>
+      <div class="prose">
+        <p>For the rescaled target, the narrow model is already expressive enough. More measurements reduce its estimation error. At 96 measurements its median error is about 0.003 W/(m K), slightly better than the more flexible alternatives. Extra coefficients have to be estimated too.</p>
+        <p>For the contact-driven target, the narrow linear head remains at about 0.117 W/(m K). Fitting it directly to all 401 noiseless evaluation states gives essentially the same error. On this test range, more labels cannot fix the missing curvature in its allowed predictions.</p>
+        <p>The polynomial head reduces the 96-measurement error to about 0.038 W/(m K) without changing the original scalar feature. The expanded feature bank reduces it to about 0.006 W/(m K). Its noiseless target lies exactly in the chosen feature span, so its remaining error comes from estimating coefficients using noisy measurements.</p>
+        <p>This is a useful distinction before scheduling an expensive retraining run. A persistent error floor for a <em>linear</em> head can be a restriction of the head, rather than lost information in the backbone. Here the original scalar still tracks compression, so a nonlinear readout can recover some of the missing shape.</p>
+        <details class="backbone-details"><summary>Experiment setup and reproduction</summary>
+          <p>The script uses a pinned upstream commit and checks its source hashes. It constructs fixed physical features and fits their readouts. Samples span the full compression interval in every run; the comparison tests fitting within that interval. Contact parameters come from the public closure.</p>
+          <p>Training sizes are 6, 12, 24, 48 and 96. Noise is independent with standard deviation equal to 2% of the noiseless conductivity. Each size uses 100 paired random seeds. Test error is root-mean-square error against 401 uniformly spaced, noiseless states. The dense-grid projection measures the best error of each specified feature/head class on those states.</p>
+          <p><a href="figures/backbone/benchmark.py">Benchmark script</a> · <a href="figures/backbone/results.json">All curves and results</a> · <a href="figures/backbone/summary.json">Numerical summary</a> · <a href="https://github.com/j-stoerk/j-stoerk.github.io/tree/main/figures/backbone">Source and reproduction notes on GitHub</a>.</p>
+          <pre><code>python -m pip install numpy
+python benchmark.py</code></pre>
+        </details>
+
+        <h2>When the distinction really is missing</h2>
+        <p>Now take two electrode states with the same measured porosity and compression, but different contact quality. The closure can assign them different conductivities. A model given only those shared measurements must predict the same value for both, regardless of the head’s size.</p>
+        <p>The script constructs one such pair by reducing the bridge fraction at a fixed compression state. Conductivity changes from about 1.14 to 0.78 W/(m K). If both states occur equally often, their best shared prediction is their midpoint. Even with perfect labels, the resulting error is about 0.18 W/(m K).</p>
+        <p>If an acoustic signal, image or adhesion measurement distinguishes those states but the backbone maps both to the same features, the representation must preserve something it currently throws away. Expanding it or adapting an internal layer makes sense. If the raw records contain no distinguishing measurement, the next purchase should be a measurement, not a larger network.</p>
+        <p>This also sharpens what “the physics changed” should mean operationally. An unfamiliar mechanism matters when the current inputs and feature map cannot support the required prediction. A new mechanism that is already captured by measured, reusable features may only need a new readout. A familiar mechanism with an unobserved state can be just as troublesome as an unfamiliar one.</p>
+
+        <h2>A rule for deciding what to change</h2>
+        <p>On a real line, the target law is unavailable. The useful alarm is a pattern in <em>held-out</em> errors that survives a head update. Errors might track compression, temperature or material lot rather than fluctuating around zero. If more representative labels reduce uncertainty in the coefficients but leave that pattern, inspect what the model can express.</p>
+        <p>First check the measurement chain. A sensor offset, changed test protocol, inconsistent units or a mislabeled lot can mimic a model failure. Then compare the existing head with a modest nonlinear head and a feature expansion, using later campaigns or held-out lots for evaluation. Randomly splitting neighboring samples can make all three look more transferable than they are.</p>
+        <p>If only the larger head helps, keep the backbone. If preserving another recorded signal helps, change the representation. If no available signal distinguishes the failed cases, collect one or narrow the operating envelope. A small internal adapter or an added branch may be enough; full retraining is one option, not the default response to a disappointing residual plot.</p>
+        <p>There is a retention cost to that last step. In <a href="post-geometry-of-forgetting.html"><em>Interference and retention</em></a>, the fixed-feature squared-loss calculation makes the cost of an update to an older task depend on the feature directions it occupies. Once the encoder itself changes, old heads also receive changed inputs. The fixed-feature result is no longer the whole accounting. Old operating windows need their own evaluation alongside the new recipe. <sup class="cite">[<a href="#ref-4">4</a>]</sup></p>
+        <p>Freezing the encoder, preprocessing and old heads preserves those prediction functions. Updating a shared head or normalization statistics does not. Even a separate new head needs fresh uncertainty checks; freezing weights does not make its confidence calibrated on a changed process.</p>
+        <p>The <a href="post-jev-output-heads.html">Jeff/Jev decision pattern</a> gives that uncertainty somewhere useful to go. A conductivity estimate can feed a separate continue, re-measure or review decision, with the cost of a wrong action stated explicitly. A rising review rate is worth investigating when its probability estimates remain reliable. A confidently biased model can produce the opposite symptom, so abstention rates and labeled residuals belong together. <sup class="cite">[<a href="#ref-5">5</a>]</sup></p>
+        <p>The practical aim is to make the smallest change that restores the required accuracy while keeping older work usable. General pretraining can make that change remarkably cheap. The stopping condition for head-only adaptation is more specific: the remaining error is tied to a distinction or function the current readout cannot use. Find out which one before asking the backbone to move.</p>
+      </div>
+      <section class="post-references" aria-label="References"><h2>References</h2><ol>
+        <li id="ref-1">Marosi, M. &amp; Antal, P. (2026). <a href="https://arxiv.org/abs/2611.24844">General progress substitutes for specific training data in language models.</a> arXiv:2611.24844v1, 18 November. <a href="https://github.com/Mapika/progress-substitutes-data">Authors’ experiment code</a>.</li>
+        <li id="ref-2">Störk, J. (2026). <a href="zehner-closure.pdf">Capturing the calendering U-shape.</a> Preprint; <a href="post-calendering-u-shape.html">accompanying article</a>. Process-dependent contacts and a separate graphite-reorientation hypothesis.</li>
+        <li id="ref-3">Störk, J. <a href="https://github.com/j-stoerk/zehner-electrode-thermal/tree/8e046d2743a361a5e685b43bc413d95c18a466fd">zehner-electrode-thermal, pinned source snapshot.</a> Contact closure, thick-graphite parameters and public calendering trajectory. <a href="figures/backbone/benchmark.py">This post’s adaptation experiment</a> reuses those components.</li>
+        <li id="ref-4">Störk, J. (2026). <a href="forgetting-geometry.pdf">Interference and Retention in Continual Learning.</a> Preprint; <a href="post-geometry-of-forgetting.html">geometry and experiments</a>.</li>
+        <li id="ref-5"><a href="post-jev-output-heads.html">How to (Not) Reinvent the Wheel With Jeff.</a> Background on typed outputs, calibration and decision costs; <a href="https://github.com/Gestalt-Lab/jeff">Gestalt-Lab’s Jeff implementation</a>.</li>
+      </ol></section>
+    </article>
+    <nav class="post-pager" aria-label="More posts"><a href="post-physiology-9b.html"><span class="eyebrow">Previous post</span><span class="post-pager-title">Stress-testing a 9B Model on Human Physiology</span></a></nav>
+  </main>
+  <!--#FOOTER-->
+  <!--#SCRIPTS-->
+</body></html>

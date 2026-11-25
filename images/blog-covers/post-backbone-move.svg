@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="cover-art" viewBox="0 0 1200 675" role="img" aria-label="Electrode calendering feeds a bank of fixed features, with a missing contact feature completing a U-shaped conductivity prediction">
+          <defs>
+            <linearGradient id="backbonePaper" x2="1" y2="1"><stop stop-color="#eaf0f5"/><stop offset="1" stop-color="#eee8dc"/></linearGradient>
+            <pattern id="backboneGrid" width="45" height="45" patternUnits="userSpaceOnUse"><path d="M45 0H0V45" fill="none" stroke="#8fa2b3" stroke-opacity=".13"/></pattern>
+          </defs>
+          <rect width="1200" height="675" fill="url(#backbonePaper)"/><rect width="1200" height="675" fill="url(#backboneGrid)"/>
+          <g fill="none" stroke="#5b7892" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="190" cy="262" r="57"/><circle cx="190" cy="390" r="57"/>
+            <circle cx="190" cy="262" r="10"/><circle cx="190" cy="390" r="10"/>
+            <path d="M74 320H160L235 323H344M74 332H160L235 329H344"/>
+            <path d="M135 244A58 58 0 0 1 215 211M209 204L215 211L206 214M135 409A58 58 0 0 0 215 441M209 448L215 441L206 438" stroke-opacity=".5"/>
+            <path d="M365 326H414M405 318L414 326L405 334"/>
+            <rect x="445" y="170" width="250" height="310" rx="12" fill="#f5f6f3" fill-opacity=".55"/>
+            <path d="M473 258H665M473 342H665" stroke-opacity=".2"/>
+            <path d="M474 235C532 233 596 218 661 191" stroke="#487fbd"/>
+            <path d="M474 300C541 299 600 286 661 274" stroke="#487fbd"/>
+            <rect x="461" y="354" width="218" height="107" rx="7" stroke="#b48b43" stroke-dasharray="5 6"/>
+            <path d="M475 377C535 451 591 451 662 376" stroke="#b48b43"/>
+            <path d="M717 326H765M756 318L765 326L756 334"/>
+            <path d="M797 194V464H1115" stroke-opacity=".65"/>
+            <path d="M814 363C899 347 1002 302 1101 238" stroke="#487fbd" stroke-dasharray="6 7"/>
+            <path d="M814 264C850 267 873 393 947 392S1055 290 1101 229" stroke="#b48b43" stroke-width="3"/>
+          </g>
+          <g font-family="system-ui,sans-serif" fill="#405b73">
+            <text x="100" y="526" font-size="20">A changed process</text>
+            <text x="570" y="526" text-anchor="middle" font-size="20">A missing feature?</text>
+            <text x="956" y="526" text-anchor="middle" font-size="20">A new readout?</text>
+            <text x="570" y="141" text-anchor="middle" font-size="16" fill="#718393">Frozen representation</text>
+            <text x="956" y="161" text-anchor="middle" font-size="16" fill="#718393">Conductivity vs. compression</text>
+          </g>
+        </svg>
